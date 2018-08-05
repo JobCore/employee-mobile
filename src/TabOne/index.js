@@ -1,9 +1,10 @@
-import React, { Component } from "react";
-import TabOne from "./TabOne.js";
-import DetailsInfo from "../DetailsInfo/DetailsInfo.js";
-import { StackNavigator } from "react-navigation";
-export default (DrawNav = StackNavigator({
+import { StackNavigator } from 'react-navigation'
+
+import DetailsInfo from '../DetailsInfo/DetailsInfo'
+
+import TabOne from './TabOne'
+
+export default StackNavigator({
   DetailsInfo: { screen: DetailsInfo },
   TabOne: { screen: TabOne },
-
-}));
+})

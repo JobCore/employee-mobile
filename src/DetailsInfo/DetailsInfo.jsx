@@ -1,29 +1,41 @@
-import React from "react";
-import { AppRegistry, Alert, TouchableOpacity, Image, View } from "react-native";
-import { Container, Card, CardItem, Body, Content, Header, Left, Right, Icon, Title, Button, Text } from "native-base";
+import React, { Component } from 'react'
 
-export default class EditScreenOne extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    const {params} = navigation.state;
+import { Container, Content } from 'native-base'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
 
+import styles from './style'
+
+export default class DetailsInfo extends Component {
+  // static navigationOptions = { title: 'Noticia' }
+  static navigationOptions() {
     return {
       title: 'Noticia',
-      headerRight:(
-        <TouchableOpacity style={styles.buttonRight} >
-          <Image style={styles.navRight} source={require('../assets/img/share.png')} />
-        </TouchableOpacity>)
-    };
-  };
+      headerRight: (
+        <TouchableOpacity style={styles.buttonRight}>
+          <Image
+            source={require('../assets/img/share.png')}
+            style={styles.navRight}
+          />
+        </TouchableOpacity>
+      ),
+    }
+  }
+
   render() {
     return (
       <Container>
-        <Content style={{backgroundColor: '#fff'}}>
-          <Image source={require('../assets/img/img.jpg')} style={{height: 200, width: null, flex: 1, marginTop: 3 }}/>
-        <View style={styles.viewContainer}>
+        <Content style={styles.content}>
+          <Image
+            source={require('../assets/img/img.jpg')}
+            style={styles.image}
+          />
+          <View style={styles.viewContainer}>
             <Text style={styles.textTitle}>
               AP informa que gabinete de Trump y países vecinos rechazaron posible invasión militar a Venezuela
             </Text>
-            <Text style={styles.textTime}>Julio 4, 2018 11:00 am</Text>
+            <Text style={styles.textTime}>
+              Julio 4, 2018 11:00 am
+            </Text>
           </View>
           <View style={styles.viewContainer}>
             <Text style={styles.textInfo}>
@@ -34,7 +46,7 @@ export default class EditScreenOne extends React.Component {
             </Text>
           </View>
         </Content>
-    </Container>
-    );
+      </Container>
+    )
   }
 }

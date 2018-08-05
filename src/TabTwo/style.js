@@ -1,9 +1,9 @@
-import { StyleSheet, Platform, Dimensions } from 'react-native';
-var width = Dimensions.get('window').width;
+import { StyleSheet } from 'react-native'
 
-export default styles = StyleSheet.create({
-
-
-
-
-});
+export default StyleSheet.create({
+  image: {
+    flex: 1,
+    height: 200,
+    width: null,
+  },
+})

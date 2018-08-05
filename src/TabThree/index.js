@@ -1,6 +1,9 @@
-import React, { Component } from "react";
-import TabThree from "./TabThree.js";
-import { StackNavigator } from "react-navigation";
-export default (DrawNav = StackNavigator({
-  TabThree: { screen: TabThree },
-}));
+import { StackNavigator } from 'react-navigation'
+
+import TabThree from './TabThree'
+
+export default StackNavigator({
+  TabThree: {
+    screen: TabThree,
+  },
+})

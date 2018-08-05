@@ -1,44 +1,47 @@
-import { StyleSheet, Platform, Dimensions } from 'react-native';
-var width = Dimensions.get('window').width;
+import { StyleSheet } from 'react-native'
 
-export default styles = StyleSheet.create({
-
-  itemButtom:{
-    paddingLeft: 20,
-    marginBottom: 12,
-    marginTop: 5
+export default StyleSheet.create({
+  accordionHeader: {
+    backgroundColor: '#fff',
+    color: 'red',
   },
-  itemButtomMenu:{
+  container: {
+    padding: 20,
     paddingLeft: 15,
+    paddingRight: 5,
+  },
+  containerImage: {
+    alignItems: 'center',
+    marginBottom: 15,
+    marginTop: 40,
+  },
+  itemButtom: {
+    marginBottom: 12,
+    marginTop: 5,
+    paddingLeft: 20,
+  },
+  itemButtomMenu: {
+    flexDirection: 'row',
     marginBottom: 12,
     marginTop: 8,
-    flexDirection: 'row',
+    paddingLeft: 15,
   },
-  textButtomMenu:{
+  logo: {
+    height: 40,
+    width: 80,
+  },
+  textButtomMenu: {
     marginLeft: 15,
   },
-  containerImage:{
-    alignItems: 'center',
-    marginTop: 40,
-    marginBottom: 15
-  },
-  logo:{
-    width: 80,
-    height: 40
-  },
-  viewAccordion:{
+  viewAccordion: {
     borderTopColor: '#fff',
   },
-  viewDivider:{
-    borderWidth: 1.4,
+  viewDivider: {
     borderColor: '#D13030',
-    marginTop: 15,
-    marginRight: 10, 
+    borderWidth: 1.4,
     marginBottom: 15,
-    paddingLeft: 15
-  }
-
-
-
-
-});
+    marginRight: 10,
+    marginTop: 15,
+    paddingLeft: 15,
+  },
+})

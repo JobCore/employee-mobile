@@ -1,8 +1,10 @@
-import React, { Component } from "react";
-import Profile from "./Profile.js";
-import DetailsInfo from "../DetailsInfo/DetailsInfo.js";
-import { StackNavigator } from "react-navigation";
-export default (DrawNav = StackNavigator({
-  Profile: { screen: Profile },
+import { StackNavigator } from 'react-navigation'
+
+import DetailsInfo from '../DetailsInfo/DetailsInfo'
+
+import Profile from './Profile'
+
+export default StackNavigator({
   DetailsInfo: { screen: DetailsInfo },
-}));
+  Profile: { screen: Profile },
+})
