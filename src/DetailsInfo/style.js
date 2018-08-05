@@ -1,37 +1,41 @@
-import { StyleSheet, Platform, Dimensions } from 'react-native';
-var width = Dimensions.get('window').width;
+import { StyleSheet } from 'react-native'
 
-export default styles = StyleSheet.create({
-
-  viewContainer:{
-    padding: 12,
+export default StyleSheet.create({
+  buttonRight: {
+    marginRight: 15,
   },
-  textTime:{
-    color: '#757575',
-    fontWeight: '600',
-    fontSize: 12,
+  content: {
+    backgroundColor: '#fff',
   },
-  textTitle:{
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#000',
-    marginBottom: 5
-  },
-  textInfo:{
-    fontSize: 16,
-    color: '#000',
-    marginBottom: 15,
-    textAlign: 'justify'
+  image: {
+    flex: 1,
+    height: 200,
+    marginTop: 3,
+    width: null,
   },
   navRight: {
-    width: 21,
     height: 20,
-    resizeMode: 'contain'
-
+    resizeMode: 'contain',
+    width: 21,
   },
-  buttonRight: {
-      marginRight: 15
-  }
-
-
-});
+  textInfo: {
+    color: '#000',
+    fontSize: 16,
+    marginBottom: 15,
+    textAlign: 'justify',
+  },
+  textTime: {
+    color: '#757575',
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  textTitle: {
+    color: '#000',
+    marginBottom: 5,
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  viewContainer: {
+    padding: 12,
+  },
+})

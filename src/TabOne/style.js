@@ -1,22 +1,22 @@
-import { StyleSheet, Platform, Dimensions } from 'react-native';
-var width = Dimensions.get('window').width;
+import { StyleSheet } from 'react-native'
 
-export default styles = StyleSheet.create({
-
-
-  textTime:{
+export default StyleSheet.create({
+  image: {
+    flex: 1,
+    height: 200,
+    width: null,
+  },
+  textTime: {
     color: '#757575',
-    fontWeight: '600',
     fontSize: 12,
+    fontWeight: '600',
   },
-  viewContainerTitle:{
-    padding: 12,
-  },
-  textTitle:{
+  textTitle: {
+    color: '#000',
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000'
-  }
-
-
-});
+  },
+  viewContainerTitle: {
+    padding: 12,
+  },
+})
