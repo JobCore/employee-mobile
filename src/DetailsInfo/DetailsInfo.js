@@ -25,9 +25,7 @@ import styles from './style'
 
 /**
  * An individual news item spanning a whole screen.
- * @type {NavigableComponent<SFC<DetailsInfoProps>, {}, {}>}
- * @namespace
- * @prop {object} navigationOptions
+ * @type {SFC<DetailsInfoProps>}
  */
 const DetailsInfo = props => (
   <Container>
