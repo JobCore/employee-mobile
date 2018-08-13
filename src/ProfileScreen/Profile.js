@@ -3,13 +3,8 @@ import React from 'react'
 import { Header, Left, Body, Right, Button, Text } from 'native-base'
 import { Image } from 'react-native'
 
-const Profile = () => (
-  <Text>
-    Option
-  </Text>
-)
 
-const ProfileHeader = ({ navigation }) => (
+const Profile = ({ navigation }) => (
   <Header>
     <Left>
       <Button transparent onPress={() => navigation.toggleDrawer()}>
@@ -34,3 +29,5 @@ const ProfileHeader = ({ navigation }) => (
 Profile.navigationOptions = ({ navigation }) => ({
   header: <ProfileHeader navigation={navigation} />,
 })
+
+export default Profile
