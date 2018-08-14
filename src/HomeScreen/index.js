@@ -14,5 +14,5 @@ export default DrawerNavigator(
   },
   {
     contentComponent: props => <SideBar {...props} />,
-  },
+  }
 )
