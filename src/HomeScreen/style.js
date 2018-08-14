@@ -4,6 +4,12 @@ export default StyleSheet.create({
   bgColor: {
     backgroundColor: '#fff',
   },
+  deadCenter: {
+    alignContent: 'center',
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
   image: {
     height: 40,
     width: 80,
