@@ -50,10 +50,7 @@ export default class CardsTabView extends PureComponent {
      */
     const imageSource = newsItem.image.length === 0
                         ? require('../assets/img/img.jpg')
-                        : { uri: __DEV__ 
-                                 ? newsItem.image.replace('https://', 'http://')
-                                 : newsItem.image,
-                          }
+                        : { uri: newsItem.image }
     return (
       <ListItem>
         <Content>
