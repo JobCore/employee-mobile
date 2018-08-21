@@ -60,6 +60,7 @@ export default class CardsTabController extends Component {
           newsItems: [...previousNewsItems, ...newsItemsFetched]
         }))
       })
+      .catch() // leave items unchanged
   }
 
   render() {
