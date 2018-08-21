@@ -2,57 +2,56 @@ import { buildLatestNewsUrl, buildMostSeenUrl,
          buildRegionsNewsUrl } from '../constants/urls'
 
 /**
- * @typedef {import('../definitions').NewsItem} NewsItem
- */
+* @typedef {import('../definitions').NewsItem} NewsItem
+*/
 
 /**
- * News item as it comes from the server, with a 'content-body' prop instead of
- * 'contentBody'
- * @typedef {Pick<NewsItem, Exclude<keyof NewsItem, 'contentBody'>> & { 'content-body': string }} RawNewsItem
- */
+* News item as it comes from the server, with a 'content-body' prop instead of
+* 'contentBody'
+* @typedef {Pick<NewsItem, Exclude<keyof NewsItem, 'contentBody'>> & { 'content-body': string }} RawNewsItem
+*/
 
 
 /**
- * Expected server response when there's parameter error.
- * HTTP header status=400
- * @typedef {{ error: string , message: string }} ParameterErrorServerResponse
- */
+* Expected server response when there's parameter error.
+* HTTP header status=400
+* @typedef {{ error: string , message: string }} ParameterErrorServerResponse
+*/
 
 /**
- * Expected server response when there's no communication with elpitazo
- * HTTP header status=200 (OK response but an empty array)
- * @typedef {never[]} EmptyServerResponse
- */
+* Expected server response when there's no communication with elpitazo
+* HTTP header status=200 (OK response but an empty array)
+* @typedef {never[]} EmptyServerResponse
+*/
 
 /**
- * @typedef {Error & { objResponse: any, type: string }} InvalidObjectSchemaError
- */
+* @typedef {Error & { objResponse: any, type: string }} InvalidObjectSchemaError
+*/
 
 /**
- * @param {string} prop
- * @param {string} expectedType
- * @param {string} gotType
- * @param {number} idx
- */
+* @param {string} prop
+* @param {string} expectedType
+* @param {string} gotType
+* @param {number} idx
+*/
 const errMsg = (prop, expectedType, gotType, idx) => `Bad property ${prop} received on news item from server, expected ${expectedType} got: ${gotType} at index ${idx} check the objResponse property on this error object to take a look at the object returned from the server`
 
 /**
- * @param {RawNewsItem} obj
- * @param {number} i
- * @param {ReadonlyArray<RawNewsItem>} arr
- * @returns {boolean}
- * @throws {InvalidObjectSchemaError}
- */
+* @param {RawNewsItem} obj
+* @param {number} i
+* @param {ReadonlyArray<RawNewsItem>} arr
+* @returns {boolean}
+* @throws {InvalidObjectSchemaError}
+*/
 const isNewsItem = (obj, i, arr) => {
-  
-  /**
-   * @type {InvalidObjectSchemaError|undefined}
-   */
-  let err = undefined
+/**
+* @type {InvalidObjectSchemaError|undefined}
+*/
+  let err
   if (typeof obj !== 'object') {
     err = Object.assign(
       new Error(
-       `Expected an object for each item received in the array from the server, but got ${typeof obj} at index ${i} check the arrayResponse property on this error object to take a look at the whole array`
+        `Expected an object for each item received in the array from the server, but got ${typeof obj} at index ${i} check the arrayResponse property on this error object to take a look at the whole array`
       ),
       {
         objResponse: arr,
@@ -145,22 +144,22 @@ const isNewsItem = (obj, i, arr) => {
 
 
 /**
- * Maps a RawNewsItem to a NewsItem
- * @param {RawNewsItem} rawNewsItem
- * @returns {NewsItem}
- */
+* Maps a RawNewsItem to a NewsItem
+* @param {RawNewsItem} rawNewsItem
+* @returns {NewsItem}
+*/
 const rawToNewsItem = rawNewsItem => Object.assign({}, rawNewsItem, {
-  // REPLACE THIS WHEN PRODUCTION SERVER WILL BE USED
+// REPLACE THIS WHEN PRODUCTION SERVER WILL BE USED
   contentBody: rawNewsItem['content-body'].replace('https://', 'http://'),
   // REPLACE THIS WHEN PRODUCTION SERVER WILL BE USED
   image: rawNewsItem.image.replace('https://', 'http://'),
 })
 
 /**
- * 
- * @param {string} url
- * @throws {Error}
- */
+*
+* @param {string} url
+* @throws {Error}
+*/
 const baseFetcher = async (url) => {
   const response = await fetch(url)
 
@@ -173,8 +172,8 @@ const baseFetcher = async (url) => {
   }
 
   /**
-   * @type {RawNewsItem[]}
-   */
+* @type {RawNewsItem[]}
+*/
   const items = await response.json()
 
   if (!Array.isArray(items)) {
@@ -185,6 +184,7 @@ const baseFetcher = async (url) => {
 
   if (!correctArrayTypes) {
     if (__DEV__) {
+      // eslint-disable-next-line no-console
       console.error(
         `BAD_OBJECT_TYPE_RESPONSE error, json received: ${JSON.stringify(items)}`
       )
@@ -196,10 +196,10 @@ const baseFetcher = async (url) => {
 }
 
 /**
- * Fetch page n of latest news
- * @param {number} pageNumber A page number between 1 and MAX_SAFE_INTEGER - 1
- * @returns {Promise<NewsItem[]>}
- */
+* Fetch page n of latest news
+* @param {number} pageNumber A page number between 1 and MAX_SAFE_INTEGER - 1
+* @returns {Promise<NewsItem[]>}
+*/
 export const fetchLatestNews = async (pageNumber) => {
   const url = buildLatestNewsUrl(pageNumber)
 
@@ -207,10 +207,10 @@ export const fetchLatestNews = async (pageNumber) => {
 }
 
 /**
- * Fetch page n of region news
- * @param {number} pageNumber A page number between 1 and MAX_SAFE_INTEGER - 1
- * @returns {Promise<NewsItem[]>}
- */
+* Fetch page n of region news
+* @param {number} pageNumber A page number between 1 and MAX_SAFE_INTEGER - 1
+* @returns {Promise<NewsItem[]>}
+*/
 export const fetchRegionNews = async (pageNumber) => {
   const url = buildRegionsNewsUrl(pageNumber)
 
@@ -218,10 +218,10 @@ export const fetchRegionNews = async (pageNumber) => {
 }
 
 /**
- * @param {number} limitItems Limit number of items to fetch to this number.
- * Must be a positive integer between 1 and MAX_SAFE_INTEGER - 1
- * @returns {Promise<NewsItem[]>}
- */
+* @param {number} limitItems Limit number of items to fetch to this number.
+* Must be a positive integer between 1 and MAX_SAFE_INTEGER - 1
+* @returns {Promise<NewsItem[]>}
+*/
 export const fetchMostSeenNews = async (limitItems) => {
   const url = buildMostSeenUrl(limitItems)
 

@@ -10,6 +10,9 @@ export default StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
   },
+  header: {
+    backgroundColor: 'transparent',
+  },
   image: {
     height: 40,
     width: 80,
@@ -19,6 +22,15 @@ export default StyleSheet.create({
     height: 35,
     resizeMode: 'contain',
     width: 35,
+  },
+  serverErrorText: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  rootContainer: {
+    backgroundColor: '#fff',
   },
   tabContainer: {
     backgroundColor: '#fff',

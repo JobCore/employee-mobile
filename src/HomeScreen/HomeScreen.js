@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Body, Button, Container, Header, Left, Right, Tab, TabHeading,
-         Tabs } from 'native-base'
+         Tabs, Content, Spinner } from 'native-base'
 import { Image, Text, View } from 'react-native'
 /**
  * @typedef {import('react-navigation').NavigationScreenProp<NavigationState>} NavigationScreenProp
@@ -16,7 +16,9 @@ import styles from './style'
 import Loader from '../utils/Loader'
 
 import CardsTabController from '../CardsTab/CardsTabController'
-import { fetchLatestNews, fetchRegionNews, fetchMostSeenNews } from '../CardsTab/CardsTabActions'
+import { fetchLatestNews, fetchRegionNews,
+         fetchMostSeenNews } from '../CardsTab/CardsTabActions'
+import { MOST_SEEN_LIMIT } from '../constants/config'
 
 
 /**
@@ -29,8 +31,14 @@ import { fetchLatestNews, fetchRegionNews, fetchMostSeenNews } from '../CardsTab
  *
  * @param {NavigationScreenProp} navigation Navigation screen prop
  */
+
 const HomeScreenHeader = navigation => (
-  <Header>
+  <Header
+    androidStatusBarColor="#D13030"
+    style={styles.header}
+    iosBarStyle="light-content"
+    noShadow
+  >
     <Left>
       <Button
         onPress={() => navigation.toggleDrawer()}
@@ -59,7 +67,7 @@ const HomeScreenHeader = navigation => (
  * @param {HomeScreenProps} props
  */
 const HomeScreen = ({ navigation }) => (
-  <Container>
+  <Container style={styles.rootContainer}>
     {HomeScreenHeader(navigation)}
     <Tabs
       edgeHitWidth={0}
@@ -80,13 +88,14 @@ const HomeScreen = ({ navigation }) => (
         <Loader
           fetcherFunction={() => fetchLatestNews(1)}
           loadingElement={(
-            <View
-              style={styles.deadCenter}
-            >
-              <Text>
-                CARGANDO
-              </Text>
-            </View>
+            <Container>
+              <Content>
+                <Spinner
+                  color="#D13030"
+                  style={styles.deadCenter}
+                />
+              </Content>
+            </Container>
           )}
           signalErrorFn={() => {}}
           timeout={10000}
@@ -95,23 +104,20 @@ const HomeScreen = ({ navigation }) => (
             (newsItems, err) => {
               if (err) {
                 return (
-                  <View
-                    style={styles.deadCenter}
-                  >
+                  <View style={styles.serverErrorText}>
                     <Text>
-                      ERROR DE CONEXION O TIMEOUT
+                      Error Sever | Error Connection
                     </Text>
                   </View>
                 )
               }
               return (
                 <CardsTabController
-                  fetcher={(() => {
-                    let lastPageFetched = 1
-                    return () => fetchLatestNews(++lastPageFetched)
-                  })()}
+                  fetcher={fetchLatestNews}
                   initialNewsItems={/** @type {NewsItem[]} */ (newsItems)}
                   navigation={navigation}
+                  isPaginated
+                  defaultFetchValue={1}
                 />
               )
             }
@@ -130,15 +136,15 @@ const HomeScreen = ({ navigation }) => (
         )}
       >
         <Loader
-          fetcherFunction={() => fetchMostSeenNews(1)}
+          fetcherFunction={() => fetchRegionNews(1)}
           loadingElement={(
-            <View
-              style={styles.deadCenter}
-            >
-              <Text>
-                CARGANDO
-              </Text>
-            </View>
+            <Container>
+              <Content>
+                <Spinner
+                  color="#D13030"
+                />
+              </Content>
+            </Container>
           )}
           signalErrorFn={() => {}}
           timeout={10000}
@@ -147,23 +153,19 @@ const HomeScreen = ({ navigation }) => (
             (newsItems, err) => {
               if (err) {
                 return (
-                  <View
-                    style={styles.deadCenter}
-                  >
+                  <View style={styles.serverErrorText}>
                     <Text>
-                      ERROR DE CONEXION O TIMEOUT
+                      Error Sever | Error Connection
                     </Text>
                   </View>
                 )
               }
               return (
                 <CardsTabController
-                  fetcher={(() => {
-                    let lastPageFetched = 1
-                    return () => fetchMostSeenNews(++lastPageFetched)
-                  })()}
+                  fetcher={fetchMostSeenNews}
                   initialNewsItems={/** @type {NewsItem[]} */ (newsItems)}
                   navigation={navigation}
+                  defaultFetchValue={MOST_SEEN_LIMIT}
                 />
               )
             }
@@ -184,13 +186,13 @@ const HomeScreen = ({ navigation }) => (
         <Loader
           fetcherFunction={() => fetchRegionNews(1)}
           loadingElement={(
-            <View
-              style={styles.deadCenter}
-            >
-              <Text>
-                CARGANDO
-              </Text>
-            </View>
+            <Container>
+              <Content>
+                <Spinner
+                  color="#D13030"
+                />
+              </Content>
+            </Container>
           )}
           signalErrorFn={() => {}}
           timeout={10000}
@@ -199,23 +201,20 @@ const HomeScreen = ({ navigation }) => (
             (newsItems, err) => {
               if (err) {
                 return (
-                  <View
-                    style={styles.deadCenter}
-                  >
+                  <View style={styles.serverErrorText}>
                     <Text>
-                      ERROR DE CONEXION O TIMEOUT
+                      Error Sever | Error Connection
                     </Text>
                   </View>
                 )
               }
               return (
                 <CardsTabController
-                  fetcher={(() => {
-                    let lastPageFetched = 1
-                    return () => fetchRegionNews(++lastPageFetched)
-                  })()}
+                  fetcher={fetchRegionNews}
                   initialNewsItems={/** @type {NewsItem[]} */ (newsItems)}
                   navigation={navigation}
+                  isPaginated
+                  defaultFetchValue={1}
                 />
               )
             }

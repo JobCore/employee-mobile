@@ -92,11 +92,6 @@ const renderSecciones = () => (
       </TouchableOpacity>
       <TouchableOpacity style={styles.itemButtom}>
         <Text>
-          Reportajes
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.itemButtom}>
-        <Text>
           Opinión
         </Text>
       </TouchableOpacity>

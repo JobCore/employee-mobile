@@ -6,6 +6,10 @@
         "forceConsistentCasingInFileNames": true,
         "jsx": "react-native",
         "keyofStringsOnly": true,
+        "lib": [
+            "esnext",
+            "esnext.array",
+        ],
         "module": "commonjs",
         "noEmit": true,
         "noImplicitAny": true,
