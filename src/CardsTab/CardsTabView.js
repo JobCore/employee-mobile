@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 import { Button, Card, CardItem, Content, Left, ListItem,
          Right } from 'native-base'
 
-import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Image, Text, TouchableOpacity, View, RefreshControl } from 'react-native'
 
 import styles from './style'
 
@@ -33,6 +33,8 @@ import { VIEW_ITEM_ROUTE } from '../constants/routes'
  * @prop {ReadonlyArray<NewsItem>} newsItems
  * @prop {() => void=} onEndReached
  * @prop {NavigationScreenProp} navigation
+ * @prop {boolean} refreshing
+ * @prop {() => void} onRefresh
  */
 
 
@@ -49,16 +51,16 @@ export default class CardsTabView extends PureComponent {
      * @type {ImageSourcePropType}
      */
     const imageSource = newsItem.image.length === 0
-                        ? require('../assets/img/img.jpg')
-                        : { uri: newsItem.image }
+      ? require('../assets/img/newsitem-card-image-placeholder.png')
+      : { uri: newsItem.image }
     return (
       <ListItem>
         <Content>
           <TouchableOpacity
             onPress={() => {
-              this.props.navigation.navigate({
-                routeName: VIEW_ITEM_ROUTE,
-                params: newsItem,
+              this.props.navigation.navigate(VIEW_ITEM_ROUTE, {
+                html: newsItem.contentBody,
+                navigation: this.props.navigation,
               })
             }}
           >
@@ -106,9 +108,17 @@ export default class CardsTabView extends PureComponent {
   render() {
     return (
       <FlatList
+        refreshControl={(
+          <RefreshControl
+            refreshing={this.props.refreshing}
+            onRefresh={this.props.onRefresh}
+          />
+        )}
         data={this.props.newsItems}
         keyExtractor={item => item.id.toString()}
         renderItem={this.renderItem.bind(this)}
+        onEndReached={this.props.onEndReached}
+        onEndReachedThreshold={0.1}
       />
     )
   }

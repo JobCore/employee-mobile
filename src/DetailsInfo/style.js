@@ -1,41 +1,57 @@
-import { StyleSheet } from 'react-native'
+import { Dimensions, StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
-  buttonRight: {
-    marginRight: 15,
-  },
-  content: {
+  bgColor: {
     backgroundColor: '#fff',
   },
-  image: {
+  deadCenter: {
+    alignContent: 'center',
     flex: 1,
-    height: 200,
-    marginTop: 3,
-    width: null,
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
-  navRight: {
-    height: 20,
+  header: {
+    backgroundColor: 'transparent',
+  },
+  image: {
+    width: Dimensions.get('window').width,
+    height: 300,
     resizeMode: 'contain',
-    width: 21,
   },
-  textInfo: {
+  imageView: {
+    flex: 1,
+  },
+  imgProfileItem: {
+    borderRadius: 50,
+    height: 35,
+    resizeMode: 'contain',
+    width: 35,
+  },
+  tabContainer: {
+    backgroundColor: '#fff',
+  },
+  tabContainerStyle: {
+    backgroundColor: '#fff',
+  },
+  tabStyleBg: {
+    backgroundColor: '#fff',
+  },
+  textTab: {
     color: '#000',
-    fontSize: 16,
-    marginBottom: 15,
-    textAlign: 'justify',
+    fontWeight: '500',
   },
-  textTime: {
-    color: '#757575',
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  textTitle: {
-    color: '#000',
-    marginBottom: 5,
-    fontSize: 22,
-    fontWeight: 'bold',
+  underLineColor: {
+    backgroundColor: '#D13030',
   },
   viewContainer: {
-    padding: 12,
+    backgroundColor: '#fff',
+    flex: 1,
+    flexDirection: 'column',
+  },
+  viewMsg: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    padding: 15,
   },
 })

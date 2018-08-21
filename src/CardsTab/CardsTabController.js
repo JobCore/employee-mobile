@@ -1,5 +1,7 @@
+// TODO: Add a shouldFetchOnEndReached prop
+
 import React, { Component } from 'react'
-import { Text } from 'react-native'
+import { Text, View } from 'react-native'
 
 import CardsTabView from './CardsTabView'
 
@@ -18,16 +20,19 @@ import CardsTabView from './CardsTabView'
 /**
  * @typedef {object} CardTabsControllerProps
  * @prop {ReadonlyArray<NewsItem>} initialNewsItems
- * @prop {() => Promise<ReadonlyArray<NewsItem>>} fetcher Fetcher function, each
+ * @prop {(pageNumber: number) => Promise<ReadonlyArray<NewsItem>>} fetcher Fetcher function, each
  * call must return new items
  * @prop {NavigationScreenProp} navigation
- * @prop {boolean=} shouldFetchOnEndReached Should the controller call fetcher
- * on end of list reached.
+ * @prop {boolean=} isPaginated Indicates whether the fetcher is paginated
+ * @prop {number} defaultFetchValue Default number to pass to the fetcher function
  */
 
 /**
  * @typedef {object} CardTabsControllerState
  * @prop {ReadonlyArray<NewsItem>} newsItems
+ * @prop {boolean} isLoadingMoreItems Indicates whether this item
+ * @prop {boolean} isRefreshing
+ * @prop {number} lastPageLoaded
  */
 
 
@@ -41,45 +46,90 @@ export default class CardsTabController extends Component {
   constructor(props) {
     super(props)
 
+    let lastPageLoaded = 0
+    if (this.props.initialNewsItems.length > 0) {
+      lastPageLoaded = 1
+    }
+
     /**
      * @type {CardTabsControllerState}
      */
     this.state = {
       newsItems: this.props.initialNewsItems,
+      isLoadingMoreItems: false,
+      isRefreshing: false,
+      lastPageLoaded,
     }
   }
 
-  componentDidMount() {
-    this.fetchAndPushToStateItems()
-  }
-
-  fetchAndPushToStateItems() {
-    this.props.fetcher()
-      .then((newsItemsFetched) => {
-        this.setState(({ newsItems: previousNewsItems }) => ({
-          newsItems: [...previousNewsItems, ...newsItemsFetched]
-        }))
+  onRefresh() {
+    const { isPaginated, defaultFetchValue } = this.props
+    this.setState({
+      isRefreshing: true,
+    })
+    this.props.fetcher(isPaginated ? 1 : defaultFetchValue)
+      .then((newsItemsRefreshed) => {
+        this.setState({
+          newsItems: newsItemsRefreshed,
+          isRefreshing: false,
+          lastPageLoaded: 1,
+        })
       })
-      .catch() // leave items unchanged
+      .catch(() => {
+        this.setState({
+          isRefreshing: false,
+        })
+      })
   }
 
   render() {
-    return this.state.newsItems.length > 0
-      ? (
-        <CardsTabView
-          newsItems={this.state.newsItems}
-          navigation={this.props.navigation}
-          onEndReached={() => {
-            if (this.props.shouldFetchOnEndReached) {
-              this.fetchAndPushToStateItems()
-            }
-          }}
-        />
-      )
-      : (
+    if (this.state.newsItems.length === 0) {
+      return (
         <Text>
-          NO ITEMS TO SHOW
+          PITAZO NO RESPONDE
         </Text>
       )
+    }
+
+    if (this.state.isLoadingMoreItems) {
+      return (
+        <View>
+          <CardsTabView
+            refreshing={this.state.isRefreshing}
+            onRefresh={this.onRefresh.bind(this)}
+            newsItems={this.state.newsItems}
+            navigation={this.props.navigation}
+            onEndReached={() => {}}
+          />
+        </View>
+      )
+    }
+
+    return (
+      <CardsTabView
+        refreshing={this.state.isRefreshing}
+        onRefresh={this.onRefresh.bind(this)}
+        newsItems={this.state.newsItems}
+        navigation={this.props.navigation}
+        onEndReached={() => {
+          if (this.props.isPaginated) {
+            this.setState({
+              isLoadingMoreItems: true,
+            })
+            this.props.fetcher(this.state.lastPageLoaded + 1)
+              .then((newsItemsFetched) => {
+                this.setState(({
+                  newsItems: previousNewsItems,
+                  lastPageLoaded,
+                }) => ({
+                  newsItems: [...previousNewsItems, ...newsItemsFetched],
+                  isLoadingMoreItems: false,
+                  lastPageLoaded: lastPageLoaded + 1,
+                }))
+              })
+          }
+        }}
+      />
+    )
   }
 }

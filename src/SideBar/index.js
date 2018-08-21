@@ -1,9 +1,7 @@
 import { StackNavigator } from 'react-navigation'
 
-import DetailsInfo from '../DetailsInfo/DetailsInfo'
-import ProfileScreen from '../ProfileScreen/Profile'
+import DetailsInfo from '../DetailsInfo'
 
 export default StackNavigator({
   DetailsInfo: { screen: DetailsInfo },
-  ProfileScreen: { screen: ProfileScreen },
 })

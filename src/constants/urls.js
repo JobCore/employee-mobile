@@ -9,20 +9,21 @@
  * @author danlugo92
  */
 
+const BASE = 'https://elpitazo-api.cobuildlab.com/portal'
 
 /**
  * Url pointing to JSON data representing the latest news.
  * Paginated through GET parameter `page`. Key=`page` Value={positive integer}
  * @type {string}
  */
-let LATEST_URL
+const LATEST_URL = `${BASE}/last`
 
 /**
  * Url pointing to JSON data representing the news of the "REGIONS" category.
  * Paginated through GET parameter `page`. Key=`page` Value={positive integer}
  * @type {string}
  */
-let REGIONS_URL
+const REGIONS_URL = `${BASE}/regions`
 
 /**
  * Url pointing to JSON data representing news with the most views.
@@ -30,18 +31,7 @@ let REGIONS_URL
  * Limitable through GET parameter `limit`. Key=`limit` Value={positive integer}
  * @type {string}
  */
-let MOST_SEEN_URL
-
-if (__DEV__) {
-  LATEST_URL = 'http://192.168.0.16:8000/portal/last'
-  REGIONS_URL = 'http://192.168.0.16:8000/portal/regions'
-  MOST_SEEN_URL = 'http://192.168.0.16:8000/portal/mostseen'
-} else {
-  LATEST_URL = ''
-  REGIONS_URL = ''
-  MOST_SEEN_URL = ''
-  throw new Error('App built without production URLs specified')
-}
+const MOST_SEEN_URL = `${BASE}/mostseen`
 
 
 /**

@@ -2,15 +2,17 @@ import React from 'react'
 
 import { DrawerNavigator } from 'react-navigation'
 
-import Profile from '../ProfileScreen/index'
 import SideBar from '../SideBar/SideBar'
 
 import HomeScreen from './HomeScreen'
 
+import { HOME_SCREEN_ROUTE, VIEW_ITEM_ROUTE } from '../constants/routes'
+import DetailsInfo from '../DetailsInfo'
+
 export default DrawerNavigator(
   {
-    Home: { screen: HomeScreen },
-    Profile: { screen: Profile },
+    [HOME_SCREEN_ROUTE]: { screen: HomeScreen },
+    [VIEW_ITEM_ROUTE]: { screen: DetailsInfo },
   },
   {
     contentComponent: props => <SideBar {...props} />,
