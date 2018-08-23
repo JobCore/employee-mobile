@@ -69,7 +69,7 @@ export default class Loader extends Component {
       })
       .catch((e) => {
         if (__DEV__) {
-          console.warn(e.message)
+          throw e
         }
         if (typeof this.state.timeoutId === 'number') {
           clearTimeout(this.state.timeoutId)
