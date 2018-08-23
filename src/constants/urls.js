@@ -162,7 +162,7 @@ export const SECTION_MAS_NOTICIAS_URL = `${SECTIONS_BASE}/mas-noticias`
 const RESTFUL_BASE = `${SIDEBAR_BASE}/restful`
 
 export const RESTFUL_INVESTIGACIONES_URL = `${RESTFUL_BASE}/investigaciones`
-export const RESTFUL_PITAZO_EN_LA_CALLE_URL = `${RESTFUL_BASE}/pitazo-en-la-calle`
+export const RESTFUL_EL_PITAZO_EN_LA_CALLE_URL = `${RESTFUL_BASE}/pitazo-en-la-calle`
 export const RESTFUL_ALIANZAS_URL = `${RESTFUL_BASE}/alianzas`
 
 
