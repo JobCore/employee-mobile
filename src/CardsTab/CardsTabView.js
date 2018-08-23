@@ -1,13 +1,11 @@
-import React, { PureComponent } from 'react'
-
+import React, { Component } from 'react'
+import { FlatList, Image, Text, TouchableOpacity, View, RefreshControl } from 'react-native'
 import { Button, Card, CardItem, Content, Left, ListItem,
          Right } from 'native-base'
-
-import { FlatList, Image, Text, TouchableOpacity, View, RefreshControl } from 'react-native'
+         
+import { VIEW_ITEM_ROUTE } from '../constants/routes'
 
 import styles from './style'
-
-import { VIEW_ITEM_ROUTE } from '../constants/routes'
 
 /**
  * @template T
@@ -19,11 +17,10 @@ import { VIEW_ITEM_ROUTE } from '../constants/routes'
  */
 
 /**
- * @typedef {import('react-navigation').NavigationScreenProp<NavigationState>} NavigationScreenProp
+ * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
  */
 
 /**
- * @typedef {import('../definitions').NavigationState} NavigationState
  * @typedef {import('../definitions').NewsItem} NewsItem
  */
 
@@ -39,9 +36,9 @@ import { VIEW_ITEM_ROUTE } from '../constants/routes'
 
 
 /**
- * @extends {PureComponent<CardTabsViewProps, {}, >}
+ * @extends {Component<CardTabsViewProps, {}, >}
  */
-export default class CardsTabView extends PureComponent {
+export default class CardsTabView extends Component {
   /**
    * Render an individual item.
    * @param {ListRenderItemInfo<NewsItem>} listRenderItemInfo
@@ -59,7 +56,7 @@ export default class CardsTabView extends PureComponent {
           <TouchableOpacity
             onPress={() => {
               this.props.navigation.navigate(VIEW_ITEM_ROUTE, {
-                html: newsItem.contentBody,
+                newsItem: newsItem,
                 navigation: this.props.navigation,
               })
             }}

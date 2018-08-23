@@ -9,14 +9,10 @@ import { Component } from 'react'
  * @prop {(res: T|undefined, err?: boolean) => JSX.Element} children
  * Renderer function called with resource to be loaded when it becomes
  * available. This function must accept two parameters, the resource when loaded
- * and an optional 2nd parameter when there's an error (error signaled through
- * the signalErrorFn prop)
- * @prop {() => void} signalErrorFn This function should be called when theres
- * an error loading the resource, then in turn renderFunction will get
- * called with the 1st parameter set to undefined and the 2nd set to true.
+ * and an optional 2nd parameter when there's an error thrown by the fetcher
  * @prop {JSX.Element} loadingElement React element to be rendered while the
  * resource is loading (e.g. an spinner).
- * @prop {number=} timeout Timeout on milliseconds, if fetcherFunction hasn't
+ * @prop {number} timeout Timeout on milliseconds, if fetcherFunction hasn't
  * resolved before this time, cancel loading and render loadingElement
  */
 
@@ -71,7 +67,10 @@ export default class Loader extends Component {
           resource: res,
         })
       })
-      .catch(() => {
+      .catch((e) => {
+        if (__DEV__) {
+          console.warn(e.message)
+        }
         if (typeof this.state.timeoutId === 'number') {
           clearTimeout(this.state.timeoutId)
         }

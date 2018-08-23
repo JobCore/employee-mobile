@@ -11,12 +11,14 @@
     "native-base": "^2.7.1",
     "react": "16.4.1",
     "react-native": "0.56.0",
+    "react-native-popup-dialog": "^0.15.0",
     "react-native-render-html": "^3.10.0",
     "react-navigation": "^2.6.2"
   },
   "devDependencies": {
     "@types/react": "^16.4.7",
     "@types/react-native": "^0.56.5",
+    "@types/react-native-popup-dialog": "^1.0.1",
     "@types/react-navigation": "^2.0.12",
     "babel-jest": "23.4.0",
     "babel-preset-react-native": "^5",

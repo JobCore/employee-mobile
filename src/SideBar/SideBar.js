@@ -4,6 +4,7 @@ import { Accordion, Container, List, Text } from 'native-base'
 import { Image, View, TouchableOpacity, ScrollView } from 'react-native'
 
 import styles from './style'
+import { FAVORITES_ROUTE } from '../constants/routes'
 
 const Regiones = [{ title: 'Regiones' }]
 const Secciones = [{ title: 'Secciones' }]
@@ -212,9 +213,16 @@ const SideBar = ({ navigation }) => (
 
       <View style={styles.viewDivider} />
 
-      <TouchableOpacity style={styles.itemButtomMenu}>
-        <Image source={require('../assets/img/selectedFavorite.png')} />
-        <Text style={styles.textButtomMenu}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate(FAVORITES_ROUTE)
+        }}
+        style={styles.itemButtomMenu}
+      >
+        <Image source={require('../assets/img/sideBarFavIcon.png')} />
+        <Text
+          style={styles.textButtomMenu}
+        >
           Favoritos
         </Text>
       </TouchableOpacity>
