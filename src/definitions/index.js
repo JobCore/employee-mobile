@@ -6,6 +6,7 @@
  * @author danlugo92
  */
 
+
 /**
  * An object representing an individual news item as obtained from the API.
  * @typedef {object} NewsItem
@@ -18,9 +19,9 @@
  * @prop {string} contentBody
  */
 
+
 /**
- * Navigation state for react-navigation.
- * @typedef {{}} NavigationState
+ * @typedef {import('react-navigation').NavigationScreenProp<{routeName: string}>} NavigationScreenProp
  */
 
 // keeps off typscript and eslint from buggin

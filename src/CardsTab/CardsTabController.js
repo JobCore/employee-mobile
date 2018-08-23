@@ -6,11 +6,7 @@ import { Text, View } from 'react-native'
 import CardsTabView from './CardsTabView'
 
 /**
- * @typedef {import('react-navigation').NavigationScreenProp<NavigationState>} NavigationScreenProp
- */
-
-/**
- * @typedef {import('../definitions').NavigationState} NavigationState
+ * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
  */
 
 /**

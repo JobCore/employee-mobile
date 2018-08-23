@@ -4,13 +4,12 @@ import { Body, Button, Container, Header, Left, Right, Tab, TabHeading,
          Tabs, Content, Spinner } from 'native-base'
 import { Image, Text, View } from 'react-native'
 /**
- * @typedef {import('react-navigation').NavigationScreenProp<NavigationState>} NavigationScreenProp
+ * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
  */
 
 import styles from './style'
 
 /**
- * @typedef {import('../definitions').NavigationState} NavigationState
  * @typedef {import('../definitions').NewsItem} NewsItem
  */
 import Loader from '../utils/Loader'
@@ -194,7 +193,6 @@ const HomeScreen = ({ navigation }) => (
               </Content>
             </Container>
           )}
-          signalErrorFn={() => {}}
           timeout={10000}
         >
           {
