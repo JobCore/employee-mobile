@@ -88,6 +88,11 @@ const renderSecciones = () => (
       </TouchableOpacity>
       <TouchableOpacity style={styles.itemButtom}>
         <Text>
+          Reportajes
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.itemButtom}>
+        <Text>
           Salud
         </Text>
       </TouchableOpacity>
@@ -116,11 +121,6 @@ const renderReposados = () => (
       <TouchableOpacity style={styles.itemButtom}>
         <Text>
           Investigaciones
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.itemButtom}>
-        <Text>
-          Reportajes
         </Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.itemButtom}>
