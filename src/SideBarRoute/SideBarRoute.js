@@ -11,6 +11,7 @@ import CardsTabView from '../CardsTab/CardsTabView'
 import Loader from '../utils/Loader'
 import { FETCH_TIMEOUT } from '../constants/config'
 
+import styles from './style'
 
 /**
  * @typedef {object} SideBarRouteProps
@@ -30,35 +31,40 @@ export default class SideBarRoute extends Component {
     const { fetcherFunction } = this.props
 
     return (
-      <Loader
-        fetcherFunction={(() => {
-          let lastPageFetched = 1
-
-          return () => fetcherFunction(lastPageFetched++)
-        })()}
-        loadingElement={loaderLoadingElement}
-        timeout={FETCH_TIMEOUT}
+      <Container
+        style={styles.rootContainer}
       >
-        {(newsItems, err) => {
-          if (err) {
+        <Loader
+          fetcherFunction={(() => {
+            let lastPageFetched = 1
+
+            return () => fetcherFunction(lastPageFetched++)
+          })()}
+          loadingElement={loaderLoadingElement}
+          timeout={FETCH_TIMEOUT}
+        >
+          {(newsItems, err) => {
+            if (err) {
+              return (
+                <View>
+                  <Image
+                    source={require('../assets/img/error.png')}
+                  />
+                </View>
+              )
+            }
             return (
-              <View>
-                <Image
-                  source={require('../assets/img/error.png')}
-                />
-              </View>
+              <CardsTabView
+                newsItems={/** @type {NewsItem[]} */ (newsItems)}
+                navigation={this.props.navigation}
+                refreshing={false}
+                onRefresh={() => {}}
+              />
             )
-          }
-          return (
-            <CardsTabView
-              newsItems={/** @type {NewsItem[]} */ (newsItems)}
-              navigation={this.props.navigation}
-              refreshing={false}
-              onRefresh={() => {}}
-            />
-          )
-        }}
-      </Loader>
+          }}
+        </Loader>
+      </Container>
+      
     )
   }
 }
