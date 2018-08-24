@@ -14,6 +14,17 @@ import { FETCH_TIMEOUT } from '../constants/config'
 import styles from './style'
 
 
+const loaderLoadingElement = (
+  <Container>
+    <Content>
+      <Spinner
+        color="#D13030"
+      />
+    </Content>
+  </Container>
+)
+
+
 /**
  * @param {NavigationScreenProp} navigation Navigation screen prop
  * @returns {JSX.Element}
@@ -65,7 +76,6 @@ const SideBarRouteHeader = navigation => (
  * @augments Component<SideBarRouteProps>
  */
 export default class SideBarRoute extends Component {
-
   render() {
     const { fetcherFunction, navigation } = this.props
 
@@ -105,20 +115,7 @@ export default class SideBarRoute extends Component {
           }}
         </Loader>
       </Container>
-      
+
     )
   }
 }
-
-
-const loaderLoadingElement = (
-  <Container>
-    <Content>
-      <Spinner
-        color="#D13030"
-      />
-    </Content>
-  </Container>
-)
-
-

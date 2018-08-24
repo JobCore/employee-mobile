@@ -1,7 +1,15 @@
 import React from 'react'
 
+/**
+ * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
+ */
+
 import SideBarRoute from './SideBarRoute'
 
+/**
+ * @param {{ navigation: NavigationScreenProp }} props
+ * @returns {JSX.Element}
+ */
 const SideBarRouteRoute = ({ navigation }) => {
   let fetcherFunction = navigation.getParam('fetcherFunction')
 

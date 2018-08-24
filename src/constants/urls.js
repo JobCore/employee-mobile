@@ -96,7 +96,6 @@ export const buildMostSeenUrl = (limitItems) => {
 }
 
 
-
 /**
  * A paginated url build constructs a valid url for a given paginated API
  * endpoint.
@@ -150,6 +149,7 @@ export const SECTION_POLITICA_URL = `${SECTIONS_BASE}/politica`
 export const SECTION_ECONOMIA_URL = `${SECTIONS_BASE}/economia`
 export const SECTION_DEPORTES_URL = `${SECTIONS_BASE}/deportes`
 export const SECTION_TECNOLOGIA_URL = `${SECTIONS_BASE}/tecnologia`
+export const SECTION_INTERNACIONAL_URL = `${SECTIONS_BASE}/internacional`
 export const SECTION_SALUD_URL = `${SECTIONS_BASE}/salud`
 export const SECTION_REPORTAJES_URL = `${SECTIONS_BASE}/reportajes`
 export const SECTION_OPINION_URL = `${SECTIONS_BASE}/opinion`

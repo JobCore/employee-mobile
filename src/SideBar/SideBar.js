@@ -6,7 +6,7 @@ import { Image, View, TouchableOpacity, ScrollView } from 'react-native'
 import styles from './style'
 import { FAVORITES_ROUTE, REGION_GRAN_CARACAS_ROUTE, RADIO_ROUTE, ABOUTUS_ROUTE, REGION_CENTRO_ROUTE, REGION_GUAYANA_ROUTE, REGION_LOS_ANDES_ROUTE, REGION_LOS_LLANOS_ROUTE, REGION_OCCIDENTE_ROUTE, REGION_ORIENTE_ROUTE, SECTION_SUCESOS_ROUTE, SECTION_POLITICA_ROUTE, SECTION_ECONOMIA_ROUTE, SECTION_DEPORTES_ROUTE, SECTION_TECNOLOGIA_ROUTE, SECTION_INTERNACIONAL_ROUTE, SECTION_REPORTAJES_ROUTE, SECTION_SALUD_ROUTE, SECTION_OPINION_ROUTE, SECTION_MIGRACION_ROUTE, SECTION_MAS_NOTICIAS_ROUTE, RESTFUL_INVESTIGACIONES_ROUTE, RESTFUL_EL_PITAZO_EN_LA_CALLE_ROUTE, RESTFUL_ALIANZAS_ROUTE, MEDIA_FOTOGALERIAS_ROUTE, MEDIA_VIDEOS_ROUTE, MEDIA_INFOGRAFIAS_ROUTE, HOME_SCREEN_ROUTE } from '../constants/routes'
 import { buildPaginatedUrlFetcher } from '../utils/fetchers'
-import { RADIO_URL, ABOUT_US_URL, REGION_GRAN_CARACAS_URL, REGION_CENTRO_URL, REGION_GUAYANA_URL, REGION_LOS_ANDES_URL, REGION_OCCIDENTE_URL, REGION_ORIENTE_URL, SECTION_POLITICA_URL, SECTION_DEPORTES_URL, SECTION_REPORTAJES_URL, SECTION_OPINION_URL, SECTION_MIGRACION_URL, SECTION_MAS_NOTICIAS_URL, RESTFUL_INVESTIGACIONES_URL, RESTFUL_EL_PITAZO_EN_LA_CALLE_URL, RESTFUL_ALIANZAS_URL, MEDIA_INFOGRAFIAS_URL, SECTION_SUCESOS_URL, SECTION_ECONOMIA_URL, SECTION_TECNOLOGIA_URL, SECTION_SALUD_URL, MEDIA_FOTOGALERIAS_URL } from '../constants/urls'
+import { RADIO_URL, ABOUT_US_URL, REGION_GRAN_CARACAS_URL, REGION_CENTRO_URL, REGION_GUAYANA_URL, REGION_LOS_ANDES_URL, REGION_OCCIDENTE_URL, REGION_ORIENTE_URL, SECTION_POLITICA_URL, SECTION_DEPORTES_URL, SECTION_REPORTAJES_URL, SECTION_OPINION_URL, SECTION_MIGRACION_URL, SECTION_MAS_NOTICIAS_URL, RESTFUL_INVESTIGACIONES_URL, RESTFUL_EL_PITAZO_EN_LA_CALLE_URL, RESTFUL_ALIANZAS_URL, MEDIA_INFOGRAFIAS_URL, SECTION_SUCESOS_URL, SECTION_ECONOMIA_URL, SECTION_TECNOLOGIA_URL, SECTION_SALUD_URL, MEDIA_FOTOGALERIAS_URL, SECTION_INTERNACIONAL_URL, MEDIA_VIDEOS_URL } from '../constants/urls'
 /**
  * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
  */
@@ -26,7 +26,7 @@ const renderRegiones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(REGION_GRAN_CARACAS_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(REGION_GRAN_CARACAS_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(REGION_GRAN_CARACAS_URL),
           })
         }}
       >
@@ -38,7 +38,7 @@ const renderRegiones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(REGION_CENTRO_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(REGION_CENTRO_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(REGION_CENTRO_URL),
           })
         }}
       >
@@ -50,7 +50,7 @@ const renderRegiones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(REGION_GUAYANA_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(REGION_GUAYANA_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(REGION_GUAYANA_URL),
           })
         }}
       >
@@ -62,7 +62,7 @@ const renderRegiones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(REGION_LOS_ANDES_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(REGION_LOS_ANDES_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(REGION_LOS_ANDES_URL),
           })
         }}
       >
@@ -74,7 +74,7 @@ const renderRegiones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(REGION_LOS_LLANOS_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(REGION_LOS_ANDES_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(REGION_LOS_ANDES_URL),
           })
         }}
       >
@@ -86,7 +86,7 @@ const renderRegiones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(REGION_OCCIDENTE_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(REGION_OCCIDENTE_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(REGION_OCCIDENTE_URL),
           })
         }}
       >
@@ -98,7 +98,7 @@ const renderRegiones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(REGION_ORIENTE_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(REGION_ORIENTE_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(REGION_ORIENTE_URL),
           })
         }}
       >
@@ -120,7 +120,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_SUCESOS_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_SUCESOS_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(SECTION_SUCESOS_URL),
           })
         }}
       >
@@ -132,7 +132,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_POLITICA_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_POLITICA_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(SECTION_POLITICA_URL),
           })
         }}
       >
@@ -144,7 +144,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_ECONOMIA_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_ECONOMIA_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(SECTION_ECONOMIA_URL),
           })
         }}
       >
@@ -156,7 +156,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_DEPORTES_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_DEPORTES_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(SECTION_DEPORTES_URL),
           })
         }}
       >
@@ -168,7 +168,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_TECNOLOGIA_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_TECNOLOGIA_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(SECTION_TECNOLOGIA_URL),
           })
         }}
       >
@@ -180,7 +180,9 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_INTERNACIONAL_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher('')
+            fetcherFunction: buildPaginatedUrlFetcher(
+              SECTION_INTERNACIONAL_URL
+            ),
           })
         }}
       >
@@ -192,7 +194,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_REPORTAJES_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_REPORTAJES_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(SECTION_REPORTAJES_URL),
           })
         }}
       >
@@ -204,7 +206,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_SALUD_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_SALUD_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(SECTION_SALUD_URL),
           })
         }}
       >
@@ -216,7 +218,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_OPINION_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_OPINION_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(SECTION_OPINION_URL),
           })
         }}
       >
@@ -228,7 +230,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_MIGRACION_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_MIGRACION_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(SECTION_MIGRACION_URL),
           })
         }}
       >
@@ -240,7 +242,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_MAS_NOTICIAS_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_MAS_NOTICIAS_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(SECTION_MAS_NOTICIAS_URL),
           })
         }}
       >
@@ -262,7 +264,9 @@ const renderReposados = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(RESTFUL_INVESTIGACIONES_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(RESTFUL_INVESTIGACIONES_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(
+              RESTFUL_INVESTIGACIONES_URL
+            ),
           })
         }}
       >
@@ -274,7 +278,9 @@ const renderReposados = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(RESTFUL_EL_PITAZO_EN_LA_CALLE_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(RESTFUL_EL_PITAZO_EN_LA_CALLE_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(
+              RESTFUL_EL_PITAZO_EN_LA_CALLE_URL
+            ),
           })
         }}
       >
@@ -286,7 +292,7 @@ const renderReposados = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(RESTFUL_ALIANZAS_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(RESTFUL_ALIANZAS_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(RESTFUL_ALIANZAS_URL),
           })
         }}
       >
@@ -308,7 +314,7 @@ const renderVideos = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(MEDIA_FOTOGALERIAS_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(MEDIA_FOTOGALERIAS_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(MEDIA_FOTOGALERIAS_URL),
           })
         }}
       >
@@ -320,7 +326,7 @@ const renderVideos = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(MEDIA_VIDEOS_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(MEDIA_VIDEOS_ROUTE)
+            fetcherFunction: buildPaginatedUrlFetcher(MEDIA_VIDEOS_URL),
           })
         }}
       >
@@ -332,7 +338,7 @@ const renderVideos = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(MEDIA_INFOGRAFIAS_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(MEDIA_INFOGRAFIAS_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(MEDIA_INFOGRAFIAS_URL),
           })
         }}
       >
@@ -345,7 +351,7 @@ const renderVideos = navigation => () => (
 )
 
 /**
- * @param {{ navigation: NavigationScreenProp }} props 
+ * @param {{ navigation: NavigationScreenProp }} props
  */
 const SideBar = ({ navigation }) => (
   <Container style={styles.container}>
@@ -394,7 +400,7 @@ const SideBar = ({ navigation }) => (
         style={styles.itemButtomMenu}
         onPress={() => {
           navigation.navigate(RADIO_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(RADIO_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(RADIO_URL),
           })
         }}
       >
@@ -406,7 +412,7 @@ const SideBar = ({ navigation }) => (
         style={styles.itemButtomMenu}
         onPress={() => {
           navigation.navigate(ABOUTUS_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(ABOUT_US_URL)
+            fetcherFunction: buildPaginatedUrlFetcher(ABOUT_US_URL),
           })
         }}
       >

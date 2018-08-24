@@ -3,8 +3,9 @@ import React from 'react'
  * @template T
  * @typedef {import('react').SFC<T>} SFC
  */
-import { Container, Content, Header, Left, Body, Right, Title } from 'native-base'
-import { Image, TouchableOpacity, Text} from 'react-native'
+import { Container, Content, Header, Left, Body, Right,
+         Title } from 'native-base'
+import { Image, TouchableOpacity, Text } from 'react-native'
 import HTML from 'react-native-render-html'
 
 /**
@@ -33,72 +34,70 @@ import renderers from './renderers'
  * @type {SFC<DetailsInfoViewProps>}
  */
 const DetailsInfoView = ({
-  html, 
-  onPressFav, 
-  onShare, 
-  navigation, 
-  isFavorite
-}) => {
-  return (
-    <Container>
-      <Header
-        androidStatusBarColor="#D13030"
-        style={styles.header}
-        iosBarStyle="light-content"
-      >
-        <Left>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-          >
-            <Text>Atras</Text>
-          </TouchableOpacity>
-        </Left>
-  
-        <Body>
-          <Title>
-            Noticia
-          </Title>
-        </Body>
-  
-        <Right>
-          <TouchableOpacity
-            onPress={onPressFav}
-            style={styles.buttonRight}
-          >
-            {
-              isFavorite
+  html,
+  onPressFav,
+  onShare,
+  navigation,
+  isFavorite,
+}) => (
+  <Container>
+    <Header
+      androidStatusBarColor="#D13030"
+      style={styles.header}
+      iosBarStyle="light-content"
+    >
+      <Left>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+        >
+          <Text>Atras</Text>
+        </TouchableOpacity>
+      </Left>
+
+      <Body>
+        <Title>
+          Noticia
+        </Title>
+      </Body>
+
+      <Right>
+        <TouchableOpacity
+          onPress={onPressFav}
+          style={styles.buttonRight}
+        >
+          {
+            isFavorite
               ? <Text>Quitar Fav </Text>
               : <Text>Aniadir Fav </Text>
-            }
-          </TouchableOpacity>
-        </Right>
-  
-        <Right>
-          <TouchableOpacity
-            onPress={onShare}
-            style={styles.buttonRight}
-          >
-            <Image
-              source={require('../assets/img/share.png')}
-              style={styles.navRight}
-            />
-          </TouchableOpacity>
-  
-          
-        </Right>
-      </Header>
-  
-      <Content>
-        <HTML
-          html={html}
-          classesStyles={classesStyles}
-          tagsStyles={tagsStyles}
-          renderers={renderers}
-        />
-      </Content>
-    </Container>
-  )
-}
+          }
+        </TouchableOpacity>
+      </Right>
+
+      <Right>
+        <TouchableOpacity
+          onPress={onShare}
+          style={styles.buttonRight}
+        >
+          <Image
+            source={require('../assets/img/share.png')}
+            style={styles.navRight}
+          />
+        </TouchableOpacity>
+
+
+      </Right>
+    </Header>
+
+    <Content>
+      <HTML
+        html={html}
+        classesStyles={classesStyles}
+        tagsStyles={tagsStyles}
+        renderers={renderers}
+      />
+    </Content>
+  </Container>
+)
 
 
 export default DetailsInfoView

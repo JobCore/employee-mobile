@@ -204,7 +204,6 @@ export const baseFetcher = async (url) => {
  * @param {string} url
  * @returns {(pageNumber: number) => Promise<NewsItem[]>}
  */
-export const buildPaginatedUrlFetcher =
-  url =>
-    pageNumber =>
-      baseFetcher(paginatedUrlBuilder(url, pageNumber))
+export const buildPaginatedUrlFetcher = url =>
+  pageNumber =>
+    baseFetcher(paginatedUrlBuilder(url, pageNumber))

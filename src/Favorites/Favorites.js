@@ -10,10 +10,18 @@ import { Image, View } from 'react-native'
 import CardsTabView from '../CardsTab/CardsTabView'
 import Loader from '../utils/Loader'
 
-import styles from './style'
-
 import { getAllFavorites, subscribe } from './FavoriteStore'
 
+
+const loaderLoadingElement = (
+  <Container>
+    <Content>
+      <Spinner
+        color="#D13030"
+      />
+    </Content>
+  </Container>
+)
 
 /**
  * @typedef {object} FavoritesProps
@@ -26,7 +34,10 @@ import { getAllFavorites, subscribe } from './FavoriteStore'
 export default class Favorites extends Component {
   componentDidMount() {
     subscribe(() => {
-      console.warn('subscription called')
+      if (__DEV__) {
+        // eslint-disable-next-line no-console
+        console.warn('subscription called')
+      }
     })
   }
 
@@ -75,15 +86,3 @@ export default class Favorites extends Component {
     )
   }
 }
-
-
-const loaderLoadingElement = (
-  <Container>
-    <Content>
-      <Spinner
-        color="#D13030"
-        style={styles.deadCenter}
-      />
-    </Content>
-  </Container>
-)
