@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unused-state */
 
 import React, { Component } from 'react'
-import { createSwitchNavigator, createDrawerNavigator } from 'react-navigation'
+import { createStackNavigator, createDrawerNavigator } from 'react-navigation'
 
 import { HOME_SCREEN_ROUTE, VIEW_ITEM_ROUTE, FAVORITES_ROUTE,
          REGION_GRAN_CARACAS_ROUTE, REGION_CENTRO_ROUTE, REGION_GUAYANA_ROUTE,
@@ -74,11 +74,14 @@ const MainDrawerNavigator = createDrawerNavigator({
  * Switches between the main navigator (drawer plus lists of articles) and
  * an individual article view.
  */
-const MainDrawerNavigatorArticleViewSwitchNavigator = createSwitchNavigator({
+const MainDrawerNavigatorArticleViewStackNavigator = createStackNavigator({
   [MAIN_DRAWER_NAVIGATOR_ROUTE]: MainDrawerNavigator,
   [VIEW_ITEM_ROUTE]: DetailsInfo,
 }, {
   initialRouteName: MAIN_DRAWER_NAVIGATOR_ROUTE,
+  navigationOptions: {
+    header: null,
+  },
 })
 
 
@@ -95,6 +98,6 @@ export default class AwesomeApp extends Component {
   }
 
   render() {
-    return <MainDrawerNavigatorArticleViewSwitchNavigator />
+    return <MainDrawerNavigatorArticleViewStackNavigator />
   }
 }
