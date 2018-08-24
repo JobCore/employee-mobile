@@ -10,8 +10,16 @@ export default StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
   },
+  favButton: {
+    width: 32,
+    height: 32,
+  },
   header: {
     backgroundColor: 'transparent',
+  },
+  headerImage: {
+    height: 40,
+    width: 80,
   },
   image: {
     width: Dimensions.get('window').width,

@@ -4,8 +4,8 @@ import React from 'react'
  * @typedef {import('react').SFC<T>} SFC
  */
 import { Container, Content, Header, Left, Body, Right,
-         Title } from 'native-base'
-import { Image, TouchableOpacity, Text } from 'react-native'
+         Icon } from 'native-base'
+import { Image, TouchableOpacity } from 'react-native'
 import HTML from 'react-native-render-html'
 
 /**
@@ -47,28 +47,37 @@ const DetailsInfoView = ({
       iosBarStyle="light-content"
     >
       <Left>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-        >
-          <Text>Atras</Text>
-        </TouchableOpacity>
+        <Icon
+          name="md-arrow-back"
+          android="md-arrow-back"
+          ios="md-arrow-back"
+          onPress={() => {
+            navigation.goBack()
+          }}
+        />
       </Left>
 
       <Body>
-        <Title>
-          Noticia
-        </Title>
+        <Image
+          source={require('../assets/img/logo.png')}
+          style={styles.headerImage}
+        />
       </Body>
 
       <Right>
         <TouchableOpacity
           onPress={onPressFav}
-          style={styles.buttonRight}
         >
           {
             isFavorite
-              ? <Text>Quitar Fav </Text>
-              : <Text>Aniadir Fav </Text>
+              ? (
+                <Image
+                  source={require('../assets/img/fav-remove.png')}
+                />)
+              : (
+                <Image
+                  source={require('../assets/img/fav-add.png')}
+                />)
           }
         </TouchableOpacity>
       </Right>

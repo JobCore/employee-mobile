@@ -37,16 +37,14 @@ const SideBarRouteHeader = navigation => (
     noShadow
   >
     <Left>
-      <Button
-        onPress={() => navigation.toggleDrawer()}
-        transparent
-      >
-        <Icon
-          name="md-arrow-back"
-          android="md-arrow-back"
-          ios="md-arrow-back"
-        />
-      </Button>
+      <Icon
+        name="md-arrow-back"
+        android="md-arrow-back"
+        ios="md-arrow-back"
+        onPress={() => {
+          navigation.goBack()
+        }}
+      />
     </Left>
     <Body>
       <Image
