@@ -11,9 +11,17 @@ import HomeScreenView from './src/HomeScreen/HomeScreen'
 import Favorites from './src/Favorites'
 import DetailsInfo from './src/DetailsInfo'
 import SideBarRoute from './src/SideBarRoute'
+import SideBar from './src/SideBar/SideBar'
+
+/**
+ * Route for main initial screen. Not exported as it will only be navigated to
+ * from the view item route by method of goBack()
+ * @type {'MAIN_DRAWER_NAVIGATOR_ROUTE'}
+ */
+const MAIN_DRAWER_NAVIGATOR_ROUTE = 'MAIN_DRAWER_NAVIGATOR_ROUTE'
 
 const MainDrawerNavigator = createDrawerNavigator({
-  [HOME_SCREEN_ROUTE]: { screen: HomeScreen },
+  [HOME_SCREEN_ROUTE]: { screen: HomeScreenView },
 
   [REGION_GRAN_CARACAS_ROUTE]: { screen: SideBarRoute },
   [REGION_CENTRO_ROUTE]: { screen: SideBarRoute },
@@ -48,6 +56,13 @@ const MainDrawerNavigator = createDrawerNavigator({
   [ABOUTUS_ROUTE]: { screen: HomeScreen },
 
   [FAVORITES_ROUTE]: { screen: Favorites },
+}, {
+  contentComponent: props => <SideBar {...props} />,
+  navigationOptions: {
+    header: {
+      visible: false,
+    },
+  },
 })
 
 
@@ -56,9 +71,14 @@ const MainDrawerNavigator = createDrawerNavigator({
  * an individual article view.
  */
 const MainDrawerNavigatorArticleViewStackNavigator = createStackNavigator({
-  MainDrawerNavigator,
+  [MAIN_DRAWER_NAVIGATOR_ROUTE]: MainDrawerNavigator,
   [VIEW_ITEM_ROUTE]: {
     screen: DetailsInfo,
+  },
+}, {
+  initialRouteName: MAIN_DRAWER_NAVIGATOR_ROUTE,
+  navigationOptions: {
+    header: null,
   },
 })
 
@@ -76,6 +96,6 @@ export default class AwesomeApp extends Component {
   }
 
   render() {
-    return <HomeScreen />
+    return <MainDrawerNavigatorArticleViewStackNavigator />
   }
 }
