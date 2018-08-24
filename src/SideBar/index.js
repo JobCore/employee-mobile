@@ -1,7 +1,3 @@
-import { StackNavigator } from 'react-navigation'
+import SideBar from './SideBar'
 
-import DetailsInfo from '../DetailsInfo'
-
-export default StackNavigator({
-  DetailsInfo: { screen: DetailsInfo },
-})
+export default SideBar
