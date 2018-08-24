@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Container, Content, Spinner } from 'native-base'
+import { Container, Content, Spinner, Header, Left, Button, Body, Right, Icon } from 'native-base'
 import { Image, View } from 'react-native'
 
 /**
@@ -12,6 +12,45 @@ import Loader from '../utils/Loader'
 import { FETCH_TIMEOUT } from '../constants/config'
 
 import styles from './style'
+
+
+/**
+ * @param {NavigationScreenProp} navigation Navigation screen prop
+ * @returns {JSX.Element}
+ */
+const SideBarRouteHeader = navigation => (
+  <Header
+    androidStatusBarColor="#D13030"
+    style={styles.header}
+    iosBarStyle="light-content"
+    noShadow
+  >
+    <Left>
+      <Button
+        onPress={() => navigation.toggleDrawer()}
+        transparent
+      >
+        <Icon
+          name="md-arrow-back"
+          android="md-arrow-back"
+          ios="md-arrow-back"
+        />
+      </Button>
+    </Left>
+    <Body>
+      <Image
+        source={require('../assets/img/logo.png')}
+        style={styles.image}
+      />
+    </Body>
+    <Right>
+      <Button transparent>
+        <Image source={require('../assets/img/download.png')} />
+      </Button>
+    </Right>
+  </Header>
+)
+
 
 /**
  * @typedef {object} SideBarRouteProps
@@ -28,12 +67,14 @@ import styles from './style'
 export default class SideBarRoute extends Component {
 
   render() {
-    const { fetcherFunction } = this.props
+    const { fetcherFunction, navigation } = this.props
 
     return (
       <Container
         style={styles.rootContainer}
       >
+        {SideBarRouteHeader(navigation)}
+
         <Loader
           fetcherFunction={(() => {
             let lastPageFetched = 1
