@@ -39,7 +39,7 @@ yarn-error.log
 # BUCK
 buck-out/
 \.buckd/
-*.keystore
+# *.keystore -- danlugo92: lets store the keystore in the repo meanwhile
 
 # fastlane
 #
