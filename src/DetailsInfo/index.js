@@ -1,23 +1,24 @@
 import React, { Component } from 'react'
-/**
- * @template P
- * @template S
- * @typedef {import('react').Component<P, S, {}>} Component
- */
+
 import { Container, Content, Spinner } from 'native-base'
 import { View, Text, Image } from 'react-native'
-import PopupDialog, { DialogTitle, DialogButton, SlideAnimation } from 'react-native-popup-dialog'
+import PopupDialog, { DialogTitle, DialogButton,
+                      SlideAnimation } from 'react-native-popup-dialog'
 /**
  * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
  * @typedef {import('../definitions').NewsItem} NewsItem
  */
 
 import isNewsItem from '../utils/isNewsItem'
-import { detectFavorite, saveNewsItem, removeNewsItem } from '../Favorites/FavoriteStore'
+import { detectFavorite, saveNewsItem,
+         removeNewsItem } from '../Favorites/FavoriteStore'
 
 import DetailsInfoView from './DetailsInfoView'
 import styles from './style'
 
+const slideAnimation = new SlideAnimation({
+  slideFrom: 'bottom',
+})
 
 /**
  * @typedef {object} DetailsInfoRouteProps
@@ -28,14 +29,17 @@ import styles from './style'
  * @typedef {object} DetailsInfoRouteState
  * @prop {boolean} isLoading
  * @prop {boolean|undefined} isFavorite
- * @prop {NewsItem|undefined} newsItem
+ * @prop {NewsItem} newsItem
  * @prop {boolean} error
  */
 
 /**
- * @augments {Component<DetailsInfoRouteProps, {}>}
+ * @augments {Component<DetailsInfoRouteProps, DetailsInfoRouteState>}
  */
 class DetailsInfoRoute extends Component {
+  /**
+   * @param {DetailsInfoRouteProps} props
+   */
   constructor(props) {
     super(props)
 
@@ -45,8 +49,7 @@ class DetailsInfoRoute extends Component {
     this.popUpDialog = null
 
     /**
-     * 
-     * @param {PopupDialog} popUpDialog 
+     * @param {PopupDialog} popUpDialog
      */
     this.setPopUpRef = (popUpDialog) => {
       this.popUpDialog = popUpDialog
@@ -55,15 +58,15 @@ class DetailsInfoRoute extends Component {
     const { navigation } = this.props
 
     /**
-     * @type {NewsItem|{}}
+     * @type {NewsItem}
      */
-    const newsItem = navigation.getParam('newsItem', {})
+    const newsItem = navigation.getParam('newsItem')
 
     let error = false
     try {
       // type assert, isNewsItem can accept an empty object without throwing
       // per se
-      isNewsItem( /** @type {NewsItem} */(newsItem), 0, []) // throws
+      isNewsItem(/** @type {NewsItem} */(newsItem), 0, []) // throws
     } catch (e) {
       if (__DEV__) {
         throw e
@@ -79,10 +82,9 @@ class DetailsInfoRoute extends Component {
       isFavorite: undefined,
       // type assert, we already checked it's actually a news item if error is
       // false
-      newsItem: error ? undefined : /** @type {NewsItem} */(newsItem),
+      newsItem,
       error,
     }
-
   }
 
   componentDidMount() {
@@ -124,11 +126,7 @@ class DetailsInfoRoute extends Component {
   }
 
   render() {
-    const { isFavorite } = this.state
-    /**
-     * @type {NewsItem}
-     */
-    const newsItem = this.state.newsItem
+    const { isFavorite, newsItem } = this.state
 
     if (this.state.isLoading) {
       return (
@@ -162,8 +160,8 @@ class DetailsInfoRoute extends Component {
             dialogAnimation={slideAnimation}
             dialogTitle={
               isFavorite
-              ? <DialogTitle title="Remover de favoritos" />
-              : <DialogTitle title="Añadido a favoritos" />
+                ? <DialogTitle title="Remover de favoritos" />
+                : <DialogTitle title="Añadido a favoritos" />
             }
             width={0.7}
             height={0.2}
@@ -174,8 +172,8 @@ class DetailsInfoRoute extends Component {
               >
                 {
                   isFavorite
-                  ? 'Removido de favoritos, no podra acceder a este articulo offline'
-                  : 'Los articulos aniadidos a favoritos estaran disponibles incluso si no tiene accesso a internet.'
+                    ? 'Removido de favoritos, no podra acceder a este articulo offline'
+                    : 'Los articulos aniadidos a favoritos estaran disponibles incluso si no tiene accesso a internet.'
                 }
               </Text>
               <DialogButton
@@ -188,11 +186,13 @@ class DetailsInfoRoute extends Component {
                         isLoading: true,
                       })
 
+                      // By calling detect favorite we pretty much know the
+                      // item is already saved (AsyncStorage available)
                       detectFavorite(newsItem.id)
-                        .then((isFavorite) => {
+                        .then((isReporteAsFavorite) => {
                           this.setState({
                             isLoading: false,
-                            isFavorite,
+                            isFavorite: isReporteAsFavorite,
                           })
                         })
                         .catch((e) => {
@@ -231,14 +231,11 @@ class DetailsInfoRoute extends Component {
           }}
           navigation={this.props.navigation}
           isFavorite={isFavorite} // don't remove the curly braces !!
-          />
+        />
       </Container>
     )
   }
 }
 
-const slideAnimation = new SlideAnimation({
-  slideFrom: 'bottom',
-})
 
 export default DetailsInfoRoute

@@ -1,36 +1,168 @@
 /**
  * @file Route names constants to be used in react-navigation's API.
+ * Urls (if apply) for any given route are in constants/urls.js
  * @author danlugo92
  */
 
-/**
- * @typedef {'FAVORITES_ROUTE'} FAVORITES_ROUTE
- */
 
 /**
- * @type {FAVORITES_ROUTE}
+ * @type {'FAVORITES_ROUTE'}
  */
 export const FAVORITES_ROUTE = 'FAVORITES_ROUTE'
 
-/**
- * @typedef {'HOME_SCREEN_ROUTE'} HOME_SCREEN_ROUTE
- */
 
 /**
- * @type {HOME_SCREEN_ROUTE}
+ * @type {'HOME_SCREEN_ROUTE'}
  */
 export const HOME_SCREEN_ROUTE = 'HOME_SCREEN_ROUTE'
 
 
 /**
- * @typedef {'VIEW_ITEM_ROUTE'} VIEW_ITEM_ROUTE
- */
-
-/**
- * @type {VIEW_ITEM_ROUTE}
+ * @type {'VIEW_ITEM_ROUTE'}
  */
 export const VIEW_ITEM_ROUTE = 'VIEW_ITEM_ROUTE'
 
+
+// REGIONS
+
 /**
- * @typedef {HOME_SCREEN_ROUTE|VIEW_ITEM_ROUTE} RouteName
+ * @type {'REGION_GRAN_CARACAS_ROUTE'}
  */
+export const REGION_GRAN_CARACAS_ROUTE = 'REGION_GRAN_CARACAS_ROUTE'
+
+/**
+ * @type {'REGION_CENTRO_ROUTE'}
+ */
+export const REGION_CENTRO_ROUTE = 'REGION_CENTRO_ROUTE'
+
+/**
+ * @type {'REGION_GUAYANA_ROUTE'}
+ */
+export const REGION_GUAYANA_ROUTE = 'REGION_GUAYANA_ROUTE'
+
+/**
+ * @type {'REGION_LOS_ANDES_ROUTE'}
+ */
+export const REGION_LOS_ANDES_ROUTE = 'REGION_LOS_ANDES_ROUTE'
+
+/**
+ * @type {'REGION_LOS_LLANOS_ROUTE'}
+ */
+export const REGION_LOS_LLANOS_ROUTE = 'REGION_LOS_LLANOS_ROUTE'
+
+/**
+ * @type {'REGION_OCCIDENTE_ROUTE'}
+ */
+export const REGION_OCCIDENTE_ROUTE = 'REGION_OCCIDENTE_ROUTE'
+
+/**
+ * @type {'REGION_ORIENTE_ROUTE'}
+ */
+export const REGION_ORIENTE_ROUTE = 'REGION_ORIENTE_ROUTE'
+
+
+// SECTIONS
+
+/**
+ * @type {'SECTION_SUCESOS_ROUTE'}
+ */
+export const SECTION_SUCESOS_ROUTE = 'SECTION_SUCESOS_ROUTE'
+
+/**
+ * @type {'SECTION_POLITICA_ROUTE'}
+ */
+export const SECTION_POLITICA_ROUTE = 'SECTION_POLITICA_ROUTE'
+
+/**
+ * @type {'SECTION_ECONOMIA_ROUTE'}
+ */
+export const SECTION_ECONOMIA_ROUTE = 'SECTION_ECONOMIA_ROUTE'
+
+/**
+ * @type {'SECTION_DEPORTES_ROUTE'}
+ */
+export const SECTION_DEPORTES_ROUTE = 'SECTION_DEPORTES_ROUTE'
+
+/**
+ * @type {'SECTION_TECNOLOGIA_ROUTE'}
+ */
+export const SECTION_TECNOLOGIA_ROUTE = 'SECTION_TECNOLOGIA_ROUTE'
+
+/**
+ * @type {'SECTION_INTERNACIONAL_ROUTE'}
+ */
+export const SECTION_INTERNACIONAL_ROUTE = 'SECTION_INTERNACIONAL_ROUTE'
+
+/**
+ * @type {'SECTION_SALUD_ROUTE'}
+ */
+export const SECTION_SALUD_ROUTE = 'SECTION_SALUD_ROUTE'
+
+/**
+ * @type {'SECTION_OPINION_ROUTE'}
+ */
+export const SECTION_OPINION_ROUTE = 'SECTION_OPINION_ROUTE'
+
+/**
+ * @type {'SECTION_MIGRACION_ROUTE'}
+ */
+export const SECTION_MIGRACION_ROUTE = 'SECTION_MIGRACION_ROUTE'
+
+/**
+ * @type {'SECTION_MAS_NOTICIAS_ROUTE'}
+ */
+export const SECTION_MAS_NOTICIAS_ROUTE = 'SECTION_MAS_NOTICIAS_ROUTE'
+
+/**
+ * @type {'SECTION_REPORTAJES_ROUTE'}
+ */
+export const SECTION_REPORTAJES_ROUTE = 'SECTION_REPORTAJES_ROUTE'
+
+
+// RESTFUL
+
+/**
+ * @type {'RESTFUL_INVESTIGACIONES_ROUTE'}
+ */
+export const RESTFUL_INVESTIGACIONES_ROUTE = 'RESTFUL_INVESTIGACIONES_ROUTE'
+
+
+/**
+ * @type {'RESTFUL_EL_PITAZO_EN_LA_CALLE_ROUTE'}
+ */
+export const RESTFUL_EL_PITAZO_EN_LA_CALLE_ROUTE = 'RESTFUL_EL_PITAZO_EN_LA_CALLE_ROUTE'
+
+/**
+ * @type {'RESTFUL_ALIANZAS_ROUTE'}
+ */
+export const RESTFUL_ALIANZAS_ROUTE = 'RESTFUL_ALIANZAS_ROUTE'
+
+
+// MEDIA
+
+/**
+ * @type {'MEDIA_FOTOGALERIAS_ROUTE'}
+ */
+export const MEDIA_FOTOGALERIAS_ROUTE = 'MEDIA_FOTOGALERIAS_ROUTE'
+
+/**
+ * @type {'MEDIA_VIDEOS_ROUTE'}
+ */
+export const MEDIA_VIDEOS_ROUTE = 'MEDIA_VIDEOS_ROUTE'
+
+/**
+ * @type {'MEDIA_INFOGRAFIAS_ROUTE'}
+ */
+export const MEDIA_INFOGRAFIAS_ROUTE = 'MEDIA_INFOGRAFIAS_ROUTE'
+
+
+/**
+ * @type {'RADIO_ROUTE'}
+ */
+export const RADIO_ROUTE = 'RADIO_ROUTE'
+
+/**
+ * A route which will render an about us screen.
+ * @type {'ABOUTUS_ROUTE'}
+ */
+export const ABOUTUS_ROUTE = 'ABOUTUS_ROUTE'

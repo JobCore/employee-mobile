@@ -17,7 +17,7 @@ import Loader from '../utils/Loader'
 import CardsTabController from '../CardsTab/CardsTabController'
 import { fetchLatestNews, fetchRegionNews,
          fetchMostSeenNews } from '../CardsTab/CardsTabActions'
-import { MOST_SEEN_LIMIT } from '../constants/config'
+import { MOST_SEEN_LIMIT, FETCH_TIMEOUT } from '../constants/config'
 
 
 /**
@@ -96,8 +96,7 @@ const HomeScreen = ({ navigation }) => (
               </Content>
             </Container>
           )}
-          signalErrorFn={() => {}}
-          timeout={10000}
+          timeout={FETCH_TIMEOUT}
         >
           {
             (newsItems, err) => {
@@ -145,8 +144,7 @@ const HomeScreen = ({ navigation }) => (
               </Content>
             </Container>
           )}
-          signalErrorFn={() => {}}
-          timeout={10000}
+          timeout={FETCH_TIMEOUT}
         >
           {
             (newsItems, err) => {
@@ -193,7 +191,7 @@ const HomeScreen = ({ navigation }) => (
               </Content>
             </Container>
           )}
-          timeout={10000}
+          timeout={FETCH_TIMEOUT}
         >
           {
             (newsItems, err) => {

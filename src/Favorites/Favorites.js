@@ -1,20 +1,27 @@
 import React, { Component } from 'react'
 
-import { Body, Button, Container, Header, Left, Right, Tab, TabHeading,
-         Tabs, Content, Spinner } from 'native-base'
-import { Image, Text, View, AsyncStorage } from 'react-native'
+import { Container, Content, Spinner, Text } from 'native-base'
+import { Image, View } from 'react-native'
+
 /**
  * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
  * @typedef {import('../definitions').NewsItem} NewsItem
  */
-
 import CardsTabView from '../CardsTab/CardsTabView'
 import Loader from '../utils/Loader'
 
-import styles from './style'
+import { getAllFavorites, subscribe } from './FavoriteStore'
 
-import { getAllFavorites, subscribe, unsubscribe } from './FavoriteStore'
 
+const loaderLoadingElement = (
+  <Container>
+    <Content>
+      <Spinner
+        color="#D13030"
+      />
+    </Content>
+  </Container>
+)
 
 /**
  * @typedef {object} FavoritesProps
@@ -27,7 +34,10 @@ import { getAllFavorites, subscribe, unsubscribe } from './FavoriteStore'
 export default class Favorites extends Component {
   componentDidMount() {
     subscribe(() => {
-      console.warn('subscription called')
+      if (__DEV__) {
+        // eslint-disable-next-line no-console
+        console.warn('subscription called')
+      }
     })
   }
 
@@ -52,6 +62,17 @@ export default class Favorites extends Component {
               </View>
             )
           }
+          if (newsItems.length < 1) {
+            return (
+              <Container>
+                <Content>
+                  <Text>
+                    NO HAY FAVORITOS
+                  </Text>
+                </Content>
+              </Container>
+            )
+          }
           return (
             <CardsTabView
               newsItems={/** @type {NewsItem[]} */ (newsItems)}
@@ -65,17 +86,3 @@ export default class Favorites extends Component {
     )
   }
 }
-
-
-const loaderLoadingElement = (
-  <Container>
-    <Content>
-      <Spinner
-        color="#D13030"
-        style={styles.deadCenter}
-      />
-    </Content>
-  </Container>
-)
-
-

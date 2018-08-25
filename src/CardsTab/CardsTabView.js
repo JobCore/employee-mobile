@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { FlatList, Image, Text, TouchableOpacity, View, RefreshControl } from 'react-native'
+import { FlatList, Image, Text, TouchableOpacity, View,
+         RefreshControl } from 'react-native'
 import { Button, Card, CardItem, Content, Left, ListItem,
          Right } from 'native-base'
-         
+
 import { VIEW_ITEM_ROUTE } from '../constants/routes'
 
 import styles from './style'
@@ -56,7 +57,7 @@ export default class CardsTabView extends Component {
           <TouchableOpacity
             onPress={() => {
               this.props.navigation.navigate(VIEW_ITEM_ROUTE, {
-                newsItem: newsItem,
+                newsItem,
                 navigation: this.props.navigation,
               })
             }}
