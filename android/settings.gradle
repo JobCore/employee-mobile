@@ -1,0 +1,3 @@
+rootProject.name = 'JobCore'
+
+include ':app'

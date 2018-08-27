@@ -1,0 +1,144 @@
+import { StyleSheet, Platform, Dimensions } from 'react-native';
+import { BLUE_MAIN, VIOLET_MAIN, BLUE_DARK, WHITE_MAIN, BLUE_LIGHT  } from '../../constants/colorPalette'
+var width = Dimensions.get('window').width;
+
+export default styles = StyleSheet.create({
+  headerCustom:{
+    backgroundColor: BLUE_MAIN,
+  },
+  titleHeader:{
+    color: WHITE_MAIN,
+    fontWeight: '500',
+    fontSize: 18,
+  },
+  viewHeader:{
+    backgroundColor: BLUE_LIGHT, 
+    borderRadius: 50, 
+    padding: 15, 
+    paddingLeft: 20, 
+    paddingRight: 20
+  },
+  textHeader:{
+    color: BLUE_DARK,
+    fontSize: 14,
+    textAlign: 'center'
+  },
+  contentScroll:{
+    height: 350,
+    borderWidth: 1,
+    borderColor: BLUE_MAIN,
+    borderRadius: 35,
+    paddingBottom: 50,
+    paddingTop: 5,
+    borderTopColor: 'transparent',
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0
+  },
+  itemSelectCheck:{
+    marginLeft: 0, 
+    paddingLeft: 20,
+    paddingRight: 20
+  },
+  IconCheck:{
+    fontSize: 20, 
+    color: BLUE_DARK
+  },
+  textList:{
+    color: BLUE_DARK
+  },
+  accordionPosition:{
+    borderColor: 'transparent', 
+    paddingLeft: 20, 
+    paddingRight: 20,
+    marginTop:20,
+    marginBottom: 30
+  },
+  textAvailability:{
+    textAlign: 'center',
+    color: BLUE_DARK,
+    fontSize: 16,
+  },
+  accordionAvailability:{
+    borderColor: 'transparent', 
+    marginTop: 10, 
+    paddingLeft: 20, 
+    paddingRight: 20
+  },
+  viewCrud:{
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 20, 
+    paddingRight: 20,
+    marginTop: 20
+  },
+  viewButtomLeft:{
+    width: '50%', 
+    marginRight: 5,
+  },
+  buttomLeft:{
+    backgroundColor: 'transparent',
+    borderColor: BLUE_MAIN,
+    borderWidth: 1
+  },
+  textButtomLeft:{
+    color: BLUE_MAIN
+  },
+  viewButtomRight:{
+    width: '50%', 
+    marginLeft: 5,
+  },
+  buttomRight:{
+    backgroundColor: 'transparent',
+    borderColor: VIOLET_MAIN,
+    borderWidth: 1
+  },
+  textButtomRight:{
+    color: VIOLET_MAIN
+  },
+  viewInvite:{
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 30,
+    paddingRight: 30,
+    marginBottom: 70,
+    marginTop: 50
+  },
+  titleInvite:{
+    color: BLUE_DARK,
+    fontSize: 14,
+    marginBottom: 10
+  },
+  itemInvite:{
+    padding: 14, 
+    fontSize: 14, 
+    color: BLUE_DARK
+  },
+  buttomLeftActive:{
+    backgroundColor: BLUE_MAIN, 
+    borderColor:'transparent', 
+    borderTopLeftRadius: 0, 
+    borderBottomLeftRadius: 0,
+  },
+  buttomLeftDesactive:{
+    backgroundColor: 'transparent',
+    borderColor: BLUE_MAIN,
+    borderTopLeftRadius: 0, 
+    borderBottomLeftRadius: 0
+  },
+  buttomRightDesactive:{
+    backgroundColor: BLUE_MAIN, 
+    borderColor:'transparent', 
+    borderTopRightRadius: 0, 
+    borderBottomRightRadius: 0
+  },
+  buttomRightDesactive:{
+    backgroundColor: 'transparent', 
+    borderColor: BLUE_MAIN, 
+    borderTopRightRadius: 0, 
+    borderBottomRightRadius: 0,
+  },
+});
