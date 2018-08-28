@@ -29,16 +29,19 @@ import { FETCH_TIMEOUT } from '../constants/config'
  * @prop {number} timeoutId
  */
 
+/**
+ * @augments {Component<PaginatedNewsListProps, PaginatedNewsListState>}
+ */
 export default class PaginatedNewsList extends Component {
   /**
-   * @param {PaginatedNewsListProps}
+   * @param {PaginatedNewsListProps} props
    */
   constructor(props) {
     super(props)
     
     const { fetcherConstructor } = this.props
     
-    this.isMounted = false
+    this._isMounted = false
     
     /**
      * @type {PaginatedNewsListState}
@@ -53,32 +56,31 @@ export default class PaginatedNewsList extends Component {
   }
   
   fetchItemsAndPushToList = () => {
-    if (!this.isMounted} {
+    const { _isMounted: isMounted } = this
+    const { fetcher } = this.props
+    const { isLoading } = this.state
+
+    if (!isMounted} {
       return
     }
-    
-    const { newsItemsPaginatedFetcher: fetcher } = this.props
-    const { isLoading } = this.state
-    
+
     if (isLoading) {
       return
     }
-    
+
     this.setState({
       isLoading: true,
     })
-    
-    const fetchPromise = fetcher(lastPageLoaded + 1)
+
+    const fetchPromise = fetcher()
 
     const timeoutPromise = new Promise((_, reject) => {
       let timeoutId
       this.aborter = () => reject(null) && clearTimeout(timeoutId)
 
       timeoutId = setTimeout(() => {
-        aborter()
+        this.aborter()
       }, FETCH_TIMEOUT)
-      
-      this.setState({ aborter, timeoutId })
     })
 
 
@@ -106,7 +108,7 @@ export default class PaginatedNewsList extends Component {
   }
   
   componentDidMount() {
-    this.isMounted = true
+    this._isMounted = true
     this.fetchItemsAndPushToList()
   }
   
