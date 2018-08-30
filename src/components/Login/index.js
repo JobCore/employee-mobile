@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { 
+import {
   View,
   ScrollView,
   AsyncStorage,
@@ -10,12 +10,47 @@ import {
   Platform,
   TextInput
 } from "react-native";
-import { Container, Item, Input, Button, Text, Form, Label} from 'native-base';
+import { Container, Item, Input, Button, Text, Form, Label, Toast } from 'native-base';
 import styles from './style';
 import { REGISTER_ROUTE, FORGOT_ROUTE, APP_ROUTE } from "../../constants/routes";
+import * as loginActions from './actions';
+// import { authStore } from '../../stores';
 
 class LoginScreen extends Component {
-  static navigationOptions = {header: null}
+  static navigationOptions = { header: null }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false,
+      username_or_email: '',
+      password: '',
+    };
+  }
+
+  // componentDidMount() {
+  //   this.loginSubscription = authStore.subscribe('login', (user) => this.loginHandler(user));
+  //
+  //   this.authStoreError = authStore.subscribe('AuthStoreError', (err) => this.errorHandler(err));
+  // }
+  //
+  // componentWillUnmount() {
+  //   this.loginSubscription.unsubscribe();
+  //   this.authStoreError.unsubscribe();
+  // }
+
+  loginHandler = (user) => {
+    if (user) {
+      this.isLoading(false);
+      alert(`LOGIN.youHaveLoggedIn`);
+      this._signInAsync(user);
+    }
+  }
+
+  errorHandler = (err) => {
+    this.isLoading(false);
+    alert(JSON.stringify(err.message || err));
+  }
 
   userRegister() {
     this.props.navigation.navigate(REGISTER_ROUTE);
@@ -25,27 +60,22 @@ class LoginScreen extends Component {
     this.props.navigation.navigate(FORGOT_ROUTE);
   }
 
-  _signInAsync = async () => {
-    await AsyncStorage.setItem('userToken', '123');
-    this.props.navigation.navigate(APP_ROUTE);
-  };
-
-  renderBy() {
+  renderBy()  {
     if (Platform.OS == 'android') {
       return (
-      <ScrollView style={styles.viewForm} keyboardShouldPersistTaps={'always'}>
+        <ScrollView style={styles.viewForm} keyboardShouldPersistTaps={'always'}>
         <Form>
           <Item style={styles.viewInput} inlineLabel rounded>
-            <Label style={styles.labelForm}>Email</Label>
-            <Input />
+            <Label style={styles.labelForm}>Username or Email</Label>
+            <Input value={this.state.username_or_email} onChangeText={(text) => this.setState({username_or_email: text})}/>
           </Item>
           <Item style={styles.viewInput} inlineLabel rounded>
             <Label style={styles.labelForm}>Password</Label>
-            <Input secureTextEntry={true}/>
+            <Input value={this.state.password} onChangeText={(text) => this.setState({password: text})} secureTextEntry={true}/>
           </Item>
         </Form>
-        <TouchableOpacity 
-          full 
+        <TouchableOpacity
+          full
           onPress={this.userForgot.bind(this)}
           style={styles.viewButtomSignUp} >
           <Text
@@ -53,17 +83,17 @@ class LoginScreen extends Component {
             Forgot password?
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity 
-          full 
-          onPress={this._signInAsync} 
+        <TouchableOpacity
+          full
+          onPress={this.login}
           style={styles.viewButtomLogin} >
           <Text
             style={styles.textButtom}>
             Sign In
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity 
-          full 
+        <TouchableOpacity
+          full
           onPress={this.userRegister.bind(this)}
           style={styles.viewButtomSignUp} >
           <Text
@@ -72,23 +102,23 @@ class LoginScreen extends Component {
           </Text>
         </TouchableOpacity>
       </ScrollView>
-  );
-  } else if (Platform.OS == 'ios') {
+      );
+    } else if (Platform.OS == 'ios') {
       return (
         <KeyboardAvoidingView behavior="padding">
           <View style={styles.viewForm}>
             <Form>
               <Item style={styles.viewInput} inlineLabel rounded>
-                <Label style={styles.labelForm}>Email</Label>
-                <Input />
+                <Label style={styles.labelForm}>Username or Email</Label>
+                <Input value={this.state.username_or_email} onChangeText={(text) => this.setState({username_or_email: text})}/>
               </Item>
               <Item style={styles.viewInput} inlineLabel rounded>
                 <Label style={styles.labelForm}>Password</Label>
-                <Input secureTextEntry={true}/>
+                <Input value={this.state.password} onChangeText={(text) => this.setState({password: text})} secureTextEntry={true}/>
               </Item>
             </Form>
-            <TouchableOpacity 
-              full 
+            <TouchableOpacity
+              full
               onPress={this.userForgot.bind(this)}
               style={styles.viewButtomSignUp} >
               <Text
@@ -96,17 +126,17 @@ class LoginScreen extends Component {
                 Forgot password?
               </Text>
             </TouchableOpacity>
-            <Button 
-              full 
-              onPress={this._signInAsync}  
+            <Button
+              full
+              onPress={this.login}
               style={styles.viewButtomLogin} >
-              <Text 
+              <Text
                 style={styles.textButtom}>
                 Sign In
               </Text>
             </Button>
-            <TouchableOpacity 
-              full 
+            <TouchableOpacity
+              full
               onPress={this.userRegister.bind(this)}
               style={styles.viewButtomSignUp} >
               <Text
@@ -114,15 +144,39 @@ class LoginScreen extends Component {
                 Sign Up
               </Text>
             </TouchableOpacity>
-          </View> 
+          </View>
         </KeyboardAvoidingView>
-    );
+      );
+    }
   }
-}
 
-    render() {
-      return (
-        <View style={styles.container}>
+  login = () => {
+    this.isLoading(true);
+    loginActions.login(this.state.username_or_email, this.state.password)
+      .then((user) => this.loginHandler(user))
+      .catch((err) => this.errorHandler(err));
+  }
+
+  _signInAsync = async (user) => {
+    let userString;
+
+    try {
+      userString = JSON.stringify(user);
+    } catch (e) {
+      return alert('LOGIN.invalidUser');
+    }
+
+    await AsyncStorage.setItem('user', userString);
+    this.props.navigation.navigate(APP_ROUTE);
+  };
+
+  isLoading = (isLoading) => {
+    this.setState({ isLoading });
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
           <Image
             style={styles.viewBackground}
             source={require('../../assets/image/bg.jpg')}
@@ -134,6 +188,6 @@ class LoginScreen extends Component {
           {this.renderBy()}
         </View>
     );
-    }
   }
+}
 export default LoginScreen;

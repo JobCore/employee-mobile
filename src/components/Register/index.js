@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { 
+import {
   View,
   AsyncStorage,
   // SafeAreaView,
@@ -10,41 +10,78 @@ import {
   TextInput,
   ScrollView
 } from "react-native";
-import { Container, Item, Input, Button, Text, Form, Label} from 'native-base';
+import { Container, Item, Input, Button, Text, Form, Label } from 'native-base';
+import { LOGIN_ROUTE, APP_ROUTE } from "../../constants/routes";
 import styles from './style';
+import * as registerActions from './actions';
+// import { authStore } from '../../stores';
 
 class RegisterScreen extends Component {
-  static navigationOptions = {header: null}
+  static navigationOptions = { header: null }
 
-  userRegister() {
-    this.props.navigation.navigate('Register');
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false,
+      username_or_email: '',
+      password: '',
+    };
   }
 
-  _signInAsync = async () => {
-    await AsyncStorage.setItem('userToken', '123');
-    this.props.navigation.navigate('App');
-  };
+  // componentDidMount() {
+  //   this.registerSubscription = authStore.subscribe('register', (user) => this.registerHandler(user));
+  //
+  //   this.authStoreError = authStore.subscribe('AuthStoreError', (err) => this.errorHandler(err));
+  // }
+  //
+  // componentWillUnmount() {
+  //   this.registerSubscription.unsubscribe();
+  //   this.authStoreError.unsubscribe();
+  // }
 
-  renderBy() {
+  registerHandler = (user) => {
+    alert('REGISTER.youHaveSignedUp', user);
+    this.isLoading(false);
+    this.props.navigation.navigate(LOGIN_ROUTE);
+  }
+
+  errorHandler = (err) => {
+    this.isLoading(false);
+    alert(JSON.stringify(err.message || err));
+  }
+
+  register = () => {
+    this.isLoading(true);
+
+    registerActions.register(this.state.username, this.state.email, this.state.password)
+      .then((user) => this.registerHandler(user))
+      .catch((err) => this.errorHandler(err));
+  }
+
+  isLoading = (isLoading) => {
+    this.setState({ isLoading });
+  }
+
+  renderBy()  {
     if (Platform.OS == 'android') {
       return (
-      <ScrollView style={styles.viewForm} keyboardShouldPersistTaps={'always'}>
+        <ScrollView style={styles.viewForm} keyboardShouldPersistTaps={'always'}>
         <Form>
           <Item style={styles.viewInput} inlineLabel rounded>
-            <Label style={styles.labelForm}>Name</Label>
-            <Input />
+            <Label style={styles.labelForm}>Username</Label>
+            <Input value={this.state.username} onChangeText={(text) => this.setState({username: text})}/>
           </Item>
           <Item style={styles.viewInput} inlineLabel rounded>
             <Label style={styles.labelForm}>Email</Label>
-            <Input />
+            <Input value={this.state.email} onChangeText={(text) => this.setState({email: text})}/>
           </Item>
           <Item style={styles.viewInput} inlineLabel rounded>
             <Label style={styles.labelForm}>Password</Label>
-            <Input secureTextEntry={true}/>
+            <Input value={this.state.password} onChangeText={(text) => this.setState({password: text})} secureTextEntry={true}/>
           </Item>
         </Form>
-        {/* <TouchableOpacity 
-          full 
+        {/* <TouchableOpacity
+          full
           onPress={this.userRegister.bind(this)}
           style={styles.viewButtomSignUp} >
           <Text
@@ -52,17 +89,17 @@ class RegisterScreen extends Component {
             Save
           </Text>
         </TouchableOpacity> */}
-        <Button 
-          full 
-          onPress={this._signInAsync}  
+        <Button
+          full
+          onPress={this.register}
           style={styles.viewButtomLogin} >
-          <Text 
+          <Text
             style={styles.textButtom}>
             Sign Up
           </Text>
         </Button>
-        <TouchableOpacity 
-          full 
+        <TouchableOpacity
+          full
           onPress={() => this.props.navigation.goBack()}
           style={styles.viewButtomSignUp} >
           <Text
@@ -71,27 +108,27 @@ class RegisterScreen extends Component {
           </Text>
         </TouchableOpacity>
       </ScrollView>
-  );
-  } else if (Platform.OS == 'ios') {
+      );
+    } else if (Platform.OS == 'ios') {
       return (
         <KeyboardAvoidingView behavior="padding">
           <View style={styles.viewForm}>
             <Form>
               <Item style={styles.viewInput} inlineLabel rounded>
-                <Label style={styles.labelForm}>Name</Label>
-                <Input />
+                <Label style={styles.labelForm}>Username</Label>
+                <Input value={this.state.username} onChangeText={(text) => this.setState({username: text})}/>
               </Item>
               <Item style={styles.viewInput} inlineLabel rounded>
                 <Label style={styles.labelForm}>Email</Label>
-                <Input />
+                <Input value={this.state.email} onChangeText={(text) => this.setState({email: text})}/>
               </Item>
               <Item style={styles.viewInput} inlineLabel rounded>
                 <Label style={styles.labelForm}>Password</Label>
-                <Input secureTextEntry={true}/>
+                <Input value={this.state.password} onChangeText={(text) => this.setState({password: text})} secureTextEntry={true}/>
               </Item>
             </Form>
-            {/* <TouchableOpacity 
-              full 
+            {/* <TouchableOpacity
+              full
               onPress={this.userRegister.bind(this)}
               style={styles.viewButtomSignUp} >
               <Text
@@ -99,17 +136,17 @@ class RegisterScreen extends Component {
                 Save
               </Text>
             </TouchableOpacity> */}
-            <Button 
-              full 
-              onPress={this._signInAsync}  
+            <Button
+              full
+              onPress={this.register}
               style={styles.viewButtomLogin} >
-              <Text 
+              <Text
                 style={styles.textButtom}>
                 Sign Up
               </Text>
             </Button>
-            <TouchableOpacity 
-              full 
+            <TouchableOpacity
+              full
               onPress={() => this.props.navigation.goBack()}
               style={styles.viewButtomSignUp} >
               <Text
@@ -117,15 +154,15 @@ class RegisterScreen extends Component {
                 Go back
               </Text>
             </TouchableOpacity>
-          </View> 
+          </View>
         </KeyboardAvoidingView>
-    );
+      );
+    }
   }
-}
 
-    render() {
-      return (
-        <View style={styles.container}>
+  render() {
+    return (
+      <View style={styles.container}>
           <Image
             style={styles.viewBackground}
             source={require('../../assets/image/bg.jpg')}
@@ -136,7 +173,7 @@ class RegisterScreen extends Component {
           />
         {this.renderBy()}
         </View>
-      );
-    }
+    );
   }
+}
 export default RegisterScreen;
