@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { 
+import {
   View,
   AsyncStorage,
   Image
@@ -10,7 +10,7 @@ import { VIOLET_MAIN, BLUE_MAIN } from "../../constants/colorPalette";
 import { SETTING_ROUTE } from "../../constants/routes";
 
 class DashboardScreen extends Component {
-  
+
   static navigationOptions = {
     header: null,
     tabBarLabel: 'Dashboard',
@@ -21,6 +21,34 @@ class DashboardScreen extends Component {
       />
     )
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {},
+    };
+  }
+
+  componentDidMount() {
+    this.getStoredUser()
+    .then((user) => this.setState({user}))
+    .catch((err) => alert(err));
+  }
+
+  getStoredUser = async () => {
+    const userString = await AsyncStorage.getItem('user');
+
+
+    try {
+      userJson = JSON.parse(userString);
+    } catch (e) {
+      throw alert('LOGIN.failedToLoadUser')
+    }
+
+    alert(JSON.stringify(userJson));
+
+    return userJson.user;
+  }
 
   _showNew = () => {
     this.props.navigation.navigate('TabBar');
@@ -49,7 +77,7 @@ class DashboardScreen extends Component {
         </Right>
       </Header>
       <Content>
-        <Text style={styles.textHello}>Hello Carlos,</Text>
+        <Text style={styles.textHello}>Hello {this.state.user.username},</Text>
         <Text style={styles.textWelcome}>Welcome to Jobcore</Text>
 
         <View style={styles.viewDashboard}>

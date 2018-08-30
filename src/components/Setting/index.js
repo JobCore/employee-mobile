@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { 
+import {
   View,
   AsyncStorage,
   // SafeAreaView,
@@ -28,11 +28,36 @@ class SettingScreen extends Component {
     )
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {},
+    };
+  }
+
+  componentDidMount() {
+    this.getStoredUser()
+    .then((user) => this.setState({user}))
+    .catch((err) => alert(err));
+  }
+
+  getStoredUser = async () => {
+    const userString = await AsyncStorage.getItem('user');
+
+    try {
+      userJson = JSON.parse(userString);
+    } catch (e) {
+      throw alert('LOGIN.failedToLoadUser')
+    }
+
+    return userJson.user;
+  }
+
   _signOutAsync = async () => {
     await AsyncStorage.clear();
     this.props.navigation.navigate(AUTH_ROUTE);
   };
-  
+
   _showMorejobs = () => {
     this.props.navigation.navigate('JobsOffers');
   };
@@ -43,22 +68,22 @@ class SettingScreen extends Component {
       <ScrollView style={styles.viewForm} keyboardShouldPersistTaps={'always'}>
         <Form>
           <Item style={styles.viewInput} inlineLabel rounded>
-            <Label style={styles.labelForm}>Name</Label>
-            <Input value='User' />
+            <Label style={styles.labelForm}>Username</Label>
+            <Input value={this.state.user.username} />
           </Item>
           <Item style={styles.viewInput} inlineLabel rounded>
             <Label style={styles.labelForm}>Email</Label>
-            <Input value='user@user.com' />
+            <Input value={this.state.user.email} />
           </Item>
           <Item style={styles.viewInput} inlineLabel rounded>
             <Label style={styles.labelForm}>Password</Label>
-            <Input 
-            value='1234567890'
+            <Input
+            value={''}
             secureTextEntry={true}/>
           </Item>
         </Form>
-        <TouchableOpacity 
-          full 
+        <TouchableOpacity
+          full
           style={styles.viewButtomSignUp} >
           <Text
             style={styles.textButtomSave}>
@@ -85,17 +110,17 @@ class SettingScreen extends Component {
             </Button>
           </View>
         </View>
-        <Button 
-          full 
+        <Button
+          full
           style={styles.viewButtomLogin} >
-          <Text 
+          <Text
             style={styles.textButtom}>
             Sign Up
           </Text>
         </Button>
-        <TouchableOpacity 
-          full 
-          onPress= {this._signOutAsync} 
+        <TouchableOpacity
+          full
+          onPress= {this._signOutAsync}
           style={styles.viewButtomSignUp} >
           <Text
             style={styles.textButtomSignUp}>
@@ -110,22 +135,22 @@ class SettingScreen extends Component {
           <View style={styles.viewForm}>
             <Form>
               <Item style={styles.viewInput} inlineLabel rounded>
-                <Label style={styles.labelForm}>Name</Label>
-                <Input value='User' />
+                <Label style={styles.labelForm}>Username</Label>
+                <Input value={this.state.user.username} />
               </Item>
               <Item style={styles.viewInput} inlineLabel rounded>
                 <Label style={styles.labelForm}>Email</Label>
-                <Input value='user@user.com' />
+                <Input value={this.state.user.email} />
               </Item>
               <Item style={styles.viewInput} inlineLabel rounded>
                 <Label style={styles.labelForm}>Password</Label>
-                <Input 
-                value='1234567890'
+                <Input
+                value={''}
                 secureTextEntry={true}/>
               </Item>
             </Form>
-            <TouchableOpacity 
-              full 
+            <TouchableOpacity
+              full
               style={styles.viewButtomSignUp} >
               <Text
                 style={styles.textButtomSave}>
@@ -152,24 +177,24 @@ class SettingScreen extends Component {
                 </Button>
               </View>
             </View>
-            <Button 
-              full 
+            <Button
+              full
               style={styles.viewButtomLogin} >
-              <Text 
+              <Text
                 style={styles.textButtom}>
                 Sign Up
               </Text>
             </Button>
-            <TouchableOpacity 
-              full 
-              onPress= {() => this.props.navigation.navigate(AUTH_ROUTE)} 
+            <TouchableOpacity
+              full
+              onPress= {() => this.props.navigation.navigate(AUTH_ROUTE)}
               style={styles.viewButtomSignUp} >
               <Text
                 style={styles.textButtomSignUp}>
                 Logout
               </Text>
             </TouchableOpacity>
-          </View> 
+          </View>
         </KeyboardAvoidingView>
     );
   }
