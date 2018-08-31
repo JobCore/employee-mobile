@@ -4,8 +4,8 @@ import { YellowBox, Image } from 'react-native';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Warning: Failed prop type', 'Module RCTImageLoader']);
 
 
-import LoginScreen from './src/components/Login';
-import RegisterScreen from './src/components/Register';
+import LoginScreen from './src/components/Account/LoginScreen';
+import RegisterScreen from './src/components/Account/RegisterScreen';
 import ForgotScreen from './src/components/Forgot';
 
 import DashboardScreen from './src/components/Dashboard';
@@ -20,16 +20,17 @@ import SettingScreen from './src/components/Setting';
 
 import Splash from './src/components/Splash';
 
+window.DEBUG = true;
 
-export const AppStack = createStackNavigator({ 
+export const AppStack = createStackNavigator({
   [DASHBOARD_ROUTE]: DashboardScreen,
   [SETTING_ROUTE]: SettingScreen,
 });
 
-export const AuthStack = createStackNavigator({ 
-  [LOGIN_ROUTE]: LoginScreen, 
+export const AuthStack = createStackNavigator({
+  [LOGIN_ROUTE]: LoginScreen,
   [REGISTER_ROUTE]: RegisterScreen,
-  [FORGOT_ROUTE]: ForgotScreen,  
+  [FORGOT_ROUTE]: ForgotScreen,
 });
 
 export const Tabs = createBottomTabNavigator({

@@ -10,6 +10,6 @@
 //   }
 // }
 //
-// const authStore = new AuthStore();
+// const store = new AuthStore();
 //
-// export default authStore;
+// export default store;

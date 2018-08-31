@@ -5,11 +5,11 @@
  * @return {boolean} If the string is valid
  */
 const isValidString = (stringToTest, allowEmpty = false) => {
-  if (typeof(stringToTest) !== 'string') return false;
+    if (typeof(stringToTest) !== 'string') return false;
 
-  if (stringToTest.length === 0 && allowEmpty === false) return false;
+    if (stringToTest.length === 0 && allowEmpty === false) return false;
 
-  return true;
+    return true;
 };
 
 /**
@@ -18,17 +18,17 @@ const isValidString = (stringToTest, allowEmpty = false) => {
  * @return {boolean} If the string is a valid number
  */
 const isValidNumber = (stringToTest, allowCero = false, allowNegative = false) => {
-  const numberToTest = parseInt(stringToTest, 10);
+    const numberToTest = parseInt(stringToTest, 10);
 
-  if (stringToTest.length === 0) return false;
+    if (stringToTest.length === 0) return false;
 
-  if (typeof(numberToTest) !== 'number') return false;
+    if (typeof(numberToTest) !== 'number') return false;
 
-  if (numberToTest === 0 && allowCero === false) return false;
+    if (numberToTest === 0 && allowCero === false) return false;
 
-  if (numberToTest < 0 && allowNegative === false) return false;
+    if (numberToTest < 0 && allowNegative === false) return false;
 
-  return true;
+    return true;
 };
 
 /**
@@ -37,13 +37,24 @@ const isValidNumber = (stringToTest, allowCero = false, allowNegative = false) =
  * @return {boolean} If the number is a valid integer
  */
 const isValidInteger = (numberToTest, allowCero = false, allowNegative = false) => {
-  if (!Number.isInteger(numberToTest)) return false;
+    if (!Number.isInteger(numberToTest)) return false;
 
-  if (numberToTest === 0 && allowCero === false) return false;
+    if (numberToTest === 0 && allowCero === false) return false;
 
-  if (numberToTest < 0 && allowNegative === false) return false;
+    if (numberToTest < 0 && allowNegative === false) return false;
 
-  return true;
+    return true;
 };
 
-export { isValidString, isValidNumber, isValidInteger };
+const LOG = (obj, msg) => {
+    console.log(obj.__proto__.constructor.name, msg);
+};
+
+const WARN = (obj, msg) => {
+    console.warn(obj.__proto__.constructor.name,  msg);
+};
+const ERROR = (obj, msg) => {
+    console.error(obj.__proto__.constructor.name,  msg);
+};
+
+export {isValidString, isValidNumber, isValidInteger, LOG, WARN, ERROR};
