@@ -9,7 +9,7 @@
  * @author danlugo92
  */
 
-export const BASE_URL = 'http://192.168.0.6:8000'
+export const BASE_URL = 'https://elpitazo-api.cobuildlab.com'
 
 /**
  * Url pointing to JSON data representing the latest news.
