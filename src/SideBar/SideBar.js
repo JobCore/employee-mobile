@@ -3,13 +3,34 @@ import React from 'react'
 import { Accordion, Container, List, Text } from 'native-base'
 import { Image, View, TouchableOpacity, ScrollView } from 'react-native'
 
-import styles from './style'
-import { FAVORITES_ROUTE, REGION_GRAN_CARACAS_ROUTE, RADIO_ROUTE, ABOUTUS_ROUTE, REGION_CENTRO_ROUTE, REGION_GUAYANA_ROUTE, REGION_LOS_ANDES_ROUTE, REGION_LOS_LLANOS_ROUTE, REGION_OCCIDENTE_ROUTE, REGION_ORIENTE_ROUTE, SECTION_SUCESOS_ROUTE, SECTION_POLITICA_ROUTE, SECTION_ECONOMIA_ROUTE, SECTION_DEPORTES_ROUTE, SECTION_TECNOLOGIA_ROUTE, SECTION_INTERNACIONAL_ROUTE, SECTION_REPORTAJES_ROUTE, SECTION_SALUD_ROUTE, SECTION_OPINION_ROUTE, SECTION_MIGRACION_ROUTE, SECTION_MAS_NOTICIAS_ROUTE, RESTFUL_INVESTIGACIONES_ROUTE, RESTFUL_EL_PITAZO_EN_LA_CALLE_ROUTE, RESTFUL_ALIANZAS_ROUTE, MEDIA_FOTOGALERIAS_ROUTE, MEDIA_VIDEOS_ROUTE, MEDIA_INFOGRAFIAS_ROUTE, HOME_SCREEN_ROUTE } from '../constants/routes'
+
+import { FAVORITES_ROUTE, REGION_GRAN_CARACAS_ROUTE, RADIO_ROUTE, ABOUTUS_ROUTE,
+         REGION_CENTRO_ROUTE, REGION_GUAYANA_ROUTE, REGION_LOS_ANDES_ROUTE,
+         REGION_LOS_LLANOS_ROUTE, REGION_OCCIDENTE_ROUTE,
+         REGION_ORIENTE_ROUTE, SECTION_SUCESOS_ROUTE, SECTION_POLITICA_ROUTE,
+         SECTION_ECONOMIA_ROUTE, SECTION_DEPORTES_ROUTE,
+         SECTION_TECNOLOGIA_ROUTE, SECTION_INTERNACIONAL_ROUTE,
+         SECTION_REPORTAJES_ROUTE, SECTION_SALUD_ROUTE, SECTION_OPINION_ROUTE,
+         SECTION_MIGRACION_ROUTE, SECTION_MAS_NOTICIAS_ROUTE,
+         RESTFUL_INVESTIGACIONES_ROUTE, RESTFUL_EL_PITAZO_EN_LA_CALLE_ROUTE,
+         RESTFUL_ALIANZAS_ROUTE, MEDIA_FOTOGALERIAS_ROUTE, MEDIA_VIDEOS_ROUTE,
+         MEDIA_INFOGRAFIAS_ROUTE, HOME_SCREEN_ROUTE,
+         OFFLINE_CONTENT_DOWNLOAD_ROUTE } from '../constants/routes'
 import { buildPaginatedUrlFetcher } from '../utils/fetchers'
-import { RADIO_URL, ABOUT_US_URL, REGION_GRAN_CARACAS_URL, REGION_CENTRO_URL, REGION_GUAYANA_URL, REGION_LOS_ANDES_URL, REGION_OCCIDENTE_URL, REGION_ORIENTE_URL, SECTION_POLITICA_URL, SECTION_DEPORTES_URL, SECTION_REPORTAJES_URL, SECTION_OPINION_URL, SECTION_MIGRACION_URL, SECTION_MAS_NOTICIAS_URL, RESTFUL_INVESTIGACIONES_URL, RESTFUL_EL_PITAZO_EN_LA_CALLE_URL, RESTFUL_ALIANZAS_URL, MEDIA_INFOGRAFIAS_URL, SECTION_SUCESOS_URL, SECTION_ECONOMIA_URL, SECTION_TECNOLOGIA_URL, SECTION_SALUD_URL, MEDIA_FOTOGALERIAS_URL, SECTION_INTERNACIONAL_URL, MEDIA_VIDEOS_URL } from '../constants/urls'
+import { RADIO_URL, ABOUT_US_URL, REGION_GRAN_CARACAS_URL, REGION_CENTRO_URL,
+         REGION_GUAYANA_URL, REGION_LOS_ANDES_URL, REGION_OCCIDENTE_URL,
+         REGION_ORIENTE_URL, SECTION_POLITICA_URL, SECTION_DEPORTES_URL,
+         SECTION_REPORTAJES_URL, SECTION_OPINION_URL, SECTION_MIGRACION_URL,
+         SECTION_MAS_NOTICIAS_URL, RESTFUL_INVESTIGACIONES_URL,
+         RESTFUL_EL_PITAZO_EN_LA_CALLE_URL, RESTFUL_ALIANZAS_URL,
+         MEDIA_INFOGRAFIAS_URL, SECTION_SUCESOS_URL, SECTION_ECONOMIA_URL,
+         SECTION_TECNOLOGIA_URL, SECTION_SALUD_URL, MEDIA_FOTOGALERIAS_URL,
+         SECTION_INTERNACIONAL_URL, MEDIA_VIDEOS_URL } from '../constants/urls'
 /**
  * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
  */
+
+import styles from './style'
 
 const Regiones = [{ title: 'Regiones' }]
 const Secciones = [{ title: 'Secciones' }]
@@ -436,9 +457,19 @@ const SideBar = ({ navigation }) => (
           Favoritos
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.itemButtomMenu}>
+      <TouchableOpacity
+        style={styles.itemButtomMenu}
+        onPress={() => {
+          navigation.navigate(OFFLINE_CONTENT_DOWNLOAD_ROUTE)
+        }}
+      >
         <Image source={require('../assets/img/download.png')} />
-        <Text style={styles.textButtomMenu}>
+        <Text
+          style={styles.textButtomMenu}
+          onPress={() => {
+            navigation.navigate(OFFLINE_CONTENT_DOWNLOAD_ROUTE)
+          }}
+        >
           Descargar contenidos
         </Text>
       </TouchableOpacity>
@@ -449,19 +480,6 @@ const SideBar = ({ navigation }) => (
         </Text>
       </TouchableOpacity>
     </ScrollView>
-
-    {/* <List
-      dataArray={routes}
-      renderRow={data => {
-        return (
-          <ListItem
-            button
-            onPress={() => this.navigation.navigate(data)}>
-            <Text>{data}</Text>
-          </ListItem>
-        )
-      }}
-    /> */}
   </Container>
 )
 

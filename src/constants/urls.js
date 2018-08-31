@@ -9,21 +9,21 @@
  * @author danlugo92
  */
 
-const BASE = 'https://elpitazo-api.cobuildlab.com'
+export const BASE_URL = 'http://192.168.0.6:8000'
 
 /**
  * Url pointing to JSON data representing the latest news.
  * Paginated through GET parameter `page`. Key=`page` Value={positive integer}
  * @type {string}
  */
-const LATEST_URL = `${BASE}/portal/last`
+const LATEST_URL = `${BASE_URL}/portal/last`
 
 /**
  * Url pointing to JSON data representing the news of the "REGIONS" category.
  * Paginated through GET parameter `page`. Key=`page` Value={positive integer}
  * @type {string}
  */
-const REGIONS_URL = `${BASE}/portal/regions`
+const REGIONS_URL = `${BASE_URL}/portal/regions`
 
 /**
  * Url pointing to JSON data representing news with the most views.
@@ -31,7 +31,7 @@ const REGIONS_URL = `${BASE}/portal/regions`
  * Limitable through GET parameter `limit`. Key=`limit` Value={positive integer}
  * @type {string}
  */
-const MOST_SEEN_URL = `${BASE}/portal/mostseen`
+const MOST_SEEN_URL = `${BASE_URL}/portal/mostseen`
 
 
 /**
@@ -124,7 +124,7 @@ export const paginatedUrlBuilder = (url, pageNumber) => {
 
 // SIDEBAR URLS
 
-const SIDEBAR_BASE = `${BASE}/sidebar`
+const SIDEBAR_BASE = `${BASE_URL}/sidebar`
 
 
 // REGIONS

@@ -15,12 +15,13 @@ import { HOME_SCREEN_ROUTE, VIEW_ITEM_ROUTE, FAVORITES_ROUTE,
          RESTFUL_INVESTIGACIONES_ROUTE, RESTFUL_EL_PITAZO_EN_LA_CALLE_ROUTE,
          RESTFUL_ALIANZAS_ROUTE, MEDIA_FOTOGALERIAS_ROUTE, MEDIA_VIDEOS_ROUTE,
          MEDIA_INFOGRAFIAS_ROUTE, RADIO_ROUTE,
-         ABOUTUS_ROUTE } from './src/constants/routes'
+         ABOUTUS_ROUTE, OFFLINE_CONTENT_DOWNLOAD_ROUTE } from './src/constants/routes'
 import HomeScreen from './src/HomeScreen'
 import Favorites from './src/Favorites'
 import DetailsInfo from './src/DetailsInfo'
 import SideBarRoute from './src/SideBarRoute'
 import SideBar from './src/SideBar/SideBar'
+import OfflineContentDownload from './src/OfflineContentDownload'
 
 /**
  * Route for main initial screen. Not exported as it will only be navigated to
@@ -31,6 +32,9 @@ const MAIN_DRAWER_NAVIGATOR_ROUTE = 'MAIN_DRAWER_NAVIGATOR_ROUTE'
 
 const MainDrawerNavigator = createDrawerNavigator({
   [HOME_SCREEN_ROUTE]: { screen: HomeScreen },
+
+  // HACK: nameless SFC invokes sub React Element to be able to use the same
+  // screen for different routes
 
   [REGION_GRAN_CARACAS_ROUTE]: props => <SideBarRoute {...props} />,
   [REGION_CENTRO_ROUTE]: props => <SideBarRoute {...props} />,
@@ -64,9 +68,12 @@ const MainDrawerNavigator = createDrawerNavigator({
 
   [ABOUTUS_ROUTE]: { screen: HomeScreen },
 
-  [FAVORITES_ROUTE]: { screen: Favorites },
+  [FAVORITES_ROUTE]: Favorites,
+
+  [OFFLINE_CONTENT_DOWNLOAD_ROUTE]: OfflineContentDownload,
 }, {
   contentComponent: props => <SideBar {...props} />,
+  initialRouteName: HOME_SCREEN_ROUTE,
 })
 
 
