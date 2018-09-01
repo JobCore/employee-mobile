@@ -1,6 +1,28 @@
 import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
+  button: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    backgroundColor: '#D13030',
+  },
+  buttonText: {
+    color: '#fff',
+  },
+  containerView: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 30,
+    paddingRight: 30,
+  },
+  displayText: {
+    textAlign: 'center',
+    marginBottom: 20,
+    marginTop: 20,
+    fontSize: 16,
+  },
   header: {
     backgroundColor: 'transparent',
   },
@@ -11,4 +33,5 @@ export default StyleSheet.create({
   rootContainer: {
     backgroundColor: '#fff',
   },
+
 })
