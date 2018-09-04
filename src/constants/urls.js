@@ -178,3 +178,6 @@ export const MEDIA_INFOGRAFIAS_URL = `${MEDIA_BASE}/infografias`
 export const RADIO_URL = `${SIDEBAR_BASE}/radio`
 
 export const ABOUT_US_URL = `${SIDEBAR_BASE}/about-us`
+
+
+export const OFFLINE_CONTENT_DOWNLOAD_URL = `${BASE_URL}/download/news`
