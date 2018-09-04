@@ -49,6 +49,7 @@ export default class CardsTabView extends Component {
      * @type {ImageSourcePropType}
      */
     const imageSource = newsItem.image.length === 0
+      // @ts-ignore
       ? require('../assets/img/newsitem-card-image-placeholder.png')
       : { uri: newsItem.image }
     return (
@@ -65,6 +66,7 @@ export default class CardsTabView extends Component {
             <Card>
               <CardItem cardBody>
                 <Image
+                  // @ts-ignore
                   loadingIndicatorSource={require('../assets/img/settings.png')}
                   source={imageSource}
                   style={styles.image}
@@ -91,6 +93,7 @@ export default class CardsTabView extends Component {
                     }}
                   >
                     <Image
+                      // @ts-ignore
                       source={require('../assets/img/share.png')}
                     />
                   </Button>
