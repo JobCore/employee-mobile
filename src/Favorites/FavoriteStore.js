@@ -100,19 +100,7 @@ export const getSavedNewsItem = async (id) => {
  */
 export const detectFavorite = async (id) => {
   try {
-    if (__DEV__) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        `Checking if item id ${id} is favorite...`
-      )
-    }
     await getSavedNewsItem(id)
-    if (__DEV__) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        `Item id ${id} is indeed favorite`
-      )
-    }
     return true
   } catch (e) { // TODO: Don't use exceptions for control flow...
     return false
