@@ -1,32 +1,70 @@
 import React, { Component } from 'react'
 
-import { Image, View } from 'react-native'
+import { FlatList, Image, RefreshControl, Text, View, AsyncStorage } from 'react-native'
+import { Spinner, Button, Content } from 'native-base'
 /**
  * @template T
- * @typedef {import('react-native').ListRenderItemInfo<T>} ListRenderItemInfo
+ * @typedef {import('react-native').ListRenderItem<T>} ListRenderItem
  */
 /**
  * @typedef {import('react-native').ImageSourcePropType} ImageSourcePropType
  */
 
-import { FETCH_TIMEOUT } from '../constants/config'
 /**
  * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
  * @typedef {import('../definitions').NewsItem} NewsItem
  */
 
+import { LAST_DATE_UPDATED_STOR_KEY } from '../constants/others'
+import { VIEW_ITEM_ROUTE } from '../constants/routes'
+
+import NewsCard from './NewsCard'
+
+/**
+ * @type {(navigation: NavigationScreenProp) => ListRenderItem<NewsItem>}
+ */
+const renderItem = navigation => ({ item: newsItem }) => {
+  const { date, image, title } = newsItem
+  return (
+    // TODO: padding makes the NewsCard image cropped
+    <Content padder>
+      <NewsCard
+        date={date}
+        image={image}
+        onPress={() => {
+          navigation.navigate(VIEW_ITEM_ROUTE, {
+            newsItem,
+            navigation,
+          })
+        }}
+        onPressShare={() => {}}
+        title={title}
+      />
+    </Content>
+  )
+}
 
 /**
  * @typedef {object} PaginatedNewsListProps
  * @prop {() => () => Promise<ReadonlyArray<NewsItem>>} fetcherConstructor
+ * Constructs a fetcher for online content, sucesive calls to it will either
+ * return new pages if it's a paginated list, or more items if it is a limited
+ * infinite list (such as most seen news)
+ * @prop {(() => Promise<ReadonlyArray<NewsItem>>)=} fallbackFetcher Fetches
+ * offline fallback content from AsyncStorage
+ * @prop {NavigationScreenProp} navigation
  */
- 
+
 /**
  * @typedef {object} PaginatedNewsListState
- * @prop {boolean} error
- * @prop {boolean} isLoading
+ * @prop {boolean} appending True when fetchAndAppend() has been called and
+ * hasnt finished
+ * @prop {() => Promise<ReadonlyArray<NewsItem>>} fetcher
+ * @prop {boolean} initialFetch
+ * @prop {boolean} isOfflineContent
+ * @prop {number} lastDateUpdated
  * @prop {ReadonlyArray<NewsItem>} newsItems
- * @prop {number} timeoutId
+ * @prop {boolean} refreshing
  */
 
 /**
@@ -38,124 +76,226 @@ export default class PaginatedNewsList extends Component {
    */
   constructor(props) {
     super(props)
-    
+
     const { fetcherConstructor } = this.props
-    
-    this._isMounted = false
-    
+
+    this.mounted = false
+
     /**
      * @type {PaginatedNewsListState}
      */
     this.state = {
-      error: false,
+      appending: false,
       fetcher: fetcherConstructor(),
-      isLoading: false,
+      initialFetch: true,
+      isOfflineContent: false,
+      lastDateUpdated: -1,
       newsItems: [],
-      timeoutId: -1,
+      refreshing: false,
     }
   }
-  
-  fetchItemsAndPushToList = () => {
-    const { _isMounted: isMounted } = this
-    const { fetcher } = this.props
-    const { isLoading } = this.state
 
-    if (!isMounted} {
-      return
-    }
+  componentDidMount() {
+    this.mounted = true
+    this.initialFetch()
+  }
 
-    if (isLoading) {
-      return
-    }
+  componentWillUnmount() {
+    this.mounted = false
+  }
+
+  onRefresh() {
+    const { fetcherConstructor } = this.props
+
+    const newFetcher = fetcherConstructor()
 
     this.setState({
-      isLoading: true,
+      fetcher: newFetcher,
+      refreshing: true,
     })
 
-    const fetchPromise = fetcher()
+    newFetcher()
+      .then((newsItems) => {
+        this.mounted && this.setState({
+          isOfflineContent: false,
+          lastDateUpdated: (new Date()).getTime(),
+          newsItems,
+        })
+      })
+      .catch(() => {
+        // leave the old items unchanged
+      })
+      .finally(() => {
+        this.setState({
+          refreshing: false,
+        })
+      })
+  }
 
-    const timeoutPromise = new Promise((_, reject) => {
-      let timeoutId
-      this.aborter = () => reject(null) && clearTimeout(timeoutId)
+  fallbackInitialFetch() {
+    const { fallbackFetcher } = this.props
 
-      timeoutId = setTimeout(() => {
-        this.aborter()
-      }, FETCH_TIMEOUT)
+    if (typeof fallbackFetcher === 'undefined') {
+      throw new Error()
+    }
+
+    const fetchPromise = fallbackFetcher()
+
+    const lastDateUpdatedPromise = AsyncStorage
+      .getItem(LAST_DATE_UPDATED_STOR_KEY)
+
+    Promise.all([lastDateUpdatedPromise, fetchPromise])
+      .then(([unixTime, newsItems]) => {
+        if (unixTime === null && __DEV__) {
+          throw new Error(
+            'Last updated date null from AsyncStorage'
+          )
+        }
+
+        // -1 is our `flag` to tell render() we didn't find it
+        let lastDateUpdated = unixTime === null ? -1 : Number(unixTime)
+        if (!Number.isInteger(lastDateUpdated)) lastDateUpdated = -1
+
+        this.mounted && this.setState({
+          isOfflineContent: true,
+          lastDateUpdated,
+          newsItems,
+        })
+      })
+      .catch(() => {
+        this.mounted && this.setState({
+          newsItems: [],
+        })
+      })
+  }
+
+  initialFetch() {
+    const { fetcher } = this.state // initialized in constructor
+
+    fetcher()
+      .then((newsItems) => {
+        if (newsItems.length > 0) {
+          this.mounted && this.setState({
+            initialFetch: false,
+            lastDateUpdated: (new Date()).getTime(),
+            newsItems,
+          })
+        }
+      })
+      .catch(() => this.fallbackInitialFetch())
+      .finally(() => {
+        this.mounted && this.setState({
+          initialFetch: false,
+        })
+      })
+  }
+
+  fetchAndAppend() {
+    const { appending, fetcher, refreshing } = this.state
+
+    if (appending || refreshing) return
+
+    this.setState({
+      appending: true,
     })
 
-
-    Promise.race([fetchPromise , timeoutPromise])
+    // calls other than the initial one should return items to append
+    fetcher()
       .then((newsItemsFetched) => {
+        // avoid appending if its refreshing
+        const { refreshing: refreshingAtPromiseThen } = this.state
+        const notRefreshing = !refreshingAtPromiseThen
 
-          const { timeoutId } = this.state
-          clearTimeout(timeoutId)
-
-          this.setState(({ lastPageLoaded, newsItems: oldNewsItems }) => ({
-            isLoading: false,
+        if (newsItemsFetched.length > 0) {
+          this.mounted
+          && notRefreshing
+          && this.setState(({ newsItems: oldNewsItems }) => ({
+            appending: false,
             newsItems: oldNewsItems.concat(newsItemsFetched),
           }))
-        })
-      .catch((e) => {
-          if (__DEV__) {
-            throw e
-          }
-          
-          this.setState({
-            error: true,
-            isLoading: false,
-          })
-        })
+        }
+      })
+      .catch(() => {}) // leave old items unchanged
   }
-  
-  componentDidMount() {
-    this._isMounted = true
-    this.fetchItemsAndPushToList()
-  }
-  
+
   render() {
-    const { error, isLoading, newsItems } = this.state
-    
-    if (newsItems.length === 0} {
-      if (error) {
-        return (
-          <View style={styles.serverErrorText}>
-            <Text>
-              Error Server | Error Connection
-            </Text>
-          </View>
-        )
-      }
-      
-      if (isLoading) {
-        return (
-          <Container>
-            <Content>
-              <Spinner
-                color="#D13030"
-                style={styles.deadCenter}
-              />
-            </Content>
-          </Container>
-        )
-      }
+    const { navigation } = this.props
+    const { initialFetch, isOfflineContent, newsItems, refreshing,
+      lastDateUpdated } = this.state
+    const isOnlineContent = !isOfflineContent
+
+    if (initialFetch) {
+      return (
+        <View>
+          <Spinner
+            color="#D13030"
+          />
+        </View>
+      )
     }
-    
+
+    /**
+     * @type {string}
+     */
+    const headerText = (function iief() {
+      const dateReadable = (new Date(lastDateUpdated)).toString()
+
+      if (isOfflineContent) {
+        if (lastDateUpdated > -1) {
+          return `Ultima Actualizacion (Contenido Offline): ${dateReadable} `
+        }
+        return 'Ultima Actualizacion: (Contenido Offline)'
+      }
+      return `Uiltima Actualizacion (Online): ${dateReadable}`
+    }())
+
     return (
       <FlatList
         refreshControl={(
           <RefreshControl
-            refreshing={this.props.refreshing}
-            onRefresh={this.props.onRefresh}
+            refreshing={refreshing}
+            onRefresh={this.onRefresh.bind(this)}
           />
         )}
-        data={this.props.newsItems}
+        data={newsItems}
         keyExtractor={item => item.id.toString()}
-        renderItem={this.renderItem.bind(this)}
-        onEndReached={this.props.onEndReached}
-        onEndReachedThreshold={0.1}
+        renderItem={renderItem(navigation)}
+        onEndReachedThreshold={0.5}
+        ListEmptyComponent={(
+          <View>
+            <Image
+              // @ts-ignore
+              source={require('../assets/img/error.png')}
+            />
+            <Button
+              color="red"
+              onPress={this.onRefresh.bind(this)}
+            >
+              <Text>
+                Pulse aqui para recargar
+              </Text>
+            </Button>
+          </View>
+        )}
+        ListHeaderComponent={newsItems.length === 0 ? null : (
+          <View>
+            <Text>
+              {headerText}
+            </Text>
+          </View>
+        )}
+        ListFooterComponent={(
+          newsItems.length > 0 && isOnlineContent ? (
+            <View>
+              <Spinner
+                color="red"
+              />
+            </View>
+          ) : null
+        )}
+        initialNumToRender={3}
+        onEndReached={this.fetchAndAppend.bind(this)}
       />
     )
-    
-    
   }
 }

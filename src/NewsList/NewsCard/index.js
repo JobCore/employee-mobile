@@ -3,7 +3,7 @@ import React from 'react'
 import { Button, Card, CardItem, Left, Right } from 'native-base'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 /**
- * @typedef {import('react-native').ImageSourcePropType} ImageSourcePropType
+ * @typedef {import('react-native').ImageSourcePropType} string
  */
 
 import styles from './styles'
@@ -12,7 +12,7 @@ import styles from './styles'
 /**
  * @typedef {object} NewsCardProps
  * @prop {string} date
- * @prop {ImageSourcePropType} imageSource
+ * @prop {string} image
  * @prop {() => void} onPress
  * @prop {() => void} onPressShare
  * @prop {string} title
@@ -23,7 +23,7 @@ import styles from './styles'
  * @param {NewsCardProps} props
  * @returns {JSX.Element}
  */
-const NewsCard = ({ date, imageSource, onPress, onPressShare, title }) => (
+const NewsCard = ({ date, image, onPress, onPressShare, title }) => (
   <TouchableOpacity
     onPress={onPress}
   >
@@ -33,7 +33,14 @@ const NewsCard = ({ date, imageSource, onPress, onPressShare, title }) => (
       >
         <Image
           loadingIndicatorSource={require('../../assets/img/settings.png')}
-          source={imageSource}
+          source={
+            image.length === 0
+              // @ts-ignore
+              ? require('../../assets/img/newsitem-card-image-placeholder.png')
+              : {
+                uri: image,
+              }
+          }
           style={styles.image}
         />
       </CardItem>
