@@ -18,7 +18,7 @@ export const FETCH_TIMEOUT = 10000
  * Timeout in milliseconds when fetching data from AsyncStorage
  * @type {number}
  */
-export const ASYNC_STORAGE_TIMEOUT = 2000
+export const ASYNC_STORAGE_TIMEOUT = 3000
 
 
 /**
@@ -26,4 +26,4 @@ export const ASYNC_STORAGE_TIMEOUT = 2000
  * It downloads about 1.3MB in one go.
  * @type {number}
  */
-export const OFFLINE_CONTENT_DOWNLOAD_TIMEOUT = 100000000
+export const OFFLINE_CONTENT_DOWNLOAD_TIMEOUT = 10000
