@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import { Container, Content, Spinner, Header, Left, Button, Body,
          Icon } from 'native-base'
-import { AsyncStorage, Image, View, Text } from 'react-native'
+import { Image, View, Text } from 'react-native'
 
 /**
  * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
@@ -10,9 +10,10 @@ import { AsyncStorage, Image, View, Text } from 'react-native'
  */
 
 import styles from './style'
-import { staticIsDownloading, staticThereWasError, mockProcess,
-         staticAlreadyDownloaded, 
-         getOfflineContentAndSaveToAsyncStorage} from './OfflineContentDownloadActions'
+import { staticIsDownloading, staticThereWasError,
+         staticAlreadyDownloaded,
+         getOfflineContentAndSaveToAsyncStorage,
+} from './OfflineContentDownloadActions'
 
 
 const ContainedSpinner = () => (

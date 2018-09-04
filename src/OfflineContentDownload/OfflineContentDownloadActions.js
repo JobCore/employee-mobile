@@ -3,13 +3,18 @@ import { AsyncStorage } from 'react-native'
 
 import { BASE_URL, OFFLINE_CONTENT_DOWNLOAD_URL } from '../constants/urls'
 import { OFFLINE_CONTENT_DOWNLOAD_TIMEOUT } from '../constants/config'
-import mockPromise from '../utils/mockPromise';
+import mockPromise from '../utils/mockPromise'
 
+// @ts-ignore
 import fakeData from './fakeData.json'
-import timeoutFetch from '../utils/timeoutFetch';
+import timeoutFetch from '../utils/timeoutFetch'
+import { LAST_DATE_UPDATED_STOR_KEY } from '../constants/others'
+import rawToNewsItem from '../utils/rawToNewsItem'
+import isRawNewsItem from '../utils/isRawNewsItem'
 
 
 /**
+ * @typedef {import('../definitions').RawNewsItem} RawNewsItem
  * @typedef {import('../definitions').NewsItem} NewsItem
  */
 
@@ -58,16 +63,16 @@ export const staticAlreadyDownloaded = () => _staticAlreadyDownloaded
  * content.
  * @param {string} previousUrlPart
  * @param {object} itemsObject
- * @returns {{[k: string]: NewsItem[]}}
+ * @returns {{[k: string]: RawNewsItem[]}}
  */
 const mapJsonToAsyncStorageKey = (previousUrlPart, itemsObject) => {
   /**
-   * @type {{[k: string]: NewsItem[]}}
+   * @type {{[k: string]: RawNewsItem[]}}
    */
   let map = {}
 
   Object.entries(itemsObject).forEach(([urlPart, itemsObjectOrItemsArray]) => {
-    const appendedUrl = previousUrlPart + '/' + urlPart
+    const appendedUrl = `${previousUrlPart}/${urlPart}`
 
     if (Array.isArray(itemsObjectOrItemsArray)) {
       map[appendedUrl] = itemsObjectOrItemsArray
@@ -82,6 +87,7 @@ const mapJsonToAsyncStorageKey = (previousUrlPart, itemsObject) => {
   return map
 }
 
+
 /**
  * Gets the news content from the server, processes it and saves it to offline
  * storage.
@@ -89,20 +95,32 @@ const mapJsonToAsyncStorageKey = (previousUrlPart, itemsObject) => {
  */
 export const getOfflineContentAndSaveToAsyncStorage = () =>
 // @ts-ignore
-  ((_staticIsDownloading = true) || (_staticThereWasError = false)) &&
-    timeoutFetch(OFFLINE_CONTENT_DOWNLOAD_URL, OFFLINE_CONTENT_DOWNLOAD_TIMEOUT)
+  ((_staticIsDownloading = true) || (_staticThereWasError = false))
+    && timeoutFetch(
+      OFFLINE_CONTENT_DOWNLOAD_URL,
+      OFFLINE_CONTENT_DOWNLOAD_TIMEOUT
+    )
       .then(res => res.json())
       .then(parsedJson => mapJsonToAsyncStorageKey(BASE_URL, parsedJson))
       .then(map => Object.entries(map))
-      .then(entries => entries.map(([url , newsItems]) => {
-        return AsyncStorage.setItem(url, JSON.stringify(newsItems))
+      .then(entries => entries.map(([url, rawNewsItems]) => {
+        rawNewsItems.forEach(isRawNewsItem)
+        const newsItems = rawNewsItems.map(rawToNewsItem)
+        const asJson = JSON.stringify(newsItems)
+        return AsyncStorage.setItem(url, asJson)
       }))
       .then(asyncStoragePromises => Promise.all(asyncStoragePromises))
       .then(voidPromise => (_staticAlreadyDownloaded = true) && voidPromise)
+      .then(() =>
+        AsyncStorage.setItem(
+          LAST_DATE_UPDATED_STOR_KEY,
+          (new Date()).getTime().toString()
+        ))
       .catch(() => {
         _staticThereWasError = true
       })
       // https://github.com/facebook/react-native/issues/17972
+      // @ts-ignore
       .finally(data => (_staticIsDownloading = false) || data)
 
 
@@ -113,20 +131,29 @@ export const getOfflineContentAndSaveToAsyncStorage = () =>
  * @param {boolean=} fail
  * @returns {Promise<void[]>}
  */
-export const mockProcess =
-  fail =>
-    // @ts-ignore
-    ((_staticIsDownloading = true) || (_staticThereWasError = false)) &&
-      mockPromise(1000, fakeData, fail)
-        .then(fakeDataRes => mapJsonToAsyncStorageKey(BASE_URL, fakeDataRes))
-        .then(map => Object.entries(map))
-        .then(entries => entries.map(([url , newsItems]) => {
-          return AsyncStorage.setItem(url, JSON.stringify(newsItems))
-        }))
-        .then(asyncStoragePromises => Promise.all(asyncStoragePromises))
-        .then(voidPromise => (_staticAlreadyDownloaded = true) && voidPromise)
-        .catch(() => {
-          _staticThereWasError = true
-        })
-        // https://github.com/facebook/react-native/issues/17972
-        .finally(data => (_staticIsDownloading = false) || data)
+export const mockProcess = fail =>
+  // @ts-ignore
+  ((_staticIsDownloading = true) || (_staticThereWasError = false))
+    && mockPromise(1000, fakeData, fail)
+      .then(fakeDataRes => mapJsonToAsyncStorageKey(BASE_URL, fakeDataRes))
+      .then(map => Object.entries(map))
+      .then(entries => entries.map(([url, rawNewsItems]) => {
+        rawNewsItems.forEach(isRawNewsItem)
+        const newsItems = rawNewsItems.map(rawToNewsItem)
+        const asJson = JSON.stringify(newsItems)
+        return AsyncStorage.setItem(url, asJson)
+      }))
+      .then(asyncStoragePromises => Promise.all(asyncStoragePromises))
+      .then(voidPromise => (_staticAlreadyDownloaded = true) && voidPromise)
+      .then(() =>
+        AsyncStorage.setItem(
+          LAST_DATE_UPDATED_STOR_KEY,
+          (new Date()).getTime().toString()
+        ))
+      .catch((e) => {
+        if (__DEV__) throw e
+        _staticThereWasError = true
+      })
+      // https://github.com/facebook/react-native/issues/17972
+      // @ts-ignore
+      .finally(data => (_staticIsDownloading = false) || data)
