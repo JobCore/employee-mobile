@@ -37,6 +37,7 @@ module.exports = {
     "implicit-arrow-linebreak": 0,
     "import/prefer-default-export": 0,
     "no-underscore-dangle": 0,
+    "no-unused-expressions": 0,
     "object-curly-newline": 0,
     "no-plusplus": 0,
     "react/destructuring-assignment": 0,
