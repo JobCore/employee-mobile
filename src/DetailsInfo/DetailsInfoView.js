@@ -20,6 +20,7 @@ import renderers from './renderers'
 
 /**
  * @typedef {object} DetailsInfoViewProps
+ * @prop {string} title Title of the news article
  * @prop {string} html News item html to be rendered. This html can have
  * special <youtube> tags to be rendered natively
  * @prop {() => void} onPressFav Called when the favorite button is pressed
@@ -34,6 +35,7 @@ import renderers from './renderers'
  * @type {SFC<DetailsInfoViewProps>}
  */
 const DetailsInfoView = ({
+  title,
   html,
   onPressFav,
   onShare,
@@ -99,7 +101,7 @@ const DetailsInfoView = ({
 
     <Content>
       <HTML
-        html={html}
+        html={(`<h1 class="title">${title}</h1>`).concat(html)}
         classesStyles={classesStyles}
         tagsStyles={tagsStyles}
         renderers={renderers}

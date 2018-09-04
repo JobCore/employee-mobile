@@ -222,6 +222,7 @@ class DetailsInfoRoute extends Component {
               this.popUpDialog.show()
             }
           }}
+          title={newsItem.title}
           html={newsItem.contentBody}
           onShare={() => {
             if (__DEV__) {
