@@ -1,11 +1,11 @@
 import React from 'react'
-import { Image, View } from 'react-native'
+import { Image, View, Text } from 'react-native'
 
 import styles from './style'
 
 /**
  * HTML Tag names for which we are going to implement renderers
- * @typedef {'img'} TagName
+ * @typedef {'img'|'twitter'} TagName
  */
 
 /**
@@ -34,6 +34,11 @@ const renderers = {
       />
     </View>
   ),
+  twitter: ({ url }) => (
+    <Text>
+      {url}
+    </Text>
+  )
 }
 
 export default renderers

@@ -61,6 +61,7 @@ const DetailsInfoView = ({
 
       <Body>
         <Image
+          // @ts-ignore
           source={require('../assets/img/logo.png')}
           style={styles.headerImage}
         />
@@ -74,10 +75,12 @@ const DetailsInfoView = ({
             isFavorite
               ? (
                 <Image
+                  // @ts-ignore
                   source={require('../assets/img/fav-remove.png')}
                 />)
               : (
                 <Image
+                  // @ts-ignore
                   source={require('../assets/img/fav-add.png')}
                 />)
           }
@@ -90,6 +93,7 @@ const DetailsInfoView = ({
           style={styles.buttonRight}
         >
           <Image
+            // @ts-ignore
             source={require('../assets/img/share.png')}
             style={styles.navRight}
           />
