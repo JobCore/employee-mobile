@@ -20,7 +20,7 @@ const ContainedSpinner = () => (
   <Container>
     <Content>
       <Spinner
-        color="#D13030"
+        color="#d13239"
       />
     </Content>
   </Container>
@@ -33,7 +33,7 @@ const ContainedSpinner = () => (
  */
 const OfflineScreenHeader = navigation => (
   <Header
-    androidStatusBarColor="#D13030"
+    androidStatusBarColor="#d13239"
     style={styles.header}
     iosBarStyle="light-content"
     noShadow

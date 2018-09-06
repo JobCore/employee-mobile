@@ -228,7 +228,7 @@ export default class PaginatedNewsList extends Component {
       return (
         <View>
           <Spinner
-            color="#D13030"
+            color="#d13239"
           />
         </View>
       )

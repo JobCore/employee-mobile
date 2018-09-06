@@ -5,7 +5,7 @@
 /**
  * Names of CSS classes that we expect to find in the html passed into
  * <DetailsInfo /> and for which we have to define CSS properties.
- * @typedef {'size-full'} NewsItemClassName
+ * @typedef {'title'} NewsItemClassName
  */
 
 
@@ -13,8 +13,9 @@
  * @type {{ [k in NewsItemClassName]: CSSProperties }}
  */
 const classCssProperties = {
-  'size-full': {
-
+  'title': {
+    paddingLeft: 15,
+    paddingRight: 15,
   },
 }
 

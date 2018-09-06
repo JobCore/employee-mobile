@@ -17,7 +17,7 @@ const loaderLoadingElement = (
   <Container>
     <Content>
       <Spinner
-        color="#D13030"
+        color="#d13239"
       />
     </Content>
   </Container>

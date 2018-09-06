@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Accordion, Container, List, Text } from 'native-base'
+import { Accordion, Container, List, Text, Icon } from 'native-base'
 import { Image, View, TouchableOpacity, ScrollView } from 'react-native'
 
 
@@ -39,6 +39,7 @@ const Videos = [{ title: 'Videos y fotos' }]
 /**
  * @type {(navigation: NavigationScreenProp) => () => JSX.Element}
  */
+
 const renderRegiones = navigation => () => (
   <View>
     <List>
@@ -365,6 +366,23 @@ const renderVideos = navigation => () => (
 )
 
 /**
+ * @param {{ title: string }} title
+ * @param {boolean=} expanded
+ */
+const renderHeader = ({ title }, expanded) => (
+  <View
+    style={styles.viewHeader}
+  >
+    <Text style={styles.itemTitle}>
+      {title}
+    </Text>
+    {expanded
+      ? <Icon style={styles.sidebarHeaderArrow} name="ios-arrow-back" />
+      : <Icon style={styles.sidebarHeaderArrow} name="ios-arrow-down" />}
+  </View>
+)
+
+/**
  * @param {{ navigation: NavigationScreenProp }} props
  */
 const SideBar = ({ navigation }) => (
@@ -377,6 +395,7 @@ const SideBar = ({ navigation }) => (
       >
         <Image
           style={styles.logo}
+          // @ts-ignore
           source={require('../assets/img/logo.png')}
         />
       </TouchableOpacity>
@@ -384,6 +403,7 @@ const SideBar = ({ navigation }) => (
     <ScrollView>
       <Accordion
         dataArray={Regiones}
+        renderHeader={renderHeader}
         headerStyle={styles.accordionHeader}
         renderContent={renderRegiones(navigation)}
         // renderHeader={this._renderHeader}
@@ -391,6 +411,7 @@ const SideBar = ({ navigation }) => (
       />
       <Accordion
         dataArray={Secciones}
+        renderHeader={renderHeader}
         headerStyle={styles.accordionHeader}
         renderContent={renderSecciones(navigation)}
         // renderHeader={this._renderHeader}
@@ -398,6 +419,7 @@ const SideBar = ({ navigation }) => (
       />
       <Accordion
         dataArray={Reposados}
+        renderHeader={renderHeader}
         headerStyle={styles.accordionHeader}
         renderContent={renderReposados(navigation)}
         //  renderHeader={this._renderHeader}
@@ -405,6 +427,7 @@ const SideBar = ({ navigation }) => (
       />
       <Accordion
         dataArray={Videos}
+        renderHeader={renderHeader}
         headerStyle={styles.accordionHeader}
         renderContent={renderVideos(navigation)}
         //  renderHeader={this._renderHeader}
@@ -418,7 +441,7 @@ const SideBar = ({ navigation }) => (
           })
         }}
       >
-        <Text>
+        <Text style={styles.itemTitle}>
           Radio
         </Text>
       </TouchableOpacity>
@@ -430,7 +453,7 @@ const SideBar = ({ navigation }) => (
           })
         }}
       >
-        <Text>
+        <Text style={styles.itemTitle}>
           Quienes Somos
         </Text>
       </TouchableOpacity>
@@ -443,7 +466,10 @@ const SideBar = ({ navigation }) => (
         }}
         style={styles.itemButtomMenu}
       >
-        <Image source={require('../assets/img/sideBarFavIcon.png')} />
+        <Image
+          // @ts-ignore
+          source={require('../assets/img/sideBarFavIcon.png')}
+        />
         <Text
           style={styles.textButtomMenu}
         >
@@ -456,7 +482,10 @@ const SideBar = ({ navigation }) => (
           navigation.navigate(OFFLINE_CONTENT_DOWNLOAD_ROUTE)
         }}
       >
-        <Image source={require('../assets/img/download.png')} />
+        <Image
+          // @ts-ignore
+          source={require('../assets/img/download.png')}
+        />
         <Text
           style={styles.textButtomMenu}
           onPress={() => {
@@ -467,7 +496,10 @@ const SideBar = ({ navigation }) => (
         </Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.itemButtomMenu}>
-        <Image source={require('../assets/img/settings.png')} />
+        <Image
+          // @ts-ignore
+          source={require('../assets/img/settings.png')}
+        />
         <Text style={styles.textButtomMenu}>
           Ajustes
         </Text>

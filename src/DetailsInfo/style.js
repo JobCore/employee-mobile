@@ -14,6 +14,9 @@ export default StyleSheet.create({
     width: 32,
     height: 32,
   },
+  buttonRight:{
+    marginRight: 20
+  },
   header: {
     backgroundColor: 'transparent',
   },
@@ -49,7 +52,7 @@ export default StyleSheet.create({
     fontWeight: '500',
   },
   underLineColor: {
-    backgroundColor: '#D13030',
+    backgroundColor: '#d13239',
   },
   viewContainer: {
     backgroundColor: '#fff',

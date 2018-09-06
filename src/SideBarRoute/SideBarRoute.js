@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { Container, Header, Left, Button, Body, Right, Icon } from 'native-base'
-import { Image, AsyncStorage } from 'react-native'
+import { Image, AsyncStorage, TouchableOpacity } from 'react-native'
 
 /**
  * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
@@ -19,20 +19,19 @@ import styles from './style'
  */
 const SideBarRouteHeader = navigation => (
   <Header
-    androidStatusBarColor="#D13030"
+    androidStatusBarColor=""
     style={styles.header}
     iosBarStyle="light-content"
     noShadow
   >
     <Left>
-      <Icon
-        name="md-arrow-back"
-        android="md-arrow-back"
-        ios="md-arrow-back"
-        onPress={() => {
-          navigation.goBack()
-        }}
+    <TouchableOpacity onPress={() => {
+      navigation.goBack()
+      }}>
+      <Image
+        source={require('../assets/img/return.png')}
       />
+    </TouchableOpacity>
     </Left>
     <Body>
       <Image
