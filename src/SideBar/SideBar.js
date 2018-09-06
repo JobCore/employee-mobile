@@ -364,18 +364,23 @@ const renderVideos = navigation => () => (
     </List>
   </View>
 )
-const renderHeader= (title, expanded) =>(
-    <View
-      style={ styles.viewHeader}
-    >
-      <Text style={styles.itemTitle}>
-        {" "}{title}
-      </Text>
-      {expanded
-        ? <Icon style={{ fontSize: 18 }} name="ios-arrow-back" />
-        : <Icon style={{ fontSize: 18 }} name="ios-arrow-down" />}
-    </View>
-  )
+
+/**
+ * @param {{ title: string }} title
+ * @param {boolean=} expanded
+ */
+const renderHeader = ({ title }, expanded) => (
+  <View
+    style={styles.viewHeader}
+  >
+    <Text style={styles.itemTitle}>
+      {title}
+    </Text>
+    {expanded
+      ? <Icon style={styles.sidebarHeaderArrow} name="ios-arrow-back" />
+      : <Icon style={styles.sidebarHeaderArrow} name="ios-arrow-down" />}
+  </View>
+)
 
 /**
  * @param {{ navigation: NavigationScreenProp }} props
@@ -390,6 +395,7 @@ const SideBar = ({ navigation }) => (
       >
         <Image
           style={styles.logo}
+          // @ts-ignore
           source={require('../assets/img/logo.png')}
         />
       </TouchableOpacity>
@@ -460,7 +466,10 @@ const SideBar = ({ navigation }) => (
         }}
         style={styles.itemButtomMenu}
       >
-        <Image source={require('../assets/img/sideBarFavIcon.png')} />
+        <Image
+          // @ts-ignore
+          source={require('../assets/img/sideBarFavIcon.png')}
+        />
         <Text
           style={styles.textButtomMenu}
         >
@@ -473,7 +482,10 @@ const SideBar = ({ navigation }) => (
           navigation.navigate(OFFLINE_CONTENT_DOWNLOAD_ROUTE)
         }}
       >
-        <Image source={require('../assets/img/download.png')} />
+        <Image
+          // @ts-ignore
+          source={require('../assets/img/download.png')}
+        />
         <Text
           style={styles.textButtomMenu}
           onPress={() => {
@@ -484,7 +496,10 @@ const SideBar = ({ navigation }) => (
         </Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.itemButtomMenu}>
-        <Image source={require('../assets/img/settings.png')} />
+        <Image
+          // @ts-ignore
+          source={require('../assets/img/settings.png')}
+        />
         <Text style={styles.textButtomMenu}>
           Ajustes
         </Text>

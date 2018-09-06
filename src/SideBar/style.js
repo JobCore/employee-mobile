@@ -4,16 +4,16 @@ export default StyleSheet.create({
   accordionHeader: {
     backgroundColor: '#fff',
   },
-  viewHeader:{
-    flexDirection: "row", 
-    padding: 10, 
-    paddingRight: 30, 
-    justifyContent: "space-between", 
-    alignItems: "center", 
-    backgroundColor: "#fff"
+  viewHeader: {
+    flexDirection: 'row',
+    padding: 10,
+    paddingRight: 30,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#fff',
   },
-  itemTitle:{
-    fontWeight: "bold"
+  itemTitle: {
+    fontWeight: 'bold',
   },
   container: {
     padding: 20,
@@ -40,9 +40,12 @@ export default StyleSheet.create({
     height: 40,
     width: 80,
   },
+  sidebarHeaderArrow: {
+    fontSize: 18,
+  },
   textButtomMenu: {
     marginLeft: 15,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   viewAccordion: {
     borderTopColor: '#fff',
