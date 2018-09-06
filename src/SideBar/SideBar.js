@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Accordion, Container, List, Text } from 'native-base'
+import { Accordion, Container, List, Text, Icon } from 'native-base'
 import { Image, View, TouchableOpacity, ScrollView } from 'react-native'
 
 
@@ -39,6 +39,7 @@ const Videos = [{ title: 'Videos y fotos' }]
 /**
  * @type {(navigation: NavigationScreenProp) => () => JSX.Element}
  */
+
 const renderRegiones = navigation => () => (
   <View>
     <List>
@@ -363,6 +364,18 @@ const renderVideos = navigation => () => (
     </List>
   </View>
 )
+const renderHeader= (title, expanded) =>(
+    <View
+      style={ styles.viewHeader}
+    >
+      <Text style={styles.itemTitle}>
+        {" "}{title}
+      </Text>
+      {expanded
+        ? <Icon style={{ fontSize: 18 }} name="ios-arrow-back" />
+        : <Icon style={{ fontSize: 18 }} name="ios-arrow-down" />}
+    </View>
+  )
 
 /**
  * @param {{ navigation: NavigationScreenProp }} props
@@ -384,6 +397,7 @@ const SideBar = ({ navigation }) => (
     <ScrollView>
       <Accordion
         dataArray={Regiones}
+        renderHeader={renderHeader}
         headerStyle={styles.accordionHeader}
         renderContent={renderRegiones(navigation)}
         // renderHeader={this._renderHeader}
@@ -391,6 +405,7 @@ const SideBar = ({ navigation }) => (
       />
       <Accordion
         dataArray={Secciones}
+        renderHeader={renderHeader}
         headerStyle={styles.accordionHeader}
         renderContent={renderSecciones(navigation)}
         // renderHeader={this._renderHeader}
@@ -398,6 +413,7 @@ const SideBar = ({ navigation }) => (
       />
       <Accordion
         dataArray={Reposados}
+        renderHeader={renderHeader}
         headerStyle={styles.accordionHeader}
         renderContent={renderReposados(navigation)}
         //  renderHeader={this._renderHeader}
@@ -405,6 +421,7 @@ const SideBar = ({ navigation }) => (
       />
       <Accordion
         dataArray={Videos}
+        renderHeader={renderHeader}
         headerStyle={styles.accordionHeader}
         renderContent={renderVideos(navigation)}
         //  renderHeader={this._renderHeader}
@@ -418,7 +435,7 @@ const SideBar = ({ navigation }) => (
           })
         }}
       >
-        <Text>
+        <Text style={styles.itemTitle}>
           Radio
         </Text>
       </TouchableOpacity>
@@ -430,7 +447,7 @@ const SideBar = ({ navigation }) => (
           })
         }}
       >
-        <Text>
+        <Text style={styles.itemTitle}>
           Quienes Somos
         </Text>
       </TouchableOpacity>

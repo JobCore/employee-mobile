@@ -3,9 +3,8 @@ import React from 'react'
  * @template T
  * @typedef {import('react').SFC<T>} SFC
  */
-import { Container, Content, Header, Left, Body, Right,
-         Icon } from 'native-base'
-import { Image, TouchableOpacity } from 'react-native'
+import { Container, Content, Header, Left, Body, Right, } from 'native-base'
+import { Image, TouchableOpacity, StatusBar } from 'react-native'
 import HTML from 'react-native-render-html'
 
 /**
@@ -44,20 +43,31 @@ const DetailsInfoView = ({
 }) => (
   <Container>
     <Header
-      androidStatusBarColor="#D13030"
+      androidStatusBarColor="#d13239"
       style={styles.header}
       iosBarStyle="light-content"
     >
-      <Left>
-        <Icon
-          name="md-arrow-back"
-          android="md-arrow-back"
-          ios="md-arrow-back"
-          onPress={() => {
-            navigation.goBack()
-          }}
-        />
-      </Left>
+    <StatusBar
+      backgroundColor="blue"
+      barStyle="light-content"
+    />
+    <Left>
+    <TouchableOpacity onPress={() => {
+      navigation.goBack()
+      }}>
+      <Image
+        source={require('../assets/img/return.png')}
+      />
+    </TouchableOpacity>
+      {/* <Icon
+        name="md-arrow-back"
+        android="md-arrow-back"
+        ios="md-arrow-back"
+        onPress={() => {
+          navigation.goBack()
+        }}
+      /> */}
+    </Left>
 
       <Body>
         <Image
@@ -67,24 +77,23 @@ const DetailsInfoView = ({
       </Body>
 
       <Right>
-        <TouchableOpacity
-          onPress={onPressFav}
+      <TouchableOpacity
+        style={{marginRight: 20}}
+        onPress={onPressFav}
         >
           {
             isFavorite
               ? (
                 <Image
-                  source={require('../assets/img/fav-remove.png')}
+                  source={require('../assets/img/sideBarFavIcon.png')}
                 />)
               : (
                 <Image
-                  source={require('../assets/img/fav-add.png')}
+                  source={require('../assets/img/favoriteUnselected.png')}
                 />)
           }
         </TouchableOpacity>
-      </Right>
 
-      <Right>
         <TouchableOpacity
           onPress={onShare}
           style={styles.buttonRight}
@@ -94,8 +103,6 @@ const DetailsInfoView = ({
             style={styles.navRight}
           />
         </TouchableOpacity>
-
-
       </Right>
     </Header>
 

@@ -4,7 +4,7 @@ export default StyleSheet.create({
   button: {
     paddingLeft: 20,
     paddingRight: 20,
-    backgroundColor: '#D13030',
+    backgroundColor: '#d13239',
   },
   buttonText: {
     color: '#fff',

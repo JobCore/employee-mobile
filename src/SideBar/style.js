@@ -3,7 +3,17 @@ import { StyleSheet } from 'react-native'
 export default StyleSheet.create({
   accordionHeader: {
     backgroundColor: '#fff',
-    color: 'red',
+  },
+  viewHeader:{
+    flexDirection: "row", 
+    padding: 10, 
+    paddingRight: 30, 
+    justifyContent: "space-between", 
+    alignItems: "center", 
+    backgroundColor: "#fff"
+  },
+  itemTitle:{
+    fontWeight: "bold"
   },
   container: {
     padding: 20,
@@ -32,13 +42,14 @@ export default StyleSheet.create({
   },
   textButtomMenu: {
     marginLeft: 15,
+    fontWeight: 'bold'
   },
   viewAccordion: {
     borderTopColor: '#fff',
   },
   viewDivider: {
-    borderColor: '#D13030',
-    borderWidth: 1.4,
+    borderColor: '#d13239',
+    borderWidth: 1,
     marginBottom: 15,
     marginRight: 10,
     marginTop: 15,

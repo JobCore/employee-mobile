@@ -46,7 +46,7 @@ export default StyleSheet.create({
     fontWeight: '500',
   },
   underLineColor: {
-    backgroundColor: '#D13030',
+    backgroundColor: '#d13239',
   },
   viewContainer: {
     backgroundColor: '#fff',

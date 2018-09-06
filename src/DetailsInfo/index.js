@@ -133,7 +133,7 @@ class DetailsInfoRoute extends Component {
         <Container>
           <Content>
             <Spinner
-              color="#D13030"
+              color="#d13239"
               style={styles.deadCenter}
             />
           </Content>
