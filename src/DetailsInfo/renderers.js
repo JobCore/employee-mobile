@@ -1,21 +1,25 @@
 import React from 'react'
-import { Image, View, Text } from 'react-native'
+import { Image, View } from 'react-native'
 
 import styles from './style'
+import Instagram from './embeds/Instagram'
+import Soundcloud from './embeds/Soundcloud'
+import Tweet from './embeds/Tweet'
 
 /**
- * HTML Tag names for which we are going to implement renderers
- * @typedef {'img'|'twitter'} TagName
+ * @typedef {'img'|'instagram'|'soundcloud'|'twitter'} TagName
  */
 
 /**
- * @typedef {object} HtmlAttribs
+ * @typedef {object} Attribs
  * @prop {string} src For images
+ * @prop {string} url For tweets, instagram and soundcloud
  */
 
 /**
- * @typedef {(htmlAttribs: HtmlAttribs) => JSX.Element} Renderer
+ * @typedef {(attribs: Attribs) => React.ReactElement<any>} Renderer
  */
+
 
 /**
  * @type {{ [k in TagName]: Renderer }}
@@ -34,10 +38,20 @@ const renderers = {
       />
     </View>
   ),
+  instagram: ({ url }) => (
+    <Instagram
+      url={url}
+    />
+  ),
+  soundcloud: ({ url }) => (
+    <Soundcloud
+      url={url}
+    />
+  ),
   twitter: ({ url }) => (
-    <Text>
-      {url}
-    </Text>
+    <Tweet
+      url={url}
+    />
   )
 }
 

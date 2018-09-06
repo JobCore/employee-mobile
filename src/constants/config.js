@@ -27,3 +27,8 @@ export const ASYNC_STORAGE_TIMEOUT = 3000
  * @type {number}
  */
 export const OFFLINE_CONTENT_DOWNLOAD_TIMEOUT = 10000
+
+/**
+ * @type {string}
+ */
+export const PITAZO_SOUNDCLOUD_CLIENT_ID = 'Iy5e1Ri4GTNgrafaXe4mLpmJLXbXEfBR'
