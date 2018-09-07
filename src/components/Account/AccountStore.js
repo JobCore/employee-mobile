@@ -1,8 +1,8 @@
-import Flux from 'flux-state';
+import {FluxStore} from '../../utils/flux-state';
 import {AsyncStorage} from "react-native";
 import {LOG, WARN, ERROR} from "../../utils";
 
-class AccountStore extends Flux.DashStore {
+class AccountStore extends FluxStore {
     constructor() {
         super();
         // The login Event

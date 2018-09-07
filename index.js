@@ -1,4 +1,4 @@
-/** @format */
 import {AppRegistry} from 'react-native';
 import App from './App';
-AppRegistry.registerComponent('JobCore', () => App);
+
+AppRegistry.registerComponent('jobcore', () => App);

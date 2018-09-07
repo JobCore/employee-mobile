@@ -1,4 +1,4 @@
-import Flux from 'flux-state';
+import Flux from '../../utils/flux-state';
 
 import {postData} from '../../fetch/index';
 import {loginValidator, registerValidator} from './validators';

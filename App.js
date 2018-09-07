@@ -23,57 +23,57 @@ import Splash from './src/components/Splash';
 window.DEBUG = true;
 
 export const AppStack = createStackNavigator({
-  [DASHBOARD_ROUTE]: DashboardScreen,
-  [SETTING_ROUTE]: SettingScreen,
+    [DASHBOARD_ROUTE]: DashboardScreen,
+    [SETTING_ROUTE]: SettingScreen,
 });
 
 export const AuthStack = createStackNavigator({
-  [LOGIN_ROUTE]: LoginScreen,
-  [REGISTER_ROUTE]: RegisterScreen,
-  [FORGOT_ROUTE]: ForgotScreen,
+    [LOGIN_ROUTE]: LoginScreen,
+    [REGISTER_ROUTE]: RegisterScreen,
+    [FORGOT_ROUTE]: ForgotScreen,
 });
 
 export const Tabs = createBottomTabNavigator({
-  [DASHBOARD_ROUTE]: { screen: DashboardScreen,},
-  [JOBSOFFERS_ROUTE]: {screen: JobsOffers, },
-  [JOBSPREFERENCES_ROUTE]: {screen: JobsPreferences, },
-  [MYJOBS_ROUTE]: {screen: MyJobs, },
-},
-{
-    tabBarPosition: 'bottom',
-    tabBarOptions: {
-      activeTintColor: BLUE_DARK,
-      inactiveTintColor: GRAY_MAIN,
-      showLabel: true,
-      showIcon: true,
-      labelStyle: {
-        fontSize: 12,
-      },
-      style: {
-        backgroundColor: BLUE_LIGHT,
-        height: 85,
-        paddingBottom: 10,
-        borderTopColor: 'transparent'
-      },
-      tabStyle: {
-        width: 100,
-      },
+        [DASHBOARD_ROUTE]: { screen: DashboardScreen,},
+        [JOBSOFFERS_ROUTE]: {screen: JobsOffers, },
+        [JOBSPREFERENCES_ROUTE]: {screen: JobsPreferences, },
+        [MYJOBS_ROUTE]: {screen: MyJobs, },
     },
-  }
+    {
+        tabBarPosition: 'bottom',
+        tabBarOptions: {
+            activeTintColor: BLUE_DARK,
+            inactiveTintColor: GRAY_MAIN,
+            showLabel: true,
+            showIcon: true,
+            labelStyle: {
+                fontSize: 12,
+            },
+            style: {
+                backgroundColor: BLUE_LIGHT,
+                height: 85,
+                paddingBottom: 10,
+                borderTopColor: 'transparent'
+            },
+            tabStyle: {
+                width: 100,
+            },
+        },
+    }
 );
 
 export default createSwitchNavigator(
-  {
-    AuthLoading: Splash,
-    [APP_ROUTE]: createStackNavigator({
-      ['Tabs']: Tabs,
-      [SETTING_ROUTE]: SettingScreen,
-    }, {navigationOptions: {header: null}}),
-    [AUTH_ROUTE]: AuthStack,
-    [STACK_ROUTE]: AppStack
-  },
+    {
+        AuthLoading: Splash,
+        [APP_ROUTE]: createStackNavigator({
+            ['Tabs']: Tabs,
+            [SETTING_ROUTE]: SettingScreen,
+        }, {navigationOptions: {header: null}}),
+        [AUTH_ROUTE]: AuthStack,
+        [STACK_ROUTE]: AppStack
+    },
 
-  {
-    initialRouteName: 'AuthLoading',
-  }
+    {
+        initialRouteName: 'AuthLoading',
+    }
 );
