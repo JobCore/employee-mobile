@@ -25,3 +25,19 @@ export const SOUNDCLOUD_ORANGE = '#F70'
  * @type {string}
  */
 export const INSTAGRAM_MAGENTA = 'E1306C'
+
+/**
+ * Taken from elpitazo's website, on 'lee tambien' <blockquote>'s
+ * @type {string}
+ */
+export const PITAZO_GRAY = '#DEDEDE'
+
+/**
+ * @type {string}
+ */
+export const PITAZO_RED = '#D13239'
+
+/**
+ * @type {string}
+ */
+export const ARTICLE_HEADER_GRAY = '#767676'

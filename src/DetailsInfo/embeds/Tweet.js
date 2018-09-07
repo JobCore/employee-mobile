@@ -31,7 +31,7 @@ const Tweet = ({ url }) => (
               `React native's Linking reports not being able to open this tweet's url, found url: ${url}`
             )
           }
-        });
+        })
       }}
     >
       <Text>
