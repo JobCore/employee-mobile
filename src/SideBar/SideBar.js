@@ -15,7 +15,8 @@ import { FAVORITES_ROUTE, REGION_GRAN_CARACAS_ROUTE, RADIO_ROUTE, ABOUTUS_ROUTE,
          RESTFUL_INVESTIGACIONES_ROUTE, RESTFUL_EL_PITAZO_EN_LA_CALLE_ROUTE,
          RESTFUL_ALIANZAS_ROUTE, MEDIA_FOTOGALERIAS_ROUTE, MEDIA_VIDEOS_ROUTE,
          MEDIA_INFOGRAFIAS_ROUTE, HOME_SCREEN_ROUTE,
-         OFFLINE_CONTENT_DOWNLOAD_ROUTE } from '../constants/routes'
+         OFFLINE_CONTENT_DOWNLOAD_ROUTE,
+         SETTINGS_ROUTE } from '../constants/routes'
 import { RADIO_URL, ABOUT_US_URL, REGION_GRAN_CARACAS_URL, REGION_CENTRO_URL,
          REGION_GUAYANA_URL, REGION_LOS_ANDES_URL, REGION_OCCIDENTE_URL,
          REGION_ORIENTE_URL, SECTION_POLITICA_URL, SECTION_DEPORTES_URL,
@@ -495,7 +496,12 @@ const SideBar = ({ navigation }) => (
           Descargar contenidos
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.itemButtomMenu}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate(SETTINGS_ROUTE)
+        }}
+        style={styles.itemButtomMenu}
+      >
         <Image
           // @ts-ignore
           source={require('../assets/img/settings.png')}
