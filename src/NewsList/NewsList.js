@@ -15,7 +15,7 @@ import { Spinner, Button, Content } from 'native-base'
  * @typedef {import('../definitions').NewsItem} NewsItem
  */
 
-import { LAST_DATE_UPDATED_STOR_KEY } from '../constants/others'
+import { LAST_DATE_UPDATED_STOR_KEY, NAVIGATION_NEWSITEM_PARAM_KEY } from '../constants/others'
 import { VIEW_ITEM_ROUTE } from '../constants/routes'
 
 import NewsCard from './NewsCard'
@@ -33,7 +33,7 @@ const renderItem = navigation => ({ item: newsItem }) => {
         image={image}
         onPress={() => {
           navigation.navigate(VIEW_ITEM_ROUTE, {
-            newsItem,
+            [NAVIGATION_NEWSITEM_PARAM_KEY]: newsItem,
             navigation,
           })
         }}

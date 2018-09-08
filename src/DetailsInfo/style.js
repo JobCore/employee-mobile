@@ -15,6 +15,9 @@ export default StyleSheet.create({
   bgColor: {
     backgroundColor: '#fff',
   },
+  containerStyle: {
+
+  },
   deadCenter: {
     alignContent: 'center',
     flex: 1,
