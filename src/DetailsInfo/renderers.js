@@ -30,11 +30,9 @@ const childrenUntilString = (stringChildOrOther) => {
 }
 
 /**
- * @type {{ [k in TagName]: Renderer }}
+ * @type {(fontSize: number) => { [k in TagName]: Renderer }}
  */
-
 const renderers = fontSize => ({
-
   instagram: ({ url }) => (
     <Instagram
       url={url}

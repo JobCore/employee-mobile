@@ -5,7 +5,7 @@ import React, { Component } from 'react'
  * @typedef {import('react').SFC<T>} SFC
  */
 import { Container, Content, Right, Spinner } from 'native-base'
-import { Image, TouchableOpacity, Dimensions } from 'react-native'
+import { Image, TouchableOpacity, Dimensions, Share } from 'react-native'
 import HTML from 'react-native-render-html'
 
 /**
@@ -119,11 +119,12 @@ class DetailsInfo extends Component {
 
 
   onShare() {
-    const { newsItem: { link: url }} = this.state
-    // eslint-disable-next-line no-console
-    console.warn(
-      `Url: ${url}`
-    )
+    const { newsItem: { link: url, title }} = this.state
+    Share.share({
+      message: url,
+      title,
+      url,
+    })
   }
 
   fetchFontSize() {
