@@ -15,13 +15,16 @@ import { HOME_SCREEN_ROUTE, VIEW_ITEM_ROUTE, FAVORITES_ROUTE,
          RESTFUL_INVESTIGACIONES_ROUTE, RESTFUL_EL_PITAZO_EN_LA_CALLE_ROUTE,
          RESTFUL_ALIANZAS_ROUTE, MEDIA_FOTOGALERIAS_ROUTE, MEDIA_VIDEOS_ROUTE,
          MEDIA_INFOGRAFIAS_ROUTE, RADIO_ROUTE,
-         ABOUTUS_ROUTE, OFFLINE_CONTENT_DOWNLOAD_ROUTE } from './src/constants/routes'
+         ABOUTUS_ROUTE, OFFLINE_CONTENT_DOWNLOAD_ROUTE,
+         SETTINGS_ROUTE } from './src/constants/routes'
 import HomeScreen from './src/HomeScreen'
 import Favorites from './src/Favorites'
 import DetailsInfo from './src/DetailsInfo'
 import SideBarRoute from './src/SideBarRoute'
 import SideBar from './src/SideBar/SideBar'
 import OfflineContentDownload from './src/OfflineContentDownload'
+import Settings from './src/Settings'
+
 
 /**
  * Route for main initial screen. Not exported as it will only be navigated to
@@ -71,17 +74,18 @@ const MainDrawerNavigator = createDrawerNavigator({
   [FAVORITES_ROUTE]: Favorites,
 
   [OFFLINE_CONTENT_DOWNLOAD_ROUTE]: OfflineContentDownload,
+
+  [SETTINGS_ROUTE]: Settings,
 }, {
   contentComponent: props => <SideBar {...props} />,
   initialRouteName: HOME_SCREEN_ROUTE,
 })
 
-
 /**
  * Switches between the main navigator (drawer plus lists of articles) and
  * an individual article view.
  */
-const MainDrawerNavigatorArticleViewStackNavigator = createStackNavigator({
+const MainStackNavigator = createStackNavigator({
   [MAIN_DRAWER_NAVIGATOR_ROUTE]: MainDrawerNavigator,
   [VIEW_ITEM_ROUTE]: DetailsInfo,
 }, {
@@ -105,6 +109,6 @@ export default class AwesomeApp extends Component {
   }
 
   render() {
-    return <MainDrawerNavigatorArticleViewStackNavigator />
+    return <MainStackNavigator />
   }
 }
