@@ -33,7 +33,7 @@ const childrenUntilString = (stringChildOrOther) => {
  * @type {{ [k in TagName]: Renderer }}
  */
 
-const renderers = {
+const renderers = fontSize => ({
 
   instagram: ({ url }) => (
     <Instagram
@@ -65,6 +65,7 @@ const renderers = {
             fontStyle: 'italic',
             paddingLeft: 15,
             paddingRight: 15,
+            marginBottom: 5,
           }}
         >
           {g(children).join(' ')}
@@ -80,6 +81,7 @@ const renderers = {
           paddingLeft: 15,
           paddingRight: 15,
           lineHeight: 20,
+          fontSize,
         }}
       >
         {text}
@@ -103,6 +105,8 @@ const renderers = {
   title: ({ text, category }) => (
     <Text
       style={{
+        marginTop: 5,
+        marginBottom: 5,
         paddingLeft: 15,
         paddingRight: 15,
         fontSize: 24,
@@ -138,7 +142,6 @@ const renderers = {
         marginBottom: 5,
         marginLeft: 15,
         marginRight: 15,
-
       }}
       onPress={() => {
         Linking.canOpenURL('http://elpitazo.ml/ultimas-noticias/videos-medicos-y-trabajadores-de-salud-protestan-por-situacion-hospitalaria-en-el-pais').then((supported) => {
@@ -157,6 +160,7 @@ const renderers = {
           style={{
             fontWeight: "bold",
             color: PITAZO_RED,
+            fontSize,
           }}
         >
           Lee también:
@@ -167,6 +171,7 @@ const renderers = {
             flexWrap: 'wrap', // make text wrap
             fontWeight: 'bold',
             paddingLeft: 2,
+            fontSize,
           }}
         >
         {
@@ -176,7 +181,7 @@ const renderers = {
         </Text>
     </TouchableOpacity>
   )
-}
+})
 
 
 

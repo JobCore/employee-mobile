@@ -4,7 +4,7 @@ import React, { Component } from 'react'
  * @template T
  * @typedef {import('react').SFC<T>} SFC
  */
-import { Container, Content, Right } from 'native-base'
+import { Container, Content, Right, Spinner } from 'native-base'
 import { Image, TouchableOpacity, Dimensions } from 'react-native'
 import HTML from 'react-native-render-html'
 
@@ -17,10 +17,13 @@ import styles from './style'
 import renderers from './renderers'
 import { saveNewsItem, detectFavorite, removeNewsItem } from '../Favorites/FavoriteStore'
 import { htmlProcess } from './DetailsInfoActions'
-import isNewsItem from '../utils/isNewsItem';
+import isNewsItem from '../utils/isNewsItem'
 import { NAVIGATION_NEWSITEM_PARAM_KEY } from '../constants/others'
+import { DEFAULT_FONT_SIZE } from '../constants/config'
 
 import DetailsInfoHeader from './DetailsInfoHeader'
+import { fetchFontSize } from '../Settings/SettingsActions';
+import { PITAZO_RED } from '../constants/colors';
 
 
 /**
@@ -33,6 +36,7 @@ import DetailsInfoHeader from './DetailsInfoHeader'
  * @prop {boolean} error
  * @prop {string} html
  * @prop {boolean} isLoadingFavorite
+ * @prop {boolean} isFetchingFontSize
  * @prop {boolean} isFavorite
  */
 
@@ -76,6 +80,8 @@ class DetailsInfo extends Component {
       error,
       html: finalHtml,
       isLoadingFavorite: true,
+      isFetchingFontSize: true,
+      fontSize: DEFAULT_FONT_SIZE,
       isFavorite: false,
       newsItem,
     }
@@ -84,11 +90,14 @@ class DetailsInfo extends Component {
   componentDidMount() {
     this.mounted = true
     this.refreshFavState()
+    this.fetchFontSize()
   }
 
   componentWillUnmount() {
     this.mounted = false
   }
+
+
 
   onPressFav() {
     const { newsItem } = this.state
@@ -117,6 +126,20 @@ class DetailsInfo extends Component {
     )
   }
 
+  fetchFontSize() {
+    fetchFontSize()
+      .then((fontSize) => {
+        this.mounted && this.setState({
+          fontSize,
+        })
+      })
+      .finally(() => {
+        this.mounted && this.setState({
+          isFetchingFontSize: false,
+        })
+      })
+  }
+
   refreshFavState() {
     const { newsItem } = this.state
 
@@ -134,7 +157,8 @@ class DetailsInfo extends Component {
   }
 
   renderRight() {
-    const { isFavorite, isLoadingFavorite } = this.state
+    const { fontSize, isFavorite, isLoadingFavorite } = this.state
+
     return (
       <Right>
         <TouchableOpacity
@@ -184,13 +208,23 @@ class DetailsInfo extends Component {
 
   render() {
     const { navigation } = this.props
-    const { error, html } = this.state
+    const { fontSize, error, html, isFetchingFontSize } = this.state
 
     if (error) {
       return (
         <Container>
           <DetailsInfoHeader
             navigation={navigation}
+          />
+        </Container>
+      )
+    }
+
+    if (isFetchingFontSize) {
+      return (
+        <Container>
+          <Spinner
+            color={PITAZO_RED}
           />
         </Container>
       )
@@ -205,7 +239,7 @@ class DetailsInfo extends Component {
         <Content>
           <HTML
             html={html}
-            renderers={renderers}
+            renderers={renderers(fontSize)}
             imagesMaxWidth={Dimensions.get('window').width}
             containerStyle={styles.containerStyle}
           />
