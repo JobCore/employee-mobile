@@ -1,31 +1,20 @@
 import React, { Component } from 'react'
 
-import { Container, Content, Spinner, Header, Left, Button, Body,
+import { Container, Spinner, Header, Left, Button, Body,
          Icon } from 'native-base'
 import { Image, View, Text } from 'react-native'
 
+import { staticIsDownloading, staticThereWasError,
+         staticAlreadyDownloaded,
+         getOfflineContentAndSaveToAsyncStorage,
+} from './OfflineContentDownloadActions'
+import { PITAZO_RED } from '../constants/colors'
 /**
  * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
  * @typedef {import('../definitions').NewsItem} NewsItem
  */
 
 import styles from './style'
-import { staticIsDownloading, staticThereWasError,
-         staticAlreadyDownloaded,
-         getOfflineContentAndSaveToAsyncStorage,
-} from './OfflineContentDownloadActions'
-
-
-const ContainedSpinner = () => (
-  <Container>
-    <Content>
-      <Spinner
-        color="#d13239"
-      />
-    </Content>
-  </Container>
-)
-
 
 /**
  * @param {NavigationScreenProp} navigation Navigation screen prop
@@ -50,6 +39,7 @@ const OfflineScreenHeader = navigation => (
     </Left>
     <Body>
       <Image
+        // @ts-ignore
         source={require('../assets/img/logo.png')}
         style={styles.image}
       />
@@ -137,7 +127,11 @@ export default class OfflineDownloadContent extends Component {
       ) : ''}
               `}
             </Text>
-            {isDownloading && <ContainedSpinner />}
+            {isDownloading && (
+              <Spinner
+                color={PITAZO_RED}
+              />
+            )}
           </View>
           <View>
             <Button

@@ -104,11 +104,25 @@ export const getOfflineContentAndSaveToAsyncStorage = () =>
       .then(parsedJson => mapJsonToAsyncStorageKey(BASE_URL, parsedJson))
       .then(map => Object.entries(map))
       .then(entries => entries.map(([url, rawNewsItems]) => {
-        rawNewsItems.forEach(isRawNewsItem)
+        try {
+          rawNewsItems.forEach(isRawNewsItem)
+        } catch (e) {
+          if (__DEV__) {
+            // eslint-disable-next-line no-console
+            console.warn(
+              'error inside download news service, data received from server does not conform to schema'
+            )
+            // eslint-disable-next-line no-console
+            console.warn(e)
+          }
+          return false
+        }
         const newsItems = rawNewsItems.map(rawToNewsItem)
         const asJson = JSON.stringify(newsItems)
         return AsyncStorage.setItem(url, asJson)
       }))
+      .then(promisesOrFalse => promisesOrFalse.filter(pOrF => pOrF))
+      // @ts-ignore we just filtered falses
       .then(asyncStoragePromises => Promise.all(asyncStoragePromises))
       .then(voidPromise => (_staticAlreadyDownloaded = true) && voidPromise)
       .then(() =>
@@ -129,31 +143,53 @@ export const getOfflineContentAndSaveToAsyncStorage = () =>
 
 /**
  * @param {boolean=} fail
- * @returns {Promise<void[]>}
+ * @returns {Promise<void>}
  */
-export const mockProcess = fail =>
-  // @ts-ignore
-  ((_staticIsDownloading = true) || (_staticThereWasError = false))
-    && mockPromise(1000, fakeData, fail)
-      .then(fakeDataRes => mapJsonToAsyncStorageKey(BASE_URL, fakeDataRes))
-      .then(map => Object.entries(map))
-      .then(entries => entries.map(([url, rawNewsItems]) => {
+export const mockProcess = (fail) => {
+  _staticIsDownloading = true
+  _staticThereWasError = false
+
+  return mockPromise(1000, fakeData, fail)
+    .then(fakeDataRes => mapJsonToAsyncStorageKey(BASE_URL, fakeDataRes))
+    .then(map => Object.entries(map))
+    .then(entries => entries.map(([url, rawNewsItems]) => {
+      try {
         rawNewsItems.forEach(isRawNewsItem)
-        const newsItems = rawNewsItems.map(rawToNewsItem)
-        const asJson = JSON.stringify(newsItems)
-        return AsyncStorage.setItem(url, asJson)
-      }))
-      .then(asyncStoragePromises => Promise.all(asyncStoragePromises))
-      .then(voidPromise => (_staticAlreadyDownloaded = true) && voidPromise)
-      .then(() =>
-        AsyncStorage.setItem(
-          LAST_DATE_UPDATED_STOR_KEY,
-          (new Date()).getTime().toString()
-        ))
-      .catch((e) => {
-        if (__DEV__) throw e
-        _staticThereWasError = true
-      })
-      // https://github.com/facebook/react-native/issues/17972
-      // @ts-ignore
-      .finally(data => (_staticIsDownloading = false) || data)
+      } catch (e) {
+        if (__DEV__) {
+          // eslint-disable-next-line no-console
+          console.warn(
+            'error inside download news service, data received from server does not conform to schema'
+          )
+          // eslint-disable-next-line no-console
+          console.warn(e)
+        }
+        return false
+      }
+      const newsItems = rawNewsItems.map(rawToNewsItem)
+      const asJson = JSON.stringify(newsItems)
+      return AsyncStorage.setItem(url, asJson)
+    }))
+    .then(promisesOrFalse => promisesOrFalse.filter(pOrF => pOrF))
+    // @ts-ignore we just filtered falses
+    .then(asyncStoragePromises => Promise.all(asyncStoragePromises))
+    .then((voidPromise) => {
+      _staticAlreadyDownloaded = true
+      return voidPromise
+    })
+    .then(() =>
+      AsyncStorage.setItem(
+        LAST_DATE_UPDATED_STOR_KEY,
+        (new Date()).getTime().toString()
+      ))
+    .catch((e) => {
+      if (__DEV__) throw e
+      _staticThereWasError = true
+    })
+    // https://github.com/facebook/react-native/issues/17972
+    // @ts-ignore
+    .finally((data) => {
+      _staticIsDownloading = false
+      return data
+    })
+}
