@@ -1,8 +1,9 @@
 import React from 'react'
 import { StatusBar, TouchableOpacity, Image } from 'react-native'
-import { Header, Left, Body } from 'native-base'
+import { Header, Left, Body, Right } from 'native-base'
 
 import { PITAZO_RED } from '../constants/colors'
+import { HOME_SCREEN_ROUTE } from '../constants/routes'
 
 import styles from './style'
 
@@ -10,23 +11,26 @@ import styles from './style'
  * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
  */
 
+
 /**
- * @typedef {object} HeaderRightProps
+ * @typedef {object} DetailsInfoHeaderProps
+ * @prop {boolean} isFavorite
  * @prop {boolean} isLoadingFavorite
+ * @prop {NavigationScreenProp} navigation
  * @prop {() => void} onPressFav
  * @prop {() => void} onPressShare
  */
 
 /**
- * @typedef {object} DetailsInfoHeaderProps
- * @prop {NavigationScreenProp} navigation
- * @prop {(React.SFC<{}>)=} Right
- */
-
-/**
  * @type {React.SFC<DetailsInfoHeaderProps>}
  */
-const DetailsInfoHeader = ({ navigation, Right }) => (
+const DetailsInfoHeader = ({
+  isFavorite,
+  isLoadingFavorite,
+  navigation,
+  onPressFav,
+  onPressShare,
+}) => (
   <Header
     androidStatusBarColor={PITAZO_RED}
     style={styles.header}
@@ -63,11 +67,40 @@ const DetailsInfoHeader = ({ navigation, Right }) => (
       </TouchableOpacity>
     </Body>
 
-    {
-      Right
-        ? <Right />
-        : null
-    }
+    <Right>
+      <TouchableOpacity
+        style={styles.favButtonTouchOpac}
+        onPress={onPressFav}
+      >
+        {
+          isFavorite
+            ? (
+              <Image
+                // @ts-ignore
+                source={require('../assets/img/sideBarFavIcon.png')}
+                style={isLoadingFavorite ? styles.favBtnIsLoadingFav : null}
+              />
+            )
+            : (
+              <Image
+                // @ts-ignore
+                source={require('../assets/img/favoriteUnselected.png')}
+                style={isLoadingFavorite ? styles.favBtnIsLoadingFav : null}
+              />
+            )
+        }
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={onPressShare}
+        style={styles.buttonRight}
+      >
+        <Image
+          // @ts-ignore
+          source={require('../assets/img/share.png')}
+        />
+      </TouchableOpacity>
+    </Right>
   </Header>
 )
 

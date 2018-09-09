@@ -4,8 +4,8 @@ import React, { Component } from 'react'
  * @template T
  * @typedef {import('react').SFC<T>} SFC
  */
-import { Container, Content, Right, Spinner } from 'native-base'
-import { Image, TouchableOpacity, Dimensions, Share } from 'react-native'
+import { Container, Content, Spinner } from 'native-base'
+import { Dimensions, Share } from 'react-native'
 import HTML from 'react-native-render-html'
 
 /**
@@ -22,8 +22,8 @@ import { NAVIGATION_NEWSITEM_PARAM_KEY } from '../constants/others'
 import { DEFAULT_FONT_SIZE } from '../constants/config'
 
 import DetailsInfoHeader from './DetailsInfoHeader'
-import { fetchFontSize } from '../Settings/SettingsActions';
-import { PITAZO_RED } from '../constants/colors';
+import { fetchFontSize } from '../Settings/SettingsActions'
+import { PITAZO_RED } from '../constants/colors'
 
 
 /**
@@ -86,7 +86,7 @@ class DetailsInfo extends Component {
       newsItem,
     }
   }
-  
+
   componentDidMount() {
     this.mounted = true
     this.refreshFavState()
@@ -96,7 +96,6 @@ class DetailsInfo extends Component {
   componentWillUnmount() {
     this.mounted = false
   }
-
 
 
   onPressFav() {
@@ -119,7 +118,7 @@ class DetailsInfo extends Component {
 
 
   onShare() {
-    const { newsItem: { link: url, title }} = this.state
+    const { newsItem: { link: url, title } } = this.state
     Share.share({
       message: url,
       title,
@@ -157,94 +156,40 @@ class DetailsInfo extends Component {
       })
   }
 
-  renderRight() {
-    const { fontSize, isFavorite, isLoadingFavorite } = this.state
-
-    return (
-      <Right>
-        <TouchableOpacity
-          style={{marginRight: 20}}
-          onPress={() => {
-            if (!isLoadingFavorite) {
-              this.onPressFav()
-            }
-          }}
-        >
-          {
-            isFavorite
-              ? (
-                <Image
-                  // @ts-ignore
-                  source={require('../assets/img/sideBarFavIcon.png')}
-                  style={{
-                    opacity: isLoadingFavorite ? 0.5 : 1,
-                  }}
-                />
-              )
-              : (
-                <Image
-                  // @ts-ignore
-                  source={require('../assets/img/favoriteUnselected.png')}
-                  style={{
-                    opacity: isLoadingFavorite ? 0.5 : 1,
-                  }}
-                />
-              )
-          }
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={this.onShare.bind(this)}
-          style={styles.buttonRight}
-        >
-          <Image
-            // @ts-ignore
-            source={require('../assets/img/share.png')}
-            style={styles.navRight}
-          />
-        </TouchableOpacity>
-      </Right>
-    )
-  }
-
   render() {
     const { navigation } = this.props
-    const { fontSize, error, html, isFetchingFontSize } = this.state
-
-    if (error) {
-      return (
-        <Container>
-          <DetailsInfoHeader
-            navigation={navigation}
-          />
-        </Container>
-      )
-    }
-
-    if (isFetchingFontSize) {
-      return (
-        <Container>
-          <Spinner
-            color={PITAZO_RED}
-          />
-        </Container>
-      )
-    }
+    const { fontSize, error, html, isFavorite, isLoadingFavorite,
+      isFetchingFontSize } = this.state
 
     return (
       <Container>
         <DetailsInfoHeader
           navigation={navigation}
-          Right={this.renderRight.bind(this)}
+          isFavorite={isFavorite}
+          isLoadingFavorite={isLoadingFavorite}
+          onPressFav={() => {
+            if (!isLoadingFavorite) {
+              this.onPressFav()
+            }
+          }}
+          onPressShare={this.onShare.bind(this)}
         />
-        <Content>
-          <HTML
-            html={html}
-            renderers={renderers(fontSize)}
-            imagesMaxWidth={Dimensions.get('window').width}
-            containerStyle={styles.containerStyle}
-          />
-        </Content>
+        {
+          error || isFetchingFontSize ? (
+            <Spinner
+              color={PITAZO_RED}
+            />
+          ) : (
+            <Content>
+              <HTML
+                html={html}
+                renderers={renderers(fontSize)}
+                imagesMaxWidth={Dimensions.get('window').width}
+                containerStyle={styles.containerStyle}
+              />
+            </Content>
+          )
+        }
       </Container>
     )
   }
