@@ -97,7 +97,6 @@ class DetailsInfo extends Component {
     this.mounted = false
   }
 
-
   onPressFav() {
     const { newsItem } = this.state
 
@@ -115,7 +114,6 @@ class DetailsInfo extends Component {
         this.mounted && this.refreshFavState()
       })
   }
-
 
   onShare() {
     const { newsItem: { link: url, title } } = this.state
