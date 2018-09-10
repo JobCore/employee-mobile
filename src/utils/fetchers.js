@@ -1,7 +1,10 @@
 import { paginatedUrlBuilder } from '../constants/urls'
+import { FETCH_TIMEOUT } from '../constants/config'
 
 import rawToNewsItem from './rawToNewsItem'
 import isRawNewsItem from './isRawNewsItem'
+import timeoutFetch from './timeoutFetch'
+import timeoutPromise from './timeoutPromise';
 
 /**
  * @typedef {import('../definitions').RawNewsItem} RawNewsItem
@@ -74,4 +77,7 @@ export const baseFetcher = async (url) => {
  */
 export const buildPaginatedUrlFetcher = url =>
   pageNumber =>
-    baseFetcher(paginatedUrlBuilder(url, pageNumber))
+    timeoutPromise(
+      baseFetcher(paginatedUrlBuilder(url, pageNumber)),
+      FETCH_TIMEOUT
+    )
