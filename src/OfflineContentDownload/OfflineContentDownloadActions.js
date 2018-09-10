@@ -2,7 +2,7 @@
 import { AsyncStorage } from 'react-native'
 
 import { BASE_URL, OFFLINE_CONTENT_DOWNLOAD_URL } from '../constants/urls'
-import { OFFLINE_CONTENT_DOWNLOAD_TIMEOUT } from '../constants/config'
+import { OFFLINE_CONTENT_DOWNLOAD_TIMEOUT, ASYNC_STORAGE_TIMEOUT } from '../constants/config'
 import mockPromise from '../utils/mockPromise'
 
 // @ts-ignore
@@ -11,6 +11,7 @@ import timeoutFetch from '../utils/timeoutFetch'
 import { LAST_DATE_UPDATED_STOR_KEY } from '../constants/others'
 import rawToNewsItem from '../utils/rawToNewsItem'
 import isRawNewsItem from '../utils/isRawNewsItem'
+import { setItem } from '../utils/StorageTimeout'
 
 
 /**
@@ -126,9 +127,10 @@ export const getOfflineContentAndSaveToAsyncStorage = () =>
       .then(asyncStoragePromises => Promise.all(asyncStoragePromises))
       .then(voidPromise => (_staticAlreadyDownloaded = true) && voidPromise)
       .then(() =>
-        AsyncStorage.setItem(
+        setItem(
           LAST_DATE_UPDATED_STOR_KEY,
-          (new Date()).getTime().toString()
+          (new Date()).getTime().toString(),
+          ASYNC_STORAGE_TIMEOUT
         ))
       .catch(() => {
         _staticThereWasError = true
@@ -178,9 +180,10 @@ export const mockProcess = (fail) => {
       return voidPromise
     })
     .then(() =>
-      AsyncStorage.setItem(
+      setItem(
         LAST_DATE_UPDATED_STOR_KEY,
-        (new Date()).getTime().toString()
+        (new Date()).getTime().toString(),
+        ASYNC_STORAGE_TIMEOUT
       ))
     .catch((e) => {
       if (__DEV__) throw e
