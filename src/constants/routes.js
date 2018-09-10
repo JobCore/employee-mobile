@@ -6,12 +6,6 @@
 
 
 /**
- * @type {'FAVORITES_ROUTE'}
- */
-export const FAVORITES_ROUTE = 'FAVORITES_ROUTE'
-
-
-/**
  * @type {'HOME_SCREEN_ROUTE'}
  */
 export const HOME_SCREEN_ROUTE = 'HOME_SCREEN_ROUTE'
@@ -166,3 +160,19 @@ export const RADIO_ROUTE = 'RADIO_ROUTE'
  * @type {'ABOUTUS_ROUTE'}
  */
 export const ABOUTUS_ROUTE = 'ABOUTUS_ROUTE'
+
+
+/**
+ * @type {'FAVORITES_ROUTE'}
+ */
+export const FAVORITES_ROUTE = 'FAVORITES_ROUTE'
+
+/**
+ * @type {string}
+ */
+export const OFFLINE_CONTENT_DOWNLOAD_ROUTE = 'OFFLINE_CONTENT_DOWNLOAD_ROUTE'
+
+/**
+ * @type {string}
+ */
+export const SETTINGS_ROUTE = 'SETTINGS_ROUTE'

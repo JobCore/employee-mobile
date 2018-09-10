@@ -1,29 +1,17 @@
 import React, { Component } from 'react'
 
-import { Container, Content, Spinner, Header, Left, Button, Body, Right, Icon } from 'native-base'
-import { Image, View } from 'react-native'
+import { Container, Header, Left, Button, Body, Right, Icon } from 'native-base'
+import { Image, AsyncStorage, TouchableOpacity } from 'react-native'
 
 /**
  * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
  * @typedef {import('../definitions').NewsItem} NewsItem
  */
-import CardsTabView from '../CardsTab/CardsTabView'
-import Loader from '../utils/Loader'
-import { FETCH_TIMEOUT } from '../constants/config'
+
+import NewsList from '../NewsList'
+import { buildPaginatedUrlFetcher } from '../utils/fetchers'
 
 import styles from './style'
-
-
-const loaderLoadingElement = (
-  <Container>
-    <Content>
-      <Spinner
-        color="#D13030"
-      />
-    </Content>
-  </Container>
-)
-
 
 /**
  * @param {NavigationScreenProp} navigation Navigation screen prop
@@ -31,30 +19,33 @@ const loaderLoadingElement = (
  */
 const SideBarRouteHeader = navigation => (
   <Header
-    androidStatusBarColor="#D13030"
+    androidStatusBarColor=""
     style={styles.header}
     iosBarStyle="light-content"
     noShadow
   >
     <Left>
-      <Icon
-        name="md-arrow-back"
-        android="md-arrow-back"
-        ios="md-arrow-back"
-        onPress={() => {
-          navigation.goBack()
-        }}
+    <TouchableOpacity onPress={() => {
+      navigation.goBack()
+      }}>
+      <Image
+        source={require('../assets/img/return.png')}
       />
+    </TouchableOpacity>
     </Left>
     <Body>
       <Image
+        // @ts-ignore
         source={require('../assets/img/logo.png')}
         style={styles.image}
       />
     </Body>
     <Right>
       <Button transparent>
-        <Image source={require('../assets/img/download.png')} />
+        <Image
+          // @ts-ignore
+          source={require('../assets/img/download.png')}
+        />
       </Button>
     </Right>
   </Header>
@@ -64,7 +55,7 @@ const SideBarRouteHeader = navigation => (
 /**
  * @typedef {object} SideBarRouteProps
  * @prop {NavigationScreenProp} navigation
- * @prop {(page: number) => Promise<NewsItem[]>} fetcherFunction
+ * @prop {string} paginatedURL
  */
 
 
@@ -75,7 +66,8 @@ const SideBarRouteHeader = navigation => (
  */
 export default class SideBarRoute extends Component {
   render() {
-    const { fetcherFunction, navigation } = this.props
+    const { paginatedURL, navigation } = this.props
+
 
     return (
       <Container
@@ -83,35 +75,29 @@ export default class SideBarRoute extends Component {
       >
         {SideBarRouteHeader(navigation)}
 
-        <Loader
-          fetcherFunction={(() => {
-            let lastPageFetched = 1
+        <NewsList
+          navigation={navigation}
+          fetcherConstructor={() => {
+            const fetcher = buildPaginatedUrlFetcher(paginatedURL)
+            let pageToBeFetched = 1
 
-            return () => fetcherFunction(lastPageFetched++)
-          })()}
-          loadingElement={loaderLoadingElement}
-          timeout={FETCH_TIMEOUT}
-        >
-          {(newsItems, err) => {
-            if (err) {
-              return (
-                <View>
-                  <Image
-                    source={require('../assets/img/error.png')}
-                  />
-                </View>
-              )
-            }
-            return (
-              <CardsTabView
-                newsItems={/** @type {NewsItem[]} */ (newsItems)}
-                navigation={this.props.navigation}
-                refreshing={false}
-                onRefresh={() => {}}
-              />
-            )
+            return () => fetcher(pageToBeFetched)
+              .then((newsItems) => {
+                pageToBeFetched++
+                return newsItems
+              })
           }}
-        </Loader>
+          fallbackFetcher={() =>
+            AsyncStorage
+              .getItem(paginatedURL)
+              .then((jsonOrNull) => {
+                if (jsonOrNull === null) throw new Error()
+                return jsonOrNull
+              })
+              .then(json => JSON.parse(json))
+          }
+        />
+
       </Container>
 
     )

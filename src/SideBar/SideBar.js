@@ -1,15 +1,35 @@
 import React from 'react'
 
-import { Accordion, Container, List, Text } from 'native-base'
+import { Accordion, Container, List, Text, Icon } from 'native-base'
 import { Image, View, TouchableOpacity, ScrollView } from 'react-native'
 
-import styles from './style'
-import { FAVORITES_ROUTE, REGION_GRAN_CARACAS_ROUTE, RADIO_ROUTE, ABOUTUS_ROUTE, REGION_CENTRO_ROUTE, REGION_GUAYANA_ROUTE, REGION_LOS_ANDES_ROUTE, REGION_LOS_LLANOS_ROUTE, REGION_OCCIDENTE_ROUTE, REGION_ORIENTE_ROUTE, SECTION_SUCESOS_ROUTE, SECTION_POLITICA_ROUTE, SECTION_ECONOMIA_ROUTE, SECTION_DEPORTES_ROUTE, SECTION_TECNOLOGIA_ROUTE, SECTION_INTERNACIONAL_ROUTE, SECTION_REPORTAJES_ROUTE, SECTION_SALUD_ROUTE, SECTION_OPINION_ROUTE, SECTION_MIGRACION_ROUTE, SECTION_MAS_NOTICIAS_ROUTE, RESTFUL_INVESTIGACIONES_ROUTE, RESTFUL_EL_PITAZO_EN_LA_CALLE_ROUTE, RESTFUL_ALIANZAS_ROUTE, MEDIA_FOTOGALERIAS_ROUTE, MEDIA_VIDEOS_ROUTE, MEDIA_INFOGRAFIAS_ROUTE, HOME_SCREEN_ROUTE } from '../constants/routes'
-import { buildPaginatedUrlFetcher } from '../utils/fetchers'
-import { RADIO_URL, ABOUT_US_URL, REGION_GRAN_CARACAS_URL, REGION_CENTRO_URL, REGION_GUAYANA_URL, REGION_LOS_ANDES_URL, REGION_OCCIDENTE_URL, REGION_ORIENTE_URL, SECTION_POLITICA_URL, SECTION_DEPORTES_URL, SECTION_REPORTAJES_URL, SECTION_OPINION_URL, SECTION_MIGRACION_URL, SECTION_MAS_NOTICIAS_URL, RESTFUL_INVESTIGACIONES_URL, RESTFUL_EL_PITAZO_EN_LA_CALLE_URL, RESTFUL_ALIANZAS_URL, MEDIA_INFOGRAFIAS_URL, SECTION_SUCESOS_URL, SECTION_ECONOMIA_URL, SECTION_TECNOLOGIA_URL, SECTION_SALUD_URL, MEDIA_FOTOGALERIAS_URL, SECTION_INTERNACIONAL_URL, MEDIA_VIDEOS_URL } from '../constants/urls'
+
+import { FAVORITES_ROUTE, REGION_GRAN_CARACAS_ROUTE, RADIO_ROUTE, ABOUTUS_ROUTE,
+         REGION_CENTRO_ROUTE, REGION_GUAYANA_ROUTE, REGION_LOS_ANDES_ROUTE,
+         REGION_LOS_LLANOS_ROUTE, REGION_OCCIDENTE_ROUTE,
+         REGION_ORIENTE_ROUTE, SECTION_SUCESOS_ROUTE, SECTION_POLITICA_ROUTE,
+         SECTION_ECONOMIA_ROUTE, SECTION_DEPORTES_ROUTE,
+         SECTION_TECNOLOGIA_ROUTE, SECTION_INTERNACIONAL_ROUTE,
+         SECTION_REPORTAJES_ROUTE, SECTION_SALUD_ROUTE, SECTION_OPINION_ROUTE,
+         SECTION_MIGRACION_ROUTE, SECTION_MAS_NOTICIAS_ROUTE,
+         RESTFUL_INVESTIGACIONES_ROUTE, RESTFUL_EL_PITAZO_EN_LA_CALLE_ROUTE,
+         RESTFUL_ALIANZAS_ROUTE, MEDIA_FOTOGALERIAS_ROUTE, MEDIA_VIDEOS_ROUTE,
+         MEDIA_INFOGRAFIAS_ROUTE, HOME_SCREEN_ROUTE,
+         OFFLINE_CONTENT_DOWNLOAD_ROUTE } from '../constants/routes'
+import { RADIO_URL, ABOUT_US_URL, REGION_GRAN_CARACAS_URL, REGION_CENTRO_URL,
+         REGION_GUAYANA_URL, REGION_LOS_ANDES_URL, REGION_OCCIDENTE_URL,
+         REGION_ORIENTE_URL, SECTION_POLITICA_URL, SECTION_DEPORTES_URL,
+         SECTION_REPORTAJES_URL, SECTION_OPINION_URL, SECTION_MIGRACION_URL,
+         SECTION_MAS_NOTICIAS_URL, RESTFUL_INVESTIGACIONES_URL,
+         RESTFUL_EL_PITAZO_EN_LA_CALLE_URL, RESTFUL_ALIANZAS_URL,
+         MEDIA_INFOGRAFIAS_URL, SECTION_SUCESOS_URL, SECTION_ECONOMIA_URL,
+         SECTION_TECNOLOGIA_URL, SECTION_SALUD_URL, MEDIA_FOTOGALERIAS_URL,
+         SECTION_INTERNACIONAL_URL, MEDIA_VIDEOS_URL } from '../constants/urls'
 /**
  * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
  */
+
+import styles from './style'
 
 const Regiones = [{ title: 'Regiones' }]
 const Secciones = [{ title: 'Secciones' }]
@@ -19,6 +39,7 @@ const Videos = [{ title: 'Videos y fotos' }]
 /**
  * @type {(navigation: NavigationScreenProp) => () => JSX.Element}
  */
+
 const renderRegiones = navigation => () => (
   <View>
     <List>
@@ -26,7 +47,7 @@ const renderRegiones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(REGION_GRAN_CARACAS_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(REGION_GRAN_CARACAS_URL),
+            paginatedURL: REGION_GRAN_CARACAS_URL,
           })
         }}
       >
@@ -38,7 +59,7 @@ const renderRegiones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(REGION_CENTRO_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(REGION_CENTRO_URL),
+            paginatedURL: REGION_CENTRO_URL,
           })
         }}
       >
@@ -50,7 +71,7 @@ const renderRegiones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(REGION_GUAYANA_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(REGION_GUAYANA_URL),
+            paginatedURL: REGION_GUAYANA_URL,
           })
         }}
       >
@@ -62,7 +83,7 @@ const renderRegiones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(REGION_LOS_ANDES_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(REGION_LOS_ANDES_URL),
+            paginatedURL: REGION_LOS_ANDES_URL,
           })
         }}
       >
@@ -74,7 +95,7 @@ const renderRegiones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(REGION_LOS_LLANOS_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(REGION_LOS_ANDES_URL),
+            paginatedURL: REGION_LOS_ANDES_URL,
           })
         }}
       >
@@ -86,7 +107,7 @@ const renderRegiones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(REGION_OCCIDENTE_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(REGION_OCCIDENTE_URL),
+            paginatedURL: REGION_OCCIDENTE_URL,
           })
         }}
       >
@@ -98,7 +119,7 @@ const renderRegiones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(REGION_ORIENTE_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(REGION_ORIENTE_URL),
+            paginatedURL: REGION_ORIENTE_URL,
           })
         }}
       >
@@ -120,7 +141,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_SUCESOS_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_SUCESOS_URL),
+            paginatedURL: SECTION_SUCESOS_URL,
           })
         }}
       >
@@ -132,7 +153,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_POLITICA_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_POLITICA_URL),
+            paginatedURL: SECTION_POLITICA_URL,
           })
         }}
       >
@@ -144,7 +165,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_ECONOMIA_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_ECONOMIA_URL),
+            paginatedURL: SECTION_ECONOMIA_URL,
           })
         }}
       >
@@ -156,7 +177,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_DEPORTES_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_DEPORTES_URL),
+            paginatedURL: SECTION_DEPORTES_URL,
           })
         }}
       >
@@ -168,7 +189,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_TECNOLOGIA_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_TECNOLOGIA_URL),
+            paginatedURL: SECTION_TECNOLOGIA_URL,
           })
         }}
       >
@@ -180,9 +201,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_INTERNACIONAL_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(
-              SECTION_INTERNACIONAL_URL
-            ),
+            paginatedURL: SECTION_INTERNACIONAL_URL,
           })
         }}
       >
@@ -194,7 +213,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_REPORTAJES_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_REPORTAJES_URL),
+            paginatedURL: SECTION_REPORTAJES_URL,
           })
         }}
       >
@@ -206,7 +225,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_SALUD_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_SALUD_URL),
+            paginatedURL: SECTION_SALUD_URL,
           })
         }}
       >
@@ -218,7 +237,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_OPINION_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_OPINION_URL),
+            paginatedURL: SECTION_OPINION_URL,
           })
         }}
       >
@@ -230,7 +249,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_MIGRACION_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_MIGRACION_URL),
+            paginatedURL: SECTION_MIGRACION_URL,
           })
         }}
       >
@@ -242,7 +261,7 @@ const renderSecciones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(SECTION_MAS_NOTICIAS_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(SECTION_MAS_NOTICIAS_URL),
+            paginatedURL: SECTION_MAS_NOTICIAS_URL,
           })
         }}
       >
@@ -264,9 +283,7 @@ const renderReposados = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(RESTFUL_INVESTIGACIONES_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(
-              RESTFUL_INVESTIGACIONES_URL
-            ),
+            paginatedURL: RESTFUL_INVESTIGACIONES_URL,
           })
         }}
       >
@@ -278,9 +295,7 @@ const renderReposados = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(RESTFUL_EL_PITAZO_EN_LA_CALLE_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(
-              RESTFUL_EL_PITAZO_EN_LA_CALLE_URL
-            ),
+            paginatedURL: RESTFUL_EL_PITAZO_EN_LA_CALLE_URL,
           })
         }}
       >
@@ -292,7 +307,7 @@ const renderReposados = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(RESTFUL_ALIANZAS_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(RESTFUL_ALIANZAS_URL),
+            paginatedURL: RESTFUL_ALIANZAS_URL,
           })
         }}
       >
@@ -314,7 +329,7 @@ const renderVideos = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(MEDIA_FOTOGALERIAS_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(MEDIA_FOTOGALERIAS_URL),
+            paginatedURL: MEDIA_FOTOGALERIAS_URL,
           })
         }}
       >
@@ -326,7 +341,7 @@ const renderVideos = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(MEDIA_VIDEOS_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(MEDIA_VIDEOS_URL),
+            paginatedURL: MEDIA_VIDEOS_URL,
           })
         }}
       >
@@ -338,7 +353,7 @@ const renderVideos = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(MEDIA_INFOGRAFIAS_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(MEDIA_INFOGRAFIAS_URL),
+            paginatedURL: MEDIA_INFOGRAFIAS_URL,
           })
         }}
       >
@@ -347,6 +362,23 @@ const renderVideos = navigation => () => (
         </Text>
       </TouchableOpacity>
     </List>
+  </View>
+)
+
+/**
+ * @param {{ title: string }} title
+ * @param {boolean=} expanded
+ */
+const renderHeader = ({ title }, expanded) => (
+  <View
+    style={styles.viewHeader}
+  >
+    <Text style={styles.itemTitle}>
+      {title}
+    </Text>
+    {expanded
+      ? <Icon style={styles.sidebarHeaderArrow} name="ios-arrow-back" />
+      : <Icon style={styles.sidebarHeaderArrow} name="ios-arrow-down" />}
   </View>
 )
 
@@ -363,6 +395,7 @@ const SideBar = ({ navigation }) => (
       >
         <Image
           style={styles.logo}
+          // @ts-ignore
           source={require('../assets/img/logo.png')}
         />
       </TouchableOpacity>
@@ -370,6 +403,7 @@ const SideBar = ({ navigation }) => (
     <ScrollView>
       <Accordion
         dataArray={Regiones}
+        renderHeader={renderHeader}
         headerStyle={styles.accordionHeader}
         renderContent={renderRegiones(navigation)}
         // renderHeader={this._renderHeader}
@@ -377,6 +411,7 @@ const SideBar = ({ navigation }) => (
       />
       <Accordion
         dataArray={Secciones}
+        renderHeader={renderHeader}
         headerStyle={styles.accordionHeader}
         renderContent={renderSecciones(navigation)}
         // renderHeader={this._renderHeader}
@@ -384,6 +419,7 @@ const SideBar = ({ navigation }) => (
       />
       <Accordion
         dataArray={Reposados}
+        renderHeader={renderHeader}
         headerStyle={styles.accordionHeader}
         renderContent={renderReposados(navigation)}
         //  renderHeader={this._renderHeader}
@@ -391,6 +427,7 @@ const SideBar = ({ navigation }) => (
       />
       <Accordion
         dataArray={Videos}
+        renderHeader={renderHeader}
         headerStyle={styles.accordionHeader}
         renderContent={renderVideos(navigation)}
         //  renderHeader={this._renderHeader}
@@ -400,11 +437,11 @@ const SideBar = ({ navigation }) => (
         style={styles.itemButtomMenu}
         onPress={() => {
           navigation.navigate(RADIO_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(RADIO_URL),
+            paginatedURL: RADIO_URL,
           })
         }}
       >
-        <Text>
+        <Text style={styles.itemTitle}>
           Radio
         </Text>
       </TouchableOpacity>
@@ -412,11 +449,11 @@ const SideBar = ({ navigation }) => (
         style={styles.itemButtomMenu}
         onPress={() => {
           navigation.navigate(ABOUTUS_ROUTE, {
-            fetcherFunction: buildPaginatedUrlFetcher(ABOUT_US_URL),
+            paginatedURL: ABOUT_US_URL,
           })
         }}
       >
-        <Text>
+        <Text style={styles.itemTitle}>
           Quienes Somos
         </Text>
       </TouchableOpacity>
@@ -429,39 +466,45 @@ const SideBar = ({ navigation }) => (
         }}
         style={styles.itemButtomMenu}
       >
-        <Image source={require('../assets/img/sideBarFavIcon.png')} />
+        <Image
+          // @ts-ignore
+          source={require('../assets/img/sideBarFavIcon.png')}
+        />
         <Text
           style={styles.textButtomMenu}
         >
           Favoritos
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.itemButtomMenu}>
-        <Image source={require('../assets/img/download.png')} />
-        <Text style={styles.textButtomMenu}>
+      <TouchableOpacity
+        style={styles.itemButtomMenu}
+        onPress={() => {
+          navigation.navigate(OFFLINE_CONTENT_DOWNLOAD_ROUTE)
+        }}
+      >
+        <Image
+          // @ts-ignore
+          source={require('../assets/img/download.png')}
+        />
+        <Text
+          style={styles.textButtomMenu}
+          onPress={() => {
+            navigation.navigate(OFFLINE_CONTENT_DOWNLOAD_ROUTE)
+          }}
+        >
           Descargar contenidos
         </Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.itemButtomMenu}>
-        <Image source={require('../assets/img/settings.png')} />
+        <Image
+          // @ts-ignore
+          source={require('../assets/img/settings.png')}
+        />
         <Text style={styles.textButtomMenu}>
           Ajustes
         </Text>
       </TouchableOpacity>
     </ScrollView>
-
-    {/* <List
-      dataArray={routes}
-      renderRow={data => {
-        return (
-          <ListItem
-            button
-            onPress={() => this.navigation.navigate(data)}>
-            <Text>{data}</Text>
-          </ListItem>
-        )
-      }}
-    /> */}
   </Container>
 )
 

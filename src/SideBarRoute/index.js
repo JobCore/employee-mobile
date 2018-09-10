@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Text, View } from 'react-native'
+
 /**
  * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
  */
@@ -11,20 +13,27 @@ import SideBarRoute from './SideBarRoute'
  * @returns {JSX.Element}
  */
 const SideBarRouteRoute = ({ navigation }) => {
-  let fetcherFunction = navigation.getParam('fetcherFunction')
+  const paginatedURL = navigation.getParam('paginatedURL')
 
-  if (typeof fetcherFunction !== 'function') {
+  if (typeof paginatedURL !== 'string') {
     if (__DEV__) {
       throw new Error(
-        `Expected fetcherFunction navigation param inside SideBarRoute route to be a function, instead got: ${typeof fetcherFunction}`
+        `Expected paginatedUrl navigation parameter passed to /SideBar to be an string, instead got: '${typeof paginatedURL}'`
       )
     }
-    fetcherFunction = () => {}
+
+    return (
+      <View>
+        <Text>
+          Error de url
+        </Text>
+      </View>
+    )
   }
 
   return (
     <SideBarRoute
-      fetcherFunction={fetcherFunction}
+      paginatedURL={paginatedURL}
       navigation={navigation}
     />
   )

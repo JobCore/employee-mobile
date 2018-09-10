@@ -33,7 +33,7 @@ import { MOST_SEEN_LIMIT, FETCH_TIMEOUT } from '../constants/config'
 
 const HomeScreenHeader = navigation => (
   <Header
-    androidStatusBarColor="#D13030"
+    androidStatusBarColor="#d13239"
     style={styles.header}
     iosBarStyle="light-content"
     noShadow
@@ -90,7 +90,7 @@ const HomeScreen = ({ navigation }) => (
             <Container>
               <Content>
                 <Spinner
-                  color="#D13030"
+                  color="#d13239"
                   style={styles.deadCenter}
                 />
               </Content>
@@ -139,7 +139,7 @@ const HomeScreen = ({ navigation }) => (
             <Container>
               <Content>
                 <Spinner
-                  color="#D13030"
+                  color="#d13239"
                 />
               </Content>
             </Container>
@@ -186,7 +186,7 @@ const HomeScreen = ({ navigation }) => (
             <Container>
               <Content>
                 <Spinner
-                  color="#D13030"
+                  color="#d13239"
                 />
               </Content>
             </Container>

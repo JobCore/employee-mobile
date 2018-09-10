@@ -3,9 +3,8 @@ import React from 'react'
  * @template T
  * @typedef {import('react').SFC<T>} SFC
  */
-import { Container, Content, Header, Left, Body, Right,
-         Icon } from 'native-base'
-import { Image, TouchableOpacity } from 'react-native'
+import { Container, Content, Header, Left, Body, Right, } from 'native-base'
+import { Image, TouchableOpacity, StatusBar } from 'react-native'
 import HTML from 'react-native-render-html'
 
 /**
@@ -20,6 +19,7 @@ import renderers from './renderers'
 
 /**
  * @typedef {object} DetailsInfoViewProps
+ * @prop {string} title Title of the news article
  * @prop {string} html News item html to be rendered. This html can have
  * special <youtube> tags to be rendered natively
  * @prop {() => void} onPressFav Called when the favorite button is pressed
@@ -34,6 +34,7 @@ import renderers from './renderers'
  * @type {SFC<DetailsInfoViewProps>}
  */
 const DetailsInfoView = ({
+  title,
   html,
   onPressFav,
   onShare,
@@ -42,20 +43,31 @@ const DetailsInfoView = ({
 }) => (
   <Container>
     <Header
-      androidStatusBarColor="#D13030"
+      androidStatusBarColor="#d13239"
       style={styles.header}
       iosBarStyle="light-content"
     >
-      <Left>
-        <Icon
-          name="md-arrow-back"
-          android="md-arrow-back"
-          ios="md-arrow-back"
-          onPress={() => {
-            navigation.goBack()
-          }}
-        />
-      </Left>
+    <StatusBar
+      backgroundColor="blue"
+      barStyle="light-content"
+    />
+    <Left>
+    <TouchableOpacity onPress={() => {
+      navigation.goBack()
+      }}>
+      <Image
+        source={require('../assets/img/return.png')}
+      />
+    </TouchableOpacity>
+      {/* <Icon
+        name="md-arrow-back"
+        android="md-arrow-back"
+        ios="md-arrow-back"
+        onPress={() => {
+          navigation.goBack()
+        }}
+      /> */}
+    </Left>
 
       <Body>
         <Image
@@ -65,24 +77,23 @@ const DetailsInfoView = ({
       </Body>
 
       <Right>
-        <TouchableOpacity
-          onPress={onPressFav}
+      <TouchableOpacity
+        style={{marginRight: 20}}
+        onPress={onPressFav}
         >
           {
             isFavorite
               ? (
                 <Image
-                  source={require('../assets/img/fav-remove.png')}
+                  source={require('../assets/img/sideBarFavIcon.png')}
                 />)
               : (
                 <Image
-                  source={require('../assets/img/fav-add.png')}
+                  source={require('../assets/img/favoriteUnselected.png')}
                 />)
           }
         </TouchableOpacity>
-      </Right>
 
-      <Right>
         <TouchableOpacity
           onPress={onShare}
           style={styles.buttonRight}
@@ -92,14 +103,12 @@ const DetailsInfoView = ({
             style={styles.navRight}
           />
         </TouchableOpacity>
-
-
       </Right>
     </Header>
 
     <Content>
       <HTML
-        html={html}
+        html={(`<h1 class="title">${title}</h1>`).concat(html)}
         classesStyles={classesStyles}
         tagsStyles={tagsStyles}
         renderers={renderers}

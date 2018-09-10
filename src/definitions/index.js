@@ -6,6 +6,11 @@
  * @author danlugo92
  */
 
+/**
+ * News item as it comes from the server, with a 'content-body' prop instead of
+ * 'contentBody'
+ * @typedef {Pick<NewsItem, Exclude<keyof NewsItem, 'contentBody'>> & { 'content-body': string }} RawNewsItem
+ */
 
 /**
  * An object representing an individual news item as obtained from the API.
