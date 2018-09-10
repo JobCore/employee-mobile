@@ -15,7 +15,7 @@ import {Container, Item, Input, Button, Text, Form, Label, Toast, Spinner} from 
 import styles from './LoginStyle';
 import {REGISTER_ROUTE, FORGOT_ROUTE, APP_ROUTE} from "../../constants/routes";
 import * as loginActions from './actions';
-import store from './AccountStore';
+import accountStore from './AccountStore';
 
 class LoginScreen extends Component {
     static navigationOptions = {header: null}
@@ -30,8 +30,8 @@ class LoginScreen extends Component {
     }
 
     componentDidMount() {
-        this.loginSubscription = store.subscribe('Login', (user) => this.loginHandler(user));
-        this.accountStoreError = store.subscribe('AccountStoreError', (err) => this.errorHandler(err));
+        this.loginSubscription = accountStore.subscribe('Login', (user) => this.loginHandler(user));
+        this.accountStoreError = accountStore.subscribe('AccountStoreError', (err) => this.errorHandler(err));
     }
 
     componentWillUnmount() {
@@ -42,16 +42,11 @@ class LoginScreen extends Component {
     loginHandler = (user) => {
         this.isLoading(false);
         this.props.navigation.navigate(APP_ROUTE);
-        // if (user) {
-        //     this.isLoading(false);
-        //     alert(`LOGIN.youHaveLoggedIn`);
-        //     this._signInAsync(user);
-        // }
     }
 
     errorHandler = (err) => {
         this.isLoading(false);
-        alert(JSON.stringify(err.message || err));
+        alert(String(err));
     }
 
     userRegister() {
@@ -179,11 +174,11 @@ class LoginScreen extends Component {
     }
 
     render() {
-        if (this.state.isLoading) {
+        /*if (this.state.isLoading) {
             return (<View style={styles.container}>
                 <Spinner color={BLUE_DARK}/>
             </View>);
-        }
+        }*/
         return (
             <View style={styles.container}>
                 <Image

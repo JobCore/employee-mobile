@@ -42,10 +42,15 @@ class AccountStore extends FluxStore {
         this.addEvent('Register');
         this.addEvent('AccountStoreError', nextState => {
             LOG(this, nextState);
+			
             if (nextState.non_field_errors) {
                 return nextState.non_field_errors.join(", ");
             }
-
+			if (nextState.message) {
+				return nextState.message;
+			}
+			
+			return nextState;
         });
 
         AsyncStorage.multiGet(["user", "token"]).then(([user, token]) => {
@@ -59,6 +64,6 @@ class AccountStore extends FluxStore {
     }
 }
 
-const store = new AccountStore();
+const accountStore = new AccountStore();
 
-export default store;
+export default accountStore;

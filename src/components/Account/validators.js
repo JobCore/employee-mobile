@@ -1,4 +1,4 @@
-import * as utils from '../../utils/index';
+import * as utils from '../../utils';
 
 const loginValidator = (username_or_email, password) => {
     if (!utils.isValidString(username_or_email)) {

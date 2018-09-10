@@ -1,31 +1,27 @@
-import Flux from '../../utils/flux-state';
+import * as Flux from '../../utils/flux-state';
 
-import {postData} from '../../fetch/index';
+import {postData} from '../../fetch';
 import {loginValidator, registerValidator} from './validators';
 
 /**
  * Action for login in the User
  * @param usernameOrEmail
  * @param password
- * @return {Promise<*>}
  */
-const login = async (usernameOrEmail, password) => {
+const login = (usernameOrEmail, password) => {
     try {
         loginValidator(usernameOrEmail, password);
     } catch (err) {
         return Flux.dispatchEvent('AccountStoreError', err);
     }
 
-    let loginData;
-
-    try {
-        loginData = await postData('/api/login', {username_or_email: usernameOrEmail, password: password}, false)
-    } catch (err) {
-        Flux.dispatchEvent('AccountStoreError', err);
-        return;
-    }
-
-    Flux.dispatchEvent('Login', loginData);
+	postData('/api/login', {username_or_email: usernameOrEmail, password: password}, false)
+	.then((data) => {
+		Flux.dispatchEvent('Login', loginData);
+	})
+	.catch((err) => {
+        return Flux.dispatchEvent('AccountStoreError', err);
+    });
 };
 
 /**
