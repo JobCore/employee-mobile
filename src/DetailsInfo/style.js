@@ -55,6 +55,7 @@ export default StyleSheet.create({
   },
   buttonRight: {
     marginRight: 20,
+    
   },
   header: {
     backgroundColor: 'white',
