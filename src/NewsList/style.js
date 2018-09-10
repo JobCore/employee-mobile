@@ -15,7 +15,8 @@ export default StyleSheet.create({
   lastDateUpdated: {
     backgroundColor: PITAZO_GRAY,
     fontSize: 14,
-    paddingLeft: 15,
+    paddingBottom: 2,
+    paddingTop: 2,
     textAlign: 'center',
   },
 })
