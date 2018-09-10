@@ -1,5 +1,16 @@
 import { Dimensions, StyleSheet } from 'react-native'
 
+
+/**
+ * @type {number}
+ */
+const ARTICLE_PADDING_LEFT = 15
+
+/**
+ * @type {number}
+ */
+const ARTICLE_PADDING_RIGHT = 15
+
 export default StyleSheet.create({
   bgColor: {
     backgroundColor: '#fff',
@@ -25,12 +36,10 @@ export default StyleSheet.create({
     width: 80,
   },
   image: {
-    width: Dimensions.get('window').width,
-    height: 300,
-    resizeMode: 'contain',
-  },
-  imageView: {
     flex: 1,
+    width: Dimensions.get('window').width,
+    height: 'auto',
+    resizeMode: 'contain',
   },
   imgProfileItem: {
     borderRadius: 50,

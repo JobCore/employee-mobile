@@ -496,6 +496,10 @@
   dependencies:
     "@types/react" "*"
 
+"@types/ramda@^0.25.37":
+  version "0.25.37"
+  resolved "https://registry.yarnpkg.com/@types/ramda/-/ramda-0.25.37.tgz#99d91c0a8d7fde279c7438b4dc54354b73385973"
+
 "@types/react-native-popup-dialog@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/react-native-popup-dialog/-/react-native-popup-dialog-1.0.1.tgz#59e415a65fcf3fb2d455aa06fbc7ce1ef758e67c"
@@ -4094,6 +4098,10 @@ mkdirp@^0.5.0, mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
+moment@^2.22.2:
+  version "2.22.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
+
 morgan@^1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/morgan/-/morgan-1.9.0.tgz#d01fa6c65859b76fcf31b3cb53a3821a311d8051"
@@ -4683,6 +4691,10 @@ raf@^3.1.0:
   resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.0.tgz#a28876881b4bc2ca9117d4138163ddb80f781575"
   dependencies:
     performance-now "^2.1.0"
+
+ramda@^0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.25.0.tgz#8fdf68231cffa90bc2f9460390a0cb74a29b29a9"
 
 randomatic@^3.0.0:
   version "3.1.0"
