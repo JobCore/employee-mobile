@@ -10,6 +10,12 @@ export default StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
   },
+  favButtonTouchOpac: {
+    marginRight: 20,
+  },
+  favBtnIsLoadingFav: {
+    opacity: 0.3,
+  },
   titleText: {
     color: '#000',
     fontSize: 18,

@@ -1,7 +1,14 @@
+/**
+ * @fileoverview
+ * @author danlugo92
+ */
+
+
 import React, { Component } from 'react'
 
-import { FlatList, Image, RefreshControl, Text, View, AsyncStorage } from 'react-native'
+import { FlatList, Image, RefreshControl, Text, View, AsyncStorage, Share } from 'react-native'
 import { Spinner, Button, Content } from 'native-base'
+import moment from 'moment'
 /**
  * @template T
  * @typedef {import('react-native').ListRenderItem<T>} ListRenderItem
@@ -19,17 +26,19 @@ import { LAST_DATE_UPDATED_STOR_KEY, NAVIGATION_NEWSITEM_PARAM_KEY } from '../co
 import { VIEW_ITEM_ROUTE } from '../constants/routes'
 
 import NewsCard from './NewsCard'
+import BetterNewsCard from './NewsCard/index2'
+import styles from './style'
 
 /**
  * @type {(navigation: NavigationScreenProp) => ListRenderItem<NewsItem>}
  */
 const renderItem = navigation => ({ item: newsItem }) => {
-  const { date, image, title } = newsItem
+  const { date, image, title, link: url } = newsItem
   return (
     // TODO: padding makes the NewsCard image cropped
     <Content padder>
       <NewsCard
-        date={date}
+        date={moment(date).locale('es').format('lll')}
         image={image}
         onPress={() => {
           navigation.navigate(VIEW_ITEM_ROUTE, {
@@ -37,7 +46,13 @@ const renderItem = navigation => ({ item: newsItem }) => {
             navigation,
           })
         }}
-        onPressShare={() => {}}
+        onPressShare={() => {
+          Share.share({
+            message: url,
+            title,
+            url,
+          })
+        }}
         title={title}
       />
     </Content>
@@ -45,7 +60,7 @@ const renderItem = navigation => ({ item: newsItem }) => {
 }
 
 /**
- * @typedef {object} PaginatedNewsListProps
+ * @typedef {object} NewsListProps
  * @prop {() => () => Promise<ReadonlyArray<NewsItem>>} fetcherConstructor
  * Constructs a fetcher for online content, sucesive calls to it will either
  * return new pages if it's a paginated list, or more items if it is a limited
@@ -56,7 +71,7 @@ const renderItem = navigation => ({ item: newsItem }) => {
  */
 
 /**
- * @typedef {object} PaginatedNewsListState
+ * @typedef {object} NewsListState
  * @prop {boolean} appending True when fetchAndAppend() has been called and
  * hasnt finished
  * @prop {() => Promise<ReadonlyArray<NewsItem>>} fetcher
@@ -68,11 +83,11 @@ const renderItem = navigation => ({ item: newsItem }) => {
  */
 
 /**
- * @augments {Component<PaginatedNewsListProps, PaginatedNewsListState>}
+ * @augments {Component<NewsListProps, NewsListState>}
  */
-export default class PaginatedNewsList extends Component {
+export default class NewsList extends Component {
   /**
-   * @param {PaginatedNewsListProps} props
+   * @param {NewsListProps} props
    */
   constructor(props) {
     super(props)
@@ -82,7 +97,7 @@ export default class PaginatedNewsList extends Component {
     this.mounted = false
 
     /**
-     * @type {PaginatedNewsListState}
+     * @type {NewsListState}
      */
     this.state = {
       appending: false,
@@ -238,7 +253,7 @@ export default class PaginatedNewsList extends Component {
      * @type {string}
      */
     const headerText = (function iief() {
-      const dateReadable = (new Date(lastDateUpdated)).toString()
+      const dateReadable = moment(lastDateUpdated).locale('es').format('lll')
 
       if (isOfflineContent) {
         if (lastDateUpdated > -1) {
@@ -246,11 +261,12 @@ export default class PaginatedNewsList extends Component {
         }
         return 'Ultima Actualizacion: (Contenido Offline)'
       }
-      return `Uiltima Actualizacion (Online): ${dateReadable}`
+      return `Ultima Actualizacion (Online): ${dateReadable}`
     }())
 
     return (
       <FlatList
+        style={styles.flatList}
         refreshControl={(
           <RefreshControl
             refreshing={refreshing}
@@ -278,11 +294,11 @@ export default class PaginatedNewsList extends Component {
           </View>
         )}
         ListHeaderComponent={newsItems.length === 0 ? null : (
-          <View>
-            <Text>
-              {headerText}
-            </Text>
-          </View>
+          <Text
+            style={styles.lastDateUpdated}
+          >
+            {headerText}
+          </Text>
         )}
         ListFooterComponent={(
           newsItems.length > 0 && isOnlineContent ? (
