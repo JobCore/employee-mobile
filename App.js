@@ -1,8 +1,10 @@
+import React, { Component } from "react";
 import { createSwitchNavigator, createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import { YellowBox, Image } from 'react-native';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Warning: Failed prop type', 'Module RCTImageLoader']);
 
+import { Root } from "native-base";
 
 import LoginScreen from './src/components/Account/LoginScreen';
 import RegisterScreen from './src/components/Account/RegisterScreen';
@@ -62,7 +64,7 @@ export const Tabs = createBottomTabNavigator({
     }
 );
 
-export default createSwitchNavigator(
+const SwitchNavigator = createSwitchNavigator(
     {
         AuthLoading: Splash,
         [APP_ROUTE]: createStackNavigator({
@@ -77,3 +79,7 @@ export default createSwitchNavigator(
         initialRouteName: 'AuthLoading',
     }
 );
+
+export default () => <Root>
+    <SwitchNavigator/>
+  </Root>
