@@ -1,7 +1,7 @@
 import * as Flux from '../../utils/flux-state';
 
 import { postData } from '../../fetch';
-import { loginValidator, registerValidator } from './validators';
+import { loginValidator, registerValidator, passwordResetValidator } from './validators';
 
 /**
  * Action for login in the User
@@ -15,7 +15,7 @@ const login = (email, password) => {
     return Flux.dispatchEvent('AccountStoreError', err);
   }
 
-  postData('/api/login', { username_or_email: email, password: password }, false)
+  postData('/login', { username_or_email: email, password: password }, false)
     .then((data) => {
       Flux.dispatchEvent('Login', data);
     })
@@ -36,7 +36,7 @@ const register = (email, password) => {
     return Flux.dispatchEvent('AccountStoreError', err);
   }
 
-  postData('/api/register', { email: email, password: password }, false)
+  postData('/user/register', { username: email, email: email, password: password }, false)
     .then((data) => {
       Flux.dispatchEvent('Register', data);
     })
@@ -45,4 +45,32 @@ const register = (email, password) => {
     });
 }
 
-export { login, register };
+/**
+ * Action for changing password, an email will be sent to reset your password
+ * @param email
+ */
+const passwordReset = (email) => {
+  try {
+    passwordResetValidator(email);
+  } catch (err) {
+    return Flux.dispatchEvent('AccountStoreError', err);
+  }
+
+  postData('/user/password/reset', { email }, false)
+    .then((data) => {
+      Flux.dispatchEvent('PasswordReset', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('AccountStoreError', err);
+    });
+}
+
+/**
+ * Action for setting the stored user from AsyncStorage/Flux on app first load
+ * @param user
+ */
+const setStoredUser = (user) => {
+  Flux.dispatchEvent('Login', user);
+}
+
+export { login, register, passwordReset, setStoredUser };

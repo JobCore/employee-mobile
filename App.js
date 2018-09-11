@@ -8,14 +8,14 @@ import { Root } from "native-base";
 
 import LoginScreen from './src/components/Account/LoginScreen';
 import RegisterScreen from './src/components/Account/RegisterScreen';
-import ForgotScreen from './src/components/Forgot';
+import ForgotScreen from './src/components/Account/ForgotScreen';
 
 import DashboardScreen from './src/components/Dashboard';
 import JobsOffers from './src/components/JobsOffers';
 import JobsPreferences from './src/components/JobsPreferences';
 import MyJobs from './src/components/MyJobs';
 
-import { DASHBOARD_ROUTE, TABBAR_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE, FORGOT_ROUTE, JOBSOFFERS_ROUTE, JOBSPREFERENCES_ROUTE, MYJOBS_ROUTE, SETTING_ROUTE, APP_ROUTE, STACK_ROUTE, AUTH_ROUTE } from './src/constants/routes'
+import { DASHBOARD_ROUTE, TABBAR_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE, FORGOT_ROUTE, JOBSOFFERS_ROUTE, JOBSPREFERENCES_ROUTE, MYJOBS_ROUTE, SETTING_ROUTE, APP_ROUTE, STACK_ROUTE, AUTH_ROUTE, RESET_ROUTE } from './src/constants/routes'
 import { BLUE_MAIN, BLUE_DARK, BLUE_LIGHT, GRAY_MAIN } from './src/constants/colorPalette'
 
 import SettingScreen from './src/components/Setting';
@@ -70,6 +70,7 @@ const SwitchNavigator = createSwitchNavigator(
         [APP_ROUTE]: createStackNavigator({
             ['Tabs']: Tabs,
             [SETTING_ROUTE]: SettingScreen,
+            [RESET_ROUTE]: ForgotScreen,
         }, {navigationOptions: {header: null}}),
         [AUTH_ROUTE]: AuthStack,
         [STACK_ROUTE]: AppStack

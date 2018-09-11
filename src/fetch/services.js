@@ -1,7 +1,7 @@
 import { accountStore } from '../components/Account/AccountStore';
 import * as Flux from '../utils/flux-state';
 
-const API_URL = 'https://jobcore.herokuapp.com';
+const API_URL = 'https://jobcore-api-alesanchezr.c9users.io/api';
 
 /**
  * POST method fetch

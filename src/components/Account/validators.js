@@ -21,5 +21,11 @@ const registerValidator = (email, password) => {
     }
 }
 
+const passwordResetValidator = (email) => {
+    if (!utils.isValidString(email)) {
+        throw new Error(i18next.t('LOGIN.emptyEmail'));
+    }
+}
 
-export {loginValidator, registerValidator};
+
+export {loginValidator, registerValidator, passwordResetValidator};

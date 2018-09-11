@@ -47,7 +47,6 @@ class RegisterScreen extends Component {
     Toast.show({
       type: "success",
       text: i18next.t('REGISTER.youHaveRegistered'),
-      buttonText: "Ok",
     });
   }
 
@@ -56,13 +55,12 @@ class RegisterScreen extends Component {
     Toast.show({
       type: "danger",
       text: JSON.stringify(err),
-      buttonText: "Ok",
     });
   }
 
   register = () => {
     this.isLoading(true);
-    actions.register(this.state.email, this.state.password)
+    actions.register(this.state.email.toLowerCase(), this.state.password)
   }
 
   isLoading = (isLoading) => {

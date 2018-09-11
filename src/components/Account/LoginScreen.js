@@ -18,6 +18,7 @@ import * as loginActions from './actions';
 import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
+import { LOG, WARN, ERROR } from "../../utils";
 
 class LoginScreen extends Component {
   static navigationOptions = { header: null }
@@ -43,7 +44,25 @@ class LoginScreen extends Component {
 
   loginHandler = (user) => {
     this.isLoading(false);
-    this.props.navigation.navigate(APP_ROUTE);
+
+    try {
+      token = user.token;
+      status = user.user.profile.status;
+    } catch (e) {
+      WARN(this, e);
+    }
+
+    if (status === 'PENDING_EMAIL_VALIDATION') {
+      return Toast.show({
+        type: "danger",
+        text: i18next.t('LOGIN.youMustValidateEmail'),
+        duration: 3000,
+      });
+    }
+
+    if(token) {
+      this.props.navigation.navigate(APP_ROUTE);
+    }
   }
 
   errorHandler = (err) => {
@@ -51,7 +70,6 @@ class LoginScreen extends Component {
     Toast.show({
       type: "danger",
       text: JSON.stringify(err),
-      buttonText: "Ok",
     });
   }
 
@@ -159,7 +177,7 @@ class LoginScreen extends Component {
 
   login = () => {
     this.isLoading(true);
-    loginActions.login(this.state.email, this.state.password);
+    loginActions.login(this.state.email.toLowerCase(), this.state.password);
   };
 
   isLoading = (isLoading) => {

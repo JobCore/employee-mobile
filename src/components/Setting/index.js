@@ -27,9 +27,11 @@ import {
     Icon
 } from 'native-base';
 import styles from './style';
-import {DASHBOARD_ROUTE, APP_ROUTE, AUTH_ROUTE} from "../../constants/routes";
+import {DASHBOARD_ROUTE, APP_ROUTE, AUTH_ROUTE, RESET_ROUTE} from "../../constants/routes";
 import {WHITE_MAIN, BLUE_DARK, BLUE_MAIN} from "../../constants/colorPalette";
 import store from "../Account/AccountStore";
+import { I18n } from 'react-i18next';
+import { i18next } from '../../i18n';
 
 class SettingScreen extends Component {
 
@@ -56,18 +58,6 @@ class SettingScreen extends Component {
         this.setState({user: loginData.user});
     }
 
-    getStoredUser = async () => {
-        const userString = await AsyncStorage.getItem('user');
-
-        try {
-            userJson = JSON.parse(userString);
-        } catch (e) {
-            throw alert('LOGIN.failedToLoadUser')
-        }
-
-        return userJson.user;
-    }
-
     _signOutAsync = async () => {
         await AsyncStorage.clear();
         this.props.navigation.navigate(AUTH_ROUTE);
@@ -77,35 +67,34 @@ class SettingScreen extends Component {
         this.props.navigation.navigate('JobsOffers');
     };
 
-    renderBy() {
+    passwordReset = () => {
+      this.props.navigation.navigate(RESET_ROUTE);
+    }
+
+    renderBy(t) {
         if (Platform.OS == 'android') {
             return (
                 <ScrollView style={styles.viewForm} keyboardShouldPersistTaps={'always'}>
                     <Form>
                         <Item style={styles.viewInput} inlineLabel rounded>
-                            <Label style={styles.labelForm}>Username</Label>
-                            <Input value={this.state.user.username}/>
-                        </Item>
-                        <Item style={styles.viewInput} inlineLabel rounded>
-                            <Label style={styles.labelForm}>Email</Label>
+                            <Label style={styles.labelForm}>
+                              {t('SETTINGS.email')}
+                            </Label>
                             <Input value={this.state.user.email}/>
-                        </Item>
-                        <Item style={styles.viewInput} inlineLabel rounded>
-                            <Label style={styles.labelForm}>Password</Label>
-                            <Input
-                                value={''}
-                                secureTextEntry={true}/>
                         </Item>
                     </Form>
                     <TouchableOpacity
                         full
+                        onPress={this.passwordReset}
                         style={styles.viewButtomSignUp}>
                         <Text
                             style={styles.textButtomSave}>
-                            Change
+                            {t('SETTINGS.changePassword')}
                         </Text>
                     </TouchableOpacity>
-                    <Text style={styles.labelBank}>Link Bank Account</Text>
+                    <Text style={styles.labelBank}>
+                      {t('SETTINGS.linkBank')}
+                    </Text>
                     <View style={styles.viewCrud}>
                         <View style={styles.viewButtomLeft}>
                             <Button
@@ -130,7 +119,7 @@ class SettingScreen extends Component {
                         style={styles.viewButtomLogin}>
                         <Text
                             style={styles.textButtom}>
-                            Sign Up
+                            {t('SETTINGS.signUp')}
                         </Text>
                     </Button>
                     <TouchableOpacity
@@ -139,7 +128,7 @@ class SettingScreen extends Component {
                         style={styles.viewButtomSignUp}>
                         <Text
                             style={styles.textButtomSignUp}>
-                            Logout
+                            {t('SETTINGS.logout')}
                         </Text>
                     </TouchableOpacity>
                 </ScrollView>
@@ -149,30 +138,23 @@ class SettingScreen extends Component {
                 <KeyboardAvoidingView behavior="padding">
                     <View style={styles.viewForm}>
                         <Form>
-                            <Item style={styles.viewInput} inlineLabel rounded>
-                                <Label style={styles.labelForm}>Username</Label>
-                                <Input value={this.state.user.username}/>
-                            </Item>
-                            <Item style={styles.viewInput} inlineLabel rounded>
-                                <Label style={styles.labelForm}>Email</Label>
-                                <Input value={this.state.user.email}/>
-                            </Item>
-                            <Item style={styles.viewInput} inlineLabel rounded>
-                                <Label style={styles.labelForm}>Password</Label>
-                                <Input
-                                    value={''}
-                                    secureTextEntry={true}/>
-                            </Item>
+                          <Item style={styles.viewInput} inlineLabel rounded>
+                              <Label style={styles.labelForm}>
+                                {t('SETTINGS.email')}
+                              </Label>
+                              <Input value={this.state.user.email}/>
+                          </Item>
                         </Form>
                         <TouchableOpacity
                             full
+                            onPress={this.passwordReset}
                             style={styles.viewButtomSignUp}>
                             <Text
                                 style={styles.textButtomSave}>
-                                Change
+                                {t('SETTINGS.changePassword')}
                             </Text>
                         </TouchableOpacity>
-                        <Text style={styles.labelBank}>Link Bank Account</Text>
+                        <Text style={styles.labelBank}>{t('SETTINGS.linkBank')}</Text>
                         <View style={styles.viewCrud}>
                             <View style={styles.viewButtomLeft}>
                                 <Button
@@ -197,7 +179,7 @@ class SettingScreen extends Component {
                             style={styles.viewButtomLogin}>
                             <Text
                                 style={styles.textButtom}>
-                                Sign Up
+                                {t('SETTINGS.signUp')}
                             </Text>
                         </Button>
                         <TouchableOpacity
@@ -206,7 +188,7 @@ class SettingScreen extends Component {
                             style={styles.viewButtomSignUp}>
                             <Text
                                 style={styles.textButtomSignUp}>
-                                Logout
+                                {t('SETTINGS.logout')}
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -216,7 +198,7 @@ class SettingScreen extends Component {
     }
 
     render() {
-        return (
+        return (<I18n>{(t, { i18n }) => (
             <Container>
                 <Header androidStatusBarColor={BLUE_MAIN} style={styles.headerCustom}>
                     <Left>
@@ -230,10 +212,11 @@ class SettingScreen extends Component {
                     <Right/>
                 </Header>
                 <Content>
-                    {this.renderBy()}
+                    {this.renderBy(t)}
                 </Content>
             </Container>
-        );
+          )
+      }</I18n>);
     }
 }
 
