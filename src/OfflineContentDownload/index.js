@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 
-import { Container, Spinner, Header, Left, Button, Body,
-         Icon } from 'native-base'
-import { Image, View, Text } from 'react-native'
+import { Container, Spinner, Button } from 'native-base'
+import { View, Text } from 'react-native'
 
 import { staticIsDownloading, staticThereWasError,
          staticAlreadyDownloaded,
@@ -15,37 +14,12 @@ import { PITAZO_RED } from '../constants/colors'
  */
 
 import styles from './style'
+import OfflineScreenHeader from './OfflineScreenHeader'
 
 /**
  * @param {NavigationScreenProp} navigation Navigation screen prop
  * @returns {JSX.Element}
  */
-const OfflineScreenHeader = navigation => (
-  <Header
-    androidStatusBarColor="#d13239"
-    style={styles.header}
-    iosBarStyle="light-content"
-    noShadow
-  >
-    <Left>
-      <Icon
-        name="md-arrow-back"
-        android="md-arrow-back"
-        ios="md-arrow-back"
-        onPress={() => {
-          navigation.goBack()
-        }}
-      />
-    </Left>
-    <Body>
-      <Image
-        // @ts-ignore
-        source={require('../assets/img/logo.png')}
-        style={styles.image}
-      />
-    </Body>
-  </Header>
-)
 
 
 /**
@@ -108,7 +82,9 @@ export default class OfflineDownloadContent extends Component {
       <Container
         style={styles.rootContainer}
       >
-        {OfflineScreenHeader(navigation)}
+        <OfflineScreenHeader
+          navigation={navigation}
+        />
 
         <View
           style={styles.containerView}
