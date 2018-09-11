@@ -16,6 +16,12 @@ import { PITAZO_RED } from '../constants/colors'
 import styles from './style'
 import OfflineScreenHeader from './OfflineScreenHeader'
 
+
+const EXPLANATION_TEXT = 'Al usar la funcionalidad de descargar contenidos, usted podra acceder a los articulos de cada seccion, actualizados al momento de haberlos descargado, cuando su dispositivo se encuentre offline'
+const ERROR_TEXT = 'Hubo un error mientras se trataba de descargar el contenido, por favor intente mas tarde'
+const SUCCESS_TEXT = 'Existe contenido guardado en su dispositivo para uso offline'
+
+
 /**
  * @param {NavigationScreenProp} navigation Navigation screen prop
  * @returns {JSX.Element}
@@ -93,14 +99,9 @@ export default class OfflineDownloadContent extends Component {
             <Text
               style={styles.displayText}
             >
-              {`
-                Al guardar los articulos offline, usted podra accederlos sin tener conexion a internet...
-                ${error ? (
-        'Hubo un error al descargar el contenido, puede intentar de nuevo o mas tarde'
-      ) : ''}
-                ${alreadyDownloaded ? (
-        '(Existe contenido descargado y guardado en su dispositivo)'
-      ) : ''}
+              {`${EXPLANATION_TEXT}
+                ${error ? (ERROR_TEXT) : ''}
+                ${alreadyDownloaded ? (SUCCESS_TEXT) : ''}
               `}
             </Text>
             {isDownloading && (
