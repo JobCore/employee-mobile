@@ -1,9 +1,18 @@
 import { AsyncStorage } from 'react-native'
+import { getItem, setItem, removeItem } from '../utils/StorageTimeout'
 
+import isNewsItem from '../utils/isNewsItem'
+import { ASYNC_STORAGE_TIMEOUT } from '../constants/config'
 /**
  * @typedef {import('../definitions').NewsItem} NewsItem
  */
-import isNewsItem from '../utils/isNewsItem'
+
+
+/**
+ * Prefix to use in AsyncStorage keys to differentiate favorites from other
+ * content
+ */
+const FAV_KEY_PREFIX = 'FAV:'
 
 
 /**
@@ -56,9 +65,9 @@ export const saveNewsItem = async (newsItem) => {
     console.warn(`add ${newsItem.id} to favorites`)
   }
 
-  const key = newsItem.id.toString()
+  const key = FAV_KEY_PREFIX + newsItem.id.toString()
 
-  const alreadyExists = await AsyncStorage.getItem(key) !== null
+  const alreadyExists = await getItem(key, ASYNC_STORAGE_TIMEOUT) !== null
 
   if (alreadyExists) {
     throw new Error(
@@ -68,8 +77,7 @@ export const saveNewsItem = async (newsItem) => {
 
   const json = JSON.stringify(newsItem)
 
-  return AsyncStorage
-    .setItem(key, json)
+  return setItem(key, json, ASYNC_STORAGE_TIMEOUT)
     .then(notifySubscribers)
 }
 
@@ -79,9 +87,9 @@ export const saveNewsItem = async (newsItem) => {
  * @returns {Promise<NewsItem>}
  */
 export const getSavedNewsItem = async (id) => {
-  const key = id.toString()
+  const key = FAV_KEY_PREFIX + id.toString()
 
-  const json = await AsyncStorage.getItem(key)
+  const json = await getItem(key, ASYNC_STORAGE_TIMEOUT)
 
   if (json === null) {
     throw new Error(
@@ -125,7 +133,9 @@ export const removeNewsItem = async (id) => {
     console.warn(`remove ${id} from favorites`)
   }
 
-  return AsyncStorage.removeItem(id.toString()).then(notifySubscribers)
+  const key = FAV_KEY_PREFIX + id
+
+  return removeItem(key, ASYNC_STORAGE_TIMEOUT).then(notifySubscribers)
 }
 
 /**
@@ -146,12 +156,14 @@ export const getAllFavorites = async () => {
     )
   }
 
+  const onlyFavKeys = keys.filter(key => key.indexOf(FAV_KEY_PREFIX) === 0)
+
   /**
    * @type {ReadonlyArray<string|null>}
    */
   const itemsJson = await Promise.all(
-    keys
-      .map(key => AsyncStorage.getItem(key))
+    onlyFavKeys
+      .map((key, _, arr) => getItem(key, ASYNC_STORAGE_TIMEOUT * arr.length))
   )
 
   if (!itemsJson.every(itemJson => typeof itemJson === 'string')) {
