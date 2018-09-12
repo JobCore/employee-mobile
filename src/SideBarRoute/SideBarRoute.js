@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Container, Header, Left, Button, Body, Right, Icon } from 'native-base'
+import { Container, Header, Left, Button, Body, Right } from 'native-base'
 import { Image, AsyncStorage, TouchableOpacity } from 'react-native'
 
 /**
@@ -10,6 +10,7 @@ import { Image, AsyncStorage, TouchableOpacity } from 'react-native'
 
 import NewsList from '../NewsList'
 import { buildPaginatedUrlFetcher } from '../utils/fetchers'
+import { PITAZO_RED } from '../constants/colors'
 
 import styles from './style'
 
@@ -19,19 +20,22 @@ import styles from './style'
  */
 const SideBarRouteHeader = navigation => (
   <Header
-    androidStatusBarColor=""
+    androidStatusBarColor={PITAZO_RED}
     style={styles.header}
     iosBarStyle="light-content"
     noShadow
   >
     <Left>
-    <TouchableOpacity onPress={() => {
-      navigation.goBack()
-      }}>
-      <Image
-        source={require('../assets/img/return.png')}
-      />
-    </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.goBack()
+        }}
+      >
+        <Image
+          // @ts-ignore
+          source={require('../assets/img/return.png')}
+        />
+      </TouchableOpacity>
     </Left>
     <Body>
       <Image

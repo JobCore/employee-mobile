@@ -73,6 +73,7 @@ export const saveNewsItem = async (newsItem) => {
     .then(notifySubscribers)
 }
 
+
 /**
  * @param {number} id Unique id of the news item to get
  * @returns {Promise<NewsItem>}
@@ -94,6 +95,7 @@ export const getSavedNewsItem = async (id) => {
 
   return /** @type {NewsItem} */ (obj)
 }
+
 
 /**
  * @param {number} id
@@ -118,7 +120,12 @@ export const removeNewsItem = async (id) => {
     )
   }
 
-  return AsyncStorage.removeItem(id.toString())
+  if (__DEV__) {
+    // eslint-disable-next-line no-console
+    console.warn(`remove ${id} from favorites`)
+  }
+
+  return AsyncStorage.removeItem(id.toString()).then(notifySubscribers)
 }
 
 /**

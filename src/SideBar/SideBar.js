@@ -25,7 +25,7 @@ import { RADIO_URL, ABOUT_US_URL, REGION_GRAN_CARACAS_URL, REGION_CENTRO_URL,
          RESTFUL_EL_PITAZO_EN_LA_CALLE_URL, RESTFUL_ALIANZAS_URL,
          MEDIA_INFOGRAFIAS_URL, SECTION_SUCESOS_URL, SECTION_ECONOMIA_URL,
          SECTION_TECNOLOGIA_URL, SECTION_SALUD_URL, MEDIA_FOTOGALERIAS_URL,
-         SECTION_INTERNACIONAL_URL, MEDIA_VIDEOS_URL } from '../constants/urls'
+         SECTION_INTERNACIONAL_URL, MEDIA_VIDEOS_URL, REGION_LOS_LLANOS_URL } from '../constants/urls'
 /**
  * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
  */
@@ -96,7 +96,7 @@ const renderRegiones = navigation => () => (
         style={styles.itemButtom}
         onPress={() => {
           navigation.navigate(REGION_LOS_LLANOS_ROUTE, {
-            paginatedURL: REGION_LOS_ANDES_URL,
+            paginatedURL: REGION_LOS_LLANOS_URL,
           })
         }}
       >
