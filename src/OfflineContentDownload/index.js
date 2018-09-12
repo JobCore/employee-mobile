@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 
-import { Container, Spinner, Header, Left, Button, Body,
-         Icon } from 'native-base'
-import { Image, View, Text } from 'react-native'
+import { Spinner } from 'native-base'
+import { View, Text, TouchableHighlight } from 'react-native'
 
 import { staticIsDownloading, staticThereWasError,
          staticAlreadyDownloaded,
          getOfflineContentAndSaveToAsyncStorage,
 } from './OfflineContentDownloadActions'
 import { PITAZO_RED } from '../constants/colors'
+import AuxHeader from '../AuxHeader'
 /**
  * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
  * @typedef {import('../definitions').NewsItem} NewsItem
@@ -16,36 +16,16 @@ import { PITAZO_RED } from '../constants/colors'
 
 import styles from './style'
 
+
+const EXPLANATION_TEXT = 'Al usar la funcionalidad de descargar contenidos, usted podra acceder a los articulos de cada seccion, actualizados al momento de haberlos descargado, cuando su dispositivo se encuentre offline'
+const ERROR_TEXT = 'Hubo un error mientras se trataba de descargar el contenido, por favor intente mas tarde'
+const SUCCESS_TEXT = 'Existe contenido guardado en su dispositivo para uso offline'
+
+
 /**
  * @param {NavigationScreenProp} navigation Navigation screen prop
  * @returns {JSX.Element}
  */
-const OfflineScreenHeader = navigation => (
-  <Header
-    androidStatusBarColor="#d13239"
-    style={styles.header}
-    iosBarStyle="light-content"
-    noShadow
-  >
-    <Left>
-      <Icon
-        name="md-arrow-back"
-        android="md-arrow-back"
-        ios="md-arrow-back"
-        onPress={() => {
-          navigation.goBack()
-        }}
-      />
-    </Left>
-    <Body>
-      <Image
-        // @ts-ignore
-        source={require('../assets/img/logo.png')}
-        style={styles.image}
-      />
-    </Body>
-  </Header>
-)
 
 
 /**
@@ -105,52 +85,75 @@ export default class OfflineDownloadContent extends Component {
     const { alreadyDownloaded, error, isDownloading } = this.state
 
     return (
-      <Container
-        style={styles.rootContainer}
+      <View
+        style={styles.root}
       >
-        {OfflineScreenHeader(navigation)}
+        <AuxHeader
+          leftText="Descarga de Contenidos"
+          navigation={navigation}
+        />
 
         <View
-          style={styles.containerView}
+          style={styles.half}
         >
-          <View>
-            <Text
-              style={styles.displayText}
-            >
-              {`
-                Al guardar los articulos offline, usted podra accederlos sin tener conexion a internet...
-                ${error ? (
-        'Hubo un error al descargar el contenido, puede intentar de nuevo o mas tarde'
-      ) : ''}
-                ${alreadyDownloaded ? (
-        '(Existe contenido descargado y guardado en su dispositivo)'
-      ) : ''}
-              `}
-            </Text>
-            {isDownloading && (
-              <Spinner
-                color={PITAZO_RED}
-              />
-            )}
-          </View>
-          <View>
-            <Button
-              style={styles.button}
-              onPress={() => {
-                getOfflineContentAndSaveToAsyncStorage()
-                  .finally(() => this.refreshState())
-                this.refreshState()
-              }}
-              disabled={isDownloading}
-            >
-              <Text style={styles.buttonText}>
-                Descargar Contenido
-              </Text>
-            </Button>
-          </View>
-          <View />
+          <Text
+            style={styles.explanationText}
+          >
+            {EXPLANATION_TEXT}
+          </Text>
+          {
+            error
+              ? (
+                <Text
+                  style={styles.explanationText}
+                >
+                  {ERROR_TEXT}
+                </Text>
+              )
+              : null
+          }
+          {
+            alreadyDownloaded
+              ? (
+                <Text
+                  style={styles.explanationText}
+                >
+                  {SUCCESS_TEXT}
+                </Text>
+              )
+              : null
+          }
         </View>
-      </Container>
+        <View
+          style={styles.half}
+        >
+          {
+            isDownloading
+              ? (
+                <Spinner
+                  color={PITAZO_RED}
+                />
+              )
+              : (
+                <TouchableHighlight
+                  onPress={() => {
+                    getOfflineContentAndSaveToAsyncStorage()
+                      .finally(() => this.refreshState())
+                    this.refreshState()
+                  }}
+                  style={styles.button}
+                  underlayColor={PITAZO_RED}
+                >
+                  <Text
+                    style={styles.buttonText}
+                  >
+                      Descargar Contenidos
+                  </Text>
+                </TouchableHighlight>
+              )
+          }
+        </View>
+      </View>
 
     )
   }

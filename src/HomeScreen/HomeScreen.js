@@ -18,6 +18,8 @@ import CardsTabController from '../CardsTab/CardsTabController'
 import { fetchLatestNews, fetchRegionNews,
          fetchMostSeenNews } from '../CardsTab/CardsTabActions'
 import { MOST_SEEN_LIMIT, FETCH_TIMEOUT } from '../constants/config'
+import { PITAZO_RED } from '../constants/colors'
+import { OFFLINE_CONTENT_DOWNLOAD_ROUTE } from '../constants/routes';
 
 
 /**
@@ -33,7 +35,7 @@ import { MOST_SEEN_LIMIT, FETCH_TIMEOUT } from '../constants/config'
 
 const HomeScreenHeader = navigation => (
   <Header
-    androidStatusBarColor="#d13239"
+    androidStatusBarColor={PITAZO_RED}
     style={styles.header}
     iosBarStyle="light-content"
     noShadow
@@ -43,18 +45,36 @@ const HomeScreenHeader = navigation => (
         onPress={() => navigation.toggleDrawer()}
         transparent
       >
-        <Image source={require('../assets/img/menu.png')} />
+        <Image
+          source={
+            // @ts-ignore
+            require('../assets/img/menu.png')
+          }
+        />
       </Button>
     </Left>
     <Body>
       <Image
-        source={require('../assets/img/logo.png')}
+        source={
+          // @ts-ignore
+          require('../assets/img/logo.png')
+        }
         style={styles.image}
       />
     </Body>
     <Right>
-      <Button transparent>
-        <Image source={require('../assets/img/download.png')} />
+      <Button
+        onPress={() => {
+          navigation.navigate(OFFLINE_CONTENT_DOWNLOAD_ROUTE)
+        }}
+        transparent
+      >
+        <Image
+          source={
+            // @ts-ignore
+            require('../assets/img/download.png')
+          }
+        />
       </Button>
     </Right>
   </Header>
@@ -90,7 +110,7 @@ const HomeScreen = ({ navigation }) => (
             <Container>
               <Content>
                 <Spinner
-                  color="#d13239"
+                  color={PITAZO_RED}
                   style={styles.deadCenter}
                 />
               </Content>
@@ -139,7 +159,7 @@ const HomeScreen = ({ navigation }) => (
             <Container>
               <Content>
                 <Spinner
-                  color="#d13239"
+                  color={PITAZO_RED}
                 />
               </Content>
             </Container>
@@ -186,7 +206,7 @@ const HomeScreen = ({ navigation }) => (
             <Container>
               <Content>
                 <Spinner
-                  color="#d13239"
+                  color={PITAZO_RED}
                 />
               </Content>
             </Container>

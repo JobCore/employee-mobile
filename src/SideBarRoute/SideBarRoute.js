@@ -11,6 +11,7 @@ import { Image, AsyncStorage, TouchableOpacity } from 'react-native'
 import NewsList from '../NewsList'
 import { buildPaginatedUrlFetcher } from '../utils/fetchers'
 import { PITAZO_RED } from '../constants/colors'
+import { OFFLINE_CONTENT_DOWNLOAD_ROUTE, HOME_SCREEN_ROUTE } from '../constants/routes'
 
 import styles from './style'
 
@@ -38,14 +39,25 @@ const SideBarRouteHeader = navigation => (
       </TouchableOpacity>
     </Left>
     <Body>
-      <Image
-        // @ts-ignore
-        source={require('../assets/img/logo.png')}
-        style={styles.image}
-      />
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate(HOME_SCREEN_ROUTE)
+        }}
+      >
+        <Image
+          // @ts-ignore
+          source={require('../assets/img/logo.png')}
+          style={styles.image}
+        />
+      </TouchableOpacity>
     </Body>
     <Right>
-      <Button transparent>
+      <Button
+        onPress={() => {
+          navigation.navigate(OFFLINE_CONTENT_DOWNLOAD_ROUTE)
+        }}
+        transparent
+      >
         <Image
           // @ts-ignore
           source={require('../assets/img/download.png')}
