@@ -4,7 +4,9 @@ import { PITAZO_GRAY } from '../constants/colors'
 
 export default StyleSheet.create({
   content: {
+    flex: 1,
     paddingTop: 20,
+    justifyContent: 'space-between',
   },
   button: {
     borderBottomColor: 'black',
@@ -47,9 +49,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
-  },
-  spinner: {
-    height: 5, // find out how to make spinner smaller
   },
   left: {
     flexDirection: 'row',

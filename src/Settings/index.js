@@ -140,77 +140,68 @@ class Settings extends Component {
           navigation={navigation}
         />
         <Content
-          style={styles.content}
+          contentContainerStyle={styles.content}
         >
-          <TouchableHighlight
-            onPress={() => {
-              if (!isClearingCache) {
-                this.clearCache()
-              }
-            }}
-            style={styles.button}
-            underlayColor={PITAZO_RED}
-          >
-            <View
-              style={styles.subButtonView}
+          <View>
+            <TouchableHighlight
+              onPress={() => {
+                if (!isClearingCache) {
+                  this.clearCache()
+                }
+              }}
+              style={styles.button}
+              underlayColor={PITAZO_RED}
             >
-              <Text
-                style={styles.cleanCacheButtonText}
+              <View
+                style={styles.subButtonView}
               >
-                  Limpiar la cache
-              </Text>
+                <Text
+                  style={styles.cleanCacheButtonText}
+                >
+                    Limpiar la cache
+                </Text>
+              </View>
+            </TouchableHighlight>
 
-              {
-                isClearingCache
-                  ? (
-                    <Spinner
-                      color={PITAZO_RED}
-                      style={styles.spinner}
-                    />
-                  )
-                  : null
-              }
-            </View>
-          </TouchableHighlight>
-
-          <TouchableHighlight
-            onPress={() => {
-              if (!isLoadingTextSize) {
-                this.changeTextSize()
-              }
-            }}
-            style={styles.button}
-            underlayColor={PITAZO_RED}
-          >
-            <View
-              style={styles.subButtonView}
+            <TouchableHighlight
+              onPress={() => {
+                if (!isLoadingTextSize) {
+                  this.changeTextSize()
+                }
+              }}
+              style={styles.button}
+              underlayColor={PITAZO_RED}
             >
-              <Text
-                style={{
-                  flex: 1,
-                  color: ARTICLE_HEADER_GRAY,
-                  fontSize: selectedFontSize,
-                  flexWrap: 'wrap', // in case this text gets longer in the future
-                  paddingLeft: 5,
-                  marginTop: 15,
-                  marginBottom: 15,
-                }}
+              <View
+                style={styles.subButtonView}
               >
-                {fontSizeText}
-              </Text>
-
-              {
-                isLoadingTextSize
-                  ? (
-                    <Spinner
-                      color={PITAZO_RED}
-                      style={styles.spinner}
-                    />
-                  )
-                  : null
-              }
-            </View>
-          </TouchableHighlight>
+                <Text
+                  style={{
+                    flex: 1,
+                    color: ARTICLE_HEADER_GRAY,
+                    fontSize: selectedFontSize,
+                    flexWrap: 'wrap', // in case this text gets longer in the future
+                    paddingLeft: 5,
+                    marginTop: 15,
+                    marginBottom: 15,
+                  }}
+                >
+                  {fontSizeText}
+                </Text>
+              </View>
+            </TouchableHighlight>
+          </View>
+          <View>
+            {
+              (isClearingCache || isLoadingTextSize)
+                ? (
+                  <Spinner
+                    color={PITAZO_RED}
+                  />
+                )
+                : null
+            }
+          </View>
         </Content>
       </Container>
     )
