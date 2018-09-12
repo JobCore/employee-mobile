@@ -5,8 +5,9 @@ import React, { Component } from 'react'
 import { Text, TouchableHighlight, View } from 'react-native'
 import { Container, Content, Spinner } from 'native-base'
 
-import { PITAZO_GRAY, PITAZO_RED } from '../constants/colors'
+import { PITAZO_RED, ARTICLE_HEADER_GRAY } from '../constants/colors'
 import { DEFAULT_FONT_SIZE, SMALL_FONT_SIZE, MEDIUM_FONT_SIZE, LARGE_FONT_SIZE } from '../constants/config'
+import AuxHeader from '../AuxHeader'
 /**
  * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
  */
@@ -14,7 +15,6 @@ import { DEFAULT_FONT_SIZE, SMALL_FONT_SIZE, MEDIUM_FONT_SIZE, LARGE_FONT_SIZE }
  * @typedef {import('../constants/config').FontSize} FontSize
  */
 
-import SettingsHeader from './SettingsHeader'
 import { clearCache, fetchFontSize, setFontSize } from './SettingsActions'
 
 import styles from './style'
@@ -135,7 +135,8 @@ class Settings extends Component {
 
     return (
       <Container>
-        <SettingsHeader
+        <AuxHeader
+          leftText="Ajustes"
           navigation={navigation}
         />
         <Content
@@ -187,7 +188,7 @@ class Settings extends Component {
               <Text
                 style={{
                   flex: 1,
-                  color: PITAZO_GRAY,
+                  color: ARTICLE_HEADER_GRAY,
                   fontSize: selectedFontSize,
                   flexWrap: 'wrap', // in case this text gets longer in the future
                   paddingLeft: 5,

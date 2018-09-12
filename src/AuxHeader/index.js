@@ -13,18 +13,19 @@ import styles from './style'
 
 
 /**
- * @typedef {object} SettingsHeaderProps
+ * @typedef {object} AuxHeaderProps
  * @prop {NavigationScreenProp} navigation
+ * @prop {string} leftText Text to render besides the back button
  */
 
 
 /**
- * @type {React.SFC<SettingsHeaderProps>}
+ * @type {React.SFC<AuxHeaderProps>}
  */
-const SettingsHeader = ({ navigation }) => (
+const AuxHeader = ({ navigation, leftText }) => (
   <Header
     androidStatusBarColor={PITAZO_RED}
-    style={styles.header}
+    style={styles.root}
     iosBarStyle="light-content"
   >
     <StatusBar
@@ -45,12 +46,12 @@ const SettingsHeader = ({ navigation }) => (
         />
       </TouchableOpacity>
       <Text
-        style={styles.headerText}
+        style={styles.leftText}
       >
-        Ajustes
+        {leftText}
       </Text>
     </Left>
   </Header>
 )
 
-export default SettingsHeader
+export default AuxHeader
