@@ -9,32 +9,35 @@ class AccountStore extends FluxStore {
     // The login Event
     this.addEvent('Login', (nextState) => {
       LOG(this, nextState);
-      
+
       if (!nextState.token) return nextState;
 
       if (!nextState.user || !nextState.user.profile || nextState.user.profile.status === 'PENDING_EMAIL_VALIDATION') {
         return nextState;
       }
 
-      AsyncStorage.setItem("user", JSON.stringify(nextState)).then(() => {
-        LOG(this, "user saved to local storage");
-      }).catch(err => {
-        ERROR(this, err);
-      });
+      AsyncStorage.setItem("user", JSON.stringify(nextState))
+        .then(() => {
+          LOG(this, "user saved to local storage");
+        })
+        .catch(err => {
+          ERROR(this, err);
+        });
 
       return nextState;
     });
 
     // The logout Event
     this.addEvent('Logout', (nextState) => {
-      if (!nextState)
-        return;
+      if (!nextState) return;
 
-      AsyncStorage.removeItem("user").then(() => {
-        LOG(this, "user removed from local storage");
-      }).catch(err => {
-        ERROR(this, err);
-      });
+      AsyncStorage.clear()
+        .then(() => {
+          LOG(this, "AsyncStorage deleted");
+        })
+        .catch((e) => {
+          ERROR(this, err);
+        });
 
       return nextState;
     });

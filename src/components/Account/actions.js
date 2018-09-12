@@ -1,4 +1,5 @@
 import * as Flux from '../../utils/flux-state';
+import accountStore from './AccountStore';
 
 import { postData } from '../../fetch';
 import { loginValidator, registerValidator, passwordResetValidator } from './validators';
@@ -66,6 +67,15 @@ const passwordReset = (email) => {
 }
 
 /**
+ * Action for logOut, YOU MUST CLEAR ALL flux stores you need here
+ */
+const logout = () => {
+  accountStore.clearState();
+
+  Flux.dispatchEvent('Logout', {});
+}
+
+/**
  * Action for setting the stored user from AsyncStorage/Flux on app first load
  * @param user
  */
@@ -73,4 +83,4 @@ const setStoredUser = (user) => {
   Flux.dispatchEvent('Login', user);
 }
 
-export { login, register, passwordReset, setStoredUser };
+export { login, register, passwordReset, setStoredUser, logout };

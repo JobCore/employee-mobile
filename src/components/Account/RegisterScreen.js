@@ -18,6 +18,7 @@ import * as actions from './actions';
 import store from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
+import { FormView } from "../../utils/platform";
 
 class RegisterScreen extends Component {
   static navigationOptions = { header: null }
@@ -58,107 +59,6 @@ class RegisterScreen extends Component {
     });
   }
 
-  register = () => {
-    this.isLoading(true);
-    actions.register(this.state.email.toLowerCase(), this.state.password)
-  }
-
-  isLoading = (isLoading) => {
-    this.setState({ isLoading });
-  }
-
-  renderBy(t) {
-    if (Platform.OS == 'android') {
-      return (
-        <ScrollView style={styles.viewForm} keyboardShouldPersistTaps={'always'}>
-                    <Form>
-                        <Item style={styles.viewInput} inlineLabel rounded>
-                            <Input value={this.state.email}
-                              placeholder={t('REGISTER.email')} onChangeText={(text) => this.setState({email: text})}/>
-                        </Item>
-                        <Item style={styles.viewInput} inlineLabel rounded>
-                            <Input value={this.state.password}
-                              placeholder={t('REGISTER.password')} onChangeText={(text) => this.setState({password: text})}
-                                   secureTextEntry={true}/>
-                        </Item>
-                    </Form>
-                    {/* <TouchableOpacity
-          full
-          onPress={this.userRegister.bind(this)}
-          style={styles.viewButtomSignUp} >
-          <Text
-            style={styles.textButtomSave}>
-            Save
-          </Text>
-        </TouchableOpacity> */}
-                    <Button
-                        full
-                        onPress={this.register}
-                        style={styles.viewButtomLogin}>
-                        <Text
-                            style={styles.textButtom}>
-                            {t('REGISTER.signUp')}
-                        </Text>
-                    </Button>
-                    <TouchableOpacity
-                        full
-                        onPress={() => this.props.navigation.goBack()}
-                        style={styles.viewButtomSignUp}>
-                        <Text
-                            style={styles.textButtomSignUp}>
-                            {t('REGISTER.goBack')}
-                        </Text>
-                    </TouchableOpacity>
-                </ScrollView>
-      );
-    } else if (Platform.OS == 'ios') {
-      return (
-        <KeyboardAvoidingView behavior="padding">
-                    <View style={styles.viewForm}>
-                        <Form>
-                            <Item style={styles.viewInput} inlineLabel rounded>
-                                <Input value={this.state.email}
-                                  placeholder={t('REGISTER.email')} onChangeText={(text) => this.setState({email: text})}/>
-                            </Item>
-                            <Item style={styles.viewInput} inlineLabel rounded>
-                                <Input value={this.state.password}
-                                  placeholder={t('REGISTER.password')}
-                                       onChangeText={(text) => this.setState({password: text})} secureTextEntry={true}/>
-                            </Item>
-                        </Form>
-                        {/* <TouchableOpacity
-              full
-              onPress={this.userRegister.bind(this)}
-              style={styles.viewButtomSignUp} >
-              <Text
-                style={styles.textButtomSave}>
-                Save
-              </Text>
-            </TouchableOpacity> */}
-                        <Button
-                            full
-                            onPress={this.register}
-                            style={styles.viewButtomLogin}>
-                            <Text
-                                style={styles.textButtom}>
-                                {t('REGISTER.signUp')}
-                            </Text>
-                        </Button>
-                        <TouchableOpacity
-                            full
-                            onPress={() => this.props.navigation.goBack()}
-                            style={styles.viewButtomSignUp}>
-                            <Text
-                                style={styles.textButtomSignUp}>
-                                {t('REGISTER.goBack')}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </KeyboardAvoidingView>
-      );
-    }
-  }
-
   render() {
     if (this.state.isLoading) {
       return (<View style={styles.container}>
@@ -176,10 +76,49 @@ class RegisterScreen extends Component {
                     style={styles.viewLogo}
                     source={require('../../assets/image/logo1.png')}
                 />
-                {this.renderBy(t)}
+                <FormView>
+                  <Form>
+                      <Item style={styles.viewInput} inlineLabel rounded>
+                          <Input value={this.state.email}
+                            placeholder={t('REGISTER.email')} onChangeText={(text) => this.setState({email: text})}/>
+                      </Item>
+                      <Item style={styles.viewInput} inlineLabel rounded>
+                          <Input value={this.state.password}
+                            placeholder={t('REGISTER.password')}
+                                 onChangeText={(text) => this.setState({password: text})} secureTextEntry={true}/>
+                      </Item>
+                  </Form>
+                  <Button
+                      full
+                      onPress={this.register}
+                      style={styles.viewButtomLogin}>
+                      <Text
+                          style={styles.textButtom}>
+                          {t('REGISTER.signUp')}
+                      </Text>
+                  </Button>
+                  <TouchableOpacity
+                      full
+                      onPress={() => this.props.navigation.goBack()}
+                      style={styles.viewButtomSignUp}>
+                      <Text
+                          style={styles.textButtomSignUp}>
+                          {t('REGISTER.goBack')}
+                      </Text>
+                  </TouchableOpacity>
+                </FormView>
             </View>
           )
       }</I18n>);
+  }
+
+  register = () => {
+    this.isLoading(true);
+    actions.register(this.state.email.toLowerCase(), this.state.password)
+  }
+
+  isLoading = (isLoading) => {
+    this.setState({ isLoading });
   }
 }
 
