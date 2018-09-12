@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 
 import { ARTICLE_HEADER_GRAY } from '../constants/colors'
-import { DEFAULT_FONT_SIZE } from '../constants/config';
+import { DEFAULT_FONT_SIZE } from '../constants/config'
 
 export default StyleSheet.create({
   half: {

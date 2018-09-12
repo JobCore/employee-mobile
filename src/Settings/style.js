@@ -52,5 +52,5 @@ export default StyleSheet.create({
   },
   left: {
     flexDirection: 'row',
-  }
+  },
 })

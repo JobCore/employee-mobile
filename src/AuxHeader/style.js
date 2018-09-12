@@ -17,5 +17,5 @@ export default StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'nowrap',
     width: 100,
-  }
+  },
 })
