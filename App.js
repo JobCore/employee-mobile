@@ -24,6 +24,7 @@ import SideBarRoute from './src/SideBarRoute'
 import SideBar from './src/SideBar/SideBar'
 import OfflineContentDownload from './src/OfflineContentDownload'
 import Settings from './src/Settings'
+import AboutUs from './src/AboutUs'
 
 
 /**
@@ -69,7 +70,7 @@ const MainDrawerNavigator = createDrawerNavigator({
 
   [RADIO_ROUTE]: props => <SideBarRoute {...props} />,
 
-  [ABOUTUS_ROUTE]: { screen: HomeScreen },
+  [ABOUTUS_ROUTE]: AboutUs,
 
   [FAVORITES_ROUTE]: Favorites,
 
