@@ -43,12 +43,14 @@ export const unsubscribe = (fn) => {
 
 subscribe(() => {
   if (__DEV__) {
-    AsyncStorage.getAllKeys().then((keys) => {
-      if (__DEV__) {
-        // eslint-disable-next-line no-console
-        console.warn(`favs is now of length: ${keys.length}`)
-      }
-    })
+    AsyncStorage.getAllKeys()
+      .then(keys => keys.filter(key => key.indexOf(FAV_KEY_PREFIX) === 0))
+      .then((keys) => {
+        if (__DEV__) {
+          // eslint-disable-next-line no-console
+          console.warn(`favs is now of length: ${keys.length}`)
+        }
+      })
   }
 })
 
