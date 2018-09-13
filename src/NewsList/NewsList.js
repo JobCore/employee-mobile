@@ -1,7 +1,15 @@
+/**
+ * @fileoverview
+ * @author danlugo92
+ */
+
+
 import React, { Component } from 'react'
 
-import { FlatList, Image, RefreshControl, Text, View, AsyncStorage } from 'react-native'
-import { Spinner, Button, Content } from 'native-base'
+import { FlatList, RefreshControl, Text, View } from 'react-native'
+import { Spinner } from 'native-base'
+import moment from 'moment'
+import { prop, uniqBy } from 'ramda'
 /**
  * @template T
  * @typedef {import('react-native').ListRenderItem<T>} ListRenderItem
@@ -15,37 +23,19 @@ import { Spinner, Button, Content } from 'native-base'
  * @typedef {import('../definitions').NewsItem} NewsItem
  */
 
-import { LAST_DATE_UPDATED_STOR_KEY } from '../constants/others'
+import { LAST_DATE_UPDATED_STOR_KEY, NAVIGATION_NEWSITEM_PARAM_KEY } from '../constants/others'
 import { VIEW_ITEM_ROUTE } from '../constants/routes'
 
-import NewsCard from './NewsCard'
+import NewsCard from './NewsCard/index'
+import styles from './style'
+import { PITAZO_RED } from '../constants/colors'
+import assert from '../utils/assert'
+import { getItem } from '../utils/StorageTimeout'
+import { ASYNC_STORAGE_TIMEOUT } from '../constants/config'
+
 
 /**
- * @type {(navigation: NavigationScreenProp) => ListRenderItem<NewsItem>}
- */
-const renderItem = navigation => ({ item: newsItem }) => {
-  const { date, image, title } = newsItem
-  return (
-    // TODO: padding makes the NewsCard image cropped
-    <Content padder>
-      <NewsCard
-        date={date}
-        image={image}
-        onPress={() => {
-          navigation.navigate(VIEW_ITEM_ROUTE, {
-            newsItem,
-            navigation,
-          })
-        }}
-        onPressShare={() => {}}
-        title={title}
-      />
-    </Content>
-  )
-}
-
-/**
- * @typedef {object} PaginatedNewsListProps
+ * @typedef {object} NewsListProps
  * @prop {() => () => Promise<ReadonlyArray<NewsItem>>} fetcherConstructor
  * Constructs a fetcher for online content, sucesive calls to it will either
  * return new pages if it's a paginated list, or more items if it is a limited
@@ -56,23 +46,22 @@ const renderItem = navigation => ({ item: newsItem }) => {
  */
 
 /**
- * @typedef {object} PaginatedNewsListState
- * @prop {boolean} appending True when fetchAndAppend() has been called and
- * hasnt finished
+ * @typedef {object} NewsListState
  * @prop {() => Promise<ReadonlyArray<NewsItem>>} fetcher
- * @prop {boolean} initialFetch
  * @prop {boolean} isOfflineContent
  * @prop {number} lastDateUpdated
  * @prop {ReadonlyArray<NewsItem>} newsItems
+ * @prop {boolean} pushing True when fetchAndPush() has been called and the
+ * content hasnt arrived. False otherwise
  * @prop {boolean} refreshing
  */
 
 /**
- * @augments {Component<PaginatedNewsListProps, PaginatedNewsListState>}
+ * @augments {Component<NewsListProps, NewsListState>}
  */
-export default class PaginatedNewsList extends Component {
+export default class NewsList extends Component {
   /**
-   * @param {PaginatedNewsListProps} props
+   * @param {NewsListProps} props
    */
   constructor(props) {
     super(props)
@@ -82,22 +71,21 @@ export default class PaginatedNewsList extends Component {
     this.mounted = false
 
     /**
-     * @type {PaginatedNewsListState}
+     * @type {NewsListState}
      */
     this.state = {
-      appending: false,
       fetcher: fetcherConstructor(),
-      initialFetch: true,
       isOfflineContent: false,
       lastDateUpdated: -1,
       newsItems: [],
+      pushing: false,
       refreshing: false,
     }
   }
 
   componentDidMount() {
     this.mounted = true
-    this.initialFetch()
+    this.fetchAndPush()
   }
 
   componentWillUnmount() {
@@ -106,6 +94,10 @@ export default class PaginatedNewsList extends Component {
 
   onRefresh() {
     const { fetcherConstructor } = this.props
+    const { refreshing } = this.state
+
+    // shouldn't happen but just in case
+    if (refreshing) return
 
     const newFetcher = fetcherConstructor()
 
@@ -117,23 +109,25 @@ export default class PaginatedNewsList extends Component {
     newFetcher()
       .then((newsItems) => {
         this.mounted && this.setState({
-          isOfflineContent: false,
-          lastDateUpdated: (new Date()).getTime(),
+          lastDateUpdated: moment.now(),
           newsItems,
         })
       })
       .catch(() => {
-        // leave the old items unchanged
+        this.fallbackFetch()
       })
       .finally(() => {
-        this.setState({
+        this.mounted && this.setState({
           refreshing: false,
         })
       })
   }
 
-  fallbackInitialFetch() {
+  fallbackFetch() {
     const { fallbackFetcher } = this.props
+    const { pushing } = this.state
+
+    assert(!pushing)
 
     if (typeof fallbackFetcher === 'undefined') {
       throw new Error()
@@ -141,16 +135,14 @@ export default class PaginatedNewsList extends Component {
 
     const fetchPromise = fallbackFetcher()
 
-    const lastDateUpdatedPromise = AsyncStorage
-      .getItem(LAST_DATE_UPDATED_STOR_KEY)
+    const lastDateUpdatedPromise = getItem(
+      LAST_DATE_UPDATED_STOR_KEY,
+      ASYNC_STORAGE_TIMEOUT
+    )
 
     Promise.all([lastDateUpdatedPromise, fetchPromise])
       .then(([unixTime, newsItems]) => {
-        if (unixTime === null && __DEV__) {
-          throw new Error(
-            'Last updated date null from AsyncStorage'
-          )
-        }
+        assert(unixTime !== null, 'Last updated date null from AsyncStorage')
 
         // -1 is our `flag` to tell render() we didn't find it
         let lastDateUpdated = unixTime === null ? -1 : Number(unixTime)
@@ -169,76 +161,72 @@ export default class PaginatedNewsList extends Component {
       })
   }
 
-  initialFetch() {
-    const { fetcher } = this.state // initialized in constructor
+  fetchAndPush() {
+    const { fetcher, isOfflineContent, pushing, refreshing } = this.state
 
-    fetcher()
-      .then((newsItems) => {
-        if (newsItems.length > 0) {
-          this.mounted && this.setState({
-            initialFetch: false,
-            lastDateUpdated: (new Date()).getTime(),
-            newsItems,
-          })
-        }
-      })
-      .catch(() => this.fallbackInitialFetch())
-      .finally(() => {
-        this.mounted && this.setState({
-          initialFetch: false,
-        })
-      })
-  }
+    if (isOfflineContent || pushing || refreshing) return
 
-  fetchAndAppend() {
-    const { appending, fetcher, refreshing } = this.state
-
-    if (appending || refreshing) return
+    if (__DEV__) {
+      // eslint-disable-next-line no-console
+      console.warn('fetchAndPush() called')
+    }
 
     this.setState({
-      appending: true,
+      pushing: true,
     })
 
-    // calls other than the initial one should return items to append
     fetcher()
       .then((newsItemsFetched) => {
-        // avoid appending if its refreshing
-        const { refreshing: refreshingAtPromiseThen } = this.state
-        const notRefreshing = !refreshingAtPromiseThen
+        this.mounted && this.setState(({
+          newsItems: oldNewsItems,
+          refreshing: refreshingAtThen,
+        }) => {
+          // A refresh command was issued between the initial petition of
+          // more content and the time we receive it, dont alter state in this
+          // case, onRefresh() will replace the whole content itself
+          if (refreshingAtThen) return null
 
-        if (newsItemsFetched.length > 0) {
-          this.mounted
-          && notRefreshing
-          && this.setState(({ newsItems: oldNewsItems }) => ({
-            appending: false,
-            newsItems: oldNewsItems.concat(newsItemsFetched),
-          }))
+          const concatted = oldNewsItems.concat(newsItemsFetched)
+
+          // make list unique going by the prop 'id', prevents duplicates if
+          // a item was pushed to page 2 (via publishing a new item to page 1)
+          const noRepeats = uniqBy(prop('id'), concatted)
+
+          return {
+            lastDateUpdated: moment.now(),
+            newsItems: noRepeats,
+            pushing: false,
+          }
+        })
+      })
+      // leave old items unchanged if there were some already loaded
+      // otherwise we are in the initial fetch and we fallback to the
+      // fallback fetcher
+      .catch(() => {
+        const { newsItems } = this.state
+
+        this.setState({
+          pushing: false,
+        })
+
+        if (newsItems.length === 0) {
+          this.fallbackFetch()
         }
       })
-      .catch(() => {}) // leave old items unchanged
   }
 
   render() {
     const { navigation } = this.props
-    const { initialFetch, isOfflineContent, newsItems, refreshing,
+    const { isOfflineContent, newsItems, refreshing,
       lastDateUpdated } = this.state
     const isOnlineContent = !isOfflineContent
 
-    if (initialFetch) {
-      return (
-        <View>
-          <Spinner
-            color="#d13239"
-          />
-        </View>
-      )
-    }
 
     /**
      * @type {string}
      */
     const headerText = (function iief() {
-      const dateReadable = (new Date(lastDateUpdated)).toString()
+      const dateReadable = moment(lastDateUpdated).locale('es').format('lll')
 
       if (isOfflineContent) {
         if (lastDateUpdated > -1) {
@@ -246,11 +234,15 @@ export default class PaginatedNewsList extends Component {
         }
         return 'Ultima Actualizacion: (Contenido Offline)'
       }
-      return `Uiltima Actualizacion (Online): ${dateReadable}`
+      if (lastDateUpdated > -1) {
+        return `Ultima Actualizacion (Online): ${dateReadable}`
+      }
+      return 'Contenido Online'
     }())
 
     return (
       <FlatList
+        style={styles.flatList}
         refreshControl={(
           <RefreshControl
             refreshing={refreshing}
@@ -259,30 +251,31 @@ export default class PaginatedNewsList extends Component {
         )}
         data={newsItems}
         keyExtractor={item => item.id.toString()}
-        renderItem={renderItem(navigation)}
+        renderItem={({ item: newsItem }) => (
+          <NewsCard
+            newsItem={newsItem}
+            onPressImageOrTitle={() => {
+              navigation.navigate(VIEW_ITEM_ROUTE, {
+                [NAVIGATION_NEWSITEM_PARAM_KEY]: newsItem,
+                navigation,
+              })
+            }}
+          />
+        )}
         onEndReachedThreshold={0.5}
         ListEmptyComponent={(
           <View>
-            <Image
-              // @ts-ignore
-              source={require('../assets/img/error.png')}
+            <Spinner
+              color={PITAZO_RED}
             />
-            <Button
-              color="red"
-              onPress={this.onRefresh.bind(this)}
-            >
-              <Text>
-                Pulse aqui para recargar
-              </Text>
-            </Button>
           </View>
         )}
         ListHeaderComponent={newsItems.length === 0 ? null : (
-          <View>
-            <Text>
-              {headerText}
-            </Text>
-          </View>
+          <Text
+            style={styles.lastDateUpdated}
+          >
+            {headerText}
+          </Text>
         )}
         ListFooterComponent={(
           newsItems.length > 0 && isOnlineContent ? (
@@ -293,8 +286,9 @@ export default class PaginatedNewsList extends Component {
             </View>
           ) : null
         )}
-        initialNumToRender={3}
-        onEndReached={this.fetchAndAppend.bind(this)}
+        onEndReached={() => {
+          this.fetchAndPush()
+        }}
       />
     )
   }

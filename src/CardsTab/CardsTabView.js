@@ -7,6 +7,7 @@ import { Button, Card, CardItem, Content, Left, ListItem,
 import { VIEW_ITEM_ROUTE } from '../constants/routes'
 
 import styles from './style'
+import { NAVIGATION_NEWSITEM_PARAM_KEY } from '../constants/others'
 
 /**
  * @template T
@@ -58,8 +59,7 @@ export default class CardsTabView extends Component {
           <TouchableOpacity
             onPress={() => {
               this.props.navigation.navigate(VIEW_ITEM_ROUTE, {
-                newsItem,
-                navigation: this.props.navigation,
+                [NAVIGATION_NEWSITEM_PARAM_KEY]: newsItem,
               })
             }}
           >

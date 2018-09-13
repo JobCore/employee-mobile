@@ -16,6 +16,7 @@
  * An object representing an individual news item as obtained from the API.
  * @typedef {object} NewsItem
  * @prop {number} id
+ * @prop {{ name: string }} author
  * @prop {string} title
  * @prop {string} image Url for banner image, can be an emptyString
  * @prop {string} date
