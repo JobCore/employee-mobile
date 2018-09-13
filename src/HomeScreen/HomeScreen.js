@@ -1,23 +1,22 @@
 import React from 'react'
 
-import { Body, Button, Container, Header, Left, Right, Tab, TabHeading,
+import { Container, Tab, TabHeading,
          Tabs, Content, Spinner } from 'native-base'
-import { Image, Text, View } from 'react-native'
-/**
- * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
- */
-
-import styles from './style'
-
-/**
- * @typedef {import('../definitions').NewsItem} NewsItem
- */
-import Loader from '../utils/Loader'
+import { Text, View } from 'react-native'
 
 import CardsTabController from '../CardsTab/CardsTabController'
 import { fetchLatestNews, fetchRegionNews,
          fetchMostSeenNews } from '../CardsTab/CardsTabActions'
 import { MOST_SEEN_LIMIT, FETCH_TIMEOUT } from '../constants/config'
+import { PITAZO_RED } from '../constants/colors'
+import Loader from '../utils/Loader'
+/**
+ * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
+ * @typedef {import('../definitions').NewsItem} NewsItem
+ */
+
+import HomesCreenHeader from './HomeScreenHeader'
+import styles from './style'
 
 
 /**
@@ -27,47 +26,15 @@ import { MOST_SEEN_LIMIT, FETCH_TIMEOUT } from '../constants/config'
 
 
 /**
- *
- * @param {NavigationScreenProp} navigation Navigation screen prop
- */
-
-const HomeScreenHeader = navigation => (
-  <Header
-    androidStatusBarColor="#d13239"
-    style={styles.header}
-    iosBarStyle="light-content"
-    noShadow
-  >
-    <Left>
-      <Button
-        onPress={() => navigation.toggleDrawer()}
-        transparent
-      >
-        <Image source={require('../assets/img/menu.png')} />
-      </Button>
-    </Left>
-    <Body>
-      <Image
-        source={require('../assets/img/logo.png')}
-        style={styles.image}
-      />
-    </Body>
-    <Right>
-      <Button transparent>
-        <Image source={require('../assets/img/download.png')} />
-      </Button>
-    </Right>
-  </Header>
-)
-
-/**
  * Renders the homescreen with the three main tabs (lo ultimo, regiones and
  * lo mas visto)
- * @param {HomeScreenProps} props
+ * @type {React.SFC<HomeScreenProps>}
  */
 const HomeScreen = ({ navigation }) => (
   <Container style={styles.rootContainer}>
-    {HomeScreenHeader(navigation)}
+    <HomesCreenHeader
+      navigation={navigation}
+    />
     <Tabs
       edgeHitWidth={0}
       initialPage={0}
@@ -90,7 +57,7 @@ const HomeScreen = ({ navigation }) => (
             <Container>
               <Content>
                 <Spinner
-                  color="#d13239"
+                  color={PITAZO_RED}
                   style={styles.deadCenter}
                 />
               </Content>
