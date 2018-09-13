@@ -1,7 +1,7 @@
 /**
  * @type {number}
  */
-export const MOST_SEEN_LIMIT = 1000
+export const MOST_SEEN_LIMIT = 20
 
 /**
  * @type {number}

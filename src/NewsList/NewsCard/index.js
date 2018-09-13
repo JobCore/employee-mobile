@@ -21,6 +21,10 @@ import styles from './style'
  * @typedef {object} NewsCardProps
  * @prop {NewsItem} newsItem
  * @prop {() => void} onPressImageOrTitle
+ * @prop {(() => boolean|void|undefined)=} onPressFav Called when favorite is
+ * pressed, return false to run IN ADDITION to the underlying add/remove fav
+ * logic, return true to prevent pressing the button from actually
+ * removing/adding the favorite.
  */
 
 /**
@@ -62,7 +66,11 @@ class NewsCard extends Component {
   }
 
   onPressFav() {
-    const { newsItem } = this.props
+    const { newsItem, onPressFav } = this.props
+
+    if (onPressFav) {
+      if (onPressFav()) return
+    }
 
     this.setState({
       isLoadingFavStatus: true,
