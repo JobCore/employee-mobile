@@ -1,25 +1,22 @@
 import React from 'react'
 
-import { Body, Button, Container, Header, Left, Right, Tab, TabHeading,
-         Tabs, Content, Spinner } from 'native-base'
-import { Image, Text, View } from 'react-native'
+import { Container, Tab, TabHeading,
+         Tabs } from 'native-base'
+import { Text } from 'react-native'
+
+import { ASYNC_STORAGE_TIMEOUT } from '../constants/config'
+import NewsList from '../NewsList'
+import { buildPaginatedUrlFetcher } from '../utils/fetchers'
+import { LATEST_URL, REGIONS_URL } from '../constants/urls'
+import { getItem } from '../utils/StorageTimeout'
 /**
  * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
- */
-
-import styles from './style'
-
-/**
  * @typedef {import('../definitions').NewsItem} NewsItem
  */
-import Loader from '../utils/Loader'
 
-import CardsTabController from '../CardsTab/CardsTabController'
-import { fetchLatestNews, fetchRegionNews,
-         fetchMostSeenNews } from '../CardsTab/CardsTabActions'
-import { MOST_SEEN_LIMIT, FETCH_TIMEOUT } from '../constants/config'
-import { PITAZO_RED } from '../constants/colors'
-import { OFFLINE_CONTENT_DOWNLOAD_ROUTE } from '../constants/routes';
+import HomesCreenHeader from './HomeScreenHeader'
+import MostSeenNewsList from './MostSeenNewsList'
+import styles from './style'
 
 
 /**
@@ -29,65 +26,17 @@ import { OFFLINE_CONTENT_DOWNLOAD_ROUTE } from '../constants/routes';
 
 
 /**
- *
- * @param {NavigationScreenProp} navigation Navigation screen prop
- */
-
-const HomeScreenHeader = navigation => (
-  <Header
-    androidStatusBarColor={PITAZO_RED}
-    style={styles.header}
-    iosBarStyle="light-content"
-    noShadow
-  >
-    <Left>
-      <Button
-        onPress={() => navigation.toggleDrawer()}
-        transparent
-      >
-        <Image
-          source={
-            // @ts-ignore
-            require('../assets/img/menu.png')
-          }
-        />
-      </Button>
-    </Left>
-    <Body>
-      <Image
-        source={
-          // @ts-ignore
-          require('../assets/img/logo.png')
-        }
-        style={styles.image}
-      />
-    </Body>
-    <Right>
-      <Button
-        onPress={() => {
-          navigation.navigate(OFFLINE_CONTENT_DOWNLOAD_ROUTE)
-        }}
-        transparent
-      >
-        <Image
-          source={
-            // @ts-ignore
-            require('../assets/img/download.png')
-          }
-        />
-      </Button>
-    </Right>
-  </Header>
-)
-
-/**
  * Renders the homescreen with the three main tabs (lo ultimo, regiones and
  * lo mas visto)
- * @param {HomeScreenProps} props
+ * @type {React.SFC<HomeScreenProps>}
  */
 const HomeScreen = ({ navigation }) => (
-  <Container style={styles.rootContainer}>
-    {HomeScreenHeader(navigation)}
+  <Container
+    style={styles.rootContainer}
+  >
+    <HomesCreenHeader
+      navigation={navigation}
+    />
     <Tabs
       edgeHitWidth={0}
       initialPage={0}
@@ -104,43 +53,28 @@ const HomeScreen = ({ navigation }) => (
           </TabHeading>
         )}
       >
-        <Loader
-          fetcherFunction={() => fetchLatestNews(1)}
-          loadingElement={(
-            <Container>
-              <Content>
-                <Spinner
-                  color={PITAZO_RED}
-                  style={styles.deadCenter}
-                />
-              </Content>
-            </Container>
-          )}
-          timeout={FETCH_TIMEOUT}
-        >
-          {
-            (newsItems, err) => {
-              if (err) {
-                return (
-                  <View style={styles.serverErrorText}>
-                    <Text>
-                      Error Sever | Error Connection
-                    </Text>
-                  </View>
-                )
-              }
-              return (
-                <CardsTabController
-                  fetcher={fetchLatestNews}
-                  initialNewsItems={/** @type {NewsItem[]} */ (newsItems)}
-                  navigation={navigation}
-                  isPaginated
-                  defaultFetchValue={1}
-                />
-              )
-            }
+        <NewsList
+          fetcherConstructor={() => {
+            const fetcher = buildPaginatedUrlFetcher(LATEST_URL)
+            let pageToBeFetched = 1
+
+            return () => fetcher(pageToBeFetched)
+              .then((newsItems) => {
+                pageToBeFetched++
+                return newsItems
+              })
+          }}
+          fallbackFetcher={
+            () =>
+              getItem(LATEST_URL, ASYNC_STORAGE_TIMEOUT)
+                .then((jsonOrNull) => {
+                  if (jsonOrNull === null) throw new Error()
+                  return jsonOrNull
+                })
+                .then(json => JSON.parse(json))
           }
-        </Loader>
+          navigation={navigation}
+        />
       </Tab>
 
       { /* MOST SEEN NEWS TAB */ }
@@ -153,41 +87,9 @@ const HomeScreen = ({ navigation }) => (
           </TabHeading>
         )}
       >
-        <Loader
-          fetcherFunction={() => fetchRegionNews(1)}
-          loadingElement={(
-            <Container>
-              <Content>
-                <Spinner
-                  color={PITAZO_RED}
-                />
-              </Content>
-            </Container>
-          )}
-          timeout={FETCH_TIMEOUT}
-        >
-          {
-            (newsItems, err) => {
-              if (err) {
-                return (
-                  <View style={styles.serverErrorText}>
-                    <Text>
-                      Error Sever | Error Connection
-                    </Text>
-                  </View>
-                )
-              }
-              return (
-                <CardsTabController
-                  fetcher={fetchMostSeenNews}
-                  initialNewsItems={/** @type {NewsItem[]} */ (newsItems)}
-                  navigation={navigation}
-                  defaultFetchValue={MOST_SEEN_LIMIT}
-                />
-              )
-            }
-          }
-        </Loader>
+        <MostSeenNewsList
+          navigation={navigation}
+        />
       </Tab>
 
       { /* REGIONES NEWS TAB */ }
@@ -200,42 +102,28 @@ const HomeScreen = ({ navigation }) => (
           </TabHeading>
         )}
       >
-        <Loader
-          fetcherFunction={() => fetchRegionNews(1)}
-          loadingElement={(
-            <Container>
-              <Content>
-                <Spinner
-                  color={PITAZO_RED}
-                />
-              </Content>
-            </Container>
-          )}
-          timeout={FETCH_TIMEOUT}
-        >
-          {
-            (newsItems, err) => {
-              if (err) {
-                return (
-                  <View style={styles.serverErrorText}>
-                    <Text>
-                      Error Sever | Error Connection
-                    </Text>
-                  </View>
-                )
-              }
-              return (
-                <CardsTabController
-                  fetcher={fetchRegionNews}
-                  initialNewsItems={/** @type {NewsItem[]} */ (newsItems)}
-                  navigation={navigation}
-                  isPaginated
-                  defaultFetchValue={1}
-                />
-              )
-            }
+        <NewsList
+          fetcherConstructor={() => {
+            const fetcher = buildPaginatedUrlFetcher(REGIONS_URL)
+            let pageToBeFetched = 1
+
+            return () => fetcher(pageToBeFetched)
+              .then((newsItems) => {
+                pageToBeFetched++
+                return newsItems
+              })
+          }}
+          fallbackFetcher={
+            () =>
+              getItem(REGIONS_URL, ASYNC_STORAGE_TIMEOUT)
+                .then((jsonOrNull) => {
+                  if (jsonOrNull === null) throw new Error()
+                  return jsonOrNull
+                })
+                .then(json => JSON.parse(json))
           }
-        </Loader>
+          navigation={navigation}
+        />
       </Tab>
     </Tabs>
   </Container>
