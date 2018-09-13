@@ -7,8 +7,8 @@ import { Text, View } from 'react-native'
 import CardsTabController from '../CardsTab/CardsTabController'
 import { fetchLatestNews, fetchRegionNews,
          fetchMostSeenNews } from '../CardsTab/CardsTabActions'
-import { MOST_SEEN_LIMIT, FETCH_TIMEOUT } from '../constants/config'
-import { PITAZO_RED } from '../constants/colors'
+import { MOST_SEEN_LIMIT, FETCH_TIMEOUT, ASYNC_STORAGE_TIMEOUT } from '../constants/config'
+import NewsList from '../NewsList'
 import Loader from '../utils/Loader'
 /**
  * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
@@ -17,6 +17,10 @@ import Loader from '../utils/Loader'
 
 import HomesCreenHeader from './HomeScreenHeader'
 import styles from './style'
+import { buildPaginatedUrlFetcher } from '../utils/fetchers'
+import { LATEST_URL, MOST_SEEN_URL, REGIONS_URL } from '../constants/urls'
+import { getItem } from '../utils/StorageTimeout'
+import MostSeenNewsList from './MostSeenNewsList'
 
 
 /**
@@ -51,43 +55,28 @@ const HomeScreen = ({ navigation }) => (
           </TabHeading>
         )}
       >
-        <Loader
-          fetcherFunction={() => fetchLatestNews(1)}
-          loadingElement={(
-            <Container>
-              <Content>
-                <Spinner
-                  color={PITAZO_RED}
-                  style={styles.deadCenter}
-                />
-              </Content>
-            </Container>
-          )}
-          timeout={FETCH_TIMEOUT}
-        >
-          {
-            (newsItems, err) => {
-              if (err) {
-                return (
-                  <View style={styles.serverErrorText}>
-                    <Text>
-                      Error Sever | Error Connection
-                    </Text>
-                  </View>
-                )
-              }
-              return (
-                <CardsTabController
-                  fetcher={fetchLatestNews}
-                  initialNewsItems={/** @type {NewsItem[]} */ (newsItems)}
-                  navigation={navigation}
-                  isPaginated
-                  defaultFetchValue={1}
-                />
-              )
-            }
+        <NewsList
+          fetcherConstructor={() => {
+            const fetcher = buildPaginatedUrlFetcher(LATEST_URL)
+            let pageToBeFetched = 1
+
+            return () => fetcher(pageToBeFetched)
+              .then((newsItems) => {
+                pageToBeFetched++
+                return newsItems
+              })
+          }}
+          fallbackFetcher={
+            () =>
+              getItem(LATEST_URL, ASYNC_STORAGE_TIMEOUT)
+                .then((jsonOrNull) => {
+                  if (jsonOrNull === null) throw new Error()
+                  return jsonOrNull
+                })
+                .then(json => JSON.parse(json))
           }
-        </Loader>
+          navigation={navigation}
+        />
       </Tab>
 
       { /* MOST SEEN NEWS TAB */ }
@@ -100,41 +89,9 @@ const HomeScreen = ({ navigation }) => (
           </TabHeading>
         )}
       >
-        <Loader
-          fetcherFunction={() => fetchRegionNews(1)}
-          loadingElement={(
-            <Container>
-              <Content>
-                <Spinner
-                  color="#d13239"
-                />
-              </Content>
-            </Container>
-          )}
-          timeout={FETCH_TIMEOUT}
-        >
-          {
-            (newsItems, err) => {
-              if (err) {
-                return (
-                  <View style={styles.serverErrorText}>
-                    <Text>
-                      Error Sever | Error Connection
-                    </Text>
-                  </View>
-                )
-              }
-              return (
-                <CardsTabController
-                  fetcher={fetchMostSeenNews}
-                  initialNewsItems={/** @type {NewsItem[]} */ (newsItems)}
-                  navigation={navigation}
-                  defaultFetchValue={MOST_SEEN_LIMIT}
-                />
-              )
-            }
-          }
-        </Loader>
+        <MostSeenNewsList
+          navigation={navigation}
+        />
       </Tab>
 
       { /* REGIONES NEWS TAB */ }
@@ -147,42 +104,28 @@ const HomeScreen = ({ navigation }) => (
           </TabHeading>
         )}
       >
-        <Loader
-          fetcherFunction={() => fetchRegionNews(1)}
-          loadingElement={(
-            <Container>
-              <Content>
-                <Spinner
-                  color="#d13239"
-                />
-              </Content>
-            </Container>
-          )}
-          timeout={FETCH_TIMEOUT}
-        >
-          {
-            (newsItems, err) => {
-              if (err) {
-                return (
-                  <View style={styles.serverErrorText}>
-                    <Text>
-                      Error Sever | Error Connection
-                    </Text>
-                  </View>
-                )
-              }
-              return (
-                <CardsTabController
-                  fetcher={fetchRegionNews}
-                  initialNewsItems={/** @type {NewsItem[]} */ (newsItems)}
-                  navigation={navigation}
-                  isPaginated
-                  defaultFetchValue={1}
-                />
-              )
-            }
+        <NewsList
+          fetcherConstructor={() => {
+            const fetcher = buildPaginatedUrlFetcher(REGIONS_URL)
+            let pageToBeFetched = 1
+
+            return () => fetcher(pageToBeFetched)
+              .then((newsItems) => {
+                pageToBeFetched++
+                return newsItems
+              })
+          }}
+          fallbackFetcher={
+            () =>
+              getItem(REGIONS_URL, ASYNC_STORAGE_TIMEOUT)
+                .then((jsonOrNull) => {
+                  if (jsonOrNull === null) throw new Error()
+                  return jsonOrNull
+                })
+                .then(json => JSON.parse(json))
           }
-        </Loader>
+          navigation={navigation}
+        />
       </Tab>
     </Tabs>
   </Container>

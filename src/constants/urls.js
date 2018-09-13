@@ -16,14 +16,14 @@ export const BASE_URL = 'https://elpitazo-api.cobuildlab.com'
  * Paginated through GET parameter `page`. Key=`page` Value={positive integer}
  * @type {string}
  */
-const LATEST_URL = `${BASE_URL}/portal/last`
+export const LATEST_URL = `${BASE_URL}/portal/last`
 
 /**
  * Url pointing to JSON data representing the news of the "REGIONS" category.
  * Paginated through GET parameter `page`. Key=`page` Value={positive integer}
  * @type {string}
  */
-const REGIONS_URL = `${BASE_URL}/portal/regions`
+export const REGIONS_URL = `${BASE_URL}/portal/regions`
 
 /**
  * Url pointing to JSON data representing news with the most views.
@@ -31,7 +31,7 @@ const REGIONS_URL = `${BASE_URL}/portal/regions`
  * Limitable through GET parameter `limit`. Key=`limit` Value={positive integer}
  * @type {string}
  */
-const MOST_SEEN_URL = `${BASE_URL}/portal/mostseen`
+export const MOST_SEEN_URL = `${BASE_URL}/portal/mostseen`
 
 
 /**

@@ -10,6 +10,9 @@ export default StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
   },
+  flatList: {
+    flex: 1,
+  },
   header: {
     backgroundColor: 'transparent',
   },
