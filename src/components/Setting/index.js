@@ -94,7 +94,7 @@ class SettingScreen extends Component {
                               <Label style={styles.labelForm}>
                                 {t('SETTINGS.email')}
                               </Label>
-                              <Input value={this.state.user.email}/>
+                              <Input editable={false} value={this.state.user.email}/>
                           </Item>
                       </Form>
                       <TouchableOpacity

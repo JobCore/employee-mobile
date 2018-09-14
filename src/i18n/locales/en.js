@@ -12,6 +12,10 @@ export default {
   REGISTER: {
     signUp: 'Sign Up',
     email: 'Email',
+    firstName: 'First name',
+    lastName: 'Last name',
+    emptyFirstName: 'Empty first name',
+    emptyLastName: 'Empty last name',
     password: 'Password',
     goBack: 'Go back',
     youHaveRegistered: 'You have signed up!',
