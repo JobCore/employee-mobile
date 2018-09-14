@@ -31,6 +31,9 @@ class Splash extends Component {
   }
 
   loginHandler = (user) => {
+    let status;
+    let token;
+
     try {
       token = user.token;
       status = user.user.profile.status;
@@ -38,7 +41,7 @@ class Splash extends Component {
       LOG(this, e);
     }
 
-    if (token && status !== 'PENDING_EMAIL_VALIDATION') {
+    if (token && status && status !== 'PENDING_EMAIL_VALIDATION') {
       return this.props.navigation.navigate(APP_ROUTE);
     }
 

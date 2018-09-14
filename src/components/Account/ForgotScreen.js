@@ -51,6 +51,7 @@ class ForgotScreen extends Component {
     Toast.show({
       type: "danger",
       text: JSON.stringify(err),
+      duration: 4000,
     });
   }
 

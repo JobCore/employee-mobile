@@ -53,11 +53,11 @@ class LoginScreen extends Component {
       WARN(this, e);
     }
 
-    if (status === 'PENDING_EMAIL_VALIDATION') {
+    if (!status || status === 'PENDING_EMAIL_VALIDATION') {
       return Toast.show({
         type: "danger",
         text: i18next.t('LOGIN.youMustValidateEmail'),
-        duration: 3000,
+        duration: 4000,
       });
     }
 
@@ -71,6 +71,7 @@ class LoginScreen extends Component {
     Toast.show({
       type: "danger",
       text: JSON.stringify(err),
+      duration: 4000,
     });
   }
 
