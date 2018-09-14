@@ -5,7 +5,7 @@ import React, { Component } from 'react'
  * @typedef {import('react').SFC<T>} SFC
  */
 import { Container, Content, Spinner } from 'native-base'
-import { Dimensions, Share } from 'react-native'
+import { Dimensions, Linking, Share } from 'react-native'
 import HTML from 'react-native-render-html'
 
 /**
@@ -63,10 +63,12 @@ class DetailsInfo extends Component {
       error = true
     }
 
+    this.finalHTML = ''
+
     try {
-      // type assert, isNewsItem can accept an empty object without throwing
-      // per se
-      isNewsItem(/** @type {NewsItem} */(newsItem), 0, []) // throws
+      isNewsItem(newsItem, 0, [])
+      this.finalHTML = htmlProcess(newsItem)
+      this.newsItem = newsItem
     } catch (e) {
       if (__DEV__) {
         throw e
@@ -74,16 +76,12 @@ class DetailsInfo extends Component {
       error = true
     }
 
-    const finalHtml = htmlProcess(newsItem)
-
     this.state = {
       error,
-      html: finalHtml,
       isLoadingFavorite: true,
       isFetchingFontSize: true,
       fontSize: DEFAULT_FONT_SIZE,
       isFavorite: false,
-      newsItem,
     }
   }
 
@@ -98,7 +96,7 @@ class DetailsInfo extends Component {
   }
 
   onPressFav() {
-    const { newsItem } = this.state
+    const { newsItem } = this
 
     this.setState({
       isLoadingFavorite: true,
@@ -116,7 +114,7 @@ class DetailsInfo extends Component {
   }
 
   onShare() {
-    const { newsItem: { link: url, title } } = this.state
+    const { newsItem: { link: url, title } } = this
     Share.share({
       message: url,
       title,
@@ -139,7 +137,7 @@ class DetailsInfo extends Component {
   }
 
   refreshFavState() {
-    const { newsItem } = this.state
+    const { newsItem } = this
 
     detectFavorite(newsItem.id)
       .then((isFavorite) => {
@@ -156,7 +154,7 @@ class DetailsInfo extends Component {
 
   render() {
     const { navigation } = this.props
-    const { fontSize, error, html, isFavorite, isLoadingFavorite,
+    const { fontSize, error, isFavorite, isLoadingFavorite,
       isFetchingFontSize } = this.state
 
     return (
@@ -180,10 +178,35 @@ class DetailsInfo extends Component {
           ) : (
             <Content>
               <HTML
-                html={html}
-                renderers={renderers(fontSize)}
+                html={this.finalHTML}
+                // renderers={renderers(fontSize)}
                 imagesMaxWidth={Dimensions.get('window').width}
+                staticContentMaxWidth={Dimensions.get('window').width}
+                imagesInitialDimensions={{
+                  height: 300,
+                  width: Dimensions.get('window').width,
+                }}
+                renderers={renderers(fontSize)}
                 containerStyle={styles.containerStyle}
+                allowedStyles={[]}
+                onLinkPress={(_, /** @type {string} */href) => {
+                  Linking.canOpenURL(href)
+                    .then((supported) => {
+                      if (supported) {
+                        Linking.openURL(href)
+                      }
+                      if (__DEV__) {
+                        throw new Error(
+                          `React native's Linking reports not being able to open this link's url, found url: ${url}`
+                        )
+                      }
+                    })
+                    .catch((e) => {
+                      if (__DEV__) {
+                        throw e
+                      }
+                    })
+                }}
               />
             </Content>
           )

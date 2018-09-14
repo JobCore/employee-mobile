@@ -3,17 +3,14 @@ import React from 'react'
 import { flatten } from 'ramda'
 import { Text, TouchableOpacity, Linking } from 'react-native'
 
-import { SMALL_FONT_SIZE, MEDIUM_FONT_SIZE, LARGE_FONT_SIZE } from '../constants/config'
+import { SMALL_FONT_SIZE, MEDIUM_FONT_SIZE,
+         LARGE_FONT_SIZE } from '../constants/config'
 
-import styles from './style'
+import styles from './rendererStyles'
 import Instagram from './embeds/Instagram'
 import Soundcloud from './embeds/Soundcloud'
 import Tweet from './embeds/Tweet'
 
-
-/**
- * @typedef {'instagram'|'soundcloud'|'twitter'|'author'|'p'|'date'|'title'|'blockquote'|'connect'} TagName
- */
 
 /**
  * @typedef {object} Attribs
@@ -52,7 +49,7 @@ const recurseUntilStringChildren = (children) => {
 
 
 /**
- * @type {(fontSize: number) => { [k in TagName]: Renderer }}
+ * @type {(fontSize: number) => { [k: string]: Renderer }}
  */
 const renderers = (fontSize) => {
   /**
@@ -74,17 +71,17 @@ const renderers = (fontSize) => {
   /**
    * @type {typeof styles.pSmallFontSize}
    */
-  let linkTextStyle
+  let connectTextStyle
   if (fontSize === SMALL_FONT_SIZE) {
-    linkTextStyle = styles.linkTextSmall
+    connectTextStyle = styles.connectTextSmall
   }
 
   if (fontSize === MEDIUM_FONT_SIZE) {
-    linkTextStyle = styles.linkTextMedium
+    connectTextStyle = styles.connectTextMedium
   }
 
   if (fontSize === LARGE_FONT_SIZE) {
-    linkTextStyle = styles.linkTextLarge
+    connectTextStyle = styles.connectTextLarge
   }
 
   return {
@@ -104,7 +101,7 @@ const renderers = (fontSize) => {
       />
     ),
 
-    author: ({ name }) => (
+    author: ({ name = '' }) => (
       <Text
         style={styles.photocaption}
       >
@@ -153,9 +150,45 @@ const renderers = (fontSize) => {
         </Text>
       </Text>
     ),
+    h1: (_, children) => (
+      recurseUntilStringChildren(chilren).map(child => (
+        <Text
+          style={{paddingLeft: 15, fontSize: 22, fontWeight: 'bold'}}
+        >
+          {child}
+        </Text>
+      ))
+    ),
+    h2: (_, children) => (
+      recurseUntilStringChildren(children).map(child => (
+        <Text
+          style={{paddingLeft: 15, fontSize: 20, fontWeight: 'bold'}}
+        >
+          {child}
+        </Text>
+      ))
+    ),
+    h3: (_, children) => (
+      recurseUntilStringChildren(children).map(child => (
+        <Text
+          style={{paddingLeft: 15, fontSize: 18, fontWeight: 'bold'}}
+        >
+          {child}
+        </Text>
+      ))
+    ),
+    h3: (_, children) => (
+      recurseUntilStringChildren(children).map(child => (
+        <Text
+          style={{paddingLeft: 15, fontSize: 13}}
+        >
+          {child}
+        </Text>
+      ))
+    ),
     connect: ({ text, url }) => (
       <TouchableOpacity
-        style={styles.linkTouchableOpacity}
+        style={styles.connectTouchableOpacity}
         onPress={() => {
           Linking.canOpenURL(url).then((supported) => {
             if (supported) {
@@ -170,7 +203,7 @@ const renderers = (fontSize) => {
         }}
       >
         <Text
-          style={linkTextStyle}
+          style={connectTextStyle}
         >
           <Text
             style={styles.redText}
@@ -178,7 +211,7 @@ const renderers = (fontSize) => {
             Lee tambien:
           </Text>
           <Text>
-            {text.replace('Lee también', '').replace('Lea también', '')}
+            {text.replace('Lee también:', '').replace('Lea también:', '')}
           </Text>
         </Text>
       </TouchableOpacity>
@@ -187,7 +220,7 @@ const renderers = (fontSize) => {
     // processing here
     blockquote: ({ url }, children) => (
       <TouchableOpacity
-        style={styles.linkTouchableOpacity}
+        style={styles.connectTouchableOpacity}
         onPress={() => {
           Linking.canOpenURL(url).then((supported) => {
             if (supported) {
@@ -202,7 +235,7 @@ const renderers = (fontSize) => {
         }}
       >
         <Text
-          style={linkTextStyle}
+          style={connectTextStyle}
         >
           <Text
             style={styles.redText}
