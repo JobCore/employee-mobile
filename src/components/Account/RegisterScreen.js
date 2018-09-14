@@ -48,6 +48,7 @@ class RegisterScreen extends Component {
     Toast.show({
       type: "success",
       text: i18next.t('REGISTER.youHaveRegistered'),
+      duration: 4000,
     });
   }
 
@@ -56,6 +57,7 @@ class RegisterScreen extends Component {
     Toast.show({
       type: "danger",
       text: JSON.stringify(err),
+      duration: 4000,
     });
   }
 

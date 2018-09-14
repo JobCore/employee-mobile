@@ -12,7 +12,7 @@ class AccountStore extends FluxStore {
 
       if (!nextState.token) return nextState;
 
-      if (!nextState.user || !nextState.user.profile || nextState.user.profile.status === 'PENDING_EMAIL_VALIDATION') {
+      if (!nextState.user || !nextState.user.profile || !nextState.user.profile.status || nextState.user.profile.status === 'PENDING_EMAIL_VALIDATION') {
         return nextState;
       }
 

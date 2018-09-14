@@ -37,7 +37,12 @@ const register = (email, password) => {
     return Flux.dispatchEvent('AccountStoreError', err);
   }
 
-  postData('/user/register', { username: email, email: email, password: password }, false)
+  postData('/user/register', {
+    account_type: 'employee',
+    username: email,
+    email: email,
+    password: password,
+  }, false)
     .then((data) => {
       Flux.dispatchEvent('Register', data);
     })
