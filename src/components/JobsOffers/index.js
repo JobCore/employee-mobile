@@ -1,50 +1,65 @@
 import React, { Component } from "react";
-import { 
+import {
   View,
   StyleSheet,
   Image,
   ListView
 } from "react-native";
-import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, Body, Title, Right, Label, Thumbnail,} from 'native-base';
+import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, Body, Title, Right, Label, Thumbnail, Toast } from 'native-base';
 import styles from './style';
 import { SETTING_ROUTE } from '../../constants/routes'
 import { BLUE_MAIN } from "../../constants/colorPalette";
+import * as jobActions from './actions';
+import jobStore from './JobStore';
+import { LOG, WARN, ERROR } from "../../utils";
 
-const datas = [
-  ' ',
-  ' ',
-  ' ',
-  ' ',
-  ' ',
-  ' ',
-  ' ',
-  ' ',
-];
 class JobsOffers extends Component {
-  constructor(props) {
-    super(props);
-    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    this.state = {
-      basic: false,
-      listViewData: datas,
-    };
-  }
-  deleteRow(secId, rowId, rowMap) {
-    rowMap[`${secId}${rowId}`].props.closeRow();
-    const newData = [...this.state.listViewData];
-    newData.splice(rowId, 1);
-    this.setState({ listViewData: newData });
-  }
-
   static navigationOptions = {
     tabBarLabel: 'Jobs Offers',
-    tabBarIcon: ({tintColor}) => (
+    tabBarIcon: ({ tintColor }) => (
       <Image
         style={{resizeMode: 'contain', height: 30}}
         source={require('../../assets/image/offers.png')}
       />
     )
   };
+
+  constructor(props) {
+    super(props);
+    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+    this.state = {
+      isLoading: false,
+      basic: false,
+      jobInvites: [],
+    };
+  }
+
+  componentDidMount() {
+    this.getJobInvitesSubscription = jobStore.subscribe('JobInvites', (jobInvites) => this.getJobInvitesHandler(jobInvites));
+    this.jobStoreError = jobStore.subscribe('JobStoreError', (err) => this.errorHandler(err));
+
+    this.firstLoadJobInvites();
+  }
+
+  componentWillUnmount() {
+    this.jobInvitesSubscription.unsubscribe();
+    this.jobStoreError.unsubscribe();
+  }
+
+  getJobInvitesHandler = (jobInvites) => {
+    this.isLoading(false);
+    this.setState({ jobInvites });
+  }
+
+  errorHandler = (err) => {
+    this.isLoading(false);
+    Toast.show({
+      type: "danger",
+      text: JSON.stringify(err),
+      duration: 4000,
+    });
+  }
+
   render() {
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     return (
@@ -55,8 +70,8 @@ class JobsOffers extends Component {
             <Title style={styles.titleHeader}>Jobs Offers</Title>
           </Body>
           <Right>
-            <Button 
-              transparent 
+            <Button
+              transparent
               onPress={() => this.props.navigation.navigate(SETTING_ROUTE)}>
               <Image
                 style={{resizeMode: 'contain', height: 25,}}
@@ -69,22 +84,22 @@ class JobsOffers extends Component {
           <List
             leftOpenValue={75}
             rightOpenValue={-75}
-            dataSource={this.ds.cloneWithRows(this.state.listViewData)}
+            dataSource={this.ds.cloneWithRows(this.state.jobInvites)}
             renderRow={data =>
             <ListItem style={styles.viewListItem}>
               <Thumbnail small source={require('../../assets/image/myJobs.png')} />
               <View style={styles.viewDataOffers}>
                 {/* title info */}
-                <Text style={styles.viewTitleInfo}> 
-                  <Text style={styles.textOne}>ACME</Text> 
-                  <Text style={styles.textTwo}> Inc is looking for a</Text> 
+                <Text style={styles.viewTitleInfo}>
+                  <Text style={styles.textOne}>ACME</Text>
+                  <Text style={styles.textTwo}> Inc is looking for a</Text>
                   <Text style={styles.textThree}> Server</Text>
                 </Text>
                 {/* title date info */}
                 <Text>
                   <Text style={styles.textTwo}>on</Text>
                   <Text style={styles.textBlack}> Sep 24th From 3pm to 6pm.</Text>
-                  <Text style={styles.textRed}> $10/hr.</Text> 
+                  <Text style={styles.textRed}> $10/hr.</Text>
                 </Text>
               </View>
             </ListItem>}
@@ -100,6 +115,26 @@ class JobsOffers extends Component {
         </Content>
       </Container>
     );
+  }
+
+  firstLoadJobInvites() {
+    this.isLoading(true);
+    this.getJobInvites();
+  }
+
+  getJobInvites = () => {
+    jobActions.getJobInvites();
+  }
+
+  isLoading = (isLoading) => {
+    this.setState({ isLoading });
+  }
+
+  deleteRow(secId, rowId, rowMap) {
+    rowMap[`${secId}${rowId}`].props.closeRow();
+    const newData = [...this.state.jobInvites];
+    newData.splice(rowId, 1);
+    this.setState({ jobInvites: newData });
   }
 }
 export default JobsOffers;

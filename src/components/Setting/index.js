@@ -52,14 +52,11 @@ class SettingScreen extends Component {
     super(props);
     this.state = {
       isLoading: false,
-      user: {},
+      user: store.getState("Login").user || {},
     };
   }
 
   componentDidMount() {
-    const loginData = store.getState("Login");
-    this.setState({ user: loginData.user });
-
     this.logoutSubscription = accountStore.subscribe('Logout', (data) => this.logoutHandler(data));
   }
 
@@ -90,6 +87,18 @@ class SettingScreen extends Component {
                 <Content>
                     <FormView>
                       <Form>
+                        <Item style={styles.viewInput} inlineLabel rounded>
+                            <Label style={styles.labelForm}>
+                              {t('SETTINGS.firstName')}
+                            </Label>
+                            <Input editable={false} value={this.state.user.first_name}/>
+                        </Item>
+                        <Item style={styles.viewInput} inlineLabel rounded>
+                            <Label style={styles.labelForm}>
+                              {t('SETTINGS.lastName')}
+                            </Label>
+                            <Input editable={false} value={this.state.user.last_name}/>
+                        </Item>
                           <Item style={styles.viewInput} inlineLabel rounded>
                               <Label style={styles.labelForm}>
                                 {t('SETTINGS.email')}

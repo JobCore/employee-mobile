@@ -23,6 +23,8 @@ export default {
   SETTINGS: {
     email: 'Email',
     changePassword: 'Change password',
+    firstName: 'First name',
+    lastName: 'Last name',
     signUp: 'Sign Up',
     logout: 'Logout',
     linkBank: 'Link Bank Account',
