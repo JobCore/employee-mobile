@@ -95,7 +95,7 @@ const renderers = (fontSize) => {
         url={url}
       />
     ),
-    twitter: ({ url }) => (
+    twitterx: ({ url }) => (
       <Tweet
         url={url}
       />
@@ -212,42 +212,6 @@ const renderers = (fontSize) => {
           </Text>
           <Text>
             {text.replace('Lee también:', '').replace('Lea también:', '')}
-          </Text>
-        </Text>
-      </TouchableOpacity>
-    ),
-    // backend might not catch all connects so we fallback to blockquote
-    // processing here
-    blockquote: ({ url }, children) => (
-      <TouchableOpacity
-        style={styles.connectTouchableOpacity}
-        onPress={() => {
-          Linking.canOpenURL(url).then((supported) => {
-            if (supported) {
-              Linking.openURL(url)
-            }
-            if (__DEV__) {
-              throw new Error(
-                `React native's Linking reports not being able to open this link's url, found url: ${url}`
-              )
-            }
-          })
-        }}
-      >
-        <Text
-          style={connectTextStyle}
-        >
-          <Text
-            style={styles.redText}
-          >
-            Lee tambien:
-          </Text>
-          <Text>
-            {recurseUntilStringChildren(children)
-              .join('')
-              .replace('Lee también', '')
-              .replace('Lea también', '')
-            }
           </Text>
         </Text>
       </TouchableOpacity>
