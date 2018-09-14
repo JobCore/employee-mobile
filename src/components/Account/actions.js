@@ -30,15 +30,17 @@ const login = (email, password) => {
  * @param email
  * @param password
  */
-const register = (email, password) => {
+const register = (email, password, firstName, lastName) => {
   try {
-    registerValidator(email, password);
+    registerValidator(email, password, firstName, lastName);
   } catch (err) {
     return Flux.dispatchEvent('AccountStoreError', err);
   }
 
   postData('/user/register', {
     account_type: 'employee',
+    first_name: firstName,
+    last_name: lastName,
     username: email,
     email: email,
     password: password,

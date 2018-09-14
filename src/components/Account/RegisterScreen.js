@@ -29,6 +29,8 @@ class RegisterScreen extends Component {
       isLoading: false,
       email: '',
       password: '',
+      firstName: '',
+      lastName: '',
     };
   }
 
@@ -81,6 +83,14 @@ class RegisterScreen extends Component {
                 <FormView>
                   <Form>
                       <Item style={styles.viewInput} inlineLabel rounded>
+                        <Input value={this.state.firstName}
+                          placeholder={t('REGISTER.firstName')} onChangeText={(text) => this.setState({firstName: text})}/>
+                      </Item>
+                      <Item style={styles.viewInput} inlineLabel rounded>
+                          <Input value={this.state.lastName}
+                            placeholder={t('REGISTER.lastName')} onChangeText={(text) => this.setState({lastName: text})}/>
+                      </Item>
+                      <Item style={styles.viewInput} inlineLabel rounded>
                           <Input value={this.state.email}
                             placeholder={t('REGISTER.email')} onChangeText={(text) => this.setState({email: text})}/>
                       </Item>
@@ -116,7 +126,7 @@ class RegisterScreen extends Component {
 
   register = () => {
     this.isLoading(true);
-    actions.register(this.state.email.toLowerCase(), this.state.password)
+    actions.register(this.state.email.toLowerCase(), this.state.password, this.state.firstName, this.state.lastName)
   }
 
   isLoading = (isLoading) => {

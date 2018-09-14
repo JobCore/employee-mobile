@@ -62,7 +62,7 @@ class DashboardScreen extends Component {
                     </Right>
                 </Header>
                 <Content>
-                    <Text style={styles.textHello}>Hello {this.state.user.username},</Text>
+                    <Text style={styles.textHello}>Hello {`${this.state.user.first_name} ${this.state.user.last_name}`},</Text>
                     <Text style={styles.textWelcome}>Welcome to Jobcore</Text>
 
                     <View style={styles.viewDashboard}>
