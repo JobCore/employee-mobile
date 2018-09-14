@@ -9,6 +9,7 @@ import React, { Component } from 'react'
 import { FlatList, RefreshControl, Text, View } from 'react-native'
 import { Spinner } from 'native-base'
 import moment from 'moment'
+import 'moment/locale/es' // https://github.com/jalaali/moment-jalaali/issues/142
 import { prop, uniqBy } from 'ramda'
 /**
  * @template T
