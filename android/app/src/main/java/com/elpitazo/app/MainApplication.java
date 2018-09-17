@@ -1,4 +1,4 @@
-package com.pitazoapp;
+package com.elpitazo.app;
 
 import android.app.Application;
 
