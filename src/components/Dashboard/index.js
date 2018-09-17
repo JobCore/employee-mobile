@@ -35,21 +35,6 @@ class DashboardScreen extends Component {
         this.setState({user: loginData.user});
     }
 
-    getStoredUser = async () => {
-        const userString = await AsyncStorage.getItem('user');
-
-
-        try {
-            userJson = JSON.parse(userString);
-        } catch (e) {
-            throw alert('LOGIN.failedToLoadUser')
-        }
-
-        alert(JSON.stringify(userJson));
-
-        return userJson.user;
-    }
-
     _showNew = () => {
         this.props.navigation.navigate('TabBar');
     };
@@ -77,7 +62,7 @@ class DashboardScreen extends Component {
                     </Right>
                 </Header>
                 <Content>
-                    <Text style={styles.textHello}>Hello {this.state.user.username},</Text>
+                    <Text style={styles.textHello}>Hello {`${this.state.user.first_name} ${this.state.user.last_name}`},</Text>
                     <Text style={styles.textWelcome}>Welcome to Jobcore</Text>
 
                     <View style={styles.viewDashboard}>

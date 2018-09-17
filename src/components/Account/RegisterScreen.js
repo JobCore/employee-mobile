@@ -1,174 +1,76 @@
-import React, {Component} from "react";
-import {BLUE_DARK} from '../../constants/colorPalette';
+import React, { Component } from "react";
+import { BLUE_DARK } from '../../constants/colorPalette';
 import {
-    View,
-    AsyncStorage,
-    // SafeAreaView,
-    Image,
-    TouchableOpacity,
-    KeyboardAvoidingView,
-    Platform,
-    TextInput,
-    ScrollView
+  View,
+  AsyncStorage,
+  // SafeAreaView,
+  Image,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  TextInput,
+  ScrollView
 } from "react-native";
-import {Container, Item, Input, Button, Text, Form, Label, Spinner} from 'native-base';
-import {LOGIN_ROUTE, APP_ROUTE} from "../../constants/routes";
+import { Container, Item, Input, Button, Text, Form, Label, Spinner, Toast } from 'native-base';
+import { LOGIN_ROUTE, APP_ROUTE } from "../../constants/routes";
 import styles from './RegisterStyle';
 import * as actions from './actions';
 import store from './AccountStore';
+import { I18n } from 'react-i18next';
+import { i18next } from '../../i18n';
+import { FormView } from "../../utils/platform";
 
 class RegisterScreen extends Component {
-    static navigationOptions = {header: null}
+  static navigationOptions = { header: null }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            isLoading: false,
-            usernameOrEmail: '',
-            password: '',
-        };
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false,
+      email: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+    };
+  }
 
-    componentDidMount() {
-        this.registerSubscription = store.subscribe('Register', (user) => this.registerHandler(user));
-        this.accountStoreError = store.subscribe('AccountStoreError', (err) => this.errorHandler(err));
-    }
+  componentDidMount() {
+    this.registerSubscription = store.subscribe('Register', (user) => this.registerHandler(user));
+    this.accountStoreError = store.subscribe('AccountStoreError', (err) => this.errorHandler(err));
+  }
 
-    componentWillUnmount() {
-        this.registerSubscription.unsubscribe();
-        this.accountStoreError.unsubscribe();
-    }
+  componentWillUnmount() {
+    this.registerSubscription.unsubscribe();
+    this.accountStoreError.unsubscribe();
+  }
 
-    registerHandler = (user) => {
-        alert('REGISTER.youHaveSignedUp', user);
-        this.isLoading(false);
-        this.props.navigation.navigate(LOGIN_ROUTE);
-    }
+  registerHandler = (user) => {
+    this.isLoading(false);
+    this.props.navigation.navigate(LOGIN_ROUTE);
+    Toast.show({
+      type: "success",
+      text: i18next.t('REGISTER.youHaveRegistered'),
+      duration: 4000,
+    });
+  }
 
-    errorHandler = (err) => {
-        this.isLoading(false);
-        alert(JSON.stringify(err.message || err));
-    }
+  errorHandler = (err) => {
+    this.isLoading(false);
+    Toast.show({
+      type: "danger",
+      text: JSON.stringify(err),
+      duration: 4000,
+    });
+  }
 
-    register = () => {
-        this.isLoading(true);
-        actions.register(this.state.username, this.state.email, this.state.password)
-    }
-
-    isLoading = (isLoading) => {
-        this.setState({isLoading});
-    }
-
-    renderBy() {
-        if (Platform.OS == 'android') {
-            return (
-                <ScrollView style={styles.viewForm} keyboardShouldPersistTaps={'always'}>
-                    <Form>
-                        <Item style={styles.viewInput} inlineLabel rounded>
-                            <Label style={styles.labelForm}>Username</Label>
-                            <Input value={this.state.username}
-                                   onChangeText={(text) => this.setState({username: text})}/>
-                        </Item>
-                        <Item style={styles.viewInput} inlineLabel rounded>
-                            <Label style={styles.labelForm}>Email</Label>
-                            <Input value={this.state.email} onChangeText={(text) => this.setState({email: text})}/>
-                        </Item>
-                        <Item style={styles.viewInput} inlineLabel rounded>
-                            <Label style={styles.labelForm}>Password</Label>
-                            <Input value={this.state.password} onChangeText={(text) => this.setState({password: text})}
-                                   secureTextEntry={true}/>
-                        </Item>
-                    </Form>
-                    {/* <TouchableOpacity
-          full
-          onPress={this.userRegister.bind(this)}
-          style={styles.viewButtomSignUp} >
-          <Text
-            style={styles.textButtomSave}>
-            Save
-          </Text>
-        </TouchableOpacity> */}
-                    <Button
-                        full
-                        onPress={this.register}
-                        style={styles.viewButtomLogin}>
-                        <Text
-                            style={styles.textButtom}>
-                            Sign Up
-                        </Text>
-                    </Button>
-                    <TouchableOpacity
-                        full
-                        onPress={() => this.props.navigation.goBack()}
-                        style={styles.viewButtomSignUp}>
-                        <Text
-                            style={styles.textButtomSignUp}>
-                            Go back
-                        </Text>
-                    </TouchableOpacity>
-                </ScrollView>
-            );
-        } else if (Platform.OS == 'ios') {
-            return (
-                <KeyboardAvoidingView behavior="padding">
-                    <View style={styles.viewForm}>
-                        <Form>
-                            <Item style={styles.viewInput} inlineLabel rounded>
-                                <Label style={styles.labelForm}>Username</Label>
-                                <Input value={this.state.username}
-                                       onChangeText={(text) => this.setState({username: text})}/>
-                            </Item>
-                            <Item style={styles.viewInput} inlineLabel rounded>
-                                <Label style={styles.labelForm}>Email</Label>
-                                <Input value={this.state.email} onChangeText={(text) => this.setState({email: text})}/>
-                            </Item>
-                            <Item style={styles.viewInput} inlineLabel rounded>
-                                <Label style={styles.labelForm}>Password</Label>
-                                <Input value={this.state.password}
-                                       onChangeText={(text) => this.setState({password: text})} secureTextEntry={true}/>
-                            </Item>
-                        </Form>
-                        {/* <TouchableOpacity
-              full
-              onPress={this.userRegister.bind(this)}
-              style={styles.viewButtomSignUp} >
-              <Text
-                style={styles.textButtomSave}>
-                Save
-              </Text>
-            </TouchableOpacity> */}
-                        <Button
-                            full
-                            onPress={this.register}
-                            style={styles.viewButtomLogin}>
-                            <Text
-                                style={styles.textButtom}>
-                                Sign Up
-                            </Text>
-                        </Button>
-                        <TouchableOpacity
-                            full
-                            onPress={() => this.props.navigation.goBack()}
-                            style={styles.viewButtomSignUp}>
-                            <Text
-                                style={styles.textButtomSignUp}>
-                                Go back
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </KeyboardAvoidingView>
-            );
-        }
-    }
-
-    render() {
-        if (this.state.isLoading) {
-            return (<View style={styles.container}>
+  render() {
+    if (this.state.isLoading) {
+      return (<View style={styles.container}>
                 <Spinner color={BLUE_DARK}/>
             </View>);
-        }
+    }
 
-        return (
+    return (<I18n>{(t, { i18n }) => (
             <View style={styles.container}>
                 <Image
                     style={styles.viewBackground}
@@ -178,10 +80,58 @@ class RegisterScreen extends Component {
                     style={styles.viewLogo}
                     source={require('../../assets/image/logo1.png')}
                 />
-                {this.renderBy()}
+                <FormView>
+                  <Form>
+                      <Item style={styles.viewInput} inlineLabel rounded>
+                        <Input value={this.state.firstName}
+                          placeholder={t('REGISTER.firstName')} onChangeText={(text) => this.setState({firstName: text})}/>
+                      </Item>
+                      <Item style={styles.viewInput} inlineLabel rounded>
+                          <Input value={this.state.lastName}
+                            placeholder={t('REGISTER.lastName')} onChangeText={(text) => this.setState({lastName: text})}/>
+                      </Item>
+                      <Item style={styles.viewInput} inlineLabel rounded>
+                          <Input value={this.state.email}
+                            placeholder={t('REGISTER.email')} onChangeText={(text) => this.setState({email: text})}/>
+                      </Item>
+                      <Item style={styles.viewInput} inlineLabel rounded>
+                          <Input value={this.state.password}
+                            placeholder={t('REGISTER.password')}
+                                 onChangeText={(text) => this.setState({password: text})} secureTextEntry={true}/>
+                      </Item>
+                  </Form>
+                  <Button
+                      full
+                      onPress={this.register}
+                      style={styles.viewButtomLogin}>
+                      <Text
+                          style={styles.textButtom}>
+                          {t('REGISTER.signUp')}
+                      </Text>
+                  </Button>
+                  <TouchableOpacity
+                      full
+                      onPress={() => this.props.navigation.goBack()}
+                      style={styles.viewButtomSignUp}>
+                      <Text
+                          style={styles.textButtomSignUp}>
+                          {t('REGISTER.goBack')}
+                      </Text>
+                  </TouchableOpacity>
+                </FormView>
             </View>
-        );
-    }
+          )
+      }</I18n>);
+  }
+
+  register = () => {
+    this.isLoading(true);
+    actions.register(this.state.email.toLowerCase(), this.state.password, this.state.firstName, this.state.lastName)
+  }
+
+  isLoading = (isLoading) => {
+    this.setState({ isLoading });
+  }
 }
 
 export default RegisterScreen;

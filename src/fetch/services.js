@@ -1,7 +1,7 @@
-import { accountStore } from '../components/Account/AccountStore';
+import accountStore from '../components/Account/AccountStore';
 import * as Flux from '../utils/flux-state';
 
-const API_URL = 'https://jobcore.herokuapp.com';
+const API_URL = 'https://jobcore.herokuapp.com/api';
 
 /**
  * POST method fetch
@@ -18,7 +18,7 @@ export function postData(url, data, isAuth = true) {
           'Accept': 'application/json',
           'Accept-Language': 'en',
           'Content-Type': 'application/json',
-          'Authorization': (isAuth) ? `Token ${accountStore.getState('Login').token}` : '',
+          'Authorization': (isAuth) ? `jwt ${accountStore.getState('Login').token}` : '',
         },
         method: 'POST',
       })
@@ -43,7 +43,7 @@ export function putData(url, data, isAuth = true) {
           'Accept': 'application/json',
           'Accept-Language': 'en',
           'Content-Type': 'application/json',
-          'Authorization': (isAuth) ? `Token ${accountStore.getState('Login').token}` : '',
+          'Authorization': (isAuth) ? `jwt ${accountStore.getState('Login').token}` : '',
         },
         method: 'PUT',
       })
@@ -61,13 +61,12 @@ export function putData(url, data, isAuth = true) {
  */
 export function getData(url, isAuth = true) {
   return new Promise((resolve, reject) => {
-
     return fetch(`${API_URL}${url}`, {
         headers: {
           'Accept': 'application/json',
           'Accept-Language': 'en',
           'Content-Type': 'application/json',
-          'Authorization': (isAuth) ? `Token ${accountStore.getState('Login').token}` : '',
+          'Authorization': (isAuth) ? `jwt ${accountStore.getState('Login').token}` : '',
         },
         method: 'GET',
       })
@@ -91,7 +90,7 @@ export function deleteData(url, isAuth = true) {
           'Accept': 'application/json',
           'Accept-Language': 'en',
           'Content-Type': 'application/json',
-          'Authorization': (isAuth) ? `Token ${accountStore.getState('Login').token}` : '',
+          'Authorization': (isAuth) ? `jwt ${accountStore.getState('Login').token}` : '',
         },
         method: 'DELETE',
       })
@@ -113,7 +112,7 @@ export function downloadData(url, isAuth = true) {
     return fetch(`${API_URL}${url}`, {
         method: 'GET',
         headers: {
-          'Authorization': (isAuth) ? `Token ${accountStore.getState('Login').token}` : '',
+          'Authorization': (isAuth) ? `jwt ${accountStore.getState('Login').token}` : '',
         }
       })
       .then((response) => {
@@ -145,7 +144,7 @@ export function postFormData(url, formData, isAuth = true) {
         headers: {
           'Accept': 'application/json',
           'Accept-Language': i18next.language,
-          'Authorization': (isAuth) ? `Token ${accountStore.getState('Login').token}` : '',
+          'Authorization': (isAuth) ? `jwt ${accountStore.getState('Login').token}` : '',
         },
         method: 'POST',
       })
