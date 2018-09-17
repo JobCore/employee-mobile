@@ -5,7 +5,7 @@ import React, { Component } from 'react'
  * @typedef {import('react').SFC<T>} SFC
  */
 import { Container, Content, Spinner } from 'native-base'
-import { Dimensions, Share } from 'react-native'
+import { Dimensions, Linking, Share } from 'react-native'
 import HTML from 'react-native-render-html'
 
 /**
@@ -13,16 +13,16 @@ import HTML from 'react-native-render-html'
  * @typedef {import('../definitions').NewsItem} NewsItem
  */
 
-import styles from './style'
-import renderers from './renderers'
 import { saveNewsItem, detectFavorite, removeNewsItem } from '../Favorites/FavoriteStore'
-import { htmlProcess } from './DetailsInfoActions'
 import isNewsItem from '../utils/isNewsItem'
 import { NAVIGATION_NEWSITEM_PARAM_KEY } from '../constants/others'
 import { DEFAULT_FONT_SIZE } from '../constants/config'
-
-import DetailsInfoHeader from './DetailsInfoHeader'
 import { fetchFontSize } from '../Settings/SettingsActions'
+
+import styles from './style'
+import renderers from './renderers'
+import { htmlProcess } from './DetailsInfoActions'
+import DetailsInfoHeader from './DetailsInfoHeader'
 import { PITAZO_RED } from '../constants/colors'
 
 
@@ -184,6 +184,25 @@ class DetailsInfo extends Component {
                 renderers={renderers(fontSize)}
                 imagesMaxWidth={Dimensions.get('window').width}
                 containerStyle={styles.containerStyle}
+                allowedStyles={[]}
+                onLinkPress={(_, /** @type {string} */href) => {
+                  Linking.canOpenURL(href)
+                    .then((supported) => {
+                      if (supported) {
+                        Linking.openURL(href)
+                      }
+                      if (__DEV__) {
+                        throw new Error(
+                          `React native's Linking reports not being able to open this link's url, found url: ${href}`
+                        )
+                      }
+                    })
+                    .catch((e) => {
+                      if (__DEV__) {
+                        throw e
+                      }
+                    })
+                }}
               />
             </Content>
           )
