@@ -5,6 +5,7 @@
 import React, { Component } from 'react'
 
 import moment from 'moment'
+import 'moment/locale/es' // https://github.com/jalaali/moment-jalaali/issues/142
 import { Image, Share, Text, View, TouchableHighlight,
          TouchableOpacity } from 'react-native'
 import { CardItem, Card, Left } from 'native-base'

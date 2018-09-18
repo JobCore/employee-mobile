@@ -4,6 +4,7 @@ import { Header, Left, Button, Body, Right } from 'native-base'
 import { Image } from 'react-native'
 
 import { PITAZO_RED } from '../constants/colors'
+import { OFFLINE_CONTENT_DOWNLOAD_ROUTE } from '../constants/routes'
 /**
  * @typedef {import('../definitions').NavigationScreenProp} NavigationScreenProp
  */
@@ -46,7 +47,12 @@ const HomeScreenHeader = ({ navigation }) => (
       />
     </Body>
     <Right>
-      <Button transparent>
+      <Button
+        onPress={() => {
+          navigation.navigate(OFFLINE_CONTENT_DOWNLOAD_ROUTE)
+        }}
+        transparent
+      >
         <Image
           // @ts-ignore
           source={require('../assets/img/download.png')}
