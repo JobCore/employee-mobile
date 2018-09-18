@@ -1,36 +1,13 @@
-import { Dimensions, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 
-import { SMALL_FONT_SIZE, MEDIUM_FONT_SIZE,
-         LARGE_FONT_SIZE } from '../constants/config'
 import { ARTICLE_HEADER_GRAY, PITAZO_GRAY, PITAZO_RED } from '../constants/colors'
 
 const PADDING_LEFT = 15
 const PADDING_RIGHT = 15
 
-/**
- * @type {React.CSSProperties}
- */
-const pBase = {
-  lineHeight: 20,
-  marginBottom: 10,
-  marginTop: 10,
-  paddingLeft: 15,
-  paddingRight: 15,
-  textAlign: 'justify',
-}
-
-/**
- * @type {React.CSSProperties}
- */
-const linkTextBase = {
-  flexWrap: 'wrap', // make text wrap
-  fontWeight: 'bold',
-  paddingLeft: 2,
-}
-
 export default StyleSheet.create({
   bgColor: {
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
   },
   containerStyle: {
     backgroundColor: 'white',
@@ -79,13 +56,13 @@ export default StyleSheet.create({
     marginRight: 15,
   },
   tabContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
   },
   tabContainerStyle: {
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
   },
   tabStyleBg: {
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
   },
   textTab: {
     color: '#000',
@@ -98,10 +75,10 @@ export default StyleSheet.create({
     color: 'black',
   },
   underLineColor: {
-    backgroundColor: '#d13239',
+    backgroundColor: PITAZO_RED,
   },
   viewContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     flex: 1,
     flexDirection: 'column',
   },

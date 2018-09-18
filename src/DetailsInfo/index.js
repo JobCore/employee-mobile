@@ -197,7 +197,7 @@ class DetailsInfo extends Component {
                       }
                       if (__DEV__) {
                         throw new Error(
-                          `React native's Linking reports not being able to open this link's url, found url: ${url}`
+                          `React native's Linking reports not being able to open this link's url, found url: ${href}`
                         )
                       }
                     })
