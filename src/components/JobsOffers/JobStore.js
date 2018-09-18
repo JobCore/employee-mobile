@@ -8,6 +8,10 @@ class JobStore extends FluxStore {
 
     this.addEvent('JobInvites');
 
+    this.addEvent('ApplyJob');
+
+    this.addEvent('RejectJob');
+
     this.addEvent('JobStoreError', nextState => {
       LOG(this, nextState);
 

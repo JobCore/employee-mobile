@@ -5,7 +5,7 @@ import { postData, putData, getData } from '../../fetch';
  * Action for listing the job invites
  */
 const getJobInvites = () => {
-  getData('/shifts/invites?employee=4')
+  getData('/shifts/invites')
     .then((jobInvites) => {
       Flux.dispatchEvent('JobInvites', jobInvites);
     })
@@ -16,13 +16,14 @@ const getJobInvites = () => {
 
 /**
  * Action to apply a job invite
+ * @param  {string || number} shiftInviteId the shift id
  */
-const applyJob = (shiftinviteId) => {
-  putData(`/shift/invite/${shiftinviteId}`, {
+const applyJob = (shiftInviteId) => {
+  putData(`/shifts/invites/${shiftInviteId}`, {
       status: 'APPLIED',
     })
-    .then((jobInvites) => {
-      Flux.dispatchEvent('JobInvites', jobInvites);
+    .then((data) => {
+      Flux.dispatchEvent('ApplyJob', data);
     })
     .catch((err) => {
       Flux.dispatchEvent('JobStoreError', err);
@@ -30,14 +31,15 @@ const applyJob = (shiftinviteId) => {
 };
 
 /**
- * Action to reject a job invite
+ *  Action to reject a job invite
+ * @param  {string || number} shiftInviteId the shift id
  */
-const rejectJob = (shiftinviteId) => {
-  putData(`/shift/invite/${shiftinviteId}`, {
-      status: '’CANCELLED’',
+const rejectJob = (shiftInviteId) => {
+  putData(`/shifts/invites/${shiftInviteId}`, {
+      status: 'CANCELLED',
     })
-    .then((jobInvites) => {
-      Flux.dispatchEvent('JobInvites', jobInvites);
+    .then((data) => {
+      Flux.dispatchEvent('RejectJob', data);
     })
     .catch((err) => {
       Flux.dispatchEvent('JobStoreError', err);

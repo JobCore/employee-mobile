@@ -8,6 +8,11 @@ import { BLACK_MAIN } from '../../constants/colorPalette'
 var width = Dimensions.get('window').width;
 
 export default styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   headerCustom:{
     backgroundColor: BLUE_MAIN,
   },
@@ -33,32 +38,32 @@ export default styles = StyleSheet.create({
     marginLeft: 15
   },
   textOne:{
-    color: VIOLET_MAIN, 
-    fontSize: 12, 
+    color: VIOLET_MAIN,
+    fontSize: 12,
     textAlign: 'left'
   },
   textTwo:{
-    color: GRAY_MAIN, 
-    fontSize: 12, 
+    color: GRAY_MAIN,
+    fontSize: 12,
     textAlign: 'left'
   },
   textThree:{
-    color: BLUE_MAIN, 
-    fontSize: 12, 
+    color: BLUE_MAIN,
+    fontSize: 12,
     textAlign: 'left'
   },
   textRed:{
-    color: RED_MAIN, 
-    fontSize: 12, 
+    color: RED_MAIN,
+    fontSize: 12,
     textAlign: 'left'
   },
   textBlack:{
-    color: BLACK_MAIN, 
-    fontSize: 12, 
+    color: BLACK_MAIN,
+    fontSize: 12,
     textAlign: 'left'
   },
   viewTitleInfo:{
-    alignSelf: 'flex-start', 
+    alignSelf: 'flex-start',
     marginBottom: 5
   }
 });
