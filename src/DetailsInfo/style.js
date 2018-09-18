@@ -4,6 +4,8 @@ import { SMALL_FONT_SIZE, MEDIUM_FONT_SIZE,
          LARGE_FONT_SIZE } from '../constants/config'
 import { ARTICLE_HEADER_GRAY, PITAZO_GRAY, PITAZO_RED } from '../constants/colors'
 
+const PADDING_LEFT = 15
+const PADDING_RIGHT = 15
 
 /**
  * @type {React.CSSProperties}
@@ -31,11 +33,13 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
   },
   containerStyle: {
-
+    backgroundColor: 'white',
+    flex: 1,
+    marginBottom: 30,
   },
   date: {
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingLeft: PADDING_LEFT,
+    paddingRight: PADDING_RIGHT,
     color: ARTICLE_HEADER_GRAY,
     fontSize: 18,
     fontWeight: 'bold',
@@ -55,8 +59,8 @@ export default StyleSheet.create({
   },
   buttonRight: {
     marginRight: 20,
-    
   },
+
   header: {
     backgroundColor: 'white',
   },
@@ -64,18 +68,7 @@ export default StyleSheet.create({
     height: 40,
     width: 80,
   },
-  image: {
-    flex: 1,
-    width: Dimensions.get('window').width,
-    height: 'auto',
-    resizeMode: 'contain',
-  },
-  imgProfileItem: {
-    borderRadius: 50,
-    height: 35,
-    resizeMode: 'contain',
-    width: 35,
-  },
+
   linkTouchableOpacity: {
     backgroundColor: PITAZO_GRAY,
     flexDirection: 'row',
@@ -84,39 +77,6 @@ export default StyleSheet.create({
     marginBottom: 5,
     marginLeft: 15,
     marginRight: 15,
-  },
-  linkTextSmall: Object.assign({}, linkTextBase, {
-    fontSize: SMALL_FONT_SIZE,
-  }),
-  linkTextMedium: Object.assign({}, linkTextBase, {
-    fontSize: MEDIUM_FONT_SIZE,
-  }),
-  linkTextLarge: Object.assign({}, linkTextBase, {
-    fontSize: LARGE_FONT_SIZE,
-  }),
-  redText: {
-    color: PITAZO_RED,
-  },
-  pSmallFontSize: Object.assign({}, pBase, {
-    fontSize: SMALL_FONT_SIZE,
-  }),
-  pMediumFontSize: Object.assign({}, pBase, {
-    fontSize: MEDIUM_FONT_SIZE,
-  }),
-  pLargeFontSize: Object.assign({}, pBase, {
-    fontSize: LARGE_FONT_SIZE,
-  }),
-  photocaption: {
-    color: ARTICLE_HEADER_GRAY,
-    flex: 1,
-    flexWrap: 'wrap',
-    fontSize: 15,
-    fontStyle: 'italic',
-    fontWeight: 'bold',
-    marginBottom: 5,
-    paddingLeft: 15,
-    paddingRight: 15,
-    textAlign: 'left',
   },
   tabContainer: {
     backgroundColor: '#fff',
@@ -130,15 +90,6 @@ export default StyleSheet.create({
   textTab: {
     color: '#000',
     fontWeight: '500',
-  },
-  title: {
-    marginTop: 5,
-    marginBottom: 5,
-    paddingLeft: 15,
-    paddingRight: 15,
-    fontSize: 24,
-    textAlign: 'left',
-    flexWrap: 'wrap',
   },
   titleCategoryText: {
     color: ARTICLE_HEADER_GRAY,

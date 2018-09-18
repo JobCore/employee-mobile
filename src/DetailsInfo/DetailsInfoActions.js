@@ -11,7 +11,7 @@ import 'moment/locale/es' // https://github.com/jalaali/moment-jalaali/issues/14
  * @param {NewsItem} newsItem
  */
 export const htmlProcess = ({
-  author: { name: authorName },
+  author: { name: authorName } = { name: 'El Pitazo' },
   category,
   contentBody: html,
   date,
@@ -19,6 +19,10 @@ export const htmlProcess = ({
 }) => {
   html = replace(/<strong>/g, '', html)
   html = replace(/<\/strong>/g, '', html)
+  html = replace(/<em>/g, '', html)
+  html = replace(/<\/em>/g, '', html)
+  html = replace(/<i>/g, '', html)
+  html = replace(/<\/i>/g, '', html)
   // photo caption
   html = replace('<p class="wp-caption-text"', '<p photocaption="true"', html)
   const indexOfOpeningTag = html.indexOf('<img')
@@ -32,7 +36,13 @@ export const htmlProcess = ({
     return titleTag.concat(dateTag).concat(authorTag).concat(html)
   }
 
-
-  // @ts-ignore
-  return insert(indexOfClosingTag + 1, titleTag.concat(dateTag).concat(authorTag), html).join('')
+  return insert(
+    indexOfClosingTag + 1,
+    titleTag
+      .concat(dateTag)
+      .concat(authorTag),
+    // @ts-ignore
+    html
+  )
+    .join('')
 }
