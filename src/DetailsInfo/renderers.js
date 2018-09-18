@@ -95,7 +95,7 @@ const renderers = (fontSize) => {
         url={url}
       />
     ),
-    twitterx: ({ url }) => (
+    twitter: ({ url }) => (
       <Tweet
         url={url}
       />
@@ -151,9 +151,9 @@ const renderers = (fontSize) => {
       </Text>
     ),
     h1: (_, children) => (
-      recurseUntilStringChildren(chilren).map(child => (
+      recurseUntilStringChildren(children).map(child => (
         <Text
-          style={{paddingLeft: 15, fontSize: 22, fontWeight: 'bold'}}
+          style={styles.h1}
         >
           {child}
         </Text>
@@ -162,7 +162,7 @@ const renderers = (fontSize) => {
     h2: (_, children) => (
       recurseUntilStringChildren(children).map(child => (
         <Text
-          style={{paddingLeft: 15, fontSize: 20, fontWeight: 'bold'}}
+          style={styles.h2}
         >
           {child}
         </Text>
@@ -171,16 +171,7 @@ const renderers = (fontSize) => {
     h3: (_, children) => (
       recurseUntilStringChildren(children).map(child => (
         <Text
-          style={{paddingLeft: 15, fontSize: 18, fontWeight: 'bold'}}
-        >
-          {child}
-        </Text>
-      ))
-    ),
-    h3: (_, children) => (
-      recurseUntilStringChildren(children).map(child => (
-        <Text
-          style={{paddingLeft: 15, fontSize: 13}}
+          style={styles.h3}
         >
           {child}
         </Text>
@@ -195,7 +186,8 @@ const renderers = (fontSize) => {
               Linking.openURL(url)
             }
             if (__DEV__) {
-              throw new Error(
+              // eslint-disable-next-line no-console
+              console.warn(
                 `React native's Linking reports not being able to open this link's url, found url: ${url}`
               )
             }
