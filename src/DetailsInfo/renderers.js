@@ -10,6 +10,7 @@ import styles from './rendererStyles'
 import Instagram from './embeds/Instagram'
 import Soundcloud from './embeds/Soundcloud'
 import Tweet from './embeds/Tweet'
+import Youtube from './embeds/Youtube'
 
 
 /**
@@ -21,6 +22,7 @@ import Tweet from './embeds/Tweet'
  * @prop {string} text For <title> and <connect>
  * @prop {string} category For <title>
  * @prop {string} name For <author>
+ * @prop {string} id <youtube>
  */
 
 /**
@@ -208,6 +210,12 @@ const renderers = (fontSize) => {
         </Text>
       </TouchableOpacity>
     ),
+
+    youtube: ({ id }) => (
+      <Youtube
+        id={id}
+      />
+    )
   }
 }
 
