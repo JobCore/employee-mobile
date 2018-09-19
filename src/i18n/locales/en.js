@@ -38,7 +38,7 @@ export default {
     recoverPassword: 'Recover password',
   },
   JOB_INVITES: {
-    jobOffers: 'Job Offers',
+    jobOffers: 'Job Invitations',
     applyJob: 'Apply job?',
     rejectJob: 'Reject job?',
     apply: 'Apply',
@@ -49,5 +49,16 @@ export default {
     jobDate: '{{date}} From {{start_time}} to {{finish_time}}',
     on: 'on',
     hr: 'hr',
+  },
+  JOB_PREFERENCES: {
+    jobPreferences: 'Job Preferences',
+    positions: 'Positions',
+    unavailability: 'Unavailability',
+    selectUnavailability: 'Select unavailability',
+    selectPosition: 'Select position',
+    available_on_weekends: 'Available on weekends',
+    minimumHourlyRate: 'Minimum hourly rate',
+    hourlyRateLabel: '$/h.',
+    save: 'Save',
   },
 }

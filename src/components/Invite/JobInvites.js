@@ -7,18 +7,18 @@ import {
   Alert,
 } from "react-native";
 import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, Body, Title, Right, Label, Thumbnail, Toast, Spinner } from 'native-base';
-import styles from './style';
+import styles from './JobInvitesStyle';
 import { SETTING_ROUTE } from '../../constants/routes'
 import { BLUE_MAIN, BLUE_DARK } from "../../constants/colorPalette";
-import * as jobActions from './actions';
-import jobStore from './JobStore';
+import * as inviteActions from './actions';
+import inviteStore from './InviteStore';
 import { LOG, WARN, ERROR, hourToValidDate } from "../../utils";
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import moment from 'moment';
 import myJobsImg from '../../assets/image/myJobs.png';
 
-class JobsOffers extends Component {
+class JobInvites extends Component {
   static navigationOptions = {
     tabBarLabel: 'Jobs Offers',
     tabBarIcon: ({ tintColor }) => (
@@ -40,10 +40,10 @@ class JobsOffers extends Component {
   }
 
   componentDidMount() {
-    this.getJobInvitesSubscription = jobStore.subscribe('JobInvites', (jobInvites) => this.getJobInvitesHandler(jobInvites));
-    this.applyJobSubscription = jobStore.subscribe('ApplyJob', (data) => this.applyJobHandler(data));
-    this.rejectJobSubscription = jobStore.subscribe('RejectJob', (data) => this.rejectJobHandler(data));
-    this.jobStoreError = jobStore.subscribe('JobStoreError', (err) => this.errorHandler(err));
+    this.getJobInvitesSubscription = inviteStore.subscribe('JobInvites', (jobInvites) => this.getJobInvitesHandler(jobInvites));
+    this.applyJobSubscription = inviteStore.subscribe('ApplyJob', (data) => this.applyJobHandler(data));
+    this.rejectJobSubscription = inviteStore.subscribe('RejectJob', (data) => this.rejectJobHandler(data));
+    this.inviteStoreError = inviteStore.subscribe('InviteStoreError', (err) => this.errorHandler(err));
 
     this.firstLoadJobInvites();
   }
@@ -52,7 +52,7 @@ class JobsOffers extends Component {
     this.jobInvitesSubscription.unsubscribe();
     this.applyJobSubscription.unsubscribe();
     this.rejectJobSubscription.unsubscribe();
-    this.jobStoreError.unsubscribe();
+    this.inviteStoreError.unsubscribe();
   }
 
   getJobInvitesHandler = (jobInvites) => {
@@ -194,7 +194,7 @@ class JobsOffers extends Component {
   }
 
   getJobInvites = () => {
-    jobActions.getJobInvites();
+    inviteActions.getJobInvites();
   }
 
   applyJob = (invitation) => {
@@ -219,7 +219,7 @@ class JobsOffers extends Component {
         text: i18next.t('JOB_INVITES.apply'),
         onPress: () => {
           this.isLoading(true);
-          jobActions.applyJob(invitation.id);
+          inviteActions.applyJob(invitation.id);
         }
       }, ], { cancelable: false }
     )
@@ -247,7 +247,7 @@ class JobsOffers extends Component {
         text: i18next.t('JOB_INVITES.reject'),
         onPress: () => {
           this.isLoading(true);
-          jobActions.rejectJob(invitation.id);
+          inviteActions.rejectJob(invitation.id);
         }
       }, ], { cancelable: false }
     )
@@ -264,4 +264,4 @@ class JobsOffers extends Component {
     this.setState({ jobInvites: newData });
   }
 }
-export default JobsOffers;
+export default JobInvites;

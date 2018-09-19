@@ -5,12 +5,12 @@ import { postData, putData, getData } from '../../fetch';
  * Action for listing the job invites
  */
 const getJobInvites = () => {
-  getData('/shifts/invites?status=PENDING')
+  getData('/shifts/invites')
     .then((jobInvites) => {
       Flux.dispatchEvent('JobInvites', jobInvites);
     })
     .catch((err) => {
-      Flux.dispatchEvent('JobStoreError', err);
+      Flux.dispatchEvent('InviteStoreError', err);
     });
 };
 
@@ -26,7 +26,7 @@ const applyJob = (shiftInviteId) => {
       Flux.dispatchEvent('ApplyJob', data);
     })
     .catch((err) => {
-      Flux.dispatchEvent('JobStoreError', err);
+      Flux.dispatchEvent('InviteStoreError', err);
     });
 };
 
@@ -42,7 +42,7 @@ const rejectJob = (shiftInviteId) => {
       Flux.dispatchEvent('RejectJob', data);
     })
     .catch((err) => {
-      Flux.dispatchEvent('JobStoreError', err);
+      Flux.dispatchEvent('InviteStoreError', err);
     });
 };
 
