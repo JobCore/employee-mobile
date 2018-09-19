@@ -1,62 +1,117 @@
 import React, { Component } from "react";
-import { 
+import {
   View,
   StyleSheet,
   Image,
-  ListView
+  ListView,
+  Alert,
 } from "react-native";
-import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, Body, Title, Right, Label, Thumbnail,} from 'native-base';
+import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, Body, Title, Right, Label, Thumbnail, Toast, Spinner } from 'native-base';
 import styles from './style';
 import { SETTING_ROUTE } from '../../constants/routes'
-import { BLUE_MAIN } from "../../constants/colorPalette";
+import { BLUE_MAIN, BLUE_DARK } from "../../constants/colorPalette";
+import * as jobActions from './actions';
+import jobStore from './JobStore';
+import { LOG, WARN, ERROR, hourToValidDate } from "../../utils";
+import { I18n } from 'react-i18next';
+import { i18next } from '../../i18n';
+import moment from 'moment';
+import myJobsImg from '../../assets/image/myJobs.png';
 
-const datas = [
-  ' ',
-  ' ',
-  ' ',
-  ' ',
-  ' ',
-  ' ',
-  ' ',
-  ' ',
-];
 class JobsOffers extends Component {
-  constructor(props) {
-    super(props);
-    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    this.state = {
-      basic: false,
-      listViewData: datas,
-    };
-  }
-  deleteRow(secId, rowId, rowMap) {
-    rowMap[`${secId}${rowId}`].props.closeRow();
-    const newData = [...this.state.listViewData];
-    newData.splice(rowId, 1);
-    this.setState({ listViewData: newData });
-  }
-
   static navigationOptions = {
     tabBarLabel: 'Jobs Offers',
-    tabBarIcon: ({tintColor}) => (
+    tabBarIcon: ({ tintColor }) => (
       <Image
         style={{resizeMode: 'contain', height: 30}}
         source={require('../../assets/image/offers.png')}
       />
     )
   };
+
+  constructor(props) {
+    super(props);
+    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+    this.state = {
+      isLoading: false,
+      basic: false,
+      jobInvites: [],
+    };
+  }
+
+  componentDidMount() {
+    this.getJobInvitesSubscription = jobStore.subscribe('JobInvites', (jobInvites) => this.getJobInvitesHandler(jobInvites));
+    this.applyJobSubscription = jobStore.subscribe('ApplyJob', (data) => this.applyJobHandler(data));
+    this.rejectJobSubscription = jobStore.subscribe('RejectJob', (data) => this.rejectJobHandler(data));
+    this.jobStoreError = jobStore.subscribe('JobStoreError', (err) => this.errorHandler(err));
+
+    this.firstLoadJobInvites();
+  }
+
+  componentWillUnmount() {
+    this.jobInvitesSubscription.unsubscribe();
+    this.applyJobSubscription.unsubscribe();
+    this.rejectJobSubscription.unsubscribe();
+    this.jobStoreError.unsubscribe();
+  }
+
+  getJobInvitesHandler = (jobInvites) => {
+    this.isLoading(false);
+    this.setState({ jobInvites });
+  }
+
+  applyJobHandler = () => {
+    this.isLoading(false);
+    Toast.show({
+      type: "success",
+      text: i18next.t('JOB_INVITES.jobApplied'),
+      duration: 4000,
+    });
+
+    this.getJobInvites();
+  }
+
+  rejectJobHandler = () => {
+    this.isLoading(false);
+    Toast.show({
+      type: "success",
+      text: i18next.t('JOB_INVITES.jobRejected'),
+      duration: 4000,
+    });
+
+    this.getJobInvites();
+  }
+
+  errorHandler = (err) => {
+    this.isLoading(false);
+    Toast.show({
+      type: "danger",
+      text: JSON.stringify(err),
+      duration: 4000,
+    });
+  }
+
   render() {
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    return (
+
+    if (this.state.isLoading) {
+      return (<View style={styles.container}>
+                  <Spinner color={BLUE_DARK}/>
+              </View>);
+    }
+
+    return (<I18n>{(t, { i18n }) => (
       <Container>
         <Header androidStatusBarColor={BLUE_MAIN} style={styles.headerCustom}>
           <Left/>
           <Body>
-            <Title style={styles.titleHeader}>Jobs Offers</Title>
+            <Title style={styles.titleHeader}>
+              {t('JOB_INVITES.jobOffers')}
+            </Title>
           </Body>
           <Right>
-            <Button 
-              transparent 
+            <Button
+              transparent
               onPress={() => this.props.navigation.navigate(SETTING_ROUTE)}>
               <Image
                 style={{resizeMode: 'contain', height: 25,}}
@@ -69,37 +124,144 @@ class JobsOffers extends Component {
           <List
             leftOpenValue={75}
             rightOpenValue={-75}
-            dataSource={this.ds.cloneWithRows(this.state.listViewData)}
+            dataSource={this.ds.cloneWithRows(this.state.jobInvites)}
             renderRow={data =>
             <ListItem style={styles.viewListItem}>
-              <Thumbnail small source={require('../../assets/image/myJobs.png')} />
+              <Thumbnail small source={(data.shift && data.shift.position &&
+                 data.shift.position.picture) ?
+                 data.shift.position.picture
+                 : myJobsImg} />
               <View style={styles.viewDataOffers}>
                 {/* title info */}
-                <Text style={styles.viewTitleInfo}> 
-                  <Text style={styles.textOne}>ACME</Text> 
-                  <Text style={styles.textTwo}> Inc is looking for a</Text> 
-                  <Text style={styles.textThree}> Server</Text>
+              {(data.shift) ?
+               <Text style={styles.viewTitleInfo}>
+                  {(data.shift.venue) ?
+                  <Text style={styles.textOne}>
+                    {data.shift.venue.title}
+                  </Text>
+                  : null}
+                  <Text style={styles.textTwo}>
+                    {` ${t('JOB_INVITES.lookingFor')} `}
+                  </Text>
+                  {(data.shift.position) ?
+                    <Text style={styles.textThree}>
+                    {data.shift.position.title}
+                  </Text>
+                  : null}
                 </Text>
+                : null}
                 {/* title date info */}
+                {(data.shift) ?
                 <Text>
-                  <Text style={styles.textTwo}>on</Text>
-                  <Text style={styles.textBlack}> Sep 24th From 3pm to 6pm.</Text>
-                  <Text style={styles.textRed}> $10/hr.</Text> 
+                  <Text style={styles.textTwo}>
+                    {` ${t('JOB_INVITES.on')} `}
+                  </Text>
+                    <Text style={styles.textBlack}>
+                    {`${
+                      t('JOB_INVITES.jobDate', {
+                        date: moment(data.shift.date).format('MMM Do'),
+                        start_time: moment(hourToValidDate(data.shift.start_time)).format('h:mma'),
+                        finish_time: moment(hourToValidDate(data.shift.finish_time)).format('h:mma'),
+                      })
+                    } `}
+                    {/* Sep 24th From 3pm to 6pm. */}
+                  </Text>
+                  <Text style={styles.textRed}>
+                  {`$${data.shift.minimum_hourly_rate}/${t('JOB_INVITES.hr')}.`}
+                  </Text>
                 </Text>
+                : null}
               </View>
-            </ListItem>}
+            </ListItem>
+            }
             renderLeftHiddenRow={data =>
-              <Button style={styles.buttomApply} onPress={() => alert('New Job')}>
+              <Button style={styles.buttomApply} onPress={() => this.applyJob(data)}>
                 <Icon active name="md-checkmark"/>
               </Button>}
             renderRightHiddenRow={(data, secId, rowId, rowMap) =>
-              <Button style={styles.buttomReject} full danger onPress={_ => this.deleteRow(secId, rowId, rowMap)}>
+              <Button style={styles.buttomReject} full danger onPress={() => this.rejectJob(data)}>
                 <Icon active name="md-close"/>
               </Button>}
           />
         </Content>
       </Container>
-    );
+    )}</I18n>);
+  }
+
+  firstLoadJobInvites() {
+    this.isLoading(true);
+    this.getJobInvites();
+  }
+
+  getJobInvites = () => {
+    jobActions.getJobInvites();
+  }
+
+  applyJob = (invitation) => {
+    let jobTitle;
+
+    try {
+      jobTitle = invitation.shift.venue.title;
+    } catch (e) {
+      return;
+    }
+
+    if (!jobTitle) return;
+
+    Alert.alert(
+      i18next.t('JOB_INVITES.applyJob'),
+      jobTitle, [{
+        text: i18next.t('APP.cancel'),
+        onPress: () => {
+          LOG(this, 'Cancel applyJob');
+        }
+      }, {
+        text: i18next.t('JOB_INVITES.apply'),
+        onPress: () => {
+          this.isLoading(true);
+          jobActions.applyJob(invitation.id);
+        }
+      }, ], { cancelable: false }
+    )
+  }
+
+  rejectJob = (invitation) => {
+    let jobTitle;
+
+    try {
+      jobTitle = invitation.shift.venue.title;
+    } catch (e) {
+      return;
+    }
+
+    if (!jobTitle) return;
+
+    Alert.alert(
+      i18next.t('JOB_INVITES.rejectJob'),
+      jobTitle, [{
+        text: i18next.t('APP.cancel'),
+        onPress: () => {
+          LOG(this, 'Cancel rejectJob');
+        }
+      }, {
+        text: i18next.t('JOB_INVITES.reject'),
+        onPress: () => {
+          this.isLoading(true);
+          jobActions.rejectJob(invitation.id);
+        }
+      }, ], { cancelable: false }
+    )
+  }
+
+  isLoading = (isLoading) => {
+    this.setState({ isLoading });
+  }
+
+  deleteRow(secId, rowId, rowMap) {
+    rowMap[`${secId}${rowId}`].props.closeRow();
+    const newData = [...this.state.jobInvites];
+    newData.splice(rowId, 1);
+    this.setState({ jobInvites: newData });
   }
 }
 export default JobsOffers;

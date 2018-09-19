@@ -57,4 +57,17 @@ const ERROR = (obj, msg) => {
     console.error(obj.__proto__.constructor.name,  msg);
 };
 
-export {isValidString, isValidNumber, isValidInteger, LOG, WARN, ERROR};
+/**
+ * transform an hour to a valid js date, workaround to format an hour with
+ * moment
+ * @param  {string} hour the hour string
+ * @param  {string} date YY/MM/DD format
+ * @return {string}      a valid js date string
+ */
+const hourToValidDate = (hour, date = '2018-09-18') => {
+  validJsDate = `${date} ${hour}`;
+
+  return validJsDate;
+}
+
+export {isValidString, isValidNumber, isValidInteger, LOG, WARN, ERROR, hourToValidDate};

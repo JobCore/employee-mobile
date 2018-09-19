@@ -1,5 +1,6 @@
 import accountStore from '../components/Account/AccountStore';
 import * as Flux from '../utils/flux-state';
+import { LOG, WARN, ERROR } from "../utils";
 
 const API_URL = 'https://jobcore.herokuapp.com/api';
 
@@ -117,7 +118,7 @@ export function downloadData(url, isAuth = true) {
       })
       .then((response) => {
         if (response.status === 401 || response.status === 403) {
-          //Flux.dispatchEvent('setUser', undefined);
+          Flux.dispatchEvent('Logout', {});
         }
 
         if (response.ok) return response.blob();
@@ -160,7 +161,7 @@ reject or resolve based on status then Parses the response to json
  */
 function checkStatus(response) {
   if (response.status === 401 || response.status === 403) {
-    //Flux.dispatchEvent('setUser', undefined);
+    Flux.dispatchEvent('Logout', {});
   }
 
   if (response.ok) {

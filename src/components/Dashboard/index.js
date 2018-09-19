@@ -26,23 +26,13 @@ class DashboardScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: {},
+            user: store.getState("Login").user || {},
         };
-    }
-
-    componentDidMount() {
-        const loginData = store.getState("Login");
-        this.setState({user: loginData.user});
     }
 
     _showNew = () => {
         this.props.navigation.navigate('TabBar');
     };
-
-    // _signOutAsync = async () => {
-    //   await AsyncStorage.clear();
-    //   this.props.navigation.navigate('Auth');
-    // };
 
     render() {
         return (

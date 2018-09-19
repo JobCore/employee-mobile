@@ -1,4 +1,7 @@
 export default {
+  APP: {
+    cancel: 'cancel',
+  },
   LOGIN: {
     signIn: 'Sign In',
     signUp: 'Sign Up',
@@ -23,6 +26,8 @@ export default {
   SETTINGS: {
     email: 'Email',
     changePassword: 'Change password',
+    firstName: 'First name',
+    lastName: 'Last name',
     signUp: 'Sign Up',
     logout: 'Logout',
     linkBank: 'Link Bank Account',
@@ -31,5 +36,18 @@ export default {
     email: 'Email',
     emailResetPassword: 'You will receive an email to reset your password',
     recoverPassword: 'Recover password',
+  },
+  JOB_INVITES: {
+    jobOffers: 'Job Offers',
+    applyJob: 'Apply job?',
+    rejectJob: 'Reject job?',
+    apply: 'Apply',
+    reject: 'Reject',
+    jobApplied: 'Job applied!',
+    jobRejected: 'Job rejected!',
+    lookingFor: 'Inc is looking for a',
+    jobDate: '{{date}} From {{start_time}} to {{finish_time}}',
+    on: 'on',
+    hr: 'hr',
   },
 }
