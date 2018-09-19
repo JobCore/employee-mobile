@@ -5,7 +5,7 @@ import { postData, putData, getData } from '../../fetch';
  * Action for listing the job invites
  */
 const getJobInvites = () => {
-  getData('/shifts/invites')
+  getData('/shifts/invites?status=PENDING')
     .then((jobInvites) => {
       Flux.dispatchEvent('JobInvites', jobInvites);
     })
@@ -19,7 +19,7 @@ const getJobInvites = () => {
  * @param  {string || number} shiftInviteId the shift id
  */
 const applyJob = (shiftInviteId) => {
-  putData(`/shifts/invites/${shiftInviteId}`, {
+  putData(`/shifts/invites/${shiftInviteId}/apply`, {
       status: 'APPLIED',
     })
     .then((data) => {
@@ -35,7 +35,7 @@ const applyJob = (shiftInviteId) => {
  * @param  {string || number} shiftInviteId the shift id
  */
 const rejectJob = (shiftInviteId) => {
-  putData(`/shifts/invites/${shiftInviteId}`, {
+  putData(`/shifts/invites/${shiftInviteId}/reject`, {
       status: 'CANCELLED',
     })
     .then((data) => {

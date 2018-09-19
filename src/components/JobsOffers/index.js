@@ -42,7 +42,7 @@ class JobsOffers extends Component {
   componentDidMount() {
     this.getJobInvitesSubscription = jobStore.subscribe('JobInvites', (jobInvites) => this.getJobInvitesHandler(jobInvites));
     this.applyJobSubscription = jobStore.subscribe('ApplyJob', (data) => this.applyJobHandler(data));
-    this.rejectJobSubscription = jobStore.subscribe('RejectJob', (data) => this.applyJobHandler(data));
+    this.rejectJobSubscription = jobStore.subscribe('RejectJob', (data) => this.rejectJobHandler(data));
     this.jobStoreError = jobStore.subscribe('JobStoreError', (err) => this.errorHandler(err));
 
     this.firstLoadJobInvites();
@@ -60,10 +60,10 @@ class JobsOffers extends Component {
     this.setState({ jobInvites });
   }
 
-  applyJobSubscription = () => {
+  applyJobHandler = () => {
     this.isLoading(false);
     Toast.show({
-      type: "Success",
+      type: "success",
       text: i18next.t('JOB_INVITES.jobApplied'),
       duration: 4000,
     });
@@ -71,10 +71,10 @@ class JobsOffers extends Component {
     this.getJobInvites();
   }
 
-  rejectJobSubscription = () => {
+  rejectJobHandler = () => {
     this.isLoading(false);
     Toast.show({
-      type: "Success",
+      type: "success",
       text: i18next.t('JOB_INVITES.jobRejected'),
       duration: 4000,
     });
@@ -175,11 +175,11 @@ class JobsOffers extends Component {
             </ListItem>
             }
             renderLeftHiddenRow={data =>
-              <Button style={styles.buttomApply} onPress={() => this.applyJob(data.shift)}>
+              <Button style={styles.buttomApply} onPress={() => this.applyJob(data)}>
                 <Icon active name="md-checkmark"/>
               </Button>}
             renderRightHiddenRow={(data, secId, rowId, rowMap) =>
-              <Button style={styles.buttomReject} full danger onPress={() => this.rejectJob(data.shift)}>
+              <Button style={styles.buttomReject} full danger onPress={() => this.rejectJob(data)}>
                 <Icon active name="md-close"/>
               </Button>}
           />
@@ -197,11 +197,11 @@ class JobsOffers extends Component {
     jobActions.getJobInvites();
   }
 
-  applyJob = (shift) => {
+  applyJob = (invitation) => {
     let jobTitle;
 
     try {
-      jobTitle = shift.venue.title;
+      jobTitle = invitation.shift.venue.title;
     } catch (e) {
       return;
     }
@@ -219,17 +219,17 @@ class JobsOffers extends Component {
         text: i18next.t('JOB_INVITES.apply'),
         onPress: () => {
           this.isLoading(true);
-          jobActions.applyJob(shift.id);
+          jobActions.applyJob(invitation.id);
         }
       }, ], { cancelable: false }
     )
   }
 
-  rejectJob = (shift) => {
+  rejectJob = (invitation) => {
     let jobTitle;
 
     try {
-      jobTitle = shift.venue.title;
+      jobTitle = invitation.shift.venue.title;
     } catch (e) {
       return;
     }
@@ -247,7 +247,7 @@ class JobsOffers extends Component {
         text: i18next.t('JOB_INVITES.reject'),
         onPress: () => {
           this.isLoading(true);
-          jobActions.rejectJob(shift.id);
+          jobActions.rejectJob(invitation.id);
         }
       }, ], { cancelable: false }
     )
