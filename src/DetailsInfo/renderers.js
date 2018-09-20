@@ -3,17 +3,15 @@ import React from 'react'
 import { flatten } from 'ramda'
 import { Text, TouchableOpacity, Linking } from 'react-native'
 
-import { SMALL_FONT_SIZE, MEDIUM_FONT_SIZE, LARGE_FONT_SIZE } from '../constants/config'
+import { SMALL_FONT_SIZE, MEDIUM_FONT_SIZE,
+         LARGE_FONT_SIZE } from '../constants/config'
 
-import styles from './style'
+import styles from './rendererStyles'
 import Instagram from './embeds/Instagram'
 import Soundcloud from './embeds/Soundcloud'
 import Tweet from './embeds/Tweet'
+import Youtube from './embeds/Youtube'
 
-
-/**
- * @typedef {'instagram'|'soundcloud'|'twitter'|'author'|'p'|'date'|'title'|'blockquote'|'connect'} TagName
- */
 
 /**
  * @typedef {object} Attribs
@@ -24,6 +22,7 @@ import Tweet from './embeds/Tweet'
  * @prop {string} text For <title> and <connect>
  * @prop {string} category For <title>
  * @prop {string} name For <author>
+ * @prop {string} id <youtube>
  */
 
 /**
@@ -52,7 +51,7 @@ const recurseUntilStringChildren = (children) => {
 
 
 /**
- * @type {(fontSize: number) => { [k in TagName]: Renderer }}
+ * @type {(fontSize: number) => { [k: string]: Renderer }}
  */
 const renderers = (fontSize) => {
   /**
@@ -74,17 +73,17 @@ const renderers = (fontSize) => {
   /**
    * @type {typeof styles.pSmallFontSize}
    */
-  let linkTextStyle
+  let connectTextStyle
   if (fontSize === SMALL_FONT_SIZE) {
-    linkTextStyle = styles.linkTextSmall
+    connectTextStyle = styles.connectTextSmall
   }
 
   if (fontSize === MEDIUM_FONT_SIZE) {
-    linkTextStyle = styles.linkTextMedium
+    connectTextStyle = styles.connectTextMedium
   }
 
   if (fontSize === LARGE_FONT_SIZE) {
-    linkTextStyle = styles.linkTextLarge
+    connectTextStyle = styles.connectTextLarge
   }
 
   return {
@@ -104,7 +103,7 @@ const renderers = (fontSize) => {
       />
     ),
 
-    author: ({ name }) => (
+    author: ({ name = '' }) => (
       <Text
         style={styles.photocaption}
       >
@@ -153,16 +152,44 @@ const renderers = (fontSize) => {
         </Text>
       </Text>
     ),
+    h1: (_, children) => (
+      recurseUntilStringChildren(children).map(child => (
+        <Text
+          style={styles.h1}
+        >
+          {child}
+        </Text>
+      ))
+    ),
+    h2: (_, children) => (
+      recurseUntilStringChildren(children).map(child => (
+        <Text
+          style={styles.h2}
+        >
+          {child}
+        </Text>
+      ))
+    ),
+    h3: (_, children) => (
+      recurseUntilStringChildren(children).map(child => (
+        <Text
+          style={styles.h3}
+        >
+          {child}
+        </Text>
+      ))
+    ),
     connect: ({ text, url }) => (
       <TouchableOpacity
-        style={styles.linkTouchableOpacity}
+        style={styles.connectTouchableOpacity}
         onPress={() => {
           Linking.canOpenURL(url).then((supported) => {
             if (supported) {
               Linking.openURL(url)
             }
             if (__DEV__) {
-              throw new Error(
+              // eslint-disable-next-line no-console
+              console.warn(
                 `React native's Linking reports not being able to open this link's url, found url: ${url}`
               )
             }
@@ -170,7 +197,7 @@ const renderers = (fontSize) => {
         }}
       >
         <Text
-          style={linkTextStyle}
+          style={connectTextStyle}
         >
           <Text
             style={styles.redText}
@@ -178,47 +205,17 @@ const renderers = (fontSize) => {
             Lee tambien:
           </Text>
           <Text>
-            {text.replace('Lee también', '').replace('Lea también', '')}
+            {text.replace('Lee también:', '').replace('Lea también:', '')}
           </Text>
         </Text>
       </TouchableOpacity>
     ),
-    // backend might not catch all connects so we fallback to blockquote
-    // processing here
-    blockquote: ({ url }, children) => (
-      <TouchableOpacity
-        style={styles.linkTouchableOpacity}
-        onPress={() => {
-          Linking.canOpenURL(url).then((supported) => {
-            if (supported) {
-              Linking.openURL(url)
-            }
-            if (__DEV__) {
-              throw new Error(
-                `React native's Linking reports not being able to open this link's url, found url: ${url}`
-              )
-            }
-          })
-        }}
-      >
-        <Text
-          style={linkTextStyle}
-        >
-          <Text
-            style={styles.redText}
-          >
-            Lee tambien:
-          </Text>
-          <Text>
-            {recurseUntilStringChildren(children)
-              .join('')
-              .replace('Lee también', '')
-              .replace('Lea también', '')
-            }
-          </Text>
-        </Text>
-      </TouchableOpacity>
-    ),
+
+    youtube: ({ id }) => (
+      <Youtube
+        id={id}
+      />
+    )
   }
 }
 
