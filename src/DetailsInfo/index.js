@@ -13,16 +13,16 @@ import HTML from 'react-native-render-html'
  * @typedef {import('../definitions').NewsItem} NewsItem
  */
 
-import styles from './style'
-import renderers from './renderers'
 import { saveNewsItem, detectFavorite, removeNewsItem } from '../Favorites/FavoriteStore'
-import { htmlProcess } from './DetailsInfoActions'
 import isNewsItem from '../utils/isNewsItem'
 import { NAVIGATION_NEWSITEM_PARAM_KEY } from '../constants/others'
 import { DEFAULT_FONT_SIZE } from '../constants/config'
-
-import DetailsInfoHeader from './DetailsInfoHeader'
 import { fetchFontSize } from '../Settings/SettingsActions'
+
+import styles from './style'
+import renderers from './renderers'
+import { htmlProcess } from './DetailsInfoActions'
+import DetailsInfoHeader from './DetailsInfoHeader'
 import { PITAZO_RED } from '../constants/colors'
 
 
