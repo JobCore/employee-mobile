@@ -2,8 +2,8 @@ import { StyleSheet } from 'react-native'
 
 import { ARTICLE_HEADER_GRAY, PITAZO_GRAY, PITAZO_RED } from '../constants/colors'
 
-const PADDING_LEFT = 15
-const PADDING_RIGHT = 15
+export const PADDING_LEFT = 15
+export const PADDING_RIGHT = 15
 
 export default StyleSheet.create({
   bgColor: {

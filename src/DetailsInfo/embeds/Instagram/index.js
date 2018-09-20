@@ -111,6 +111,7 @@ class Instagram extends Component {
           // eslint-disable-next-line react-native/no-inline-styles
           style={{
             height: post.thumbnail_height,
+            maxHeight: 320,
             resizeMode: 'cover',
             width: post.thumbnail_width,
           }}
@@ -141,6 +142,11 @@ class Instagram extends Component {
           source={require('../../../assets/img/instagram-white.png')}
         />
 
+        <Text
+          style={styles.bodyText}
+        >
+          {post.title}
+        </Text>
       </TouchableOpacity>
     )
   }
