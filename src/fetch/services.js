@@ -165,6 +165,10 @@ function checkStatus(response) {
   }
 
   if (response.ok) {
+    if (response.status === 204) {
+      return { status: 'No content response'}
+    }
+
     return response.json().then((res) => {
       return Promise.resolve(res);
     })

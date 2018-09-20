@@ -10,13 +10,14 @@ import {
 import { Container, Header, Content, Button, Text, Left, Body, Title, Right, Accordion, List, ListItem, Icon, Segment, Item, Input, Form, Label, Toast, Spinner, CheckBox } from 'native-base';
 import styles from './JobPreferencesStyle';
 import { BLUE_DARK, BLUE_LIGHT, BLUE_MAIN } from '../../constants/colorPalette'
-import { TABBAR_ROUTE, SETTING_ROUTE } from "../../constants/routes";
+import { TABBAR_ROUTE, SETTING_ROUTE, ADD_UNAVAILABILITY_ROUTE } from "../../constants/routes";
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import { FormViewPreferences } from "../../utils/platform";
 import { LOG, WARN, ERROR } from "../../utils";
+import moment from 'moment';
 
 class JobPreferences extends Component {
   static navigationOptions = {
@@ -167,7 +168,7 @@ class JobPreferences extends Component {
     return (<I18n>{(t, { i18n }) => (
       <ScrollView style={styles.contentScroll}>
       <List style={{marginBottom: 30, paddingLeft: 0,}}>
-        <ListItem /*onPress={() => this.props.navigation.navigate(ADD_UNAVAILABILITY_ROUTE)}*/ style={styles.itemSelectCheck}>
+        <ListItem onPress={() => this.props.navigation.navigate(ADD_UNAVAILABILITY_ROUTE)} style={styles.itemSelectCheck}>
           <Left>
             <Text style={styles.textList}>
               {i18next.t('JOB_PREFERENCES.addUnavailability')}
@@ -180,9 +181,12 @@ class JobPreferences extends Component {
 
         {(Array.isArray(this.state.unavailability)) ?
          this.state.unavailability.map((unavailability) =>
-        <ListItem key={unavailability.id} style={styles.itemSelectCheck}>
+        <ListItem onPress={() => this.deleteUnavailability(unavailability)} key={unavailability.id} style={styles.itemSelectCheck}>
           <Left>
-            <Text style={styles.textList}>{'unavailability.date'}</Text>
+            <Text style={styles.textList}>{t('JOB_PREFERENCES.dateStartToEnd', {
+              startingAt: moment(unavailability.starting_at).format('lll'),
+              endingAt: moment(unavailability.ending_at).format('lll'),
+            })}</Text>
           </Left>
           <Right>
             <Icon name="ios-trash" style={{fontSize: 20, color: BLUE_DARK}}/>
