@@ -3,6 +3,11 @@ import { BLUE_MAIN, VIOLET_MAIN, BLUE_DARK, WHITE_MAIN, BLUE_LIGHT  } from '../.
 var width = Dimensions.get('window').width;
 
 export default styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   headerCustom:{
     backgroundColor: BLUE_MAIN,
   },
@@ -49,7 +54,7 @@ export default styles = StyleSheet.create({
   weekendsText: {
     color: BLUE_DARK
   },
-  accordionPosition:{
+  accordionAvailability:{
     borderColor: 'transparent',
     paddingLeft: 20,
     paddingRight: 20,
@@ -61,7 +66,7 @@ export default styles = StyleSheet.create({
     color: BLUE_DARK,
     fontSize: 16,
   },
-  accordionAvailability:{
+  accordionPosition:{
     borderColor: 'transparent',
     marginTop: 10,
     paddingLeft: 20,

@@ -38,7 +38,7 @@ export default styles = StyleSheet.create({
     width: width,
     paddingLeft: 20,
     paddingRight: 35,
-    marginTop: '10%',
+    marginTop: 10,
   },
   labelForm:{
     color: BLUE_DARK
