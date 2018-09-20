@@ -134,6 +134,16 @@ class AddUnavailability extends Component {
                           {t('JOB_PREFERENCES.addUnavailability')}
                       </Text>
                   </Button>
+
+                  <TouchableOpacity
+                      full
+                      onPress={() => this.props.navigation.goBack()}
+                      style={styles.viewButtomSignUp}>
+                      <Text
+                          style={styles.textButtomSignUp}>
+                          {t('REGISTER.goBack')}
+                      </Text>
+                  </TouchableOpacity>
                 </FormView>
             </View>)
         }</I18n>);
