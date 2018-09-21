@@ -34,12 +34,6 @@ export default styles = StyleSheet.create({
     marginTop: '20%',
     marginBottom: 20
   },
-  viewFormPreferences:{
-    width: width,
-    paddingLeft: 20,
-    paddingRight: 35,
-    marginTop: 10,
-  },
   labelForm:{
     color: BLUE_DARK
   },
@@ -96,6 +90,7 @@ export default styles = StyleSheet.create({
     backgroundColor: 'transparent',
     height: 55,
     width: '100%',
+    textAlign: 'center',
     borderColor: BLUE_MAIN,
     color: BLUE_DARK,
     borderRadius: 50,

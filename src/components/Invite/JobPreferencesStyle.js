@@ -3,6 +3,11 @@ import { BLUE_MAIN, VIOLET_MAIN, BLUE_DARK, WHITE_MAIN, BLUE_LIGHT  } from '../.
 var width = Dimensions.get('window').width;
 
 export default styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   headerCustom:{
     backgroundColor: BLUE_MAIN,
   },
@@ -12,10 +17,10 @@ export default styles = StyleSheet.create({
     fontSize: 18,
   },
   viewHeader:{
-    backgroundColor: BLUE_LIGHT, 
-    borderRadius: 50, 
-    padding: 15, 
-    paddingLeft: 20, 
+    backgroundColor: BLUE_LIGHT,
+    borderRadius: 50,
+    padding: 15,
+    paddingLeft: 20,
     paddingRight: 20
   },
   textHeader:{
@@ -35,20 +40,23 @@ export default styles = StyleSheet.create({
     borderTopRightRadius: 0
   },
   itemSelectCheck:{
-    marginLeft: 0, 
+    marginLeft: 0,
     paddingLeft: 20,
     paddingRight: 20
   },
   IconCheck:{
-    fontSize: 20, 
+    fontSize: 20,
     color: BLUE_DARK
   },
   textList:{
     color: BLUE_DARK
   },
-  accordionPosition:{
-    borderColor: 'transparent', 
-    paddingLeft: 20, 
+  weekendsText: {
+    color: BLUE_DARK
+  },
+  accordionAvailability:{
+    borderColor: 'transparent',
+    paddingLeft: 20,
     paddingRight: 20,
     marginTop:20,
     marginBottom: 30
@@ -58,10 +66,10 @@ export default styles = StyleSheet.create({
     color: BLUE_DARK,
     fontSize: 16,
   },
-  accordionAvailability:{
-    borderColor: 'transparent', 
-    marginTop: 10, 
-    paddingLeft: 20, 
+  accordionPosition:{
+    borderColor: 'transparent',
+    marginTop: 10,
+    paddingLeft: 20,
     paddingRight: 20
   },
   viewCrud:{
@@ -69,12 +77,12 @@ export default styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingLeft: 20, 
+    paddingLeft: 20,
     paddingRight: 20,
     marginTop: 20
   },
   viewButtomLeft:{
-    width: '50%', 
+    width: '50%',
     marginRight: 5,
   },
   buttomLeft:{
@@ -86,7 +94,7 @@ export default styles = StyleSheet.create({
     color: BLUE_MAIN
   },
   viewButtomRight:{
-    width: '50%', 
+    width: '50%',
     marginLeft: 5,
   },
   buttomRight:{
@@ -96,6 +104,24 @@ export default styles = StyleSheet.create({
   },
   textButtomRight:{
     color: VIOLET_MAIN
+  },
+  viewInput:{
+    backgroundColor: 'transparent',
+    height: 55,
+    width: '100%',
+    borderColor: BLUE_MAIN,
+    color: BLUE_DARK,
+    borderRadius: 50,
+    borderWidth: 1,
+    paddingLeft: 20,
+    paddingTop: 12,
+    paddingRight: 10,
+    marginBottom: 10,
+    ...Platform.select({
+        ios: {
+            paddingTop: 0,
+        },
+    }),
   },
   viewInvite:{
     flex: 1,
@@ -113,32 +139,35 @@ export default styles = StyleSheet.create({
     marginBottom: 10
   },
   itemInvite:{
-    padding: 14, 
-    fontSize: 14, 
+    padding: 14,
+    fontSize: 14,
     color: BLUE_DARK
   },
   buttomLeftActive:{
-    backgroundColor: BLUE_MAIN, 
-    borderColor:'transparent', 
-    borderTopLeftRadius: 0, 
+    backgroundColor: BLUE_MAIN,
+    borderColor:'transparent',
+    borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
   },
   buttomLeftDesactive:{
     backgroundColor: 'transparent',
     borderColor: BLUE_MAIN,
-    borderTopLeftRadius: 0, 
+    borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0
   },
   buttomRightDesactive:{
-    backgroundColor: BLUE_MAIN, 
-    borderColor:'transparent', 
-    borderTopRightRadius: 0, 
+    backgroundColor: BLUE_MAIN,
+    borderColor:'transparent',
+    borderTopRightRadius: 0,
     borderBottomRightRadius: 0
   },
   buttomRightDesactive:{
-    backgroundColor: 'transparent', 
-    borderColor: BLUE_MAIN, 
-    borderTopRightRadius: 0, 
+    backgroundColor: 'transparent',
+    borderColor: BLUE_MAIN,
+    borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
+  },
+  labelForm:{
+    color: BLUE_DARK
   },
 });

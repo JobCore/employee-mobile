@@ -2,7 +2,7 @@ import { FluxStore } from '../../utils/flux-state';
 import { AsyncStorage } from "react-native";
 import { LOG, WARN, ERROR } from "../../utils";
 
-class JobStore extends FluxStore {
+class InviteStore extends FluxStore {
   constructor() {
     super();
 
@@ -12,7 +12,19 @@ class JobStore extends FluxStore {
 
     this.addEvent('RejectJob');
 
-    this.addEvent('JobStoreError', nextState => {
+    this.addEvent('GetPositions');
+
+    this.addEvent('GetJobPreferences');
+
+    this.addEvent('EditJobPreferences');
+
+    this.addEvent('GetUnavailability');
+
+    this.addEvent('AddUnavailability');
+
+    this.addEvent('DeleteUnavailability');
+
+    this.addEvent('InviteStoreError', nextState => {
       LOG(this, nextState);
 
       if (nextState.non_field_errors) {
@@ -27,6 +39,6 @@ class JobStore extends FluxStore {
   }
 }
 
-const jobStore = new JobStore();
+const inviteStore = new InviteStore();
 
-export default jobStore;
+export default inviteStore;
