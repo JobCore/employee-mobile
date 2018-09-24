@@ -40,7 +40,7 @@ import { i18next } from '../../i18n';
 import { FormView } from "../../utils/platform";
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
-import { LOG, WARN, ERROR, hourToValidDate } from "../../utils";
+import { LOG, WARN, ERROR } from "../../utils";
 import moment from 'moment';
 
 class InviteDetails extends Component {
@@ -166,16 +166,15 @@ class InviteDetails extends Component {
                       <Text style={styles.textTwo}>
                         {` ${t('JOB_INVITES.on')} `}
                       </Text>
-                        <Text style={styles.textBlack}>
-                        {`${
-                          t('JOB_INVITES.jobDate', {
-                            date: moment(this.state.invite.shift.date).format('MMM Do'),
-                            start_time: moment(hourToValidDate(this.state.invite.shift.start_time)).format('h:mma'),
-                            finish_time: moment(hourToValidDate(this.state.invite.shift.finish_time)).format('h:mma'),
-                          })
-                        } `}
-                        {/* Sep 24th From 3pm to 6pm. */}
-                      </Text>
+                      <Text style={styles.textBlack}>
+                      {`${
+                        t('JOB_PREFERENCES.dateStartToEnd', {
+                          startingAt: moment(this.state.invite.shift.starting_at).format('lll'),
+                          endingAt: moment(this.state.invite.shift.ending_at).format('lll'),
+                        })
+                      } `}
+                      {/* Sep 24th From 3pm to 6pm. */}
+                    </Text>
                       <Text style={styles.textRed}>
                       {`$${this.state.invite.shift.minimum_hourly_rate}/${t('JOB_INVITES.hr')}.`}
                       </Text>

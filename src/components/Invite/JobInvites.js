@@ -12,7 +12,7 @@ import { SETTING_ROUTE, INVITE_DETAILS_ROUTE } from '../../constants/routes'
 import { BLUE_MAIN, BLUE_DARK } from "../../constants/colorPalette";
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
-import { LOG, WARN, ERROR, hourToValidDate } from "../../utils";
+import { LOG, WARN, ERROR } from "../../utils";
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import moment from 'moment';
@@ -56,6 +56,7 @@ class JobInvites extends Component {
   }
 
   getJobInvitesHandler = (jobInvites) => {
+    alert(JSON.stringify(jobInvites))
     this.isLoading(false);
     this.setState({ jobInvites });
   }
@@ -158,10 +159,9 @@ class JobInvites extends Component {
                   </Text>
                     <Text style={styles.textBlack}>
                     {`${
-                      t('JOB_INVITES.jobDate', {
-                        date: moment(data.shift.date).format('MMM Do'),
-                        start_time: moment(hourToValidDate(data.shift.start_time)).format('h:mma'),
-                        finish_time: moment(hourToValidDate(data.shift.finish_time)).format('h:mma'),
+                      t('JOB_PREFERENCES.dateStartToEnd', {
+                        startingAt: moment(data.shift.starting_at).format('lll'),
+                        endingAt: moment(data.shift.ending_at).format('lll'),
                       })
                     } `}
                     {/* Sep 24th From 3pm to 6pm. */}

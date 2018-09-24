@@ -47,7 +47,6 @@ export default {
     jobApplied: 'Job applied!',
     jobRejected: 'Job rejected!',
     lookingFor: 'Inc is looking for a',
-    jobDate: '{{date}} From {{start_time}} to {{finish_time}}',
     on: 'on',
     hr: 'hr',
   },

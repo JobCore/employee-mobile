@@ -106,7 +106,7 @@ const editJobPreferences = (positions, minimumHourlyRate, availableOnWeekends) =
 /**
  * List unavailability action
  */
-getUnavailability = () => {
+const getUnavailability = () => {
   getData('/employees/unavailability')
     .then((unavailability) => {
       Flux.dispatchEvent('GetUnavailability', unavailability);
