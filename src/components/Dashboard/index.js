@@ -39,8 +39,6 @@ class DashboardScreen extends Component {
     }
 
     logoutHandler = (data) => {
-      this.isLoading(false);
-
       this.props.navigation.navigate(AUTH_ROUTE);
     }
 
