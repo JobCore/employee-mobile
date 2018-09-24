@@ -56,7 +56,6 @@ class JobInvites extends Component {
   }
 
   getJobInvitesHandler = (jobInvites) => {
-    alert(JSON.stringify(jobInvites))
     this.isLoading(false);
     this.setState({ jobInvites });
   }
