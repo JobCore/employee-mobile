@@ -8,6 +8,8 @@ class InviteStore extends FluxStore {
 
     this.addEvent('JobInvites');
 
+    this.addEvent('GetInvite');
+
     this.addEvent('ApplyJob');
 
     this.addEvent('RejectJob');

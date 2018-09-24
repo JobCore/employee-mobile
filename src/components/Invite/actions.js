@@ -14,12 +14,27 @@ const getJobInvites = () => {
     });
 };
 
+
+/**
+ * Invite details action
+ * @param  {string || number} inviteId the invite id
+ */
+const getInvite = (inviteId) => {
+  getData(`/shifts/invites/${inviteId}`)
+    .then((jobInvites) => {
+      Flux.dispatchEvent('GetInvite', jobInvites);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('InviteStoreError', err);
+    });
+};
+
 /**
  * Action to apply a job invite
- * @param  {string || number} shiftInviteId the shift id
+ * @param  {string || number} inviteId the invite id
  */
-const applyJob = (shiftInviteId) => {
-  putData(`/shifts/invites/${shiftInviteId}/apply`)
+const applyJob = (inviteId) => {
+  putData(`/shifts/invites/${inviteId}/apply`)
     .then((data) => {
       Flux.dispatchEvent('ApplyJob', data);
     })
@@ -30,10 +45,10 @@ const applyJob = (shiftInviteId) => {
 
 /**
  *  Action to reject a job invite
- * @param  {string || number} shiftInviteId the shift id
+ * @param  {string || number} inviteId the invite id
  */
-const rejectJob = (shiftInviteId) => {
-  putData(`/shifts/invites/${shiftInviteId}/reject`)
+const rejectJob = (inviteId) => {
+  putData(`/shifts/invites/${inviteId}/reject`)
     .then((data) => {
       Flux.dispatchEvent('RejectJob', data);
     })
@@ -136,6 +151,7 @@ const deleteUnavailability = (unavailabilityId) => {
 
 export {
   getJobInvites,
+  getInvite,
   applyJob,
   rejectJob,
   getPositions,

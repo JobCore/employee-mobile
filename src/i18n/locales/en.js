@@ -39,6 +39,7 @@ export default {
   },
   JOB_INVITES: {
     jobOffers: 'Job Invitations',
+    inviteDetails: 'Invitation details',
     applyJob: 'Apply job?',
     rejectJob: 'Reject job?',
     apply: 'Apply',
