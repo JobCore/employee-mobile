@@ -11,6 +11,7 @@ import Instagram from './embeds/Instagram'
 import Soundcloud from './embeds/Soundcloud'
 import Tweet from './embeds/Tweet'
 import Youtube from './embeds/Youtube'
+import ImageRenderer from './ImageRenderer'
 
 
 /**
@@ -87,6 +88,11 @@ const renderers = (fontSize) => {
   }
 
   return {
+    img: ({ src }) => (
+      <ImageRenderer
+        src={src}
+      />
+    ),
     instagram: ({ url }) => (
       <Instagram
         url={url}
@@ -215,7 +221,7 @@ const renderers = (fontSize) => {
       <Youtube
         id={id}
       />
-    )
+    ),
   }
 }
 
