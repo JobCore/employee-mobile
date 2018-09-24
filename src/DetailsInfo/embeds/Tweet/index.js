@@ -12,8 +12,6 @@ import { fetchTweetHeightFromCache, fetchTweetHTML,
 import styles, { DEFAULT_TWEET_HEIGHT } from './styles'
 
 
-
-
 /**
  * @typedef {object} TweetProps
  * @prop {string} url
@@ -42,7 +40,7 @@ class Tweet extends Component {
      */
     this.state = {
       isLoading: true,
-      tweetHeight: 1000, // default height
+      tweetHeight: 200, // default height
       tweetHTML: '',
     }
   }
