@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { TouchableOpacity, Text, ImageBackground, Image, View } from 'react-native'
+import { TouchableOpacity, Text, ImageBackground, Image, View, Linking } from 'react-native'
 import moment from 'moment'
 import 'moment/locale/es' // https://github.com/jalaali/moment-jalaali/issues/142
 /**
@@ -23,9 +23,7 @@ import { extractTrackIdFromIframeSrc,
 
 /**
  * @typedef {object} SoundcloudState
- * @prop {boolean} isPlaying
  * @prop {SoundcloudJSON|null} soundcloudJson
- * @prop {number} timePosition
  */
 
 /**
@@ -42,9 +40,10 @@ class Soundcloud extends Component {
      * @type {SoundcloudState}
      */
     this.state = {
-      isPlaying: false,
       soundcloudJson: null,
     }
+
+    this.onPress = this.onPress.bind(this)
   }
 
   componentDidMount() {
@@ -68,27 +67,38 @@ class Soundcloud extends Component {
 
   componentWillUnmount() {
     this.mounted = false
-    this.pause()
   }
 
-  toggle() {
-    this.mounted && this.setState(({ isPlaying }) => ({
-      isPlaying: !isPlaying,
-    }))
-  }
-
-  pause() {
-
+  onPress() {
+    const { soundcloudJson } = this.state
+    if (soundcloudJson !== null) {
+      const url = soundcloudJson.stream_url
+      Linking
+        .canOpenURL(url)
+        .then((isSupported) => {
+          if (isSupported) {
+            Linking.openURL(url)
+          } else {
+            // eslint-disable-next-line no-lonely-if
+            if (__DEV__) {
+              // eslint-disable-next-line no-console
+              console.warn(
+                `Cant open soundcloud URL, got URL: ${url}`
+              )
+            }
+          }
+        })
+    }
   }
 
   render() {
-    const { isPlaying, soundcloudJson } = this.state
+    const { soundcloudJson } = this.state
 
     return (
       <TouchableOpacity
         onPress={() => {
           if (soundcloudJson !== null) {
-            this.toggle()
+            this.onPress()
           }
         }}
         style={styles.touchableOpacity}
@@ -127,13 +137,8 @@ class Soundcloud extends Component {
                   {soundcloudJson.title}
                 </Text>
                 <Image
-                  source={
-                    isPlaying
-                      // @ts-ignore
-                      ? require('../../../assets/img/pause-button.png')
-                      // @ts-ignore
-                      : require('../../../assets/img/play-button.png')
-                  }
+                  // @ts-ignore
+                  source={require('../../../assets/img/play-button.png')}
                   style={styles.mediaControl}
                 />
                 <Text
@@ -146,11 +151,6 @@ class Soundcloud extends Component {
                       .humanize()
                   }
                 </Text>
-                <Image
-                  // @ts-ignore
-                  source={require('../../../assets/img/radio.png')}
-                  style={styles.radioWhenLoaded}
-                />
               </ImageBackground>
             )
         }
