@@ -28,10 +28,10 @@ export const ASYNC_STORAGE_TIMEOUT = 3000
  */
 export const OFFLINE_CONTENT_DOWNLOAD_TIMEOUT = 10000
 
-/**
- * @type {string}
- */
+
 export const PITAZO_SOUNDCLOUD_CLIENT_ID = 'Iy5e1Ri4GTNgrafaXe4mLpmJLXbXEfBR'
+export const PITAZO_SOUNDCLOUD_CLIENT_ALTID = 'LBCcHmRB8XSStWL6wKH2HPACspQlXg2P'
+
 
 /**
  * Small font size setting for the individual article view.

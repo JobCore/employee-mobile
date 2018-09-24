@@ -4,6 +4,7 @@ import mockPromise from './mockPromise'
  * Fetch with timeout, as simply as that.
  * @param {string} url
  * @param {number} timeout
+ * @returns {Promise<Response>}
  */
 const timeoutFetch = (url, timeout) => {
   if (typeof timeout !== 'number') {
