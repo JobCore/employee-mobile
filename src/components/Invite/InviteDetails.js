@@ -30,7 +30,9 @@ import {
   ListItem,
   Spinner,
   Toast,
-  Icon
+  Icon,
+  Card,
+  CardItem
 } from 'native-base';
 import styles from './InviteDetailsStyle';
 import { DASHBOARD_ROUTE, APP_ROUTE, AUTH_ROUTE, RESET_ROUTE } from "../../constants/routes";
@@ -157,9 +159,9 @@ class InviteDetails extends Component {
             <Container>
                 <Header androidStatusBarColor={BLUE_MAIN} style={styles.headerCustom}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.goBack()}>
-                            <Icon name='ios-close' size={24} style={{color: WHITE_MAIN, marginLeft: 20}}/>
-                        </Button>
+                      <Button transparent onPress={() => this.props.navigation.goBack()}>
+                          <Icon name='ios-close' size={24} style={{color: WHITE_MAIN, marginLeft: 20}}/>
+                      </Button>
                     </Left>
                     <Body>
                     <Title style={styles.titleHeader}>
@@ -170,10 +172,10 @@ class InviteDetails extends Component {
                 </Header>
 
                 <Content>
-                  <View>
+                  <View style={{padding: 18}}>
                     {/* title info */}
                   {(this.state.invite.shift) ?
-                   <Text style={styles.viewTitleInfo}>
+                  <Text style={styles.viewTitleInfo}>
                       {(this.state.invite.shift.venue) ?
                       <Text style={styles.textOne}>
                         {this.state.invite.shift.venue.title}
@@ -208,31 +210,45 @@ class InviteDetails extends Component {
                       {`$${this.state.invite.shift.minimum_hourly_rate}/${t('JOB_INVITES.hr')}.`}
                       </Text>
                     </Text>
-                  : null}
+                  : null }
 
                   {/* ADD line divider here  */}
 
                   </View>
                 </Content>
-
-                  <View style={styles.mapContainer}>
-                    <MapView
-                      style={styles.map}
-                      region={this.state.region}
-                      onRegionChangeComplete={this.onRegionChangeComplete}>
-                      {(this.state.invite &&
-                        this.state.invite.shift &&
-                        this.state.invite.shift.venue && this.state.invite.shift.venue.latitude >= 0 && this.state.invite.shift.venue.longitude >= 0)
-                        ? <Marker
-                        coordinate={{
-                          latitude: 37.78825,
-                          longitude: -122.4324,
-                        }}
-                        title={this.state.invite.shift.venue.title}
-                        />
-                        : null}
-                    </MapView>
-                  </View>
+                
+                <MapView
+                  style={styles.map}
+                  region={this.state.region}
+                  onRegionChangeComplete={this.onRegionChangeComplete}>
+                  {(this.state.invite &&
+                    this.state.invite.shift &&
+                    this.state.invite.shift.venue && this.state.invite.shift.venue.latitude >= 0 && this.state.invite.shift.venue.longitude >= 0)
+                    ? <Marker
+                    coordinate={{
+                      latitude: 37.78825,
+                      longitude: -122.4324,
+                    }}
+                    title={this.state.invite.shift.venue.title}
+                    />
+                    : null}
+                </MapView> 
+                <Content>
+                <View style={styles.viewCrud}>
+                          <View style={styles.viewButtomLeft}>
+                              <Button
+                                  style={styles.buttomLeft} full rounded>
+                                  <Text>Apply</Text>
+                              </Button>
+                          </View>
+                          <View style={styles.viewButtomRight}>
+                              <Button style={styles.buttomRight} full rounded>
+                              <Text>Cancel</Text>
+                              </Button>
+                          </View>
+                      </View>
+              </Content>
+                
             </Container>
           )
       }</I18n>);
