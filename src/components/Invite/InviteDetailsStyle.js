@@ -8,6 +8,17 @@ import { BLACK_MAIN } from '../../constants/colorPalette'
 var width = Dimensions.get('window').width;
 
 export default styles = StyleSheet.create({
+  mapContainer: {
+   ...StyleSheet.absoluteFillObject,
+   height: 200,
+   width: width,
+   justifyContent: 'flex-end',
+   alignItems: 'center',
+   zIndex: -1,
+ },
+ map: {
+   ...StyleSheet.absoluteFillObject,
+ },
   container: {
     flex: 1,
     alignItems: 'center',

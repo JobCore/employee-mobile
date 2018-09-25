@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import {
   View,
   AsyncStorage,
@@ -10,7 +10,8 @@ import {
   Platform,
   TextInput,
   Divider,
-  ScrollView
+  ScrollView,
+  Dimensions,
 } from "react-native";
 import {
   Container,
@@ -42,6 +43,11 @@ import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import { LOG, WARN, ERROR } from "../../utils";
 import moment from 'moment';
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+const ASPECT_RATIO = width / height;
+const LATITUDE_DELTA = 0.0922;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 class InviteDetails extends Component {
   static navigationOptions = {
@@ -63,8 +69,8 @@ class InviteDetails extends Component {
       region: {
         latitude: 37.78825,
         longitude: -122.4324,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
       },
       inviteId: props.navigation.getParam('inviteId', 'NO_ID'),
     };
@@ -91,7 +97,30 @@ class InviteDetails extends Component {
   }
 
   getInviteHandler = (invite) => {
-    this.setState({ invite });
+    alert(JSON.stringify(invite.shift.venue.title))
+    let latitude;
+    let longitude;
+
+    try {
+      latitude = invite.venue.latitude;
+      longitude = invite.venue.longitude;
+    } catch (e) {
+      LOG(this, `No latLng: ${JSON.stringify(e)}`);
+
+      latitude = 37.78825;
+      longitude = -122.4324;
+    }
+
+    this.setState({
+      invite,
+      region: {
+        latitude: latitude,
+        longitude: longitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      }
+    });
+
     this.isLoading(false);
   }
 
@@ -183,19 +212,33 @@ class InviteDetails extends Component {
 
                   {/* ADD line divider here  */}
 
-                  {/* <MapView
-                    region={this.state.region}
-                    onRegionChange={this.onRegionChange}
-                  /> */}
-
                   </View>
                 </Content>
+
+                  <View style={styles.mapContainer}>
+                    <MapView
+                      style={styles.map}
+                      region={this.state.region}
+                      onRegionChangeComplete={this.onRegionChangeComplete}>
+                      {(this.state.invite &&
+                        this.state.invite.shift &&
+                        this.state.invite.shift.venue && this.state.invite.shift.venue.latitude >= 0 && this.state.invite.shift.venue.longitude >= 0)
+                        ? <Marker
+                        coordinate={{
+                          latitude: 37.78825,
+                          longitude: -122.4324,
+                        }}
+                        title={this.state.invite.shift.venue.title}
+                        />
+                        : null}
+                    </MapView>
+                  </View>
             </Container>
           )
       }</I18n>);
   }
 
-  onRegionChange = (region) => {
+  onRegionChangeComplete = (region) => {
     this.setState({ region });
   }
 
