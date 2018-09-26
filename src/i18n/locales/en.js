@@ -24,6 +24,7 @@ export default {
     youHaveRegistered: 'You have signed up!',
   },
   SETTINGS: {
+    settings: 'Settings',
     email: 'Email',
     changePassword: 'Change password',
     firstName: 'First name',

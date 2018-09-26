@@ -12,6 +12,11 @@ export default styles = StyleSheet.create({
   viewLogo:{
     width: '75%',
     height: 75,
+    ...Platform.select({
+      android: {
+        marginTop: '20%',
+      },
+  }),
   },
   viewBackground:{
     backgroundColor: WHITE_MAIN,

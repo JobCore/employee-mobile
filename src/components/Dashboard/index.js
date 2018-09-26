@@ -7,7 +7,7 @@ import {
 import {Container, Header, Content, Text, Button, Left, Icon, Body, Title, Right, Segment} from "native-base";
 import styles from './style';
 import {VIOLET_MAIN, BLUE_MAIN} from "../../constants/colorPalette";
-import {SETTING_ROUTE} from "../../constants/routes";
+import {SETTING_ROUTE, AUTH_ROUTE} from "../../constants/routes";
 import accountStore from '../Account/AccountStore';
 
 class DashboardScreen extends Component {

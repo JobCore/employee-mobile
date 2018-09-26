@@ -39,7 +39,7 @@ import accountStore from '../Account/AccountStore';
 class SettingScreen extends Component {
   static navigationOptions = {
     header: null,
-    tabBarLabel: 'Jobs Preferences',
+    tabBarLabel: i18next.t('SETTINGS.settings'),
     tabBarIcon: ({ tintColor }) => (
       <Image
                 style={{resizeMode: 'contain', height: 30}}
@@ -161,10 +161,6 @@ class SettingScreen extends Component {
 
   logout = () => {
     accountActions.logout();
-  };
-
-  _showMorejobs = () => {
-    this.props.navigation.navigate('JobsOffers');
   };
 
   passwordReset = () => {
