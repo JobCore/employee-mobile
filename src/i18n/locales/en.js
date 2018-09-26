@@ -31,7 +31,9 @@ export default {
     lastName: 'Last name',
     signUp: 'Sign Up',
     logout: 'Logout',
+    wantToLogout: 'Logout?',
     linkBank: 'Link Bank Account',
+    editProfile: 'Edit profile',
   },
   FORGOT: {
     email: 'Email',

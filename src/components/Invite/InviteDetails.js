@@ -12,6 +12,7 @@ import {
   Divider,
   ScrollView,
   Dimensions,
+  Alert,
 } from "react-native";
 import {
   Container,
@@ -69,8 +70,8 @@ class InviteDetails extends Component {
       isLoading: false,
       invite: {},
       region: {
-        latitude: 37.78825,
-        longitude: -122.4324,
+        latitude: 0,
+        longitude: 0,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       },
@@ -99,7 +100,6 @@ class InviteDetails extends Component {
   }
 
   getInviteHandler = (invite) => {
-    alert(JSON.stringify(invite.shift.venue.title))
     let latitude;
     let longitude;
 
@@ -109,8 +109,8 @@ class InviteDetails extends Component {
     } catch (e) {
       LOG(this, `No latLng: ${JSON.stringify(e)}`);
 
-      latitude = 37.78825;
-      longitude = -122.4324;
+      latitude = 0;
+      longitude = 0;
     }
 
     this.setState({
@@ -128,23 +128,11 @@ class InviteDetails extends Component {
 
   applyJobHandler = () => {
     this.isLoading(false);
-    Toast.show({
-      type: "success",
-      text: i18next.t('JOB_INVITES.jobApplied'),
-      duration: 4000,
-    });
-
     this.props.navigation.goBack();
   }
 
   rejectJobHandler = () => {
     this.isLoading(false);
-    Toast.show({
-      type: "success",
-      text: i18next.t('JOB_INVITES.jobRejected'),
-      duration: 4000,
-    });
-
     this.props.navigation.goBack();
   }
 
@@ -216,7 +204,7 @@ class InviteDetails extends Component {
 
                   </View>
                 </Content>
-                
+
                 <MapView
                   style={styles.map}
                   region={this.state.region}
@@ -232,23 +220,24 @@ class InviteDetails extends Component {
                     title={this.state.invite.shift.venue.title}
                     />
                     : null}
-                </MapView> 
+                </MapView>
+
                 <Content>
                 <View style={styles.viewCrud}>
                           <View style={styles.viewButtomLeft}>
-                              <Button
+                              <Button onPress={this.applyJob}
                                   style={styles.buttomLeft} full rounded>
-                                  <Text>Apply</Text>
+                                  <Text>{t('JOB_INVITES.apply')}</Text>
                               </Button>
                           </View>
                           <View style={styles.viewButtomRight}>
-                              <Button style={styles.buttomRight} full rounded>
-                              <Text>Cancel</Text>
+                              <Button onPress={this.rejectJob} style={styles.buttomRight} full rounded>
+                              <Text>{t('JOB_INVITES.reject')}</Text>
                               </Button>
                           </View>
                       </View>
               </Content>
-                
+
             </Container>
           )
       }</I18n>);
@@ -292,7 +281,7 @@ class InviteDetails extends Component {
           inviteActions.applyJob(this.state.invite.id);
         }
       }, ], { cancelable: false }
-    )
+    );
   }
 
   rejectJob = (invitation) => {
@@ -320,7 +309,7 @@ class InviteDetails extends Component {
           inviteActions.rejectJob(this.state.invite.id);
         }
       }, ], { cancelable: false }
-    )
+    );
   }
 
   isLoading = (isLoading) => {

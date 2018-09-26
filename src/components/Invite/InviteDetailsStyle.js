@@ -16,7 +16,7 @@ export default styles = StyleSheet.create({
 map: {
   ...StyleSheet.absoluteFillObject,
   width: '90%',
-  top: '22%',
+  top: '25%',
   left: '5%',
   height: 300,
   justifyContent: 'center',
@@ -91,14 +91,14 @@ map: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingLeft: 20, 
+    paddingLeft: 20,
     paddingRight: 20,
-    marginTop: '18%',
+    marginTop: '20%',
     marginBottom: 20,
     height: 100
   },
   viewButtomLeft:{
-    width: '50%', 
+    width: '50%',
     marginRight: 5,
   },
   buttomLeft:{
@@ -108,7 +108,7 @@ map: {
     color: BLUE_MAIN
   },
   viewButtomRight:{
-    width: '50%', 
+    width: '50%',
     marginLeft: 5,
   },
   buttomRight:{
