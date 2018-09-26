@@ -9,16 +9,26 @@ var width = Dimensions.get('window').width;
 
 export default styles = StyleSheet.create({
   mapContainer: {
-   ...StyleSheet.absoluteFillObject,
-   height: 200,
-   width: width,
-   justifyContent: 'flex-end',
-   alignItems: 'center',
-   zIndex: -1,
- },
- map: {
-   ...StyleSheet.absoluteFillObject,
- },
+  justifyContent: 'center',
+  alignItems: 'center',
+  zIndex: -1,
+},
+map: {
+  ...StyleSheet.absoluteFillObject,
+  width: '90%',
+  top: '22%',
+  left: '5%',
+  height: 300,
+  justifyContent: 'center',
+  alignItems: 'center',
+  shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 3
+    },
+    shadowRadius: 5,
+    shadowOpacity: 1.0
+},
   container: {
     flex: 1,
     alignItems: 'center',
@@ -76,5 +86,35 @@ export default styles = StyleSheet.create({
   viewTitleInfo:{
     alignSelf: 'flex-start',
     marginBottom: 5
-  }
+  },
+  viewCrud:{
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 20, 
+    paddingRight: 20,
+    marginTop: '18%',
+    marginBottom: 20,
+    height: 100
+  },
+  viewButtomLeft:{
+    width: '50%', 
+    marginRight: 5,
+  },
+  buttomLeft:{
+    backgroundColor: BLUE_MAIN,
+  },
+  textButtomLeft:{
+    color: BLUE_MAIN
+  },
+  viewButtomRight:{
+    width: '50%', 
+    marginLeft: 5,
+  },
+  buttomRight:{
+    backgroundColor: VIOLET_MAIN,
+  },
+  textButtomRight:{
+    color: VIOLET_MAIN
+  },
 });
