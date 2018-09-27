@@ -8,6 +8,7 @@ import { Root } from "native-base";
 
 import LoginScreen from './src/components/Account/LoginScreen';
 import RegisterScreen from './src/components/Account/RegisterScreen';
+import EditProfile from './src/components/Account/EditProfile';
 import ForgotScreen from './src/components/Account/ForgotScreen';
 
 import DashboardScreen from './src/components/Dashboard';
@@ -17,7 +18,7 @@ import JobPreferences from './src/components/Invite/JobPreferences';
 import AddUnavailability from './src/components/Invite/AddUnavailability';
 import MyJobs from './src/components/MyJobs';
 
-import { DASHBOARD_ROUTE, TABBAR_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE, FORGOT_ROUTE, JOB_INVITES_ROUTE, JOB_PREFERENCES_ROUTE, MYJOBS_ROUTE, SETTING_ROUTE, APP_ROUTE, STACK_ROUTE, AUTH_ROUTE, RESET_ROUTE, ADD_UNAVAILABILITY_ROUTE, INVITE_DETAILS_ROUTE } from './src/constants/routes'
+import { DASHBOARD_ROUTE, TABBAR_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE, FORGOT_ROUTE, JOB_INVITES_ROUTE, JOB_PREFERENCES_ROUTE, MYJOBS_ROUTE, SETTING_ROUTE, APP_ROUTE, STACK_ROUTE, AUTH_ROUTE, RESET_ROUTE, ADD_UNAVAILABILITY_ROUTE, INVITE_DETAILS_ROUTE, EDIT_PROFILE_ROUTE } from './src/constants/routes'
 import { BLUE_MAIN, BLUE_DARK, BLUE_LIGHT, GRAY_MAIN } from './src/constants/colorPalette'
 
 import SettingScreen from './src/components/Setting';
@@ -73,6 +74,7 @@ const SwitchNavigator = createSwitchNavigator(
             ['Tabs']: Tabs,
             [SETTING_ROUTE]: SettingScreen,
             [RESET_ROUTE]: ForgotScreen,
+            [EDIT_PROFILE_ROUTE]: EditProfile,
             [ADD_UNAVAILABILITY_ROUTE]: AddUnavailability,
             [INVITE_DETAILS_ROUTE]: InviteDetails,
         }, {navigationOptions: {header: null}}),

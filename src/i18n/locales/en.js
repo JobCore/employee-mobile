@@ -1,6 +1,7 @@
 export default {
   APP: {
     cancel: 'cancel',
+    goBack: 'Go back',
   },
   LOGIN: {
     signIn: 'Sign In',
@@ -22,6 +23,10 @@ export default {
     password: 'Password',
     goBack: 'Go back',
     youHaveRegistered: 'You have signed up!',
+  },
+  EDIT_PROFILE: {
+    editProfile: 'Edit profile',
+    profileUpdated: 'Profile updated!',
   },
   SETTINGS: {
     settings: 'Settings',
