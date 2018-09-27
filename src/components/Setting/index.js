@@ -8,7 +8,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   TextInput,
-  ScrollView
+  ScrollView,
+  Alert,
 } from "react-native";
 import {
   Container,
@@ -29,6 +30,7 @@ import {
 import styles from './style';
 import { DASHBOARD_ROUTE, APP_ROUTE, AUTH_ROUTE, RESET_ROUTE } from "../../constants/routes";
 import { WHITE_MAIN, BLUE_DARK, BLUE_MAIN } from "../../constants/colorPalette";
+import { LOG, WARN, ERROR } from "../../utils";
 import store from "../Account/AccountStore";
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
@@ -39,7 +41,7 @@ import accountStore from '../Account/AccountStore';
 class SettingScreen extends Component {
   static navigationOptions = {
     header: null,
-    tabBarLabel: 'Jobs Preferences',
+    tabBarLabel: i18next.t('SETTINGS.settings'),
     tabBarIcon: ({ tintColor }) => (
       <Image
                 style={{resizeMode: 'contain', height: 30}}
@@ -65,8 +67,6 @@ class SettingScreen extends Component {
   }
 
   logoutHandler = (data) => {
-    this.isLoading(false);
-
     this.props.navigation.navigate(AUTH_ROUTE);
   }
 
@@ -142,7 +142,7 @@ class SettingScreen extends Component {
                           style={styles.viewButtomLogin}>
                           <Text
                               style={styles.textButtom}>
-                              {t('SETTINGS.signUp')}
+                              {t('SETTINGS.editProfile')}
                           </Text>
                       </Button>
                       <TouchableOpacity
@@ -162,11 +162,20 @@ class SettingScreen extends Component {
   }
 
   logout = () => {
-    accountActions.logout();
-  };
-
-  _showMorejobs = () => {
-    this.props.navigation.navigate('JobsOffers');
+    Alert.alert(
+      i18next.t('SETTINGS.wantToLogout'),
+      '', [{
+        text: i18next.t('APP.cancel'),
+        onPress: () => {
+          LOG(this, 'Cancel logout');
+        }
+      }, {
+        text: i18next.t('SETTINGS.logout'),
+        onPress: () => {
+          accountActions.logout();
+        }
+      }, ], { cancelable: false }
+    );
   };
 
   passwordReset = () => {

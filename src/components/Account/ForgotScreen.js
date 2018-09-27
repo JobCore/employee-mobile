@@ -13,6 +13,7 @@ import * as accountActions from './actions';
 import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
+import { FormView } from "../../utils/platform";
 
 class ForgotScreen extends Component {
   static navigationOptions = {header: null}
@@ -72,12 +73,14 @@ class ForgotScreen extends Component {
           style={styles.viewLogo}
           source={require('../../assets/image/logo1.png')}
         />
-        <View style={styles.viewForm}>
-          <Item style={styles.viewInput} rounded inlineLabel>
-            <Input value={this.state.email}
-                   placeholder={t('FORGOT.email')}
-                   onChangeText={(text) => this.setState({email: text})}/>
-          </Item>
+        <FormView>
+          <Form>
+            <Item style={styles.viewInput} rounded inlineLabel>
+              <Input value={this.state.email}
+                     placeholder={t('FORGOT.email')}
+                     onChangeText={(text) => this.setState({email: text})}/>
+            </Item>
+          </Form>
           <Button
             full
             onPress={() => this.passwordReset()}
@@ -96,7 +99,7 @@ class ForgotScreen extends Component {
                   {t('REGISTER.goBack')}
               </Text>
           </TouchableOpacity>
-        </View>
+        </FormView>
       </View>
     )
 }</I18n>);

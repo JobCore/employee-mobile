@@ -147,7 +147,7 @@ class LoginScreen extends Component {
 
   login = () => {
     this.isLoading(true);
-    accountActions.login(this.state.email.toLowerCase(), this.state.password);
+    accountActions.login(this.state.email.toLowerCase().trim(), this.state.password);
   };
 
   isLoading = (isLoading) => {

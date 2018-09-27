@@ -96,13 +96,13 @@ export default styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingLeft: 20, 
+    paddingLeft: 20,
     paddingRight: 20,
     marginTop: 15,
     marginBottom: 20
   },
   viewButtomLeft:{
-    width: '50%', 
+    width: '50%',
     marginRight: 5,
   },
   buttomLeft:{
@@ -112,7 +112,7 @@ export default styles = StyleSheet.create({
     color: BLUE_MAIN
   },
   viewButtomRight:{
-    width: '50%', 
+    width: '50%',
     marginLeft: 5,
   },
   buttomRight:{

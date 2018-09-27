@@ -7,8 +7,8 @@ import {
 import {Container, Header, Content, Text, Button, Left, Icon, Body, Title, Right, Segment} from "native-base";
 import styles from './style';
 import {VIOLET_MAIN, BLUE_MAIN} from "../../constants/colorPalette";
-import {SETTING_ROUTE} from "../../constants/routes";
-import store from "../Account/AccountStore";
+import {SETTING_ROUTE, AUTH_ROUTE} from "../../constants/routes";
+import accountStore from '../Account/AccountStore';
 
 class DashboardScreen extends Component {
 
@@ -26,8 +26,20 @@ class DashboardScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: store.getState("Login").user || {},
+            user: accountStore.getState("Login").user || {},
         };
+    }
+
+    componentDidMount() {
+      this.logoutSubscription = accountStore.subscribe('Logout', (data) => this.logoutHandler(data));
+    }
+
+    componentWillUnmount() {
+      this.logoutSubscription.unsubscribe();
+    }
+
+    logoutHandler = (data) => {
+      this.props.navigation.navigate(AUTH_ROUTE);
     }
 
     _showNew = () => {

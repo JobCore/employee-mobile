@@ -8,11 +8,11 @@ import {
 } from "react-native";
 import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, Body, Title, Right, Label, Thumbnail, Toast, Spinner } from 'native-base';
 import styles from './JobInvitesStyle';
-import { SETTING_ROUTE } from '../../constants/routes'
+import { SETTING_ROUTE, INVITE_DETAILS_ROUTE } from '../../constants/routes'
 import { BLUE_MAIN, BLUE_DARK } from "../../constants/colorPalette";
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
-import { LOG, WARN, ERROR, hourToValidDate } from "../../utils";
+import { LOG, WARN, ERROR } from "../../utils";
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import moment from 'moment';
@@ -20,7 +20,7 @@ import myJobsImg from '../../assets/image/myJobs.png';
 
 class JobInvites extends Component {
   static navigationOptions = {
-    tabBarLabel: 'Jobs Offers',
+    tabBarLabel: i18next.t('JOB_INVITES.jobOffers'),
     tabBarIcon: ({ tintColor }) => (
       <Image
         style={{resizeMode: 'contain', height: 30}}
@@ -126,7 +126,7 @@ class JobInvites extends Component {
             rightOpenValue={-75}
             dataSource={this.ds.cloneWithRows(this.state.jobInvites)}
             renderRow={data =>
-            <ListItem style={styles.viewListItem}>
+            <ListItem onPress={() => this.props.navigation.navigate(INVITE_DETAILS_ROUTE, {inviteId: data.id})} style={styles.viewListItem}>
               <Thumbnail small source={(data.shift && data.shift.position &&
                  data.shift.position.picture) ?
                  data.shift.position.picture
@@ -158,10 +158,9 @@ class JobInvites extends Component {
                   </Text>
                     <Text style={styles.textBlack}>
                     {`${
-                      t('JOB_INVITES.jobDate', {
-                        date: moment(data.shift.date).format('MMM Do'),
-                        start_time: moment(hourToValidDate(data.shift.start_time)).format('h:mma'),
-                        finish_time: moment(hourToValidDate(data.shift.finish_time)).format('h:mma'),
+                      t('JOB_PREFERENCES.dateStartToEnd', {
+                        startingAt: moment(data.shift.starting_at).format('lll'),
+                        endingAt: moment(data.shift.ending_at).format('lll'),
                       })
                     } `}
                     {/* Sep 24th From 3pm to 6pm. */}

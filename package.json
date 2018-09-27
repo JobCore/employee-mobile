@@ -1,31 +1,33 @@
 {
-  "name": "jc-mobile",
-  "version": "0.1.0",
+  "name": "jobcore",
+  "version": "0.0.1",
   "private": true,
-  "devDependencies": {
-    "babel-preset-react-native-stage-0": "^1.0.1",
-    "jest": "^23.5.0",
-    "jest-react-native": "^18.0.0",
-    "react-test-renderer": "16.3.1"
-  },
   "scripts": {
     "start": "react-native start",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "test": "jest"
   },
-  "jest": {
-    "preset": "react-native"
-  },
   "dependencies": {
     "flux": "^3.1.3",
     "i18next": "^11.7.0",
     "moment": "^2.22.2",
-    "native-base": "^2.8.0",
-    "react": "16.3.1",
+    "native-base": "^2.7.0",
+    "react": "16.5.0",
     "react-i18next": "^7.12.0",
-    "react-native": "~0.55.2",
+    "react-native": "0.57.1",
+    "react-native-maps": "^0.21.0",
     "react-navigation": "^2.13.0",
     "rxjs": "^5.5.10"
+  },
+  "devDependencies": {
+    "babel-jest": "23.6.0",
+    "@babel/runtime": "7.0.0",
+    "jest": "23.6.0",
+    "metro-react-native-babel-preset": "0.46.0",
+    "react-test-renderer": "16.5.0"
+  },
+  "jest": {
+    "preset": "react-native"
   }
 }

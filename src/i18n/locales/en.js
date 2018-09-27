@@ -24,13 +24,16 @@ export default {
     youHaveRegistered: 'You have signed up!',
   },
   SETTINGS: {
+    settings: 'Settings',
     email: 'Email',
     changePassword: 'Change password',
     firstName: 'First name',
     lastName: 'Last name',
     signUp: 'Sign Up',
     logout: 'Logout',
+    wantToLogout: 'Logout?',
     linkBank: 'Link Bank Account',
+    editProfile: 'Edit profile',
   },
   FORGOT: {
     email: 'Email',
@@ -39,6 +42,7 @@ export default {
   },
   JOB_INVITES: {
     jobOffers: 'Job Invitations',
+    inviteDetails: 'Invitation details',
     applyJob: 'Apply job?',
     rejectJob: 'Reject job?',
     apply: 'Apply',
@@ -46,7 +50,6 @@ export default {
     jobApplied: 'Job applied!',
     jobRejected: 'Job rejected!',
     lookingFor: 'Inc is looking for a',
-    jobDate: '{{date}} From {{start_time}} to {{finish_time}}',
     on: 'on',
     hr: 'hr',
   },
