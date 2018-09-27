@@ -32,19 +32,30 @@ class DashboardScreen extends Component {
 
     componentDidMount() {
       this.logoutSubscription = accountStore.subscribe('Logout', (data) => this.logoutHandler(data));
+
+      this.loginSubscription = accountStore.subscribe('Login', (data) => this.loginHandler(data));
     }
 
     componentWillUnmount() {
       this.logoutSubscription.unsubscribe();
+      this.loginSubscription.unsubscribe();
     }
 
     logoutHandler = (data) => {
       this.props.navigation.navigate(AUTH_ROUTE);
     }
 
-    _showNew = () => {
-        this.props.navigation.navigate('TabBar');
-    };
+    loginHandler = (data) => {
+      let user;
+
+      try {
+        user = data.user;
+      } catch (e) {
+        return LOG(this, data);
+      }
+
+      this.setState({ user: data.user });
+    }
 
     render() {
         return (

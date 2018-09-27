@@ -46,6 +46,8 @@ class AccountStore extends FluxStore {
 
     this.addEvent('PasswordReset');
 
+    this.addEvent('EditProfile');
+
     this.addEvent('AccountStoreError', nextState => {
       LOG(this, nextState);
 

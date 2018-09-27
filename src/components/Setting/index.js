@@ -28,7 +28,7 @@ import {
   Icon
 } from 'native-base';
 import styles from './style';
-import { DASHBOARD_ROUTE, APP_ROUTE, AUTH_ROUTE, RESET_ROUTE } from "../../constants/routes";
+import { DASHBOARD_ROUTE, APP_ROUTE, AUTH_ROUTE, RESET_ROUTE, EDIT_PROFILE_ROUTE } from "../../constants/routes";
 import { WHITE_MAIN, BLUE_DARK, BLUE_MAIN } from "../../constants/colorPalette";
 import { LOG, WARN, ERROR } from "../../utils";
 import store from "../Account/AccountStore";
@@ -60,14 +60,28 @@ class SettingScreen extends Component {
 
   componentDidMount() {
     this.logoutSubscription = accountStore.subscribe('Logout', (data) => this.logoutHandler(data));
+    this.loginSubscription = accountStore.subscribe('Login', (data) => this.loginHandler(data));
   }
 
   componentWillUnmount() {
     this.logoutSubscription.unsubscribe();
+    this.loginSubscription.unsubscribe();
   }
 
   logoutHandler = (data) => {
     this.props.navigation.navigate(AUTH_ROUTE);
+  }
+
+  loginHandler = (data) => {
+    let user;
+
+    try {
+      user = data.user;
+    } catch (e) {
+      return LOG(this, data);
+    }
+
+    this.setState({ user: data.user });
   }
 
   render() {
@@ -139,6 +153,7 @@ class SettingScreen extends Component {
                       </View>
                       <Button
                           full
+                          onPress={this.editProfile}
                           style={styles.viewButtomLogin}>
                           <Text
                               style={styles.textButtom}>
@@ -177,6 +192,10 @@ class SettingScreen extends Component {
       }, ], { cancelable: false }
     );
   };
+
+  editProfile = () => {
+    this.props.navigation.navigate(EDIT_PROFILE_ROUTE);
+  }
 
   passwordReset = () => {
     this.props.navigation.navigate(RESET_ROUTE);

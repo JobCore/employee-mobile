@@ -1,13 +1,13 @@
 import * as Flux from '../../utils/flux-state';
 import accountStore from './AccountStore';
 
-import { postData } from '../../fetch';
-import { loginValidator, registerValidator, passwordResetValidator } from './validators';
+import { postData, putData } from '../../fetch';
+import { loginValidator, registerValidator, passwordResetValidator, editProfileValidator } from './validators';
 
 /**
- * Action for login in the User
- * @param email
- * @param password
+ * Login action
+ * @param  {string} email
+ * @param  {string} password
  */
 const login = (email, password) => {
   try {
@@ -27,8 +27,11 @@ const login = (email, password) => {
 
 /**
  * Action for registering the User
- * @param email
- * @param password
+ * @param  {string} email     [description]
+ * @param  {string} password  [description]
+ * @param  {string} firstName [description]
+ * @param  {string} lastName  [description]
+ * @return {[type]}           [description]
  */
 const register = (email, password, firstName, lastName) => {
   try {
@@ -38,15 +41,40 @@ const register = (email, password, firstName, lastName) => {
   }
 
   postData('/user/register', {
-    account_type: 'employee',
-    first_name: firstName,
-    last_name: lastName,
-    username: email,
-    email: email,
-    password: password,
-  }, false)
+      account_type: 'employee',
+      first_name: firstName,
+      last_name: lastName,
+      username: email,
+      email: email,
+      password: password,
+    }, false)
     .then((data) => {
       Flux.dispatchEvent('Register', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('AccountStoreError', err);
+    });
+}
+
+/**
+ * Edit profile action
+ * @param  {string | number} userId
+ * @param  {string} firstName
+ * @param  {string} lastName
+ */
+const editProfile = (userId, firstName, lastName) => {
+  try {
+    editProfileValidator(firstName, lastName);
+  } catch (err) {
+    return Flux.dispatchEvent('AccountStoreError', err);
+  }
+
+  putData(`/profiles/${userId}`, {
+      first_name: firstName,
+      last_name: lastName,
+    })
+    .then((data) => {
+      Flux.dispatchEvent('EditProfile', data);
     })
     .catch((err) => {
       Flux.dispatchEvent('AccountStoreError', err);
@@ -83,11 +111,14 @@ const logout = () => {
 }
 
 /**
- * Action for setting the stored user from AsyncStorage/Flux on app first load
+ * Action for setting/updating the stored user from AsyncStorage/Flux on app first load
  * @param user
  */
 const setStoredUser = (user) => {
-  Flux.dispatchEvent('Login', user);
+  // setTimeout to avoid "cannot dispatch in the middle of dispatch"
+  setTimeout(() => {
+    Flux.dispatchEvent('Login', user);
+  });
 }
 
-export { login, register, passwordReset, setStoredUser, logout };
+export { login, register, passwordReset, setStoredUser, logout, editProfile };
