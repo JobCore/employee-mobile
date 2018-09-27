@@ -31,7 +31,6 @@ const login = (email, password) => {
  * @param  {string} password  [description]
  * @param  {string} firstName [description]
  * @param  {string} lastName  [description]
- * @return {[type]}           [description]
  */
 const register = (email, password, firstName, lastName) => {
   try {
@@ -83,7 +82,7 @@ const editProfile = (userId, firstName, lastName) => {
 
 /**
  * Action for changing password, an email will be sent to reset your password
- * @param email
+ * @param {string} email
  */
 const passwordReset = (email) => {
   try {
@@ -112,7 +111,7 @@ const logout = () => {
 
 /**
  * Action for setting/updating the stored user from AsyncStorage/Flux on app first load
- * @param user
+ * @param {object} user
  */
 const setStoredUser = (user) => {
   // setTimeout to avoid "cannot dispatch in the middle of dispatch"
