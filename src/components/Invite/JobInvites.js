@@ -5,6 +5,7 @@ import {
   Image,
   ListView,
   Alert,
+  RefreshControl,
 } from "react-native";
 import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, Body, Title, Right, Label, Thumbnail, Toast, Spinner } from 'native-base';
 import styles from './JobInvitesStyle';
@@ -35,6 +36,7 @@ class JobInvites extends Component {
     this.state = {
       isLoading: false,
       basic: false,
+      isRefreshingInvites: false,
       jobInvites: [],
     };
   }
@@ -57,7 +59,10 @@ class JobInvites extends Component {
 
   getJobInvitesHandler = (jobInvites) => {
     this.isLoading(false);
-    this.setState({ jobInvites });
+    this.setState({
+      jobInvites,
+      isRefreshingInvites: false,
+     });
   }
 
   applyJobHandler = () => {
@@ -125,6 +130,11 @@ class JobInvites extends Component {
         </Header>
         <Content>
           <List
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.isRefreshingInvites}
+                onRefresh={this.refreshInvites}/>
+            }
             leftOpenValue={75}
             rightOpenValue={-75}
             dataSource={this.ds.cloneWithRows(this.state.jobInvites)}
@@ -197,6 +207,11 @@ class JobInvites extends Component {
 
   getJobInvites = () => {
     inviteActions.getJobInvites();
+  }
+
+  refreshInvites = () => {
+    this.setState({ isRefreshingInvites: true });
+    this.getJobInvites();
   }
 
   applyJob = (invitation) => {
