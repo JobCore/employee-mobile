@@ -46,7 +46,6 @@ class LoginScreen extends Component {
   }
 
   registerHandler = (user) => {
-    alert(JSON.stringify(user))
     this.isLoading(false);
     this.setState({
       email: user.email,
