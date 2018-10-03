@@ -81,6 +81,7 @@ class JobPreferences extends Component {
     this.getJobPreferences();
 
     Toast.show({
+      position: 'top',
       type: "success",
       text: i18next.t('JOB_PREFERENCES.preferencesUpdated'),
       duration: 4000,
@@ -96,6 +97,7 @@ class JobPreferences extends Component {
     this.getUnavailability();
 
     Toast.show({
+      position: 'top',
       type: "success",
       text: i18next.t('JOB_PREFERENCES.unavailabilityDeleted'),
       duration: 4000,
@@ -105,6 +107,7 @@ class JobPreferences extends Component {
   errorHandler = (err) => {
     this.isLoading(false);
     Toast.show({
+      position: 'top',
       type: "danger",
       text: JSON.stringify(err),
       duration: 4000,

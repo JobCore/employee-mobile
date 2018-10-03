@@ -48,6 +48,7 @@ class RegisterScreen extends Component {
     this.isLoading(false);
     this.props.navigation.navigate(LOGIN_ROUTE);
     Toast.show({
+      position: 'top',
       type: "success",
       text: i18next.t('REGISTER.youHaveRegistered'),
       duration: 4000,
@@ -57,6 +58,7 @@ class RegisterScreen extends Component {
   errorHandler = (err) => {
     this.isLoading(false);
     Toast.show({
+      position: 'top',
       type: "danger",
       text: JSON.stringify(err),
       duration: 4000,

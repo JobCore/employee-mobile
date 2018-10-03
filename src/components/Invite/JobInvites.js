@@ -63,6 +63,7 @@ class JobInvites extends Component {
   applyJobHandler = () => {
     this.isLoading(false);
     Toast.show({
+      position: 'top',
       type: "success",
       text: i18next.t('JOB_INVITES.jobApplied'),
       duration: 4000,
@@ -74,6 +75,7 @@ class JobInvites extends Component {
   rejectJobHandler = () => {
     this.isLoading(false);
     Toast.show({
+      position: 'top',
       type: "success",
       text: i18next.t('JOB_INVITES.jobRejected'),
       duration: 4000,
@@ -85,6 +87,7 @@ class JobInvites extends Component {
   errorHandler = (err) => {
     this.isLoading(false);
     Toast.show({
+      position: 'top',
       type: "danger",
       text: JSON.stringify(err),
       duration: 4000,

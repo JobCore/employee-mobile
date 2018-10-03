@@ -35,12 +35,23 @@ class LoginScreen extends Component {
 
   componentDidMount() {
     this.loginSubscription = accountStore.subscribe('Login', (user) => this.loginHandler(user));
+    this.registerSubscription = accountStore.subscribe('Register', (user) => this.registerHandler(user));
     this.accountStoreError = accountStore.subscribe('AccountStoreError', (err) => this.errorHandler(err));
   }
 
   componentWillUnmount() {
     this.loginSubscription.unsubscribe();
+    this.registerSubscription.unsubscribe();
     this.accountStoreError.unsubscribe();
+  }
+
+  registerHandler = (user) => {
+    alert(JSON.stringify(user))
+    this.isLoading(false);
+    this.setState({
+      email: user.email,
+      password: '',
+     });
   }
 
   loginHandler = (user) => {
@@ -55,6 +66,7 @@ class LoginScreen extends Component {
 
     if (!status || status === 'PENDING_EMAIL_VALIDATION') {
       return Toast.show({
+        position: 'top',
         type: "danger",
         text: i18next.t('LOGIN.youMustValidateEmail'),
         duration: 4000,
@@ -69,6 +81,7 @@ class LoginScreen extends Component {
   errorHandler = (err) => {
     this.isLoading(false);
     Toast.show({
+      position: 'top',
       type: "danger",
       text: JSON.stringify(err),
       duration: 4000,
@@ -129,7 +142,11 @@ class LoginScreen extends Component {
                       style={styles.viewButtomSignUp}>
                       <Text
                           style={styles.textButtomSignUp}>
-                          {t('LOGIN.signUp')}
+                          {`${t('LOGIN.dontHaveAnAccount')} `}
+                          <Text
+                              style={styles.textButtomClick}>
+                              {t('LOGIN.clickToSignUp')}
+                          </Text>
                       </Text>
                   </TouchableOpacity>
                 </FormView>

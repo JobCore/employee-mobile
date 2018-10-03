@@ -47,6 +47,7 @@ class RegisterScreen extends Component {
   editProfileHandler = (data) => {
     this.isLoading(false);
     Toast.show({
+      position: 'top',
       type: "success",
       text: i18next.t('EDIT_PROFILE.profileUpdated'),
       duration: 4000,
@@ -59,6 +60,7 @@ class RegisterScreen extends Component {
   errorHandler = (err) => {
     this.isLoading(false);
     Toast.show({
+      position: 'top',
       type: "danger",
       text: JSON.stringify(err),
       duration: 4000,

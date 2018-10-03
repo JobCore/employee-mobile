@@ -39,6 +39,7 @@ class ForgotScreen extends Component {
   passwordResetHandler = (data) => {
     this.isLoading(false);
     Toast.show({
+      position: 'top',
       type: "success",
       text: i18next.t('FORGOT.emailResetPassword'),
       duration: 4000,
@@ -50,6 +51,7 @@ class ForgotScreen extends Component {
   errorHandler = (err) => {
     this.isLoading(false);
     Toast.show({
+      position: 'top',
       type: "danger",
       text: JSON.stringify(err),
       duration: 4000,

@@ -12,6 +12,8 @@ export default {
     emptyPassword: 'Empty password',
     forgotPassword: 'Forgot password?',
     youMustValidateEmail: 'You must validate your email in order to Log In',
+    dontHaveAnAccount: `Don't have an account?`,
+    clickToSignUp: `Click here to sign up`,
   },
   REGISTER: {
     signUp: 'Sign Up',
