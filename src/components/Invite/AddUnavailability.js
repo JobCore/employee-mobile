@@ -55,6 +55,7 @@ class AddUnavailability extends Component {
     this.getUnavailability();
 
     return Toast.show({
+      position: 'top',
       type: "success",
       text: i18next.t('JOB_PREFERENCES.unavailabilityAdded'),
       duration: 4000,
@@ -69,6 +70,7 @@ class AddUnavailability extends Component {
   errorHandler = (err) => {
     this.isLoading(false);
     Toast.show({
+      position: 'top',
       type: "danger",
       text: JSON.stringify(err),
       duration: 4000,

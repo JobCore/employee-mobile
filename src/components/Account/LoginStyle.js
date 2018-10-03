@@ -78,6 +78,14 @@ export default styles = StyleSheet.create({
     marginTop: 25,
     color: BLUE_DARK
   },
+  textButtomClick:{
+    fontSize: 14,
+    fontWeight: '500',
+    textAlign: 'center',
+    marginTop: 25,
+    textDecorationLine: 'underline',
+    color: BLUE_DARK
+  },
   textButtomForgot:{
     fontSize: 14,
     fontWeight: '500',
