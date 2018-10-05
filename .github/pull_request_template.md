@@ -1,6 +1,11 @@
 ### Describe the work done
 
 
+
+### Issues that solves when merged (e.x: solves #456)
+
+
+
 ### Definition of Done
 
 - [ ] User Story compliant
@@ -18,7 +23,9 @@
 ### Instructions to Validate the Features
 
 
+
 ### Screenshots
+
 
 
 ### Remaining TODO's
