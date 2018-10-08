@@ -10,7 +10,7 @@ import {
 import { Container, Header, Content, Button, Text, Left, Body, Title, Right, Accordion, List, ListItem, Icon, Segment, Item, Input, Form, Label, Toast, Spinner, CheckBox } from 'native-base';
 import styles from './JobPreferencesStyle';
 import { BLUE_DARK, BLUE_LIGHT, BLUE_MAIN } from '../../constants/colorPalette'
-import { TABBAR_ROUTE, SETTING_ROUTE, ADD_UNAVAILABILITY_ROUTE } from "../../constants/routes";
+import { TABBAR_ROUTE, SETTING_ROUTE, ADD_AVAILABILITY_ROUTE } from "../../constants/routes";
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import { I18n } from 'react-i18next';
@@ -37,7 +37,7 @@ class JobPreferences extends Component {
       isLoading: false,
       positionList: [],
       positions: [],
-      unavailability: [],
+      availability: [],
       minimumHourlyRate: '',
       availableOnWeekends: false,
     }
@@ -50,17 +50,17 @@ class JobPreferences extends Component {
       .subscribe('GetJobPreferences', (data) => this.getJobPreferencesHandler(data));
     this.editJobPreferencesSubscription = inviteStore
       .subscribe('EditJobPreferences', (data) => this.editJobPreferencesHandler(data));
-    this.getUnavailabilitySubscription = inviteStore
-      .subscribe('GetUnavailability', (data) => this.getUnavailabilityHandler(data));
-    this.deleteUnavailabilitySubscription = inviteStore
-      .subscribe('DeleteUnavailability', (data) => this.deleteUnavailabilityHandler(data));
+    this.getAvailabilitySubscription = inviteStore
+      .subscribe('GetAvailability', (data) => this.getAvailabilityHandler(data));
+    this.deleteAvailabilitySubscription = inviteStore
+      .subscribe('DeleteAvailability', (data) => this.deleteAvailabilityHandler(data));
     this.inviteStoreError = inviteStore
       .subscribe('InviteStoreError', (err) => this.errorHandler(err));
 
     this.isLoading(true);
     this.getPositions();
     this.getJobPreferences();
-    this.getUnavailability();
+    this.getAvailability();
   }
 
   getPositionsHandler = (positionList) => {
@@ -88,18 +88,18 @@ class JobPreferences extends Component {
     });
   }
 
-  getUnavailabilityHandler = (data) => {
-    this.setState({ unavailability: data });
+  getAvailabilityHandler = (data) => {
+    this.setState({ availability: data });
   }
 
-  deleteUnavailabilityHandler = () => {
+  deleteAvailabilityHandler = () => {
     this.isLoading(false);
-    this.getUnavailability();
+    this.getAvailability();
 
     Toast.show({
       position: 'top',
       type: "success",
-      text: i18next.t('JOB_PREFERENCES.unavailabilityDeleted'),
+      text: i18next.t('JOB_PREFERENCES.availabilityDeleted'),
       duration: 4000,
     });
   }
@@ -118,8 +118,8 @@ class JobPreferences extends Component {
     this.getPositionsSubscription.unsubscribe();
     this.getJobPreferencesSubscription.unsubscribe();
     this.editJobPreferencesSubscription.unsubscribe();
-    this.getUnavailabilitySubscription.unsubscribe();
-    this.deleteUnavailabilitySubscription.unsubscribe();
+    this.getAvailabilitySubscription.unsubscribe();
+    this.deleteAvailabilitySubscription.unsubscribe();
     this.inviteStoreError.unsubscribe();
   }
 
@@ -137,7 +137,7 @@ class JobPreferences extends Component {
     return (<I18n>{(t, { i18n }) => (
       <View style={styles.viewHeader}>
         <Text style={styles.textHeader}>
-          {t('JOB_PREFERENCES.selectUnavailability')}
+          {t('JOB_PREFERENCES.selectAvailability')}
         </Text>
       </View>
     )}</I18n>);
@@ -171,10 +171,10 @@ class JobPreferences extends Component {
     return (<I18n>{(t, { i18n }) => (
       <ScrollView style={styles.contentScroll}>
       <List style={{marginBottom: 30, paddingLeft: 0,}}>
-        <ListItem onPress={() => this.props.navigation.navigate(ADD_UNAVAILABILITY_ROUTE)} style={styles.itemSelectCheck}>
+        <ListItem onPress={() => this.props.navigation.navigate(ADD_AVAILABILITY_ROUTE)} style={styles.itemSelectCheck}>
           <Left>
             <Text style={styles.textList}>
-              {i18next.t('JOB_PREFERENCES.addUnavailability')}
+              {i18next.t('JOB_PREFERENCES.addAvailability')}
             </Text>
           </Left>
           <Right>
@@ -182,13 +182,13 @@ class JobPreferences extends Component {
           </Right>
         </ListItem>
 
-        {(Array.isArray(this.state.unavailability)) ?
-         this.state.unavailability.map((unavailability) =>
-        <ListItem onPress={() => this.deleteUnavailability(unavailability)} key={unavailability.id} style={styles.itemSelectCheck}>
+        {(Array.isArray(this.state.availability)) ?
+         this.state.availability.map((availability) =>
+        <ListItem onPress={() => this.deleteAvailability(availability)} key={availability.id} style={styles.itemSelectCheck}>
           <Left>
             <Text style={styles.textList}>{t('JOB_PREFERENCES.dateStartToEnd', {
-              startingAt: moment(unavailability.starting_at).format('lll'),
-              endingAt: moment(unavailability.ending_at).format('lll'),
+              startingAt: moment(availability.starting_at).format('lll'),
+              endingAt: moment(availability.ending_at).format('lll'),
             })}</Text>
           </Left>
           <Right>
@@ -229,7 +229,7 @@ class JobPreferences extends Component {
 
         <Content padder>
           <ScrollView>
-            <Accordion dataArray={[{ title: t('JOB_PREFERENCES.selectUnavailability') }]}
+            <Accordion dataArray={[{ title: t('JOB_PREFERENCES.selectAvailability') }]}
               style={styles.accordionAvailability}
               renderContent={this._renderAvailability}
               renderHeader={this._renderHeaderAvailibility}
@@ -346,25 +346,25 @@ class JobPreferences extends Component {
     );
   }
 
-  getUnavailability = () => {
-    inviteActions.getUnavailability();
+  getAvailability = () => {
+    inviteActions.getAvailability();
   }
 
-  deleteUnavailability = (unavailability) => {
-    if (!unavailability) return;
+  deleteAvailability = (availability) => {
+    if (!availability) return;
 
     Alert.alert(
-      i18next.t('JOB_PREFERENCES.deleteUnavailability'),
+      i18next.t('JOB_PREFERENCES.deleteAvailability'),
       '', [{
         text: i18next.t('APP.cancel'),
         onPress: () => {
-          LOG(this, 'Cancel deleteUnavailability');
+          LOG(this, 'Cancel deleteAvailability');
         }
       }, {
         text: i18next.t('JOB_PREFERENCES.delete'),
         onPress: () => {
           this.isLoading(true);
-          inviteActions.deleteUnavailability(unavailability.id);
+          inviteActions.deleteAvailability(availability.id);
         }
       }, ], { cancelable: false }
     )

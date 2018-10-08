@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+Availabilityimport React, { Component } from "react";
 import { BLUE_DARK } from '../../constants/colorPalette';
 import {
   View,
@@ -12,7 +12,7 @@ import {
   TextInput
 } from "react-native";
 import { Container, Item, Input, Button, Text, Form, Label, Toast, Spinner, DatePicker } from 'native-base';
-import styles from './AddUnavailabilityStyle';
+import styles from './AddAvailabilityStyle';
 import { REGISTER_ROUTE, FORGOT_ROUTE, APP_ROUTE } from "../../constants/routes";
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
@@ -22,7 +22,7 @@ import { LOG, WARN, ERROR } from "../../utils";
 import { FormView } from "../../utils/platform";
 import moment from 'moment';
 
-class AddUnavailability extends Component {
+class AddAvailability extends Component {
   static navigationOptions = { header: null }
 
   constructor(props) {
@@ -35,34 +35,32 @@ class AddUnavailability extends Component {
   }
 
   componentDidMount() {
-    this.addUnavailabilitySubscription = inviteStore
-      .subscribe('AddUnavailability', (data) => this.addUnavailabilityHandler(data));
-    this.getUnavailabilitySubscription = inviteStore
-      .subscribe('GetUnavailability', (data) => this.getUnavailabilityHandler(data));
+    this.addAvailabilitySubscription = inviteStore
+      .subscribe('AddAvailability', (data) => this.addAvailabilityHandler(data));
+    this.getAvailabilitySubscription = inviteStore
+      .subscribe('GetAvailability', (data) => this.getAvailabilityHandler(data));
     this.inviteStoreError = inviteStore
       .subscribe('InviteStoreError', (err) => this.errorHandler(err));
   }
 
   componentWillUnmount() {
-    this.addUnavailabilitySubscription.unsubscribe();
-    this.getUnavailabilitySubscription.unsubscribe();
+    this.addAvailabilitySubscription.unsubscribe();
+    this.getAvailabilitySubscription.unsubscribe();
     this.inviteStoreError.unsubscribe();
   }
 
-
-
-  addUnavailabilityHandler = (user) => {
-    this.getUnavailability();
+  addAvailabilityHandler = (data) => {
+    this.getAvailability();
 
     return Toast.show({
       position: 'top',
       type: "success",
-      text: i18next.t('JOB_PREFERENCES.unavailabilityAdded'),
+      text: i18next.t('JOB_PREFERENCES.availabilityAdded'),
       duration: 4000,
     });
   }
 
-  getUnavailabilityHandler = (data) => {
+  getAvailabilityHandler = (data) => {
     this.isLoading(false);
     this.props.navigation.goBack();
   }
@@ -129,11 +127,11 @@ class AddUnavailability extends Component {
 
                   <Button
                       full
-                      onPress={this.addUnavailability}
+                      onPress={this.addAvailability}
                       style={styles.viewButtomLogin}>
                       <Text
                           style={styles.textButtom}>
-                          {t('JOB_PREFERENCES.addUnavailability')}
+                          {t('JOB_PREFERENCES.addAvailability')}
                       </Text>
                   </Button>
 
@@ -151,13 +149,13 @@ class AddUnavailability extends Component {
         }</I18n>);
   }
 
-  addUnavailability = () => {
+  addAvailability = () => {
     this.isLoading(true);
-    inviteActions.addUnavailability(this.state.startingAt, this.state.endingAt);
+    inviteActions.addAvailability(this.state.startingAt, this.state.endingAt);
   };
 
-  getUnavailability = () => {
-    inviteActions.getUnavailability();
+  getAvailability = () => {
+    inviteActions.getAvailability();
   };
 
   isLoading = (isLoading) => {
@@ -165,4 +163,4 @@ class AddUnavailability extends Component {
   }
 }
 
-export default AddUnavailability;
+export default AddAvailability;

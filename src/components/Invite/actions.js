@@ -104,12 +104,12 @@ const editJobPreferences = (positions, minimumHourlyRate, availableOnWeekends) =
 }
 
 /**
- * List unavailability action
+ * List availability action
  */
-const getUnavailability = () => {
-  getData('/employees/unavailability')
-    .then((unavailability) => {
-      Flux.dispatchEvent('GetUnavailability', unavailability);
+const getAvailability = () => {
+  getData('/employees/availability')
+    .then((availability) => {
+      Flux.dispatchEvent('GetAvailability', availability);
     })
     .catch((err) => {
       Flux.dispatchEvent('InviteStoreError', err);
@@ -117,17 +117,17 @@ const getUnavailability = () => {
 }
 
 /**
- * Add Unavailability action
+ * Add availability action
  * @param {date} startingAt start date
  * @param {date} endingAt   end date
  */
-const addUnavailability = (startingAt, endingAt) => {
-  postData(`/employees/unavailability`, {
+const addAvailability = (startingAt, endingAt) => {
+  postData(`/employees/availability`, {
       "starting_at": startingAt,
       "ending_at": endingAt,
     })
     .then((data) => {
-      Flux.dispatchEvent('AddUnavailability', data);
+      Flux.dispatchEvent('AddAvailability', data);
     })
     .catch((err) => {
       Flux.dispatchEvent('InviteStoreError', err);
@@ -136,13 +136,13 @@ const addUnavailability = (startingAt, endingAt) => {
 
 
 /**
- * Delete Unavailability action
- * @param  {string || number} unavailabilityId the block_id
+ * Delete availability action
+ * @param  {string || number} availabilityId the block_id
  */
-const deleteUnavailability = (unavailabilityId) => {
-  deleteData(`/employees/unavailability/${unavailabilityId}`)
+const deleteAvailability = (availabilityId) => {
+  deleteData(`/employees/availability/${availabilityId}`)
     .then((data) => {
-      Flux.dispatchEvent('DeleteUnavailability', data);
+      Flux.dispatchEvent('DeleteAvailability', data);
     })
     .catch((err) => {
       Flux.dispatchEvent('InviteStoreError', err);
@@ -157,7 +157,7 @@ export {
   getPositions,
   getJobPreferences,
   editJobPreferences,
-  getUnavailability,
-  addUnavailability,
-  deleteUnavailability,
+  getAvailability,
+  addAvailability,
+  deleteAvailability,
 };
