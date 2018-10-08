@@ -5,7 +5,8 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  ScrollView
+  ScrollView,
+  Slider,
 } from "react-native";
 import { Container, Header, Content, Button, Text, Left, Body, Title, Right, Accordion, List, ListItem, Icon, Segment, Item, Input, Form, Label, Toast, Spinner, CheckBox } from 'native-base';
 import styles from './JobPreferencesStyle';
@@ -38,7 +39,14 @@ class JobPreferences extends Component {
       positionList: [],
       positions: [],
       availability: [],
-      minimumHourlyRate: '',
+      minimumHourlyRate: 0,
+      minimumHourlyRatePrev: null,
+      minHourly: 1,
+      maxHourly: 20,
+      minimumDistanceOff: 0,
+      minimumDistanceOffPrev: null,
+      minDistance: 1,
+      maxDistance: 100,
       availableOnWeekends: false,
     }
   }
@@ -73,7 +81,7 @@ class JobPreferences extends Component {
     this.setState({
       positions: data.positions,
       minimumHourlyRate: data.minimum_hourly_rate,
-      availableOnWeekends: data.available_on_weekends,
+      minimumDistanceOff: data.minimum_distance_off,
     });
   }
 
@@ -229,41 +237,79 @@ class JobPreferences extends Component {
 
         <Content padder>
           <ScrollView>
-            <Accordion dataArray={[{ title: t('JOB_PREFERENCES.selectAvailability') }]}
-              style={styles.accordionAvailability}
-              renderContent={this._renderAvailability}
-              renderHeader={this._renderHeaderAvailibility}
-            />
-
-            <Text style={styles.textAvailability}>
-              {t('JOB_PREFERENCES.jobPreferences')}
-            </Text>
-            <Accordion dataArray={[{ title: t('JOB_PREFERENCES.selectPosition') }]}
-              style={styles.accordionPosition}
-              renderContent={this._renderPosition}
-              renderHeader={this._renderHeaderPosition}
-            />
+          <Accordion dataArray={[{ title: t('JOB_PREFERENCES.selectPosition') }]}
+            style={styles.accordionPosition}
+            renderContent={this._renderPosition}
+            renderHeader={this._renderHeaderPosition}
+          />
 
             <FormViewPreferences>
               <Form>
-                <Item style={styles.viewInput} rounded>
-                  <CheckBox onPress={() => this.setState({ availableOnWeekends: !this.state.availableOnWeekends })} checked={this.state.availableOnWeekends} color={BLUE_DARK}/>
+                <Text style={styles.sliderLabel}>
+                  {t('JOB_PREFERENCES.minimumHourlyRate')}
+                </Text>
+                <ListItem noBorder>
+                  <Left></Left>
                   <Body>
-                    <Text onPress={() => this.setState({ availableOnWeekends: !this.state.availableOnWeekends })} style={styles.weekendsText}>
-                      {t('JOB_PREFERENCES.availableOnWeekends')}
+                    <Text style={styles.sliderValue}>
+                      {`$${this.state.minimumHourlyRatePrev || this.state.minimumHourlyRate}`}
                     </Text>
                   </Body>
-                </Item>
-                <Item style={styles.viewInput} inlineLabel rounded>
-                  <Label style={styles.labelForm}>
-                    {t('JOB_PREFERENCES.hourlyRateLabel')}
-                  </Label>
-                  <Input value={this.state.minimumHourlyRate}
-                        placeholder={t('JOB_PREFERENCES.minimumHourlyRate')}
-                             onChangeText={(text) => this.setState({minimumHourlyRate: text})}/>
-                </Item>
+                  <Right>
+                    <Text style={styles.sliderMaxValue}>
+                      {`$${this.state.maxHourly}`}
+                    </Text>
+                  </Right>
+                </ListItem>
+                <Slider
+                  step={1}
+                  minimumValue={this.state.minHourly}
+                  maximumValue={this.state.maxHourly}
+                  onValueChange={(minimumHourlyRatePrev) => this.setState({minimumHourlyRatePrev})}
+                  onSlidingComplete={this.onHourlySlidingComplete}
+                  value={this.state.minimumHourlyRate}
+                  thumbTintColor={BLUE_DARK}
+                  minimumTrackTintColor={BLUE_DARK}
+                  maximumTrackTintColor={BLUE_MAIN}/>
+
+                <Text style={styles.sliderLabel}>
+                  {t('JOB_PREFERENCES.minimumDistanceOff')}
+                </Text>
+                <ListItem noBorder>
+                  <Left></Left>
+                  <Body>
+                    <Text style={styles.sliderValue}>
+                      {`${this.state.minimumDistanceOffPrev || this.state.minimumDistanceOff}M`}
+                    </Text>
+                  </Body>
+                  <Right>
+                    <Text style={styles.sliderMaxValue}>
+                      {`${this.state.maxDistance}M`}
+                    </Text>
+                  </Right>
+                </ListItem>
+                <Slider
+                  step={1}
+                  minimumValue={this.state.minDistance}
+                  maximumValue={this.state.maxDistance}
+                  onValueChange={(minimumDistanceOffPrev) => this.setState({minimumDistanceOffPrev})}
+                  onSlidingComplete={this.onDistanceSlidingComplete}
+                  value={this.state.minimumDistanceOff}
+                  thumbTintColor={BLUE_DARK}
+                  minimumTrackTintColor={BLUE_DARK}
+                  maximumTrackTintColor={BLUE_MAIN}/>
               </Form>
+
+              <Text style={styles.sliderLabel}>
+                {t('JOB_PREFERENCES.availability')}
+              </Text>
             </FormViewPreferences>
+
+            <Accordion dataArray={[{ title: t('JOB_PREFERENCES.selectAvailability') }]}
+                style={styles.accordionAvailability}
+                renderContent={this._renderAvailability}
+                renderHeader={this._renderHeaderAvailibility}
+              />
 
             <View style={styles.viewCrud}>
               <View style={styles.viewButtomLeft}>
@@ -279,6 +325,28 @@ class JobPreferences extends Component {
         </Content>
       </Container>
     )}</I18n>);
+  }
+
+  /**
+   * Sets the value to minimumHourlyRate and remove the preview value
+   * @param  {number} minimumHourlyRate
+   */
+  onHourlySlidingComplete = (minimumHourlyRate) => {
+    this.setState({
+      minimumHourlyRate,
+      minimumHourlyRatePrev: null,
+    });
+  }
+
+  /**
+   * Sets the value to minimumDistanceOff and remove the preview value
+   * @param  {number} minimumDistanceOff
+   */
+  onDistanceSlidingComplete = (minimumDistanceOff) => {
+    this.setState({
+      minimumDistanceOff,
+      minimumDistanceOffPrev: null,
+    });
   }
 
   getPositions = () => {
@@ -337,9 +405,8 @@ class JobPreferences extends Component {
           this.isLoading(true);
 
           inviteActions.editJobPreferences(
-            this.state.positions.map((position) => position.id),
             this.state.minimumHourlyRate,
-            this.state.availableOnWeekends,
+            this.state.minimumDistanceOff,
           );
         }
       }, ], { cancelable: false }

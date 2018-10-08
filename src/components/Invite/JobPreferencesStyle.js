@@ -8,6 +8,22 @@ export default styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  sliderLabel: {
+    textAlign: 'center',
+    color: BLUE_DARK,
+    marginTop: 20,
+  },
+  sliderValue: {
+    marginLeft: 0,
+    marginRight: 0,
+    textAlign: 'left',
+    color: BLUE_DARK,
+  },
+  sliderMaxValue: {
+    fontSize: 12,
+    textAlign: 'left',
+    color: BLUE_DARK,
+  },
   headerCustom:{
     backgroundColor: BLUE_MAIN,
   },
@@ -58,8 +74,7 @@ export default styles = StyleSheet.create({
     borderColor: 'transparent',
     paddingLeft: 20,
     paddingRight: 20,
-    marginTop:20,
-    marginBottom: 30
+    marginTop: 15,
   },
   textAvailability:{
     textAlign: 'center',
@@ -68,7 +83,7 @@ export default styles = StyleSheet.create({
   },
   accordionPosition:{
     borderColor: 'transparent',
-    marginTop: 10,
+    marginTop: 20,
     paddingLeft: 20,
     paddingRight: 20
   },

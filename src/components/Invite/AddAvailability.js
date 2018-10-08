@@ -1,4 +1,4 @@
-Availabilityimport React, { Component } from "react";
+import React, { Component } from "react";
 import { BLUE_DARK } from '../../constants/colorPalette';
 import {
   View,

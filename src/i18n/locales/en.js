@@ -72,6 +72,7 @@ export default {
     selectPosition: 'Select position',
     availableOnWeekends: 'Available on weekends',
     minimumHourlyRate: 'Minimum hourly rate',
+    minimumDistanceOff: 'Minimum distance off',
     hourlyRateLabel: 'Minimum $/h.',
     dateStartToEnd: 'From {{startingAt}} to {{endingAt}}',
     startDate: 'Start date',

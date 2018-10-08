@@ -74,7 +74,7 @@ const getPositions = () => {
  * Get Job Preferences action
  */
 const getJobPreferences = () => {
-  getData('/employees/3')
+  getData('/employees/me')
     .then((jobPreferences) => {
       Flux.dispatchEvent('GetJobPreferences', jobPreferences);
     })
@@ -84,16 +84,30 @@ const getJobPreferences = () => {
 }
 
 /**
- * Edit jobs preferences action
+ * Edit positions action
  * @param  {Array} positions    positions ids list
- * @param  {string} minimumHourlyRate   hourly rate number as string
- * @param  {boolean} availableOnWeekends if available on weekends
  */
-const editJobPreferences = (positions, minimumHourlyRate, availableOnWeekends) => {
+const editPositions = (positions) => {
+  putData(`/employees`, {
+      "positions": positions,
+    })
+    .then((data) => {
+      Flux.dispatchEvent('EditPositions', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('InviteStoreError', err);
+    });
+}
+
+/**
+ * Edit jobs preferences action
+ * @param  {number} minimumHourlyRate   hourly rate number
+ * @param  {number} minimumDistanceOff minimum distance off jobs
+ */
+const editJobPreferences = (minimumHourlyRate, minimumDistanceOff) => {
   putData(`/employees`, {
       "minimum_hourly_rate": minimumHourlyRate,
-      "available_on_weekends": availableOnWeekends,
-      "positions": positions,
+      "minimum_distance_off": minimumDistanceOff,
     })
     .then((data) => {
       Flux.dispatchEvent('EditJobPreferences', data);
