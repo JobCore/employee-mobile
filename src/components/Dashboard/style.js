@@ -52,18 +52,18 @@ export default styles = StyleSheet.create({
     marginBottom: 70
   },
   viewItemJobsLeft:{
-    width: '50%', 
+    width: '50%',
     justifyContent: 'center',
-    alignItems: 'center', 
-    height: 50, 
+    alignItems: 'center',
+    height: 50,
     marginRight: 5
   },
   viewItemJobsRight:{
-    width: '50%', 
+    width: '50%',
     justifyContent: 'center',
-    alignItems: 'center', 
-    height: 50, 
-    marginLeft: 5 
+    alignItems: 'center',
+    height: 50,
+    marginLeft: 5
   },
   titleItem:{
     color: BLUE_DARK,
@@ -76,8 +76,8 @@ export default styles = StyleSheet.create({
     marginBottom: 10
   },
   itemInvite:{
-    padding: 14, 
-    fontSize: 14, 
+    padding: 14,
+    fontSize: 14,
     color: BLUE_DARK
   },
   itemData:{
@@ -90,27 +90,27 @@ export default styles = StyleSheet.create({
     height: 25
   },
   buttomLeftActive:{
-    backgroundColor: BLUE_MAIN, 
-    borderColor:'transparent', 
-    borderTopLeftRadius: 0, 
+    backgroundColor: BLUE_MAIN,
+    borderColor:'transparent',
+    borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
   },
   buttomLeftDesactive:{
     backgroundColor: 'transparent',
     borderColor: BLUE_MAIN,
-    borderTopLeftRadius: 0, 
+    borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0
   },
   buttomRightDesactive:{
-    backgroundColor: BLUE_MAIN, 
-    borderColor:'transparent', 
-    borderTopRightRadius: 0, 
+    backgroundColor: BLUE_MAIN,
+    borderColor:'transparent',
+    borderTopRightRadius: 0,
     borderBottomRightRadius: 0
   },
   buttomRightDesactive:{
-    backgroundColor: 'transparent', 
-    borderColor: BLUE_MAIN, 
-    borderTopRightRadius: 0, 
+    backgroundColor: 'transparent',
+    borderColor: BLUE_MAIN,
+    borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
   },
   pointActive:{
@@ -120,5 +120,5 @@ export default styles = StyleSheet.create({
     backgroundColor: 'red'
   }
 
-  
+
 });

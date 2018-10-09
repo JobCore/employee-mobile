@@ -94,7 +94,9 @@ class SettingScreen extends Component {
                         </Button>
                     </Left>
                     <Body>
-                    <Title style={styles.titleHeader}>Settings</Title>
+                    <Title style={styles.titleHeader}>
+                      {t('SETTINGS.settings')}
+                    </Title>
                     </Body>
                     <Right/>
                 </Header>

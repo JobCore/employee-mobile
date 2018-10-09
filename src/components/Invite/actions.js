@@ -88,7 +88,7 @@ const getJobPreferences = () => {
  * @param  {Array} positions    positions ids list
  */
 const editPositions = (positions) => {
-  putData(`/employees`, {
+  putData(`/employees/me`, {
       "positions": positions,
     })
     .then((data) => {
@@ -102,12 +102,12 @@ const editPositions = (positions) => {
 /**
  * Edit jobs preferences action
  * @param  {number} minimumHourlyRate   hourly rate number
- * @param  {number} minimumDistanceOff minimum distance off jobs
+ * @param  {number} maximumJobDistanceMiles minimum distance off jobs
  */
-const editJobPreferences = (minimumHourlyRate, minimumDistanceOff) => {
-  putData(`/employees`, {
+const editJobPreferences = (minimumHourlyRate, maximumJobDistanceMiles) => {
+  putData(`/employees/me`, {
       "minimum_hourly_rate": minimumHourlyRate,
-      "minimum_distance_off": minimumDistanceOff,
+      "minimum_job_distance_miles": maximumJobDistanceMiles,
     })
     .then((data) => {
       Flux.dispatchEvent('EditJobPreferences', data);
@@ -171,6 +171,7 @@ export {
   getPositions,
   getJobPreferences,
   editJobPreferences,
+  editPositions,
   getAvailability,
   addAvailability,
   deleteAvailability,

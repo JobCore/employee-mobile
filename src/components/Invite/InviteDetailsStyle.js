@@ -102,19 +102,13 @@ map: {
     marginRight: 5,
   },
   buttomLeft:{
-    backgroundColor: BLUE_MAIN,
-  },
-  textButtomLeft:{
-    color: BLUE_MAIN
+    backgroundColor: VIOLET_MAIN,
   },
   viewButtomRight:{
     width: '50%',
     marginLeft: 5,
   },
   buttomRight:{
-    backgroundColor: VIOLET_MAIN,
-  },
-  textButtomRight:{
-    color: VIOLET_MAIN
+    backgroundColor: BLUE_MAIN,
   },
 });
