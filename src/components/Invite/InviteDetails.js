@@ -136,6 +136,10 @@ class InviteDetails extends Component {
     this.props.navigation.goBack();
   }
 
+  errorHandler = (err) => {
+    this.isLoading(false);
+  }
+
   render() {
     if (this.state.isLoading) {
       return (<View style={styles.container}>
