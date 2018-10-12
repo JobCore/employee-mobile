@@ -48,7 +48,7 @@ export default {
     recoverPassword: 'Recover password',
   },
   JOB_INVITES: {
-    jobOffers: 'Job Invitations',
+    jobOffers: 'Invitations',
     inviteDetails: 'Invitation details',
     applyJob: 'Apply job?',
     rejectJob: 'Reject job?',
@@ -61,7 +61,7 @@ export default {
     hr: 'hr',
   },
   JOB_PREFERENCES: {
-    jobPreferences: 'Job Preferences',
+    jobPreferences: 'Preferences',
     editJobPreferences: 'Edit job preferences?',
     preferencesUpdated: 'Job preferences updated!',
     position: 'Position',

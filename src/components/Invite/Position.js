@@ -7,6 +7,7 @@ import {
   Alert,
   ScrollView,
   Slider,
+  RefreshControl,
 } from "react-native";
 import { Container, Header, Content, Button, Text, Left, Body, Title, Right, Accordion, List, ListItem, Icon, Segment, Item, Input, Form, Label, Toast, Spinner, CheckBox } from 'native-base';
 import styles from './PositionStyle';
@@ -35,6 +36,7 @@ class Position extends Component {
     super(props);
     this.state = {
       isLoading: false,
+      isRefreshing: false,
       positionList: inviteStore.getState('GetPositions') || [],
       positions: Object.assign([], (inviteStore.getState('GetJobPreferences') || {}).positions),
     }
@@ -70,6 +72,7 @@ class Position extends Component {
 
     this.setState({
       positions: data.positions,
+      isRefreshing: false,
     });
   }
 
@@ -85,6 +88,7 @@ class Position extends Component {
   }
 
   errorHandler = (err) => {
+    this.setState({ isRefreshingInvites: false });
     this.isLoading(false);
     Toast.show({
       position: 'top',
@@ -124,7 +128,13 @@ class Position extends Component {
           <Right/>
         </Header>
 
-        <Content padder>
+        <Content
+          refreshControl={
+          <RefreshControl
+            refreshing={this.state.isRefreshing}
+            onRefresh={this.refreshPositions}/>
+          }
+          padder>
         <View style={styles.viewContainer}>
           <Button
              full
@@ -174,6 +184,12 @@ class Position extends Component {
         </Content>
       </Container>
     )}</I18n>);
+  }
+
+  refreshPositions = () => {
+    this.setState({ isRefreshing: false });
+    this.getPositions();
+    this.getJobPreferences();
   }
 
   getPositions = () => {

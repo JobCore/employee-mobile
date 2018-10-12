@@ -1,5 +1,5 @@
 import { StyleSheet, Platform, Dimensions } from 'react-native';
-import { BLUE_MAIN, VIOLET_MAIN, BLUE_DARK, WHITE_MAIN, BLUE_LIGHT, GRAY_LIGHT  } from '../../constants/colorPalette'
+import { BLUE_MAIN, VIOLET_MAIN, BLUE_DARK, WHITE_MAIN, BLUE_LIGHT  } from '../../constants/colorPalette'
 var width = Dimensions.get('window').width;
 
 export default styles = StyleSheet.create({
@@ -13,33 +13,6 @@ export default styles = StyleSheet.create({
     color: BLUE_DARK,
     marginTop: 20,
   },
-  textButton: {
-    textAlign: 'center',
-    color: BLUE_DARK,
-  },
-  viewPositions: {
-    paddingLeft: 20,
-    paddingRight: 20
-  },
-  textPositions: {
-    textAlign: 'center',
-    fontSize: 12,
-    color: GRAY_LIGHT,
-  },
-  buttonRounded: {
-    textAlign: 'center',
-    backgroundColor: BLUE_LIGHT,
-  },
-  viewButtonPosition: {
-    marginTop: 30,
-    paddingLeft: 20,
-    paddingRight: 20
-  },
-  viewButtonAvailability: {
-    marginTop: 40,
-    paddingLeft: 20,
-    paddingRight: 20
-  },
   sliderValue: {
     marginLeft: 0,
     marginRight: 0,
@@ -50,6 +23,10 @@ export default styles = StyleSheet.create({
     fontSize: 12,
     textAlign: 'left',
     color: BLUE_DARK,
+  },
+  buttonPosition: {
+    textAlign: 'center',
+    backgroundColor: BLUE_LIGHT,
   },
   headerCustom:{
     backgroundColor: BLUE_MAIN,
@@ -66,6 +43,11 @@ export default styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20
   },
+  viewContainer: {
+    marginTop: 30,
+    paddingLeft: 20,
+    paddingRight: 20
+  },
   textHeader:{
     color: BLUE_DARK,
     fontSize: 14,
@@ -78,6 +60,8 @@ export default styles = StyleSheet.create({
     borderRadius: 35,
     paddingBottom: 50,
     paddingTop: 5,
+    paddingLeft: 20,
+    paddingRight: 20,
     borderTopColor: 'transparent',
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0
@@ -121,17 +105,16 @@ export default styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 20,
     paddingRight: 20,
-    marginTop: 30,
+    marginTop: 20
   },
   viewButtomLeft:{
     width: '50%',
     marginRight: 5,
   },
   buttomLeft:{
-    backgroundColor: BLUE_DARK,
-  },
-  textButtomLeft:{
-    color: WHITE_MAIN,
+    backgroundColor: 'transparent',
+    borderColor: VIOLET_MAIN,
+    borderWidth: 1
   },
   viewButtomRight:{
     width: '50%',
@@ -139,11 +122,8 @@ export default styles = StyleSheet.create({
   },
   buttomRight:{
     backgroundColor: 'transparent',
-    borderColor: VIOLET_MAIN,
+    borderColor: BLUE_MAIN,
     borderWidth: 1
-  },
-  textButtomRight:{
-    color: VIOLET_MAIN
   },
   viewInput:{
     backgroundColor: 'transparent',
@@ -209,5 +189,29 @@ export default styles = StyleSheet.create({
   },
   labelForm:{
     color: BLUE_DARK
+  },
+  viewCrud:{
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 20,
+    paddingRight: 20,
+    marginTop: '20%',
+    marginBottom: 20,
+    height: 100
+  },
+  viewButtomLeft:{
+    width: '50%',
+    marginRight: 5,
+  },
+  buttomLeft:{
+    backgroundColor: VIOLET_MAIN,
+  },
+  viewButtomRight:{
+    width: '50%',
+    marginLeft: 5,
+  },
+  buttomRight:{
+    backgroundColor: BLUE_MAIN,
   },
 });

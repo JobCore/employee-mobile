@@ -1,5 +1,6 @@
 export const BLUE_MAIN = '#76C5D0'
 export const BLUE_LIGHT = '#CCF3F8'
+export const BLUE_SEMI_LIGHT = '#B2EBF2'
 export const BLUE_DARK = '#27666F'
 export const VIOLET_MAIN = '#B3519E'
 export const GRAY_MAIN = '#6B7374'

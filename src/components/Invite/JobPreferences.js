@@ -11,7 +11,7 @@ import {
 import { Container, Header, Content, Button, Text, Left, Body, Title, Right, Accordion, List, ListItem, Icon, Segment, Item, Input, Form, Label, Toast, Spinner, CheckBox } from 'native-base';
 import styles from './JobPreferencesStyle';
 import { BLUE_DARK, BLUE_LIGHT, BLUE_MAIN } from '../../constants/colorPalette'
-import { TABBAR_ROUTE, SETTING_ROUTE, ADD_AVAILABILITY_ROUTE, POSITION_ROUTE } from "../../constants/routes";
+import { TABBAR_ROUTE, SETTING_ROUTE, AVAILABILITY_ROUTE, POSITION_ROUTE } from "../../constants/routes";
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import { I18n } from 'react-i18next';
@@ -60,15 +60,13 @@ class JobPreferences extends Component {
       .subscribe('EditJobPreferences', (data) => this.editJobPreferencesHandler(data));
     this.getAvailabilitySubscription = inviteStore
       .subscribe('GetAvailability', (data) => this.getAvailabilityHandler(data));
-    this.deleteAvailabilitySubscription = inviteStore
-      .subscribe('DeleteAvailability', (data) => this.deleteAvailabilityHandler(data));
     this.inviteStoreError = inviteStore
       .subscribe('InviteStoreError', (err) => this.errorHandler(err));
 
     this.isLoading(true);
     this.getPositions();
     this.getJobPreferences();
-    // this.getAvailability();
+    this.getAvailability();
   }
 
   getPositionsHandler = (positionList) => {
@@ -86,14 +84,7 @@ class JobPreferences extends Component {
   }
 
   editJobPreferencesHandler = (data) => {
-    this.getJobPreferences();
-
-    Toast.show({
-      position: 'top',
-      type: "success",
-      text: i18next.t('JOB_PREFERENCES.preferencesUpdated'),
-      duration: 4000,
-    });
+    LOG(this, 'Preferences updated');
   }
 
   getAvailabilityHandler = (data) => {
@@ -127,52 +118,7 @@ class JobPreferences extends Component {
     this.getJobPreferencesSubscription.unsubscribe();
     this.editJobPreferencesSubscription.unsubscribe();
     this.getAvailabilitySubscription.unsubscribe();
-    this.deleteAvailabilitySubscription.unsubscribe();
     this.inviteStoreError.unsubscribe();
-  }
-
-  _renderHeaderAvailibility() {
-    return (<I18n>{(t, { i18n }) => (
-      <View style={styles.viewHeader}>
-        <Text style={styles.textHeader}>
-          {t('JOB_PREFERENCES.selectAvailability')}
-        </Text>
-      </View>
-    )}</I18n>);
-  }
-
-  _renderAvailability = () => {
-    return (<I18n>{(t, { i18n }) => (
-      <ScrollView style={styles.contentScroll}>
-      <List style={{marginBottom: 30, paddingLeft: 0,}}>
-        <ListItem onPress={() => this.props.navigation.navigate(ADD_AVAILABILITY_ROUTE)} style={styles.itemSelectCheck}>
-          <Left>
-            <Text style={styles.textList}>
-              {i18next.t('JOB_PREFERENCES.addAvailability')}
-            </Text>
-          </Left>
-          <Right>
-            <Icon name="ios-add-circle" style={{fontSize: 20, color: BLUE_DARK}}/>
-          </Right>
-        </ListItem>
-
-        {(Array.isArray(this.state.availability)) ?
-         this.state.availability.map((availability) =>
-        <ListItem onPress={() => this.deleteAvailability(availability)} key={availability.id} style={styles.itemSelectCheck}>
-          <Left>
-            <Text style={styles.textList}>{t('JOB_PREFERENCES.dateStartToEnd', {
-              startingAt: moment(availability.starting_at).format('lll'),
-              endingAt: moment(availability.ending_at).format('lll'),
-            })}</Text>
-          </Left>
-          <Right>
-            <Icon name="ios-trash" style={{fontSize: 20, color: BLUE_DARK}}/>
-          </Right>
-        </ListItem>)
-       : null}
-      </List>
-    </ScrollView>
-    )}</I18n>);
   }
 
   render() {
@@ -294,8 +240,8 @@ class JobPreferences extends Component {
             </FormViewPreferences>
 
             <View style={styles.viewButtonAvailability}>
-              <Button /*onPress={() =>
-              this.props.navigation.navigate(AVAILABILITY_ROUTE)}*/
+              <Button onPress={() =>
+              this.props.navigation.navigate(AVAILABILITY_ROUTE)}
                full
                rounded
                style={styles.buttonRounded}>
@@ -303,17 +249,6 @@ class JobPreferences extends Component {
                 {t('JOB_PREFERENCES.availability')}
                 </Text>
               </Button>
-            </View>
-
-            <View style={styles.viewCrud}>
-              <View style={styles.viewButtomLeft}>
-                <Button onPress={this.editJobPreferences}
-                  style={styles.buttomLeft} full rounded>
-                  <Text style={styles.textButtomLeft}>
-                    {t('JOB_PREFERENCES.save')}
-                  </Text>
-                </Button>
-              </View>
             </View>
           </ScrollView>
         </Content>
@@ -330,6 +265,8 @@ class JobPreferences extends Component {
       minimumHourlyRate,
       minimumHourlyRatePrev: null,
     });
+
+    this.editJobPreferences();
   }
 
   /**
@@ -341,32 +278,12 @@ class JobPreferences extends Component {
       maximumJobDistanceMiles,
       maximumJobDistanceMilesPrev: null,
     });
+
+    this.editJobPreferences();
   }
 
   getPositions = () => {
     inviteActions.getPositions();
-  }
-
-  /**
-   * Select or unselect position based on isPositionSelected
-   * @param  {object}  position           the position
-   * @param  {Boolean} isPositionSelected if the position is selected
-   */
-  selectUnselectPosition = (position, isPositionSelected) => {
-    let positionsCopy;
-
-    if (isPositionSelected) {
-      positionsCopy = this.state.positions.filter(e => e.id !== position.id);
-    }
-
-    if (!isPositionSelected) {
-      positionsCopy = this.state.positions;
-      positionsCopy.push(position);
-    }
-
-    if (Array.isArray(positionsCopy)) {
-      this.setState({ positions: positionsCopy });
-    }
   }
 
   isPositionSelected = (position) => {
@@ -386,49 +303,14 @@ class JobPreferences extends Component {
   }
 
   editJobPreferences = () => {
-    Alert.alert(
-      i18next.t('JOB_PREFERENCES.editJobPreferences'),
-      '', [{
-        text: i18next.t('APP.cancel'),
-        onPress: () => {
-          LOG(this, 'Cancel editJobPreferences');
-        }
-      }, {
-        text: i18next.t('JOB_PREFERENCES.update'),
-        onPress: () => {
-          this.isLoading(true);
-
-          inviteActions.editJobPreferences(
-            String(this.state.minimumHourlyRate),
-            this.state.maximumJobDistanceMiles,
-          );
-        }
-      }, ], { cancelable: false }
+    inviteActions.editJobPreferences(
+      String(this.state.minimumHourlyRate),
+      this.state.maximumJobDistanceMiles,
     );
   }
 
   getAvailability = () => {
     inviteActions.getAvailability();
-  }
-
-  deleteAvailability = (availability) => {
-    if (!availability) return;
-
-    Alert.alert(
-      i18next.t('JOB_PREFERENCES.deleteAvailability'),
-      '', [{
-        text: i18next.t('APP.cancel'),
-        onPress: () => {
-          LOG(this, 'Cancel deleteAvailability');
-        }
-      }, {
-        text: i18next.t('JOB_PREFERENCES.delete'),
-        onPress: () => {
-          this.isLoading(true);
-          inviteActions.deleteAvailability(availability.id);
-        }
-      }, ], { cancelable: false }
-    )
   }
 
   isLoading = (isLoading) => {

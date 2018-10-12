@@ -91,6 +91,7 @@ class JobInvites extends Component {
 
   errorHandler = (err) => {
     this.isLoading(false);
+    this.setState({ isRefreshingInvites: false });
     Toast.show({
       position: 'top',
       type: "danger",
