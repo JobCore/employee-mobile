@@ -102,7 +102,7 @@ const editPositions = (positions) => {
 /**
  * Edit jobs preferences action
  * @param  {number} minimumHourlyRate   hourly rate number
- * @param  {number} maximumJobDistanceMiles minimum distance off jobs
+ * @param  {number} maximumJobDistanceMiles maximum distance off jobs
  */
 const editJobPreferences = (minimumHourlyRate, maximumJobDistanceMiles) => {
   putData(`/employees/me`, {
