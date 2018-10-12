@@ -11,7 +11,7 @@ import {
 import { Container, Header, Content, Button, Text, Left, Body, Title, Right, Accordion, List, ListItem, Icon, Segment, Item, Input, Form, Label, Toast, Spinner, CheckBox } from 'native-base';
 import styles from './JobPreferencesStyle';
 import { BLUE_DARK, BLUE_LIGHT, BLUE_MAIN } from '../../constants/colorPalette'
-import { TABBAR_ROUTE, SETTING_ROUTE, ADD_AVAILABILITY_ROUTE } from "../../constants/routes";
+import { TABBAR_ROUTE, SETTING_ROUTE, ADD_AVAILABILITY_ROUTE, POSITION_ROUTE } from "../../constants/routes";
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import { I18n } from 'react-i18next';
@@ -41,11 +41,11 @@ class JobPreferences extends Component {
       availability: [],
       minimumHourlyRate: 0,
       minimumHourlyRatePrev: null,
-      minHourly: 1,
-      maxHourly: 20,
-      minimumDistanceOff: 0,
-      minimumDistanceOffPrev: null,
-      minDistance: 1,
+      minHourly: 8,
+      maxHourly: 60,
+      maximumJobDistanceMiles: 0,
+      maximumJobDistanceMilesPrev: null,
+      minDistance: 10,
       maxDistance: 100,
       availableOnWeekends: false,
     }
@@ -68,7 +68,7 @@ class JobPreferences extends Component {
     this.isLoading(true);
     this.getPositions();
     this.getJobPreferences();
-    this.getAvailability();
+    // this.getAvailability();
   }
 
   getPositionsHandler = (positionList) => {
@@ -80,8 +80,8 @@ class JobPreferences extends Component {
 
     this.setState({
       positions: data.positions,
-      minimumHourlyRate: data.minimum_hourly_rate,
-      minimumDistanceOff: data.minimum_distance_off,
+      minimumHourlyRate: Number(data.minimum_hourly_rate),
+      maximumJobDistanceMiles: data.maximum_job_distance_miles,
     });
   }
 
@@ -131,16 +131,6 @@ class JobPreferences extends Component {
     this.inviteStoreError.unsubscribe();
   }
 
-  _renderHeaderPosition() {
-    return (<I18n>{(t, { i18n }) => (
-      <View style={styles.viewHeader}>
-        <Text style={styles.textHeader}>
-          {t('JOB_PREFERENCES.selectPosition')}
-        </Text>
-      </View>
-    )}</I18n>);
-  }
-
   _renderHeaderAvailibility() {
     return (<I18n>{(t, { i18n }) => (
       <View style={styles.viewHeader}>
@@ -149,30 +139,6 @@ class JobPreferences extends Component {
         </Text>
       </View>
     )}</I18n>);
-  }
-
-  _renderPosition = () => {
-    return (
-      <ScrollView style={styles.contentScroll}>
-      <List style={{marginBottom: 30, paddingLeft: 0,}}>
-        {(Array.isArray(this.state.positionList)) ?
-         this.state.positionList.map((position) => {
-           const isPositionSelected = this.isPositionSelected(position);
-
-        return (<ListItem onPress={() => this.selectUnselectPosition(position, isPositionSelected)} key={position.id} selected={isPositionSelected} style={styles.itemSelectCheck}>
-          <Left>
-            <Text style={styles.textList}>{position.title}</Text>
-          </Left>
-          <Right>
-            <Icon name={(isPositionSelected)
-              ? "ios-checkmark-circle"
-              : "ios-radio-button-off" } style={{fontSize: 20, color: BLUE_DARK}}/>
-          </Right>
-        </ListItem>)})
-       : null}
-      </List>
-    </ScrollView>
-    );
   }
 
   _renderAvailability = () => {
@@ -237,11 +203,37 @@ class JobPreferences extends Component {
 
         <Content padder>
           <ScrollView>
-          <Accordion dataArray={[{ title: t('JOB_PREFERENCES.selectPosition') }]}
-            style={styles.accordionPosition}
-            renderContent={this._renderPosition}
-            renderHeader={this._renderHeaderPosition}
-          />
+            <View style={styles.viewButtonPosition}>
+              <Button onPress={() =>
+               this.props.navigation.navigate(POSITION_ROUTE)}
+               full
+               rounded
+               style={styles.buttonRounded}>
+                <Text uppercase={false} style={styles.textButton}>
+                  {t('JOB_PREFERENCES.position')}
+                </Text>
+              </Button>
+
+
+              {(Array.isArray(this.state.positions)) ?
+                <View style={styles.viewPositions}>
+                  <Text>
+                   {this.state.positions.map((position, index) => {
+                     const isLast = (index ===
+                       this.state.positions.length - 1)
+                       ? true
+                       : false
+
+                       return(
+                         <Text style={styles.textPositions} key={index}>
+                           {`${position.title}${(!isLast) ? ', ' : ' '}`}
+                         </Text>
+                       );
+                   })}
+                 </Text>
+               </View>
+               : null }
+            </View>
 
             <FormViewPreferences>
               <Form>
@@ -273,13 +265,13 @@ class JobPreferences extends Component {
                   maximumTrackTintColor={BLUE_MAIN}/>
 
                 <Text style={styles.sliderLabel}>
-                  {t('JOB_PREFERENCES.minimumDistanceOff')}
+                  {t('JOB_PREFERENCES.maximumJobDistanceMiles')}
                 </Text>
                 <ListItem noBorder>
                   <Left></Left>
                   <Body>
                     <Text style={styles.sliderValue}>
-                      {`${this.state.minimumDistanceOffPrev || this.state.minimumDistanceOff}M`}
+                      {`${this.state.maximumJobDistanceMilesPrev || this.state.maximumJobDistanceMiles}M`}
                     </Text>
                   </Body>
                   <Right>
@@ -292,24 +284,26 @@ class JobPreferences extends Component {
                   step={1}
                   minimumValue={this.state.minDistance}
                   maximumValue={this.state.maxDistance}
-                  onValueChange={(minimumDistanceOffPrev) => this.setState({minimumDistanceOffPrev})}
+                  onValueChange={(maximumJobDistanceMilesPrev) => this.setState({maximumJobDistanceMilesPrev})}
                   onSlidingComplete={this.onDistanceSlidingComplete}
-                  value={this.state.minimumDistanceOff}
+                  value={this.state.maximumJobDistanceMiles}
                   thumbTintColor={BLUE_DARK}
                   minimumTrackTintColor={BLUE_DARK}
                   maximumTrackTintColor={BLUE_MAIN}/>
               </Form>
-
-              <Text style={styles.sliderLabel}>
-                {t('JOB_PREFERENCES.availability')}
-              </Text>
             </FormViewPreferences>
 
-            <Accordion dataArray={[{ title: t('JOB_PREFERENCES.selectAvailability') }]}
-                style={styles.accordionAvailability}
-                renderContent={this._renderAvailability}
-                renderHeader={this._renderHeaderAvailibility}
-              />
+            <View style={styles.viewButtonAvailability}>
+              <Button /*onPress={() =>
+              this.props.navigation.navigate(AVAILABILITY_ROUTE)}*/
+               full
+               rounded
+               style={styles.buttonRounded}>
+                <Text uppercase={false} style={styles.textButton}>
+                {t('JOB_PREFERENCES.availability')}
+                </Text>
+              </Button>
+            </View>
 
             <View style={styles.viewCrud}>
               <View style={styles.viewButtomLeft}>
@@ -339,13 +333,13 @@ class JobPreferences extends Component {
   }
 
   /**
-   * Sets the value to minimumDistanceOff and remove the preview value
-   * @param  {number} minimumDistanceOff
+   * Sets the value to maximumJobDistanceMiles and remove the preview value
+   * @param  {number} maximumJobDistanceMiles
    */
-  onDistanceSlidingComplete = (minimumDistanceOff) => {
+  onDistanceSlidingComplete = (maximumJobDistanceMiles) => {
     this.setState({
-      minimumDistanceOff,
-      minimumDistanceOffPrev: null,
+      maximumJobDistanceMiles,
+      maximumJobDistanceMilesPrev: null,
     });
   }
 
@@ -405,8 +399,8 @@ class JobPreferences extends Component {
           this.isLoading(true);
 
           inviteActions.editJobPreferences(
-            this.state.minimumHourlyRate,
-            this.state.minimumDistanceOff,
+            String(this.state.minimumHourlyRate),
+            this.state.maximumJobDistanceMiles,
           );
         }
       }, ], { cancelable: false }

@@ -136,6 +136,10 @@ class InviteDetails extends Component {
     this.props.navigation.goBack();
   }
 
+  errorHandler = (err) => {
+    this.isLoading(false);
+  }
+
   render() {
     if (this.state.isLoading) {
       return (<View style={styles.container}>
@@ -225,14 +229,14 @@ class InviteDetails extends Component {
                 <Content>
                 <View style={styles.viewCrud}>
                           <View style={styles.viewButtomLeft}>
-                              <Button onPress={this.applyJob}
+                              <Button onPress={this.rejectJob}
                                   style={styles.buttomLeft} full rounded>
-                                  <Text>{t('JOB_INVITES.apply')}</Text>
+                                  <Text>{t('JOB_INVITES.reject')}</Text>
                               </Button>
                           </View>
                           <View style={styles.viewButtomRight}>
-                              <Button onPress={this.rejectJob} style={styles.buttomRight} full rounded>
-                              <Text>{t('JOB_INVITES.reject')}</Text>
+                              <Button onPress={this.applyJob} style={styles.buttomRight} full rounded>
+                              <Text>{t('JOB_INVITES.apply')}</Text>
                               </Button>
                           </View>
                       </View>
