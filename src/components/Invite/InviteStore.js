@@ -20,11 +20,13 @@ class InviteStore extends FluxStore {
 
     this.addEvent('EditJobPreferences');
 
-    this.addEvent('GetUnavailability');
+    this.addEvent('EditPositions');
 
-    this.addEvent('AddUnavailability');
+    this.addEvent('GetAvailability');
 
-    this.addEvent('DeleteUnavailability');
+    this.addEvent('AddAvailability');
+
+    this.addEvent('DeleteAvailability');
 
     this.addEvent('InviteStoreError', nextState => {
       LOG(this, nextState);
