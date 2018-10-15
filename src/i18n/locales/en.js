@@ -28,7 +28,9 @@ export default {
   },
   EDIT_PROFILE: {
     editProfile: 'Edit profile',
+    wantToEditProfile: 'Edit profile?',
     profileUpdated: 'Profile updated!',
+    update: 'Update',
   },
   SETTINGS: {
     settings: 'Settings',

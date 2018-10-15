@@ -9,7 +9,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   TextInput,
-  ScrollView
+  ScrollView,
+  Alert,
 } from "react-native";
 import { Container, Item, Input, Button, Text, Form, Label, Spinner, Toast } from 'native-base';
 import { LOGIN_ROUTE, APP_ROUTE } from "../../constants/routes";
@@ -19,6 +20,7 @@ import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import { FormView } from "../../utils/platform";
+import { LOG, WARN, ERROR } from "../../utils";
 
 class RegisterScreen extends Component {
   static navigationOptions = { header: null }
@@ -144,14 +146,27 @@ class RegisterScreen extends Component {
   }
 
   editProfile = () => {
-    const user = accountStore.getState('Login').user || {};
+    Alert.alert(
+      i18next.t('EDIT_PROFILE.wantToEditProfile'),
+      '', [{
+        text: i18next.t('APP.cancel'),
+        onPress: () => {
+          LOG(this, 'Cancel edit profile');
+        }
+      }, {
+        text: i18next.t('EDIT_PROFILE.update'),
+        onPress: () => {
+          const user = accountStore.getState('Login').user || {};
 
-    this.isLoading(true);
+          this.isLoading(true);
 
-    actions.editProfile(
-      user.id,
-      this.state.firstName,
-      this.state.lastName,
+          actions.editProfile(
+            user.id,
+            this.state.firstName,
+            this.state.lastName,
+          );
+        }
+      }, ], { cancelable: false }
     );
   }
 
