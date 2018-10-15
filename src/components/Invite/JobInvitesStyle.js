@@ -28,8 +28,8 @@ export default styles = StyleSheet.create({
     backgroundColor: VIOLET_MAIN
   },
   viewListItem:{
-    paddingLeft: 50,
-    paddingRight: 50
+    marginLeft: 30,
+    marginRight: 30
   },
   viewDataOffers:{
     flexDirection: 'column',

@@ -91,6 +91,7 @@ class JobInvites extends Component {
 
   errorHandler = (err) => {
     this.isLoading(false);
+    this.setState({ isRefreshingInvites: false });
     Toast.show({
       position: 'top',
       type: "danger",
@@ -128,13 +129,13 @@ class JobInvites extends Component {
             </Button>
           </Right>
         </Header>
-        <Content>
+        <Content
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.isRefreshingInvites}
+              onRefresh={this.refreshInvites}/>
+          }>
           <List
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.isRefreshingInvites}
-                onRefresh={this.refreshInvites}/>
-            }
             leftOpenValue={75}
             rightOpenValue={-75}
             dataSource={this.ds.cloneWithRows(this.state.jobInvites)}
