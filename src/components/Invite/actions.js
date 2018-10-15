@@ -107,7 +107,7 @@ const editPositions = (positions) => {
 const editJobPreferences = (minimumHourlyRate, maximumJobDistanceMiles) => {
   putData(`/employees/me`, {
       "minimum_hourly_rate": minimumHourlyRate,
-      "minimum_job_distance_miles": maximumJobDistanceMiles,
+      "maximum_job_distance_miles": maximumJobDistanceMiles,
     })
     .then((data) => {
       Flux.dispatchEvent('EditJobPreferences', data);
@@ -121,7 +121,7 @@ const editJobPreferences = (minimumHourlyRate, maximumJobDistanceMiles) => {
  * List availability action
  */
 const getAvailability = () => {
-  getData('/employees/availability')
+  getData('/employees/me/availability')
     .then((availability) => {
       Flux.dispatchEvent('GetAvailability', availability);
     })
@@ -134,10 +134,12 @@ const getAvailability = () => {
  * Add availability action
  * @param {date} startingAt start date
  * @param {date} endingAt   end date
- * @param {date} availabilityId  the block id
+ * @param {boolean} allday  if available all day
+ * @param {string || number} availabilityId  the block id
  */
-const editAvailability = (startingAt, endingAt, availabilityId) => {
-  putData(`/employees/availability/${availabilityId}`, {
+const editAvailability = (startingAt, endingAt, allday, availabilityId) => {
+  putData(`/employees/me/availability/${availabilityId}`, {
+      "allday": allday,
       "starting_at": startingAt,
       "ending_at": endingAt,
     })

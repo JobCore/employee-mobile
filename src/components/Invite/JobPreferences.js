@@ -7,6 +7,7 @@ import {
   Alert,
   ScrollView,
   Slider,
+  RefreshControl,
 } from "react-native";
 import { Container, Header, Content, Button, Text, Left, Body, Title, Right, Accordion, List, ListItem, Icon, Segment, Item, Input, Form, Label, Toast, Spinner, CheckBox } from 'native-base';
 import styles from './JobPreferencesStyle';
@@ -36,6 +37,7 @@ class JobPreferences extends Component {
     super(props);
     this.state = {
       isLoading: false,
+      isRefreshing: false,
       positionList: [],
       positions: [],
       availability: [],
@@ -69,12 +71,21 @@ class JobPreferences extends Component {
     this.getAvailability();
   }
 
+  componentWillUnmount() {
+    this.getPositionsSubscription.unsubscribe();
+    this.getJobPreferencesSubscription.unsubscribe();
+    this.editJobPreferencesSubscription.unsubscribe();
+    this.getAvailabilitySubscription.unsubscribe();
+    this.inviteStoreError.unsubscribe();
+  }
+
   getPositionsHandler = (positionList) => {
     this.setState({ positionList });
   }
 
   getJobPreferencesHandler = (data) => {
     this.isLoading(false);
+    this.setState({ isRefreshing: false });
 
     this.setState({
       positions: data.positions,
@@ -91,34 +102,15 @@ class JobPreferences extends Component {
     this.setState({ availability: data });
   }
 
-  deleteAvailabilityHandler = () => {
-    this.isLoading(false);
-    this.getAvailability();
-
-    Toast.show({
-      position: 'top',
-      type: "success",
-      text: i18next.t('JOB_PREFERENCES.availabilityDeleted'),
-      duration: 4000,
-    });
-  }
-
   errorHandler = (err) => {
     this.isLoading(false);
+    this.setState({ isRefreshing: false });
     Toast.show({
       position: 'top',
       type: "danger",
       text: JSON.stringify(err),
       duration: 4000,
     });
-  }
-
-  componentWillUnmount() {
-    this.getPositionsSubscription.unsubscribe();
-    this.getJobPreferencesSubscription.unsubscribe();
-    this.editJobPreferencesSubscription.unsubscribe();
-    this.getAvailabilitySubscription.unsubscribe();
-    this.inviteStoreError.unsubscribe();
   }
 
   render() {
@@ -147,7 +139,12 @@ class JobPreferences extends Component {
           </Right>
         </Header>
 
-        <Content padder>
+        <Content padder
+          refreshControl={
+          <RefreshControl
+            refreshing={this.state.isRefreshing}
+            onRefresh={this.refreshPreferences}/>
+          }>
           <ScrollView>
             <View style={styles.viewButtonPosition}>
               <Button onPress={() =>
@@ -249,11 +246,38 @@ class JobPreferences extends Component {
                 {t('JOB_PREFERENCES.availability')}
                 </Text>
               </Button>
+
+              {(Array.isArray(this.state.availability)) ?
+                <View style={styles.viewPositions}>
+                  <Text>
+                   {this.state.availability.map((block, index) => {
+                     const isLast = (index ===
+                       this.state.availability.length - 1)
+                       ? true
+                       : false
+
+                       return(
+                         <Text style={styles.textPositions} key={index}>
+                           {`${moment(block.starting_at).format('dddd: h:mma')}${(!isLast) ? ', ' : ' '}`}
+                         </Text>
+                       );
+                   })}
+                 </Text>
+               </View>
+               : null }
             </View>
+
           </ScrollView>
         </Content>
       </Container>
     )}</I18n>);
+  }
+
+  refreshPreferences = () => {
+    this.setState({ isRefreshing: true });
+    this.getPositions();
+    this.getJobPreferences();
+    this.getAvailability();
   }
 
   /**
@@ -264,9 +288,7 @@ class JobPreferences extends Component {
     this.setState({
       minimumHourlyRate,
       minimumHourlyRatePrev: null,
-    });
-
-    this.editJobPreferences();
+    }, this.editJobPreferences);
   }
 
   /**
@@ -277,9 +299,7 @@ class JobPreferences extends Component {
     this.setState({
       maximumJobDistanceMiles,
       maximumJobDistanceMilesPrev: null,
-    });
-
-    this.editJobPreferences();
+    }, this.editJobPreferences);
   }
 
   getPositions = () => {

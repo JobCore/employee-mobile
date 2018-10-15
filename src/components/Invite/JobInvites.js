@@ -129,13 +129,13 @@ class JobInvites extends Component {
             </Button>
           </Right>
         </Header>
-        <Content>
+        <Content
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.isRefreshingInvites}
+              onRefresh={this.refreshInvites}/>
+          }>
           <List
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.isRefreshingInvites}
-                onRefresh={this.refreshInvites}/>
-            }
             leftOpenValue={75}
             rightOpenValue={-75}
             dataSource={this.ds.cloneWithRows(this.state.jobInvites)}

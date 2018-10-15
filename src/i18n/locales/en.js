@@ -2,6 +2,7 @@ export default {
   APP: {
     cancel: 'cancel',
     goBack: 'Go back',
+    to: 'to',
   },
   LOGIN: {
     signIn: 'Sign In',
@@ -82,6 +83,8 @@ export default {
     selectStartDate: 'Select start date',
     selectendDate: 'Select end date',
     deleteAvailability: 'Delete availability?',
+    allday: 'All day',
+    orSpecificTime: 'Or specific time',
     update: 'update',
     delete: 'delete',
     save: 'Save',

@@ -24,6 +24,38 @@ export default styles = StyleSheet.create({
     textAlign: 'left',
     color: BLUE_DARK,
   },
+  radioButtonLeft: {
+    color: BLUE_DARK,
+    marginLeft: 10,
+    marginRight: 7,
+  },
+  radioButtonRight: {
+    color: BLUE_DARK,
+    marginLeft: 7,
+    marginRight: 10,
+  },
+  textAlldayOr: {
+    color: BLUE_DARK,
+    textAlign: 'center',
+    fontSize: 12,
+  },
+  textDay: {
+    textAlign: 'left',
+    color: BLUE_DARK,
+  },
+  textHour: {
+    color: BLUE_DARK,
+  },
+  buttonHour: {
+    borderColor: BLUE_DARK,
+  },
+  textToView: {
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  textTo: {
+    color: BLUE_DARK,
+  },
   buttonPosition: {
     textAlign: 'center',
     backgroundColor: BLUE_LIGHT,
@@ -44,7 +76,7 @@ export default styles = StyleSheet.create({
     paddingRight: 20
   },
   viewContainer: {
-    marginTop: 30,
+    marginTop: 20,
     paddingLeft: 20,
     paddingRight: 20
   },
@@ -53,23 +85,10 @@ export default styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center'
   },
-  contentScroll:{
-    height: 350,
-    borderWidth: 1,
-    borderColor: BLUE_MAIN,
-    borderRadius: 35,
-    paddingBottom: 50,
-    paddingTop: 5,
-    paddingLeft: 20,
-    paddingRight: 20,
-    borderTopColor: 'transparent',
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0
-  },
   itemSelectCheck:{
     marginLeft: 0,
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 20,
   },
   IconCheck:{
     fontSize: 20,

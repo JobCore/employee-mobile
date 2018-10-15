@@ -24,7 +24,7 @@ class InviteStore extends FluxStore {
 
     this.addEvent('GetAvailability');
 
-    this.addEvent('AddAvailability');
+    this.addEvent('EditAvailability');
 
     this.addEvent('DeleteAvailability');
 

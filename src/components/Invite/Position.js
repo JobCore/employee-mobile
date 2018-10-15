@@ -85,6 +85,8 @@ class Position extends Component {
       text: i18next.t('JOB_PREFERENCES.positionUpdated'),
       duration: 4000,
     });
+
+    this.props.navigation.goBack();
   }
 
   errorHandler = (err) => {
