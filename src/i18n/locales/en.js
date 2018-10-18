@@ -2,6 +2,7 @@ export default {
   APP: {
     cancel: 'cancel',
     goBack: 'Go back',
+    noInternet: 'Please check your internet connection and try again.',
     to: 'to',
   },
   LOGIN: {
