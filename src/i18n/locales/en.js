@@ -70,6 +70,8 @@ export default {
     position: 'Position',
     editPosition: 'Edit position',
     positionUpdated: 'Position updated',
+    invalidPositions: 'Invalid positions',
+    youMustSelectOnePosition: 'You must select at least one position',
     availability: 'Availability',
     addAvailability: 'Add availability',
     availabilityAdded: 'Availability added!',
