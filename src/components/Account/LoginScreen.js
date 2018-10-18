@@ -79,10 +79,15 @@ class LoginScreen extends Component {
 
   errorHandler = (err) => {
     this.isLoading(false);
+
+    if (err && typeof(err) !== 'string') {
+      err = json.stringify(err);
+    }
+
     Toast.show({
       position: 'top',
       type: "danger",
-      text: JSON.stringify(err),
+      text: err,
       duration: 4000,
     });
   }
