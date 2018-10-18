@@ -107,8 +107,8 @@ class InviteDetails extends Component {
     let longitude;
 
     try {
-      latitude = invite.venue.latitude;
-      longitude = invite.venue.longitude;
+      latitude = invite.venue.latitude || DEFAULT_LATIDUDE;
+      longitude = invite.venue.longitude || DEFAULT_LONGITUDE;
     } catch (e) {
       LOG(this, `No latLng: ${JSON.stringify(e)}`);
 
