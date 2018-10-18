@@ -92,12 +92,6 @@ class Position extends Component {
   errorHandler = (err) => {
     this.setState({ isRefreshingInvites: false });
     this.isLoading(false);
-    Toast.show({
-      position: 'top',
-      type: "danger",
-      text: JSON.stringify(err),
-      duration: 4000,
-    });
   }
 
   componentWillUnmount() {
