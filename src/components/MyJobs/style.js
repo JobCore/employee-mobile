@@ -4,6 +4,11 @@ import { BLUE_MAIN, VIOLET_MAIN, BLACK_MAIN, GREEN_MAIN, BLUE_DARK, WHITE_MAIN }
 var width = Dimensions.get('window').width;
 
 export default styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   headerCustom:{
     backgroundColor: BLUE_MAIN,
   },

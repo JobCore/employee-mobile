@@ -3,10 +3,9 @@ import {
   View,
   StyleSheet,
   Image,
-
   RefreshControl,
 } from "react-native";
-import { Container, Header, Content, Button, Text, Left, Body, Title, Right, Segment, List, ListItem, Icon, Switch, Toast } from 'native-base';
+import { Container, Header, Content, Button, Text, Left, Body, Title, Right, Segment, List, ListItem, Icon, Switch, Spinner } from 'native-base';
 import styles from './style'
 import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN } from "../../constants/colorPalette";
 import { SETTING_ROUTE } from "../../constants/routes";
@@ -14,6 +13,7 @@ import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as jobActions from './actions';
 import { LOG, WARN, ERROR, equalMonthAndYear } from "../../utils";
+import { CustomToast } from '../../utils/components';
 import jobStore from './JobStore';
 import moment from 'moment';
 
@@ -32,6 +32,7 @@ class MyJobs extends Component {
     super(props);
     this.state = {
       isLoading: false,
+      isLoadingJobs: false,
       isRefreshing: false,
       jobs: [],
       jobFilterSelected: 'getPendingJobs',
@@ -96,21 +97,29 @@ class MyJobs extends Component {
 
   getJobsHandler = (jobs) => {
     this.isLoading(false);
-    this.setState({ jobs, isRefreshing: false });
+    this.setState({
+      jobs,
+      isRefreshing: false,
+      isLoadingJobs: false,
+    });
   }
 
   errorHandler = (err) => {
     this.isLoading(false);
-    this.setState({ isRefreshing: false });
-    Toast.show({
-      position: 'top',
-      type: "danger",
-      text: JSON.stringify(err),
-      duration: 4000,
+    this.setState({
+      isRefreshing: false,
+      isLoadingJobs: false,
     });
+    CustomToast(err, 'danger');
   }
 
   render() {
+    if (this.state.isLoading) {
+      return (<View style={styles.container}>
+                  <Spinner color={BLUE_DARK}/>
+              </View>);
+    }
+
     return (<I18n>{(t, { i18n }) => (
       <Container>
         <Header androidStatusBarColor={BLUE_MAIN} style={styles.headerCustom}>
@@ -219,6 +228,8 @@ class MyJobs extends Component {
    * @param  {string} jobFilterSelected the filter action to execute
    */
   selectJobFilter = (jobFilterSelected) => {
+    if (this.state.isLoadingJobs) return;
+
     this.setState({ jobFilterSelected }, this.getJobs);
   }
 
@@ -228,6 +239,7 @@ class MyJobs extends Component {
   getJobs() {
     if (typeof(jobActions[this.state.jobFilterSelected]) !== 'function') return;
 
+    this.setState({ isLoadingJobs: true });
     jobActions[this.state.jobFilterSelected]();
   }
 

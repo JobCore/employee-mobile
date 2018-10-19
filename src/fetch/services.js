@@ -160,8 +160,6 @@ export function postFormData(url, formData, isAuth = true) {
 reject or resolve based on status then Parses the response to json
  */
 function checkStatus(response) {
-  LOG(this, response);
-
   if (response.status === 401 || response.status === 403) {
     Flux.dispatchEvent('Logout', {});
   }
