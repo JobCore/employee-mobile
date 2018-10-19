@@ -171,13 +171,6 @@ class MyJobs extends Component {
                  array[index-1].starting_at,
                  )
                );
-               if(index > 0) {
-                 LOG(this, equalMonthAndYear(
-                   array[index].starting_at,
-                   array[index-1].starting_at,
-                   ))
-               }
-
 
             return (<View key={index}>
               {(showDate) ?
