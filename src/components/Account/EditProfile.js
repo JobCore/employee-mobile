@@ -21,6 +21,7 @@ import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import { FormView } from "../../utils/platform";
 import { LOG, WARN, ERROR } from "../../utils";
+import { CustomToast } from '../../utils/components';
 
 class RegisterScreen extends Component {
   static navigationOptions = { header: null }
@@ -48,30 +49,14 @@ class RegisterScreen extends Component {
 
   editProfileHandler = (data) => {
     this.isLoading(false);
-    Toast.show({
-      position: 'top',
-      type: "success",
-      text: i18next.t('EDIT_PROFILE.profileUpdated'),
-      duration: 4000,
-    });
-
+    CustomToast(i18next.t('EDIT_PROFILE.profileUpdated'));
     this.setUser(data);
     this.props.navigation.goBack();
   }
 
   errorHandler = (err) => {
     this.isLoading(false);
-
-    if (err && typeof(err) !== 'string') {
-      err = json.stringify(err);
-    }
-
-    Toast.show({
-      position: 'top',
-      type: "danger",
-      text: err,
-      duration: 4000,
-    });
+    CustomToast(err, 'danger');
   }
 
   render() {
