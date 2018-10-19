@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 /**
  * Validate if a string is valid or not
  * @param stringToTest The string to validate
@@ -58,16 +60,14 @@ const ERROR = (obj, msg) => {
 };
 
 /**
- * transform an hour to a valid js date, workaround to format an hour with
- * moment
- * @param  {string} hour the hour string
- * @param  {string} date YY/MM/DD format
- * @return {string}      a valid js date string
+ * Compares if two date's month and year are equal
+ * @param  {string} date1 a valid string moment date
+ * @param  {string} date2 a valid string moment date
+ * @return {boolean} true if dates has the same month and year
  */
-const hourToValidDate = (hour, date = '2018-09-18') => {
-  validJsDate = `${date} ${hour}`;
-
-  return validJsDate;
+const equalMonthAndYear = (date1, date2) => {
+  return (moment(date1).get('month') === moment(date2).get('month') &&
+  moment(date1).get('year') === moment(date2).get('year'))
 }
 
-export {isValidString, isValidNumber, isValidInteger, LOG, WARN, ERROR, hourToValidDate};
+export {isValidString, isValidNumber, isValidInteger, LOG, WARN, ERROR, equalMonthAndYear};

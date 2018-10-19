@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import {
   View,
   StyleSheet,
-  Image
+  Image,
+
+  RefreshControl,
 } from "react-native";
 import { Container, Header, Content, Button, Text, Left, Body, Title, Right, Segment, List, ListItem, Icon, Switch, Toast } from 'native-base';
 import styles from './style'
@@ -11,7 +13,9 @@ import { SETTING_ROUTE } from "../../constants/routes";
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as jobActions from './actions';
+import { LOG, WARN, ERROR, equalMonthAndYear } from "../../utils";
 import jobStore from './JobStore';
+import moment from 'moment';
 
 class MyJobs extends Component {
   static navigationOptions = {
@@ -53,9 +57,24 @@ class MyJobs extends Component {
   }
 
   componentDidMount() {
+    this.getPendingJobsSubscription = jobStore
+      .subscribe('GetPendingJobs', (data) => {
+        this.getJobsHandler(data);
+      });
+
     this.getUpcomingJobsSubscription = jobStore
       .subscribe('GetUpcomingJobs', (data) => {
-        this.getUpcomingJobsHandler(data);
+        this.getJobsHandler(data);
+      });
+
+    this.getCompletedJobsSubscription = jobStore
+      .subscribe('GetCompletedJobs', (data) => {
+        this.getJobsHandler(data);
+      });
+
+    this.getFailedJobsSubscription = jobStore
+      .subscribe('GetFailedJobs', (data) => {
+        this.getJobsHandler(data);
       });
 
     this.jobStoreError = jobStore
@@ -63,17 +82,21 @@ class MyJobs extends Component {
         this.errorHandler(err)
       });
 
+    this.isLoading(true);
     this.getJobs();
   }
 
   componentWillUnmount() {
+    this.getPendingJobsSubscription.unsubscribe();
     this.getUpcomingJobsSubscription.unsubscribe();
+    this.getCompletedJobsSubscription.unsubscribe();
+    this.getFailedJobsSubscription.unsubscribe();
     this.jobStoreError.unsubscribe();
   }
 
-  getUpcomingJobsHandler = (jobs) => {
-    alert(JSON.stringify(jobs));
-    this.setState({ jobs });
+  getJobsHandler = (jobs) => {
+    this.isLoading(false);
+    this.setState({ jobs, isRefreshing: false });
   }
 
   errorHandler = (err) => {
@@ -107,8 +130,8 @@ class MyJobs extends Component {
 
         <Segment style={styles.viewSegment}>
           {(Array.isArray(this.state.jobFilters)) ?
-            this.state.jobFilters.map((filter) =>
-            <Button key={filter.name} onPress={() => this.selectJobFilter(filter.action)} style={styles[(this.state.jobFilterSelected === filter.action) ? 'buttonActive': 'buttonInactive']}>
+            this.state.jobFilters.map((filter, index) =>
+            <Button key={filter.name} onPress={() => this.selectJobFilter(filter.action)} style={[styles[(this.state.jobFilterSelected === filter.action) ? 'buttonActive': 'buttonInactive'], (index === 0) ? styles.firstButtonBorderLeft : {}]}>
             <View style={styles[filter.style]}/>
           </Button>)
           : null}
@@ -125,92 +148,70 @@ class MyJobs extends Component {
             : null}
         </View>
 
-        <Content>
-        <Text style={styles.titleDate}>Sep 2018</Text>
-          <ListItem icon style={styles.viewList}>
-            <Left>
-              <Button transparent>
-                <View style={styles.pointPending}/>
-              </Button>
-            </Left>
-            <Body>
-              <Text style={styles.textBody}>Mon 12</Text>
-            </Body>
-            <Right style={styles.noRight}>
-              <Text>
-                <Text style={styles.itemName}>Waitress </Text>
-                <Text style={styles.itemTime}> 2:00 pm</Text>
-              </Text>
-            </Right>
-          </ListItem>
-          <ListItem icon style={styles.viewList}>
-            <Left>
-              <Button transparent>
-                <View style={styles.pointPending}/>
-              </Button>
-            </Left>
-            <Body>
-              <Text style={styles.textBody}>Thu 19</Text>
-            </Body>
-            <Right style={styles.noRight}>
-              <Text>
-                <Text style={styles.itemName}>Bartender </Text>
-                <Text style={styles.itemTime}> 8:00 pm</Text>
-              </Text>
-            </Right>
-          </ListItem>
-          <ListItem icon style={styles.viewList}>
-            <Left>
-              <Button transparent>
-                <View style={styles.pointPending}/>
-              </Button>
-            </Left>
-            <Body>
-              <Text style={styles.textBody}>Tue 24</Text>
-            </Body>
-            <Right style={styles.noRight}>
-              <Text>
-                <Text style={styles.itemName}>Waitress </Text>
-                <Text style={styles.itemTime}> 5:00 pm</Text>
-              </Text>
-            </Right>
-          </ListItem>
-          <Text style={styles.titleDate}>Jan 2018</Text>
-          <ListItem icon style={styles.viewList}>
-            <Left>
-              <Button transparent>
-                <View style={styles.pointCompleted}/>
-              </Button>
-            </Left>
-            <Body>
-              <Text style={styles.textBody}>Mon 12</Text>
-            </Body>
-            <Right style={styles.noRight}>
-              <Text>
-                <Text style={styles.itemName}>Waitress </Text>
-                <Text style={styles.itemTime}> 2:00 pm</Text>
-              </Text>
-            </Right>
-          </ListItem>
-          <ListItem icon style={styles.viewList}>
-            <Left>
-              <Button transparent>
-                <View style={styles.pointCompleted}/>
-              </Button>
-            </Left>
-            <Body>
-              <Text style={styles.textBody}>Mon 12</Text>
-            </Body>
-            <Right style={styles.noRight}>
-              <Text>
-                <Text style={styles.itemName}>Bartender</Text>
-                <Text style={styles.itemTime}> 2:00 pm</Text>
-              </Text>
-            </Right>
-          </ListItem>
+        <Content
+          refreshControl={
+          <RefreshControl
+            refreshing={this.state.isRefreshing}
+            onRefresh={this.refreshJobs}/>
+          }>
+          {(Array.isArray(this.state.jobs)) ?
+            this.state.jobs.map((job, index, array) => {
+            const showDate = (index === 0 ||
+               !equalMonthAndYear(
+                 array[index].starting_at,
+                 array[index-1].starting_at,
+                 )
+               );
+               if(index > 0) {
+                 LOG(this, equalMonthAndYear(
+                   array[index].starting_at,
+                   array[index-1].starting_at,
+                   ))
+               }
+
+
+            return (<View key={index}>
+              {(showDate) ?
+                <Text style={styles.titleDate}>
+                  {moment(job.starting_at).format('MMM YYYY')}
+                </Text>
+              : null}
+
+              <ListItem icon style={styles.viewList}>
+                <Left>
+                  <Button transparent>
+                    <View style={styles.pointPending}/>
+                  </Button>
+                </Left>
+                <Body>
+                  <Text style={styles.textBody}>
+                    {moment(job.starting_at).format('ddd D')}
+                  </Text>
+                </Body>
+                <Right style={styles.noRight}>
+                  <Text>
+                    {(job.position) ?
+                      <Text style={styles.itemName}>
+                        {job.position.title}
+                      </Text>
+                    : null}
+                    <Text style={styles.itemTime}>
+                      {` ${moment(job.starting_at).format('h:mm a')}`}
+                    </Text>
+                  </Text>
+                </Right>
+              </ListItem>
+            </View>)
+            })
+          : null}
         </Content>
       </Container>
     )}</I18n>);
+  }
+
+  refreshJobs = () => {
+    this.setState({ isRefreshing: true });
+    this.getJobs();
   }
 
   /**
@@ -225,7 +226,7 @@ class MyJobs extends Component {
    * get the jobs with the corrent selected filter/action
    */
   getJobs() {
-    if (typeof jobActions[this.state.jobFilterSelected] !== 'function') return;
+    if (typeof(jobActions[this.state.jobFilterSelected]) !== 'function') return;
 
     jobActions[this.state.jobFilterSelected]();
   }

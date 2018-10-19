@@ -79,6 +79,9 @@ export default styles = StyleSheet.create({
   itemTime:{
     fontSize: 14
   },
+  firstButtonBorderLeft: {
+    borderLeftWidth: 1,
+  },
   buttonActive:{
     paddingLeft: 35,
     paddingRight: 35,
