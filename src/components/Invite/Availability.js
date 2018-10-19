@@ -77,12 +77,6 @@ class AddAvailability extends Component {
   errorHandler = (err) => {
     this.isLoading(false);
     this.setState({ isRefreshing: false });
-    Toast.show({
-      position: 'top',
-      type: "danger",
-      text: JSON.stringify(err),
-      duration: 4000,
-    });
   }
 
   render() {

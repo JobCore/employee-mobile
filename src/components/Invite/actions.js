@@ -1,4 +1,5 @@
 import * as Flux from '../../utils/flux-state';
+import { editPositionsValidator } from './validators'
 import { postData, putData, getData, deleteData } from '../../fetch';
 
 /**
@@ -88,6 +89,12 @@ const getJobPreferences = () => {
  * @param  {Array} positions    positions ids list
  */
 const editPositions = (positions) => {
+  try {
+    editPositionsValidator(positions);
+  } catch (err) {
+    return Flux.dispatchEvent('InviteStoreError', err);
+  }
+
   putData(`/employees/me`, {
       "positions": positions,
     })

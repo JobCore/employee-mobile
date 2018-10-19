@@ -78,26 +78,13 @@ class Position extends Component {
 
   editPositionsHandler = (data) => {
     this.getJobPreferences();
-
-    Toast.show({
-      position: 'top',
-      type: "success",
-      text: i18next.t('JOB_PREFERENCES.positionUpdated'),
-      duration: 4000,
-    });
-
+    CustomToast(i18next.t('JOB_PREFERENCES.positionUpdated'));
     this.props.navigation.goBack();
   }
 
   errorHandler = (err) => {
     this.setState({ isRefreshingInvites: false });
     this.isLoading(false);
-    Toast.show({
-      position: 'top',
-      type: "danger",
-      text: JSON.stringify(err),
-      duration: 4000,
-    });
   }
 
   componentWillUnmount() {

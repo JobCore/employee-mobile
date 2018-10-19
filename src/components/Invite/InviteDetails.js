@@ -46,11 +46,14 @@ import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import { LOG, WARN, ERROR } from "../../utils";
 import moment from 'moment';
+
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+const DEFAULT_LATIDUDE = 25.761681;
+const DEFAULT_LONGITUDE = -80.191788;
 
 class InviteDetails extends Component {
   static navigationOptions = {
@@ -70,8 +73,8 @@ class InviteDetails extends Component {
       isLoading: false,
       invite: {},
       region: {
-        latitude: 0,
-        longitude: 0,
+        latitude: DEFAULT_LATIDUDE,
+        longitude: DEFAULT_LONGITUDE,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       },
@@ -104,13 +107,13 @@ class InviteDetails extends Component {
     let longitude;
 
     try {
-      latitude = invite.venue.latitude;
-      longitude = invite.venue.longitude;
+      latitude = invite.venue.latitude || DEFAULT_LATIDUDE;
+      longitude = invite.venue.longitude || DEFAULT_LONGITUDE;
     } catch (e) {
       LOG(this, `No latLng: ${JSON.stringify(e)}`);
 
-      latitude = 0;
-      longitude = 0;
+      latitude = DEFAULT_LATIDUDE;
+      longitude = DEFAULT_LONGITUDE;
     }
 
     this.setState({
@@ -218,8 +221,8 @@ class InviteDetails extends Component {
                     this.state.invite.shift.venue && this.state.invite.shift.venue.latitude >= 0 && this.state.invite.shift.venue.longitude >= 0)
                     ? <Marker
                     coordinate={{
-                      latitude: 37.78825,
-                      longitude: -122.4324,
+                      latitude: this.state.invite.shift.venue.latitude,
+                      longitude: this.state.invite.shift.venue.longitude,
                     }}
                     title={this.state.invite.shift.venue.title}
                     />

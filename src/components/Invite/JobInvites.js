@@ -14,6 +14,7 @@ import { BLUE_MAIN, BLUE_DARK } from "../../constants/colorPalette";
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import { LOG, WARN, ERROR } from "../../utils";
+import { CustomToast } from '../../utils/components';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import moment from 'moment';
@@ -67,37 +68,20 @@ class JobInvites extends Component {
 
   applyJobHandler = () => {
     this.isLoading(false);
-    Toast.show({
-      position: 'top',
-      type: "success",
-      text: i18next.t('JOB_INVITES.jobApplied'),
-      duration: 4000,
-    });
-
     this.getJobInvites();
+    CustomToast(i18next.t('JOB_INVITES.jobApplied'));
   }
 
   rejectJobHandler = () => {
     this.isLoading(false);
-    Toast.show({
-      position: 'top',
-      type: "success",
-      text: i18next.t('JOB_INVITES.jobRejected'),
-      duration: 4000,
-    });
-
     this.getJobInvites();
+    CustomToast(i18next.t('JOB_INVITES.jobRejected'));
   }
 
   errorHandler = (err) => {
     this.isLoading(false);
     this.setState({ isRefreshingInvites: false });
-    Toast.show({
-      position: 'top',
-      type: "danger",
-      text: JSON.stringify(err),
-      duration: 4000,
-    });
+    CustomToast(err, 'danger');
   }
 
   render() {
