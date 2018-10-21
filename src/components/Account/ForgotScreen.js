@@ -13,6 +13,7 @@ import * as accountActions from './actions';
 import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
+import { CustomToast } from '../../utils/components';
 import { FormView } from "../../utils/platform";
 
 class ForgotScreen extends Component {
@@ -38,24 +39,13 @@ class ForgotScreen extends Component {
 
   passwordResetHandler = (data) => {
     this.isLoading(false);
-    Toast.show({
-      position: 'top',
-      type: "success",
-      text: i18next.t('FORGOT.emailResetPassword'),
-      duration: 4000,
-    });
-
+    CustomToast(i18next.t('FORGOT.emailResetPassword'));
     this.props.navigation.goBack();
   }
 
   errorHandler = (err) => {
     this.isLoading(false);
-    Toast.show({
-      position: 'top',
-      type: "danger",
-      text: JSON.stringify(err),
-      duration: 4000,
-    });
+    CustomToast(err, 'danger');
   }
 
   render() {

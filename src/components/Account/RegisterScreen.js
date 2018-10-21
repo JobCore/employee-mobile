@@ -19,6 +19,7 @@ import store from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import { FormView } from "../../utils/platform";
+import { CustomToast } from '../../utils/components';
 
 class RegisterScreen extends Component {
   static navigationOptions = { header: null }
@@ -47,22 +48,12 @@ class RegisterScreen extends Component {
   registerHandler = (user) => {
     this.isLoading(false);
     this.props.navigation.navigate(LOGIN_ROUTE);
-    Toast.show({
-      position: 'top',
-      type: "success",
-      text: i18next.t('REGISTER.youHaveRegistered'),
-      duration: 4000,
-    });
+    CustomToast(i18next.t('REGISTER.youHaveRegistered'));
   }
 
   errorHandler = (err) => {
     this.isLoading(false);
-    Toast.show({
-      position: 'top',
-      type: "danger",
-      text: JSON.stringify(err),
-      duration: 4000,
-    });
+    CustomToast(err, 'danger');
   }
 
   render() {
