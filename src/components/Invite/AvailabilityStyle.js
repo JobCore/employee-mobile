@@ -86,8 +86,6 @@ export default StyleSheet.create({
   },
   itemSelectCheck:{
     marginLeft: 0,
-    paddingLeft: 20,
-    paddingRight: 20,
   },
   IconCheck:{
     fontSize: 20,

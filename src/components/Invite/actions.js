@@ -1,5 +1,5 @@
 import * as Flux from '../../utils/flux-state';
-import { editPositionsValidator } from './validators'
+import { editPositionsValidator, editAvailabilityDatesValidator, editAvailabilityAlldayValidator, } from './validators'
 import { putData, getData } from '../../fetch';
 
 /**
@@ -138,15 +138,42 @@ const getAvailability = () => {
 }
 
 /**
- * Add availability action
- * @param {date} startingAt start date
- * @param {date} endingAt   end date
+ * Add availability allday action
  * @param {boolean} allday  if available all day
  * @param {string || number} availabilityId  the block id
  */
-const editAvailability = (startingAt, endingAt, allday, availabilityId) => {
+const editAvailabilityAllday = (allday, availabilityId) => {
+  try {
+    editAvailabilityAlldayValidator(allday, availabilityId)
+  } catch (err) {
+    return Flux.dispatchEvent('InviteStoreError', err);
+  }
+
   putData(`/employees/me/availability/${availabilityId}`, {
       "allday": allday,
+    })
+    .then((data) => {
+      Flux.dispatchEvent('EditAvailability', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('InviteStoreError', err);
+    });
+}
+
+/**
+ * Add availability dates action
+ * @param {date} startingAt start date
+ * @param {date} endingAt   end date
+ * @param {string || number} availabilityId  the block id
+ */
+const editAvailabilityDates = (startingAt, endingAt, availabilityId) => {
+  try {
+    editAvailabilityDatesValidator(startingAt, endingAt, availabilityId)
+  } catch (err) {
+    return Flux.dispatchEvent('InviteStoreError', err);
+  }
+
+  putData(`/employees/me/availability/${availabilityId}`, {
       "starting_at": startingAt,
       "ending_at": endingAt,
     })
@@ -168,5 +195,6 @@ export {
   editJobPreferences,
   editPositions,
   getAvailability,
-  editAvailability,
+  editAvailabilityAllday,
+  editAvailabilityDates,
 };
