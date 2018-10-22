@@ -4,6 +4,11 @@ import { BLUE_MAIN, VIOLET_MAIN, BLACK_MAIN, GREEN_MAIN, BLUE_DARK, WHITE_MAIN }
 var width = Dimensions.get('window').width;
 
 export default styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   headerCustom:{
     backgroundColor: BLUE_MAIN,
   },
@@ -22,8 +27,8 @@ export default styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   viewItem:{
-    width: '20%', 
-    justifyContent: 'center', 
+    width: '20%',
+    justifyContent: 'center',
     alignItems: 'center'
   },
   titleItem:{
@@ -32,38 +37,38 @@ export default styles = StyleSheet.create({
     marginTop: 5
   },
   pointPending:{
-    width: 5, 
-    height: 5, 
-    borderRadius: 50, 
+    width: 5,
+    height: 5,
+    borderRadius: 50,
     backgroundColor: BLACK_MAIN,
   },
   pointCompleted:{
-    width: 5, 
-    height: 5, 
-    borderRadius: 50, 
+    width: 5,
+    height: 5,
+    borderRadius: 50,
     backgroundColor: BLUE_DARK,
   },
   pointUpcoming:{
-    width: 5, 
-    height: 5, 
-    borderRadius: 50, 
+    width: 5,
+    height: 5,
+    borderRadius: 50,
     backgroundColor: GREEN_MAIN,
   },
   pointFailed:{
-    width: 5, 
-    height: 5, 
-    borderRadius: 50, 
+    width: 5,
+    height: 5,
+    borderRadius: 50,
     backgroundColor: VIOLET_MAIN,
   },
   titleDate:{
-    textAlign: 'center', 
-    fontSize: 20, 
-    color: BLUE_DARK, 
-    marginTop: 25, 
-    marginBottom: 15, 
+    textAlign: 'center',
+    fontSize: 20,
+    color: BLUE_DARK,
+    marginTop: 25,
+    marginBottom: 15,
   },
   viewList:{
-    paddingRight: 40, 
+    paddingRight: 40,
     paddingLeft: 15
   },
   textBody:{
@@ -79,15 +84,18 @@ export default styles = StyleSheet.create({
   itemTime:{
     fontSize: 14
   },
-  buttomActive:{
-    paddingLeft: 35, 
-    paddingRight: 35, 
+  firstButtonBorderLeft: {
+    borderLeftWidth: 1,
+  },
+  buttonActive:{
+    paddingLeft: 35,
+    paddingRight: 35,
     backgroundColor: BLUE_MAIN,
     borderColor: BLUE_MAIN
   },
-  buttomDesactive:{
-    paddingLeft: 35, 
-    paddingRight: 35, 
+  buttonInactive:{
+    paddingLeft: 35,
+    paddingRight: 35,
     borderColor: BLUE_MAIN
   }
 });

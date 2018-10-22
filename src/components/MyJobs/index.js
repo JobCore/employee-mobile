@@ -1,35 +1,131 @@
 import React, { Component } from "react";
-import { 
+import {
   View,
   StyleSheet,
-  Image
+  Image,
+  RefreshControl,
 } from "react-native";
-import { Container, Header, Content, Button, Text, Left, Body, Title, Right, Segment, List, ListItem, Icon, Switch} from 'native-base';
+import { Container, Header, Content, Button, Text, Left, Body, Title, Right, Segment, List, ListItem, Icon, Switch, Spinner } from 'native-base';
 import styles from './style'
 import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN } from "../../constants/colorPalette";
 import { SETTING_ROUTE } from "../../constants/routes";
+import { I18n } from 'react-i18next';
+import { i18next } from '../../i18n';
+import * as jobActions from './actions';
+import { LOG, WARN, ERROR, equalMonthAndYear } from "../../utils";
+import { CustomToast } from '../../utils/components';
+import jobStore from './JobStore';
+import moment from 'moment';
 
 class MyJobs extends Component {
   static navigationOptions = {
-    tabBarLabel: 'My Jobs',
-    tabBarIcon: ({tintColor}) => (
+    tabBarLabel: i18next.t('MY_JOBS.myJobs'),
+    tabBarIcon: ({ tintColor }) => (
       <Image
         style={{resizeMode: 'contain', height: 30}}
         source={require('../../assets/image/myJobs.png')}
       />
     )
   };
-  _signOutAsync = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate('Auth');
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false,
+      isLoadingJobs: false,
+      isRefreshing: false,
+      jobs: [],
+      jobFilterSelected: 'getPendingJobs',
+      // for jobs filters array.map
+      jobFilters: [{
+        name: 'pending', // must match the i18n translate
+        action: 'getPendingJobs', // Must match the action's name
+        style: 'pointPending', // must match the style's name
+      }, {
+        name: 'upcoming',
+        action: 'getUpcomingJobs',
+        style: 'pointUpcoming',
+      }, {
+        name: 'completed',
+        action: 'getCompletedJobs',
+        style: 'pointCompleted',
+      }, {
+        name: 'failed',
+        action: 'getFailedJobs',
+        style: 'pointPending',
+      }, ]
+    }
+  }
+
+  componentDidMount() {
+    this.getPendingJobsSubscription = jobStore
+      .subscribe('GetPendingJobs', (data) => {
+        this.getJobsHandler(data);
+      });
+
+    this.getUpcomingJobsSubscription = jobStore
+      .subscribe('GetUpcomingJobs', (data) => {
+        this.getJobsHandler(data);
+      });
+
+    this.getCompletedJobsSubscription = jobStore
+      .subscribe('GetCompletedJobs', (data) => {
+        this.getJobsHandler(data);
+      });
+
+    this.getFailedJobsSubscription = jobStore
+      .subscribe('GetFailedJobs', (data) => {
+        this.getJobsHandler(data);
+      });
+
+    this.jobStoreError = jobStore
+      .subscribe('JobStoreError', (err) => {
+        this.errorHandler(err)
+      });
+
+    this.isLoading(true);
+    this.getJobs();
+  }
+
+  componentWillUnmount() {
+    this.getPendingJobsSubscription.unsubscribe();
+    this.getUpcomingJobsSubscription.unsubscribe();
+    this.getCompletedJobsSubscription.unsubscribe();
+    this.getFailedJobsSubscription.unsubscribe();
+    this.jobStoreError.unsubscribe();
+  }
+
+  getJobsHandler = (jobs) => {
+    this.isLoading(false);
+    this.setState({
+      jobs,
+      isRefreshing: false,
+      isLoadingJobs: false,
+    });
+  }
+
+  errorHandler = (err) => {
+    this.isLoading(false);
+    this.setState({
+      isRefreshing: false,
+      isLoadingJobs: false,
+    });
+    CustomToast(err, 'danger');
+  }
+
   render() {
-    return (
+    if (this.state.isLoading) {
+      return (<View style={styles.container}>
+                  <Spinner color={BLUE_DARK}/>
+              </View>);
+    }
+
+    return (<I18n>{(t, { i18n }) => (
       <Container>
         <Header androidStatusBarColor={BLUE_MAIN} style={styles.headerCustom}>
         <Left/>
           <Body>
-            <Title style={styles.titleHeader}>My Jobs</Title>
+            <Title style={styles.titleHeader}>{t('MY_JOBS.myJobs')}</Title>
           </Body>
           <Right>
             <Button transparent onPress={() => this.props.navigation.navigate(SETTING_ROUTE)}>
@@ -40,120 +136,109 @@ class MyJobs extends Component {
             </Button>
           </Right>
         </Header>
+
         <Segment style={styles.viewSegment}>
-          <Button active style={styles.buttomActive}>
-            <View style={styles.pointPending}/>
-          </Button>
-          <Button Cubs style={styles.buttomDesactive}>
-            <View style={styles.pointUpcoming}/>
-          </Button>
-          <Button Cubs style={styles.buttomDesactive}>
-            <View style={styles.pointCompleted}/>
-          </Button>
-          <Button style={styles.buttomDesactive}>
-            <View style={styles.pointFailed}/>
-          </Button>
+          {(Array.isArray(this.state.jobFilters)) ?
+            this.state.jobFilters.map((filter, index) =>
+            <Button key={filter.name} onPress={() => this.selectJobFilter(filter.action)} style={[styles[(this.state.jobFilterSelected === filter.action) ? 'buttonActive': 'buttonInactive'], (index === 0) ? styles.firstButtonBorderLeft : {}]}>
+            <View style={styles[filter.style]}/>
+          </Button>)
+          : null}
         </Segment>
+
         <View style={styles.viewTitle}>
-          <View style={styles.viewItem}>
-            <Text style={styles.titleItem}>Pending</Text>
-          </View>
-          <View style={styles.viewItem}>
-            <Text style={styles.titleItem}>Upcoming</Text>
-          </View>
-          <View style={styles.viewItem}>
-            <Text style={styles.titleItem}>Completed</Text>
-          </View>
-          <View style={styles.viewItem}>
-            <Text style={styles.titleItem}>Failed</Text>
-          </View>
+          {(Array.isArray(this.state.jobFilters)) ?
+            this.state.jobFilters.map((filter) =>
+            <View key={filter.name} style={styles.viewItem}>
+              <Text style={styles.titleItem}>
+                {t(`MY_JOBS.${filter.name}`)}
+              </Text>
+            </View>)
+            : null}
         </View>
-        <Content>
-        <Text style={styles.titleDate}>Sep 2018</Text>
-          <ListItem icon style={styles.viewList}>
-            <Left>
-              <Button transparent>
-                <View style={styles.pointPending}/>
-              </Button>
-            </Left>
-            <Body>
-              <Text style={styles.textBody}>Mon 12</Text>
-            </Body>
-            <Right style={styles.noRight}>
-              <Text>
-                <Text style={styles.itemName}>Waitress </Text> 
-                <Text style={styles.itemTime}> 2:00 pm</Text>
-              </Text>
-            </Right>
-          </ListItem>
-          <ListItem icon style={styles.viewList}>
-            <Left>
-              <Button transparent>
-                <View style={styles.pointPending}/>
-              </Button>
-            </Left>
-            <Body>
-              <Text style={styles.textBody}>Thu 19</Text>
-            </Body>
-            <Right style={styles.noRight}>
-              <Text>
-                <Text style={styles.itemName}>Bartender </Text> 
-                <Text style={styles.itemTime}> 8:00 pm</Text>
-              </Text>
-            </Right>
-          </ListItem>
-          <ListItem icon style={styles.viewList}>
-            <Left>
-              <Button transparent>
-                <View style={styles.pointPending}/>
-              </Button>
-            </Left>
-            <Body>
-              <Text style={styles.textBody}>Tue 24</Text>
-            </Body>
-            <Right style={styles.noRight}>
-              <Text>
-                <Text style={styles.itemName}>Waitress </Text> 
-                <Text style={styles.itemTime}> 5:00 pm</Text>
-              </Text>
-            </Right>
-          </ListItem>
-          <Text style={styles.titleDate}>Jan 2018</Text>
-          <ListItem icon style={styles.viewList}>
-            <Left>
-              <Button transparent>
-                <View style={styles.pointCompleted}/>
-              </Button>
-            </Left>
-            <Body>
-              <Text style={styles.textBody}>Mon 12</Text>
-            </Body>
-            <Right style={styles.noRight}>
-              <Text>
-                <Text style={styles.itemName}>Waitress </Text> 
-                <Text style={styles.itemTime}> 2:00 pm</Text>
-              </Text>
-            </Right>
-          </ListItem>
-          <ListItem icon style={styles.viewList}>
-            <Left>
-              <Button transparent>
-                <View style={styles.pointCompleted}/>
-              </Button>
-            </Left>
-            <Body>
-              <Text style={styles.textBody}>Mon 12</Text>
-            </Body>
-            <Right style={styles.noRight}>
-              <Text>
-                <Text style={styles.itemName}>Bartender</Text> 
-                <Text style={styles.itemTime}> 2:00 pm</Text>
-              </Text>
-            </Right>
-          </ListItem>
+
+        <Content
+          refreshControl={
+          <RefreshControl
+            refreshing={this.state.isRefreshing}
+            onRefresh={this.refreshJobs}/>
+          }>
+          {(Array.isArray(this.state.jobs)) ?
+            this.state.jobs.map((job, index, array) => {
+            const showDate = (index === 0 ||
+               !equalMonthAndYear(
+                 array[index].starting_at,
+                 array[index-1].starting_at,
+                 )
+               );
+
+            return (<View key={index}>
+              {(showDate) ?
+                <Text style={styles.titleDate}>
+                  {moment(job.starting_at).format('MMM YYYY')}
+                </Text>
+              : null}
+
+              <ListItem icon style={styles.viewList}>
+                <Left>
+                  <Button transparent>
+                    <View style={styles.pointPending}/>
+                  </Button>
+                </Left>
+                <Body>
+                  <Text style={styles.textBody}>
+                    {moment(job.starting_at).format('ddd D')}
+                  </Text>
+                </Body>
+                <Right style={styles.noRight}>
+                  <Text>
+                    {(job.position) ?
+                      <Text style={styles.itemName}>
+                        {job.position.title}
+                      </Text>
+                    : null}
+                    <Text style={styles.itemTime}>
+                      {` ${moment(job.starting_at).format('h:mm a')}`}
+                    </Text>
+                  </Text>
+                </Right>
+              </ListItem>
+            </View>)
+            })
+          : null}
         </Content>
       </Container>
-    );
+    )}</I18n>);
+  }
+
+  refreshJobs = () => {
+    this.setState({ isRefreshing: true });
+    this.getJobs();
+  }
+
+  /**
+   * Set the jobFilterSelected and call the action to load the jobs
+   * @param  {string} jobFilterSelected the filter action to execute
+   */
+  selectJobFilter = (jobFilterSelected) => {
+    if (this.state.isLoadingJobs) return;
+
+    this.setState({ jobFilterSelected }, this.getJobs);
+  }
+
+  /**
+   * get the jobs with the corrent selected filter/action
+   */
+  getJobs() {
+    if (typeof(jobActions[this.state.jobFilterSelected]) !== 'function') return;
+
+    this.setState({ isLoadingJobs: true });
+    jobActions[this.state.jobFilterSelected]();
+  }
+
+  isLoading = (isLoading) => {
+    this.setState({ isLoading });
   }
 }
+
 export default MyJobs;

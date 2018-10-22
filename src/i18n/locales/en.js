@@ -94,4 +94,11 @@ export default {
     delete: 'delete',
     save: 'Save',
   },
+  MY_JOBS: {
+    myJobs: 'My Jobs',
+    pending: 'Pending',
+    upcoming: 'Upcoming',
+    completed: 'Completed',
+    failed: 'Failed',
+  },
 }
