@@ -1,10 +1,7 @@
-import { StyleSheet, Platform, Dimensions } from 'react-native';
-var width = Dimensions.get('window').width;
-import { BLUE_MAIN } from '../../constants/colorPalette'
-import { BLUE_DARK } from '../../constants/colorPalette'
-import { WHITE_MAIN } from '../../constants/colorPalette'
+import { StyleSheet, Platform } from 'react-native';
+import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN} from '../../constants/colorPalette';
 
-export default styles = StyleSheet.create({
+export default StyleSheet.create({
   headerCustom:{
     backgroundColor: BLUE_MAIN,
   },
@@ -95,19 +92,19 @@ export default styles = StyleSheet.create({
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
   },
-  buttomLeftDesactive:{
+  buttomLeftInactive:{
     backgroundColor: 'transparent',
     borderColor: BLUE_MAIN,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0
   },
-  buttomRightDesactive:{
-    backgroundColor: BLUE_MAIN,
-    borderColor:'transparent',
+  buttomRightActive:{
+    borderColor: BLUE_MAIN,
+    backgroundColor: 'transparent',
     borderTopRightRadius: 0,
-    borderBottomRightRadius: 0
+    borderBottomRightRadius: 0,
   },
-  buttomRightDesactive:{
+  buttomRightInactive:{
     backgroundColor: 'transparent',
     borderColor: BLUE_MAIN,
     borderTopRightRadius: 0,

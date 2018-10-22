@@ -1,9 +1,7 @@
-import { StyleSheet, Platform, Dimensions } from 'react-native';
-import { BLUE_MAIN, VIOLET_MAIN, BLACK_MAIN, GREEN_MAIN, BLUE_DARK, WHITE_MAIN } from '../../constants/colorPalette'
+import { StyleSheet } from 'react-native';
+import { BLUE_MAIN, VIOLET_MAIN, BLACK_MAIN, GREEN_MAIN, BLUE_DARK, WHITE_MAIN } from '../../constants/colorPalette';
 
-var width = Dimensions.get('window').width;
-
-export default styles = StyleSheet.create({
+export default StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',

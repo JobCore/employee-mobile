@@ -1,18 +1,12 @@
 import React, { Component } from "react";
 import {
   View,
-  StyleSheet,
   Image,
-  TouchableOpacity,
-  Alert,
-  ScrollView,
-  Slider,
   RefreshControl,
 } from "react-native";
-import { Container, Header, Content, Button, Text, Left, Body, Title, Right, Accordion, List, ListItem, Icon, Segment, Item, Input, Form, Label, Toast, Spinner, CheckBox, Radio } from 'native-base';
+import { Container, Header, Content, Button, Text, Left, Body, Title, Right, List, ListItem, Icon, Spinner, Radio } from 'native-base';
 import styles from './AvailabilityStyle';
-import { BLUE_DARK, BLUE_LIGHT, BLUE_MAIN, WHITE_MAIN } from '../../constants/colorPalette'
-import { TABBAR_ROUTE, SETTING_ROUTE, } from "../../constants/routes";
+import { BLUE_DARK, BLUE_MAIN, WHITE_MAIN } from '../../constants/colorPalette';
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import { I18n } from 'react-i18next';

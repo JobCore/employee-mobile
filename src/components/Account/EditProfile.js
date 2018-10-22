@@ -2,18 +2,11 @@ import React, { Component } from "react";
 import { BLUE_DARK } from '../../constants/colorPalette';
 import {
   View,
-  AsyncStorage,
-  // SafeAreaView,
   Image,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-  TextInput,
-  ScrollView,
   Alert,
 } from "react-native";
-import { Container, Item, Input, Button, Text, Form, Label, Spinner, Toast } from 'native-base';
-import { LOGIN_ROUTE, APP_ROUTE } from "../../constants/routes";
+import { Item, Input, Button, Text, Form, Label, Spinner } from 'native-base';
 import styles from './EditProfileStyle';
 import * as actions from './actions';
 import accountStore from './AccountStore';

@@ -56,6 +56,8 @@ class LoginScreen extends Component {
 
   loginHandler = (user) => {
     this.isLoading(false);
+    let status;
+    let token;
 
     try {
       token = user.token;

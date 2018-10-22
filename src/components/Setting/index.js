@@ -81,7 +81,7 @@ class SettingScreen extends Component {
       return LOG(this, data);
     }
 
-    this.setState({ user: data.user });
+    this.setState({ user: user });
   }
 
   render() {

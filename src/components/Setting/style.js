@@ -2,7 +2,7 @@ import { StyleSheet, Platform, Dimensions } from 'react-native';
 var width = Dimensions.get('window').width;
 import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN, VIOLET_MAIN } from '../../constants/colorPalette'
 
-export default styles = StyleSheet.create({
+export default StyleSheet.create({
 
   container: {
     flex: 1,

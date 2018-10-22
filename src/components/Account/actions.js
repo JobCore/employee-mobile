@@ -27,10 +27,10 @@ const login = (email, password) => {
 
 /**
  * Action for registering the User
- * @param  {string} email     [description]
- * @param  {string} password  [description]
- * @param  {string} firstName [description]
- * @param  {string} lastName  [description]
+ * @param  {string} email     
+ * @param  {string} password
+ * @param  {string} firstName
+ * @param  {string} lastName
  */
 const register = (email, password, firstName, lastName) => {
   try {

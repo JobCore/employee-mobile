@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import {
     View,
-    AsyncStorage,
     Image
 } from "react-native";
 import {Container, Header, Content, Text, Button, Left, Icon, Body, Title, Right, Segment} from "native-base";
@@ -54,7 +53,7 @@ class DashboardScreen extends Component {
         return LOG(this, data);
       }
 
-      this.setState({ user: data.user });
+      this.setState({ user: user });
     }
 
     render() {
@@ -122,7 +121,7 @@ class DashboardScreen extends Component {
                             <Text style={styles.itemInvite}>Y</Text>
                             <Button style={styles.buttomLeftActive} first active><Icon name="md-radio-button-on"
                                                                                        size={5}/></Button>
-                            <Button style={styles.buttomRightDesactive} last><Icon style={{color: VIOLET_MAIN}}
+                            <Button style={styles.buttomRightInactive} last><Icon style={{color: VIOLET_MAIN}}
                                                                                    name="md-radio-button-off" size={5}/></Button>
                             <Text style={styles.itemInvite}>N</Text>
                         </Segment>

@@ -1,5 +1,4 @@
 import { FluxStore } from '../../utils/flux-state';
-import * as Flux from '../../utils/flux-state';
 import { LOG, WARN, ERROR } from "../../utils";
 
 class JobStore extends FluxStore {

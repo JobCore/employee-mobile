@@ -1,5 +1,4 @@
 import { FluxStore } from '../../utils/flux-state';
-import * as Flux from '../../utils/flux-state';
 import { AsyncStorage } from "react-native";
 import { LOG, WARN, ERROR } from "../../utils";
 
@@ -35,7 +34,7 @@ class AccountStore extends FluxStore {
         .then(() => {
           LOG(this, "AsyncStorage deleted");
         })
-        .catch((e) => {
+        .catch((err) => {
           ERROR(this, err);
         });
 

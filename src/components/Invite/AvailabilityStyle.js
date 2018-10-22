@@ -1,8 +1,7 @@
-import { StyleSheet, Platform, Dimensions } from 'react-native';
-import { BLUE_MAIN, VIOLET_MAIN, BLUE_DARK, WHITE_MAIN, BLUE_LIGHT  } from '../../constants/colorPalette'
-var width = Dimensions.get('window').width;
+import { StyleSheet, Platform } from 'react-native';
+import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN, BLUE_LIGHT } from '../../constants/colorPalette'
 
-export default styles = StyleSheet.create({
+export default StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
@@ -117,33 +116,6 @@ export default styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20
   },
-  viewCrud:{
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 20,
-    paddingRight: 20,
-    marginTop: 20
-  },
-  viewButtomLeft:{
-    width: '50%',
-    marginRight: 5,
-  },
-  buttomLeft:{
-    backgroundColor: 'transparent',
-    borderColor: VIOLET_MAIN,
-    borderWidth: 1
-  },
-  viewButtomRight:{
-    width: '50%',
-    marginLeft: 5,
-  },
-  buttomRight:{
-    backgroundColor: 'transparent',
-    borderColor: BLUE_MAIN,
-    borderWidth: 1
-  },
   viewInput:{
     backgroundColor: 'transparent',
     height: 55,
@@ -194,43 +166,7 @@ export default styles = StyleSheet.create({
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0
   },
-  buttomRightDesactive:{
-    backgroundColor: BLUE_MAIN,
-    borderColor:'transparent',
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0
-  },
-  buttomRightDesactive:{
-    backgroundColor: 'transparent',
-    borderColor: BLUE_MAIN,
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0,
-  },
   labelForm:{
     color: BLUE_DARK
-  },
-  viewCrud:{
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 20,
-    paddingRight: 20,
-    marginTop: '20%',
-    marginBottom: 20,
-    height: 100
-  },
-  viewButtomLeft:{
-    width: '50%',
-    marginRight: 5,
-  },
-  buttomLeft:{
-    backgroundColor: VIOLET_MAIN,
-  },
-  viewButtomRight:{
-    width: '50%',
-    marginLeft: 5,
-  },
-  buttomRight:{
-    backgroundColor: BLUE_MAIN,
   },
 });

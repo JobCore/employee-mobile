@@ -1,24 +1,20 @@
 import React, { Component } from "react";
 import {
   View,
-  StyleSheet,
   Image,
-  TouchableOpacity,
   Alert,
   ScrollView,
-  Slider,
   RefreshControl,
 } from "react-native";
-import { Container, Header, Content, Button, Text, Left, Body, Title, Right, Accordion, List, ListItem, Icon, Segment, Item, Input, Form, Label, Toast, Spinner, CheckBox } from 'native-base';
+import { Container, Header, Content, Button, Text, Left, Body, Title, Right, List, ListItem, Icon, Spinner } from 'native-base';
 import styles from './PositionStyle';
-import { BLUE_DARK, BLUE_LIGHT, BLUE_MAIN, WHITE_MAIN } from '../../constants/colorPalette'
-import { TABBAR_ROUTE, SETTING_ROUTE, } from "../../constants/routes";
+import { BLUE_DARK, BLUE_MAIN, WHITE_MAIN } from '../../constants/colorPalette';
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
+import { CustomToast } from '../../utils/components';
 import { LOG, WARN, ERROR } from "../../utils";
-import moment from 'moment';
 
 class Position extends Component {
   static navigationOptions = {
@@ -159,13 +155,13 @@ class Position extends Component {
                 onPress={() => this.props.navigation.goBack()}
                 style={styles.buttomLeft}
                 full
-                rounded>
-                <Text>{t('APP.cancel')}</Text>
+                rounded bordered>
+                <Text style={styles.textViolet}>{t('APP.cancel')}</Text>
               </Button>
             </View>
             <View style={styles.viewButtomRight}>
-              <Button onPress={this.editPosition} style={styles.buttomRight} full rounded>
-                <Text>{t('JOB_PREFERENCES.save')}</Text>
+              <Button onPress={this.editPosition} style={styles.buttomRight} full rounded bordered>
+                <Text style={styles.textBlue}>{t('JOB_PREFERENCES.save')}</Text>
               </Button>
             </View>
           </View>
@@ -212,7 +208,7 @@ class Position extends Component {
       return false;
     }
 
-    for (pos of this.state.positions) {
+    for (const pos of this.state.positions) {
       if (pos.id === position.id) return true;
     }
 

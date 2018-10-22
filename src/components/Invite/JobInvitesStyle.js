@@ -1,68 +1,68 @@
-import { StyleSheet, Platform, Dimensions } from 'react-native';
-import { BLUE_MAIN } from '../../constants/colorPalette'
-import { VIOLET_MAIN } from '../../constants/colorPalette'
-import { GRAY_MAIN } from '../../constants/colorPalette'
-import { RED_MAIN } from '../../constants/colorPalette'
-import { BLACK_MAIN } from '../../constants/colorPalette'
+import { StyleSheet } from 'react-native';
+import {
+  BLUE_MAIN,
+  VIOLET_MAIN,
+  GRAY_MAIN,
+  RED_MAIN,
+  BLACK_MAIN,
+} from '../../constants/colorPalette';
 
-var width = Dimensions.get('window').width;
-
-export default styles = StyleSheet.create({
+export default StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  headerCustom:{
+  headerCustom: {
     backgroundColor: BLUE_MAIN,
   },
-  titleHeader:{
+  titleHeader: {
     color: '#fff',
     fontWeight: '500',
     fontSize: 18,
   },
-  buttomApply:{
+  buttomApply: {
     backgroundColor: BLUE_MAIN
   },
-  buttomReject:{
+  buttomReject: {
     backgroundColor: VIOLET_MAIN
   },
-  viewListItem:{
+  viewListItem: {
     marginLeft: 30,
     marginRight: 30
   },
-  viewDataOffers:{
+  viewDataOffers: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-end',
     marginLeft: 15
   },
-  textOne:{
+  textOne: {
     color: VIOLET_MAIN,
     fontSize: 12,
     textAlign: 'left'
   },
-  textTwo:{
+  textTwo: {
     color: GRAY_MAIN,
     fontSize: 12,
     textAlign: 'left'
   },
-  textThree:{
+  textThree: {
     color: BLUE_MAIN,
     fontSize: 12,
     textAlign: 'left'
   },
-  textRed:{
+  textRed: {
     color: RED_MAIN,
     fontSize: 12,
     textAlign: 'left'
   },
-  textBlack:{
+  textBlack: {
     color: BLACK_MAIN,
     fontSize: 12,
     textAlign: 'left'
   },
-  viewTitleInfo:{
+  viewTitleInfo: {
     alignSelf: 'flex-start',
     marginBottom: 5
   }

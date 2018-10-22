@@ -143,7 +143,7 @@ export async function postFormData(url, formData, isAuth = true) {
       body: formData,
       headers: {
         'Accept': 'application/json',
-        'Accept-Language': i18next.language,
+        'Accept-Language': 'en',
         'Authorization': (isAuth) ? `jwt ${accountStore.getState('Login').token}` : '',
       },
       method: 'POST',
