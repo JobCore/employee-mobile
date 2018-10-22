@@ -12,6 +12,7 @@ import inviteStore from './InviteStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import { LOG, WARN, ERROR } from "../../utils";
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 
 class AddAvailability extends Component {
@@ -31,6 +32,9 @@ class AddAvailability extends Component {
     this.state = {
       isLoading: false,
       isRefreshing: false,
+      startTimePickerVisible: false,
+      endTimePickerVisible: false,
+      selectedAvailability: {},
       availability: Object.assign([], inviteStore.getState('GetAvailability')),
     };
   }
@@ -102,6 +106,22 @@ class AddAvailability extends Component {
             refreshing={this.state.isRefreshing}
             onRefresh={this.refreshAvailability}/>
           }>
+
+          <DateTimePicker
+            mode={'time'}
+            is24Hour={false}
+            isVisible={this.state.startTimePickerVisible}
+            onConfirm={(date) => this.handleStartTimePicked(date)}
+            onCancel={this.hideEndTimePicker}
+          />
+          <DateTimePicker
+            mode={'time'}
+            is24Hour={false}
+            isVisible={this.state.endTimePickerVisible}
+            onConfirm={(date) => this.handleEndTimePicked(date)}
+            onCancel={this.hideStartTimePicker}
+          />
+
         <View style={styles.viewContainer}>
           <List>
             <ListItem style={styles.itemSelectCheck}>
@@ -124,11 +144,11 @@ class AddAvailability extends Component {
 
                 {(block.allday === false) ?
                 <View style={{flexDirection: 'row'}}>
-                 <Button style={styles.buttonHour} rounded bordered small>
-                  <Text style={styles.textHour}>
-                    {moment(block.starting_at).format('h:a')}
-                  </Text>
-                </Button>
+                 <Button onPress={() => this.showStartTimePicker(block)} style={styles.buttonHour} rounded bordered small>
+                    <Text style={styles.textHour}>
+                      {moment(block.starting_at).format('h:mm:a')}
+                    </Text>
+                 </Button>
 
                 <View style={styles.textToView}>
                   <Text style={styles.textTo}>
@@ -136,11 +156,12 @@ class AddAvailability extends Component {
                   </Text>
                 </View>
 
-                <Button style={styles.buttonHour} rounded bordered small>
+                <Button onPress={() => this.showEndTimePicker(block)} style={styles.buttonHour} rounded bordered small>
                   <Text style={styles.textHour}>
-                    {moment(block.ending_at).format('h:a')}
+                    {moment(block.ending_at).format('h:mm:a')}
                   </Text>
                 </Button>
+
                 </View>
                 : null}
               </ListItem>)
@@ -150,6 +171,73 @@ class AddAvailability extends Component {
         </Content>
       </Container>)
         }</I18n>);
+  }
+
+  showStartTimePicker = (availability) => {
+    this.setState({
+      selectedAvailability: availability,
+      startTimePickerVisible: true,
+    });
+  }
+
+  showEndTimePicker = (availability) => {
+    this.setState({
+      selectedAvailability: availability,
+      endTimePickerVisible: true,
+    });
+  }
+
+  hideStartTimePicker = () => {
+    this.setState({ startTimePickerVisible: false });
+  }
+
+  hideEndTimePicker = () => {
+    this.setState({ endTimePickerVisible: false });
+  }
+
+  /**
+   * handle StartTime Picked
+   * @param  {date} dateTime date string from the timePicker
+   */
+  handleStartTimePicked = (dateTime) => {
+    this.hideStartTimePicker();
+
+    this.editAvailabilityTime(dateTime, this.state.selectedAvailability, 'starting_at');
+  };
+
+  /**
+   * handle EndTime Picked
+   * @param  {date} dateTime date string from the timePicker
+   */
+  handleEndTimePicked = (dateTime) => {
+    this.hideEndTimePicker();
+
+    this.editAvailabilityTime(dateTime, this.state.selectedAvailability, 'ending_at');
+  };
+
+  /**
+   * Edit availability time (hour/minute) given a specific date with the time
+   * used for timePicker handlers
+   * @param  {object} availability   the availability block to change the time
+   * @param  {date} dateTime date string to get the new hour/minute
+   * @param  {'starting_at'|'ending_at'} startOrEndDate the field to update
+   */
+  editAvailabilityTime(dateTime, availability, startOrEndDate) {
+    if (!availability || (startOrEndDate !== 'starting_at' &&
+        startOrEndDate !== 'ending_at')) {
+      return;
+    }
+
+    const availabilityCopy = Object.assign({}, availability);
+    const hour = moment(dateTime).get('hour');
+    const minute = moment(dateTime).get('minute');
+
+    availabilityCopy[startOrEndDate] = moment(dateTime)
+      .set('minute', minute)
+      .set('hour', hour)
+      .toISOString();
+
+    this.editAvailabilityDates(availabilityCopy);
   }
 
   /**
@@ -163,16 +251,24 @@ class AddAvailability extends Component {
     const availabilityCopy = Object.assign({}, availability);
     availabilityCopy.allday = allday;
 
-    this.editAvailability(availabilityCopy);
+    this.editAvailabilityAllday(availabilityCopy);
   }
 
-  editAvailability = (availability) => {
+  editAvailabilityAllday = (availability) => {
     if (!availability) return;
 
-    inviteActions.editAvailability(
+    inviteActions.editAvailabilityAllday(
+      availability.allday,
+      availability.id,
+    );
+  };
+
+  editAvailabilityDates = (availability) => {
+    if (!availability) return;
+
+    inviteActions.editAvailabilityDates(
       availability.starting_at,
       availability.ending_at,
-      availability.allday,
       availability.id,
     );
   };

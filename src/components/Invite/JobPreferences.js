@@ -103,7 +103,7 @@ class JobPreferences extends Component {
   errorHandler = (err) => {
     this.isLoading(false);
     this.setState({ isRefreshing: false });
-    CustomToast(err, ' danger');
+    CustomToast(err, 'danger');
   }
 
   render() {
