@@ -1,23 +1,21 @@
 import React, { Component } from "react";
 import {
   View,
-  StyleSheet,
   Image,
-  TouchableOpacity,
-  Alert,
   ScrollView,
   Slider,
   RefreshControl,
 } from "react-native";
-import { Container, Header, Content, Button, Text, Left, Body, Title, Right, Accordion, List, ListItem, Icon, Segment, Item, Input, Form, Label, Toast, Spinner, CheckBox } from 'native-base';
+import { Container, Header, Content, Button, Text, Left, Body, Title, Right, ListItem, Form, Spinner } from 'native-base';
 import styles from './JobPreferencesStyle';
-import { BLUE_DARK, BLUE_LIGHT, BLUE_MAIN } from '../../constants/colorPalette'
-import { TABBAR_ROUTE, SETTING_ROUTE, AVAILABILITY_ROUTE, POSITION_ROUTE } from "../../constants/routes";
+import { BLUE_DARK, BLUE_MAIN } from '../../constants/colorPalette'
+import { SETTING_ROUTE, AVAILABILITY_ROUTE, POSITION_ROUTE } from "../../constants/routes";
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import { FormViewPreferences } from "../../utils/platform";
+import { CustomToast } from '../../utils/components';
 import { LOG, WARN, ERROR } from "../../utils";
 import moment from 'moment';
 
@@ -306,7 +304,7 @@ class JobPreferences extends Component {
       return false;
     }
 
-    for (pos of this.state.positions) {
+    for (const pos of this.state.positions) {
       if (pos.id === position.id) return true;
     }
 

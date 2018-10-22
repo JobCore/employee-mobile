@@ -1,6 +1,6 @@
 import * as Flux from '../../utils/flux-state';
 import { editPositionsValidator } from './validators'
-import { postData, putData, getData, deleteData } from '../../fetch';
+import { putData, getData } from '../../fetch';
 
 /**
  * Action for listing the job invites

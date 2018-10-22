@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import {
   View,
-  StyleSheet,
   Image,
   RefreshControl,
 } from "react-native";
-import { Container, Header, Content, Button, Text, Left, Body, Title, Right, Segment, List, ListItem, Icon, Switch, Spinner } from 'native-base';
+import { Container, Header, Content, Button, Text, Left, Body, Title, Right, Segment, ListItem, Spinner } from 'native-base';
 import styles from './style'
-import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN } from "../../constants/colorPalette";
+import { BLUE_MAIN, BLUE_DARK } from "../../constants/colorPalette";
 import { SETTING_ROUTE } from "../../constants/routes";
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';

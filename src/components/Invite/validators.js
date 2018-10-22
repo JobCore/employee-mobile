@@ -6,7 +6,7 @@ const editPositionsValidator = (positions) => {
     throw new Error(i18next.t('JOB_PREFERENCES.invalidPositions'));
   }
 
-  for (positionId of positions) {
+  for (const positionId of positions) {
     if (!utils.isValidInteger(positionId)) {
       throw new Error(i18next.t('JOB_PREFERENCES.invalidPositions'));
     }

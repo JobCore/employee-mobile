@@ -1,5 +1,4 @@
 import { FluxStore } from '../../utils/flux-state';
-import { AsyncStorage } from "react-native";
 import { LOG, WARN, ERROR } from "../../utils";
 
 class InviteStore extends FluxStore {

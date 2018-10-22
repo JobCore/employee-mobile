@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import {
   View,
-  StyleSheet,
   Image,
   ListView,
   Alert,
   RefreshControl,
 } from "react-native";
-import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, Body, Title, Right, Label, Thumbnail, Toast, Spinner } from 'native-base';
+import { Container, Header, Content, Button, Icon, List, ListItem, Text, Left, Body, Title, Right, Thumbnail, Spinner } from 'native-base';
 import styles from './JobInvitesStyle';
 import { SETTING_ROUTE, INVITE_DETAILS_ROUTE } from '../../constants/routes'
 import { BLUE_MAIN, BLUE_DARK } from "../../constants/colorPalette";

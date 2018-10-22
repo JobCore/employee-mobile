@@ -1,12 +1,8 @@
 import React, { Component } from "react";
 import {
   View,
-  Text,
-  ActivityIndicator,
   AsyncStorage,
-  StatusBar,
   StyleSheet,
-  Alert
 } from "react-native";
 import { Spinner } from 'native-base';
 import { BLUE_DARK } from '../../constants/colorPalette'
@@ -50,8 +46,6 @@ class Splash extends Component {
 
   // Fetch the token from AsycnStorage/FluxState then navigate to our appropriate place
   _bootstrapAsync = async () => {
-    let token;
-    let status;
     let userData = await store.getState('Login');
 
     if (!userData || !userData.token) {

@@ -2,12 +2,10 @@ import React, { Component } from "react";
 import { BLUE_DARK } from '../../constants/colorPalette';
 import {
 View,
-AsyncStorage,
-// SafeAreaView,
 TouchableOpacity,
 Image,
 } from "react-native";
-import { Container, Item, Input, Button, Text, Form, Label, Header, Right, Left, Body, Icon, Title, Toast, Spinner } from 'native-base';
+import { Item, Input, Button, Text, Form, Spinner } from 'native-base';
 import styles from './ForgotStyle';
 import * as accountActions from './actions';
 import accountStore from './AccountStore';

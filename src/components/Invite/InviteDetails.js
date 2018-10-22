@@ -2,46 +2,27 @@ import React, { Component } from "react";
 import MapView, { Marker } from 'react-native-maps';
 import {
   View,
-  AsyncStorage,
-  // SafeAreaView,
   Image,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-  TextInput,
-  Divider,
-  ScrollView,
   Dimensions,
   Alert,
 } from "react-native";
 import {
   Container,
   Content,
-  Item,
-  Input,
   Button,
   Text,
-  Form,
-  Label,
   Header,
   Left,
   Right,
   Body,
   Title,
-  ListItem,
   Spinner,
-  Toast,
   Icon,
-  Card,
-  CardItem
 } from 'native-base';
 import styles from './InviteDetailsStyle';
-import { DASHBOARD_ROUTE, APP_ROUTE, AUTH_ROUTE, RESET_ROUTE } from "../../constants/routes";
-import { WHITE_MAIN, BLUE_DARK, BLUE_MAIN, GRAY_MAIN } from "../../constants/colorPalette";
-import store from "../Account/AccountStore";
+import { WHITE_MAIN, BLUE_DARK, BLUE_MAIN } from "../../constants/colorPalette";
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
-import { FormView } from "../../utils/platform";
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import { LOG, WARN, ERROR } from "../../utils";
@@ -233,13 +214,17 @@ class InviteDetails extends Component {
                 <View style={styles.viewCrud}>
                           <View style={styles.viewButtomLeft}>
                               <Button onPress={this.rejectJob}
-                                  style={styles.buttomLeft} full rounded>
-                                  <Text>{t('JOB_INVITES.reject')}</Text>
+                                  style={styles.buttomLeft} full rounded bordered>
+                                  <Text style={styles.textViolet}>
+                                    {t('JOB_INVITES.reject')}
+                                  </Text>
                               </Button>
                           </View>
                           <View style={styles.viewButtomRight}>
-                              <Button onPress={this.applyJob} style={styles.buttomRight} full rounded>
-                              <Text>{t('JOB_INVITES.apply')}</Text>
+                              <Button onPress={this.applyJob} style={styles.buttomRight} full rounded bordered>
+                              <Text style={styles.textBlue}>
+                                {t('JOB_INVITES.apply')}
+                              </Text>
                               </Button>
                           </View>
                       </View>
@@ -291,7 +276,7 @@ class InviteDetails extends Component {
     );
   }
 
-  rejectJob = (invitation) => {
+  rejectJob = () => {
     let jobTitle;
 
     try {
