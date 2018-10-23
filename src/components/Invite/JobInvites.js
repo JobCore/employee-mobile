@@ -51,7 +51,7 @@ class JobInvites extends Component {
   }
 
   componentWillUnmount() {
-    this.jobInvitesSubscription.unsubscribe();
+    this.getJobInvitesSubscription.unsubscribe();
     this.applyJobSubscription.unsubscribe();
     this.rejectJobSubscription.unsubscribe();
     this.inviteStoreError.unsubscribe();
