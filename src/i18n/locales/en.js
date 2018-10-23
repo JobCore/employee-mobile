@@ -99,6 +99,7 @@ export default {
   },
   MY_JOBS: {
     myJobs: 'My Jobs',
+    jobDetals: 'Job details',
     pending: 'Pending',
     upcoming: 'Upcoming',
     completed: 'Completed',
@@ -114,6 +115,6 @@ export default {
     myRating: 'My rating',
     stopReceivingInvites: 'Stop receiving invites',
     y: 'Y',
-    n: 'N', 
+    n: 'N',
   }
 }
