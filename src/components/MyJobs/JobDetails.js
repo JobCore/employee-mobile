@@ -64,13 +64,13 @@ class JobDetailsScreen extends Component {
 
   componentDidMount() {
     this.getJobSubscription = jobStore
-      .subscribe('GetJob', (invite) => {
-        this.getJobHandler(invite);
+      .subscribe('GetJob', (job) => {
+        this.getJobHandler(job);
       });
 
     this.getApplicationSubscription = jobStore
-      .subscribe('GetApplication', (invite) => {
-        this.getJobHandler(invite);
+      .subscribe('GetApplication', (job) => {
+        this.getJobHandler(job);
       });
 
     this.inviteStoreError = jobStore
@@ -108,8 +108,8 @@ class JobDetailsScreen extends Component {
         longitude: longitude,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
-        isLoading: false,
-      }
+      },
+      isLoading: false,
     });
   }
 
@@ -158,7 +158,7 @@ class JobDetailsScreen extends Component {
                       pinColor={BLUE_DARK}
                       coordinate={{
                         latitude: this.state.shift.venue.latitude,
-                        longitude: this.state.invite.shift.venue.longitude,
+                        longitude: this.state.shift.venue.longitude,
                       }}
                       title={this.state.shift.venue.title}
                       />
