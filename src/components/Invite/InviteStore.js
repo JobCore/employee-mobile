@@ -7,7 +7,19 @@ class InviteStore extends FluxStore {
 
     this.addEvent('JobInvites');
 
-    this.addEvent('GetInvite');
+    /**
+     * Get invite event, parse the lat/lng to Number
+     */
+    this.addEvent('GetInvite', (invite) => {
+      try {
+        invite.shift.venue.latitude = Number(invite.shift.venue.latitude);
+        invite.shift.venue.longitude = Number(invite.shift.venue.longitude);
+      } catch (e) {
+        LOG(this, 'Error parsing the lat/lng to Number');
+      }
+
+      return invite;
+    });
 
     this.addEvent('ApplyJob');
 
@@ -18,6 +30,8 @@ class InviteStore extends FluxStore {
     this.addEvent('GetJobPreferences');
 
     this.addEvent('EditJobPreferences');
+
+    this.addEvent('StopReceivingInvites');
 
     this.addEvent('EditPositions');
 

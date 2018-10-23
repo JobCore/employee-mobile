@@ -104,4 +104,16 @@ export default {
     completed: 'Completed',
     failed: 'Failed',
   },
+  DASHBOARD: {
+    dashboard: 'Dashboard',
+    hello: 'Hello',
+    welcome: 'Welcome to Jobcore',
+    pendingPayments: 'Pending payments',
+    invitations: 'Invitations',
+    upcomingJobs: 'Upcoming jobs',
+    myRating: 'My rating',
+    stopReceivingInvites: 'Stop receiving invites',
+    y: 'Y',
+    n: 'N', 
+  }
 }
