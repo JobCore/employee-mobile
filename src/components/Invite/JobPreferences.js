@@ -63,10 +63,7 @@ class JobPreferences extends Component {
     this.inviteStoreError = inviteStore
       .subscribe('InviteStoreError', (err) => this.errorHandler(err));
 
-    this.isLoading(true);
-    this.getPositions();
-    this.getJobPreferences();
-    this.getAvailability();
+    this.firstLoad();
   }
 
   componentWillUnmount() {
@@ -266,11 +263,20 @@ class JobPreferences extends Component {
     )}</I18n>);
   }
 
+  firstLoad = () => {
+    this.setState({ isLoading: true }, () => {
+      this.getPositions();
+      this.getJobPreferences();
+      this.getAvailability();
+    });
+  }
+
   refreshPreferences = () => {
-    this.setState({ isRefreshing: true });
-    this.getPositions();
-    this.getJobPreferences();
-    this.getAvailability();
+    this.setState({ isRefreshing: true }, () => {
+      this.getPositions();
+      this.getJobPreferences();
+      this.getAvailability();
+    });
   }
 
   /**
