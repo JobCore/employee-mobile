@@ -125,6 +125,22 @@ const editJobPreferences = (minimumHourlyRate, maximumJobDistanceMiles) => {
 }
 
 /**
+ * Edit stopReceivingInvites field on employees
+ * @param  {boolean} stopReceivingInvites   if stop receiving invites
+ */
+const stopReceivingInvites = (stopReceivingInvites) => {
+  putData(`/employees/me`, {
+      "stop_receiving_invites": stopReceivingInvites,
+    })
+    .then((data) => {
+      Flux.dispatchEvent('StopReceivingInvites', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('InviteStoreError', err);
+    });
+}
+
+/**
  * List availability action
  */
 const getAvailability = () => {
@@ -197,4 +213,5 @@ export {
   getAvailability,
   editAvailabilityAllday,
   editAvailabilityDates,
+  stopReceivingInvites,
 };

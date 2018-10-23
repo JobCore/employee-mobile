@@ -88,8 +88,8 @@ class InviteDetails extends Component {
     let longitude;
 
     try {
-      latitude = invite.venue.latitude || DEFAULT_LATIDUDE;
-      longitude = invite.venue.longitude || DEFAULT_LONGITUDE;
+      latitude = invite.shift.venue.latitude || DEFAULT_LATIDUDE;
+      longitude = invite.shift.venue.longitude || DEFAULT_LONGITUDE;
     } catch (e) {
       LOG(this, `No latLng: ${JSON.stringify(e)}`);
 
@@ -201,12 +201,13 @@ class InviteDetails extends Component {
                     this.state.invite.shift &&
                     this.state.invite.shift.venue && this.state.invite.shift.venue.latitude >= 0 && this.state.invite.shift.venue.longitude >= 0)
                     ? <Marker
-                    coordinate={{
-                      latitude: this.state.invite.shift.venue.latitude,
-                      longitude: this.state.invite.shift.venue.longitude,
-                    }}
-                    title={this.state.invite.shift.venue.title}
-                    />
+                      pinColor={BLUE_DARK}
+                      coordinate={{
+                        latitude: this.state.invite.shift.venue.latitude,
+                        longitude: this.state.invite.shift.venue.longitude,
+                      }}
+                      title={this.state.invite.shift.venue.title}
+                      />
                     : null}
                 </MapView>
 

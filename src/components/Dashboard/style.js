@@ -2,6 +2,11 @@ import { StyleSheet, Platform } from 'react-native';
 import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN} from '../../constants/colorPalette';
 
 export default StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   headerCustom:{
     backgroundColor: BLUE_MAIN,
   },
@@ -86,25 +91,25 @@ export default StyleSheet.create({
     width: 25,
     height: 25
   },
-  buttomLeftActive:{
+  buttonLeftActive:{
     backgroundColor: BLUE_MAIN,
     borderColor:'transparent',
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
   },
-  buttomLeftInactive:{
+  buttonLeftInactive:{
     backgroundColor: 'transparent',
     borderColor: BLUE_MAIN,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0
   },
-  buttomRightActive:{
-    borderColor: BLUE_MAIN,
-    backgroundColor: 'transparent',
+  buttonRightActive:{
+    backgroundColor: BLUE_MAIN,
+    borderColor: 'transparent',
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
   },
-  buttomRightInactive:{
+  buttonRightInactive:{
     backgroundColor: 'transparent',
     borderColor: BLUE_MAIN,
     borderTopRightRadius: 0,
