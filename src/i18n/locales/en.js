@@ -3,6 +3,7 @@ export default {
     cancel: 'cancel',
     goBack: 'Go back',
     noInternet: 'Please check your internet connection and try again.',
+    timeout: 'The server has taken a long time to respond',
     to: 'to',
   },
   LOGIN: {
@@ -99,6 +100,7 @@ export default {
   },
   MY_JOBS: {
     myJobs: 'My Jobs',
+    jobDetals: 'Job details',
     pending: 'Pending',
     upcoming: 'Upcoming',
     completed: 'Completed',
@@ -114,6 +116,6 @@ export default {
     myRating: 'My rating',
     stopReceivingInvites: 'Stop receiving invites',
     y: 'Y',
-    n: 'N', 
+    n: 'N',
   }
 }
