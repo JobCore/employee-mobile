@@ -60,6 +60,7 @@ class Position extends Component {
   }
 
   getPositionsHandler = (positionList) => {
+    this.isLoading(false);
     this.setState({ positionList });
   }
 
