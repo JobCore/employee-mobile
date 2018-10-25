@@ -13,7 +13,7 @@ import * as inviteActions from '../Invite/actions';
 import inviteStore from '../Invite/InviteStore';
 import * as jobActions from '../MyJobs/actions';
 import jobStore from '../MyJobs/JobStore';
-import { CustomToast } from '../../utils/components';
+import { CustomToast, Loading } from '../../utils/components';
 import { LOG, WARN, ERROR } from "../../utils";
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
@@ -142,14 +142,10 @@ class DashboardScreen extends Component {
   }
 
   render() {
-    if (this.state.isLoading) {
-      return (<View style={styles.container}>
-                <Spinner color={BLUE_DARK}/>
-            </View>);
-    }
-
     return (<I18n>{(t, { i18n }) => (
             <Container>
+              <Loading isLoading={this.state.isLoading}></Loading>
+
                 <Header androidStatusBarColor={BLUE_MAIN} style={styles.headerCustom}>
                     <Left/>
                     <Body>
