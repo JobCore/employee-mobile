@@ -112,10 +112,10 @@ class DashboardScreen extends Component {
 
   getEmployeeHandler = (data) => {
     this.setState({
-      stopReceivingInvites: data.stop_receiving_invites,
-      rating: data.rating || 'N/A',
       isLoading: false,
       isRefreshing: false,
+      stopReceivingInvites: data.stop_receiving_invites,
+      rating: data.rating || 'N/A',
     });
   }
 
@@ -261,19 +261,19 @@ class DashboardScreen extends Component {
   }
 
   firstLoad = () => {
-    this.setState({ isLoading: true });
-
-    this.getEmployee();
-    this.getInvites();
-    this.getUpcomingJobs();
+    this.setState({ isLoading: true }, () => {
+      this.getEmployee();
+      this.getInvites();
+      this.getUpcomingJobs();
+    });
   }
 
   reFresh = () => {
-    this.setState({ isRefreshing: true });
-
-    this.getEmployee();
-    this.getInvites();
-    this.getUpcomingJobs();
+    this.setState({ isRefreshing: true }, () => {
+      this.getEmployee();
+      this.getInvites();
+      this.getUpcomingJobs();
+    });
   }
 
 
