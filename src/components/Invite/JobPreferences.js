@@ -79,10 +79,9 @@ class JobPreferences extends Component {
   }
 
   getJobPreferencesHandler = (data) => {
-    this.isLoading(false);
-    this.setState({ isRefreshing: false });
-
     this.setState({
+      isLoading: false,
+      isRefreshing: false,
       positions: data.positions,
       minimumHourlyRate: Number(data.minimum_hourly_rate),
       maximumJobDistanceMiles: data.maximum_job_distance_miles,

@@ -25,6 +25,7 @@ import * as jobActions from './actions';
 import jobStore from './JobStore';
 import { JobDetails } from '../../utils/components';
 import { LOG, WARN, ERROR } from "../../utils";
+import { Loading } from '../../utils/components';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -118,14 +119,10 @@ class JobDetailsScreen extends Component {
   }
 
   render() {
-    if (this.state.isLoading) {
-      return (<View style={styles.container}>
-                  <Spinner color={BLUE_DARK}/>
-              </View>);
-    }
-
     return (<I18n>{(t, { i18n }) => (
             <Container>
+              <Loading isLoading={this.state.isLoading}></Loading>
+              
                 <Header androidStatusBarColor={BLUE_MAIN} style={styles.headerCustom}>
                     <Left>
                       <Button transparent onPress={() => this.props.navigation.goBack()}>
