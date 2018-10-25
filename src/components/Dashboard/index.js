@@ -268,7 +268,7 @@ class DashboardScreen extends Component {
     this.getUpcomingJobs();
   }
 
-  reFresh = () => {
+  refresh = () => {
     this.setState({ isRefreshing: true });
 
     this.getEmployee();

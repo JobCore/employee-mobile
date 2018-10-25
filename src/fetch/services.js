@@ -15,7 +15,7 @@ const API_URL = 'https://jobcore.herokuapp.com/api';
 export async function postData(url, data, isAuth = true) {
   await checkConnection();
 
-  return fetch(`${API_URL}${url}`, {
+  return timeout(20000,  fetch(`${API_URL}${url}`, {
       body: JSON.stringify(data),
       headers: {
         'Accept': 'application/json',
@@ -24,7 +24,7 @@ export async function postData(url, data, isAuth = true) {
         'Authorization': (isAuth) ? `jwt ${accountStore.getState('Login').token}` : '',
       },
       method: 'POST',
-    })
+    }))
     .then(checkStatus)
     .then((res) => res)
     .catch((err) => Promise.reject(err));
@@ -39,7 +39,7 @@ export async function postData(url, data, isAuth = true) {
 export async function putData(url, data, isAuth = true) {
   await checkConnection();
 
-  return fetch(`${API_URL}${url}`, {
+  return timeout(20000,  fetch(`${API_URL}${url}`, {
       body: JSON.stringify(data),
       headers: {
         'Accept': 'application/json',
@@ -48,7 +48,7 @@ export async function putData(url, data, isAuth = true) {
         'Authorization': (isAuth) ? `jwt ${accountStore.getState('Login').token}` : '',
       },
       method: 'PUT',
-    })
+    }))
     .then(checkStatus)
     .then((res) => res)
     .catch((err) => Promise.reject(err));
@@ -63,7 +63,7 @@ export async function putData(url, data, isAuth = true) {
 export async function getData(url, isAuth = true) {
   await checkConnection();
 
-  return fetch(`${API_URL}${url}`, {
+  return timeout(20000, fetch(`${API_URL}${url}`, {
       headers: {
         'Accept': 'application/json',
         'Accept-Language': 'en',
@@ -71,7 +71,7 @@ export async function getData(url, isAuth = true) {
         'Authorization': (isAuth) ? `jwt ${accountStore.getState('Login').token}` : '',
       },
       method: 'GET',
-    })
+    }))
     .then(checkStatus)
     .then((res) => res)
     .catch((err) => Promise.reject(err));
@@ -86,7 +86,7 @@ export async function getData(url, isAuth = true) {
 export async function deleteData(url, isAuth = true) {
   await checkConnection();
 
-  return fetch(`${API_URL}${url}`, {
+  return timeout(20000,  fetch(`${API_URL}${url}`, {
       headers: {
         'Accept': 'application/json',
         'Accept-Language': 'en',
@@ -94,7 +94,7 @@ export async function deleteData(url, isAuth = true) {
         'Authorization': (isAuth) ? `jwt ${accountStore.getState('Login').token}` : '',
       },
       method: 'DELETE',
-    })
+    }))
     .then(checkStatus)
     .then((res) => res)
     .catch((err) => Promise.reject(err));
@@ -109,7 +109,7 @@ export async function deleteData(url, isAuth = true) {
 export async function downloadData(url, isAuth = true) {
   await checkConnection();
 
-  return fetch(`${API_URL}${url}`, {
+  return timeout(20000,  fetch(`${API_URL}${url}`, {
       method: 'GET',
       headers: {
         'Authorization': (isAuth) ? `jwt ${accountStore.getState('Login').token}` : '',
@@ -125,7 +125,7 @@ export async function downloadData(url, isAuth = true) {
       return response.json().then((err) => {
         return Promise.reject(err);
       })
-    })
+    }))
     .then((res) => res)
     .catch((err) => Promise.reject(err));
 }
@@ -139,7 +139,7 @@ export async function downloadData(url, isAuth = true) {
 export async function postFormData(url, formData, isAuth = true) {
   await checkConnection();
 
-  return fetch(`${API_URL}${url}`, {
+  return timeout(20000,  fetch(`${API_URL}${url}`, {
       body: formData,
       headers: {
         'Accept': 'application/json',
@@ -147,7 +147,7 @@ export async function postFormData(url, formData, isAuth = true) {
         'Authorization': (isAuth) ? `jwt ${accountStore.getState('Login').token}` : '',
       },
       method: 'POST',
-    })
+    }))
     .then(checkStatus)
     .then((res) => res)
     .catch((err) => Promise.reject(err));
@@ -158,11 +158,11 @@ export async function postFormData(url, formData, isAuth = true) {
 reject or resolve based on status then Parses the response to json
  */
 function checkStatus(response) {
-  if (response.status === 401 || response.status === 403) {
+  if (response && response.status === 401 || response.status === 403) {
     Flux.dispatchEvent('Logout', {});
   }
 
-  if (response.ok) {
+  if (response && response.ok) {
     if (response.status === 204) {
       return { status: 'No content response' }
     }
@@ -186,4 +186,18 @@ async function checkConnection() {
   if (connectionInfo.type === 'none' || connectionInfo.type === 'unknown') {
     throw new Error(i18next.t('APP.noInternet'));
   }
+}
+
+/**
+ * Timeout for fetch request
+ * @param  {number} ms      milliseconds
+ * @param  {promise} promise the fetch promise
+ */
+function timeout(ms, promise) {
+  return new Promise(function(resolve, reject) {
+    setTimeout(function() {
+      reject(new Error(i18next.t('APP.timeout')));
+    }, ms);
+    promise.then(resolve, reject)
+  })
 }

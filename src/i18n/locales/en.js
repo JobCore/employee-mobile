@@ -3,6 +3,7 @@ export default {
     cancel: 'cancel',
     goBack: 'Go back',
     noInternet: 'Please check your internet connection and try again.',
+    timeout: 'The server has taken a long time to respond',
     to: 'to',
   },
   LOGIN: {
