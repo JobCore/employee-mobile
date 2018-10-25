@@ -25,7 +25,9 @@ import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
+import { JobDetails } from '../../utils/components';
 import { LOG, WARN, ERROR } from "../../utils";
+import { Loading } from '../../utils/components';
 import moment from 'moment';
 
 const width = Dimensions.get('window').width;
@@ -125,14 +127,10 @@ class InviteDetails extends Component {
   }
 
   render() {
-    if (this.state.isLoading) {
-      return (<View style={styles.container}>
-                  <Spinner color={BLUE_DARK}/>
-              </View>);
-    }
-
     return (<I18n>{(t, { i18n }) => (
             <Container>
+              <Loading isLoading={this.state.isLoading}></Loading>
+
                 <Header androidStatusBarColor={BLUE_MAIN} style={styles.headerCustom}>
                     <Left>
                       <Button transparent onPress={() => this.props.navigation.goBack()}>
@@ -149,47 +147,9 @@ class InviteDetails extends Component {
 
                 <Content>
                   <View style={{padding: 18}}>
-                    {/* title info */}
-                  {(this.state.invite.shift) ?
-                  <Text style={styles.viewTitleInfo}>
-                      {(this.state.invite.shift.venue) ?
-                      <Text style={styles.textOne}>
-                        {this.state.invite.shift.venue.title}
-                      </Text>
-                      : null}
-                      <Text style={styles.textTwo}>
-                        {` ${t('JOB_INVITES.lookingFor')} `}
-                      </Text>
-                      {(this.state.invite.shift.position) ?
-                        <Text style={styles.textThree}>
-                        {this.state.invite.shift.position.title}
-                      </Text>
-                      : null}
-                    </Text>
-                    : null}
-                    {/* title date info */}
-                    {(this.state.invite.shift) ?
-                    <Text>
-                      <Text style={styles.textTwo}>
-                        {` ${t('JOB_INVITES.on')} `}
-                      </Text>
-                      <Text style={styles.textBlack}>
-                      {`${
-                        t('JOB_PREFERENCES.dateStartToEnd', {
-                          startingAt: moment(this.state.invite.shift.starting_at).format('lll'),
-                          endingAt: moment(this.state.invite.shift.ending_at).format('lll'),
-                        })
-                      } `}
-                      {/* Sep 24th From 3pm to 6pm. */}
-                    </Text>
-                      <Text style={styles.textRed}>
-                      {`$${this.state.invite.shift.minimum_hourly_rate}/${t('JOB_INVITES.hr')}.`}
-                      </Text>
-                    </Text>
-                  : null }
-
-                  {/* ADD line divider here  */}
-
+                    {(this.state.invite && this.state.invite.shift) ?
+                      <JobDetails shift={this.state.invite.shift}></JobDetails>
+                    : null }
                   </View>
                 </Content>
 

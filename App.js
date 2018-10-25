@@ -18,8 +18,9 @@ import JobPreferences from './src/components/Invite/JobPreferences';
 import Position from './src/components/Invite/Position';
 import Availability from './src/components/Invite/Availability';
 import MyJobs from './src/components/MyJobs';
+import JobDetailsScreen from './src/components/MyJobs/JobDetails';
 
-import { DASHBOARD_ROUTE, TABBAR_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE, FORGOT_ROUTE, JOB_INVITES_ROUTE, JOB_PREFERENCES_ROUTE, MYJOBS_ROUTE, SETTING_ROUTE, APP_ROUTE, STACK_ROUTE, AUTH_ROUTE, RESET_ROUTE, AVAILABILITY_ROUTE, INVITE_DETAILS_ROUTE, EDIT_PROFILE_ROUTE, POSITION_ROUTE } from './src/constants/routes'
+import { DASHBOARD_ROUTE, TABBAR_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE, FORGOT_ROUTE, JOB_INVITES_ROUTE, JOB_PREFERENCES_ROUTE, MYJOBS_ROUTE, SETTING_ROUTE, APP_ROUTE, STACK_ROUTE, AUTH_ROUTE, RESET_ROUTE, AVAILABILITY_ROUTE, INVITE_DETAILS_ROUTE, EDIT_PROFILE_ROUTE, POSITION_ROUTE, JOB_DETAILS_ROUTE } from './src/constants/routes'
 import { BLUE_MAIN, BLUE_DARK, BLUE_LIGHT, GRAY_MAIN, BLUE_SEMI_LIGHT } from './src/constants/colorPalette'
 
 import SettingScreen from './src/components/Setting';
@@ -80,6 +81,7 @@ const SwitchNavigator = createSwitchNavigator(
             [AVAILABILITY_ROUTE]: Availability,
             [POSITION_ROUTE]: Position,
             [INVITE_DETAILS_ROUTE]: InviteDetails,
+            [JOB_DETAILS_ROUTE]: JobDetailsScreen,
         }, {navigationOptions: {header: null}}),
         [AUTH_ROUTE]: AuthStack,
         [STACK_ROUTE]: AppStack

@@ -2,6 +2,32 @@ import * as Flux from '../../utils/flux-state';
 import { getData } from '../../fetch';
 
 /**
+ * Get shift application
+ */
+const getApplication = (applicationId) => {
+  getData(`/applications/${applicationId}`)
+    .then((jobs) => {
+      Flux.dispatchEvent('GetApplication', jobs);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('JobStoreError', err);
+    });
+};
+
+/**
+ * Get shift job
+ */
+const getJob = (shiftId) => {
+  getData(`/shifts/${shiftId}`)
+    .then((jobs) => {
+      Flux.dispatchEvent('GetJob', jobs);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('JobStoreError', err);
+    });
+};
+
+/**
  * Get pending jobs
  */
 const getPendingJobs = () => {
@@ -53,4 +79,11 @@ const getFailedJobs = () => {
     });
 };
 
-export { getUpcomingJobs, getPendingJobs, getCompletedJobs, getFailedJobs };
+export {
+  getUpcomingJobs,
+  getPendingJobs,
+  getCompletedJobs,
+  getFailedJobs,
+  getApplication,
+  getJob,
+};

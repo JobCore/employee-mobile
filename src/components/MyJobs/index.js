@@ -7,12 +7,12 @@ import {
 import { Container, Header, Content, Button, Text, Left, Body, Title, Right, Segment, ListItem, Spinner } from 'native-base';
 import styles from './style'
 import { BLUE_MAIN, BLUE_DARK } from "../../constants/colorPalette";
-import { SETTING_ROUTE } from "../../constants/routes";
+import { SETTING_ROUTE, JOB_DETAILS_ROUTE } from "../../constants/routes";
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as jobActions from './actions';
 import { LOG, WARN, ERROR, equalMonthAndYear } from "../../utils";
-import { CustomToast } from '../../utils/components';
+import { CustomToast, Loading } from '../../utils/components';
 import jobStore from './JobStore';
 import moment from 'moment';
 
@@ -113,14 +113,10 @@ class MyJobs extends Component {
   }
 
   render() {
-    if (this.state.isLoading) {
-      return (<View style={styles.container}>
-                  <Spinner color={BLUE_DARK}/>
-              </View>);
-    }
-
     return (<I18n>{(t, { i18n }) => (
       <Container>
+        <Loading isLoading={this.state.isLoading}></Loading>
+
         <Header androidStatusBarColor={BLUE_MAIN} style={styles.headerCustom}>
         <Left/>
           <Body>
@@ -178,7 +174,7 @@ class MyJobs extends Component {
                 </Text>
               : null}
 
-              <ListItem icon style={styles.viewList}>
+              <ListItem onPress={() => this.goToJobDetails(job)} icon style={styles.viewList}>
                 <Left>
                   <Button transparent>
                     <View style={styles.pointPending}/>
@@ -222,7 +218,7 @@ class MyJobs extends Component {
   selectJobFilter = (jobFilterSelected) => {
     if (this.state.isLoadingJobs) return;
 
-    this.setState({ jobFilterSelected }, this.getJobs);
+    this.setState({ jobFilterSelected, isLoading: true }, this.getJobs);
   }
 
   /**
@@ -231,8 +227,17 @@ class MyJobs extends Component {
   getJobs() {
     if (typeof(jobActions[this.state.jobFilterSelected]) !== 'function') return;
 
-    this.setState({ isLoadingJobs: true });
     jobActions[this.state.jobFilterSelected]();
+  }
+
+  goToJobDetails = (job) => {
+    if (!job) return;
+
+    if (job.applicationId) {
+      return this.props.navigation.navigate(JOB_DETAILS_ROUTE, { applicationId: job.applicationId })
+    }
+
+    this.props.navigation.navigate(JOB_DETAILS_ROUTE, { shiftId: job.id });
   }
 
   isLoading = (isLoading) => {
