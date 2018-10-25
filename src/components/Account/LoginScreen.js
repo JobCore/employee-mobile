@@ -19,7 +19,7 @@ import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import { LOG, WARN, ERROR } from "../../utils";
-import { CustomToast } from '../../utils/components';
+import { CustomToast, Loading } from '../../utils/components';
 import { FormView } from "../../utils/platform";
 
 class LoginScreen extends Component {
@@ -81,14 +81,9 @@ class LoginScreen extends Component {
   }
 
   render() {
-    if (this.state.isLoading) {
-      return (<View style={styles.container}>
-                <Spinner color={BLUE_DARK}/>
-            </View>);
-    }
-
     return (<I18n>{(t, { i18n }) => (
             <View style={styles.container}>
+              <Loading isLoading={this.state.isLoading}></Loading>
                 <Image
                     style={styles.viewBackground}
                     source={require('../../assets/image/bg.jpg')}
