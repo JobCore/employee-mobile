@@ -18,7 +18,7 @@ const Loading = props => {
   return (
     <Modal
       transparent={true}
-      animationType={'none'}
+      animationType={'fade'}
       visible={isLoading}
       onRequestClose={() => {LOG(this, 'close modal')}}>
       <View style={styles.modalBackground}>
