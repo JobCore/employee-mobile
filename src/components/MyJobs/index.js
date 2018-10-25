@@ -218,7 +218,7 @@ class MyJobs extends Component {
   selectJobFilter = (jobFilterSelected) => {
     if (this.state.isLoadingJobs) return;
 
-    this.setState({ jobFilterSelected }, this.getJobs);
+    this.setState({ jobFilterSelected, isLoading: true }, this.getJobs);
   }
 
   /**
@@ -227,9 +227,7 @@ class MyJobs extends Component {
   getJobs() {
     if (typeof(jobActions[this.state.jobFilterSelected]) !== 'function') return;
 
-    this.setState({ isLoading: true }, () => {
-      jobActions[this.state.jobFilterSelected]();
-    });
+    jobActions[this.state.jobFilterSelected]();
   }
 
   isLoading = (isLoading) => {
