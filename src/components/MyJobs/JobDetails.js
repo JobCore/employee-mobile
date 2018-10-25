@@ -185,7 +185,7 @@ class JobDetailsScreen extends Component {
 
     if (this.state.applicationId) {
       this.setState({ isLoading: true });
-      return jobActions.getApplication(this.state.shiftId);
+      return jobActions.getApplication(this.state.applicationId);
     }
   }
 }

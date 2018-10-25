@@ -5,7 +5,7 @@ import { getData } from '../../fetch';
  * Get shift application
  */
 const getApplication = (applicationId) => {
-  getData(`/employees/me/applications/${applicationId}`)
+  getData(`/applications/${applicationId}`)
     .then((jobs) => {
       Flux.dispatchEvent('GetApplication', jobs);
     })
