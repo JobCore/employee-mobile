@@ -15,7 +15,7 @@ import inviteStore from './InviteStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import { FormViewPreferences } from "../../utils/platform";
-import { CustomToast } from '../../utils/components';
+import { CustomToast, Loading } from '../../utils/components';
 import { LOG, WARN, ERROR } from "../../utils";
 import moment from 'moment';
 
@@ -63,10 +63,7 @@ class JobPreferences extends Component {
     this.inviteStoreError = inviteStore
       .subscribe('InviteStoreError', (err) => this.errorHandler(err));
 
-    this.isLoading(true);
-    this.getPositions();
-    this.getJobPreferences();
-    this.getAvailability();
+    this.firstLoad();
   }
 
   componentWillUnmount() {
@@ -107,14 +104,10 @@ class JobPreferences extends Component {
   }
 
   render() {
-    if (this.state.isLoading) {
-      return (<View style={styles.container}>
-                  <Spinner color={BLUE_DARK}/>
-              </View>);
-    }
-
     return (<I18n>{(t, { i18n }) => (
       <Container>
+        <Loading isLoading={this.state.isLoading}></Loading>
+
         <Header androidStatusBarColor={BLUE_MAIN} style={styles.headerCustom}>
           <Left/>
           <Body>
@@ -266,11 +259,20 @@ class JobPreferences extends Component {
     )}</I18n>);
   }
 
+  firstLoad = () => {
+    this.setState({ isLoading: true }, () => {
+      this.getPositions();
+      this.getJobPreferences();
+      this.getAvailability();
+    });
+  }
+
   refreshPreferences = () => {
-    this.setState({ isRefreshing: true });
-    this.getPositions();
-    this.getJobPreferences();
-    this.getAvailability();
+    this.setState({ isRefreshing: true }, () => {
+      this.getPositions();
+      this.getJobPreferences();
+      this.getAvailability();
+    });
   }
 
   /**

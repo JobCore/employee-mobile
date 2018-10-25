@@ -13,7 +13,7 @@ import * as inviteActions from '../Invite/actions';
 import inviteStore from '../Invite/InviteStore';
 import * as jobActions from '../MyJobs/actions';
 import jobStore from '../MyJobs/JobStore';
-import { CustomToast } from '../../utils/components';
+import { CustomToast, Loading } from '../../utils/components';
 import { LOG, WARN, ERROR } from "../../utils";
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
@@ -112,10 +112,10 @@ class DashboardScreen extends Component {
 
   getEmployeeHandler = (data) => {
     this.setState({
-      stopReceivingInvites: data.stop_receiving_invites,
-      rating: data.rating || 'N/A',
       isLoading: false,
       isRefreshing: false,
+      stopReceivingInvites: data.stop_receiving_invites,
+      rating: data.rating || 'N/A',
     });
   }
 
@@ -142,14 +142,10 @@ class DashboardScreen extends Component {
   }
 
   render() {
-    if (this.state.isLoading) {
-      return (<View style={styles.container}>
-                <Spinner color={BLUE_DARK}/>
-            </View>);
-    }
-
     return (<I18n>{(t, { i18n }) => (
             <Container>
+              <Loading isLoading={this.state.isLoading}></Loading>
+
                 <Header androidStatusBarColor={BLUE_MAIN} style={styles.headerCustom}>
                     <Left/>
                     <Body>
@@ -261,11 +257,11 @@ class DashboardScreen extends Component {
   }
 
   firstLoad = () => {
-    this.setState({ isLoading: true });
-
-    this.getEmployee();
-    this.getInvites();
-    this.getUpcomingJobs();
+    this.setState({ isLoading: true }, () => {
+      this.getEmployee();
+      this.getInvites();
+      this.getUpcomingJobs();
+    });
   }
 
   refresh = () => {

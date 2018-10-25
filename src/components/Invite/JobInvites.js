@@ -13,7 +13,7 @@ import { BLUE_MAIN, BLUE_DARK } from "../../constants/colorPalette";
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import { LOG, WARN, ERROR } from "../../utils";
-import { CustomToast } from '../../utils/components';
+import { CustomToast, Loading } from '../../utils/components';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import moment from 'moment';
@@ -51,7 +51,7 @@ class JobInvites extends Component {
   }
 
   componentWillUnmount() {
-    this.jobInvitesSubscription.unsubscribe();
+    this.getJobInvitesSubscription.unsubscribe();
     this.applyJobSubscription.unsubscribe();
     this.rejectJobSubscription.unsubscribe();
     this.inviteStoreError.unsubscribe();
@@ -86,14 +86,10 @@ class JobInvites extends Component {
   render() {
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
-    if (this.state.isLoading) {
-      return (<View style={styles.container}>
-                  <Spinner color={BLUE_DARK}/>
-              </View>);
-    }
-
     return (<I18n>{(t, { i18n }) => (
       <Container>
+        <Loading isLoading={this.state.isLoading}></Loading>
+
         <Header androidStatusBarColor={BLUE_MAIN} style={styles.headerCustom}>
           <Left/>
           <Body>
