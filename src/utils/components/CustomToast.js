@@ -20,6 +20,7 @@ const CustomToast = (text, type = 'success', duration = 4000, position = 'top') 
     type: type,
     duration: duration,
     position: position,
+    buttonText: 'Ok',
   });
 }
 

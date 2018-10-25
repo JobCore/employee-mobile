@@ -1,5 +1,5 @@
 import accountStore from '../components/Account/AccountStore';
-import { NetInfo } from 'react-native';
+import { checkInternetConnection } from 'react-native-offline';
 import * as Flux from '../utils/flux-state';
 import { i18next } from '../i18n';
 import { LOG, WARN, ERROR } from "../utils";
@@ -181,9 +181,9 @@ function checkStatus(response) {
  * check if the device is connected to internet
  */
 async function checkConnection() {
-  const connectionInfo = await NetInfo.getConnectionInfo();
+  const isConnected = await checkInternetConnection();
 
-  if (connectionInfo.type === 'none' || connectionInfo.type === 'unknown') {
+  if (!isConnected) {
     throw new Error(i18next.t('APP.noInternet'));
   }
 }
