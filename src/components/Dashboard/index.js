@@ -264,12 +264,12 @@ class DashboardScreen extends Component {
     });
   }
 
-  reFresh = () => {
-    this.setState({ isRefreshing: true }, () => {
-      this.getEmployee();
-      this.getInvites();
-      this.getUpcomingJobs();
-    });
+  refresh = () => {
+    this.setState({ isRefreshing: true });
+
+    this.getEmployee();
+    this.getInvites();
+    this.getUpcomingJobs();
   }
 
 
