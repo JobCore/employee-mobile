@@ -138,11 +138,11 @@ class AddAvailability extends Component {
                 </Text>
 
                 <TouchableOpacity style={styles.radioButtonLeft} onPress={() => this.setAllday(true, block)} rounded transparent>
-                  <Icon name={(block.allday) ? 'md-radio-button-on' : 'md-radio-button-off'} style={{color: BLUE_DARK}}/>
+                  <Icon name={(block.allday) ? 'md-radio-button-on' : 'md-radio-button-off'} style={{color: (block.allday) ? BLUE_DARK : BLUE_MAIN, fontSize: 24}}/>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.radioButtonRight} onPress={() => this.setAllday(false, block)} rounded transparent>
-                  <Icon name={(!block.allday) ? 'md-radio-button-on' : 'md-radio-button-off'} style={{color: BLUE_DARK}}/>
+                  <Icon name={(!block.allday) ? 'md-radio-button-on' : 'md-radio-button-off'} style={{color: (!block.allday) ? BLUE_DARK : BLUE_MAIN, fontSize: 24 }}/>
                 </TouchableOpacity>
 
                 {(block.allday === false) ?
