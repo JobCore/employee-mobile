@@ -3,8 +3,9 @@ import {
   View,
   Image,
   RefreshControl,
+  TouchableOpacity,
 } from "react-native";
-import { Container, Header, Content, Button, Text, Left, Body, Title, Right, List, ListItem, Icon, Spinner, Radio } from 'native-base';
+import { Container, Header, Content, Button, Text, Left, Body, Title, Right, List, ListItem, Icon, Radio } from 'native-base';
 import styles from './AvailabilityStyle';
 import { BLUE_DARK, BLUE_MAIN, WHITE_MAIN } from '../../constants/colorPalette';
 import * as inviteActions from './actions';
@@ -136,15 +137,19 @@ class AddAvailability extends Component {
                   {moment(block.starting_at).format('dddd')}
                 </Text>
 
-                <Radio onPress={() => this.setAllday(true, block)} style={styles.radioButtonLeft} color={BLUE_MAIN} selectedColor={BLUE_DARK} selected={block.allday}/>
+                <TouchableOpacity style={styles.radioButtonLeft} onPress={() => this.setAllday(true, block)} rounded transparent>
+                  <Icon name={(block.allday) ? 'md-radio-button-on' : 'md-radio-button-off'} style={{color: BLUE_DARK}}/>
+                </TouchableOpacity>
 
-                <Radio onPress={() => this.setAllday(false, block)} style={styles.radioButtonRight} color={BLUE_MAIN} selectedColor={BLUE_DARK} selected={!block.allday}/>
+                <TouchableOpacity style={styles.radioButtonRight} onPress={() => this.setAllday(false, block)} rounded transparent>
+                  <Icon name={(!block.allday) ? 'md-radio-button-on' : 'md-radio-button-off'} style={{color: BLUE_DARK}}/>
+                </TouchableOpacity>
 
                 {(block.allday === false) ?
                 <View style={{flexDirection: 'row'}}>
                  <Button onPress={() => this.showStartTimePicker(block)} style={styles.buttonHour} rounded bordered small>
                     <Text style={styles.textHour}>
-                      {moment(block.starting_at).format('h:mm:a')}
+                      {moment(block.starting_at).format('h:mma')}
                     </Text>
                  </Button>
 
@@ -156,7 +161,7 @@ class AddAvailability extends Component {
 
                 <Button onPress={() => this.showEndTimePicker(block)} style={styles.buttonHour} rounded bordered small>
                   <Text style={styles.textHour}>
-                    {moment(block.ending_at).format('h:mm:a')}
+                    {moment(block.ending_at).format('h:mma')}
                   </Text>
                 </Button>
 
@@ -230,7 +235,7 @@ class AddAvailability extends Component {
     const hour = moment(dateTime).get('hour');
     const minute = moment(dateTime).get('minute');
 
-    availabilityCopy[startOrEndDate] = moment(dateTime)
+    availabilityCopy[startOrEndDate] = moment(availabilityCopy[startOrEndDate])
       .set('minute', minute)
       .set('hour', hour)
       .toISOString();
