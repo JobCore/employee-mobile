@@ -105,6 +105,7 @@ export default {
     upcoming: 'Upcoming',
     completed: 'Completed',
     failed: 'Failed',
+    review: 'Review',
   },
   DASHBOARD: {
     dashboard: 'Dashboard',
