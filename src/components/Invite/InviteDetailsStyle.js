@@ -17,7 +17,7 @@ export default StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
     width: '90%',
-    top: '35%',
+    top: '38%',
     left: '5%',
     height: 300,
     justifyContent: 'center',
@@ -94,7 +94,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 20,
     paddingRight: 20,
-    marginTop: '35%',
+    marginTop: '40%',
     marginBottom: 20,
     height: 100
   },
