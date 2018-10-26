@@ -53,7 +53,7 @@ class InviteDetails extends Component {
                               </Text>)}
                             </Text>
                           : null}
-                          {(this.props.shift.employer) ?
+                          {(this.props.shift.employer && this.props.shift.employer.total_ratings >= 0) ?
                             <Text style={{color: BLUE_DARK, fontSize: 10}}>
                               {`${this.props.shift.employer.total_ratings} ${t('MY_JOBS.review')}`}
                             </Text>
