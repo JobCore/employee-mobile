@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import { Item, Input, Button, Text, Form, Label, Spinner } from 'native-base';
+import { Item, Input, Button, Text, Form, Label, Spinner, Content } from 'native-base';
 import styles from './EditProfileStyle';
 import * as actions from './actions';
 import accountStore from './AccountStore';
@@ -54,6 +54,7 @@ class RegisterScreen extends Component {
 
   render() {
     return (<I18n>{(t, { i18n }) => (
+        <Content contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>
               <Loading isLoading={this.state.isLoading}></Loading>
 
@@ -97,7 +98,8 @@ class RegisterScreen extends Component {
                       </Text>
                   </TouchableOpacity>
                 </FormView>
-            </View>
+                </View>
+            </Content>
           )
       }</I18n>);
   }

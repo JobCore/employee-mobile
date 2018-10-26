@@ -5,7 +5,7 @@ View,
 TouchableOpacity,
 Image,
 } from "react-native";
-import { Item, Input, Button, Text, Form, Spinner } from 'native-base';
+import { Item, Input, Button, Text, Form, Content } from 'native-base';
 import styles from './ForgotStyle';
 import * as accountActions from './actions';
 import accountStore from './AccountStore';
@@ -47,7 +47,7 @@ class ForgotScreen extends Component {
   }
 
   render() {
-    return (<I18n>{(t, { i18n }) => (
+    return (<I18n>{(t, { i18n }) => (<Content contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
         <Loading isLoading={this.state.isLoading}></Loading>
 
@@ -87,7 +87,7 @@ class ForgotScreen extends Component {
           </TouchableOpacity>
         </FormView>
       </View>
-    )
+    </Content>)
 }</I18n>);
   }
 
