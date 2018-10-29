@@ -24,13 +24,14 @@ export default StyleSheet.create({
     color: BLUE_DARK,
   },
   radioButtonLeft: {
+    fontSize: 14,
     color: BLUE_DARK,
     marginLeft: 10,
-    marginRight: 7,
+    marginRight: 5,
   },
   radioButtonRight: {
     color: BLUE_DARK,
-    marginLeft: 7,
+    marginLeft: 5,
     marginRight: 10,
   },
   textAlldayOr: {
