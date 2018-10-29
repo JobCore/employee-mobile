@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "745870419287",
+    "firebase_url": "https://jobcore-employer.firebaseio.com",
+    "project_id": "jobcore-employer",
+    "storage_bucket": "jobcore-employer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745870419287:android:90be1a75d15a03d2",
+        "android_client_info": {
+          "package_name": "com.jobcore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "745870419287-m3885kripbda2pcigmbgmdarmu959llg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABC6nh2W9p3IgprND191w2Uz1IJHeehjk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

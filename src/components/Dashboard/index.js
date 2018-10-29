@@ -17,6 +17,8 @@ import { CustomToast, Loading } from '../../utils/components';
 import { LOG, WARN, ERROR } from "../../utils";
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
+import firebase from 'react-native-firebase';
+
 
 class DashboardScreen extends Component {
 
@@ -79,6 +81,20 @@ class DashboardScreen extends Component {
     this.inviteStoreError = inviteStore
       .subscribe('InviteStoreError', (err) => {
         this.errorHandler(err)
+      });
+
+    this.onTokenRefreshListener = firebase.messaging()
+      .onTokenRefresh((fcmToken) => {
+          alert(fcmToken)
+        });
+
+    firebase.messaging().getToken()
+      .then(fcmToken => {
+        if (fcmToken) {
+          alert(fcmToken)
+        } else {
+          alert('NoTokenYet')
+        }
       });
 
     this.firstLoad();
