@@ -1,4 +1,4 @@
-package com.jobcore;
+package co.jobcore.talent;
 
 import com.facebook.react.ReactActivity;
 

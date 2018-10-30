@@ -1,4 +1,4 @@
-package com.jobcore;
+package co.jobcore.talent;
 
 import android.app.Application;
 
