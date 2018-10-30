@@ -29,7 +29,7 @@ class LoginScreen extends Component {
     super(props);
     this.state = {
       isLoading: false,
-      email: '',
+      email: props.navigation.getParam('email', ''),
       password: '',
     };
   }
@@ -63,7 +63,7 @@ class LoginScreen extends Component {
       token = user.token;
       status = user.user.profile.status;
     } catch (e) {
-      WARN(this, e);
+      return LOG(this, e);
     }
 
     if (!status || status === 'PENDING_EMAIL_VALIDATION') {
