@@ -100,11 +100,12 @@ export default {
   },
   MY_JOBS: {
     myJobs: 'My Jobs',
-    jobDetals: 'Job details',
+    jobDetails: 'Job details',
     pending: 'Pending',
     upcoming: 'Upcoming',
     completed: 'Completed',
     failed: 'Failed',
+    review: 'Review',
   },
   DASHBOARD: {
     dashboard: 'Dashboard',

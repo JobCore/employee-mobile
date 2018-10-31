@@ -241,7 +241,7 @@ class DashboardScreen extends Component {
                               {t('DASHBOARD.y')}
                             </Text>
                             <Button onPress={this.stopReceivingInvites} style={styles[(this.state.stopReceivingInvites) ? 'buttonLeftActive' : 'buttonLeftInactive']} first active>
-                              <Icon name={(this.state.stopReceivingInvites) ? "md-radio-button-on" : "md-radio-button-off"} size={5}/>
+                              <Icon style={{color: BLUE_DARK}} name={(this.state.stopReceivingInvites) ? "md-radio-button-on" : "md-radio-button-off"} size={5}/>
                             </Button>
                             <Button onPress={this.startReceivingInvites} style={styles[(this.state.stopReceivingInvites) ? 'buttonRightInactive' : 'buttonRightActive']} last>
                               <Icon style={{color: VIOLET_MAIN}} name={(this.state.stopReceivingInvites) ? "md-radio-button-off" : "md-radio-button-on"} size={5}/>

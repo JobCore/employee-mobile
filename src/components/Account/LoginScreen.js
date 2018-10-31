@@ -11,7 +11,7 @@ import {
   Platform,
   TextInput
 } from "react-native";
-import { Container, Item, Input, Button, Text, Form, Label, Toast, Spinner } from 'native-base';
+import { Content, Item, Input, Button, Text, Form, Label, Toast, Spinner } from 'native-base';
 import styles from './LoginStyle';
 import { REGISTER_ROUTE, FORGOT_ROUTE, APP_ROUTE } from "../../constants/routes";
 import * as accountActions from './actions';
@@ -82,6 +82,7 @@ class LoginScreen extends Component {
 
   render() {
     return (<I18n>{(t, { i18n }) => (
+      <Content contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>
               <Loading isLoading={this.state.isLoading}></Loading>
                 <Image
@@ -137,8 +138,9 @@ class LoginScreen extends Component {
                       </Text>
                   </TouchableOpacity>
                 </FormView>
-            </View>)
-        }</I18n>);
+            </View>
+            </Content>
+          )}</I18n>);
   }
 
   userRegister() {
