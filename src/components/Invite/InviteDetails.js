@@ -5,6 +5,7 @@ import {
   Image,
   Dimensions,
   Alert,
+  
 } from "react-native";
 import {
   Container,
@@ -138,9 +139,9 @@ class InviteDetails extends Component {
                       </Button>
                     </Left>
                     <Body>
-                    <Title style={styles.titleHeader}>
+                    <Text style={styles.titleHeader}>
                       {t('JOB_INVITES.inviteDetails')}
-                    </Title>
+                    </Text>
                     </Body>
                     <Right/>
                 </Header>

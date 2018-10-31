@@ -131,28 +131,6 @@ class SettingScreen extends Component {
                               {t('SETTINGS.changePassword')}
                           </Text>
                       </TouchableOpacity>
-                      <Text style={styles.labelBank}>
-                        {t('SETTINGS.linkBank')}
-                      </Text>
-                      <View style={styles.viewCrud}>
-                          <View style={styles.viewButtomLeft}>
-                              <Button
-                                  style={styles.buttomLeft} full rounded>
-                                  <Image
-                                      style={{resizeMode: 'contain', height: 30}}
-                                      source={require('../../assets/image/logo-citi.png')}
-                                  />
-                              </Button>
-                          </View>
-                          <View style={styles.viewButtomRight}>
-                              <Button style={styles.buttomRight} full rounded>
-                                  <Image
-                                      style={{resizeMode: 'contain', height: 30}}
-                                      source={require('../../assets/image/logo-boa.png')}
-                                  />
-                              </Button>
-                          </View>
-                      </View>
                       <Button
                           full
                           onPress={this.editProfile}
