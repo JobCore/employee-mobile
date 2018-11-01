@@ -126,6 +126,7 @@ const logout = () => {
       Flux.dispatchEvent('Logout', {});
     })
     .catch((err) => {
+      Flux.dispatchEvent('Logout', {});
       Flux.dispatchEvent('AccountStoreError', err);
     });
 }
