@@ -99,7 +99,7 @@ class LoginScreen extends Component {
                       <Item style={styles.viewInput} inlineLabel rounded>
                           <Input value={this.state.email}
                             placeholder={t('LOGIN.email')}
-                                 onChangeText={(text) => this.setState({email: text})}/>
+                                 onChangeText={(text) => this.setState({email: text.toLowerCase()})}/>
                       </Item>
                       <Item style={styles.viewInput} inlineLabel rounded>
                           <Input value={this.state.password}
