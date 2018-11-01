@@ -111,14 +111,14 @@ class AddAvailability extends Component {
             is24Hour={false}
             isVisible={this.state.startTimePickerVisible}
             onConfirm={(date) => this.handleStartTimePicked(date)}
-            onCancel={this.hideEndTimePicker}
+            onCancel={this.hideStartTimePicker}
           />
           <DateTimePicker
             mode={'time'}
             is24Hour={false}
             isVisible={this.state.endTimePickerVisible}
             onConfirm={(date) => this.handleEndTimePicked(date)}
-            onCancel={this.hideStartTimePicker}
+            onCancel={this.hideEndTimePicker}
           />
 
         <View style={styles.viewContainer}>

@@ -21,6 +21,7 @@ import { i18next } from '../../i18n';
 import { LOG, WARN, ERROR } from "../../utils";
 import { CustomToast, Loading } from '../../utils/components';
 import { FormView } from "../../utils/platform";
+import firebase from 'react-native-firebase';
 
 class LoginScreen extends Component {
   static navigationOptions = { header: null }
@@ -29,7 +30,7 @@ class LoginScreen extends Component {
     super(props);
     this.state = {
       isLoading: false,
-      email: '',
+      email: props.navigation.getParam('email', ''),
       password: '',
     };
   }
@@ -63,7 +64,7 @@ class LoginScreen extends Component {
       token = user.token;
       status = user.user.profile.status;
     } catch (e) {
-      WARN(this, e);
+      return LOG(this, e);
     }
 
     if (!status || status === 'PENDING_EMAIL_VALIDATION') {
@@ -151,9 +152,14 @@ class LoginScreen extends Component {
     this.props.navigation.navigate(FORGOT_ROUTE);
   }
 
-  login = () => {
+  login = async () => {
     this.isLoading(true);
-    accountActions.login(this.state.email.toLowerCase().trim(), this.state.password);
+
+    const fcmToken = await firebase.messaging().getToken();
+
+    LOG(this, JSON.stringify(fcmToken));
+
+    accountActions.login(this.state.email.toLowerCase().trim(), this.state.password, fcmToken);
   };
 
   isLoading = (isLoading) => {

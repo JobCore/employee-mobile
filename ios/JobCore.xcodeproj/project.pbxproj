@@ -49,6 +49,7 @@
 		C7D8C1A3911B4F3B9386B15A /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B0D3397D79714614A3F2ED40 /* Octicons.ttf */; };
 		C9E146C706FA4E7EA4202B70 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26CC06F327E84530861DB88D /* libAirMaps.a */; };
 		CCC5546CAE8C4C5DA1392185 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 985E4AE2179A4285AC9D4B73 /* MaterialCommunityIcons.ttf */; };
+		27C369EA853D4E2DA56ABB58 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F407BB5362C412C9ED98D3B /* libRNFirebase.a */; };
 		DA5C8B9EA1944BAE84E8E24E /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B671670ADE584ED48FE97883 /* Entypo.ttf */; };
 		DED1AB33676F4AAB85DF3A1B /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF41C2B3827C4C5ABBD41DDF /* Roboto_medium.ttf */; };
 		DEF5401B9B5544A88654E605 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E33E4AC39BA4D22AFAD8E81 /* EvilIcons.ttf */; };
@@ -381,6 +382,8 @@
 		CF41C2B3827C4C5ABBD41DDF /* Roboto_medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto_medium.ttf; path = "../node_modules/native-base/Fonts/Roboto_medium.ttf"; sourceTree = "<group>"; };
 		D0882E8CB1954F359910BCAC /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/native-base/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		EF7DD7A523534569B56628AC /* AirMaps.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/lib/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
+		91E508C599124A01B933C250 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; name = "RNFirebase.xcodeproj"; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		9F407BB5362C412C9ED98D3B /* libRNFirebase.a */ = {isa = PBXFileReference; name = "libRNFirebase.a"; path = "libRNFirebase.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -409,6 +412,7 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				C9E146C706FA4E7EA4202B70 /* libAirMaps.a in Frameworks */,
+				27C369EA853D4E2DA56ABB58 /* libRNFirebase.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -617,6 +621,7 @@
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				EF7DD7A523534569B56628AC /* AirMaps.xcodeproj */,
+				91E508C599124A01B933C250 /* RNFirebase.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1296,6 +1301,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/jobcore.app/jobcore";
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"$(SRCROOT)\..\node_modules\react-native-firebase\ios\RNFirebase/**",
 			};
 			name = Debug;
 		};
@@ -1322,6 +1329,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/jobcore.app/jobcore";
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"$(SRCROOT)\..\node_modules\react-native-firebase\ios\RNFirebase/**",
 			};
 			name = Release;
 		};
@@ -1346,6 +1355,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = co.jobcore.talent;
 				PRODUCT_NAME = jobcore;
 				VERSIONING_SYSTEM = "apple-generic";
+					"$(SRCROOT)\..\node_modules\react-native-firebase\ios\RNFirebase/**",
 			};
 			name = Debug;
 		};
@@ -1369,6 +1379,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = co.jobcore.talent;
 				PRODUCT_NAME = jobcore;
 				VERSIONING_SYSTEM = "apple-generic";
+					"$(SRCROOT)\..\node_modules\react-native-firebase\ios\RNFirebase/**",
 			};
 			name = Release;
 		};
@@ -1403,6 +1414,8 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"$(SRCROOT)\..\node_modules\react-native-firebase\ios\RNFirebase/**",
 			};
 			name = Debug;
 		};
@@ -1437,6 +1450,8 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"$(SRCROOT)\..\node_modules\react-native-firebase\ios\RNFirebase/**",
 			};
 			name = Release;
 		};
@@ -1470,6 +1485,8 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/jobcore-tvOS.app/jobcore-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"$(SRCROOT)\..\node_modules\react-native-firebase\ios\RNFirebase/**",
 			};
 			name = Debug;
 		};
@@ -1503,6 +1520,8 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/jobcore-tvOS.app/jobcore-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"$(SRCROOT)\..\node_modules\react-native-firebase\ios\RNFirebase/**",
 			};
 			name = Release;
 		};

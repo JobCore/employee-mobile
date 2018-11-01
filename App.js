@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { createSwitchNavigator, createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
-import { YellowBox, Image } from 'react-native';
+import { YellowBox, Platform } from 'react-native';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Warning: Failed prop type', 'Module RCTImageLoader']);
 
 import { Root } from "native-base";
@@ -20,7 +20,7 @@ import Availability from './src/components/Invite/Availability';
 import MyJobs from './src/components/MyJobs';
 import JobDetailsScreen from './src/components/MyJobs/JobDetails';
 
-import { DASHBOARD_ROUTE, TABBAR_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE, FORGOT_ROUTE, JOB_INVITES_ROUTE, JOB_PREFERENCES_ROUTE, MYJOBS_ROUTE, SETTING_ROUTE, APP_ROUTE, STACK_ROUTE, AUTH_ROUTE, RESET_ROUTE, AVAILABILITY_ROUTE, INVITE_DETAILS_ROUTE, EDIT_PROFILE_ROUTE, POSITION_ROUTE, JOB_DETAILS_ROUTE } from './src/constants/routes'
+import { DASHBOARD_ROUTE, TABBAR_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE, FORGOT_ROUTE, JOB_INVITES_ROUTE, JOB_PREFERENCES_ROUTE, MYJOBS_ROUTE, SETTING_ROUTE, APP_ROUTE, STACK_ROUTE, AUTH_ROUTE, RESET_ROUTE, AVAILABILITY_ROUTE, INVITE_DETAILS_ROUTE, EDIT_PROFILE_ROUTE, POSITION_ROUTE, JOB_DETAILS_ROUTE, APPLICATION_DETAILS_ROUTE } from './src/constants/routes'
 import { BLUE_MAIN, BLUE_DARK, BLUE_LIGHT, GRAY_MAIN, BLUE_SEMI_LIGHT } from './src/constants/colorPalette'
 
 import SettingScreen from './src/components/Setting';
@@ -29,14 +29,15 @@ import Splash from './src/components/Splash';
 
 window.DEBUG = true;
 
-export const AppStack = createStackNavigator({
-    [DASHBOARD_ROUTE]: DashboardScreen,
-    [SETTING_ROUTE]: SettingScreen,
-});
-
 export const AuthStack = createStackNavigator({
-    [LOGIN_ROUTE]: LoginScreen,
-    [REGISTER_ROUTE]: RegisterScreen,
+    [LOGIN_ROUTE]: {
+      screen: LoginScreen,
+      path: 'login/:email',
+    },
+    [REGISTER_ROUTE]: {
+      screen: RegisterScreen,
+      path: 'register'
+    },
     [FORGOT_ROUTE]: ForgotScreen,
 });
 
@@ -70,28 +71,37 @@ export const Tabs = createBottomTabNavigator({
     }
 );
 
-const SwitchNavigator = createSwitchNavigator(
-    {
-        AuthLoading: Splash,
-        [APP_ROUTE]: createStackNavigator({
-            ['Tabs']: Tabs,
-            [SETTING_ROUTE]: SettingScreen,
-            [RESET_ROUTE]: ForgotScreen,
-            [EDIT_PROFILE_ROUTE]: EditProfile,
-            [AVAILABILITY_ROUTE]: Availability,
-            [POSITION_ROUTE]: Position,
-            [INVITE_DETAILS_ROUTE]: InviteDetails,
-            [JOB_DETAILS_ROUTE]: JobDetailsScreen,
-        }, {navigationOptions: {header: null}}),
-        [AUTH_ROUTE]: AuthStack,
-        [STACK_ROUTE]: AppStack
+export const AppStack = createStackNavigator({
+    ['Tabs']: Tabs,
+    [SETTING_ROUTE]: SettingScreen,
+    [RESET_ROUTE]: ForgotScreen,
+    [EDIT_PROFILE_ROUTE]: EditProfile,
+    [AVAILABILITY_ROUTE]: Availability,
+    [POSITION_ROUTE]: Position,
+    [INVITE_DETAILS_ROUTE]: {
+      screen: InviteDetails,
+      path: 'invite/:inviteId',
     },
+    [JOB_DETAILS_ROUTE]: {
+      screen: JobDetailsScreen,
+      path: 'shift/:shiftId',
+    },
+    [APPLICATION_DETAILS_ROUTE]: {
+      screen: JobDetailsScreen,
+      path: 'application/:applicationId',
+    },
+}, {navigationOptions: {header: null}});
 
-    {
-        initialRouteName: 'AuthLoading',
-    }
-);
+const SwitchNavigator = createSwitchNavigator({
+  AuthLoading: Splash,
+  [AUTH_ROUTE]: AuthStack,
+  [APP_ROUTE]: AppStack,
+}, {
+  initialRouteName: 'AuthLoading',
+});
+
+const prefix = Platform.OS == 'android' ? 'jobcore://jobcore/' : 'jobcore://';
 
 export default () => <Root>
-    <SwitchNavigator/>
+    <SwitchNavigator uriPrefix={prefix}/>
   </Root>
