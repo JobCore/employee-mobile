@@ -21,6 +21,7 @@ import { i18next } from '../../i18n';
 import { LOG, WARN, ERROR } from "../../utils";
 import { CustomToast, Loading } from '../../utils/components';
 import { FormView } from "../../utils/platform";
+import firebase from 'react-native-firebase';
 
 class LoginScreen extends Component {
   static navigationOptions = { header: null }
@@ -151,9 +152,14 @@ class LoginScreen extends Component {
     this.props.navigation.navigate(FORGOT_ROUTE);
   }
 
-  login = () => {
+  login = async () => {
     this.isLoading(true);
-    accountActions.login(this.state.email.toLowerCase().trim(), this.state.password);
+
+    const fcmToken = await firebase.messaging().getToken();
+
+    LOG(this, JSON.stringify(fcmToken));
+
+    accountActions.login(this.state.email.toLowerCase().trim(), this.state.password, fcmToken);
   };
 
   isLoading = (isLoading) => {

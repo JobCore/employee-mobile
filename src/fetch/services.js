@@ -1,6 +1,7 @@
 import accountStore from '../components/Account/AccountStore';
 import { checkInternetConnection } from 'react-native-offline';
 import * as Flux from '../utils/flux-state';
+import * as accountActions from '../components/Account/actions';
 import { i18next } from '../i18n';
 import { LOG, WARN, ERROR } from "../utils";
 
@@ -117,7 +118,7 @@ export async function downloadData(url, isAuth = true) {
     })
     .then((response) => {
       if (response.status === 401 || response.status === 403) {
-        Flux.dispatchEvent('Logout', {});
+        accountActions.logout();
       }
 
       if (response.ok) return response.blob();
@@ -159,7 +160,7 @@ reject or resolve based on status then Parses the response to json
  */
 function checkStatus(response) {
   if (response && response.status === 401 || response.status === 403) {
-    Flux.dispatchEvent('Logout', {});
+    accountActions.logout();
   }
 
   if (response && response.ok) {

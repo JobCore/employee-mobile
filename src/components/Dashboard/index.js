@@ -4,19 +4,24 @@ import {
   Image,
   RefreshControl,
 } from "react-native";
-import { Container, Header, Content, Text, Button, Left, Icon, Body, Title, Right, Segment, Spinner } from "native-base";
+import { Container, Header, Content, Text, Button, Left, Icon, Body, Title, Right, Segment } from "native-base";
 import styles from './style';
 import { VIOLET_MAIN, BLUE_MAIN, BLUE_DARK } from "../../constants/colorPalette";
-import { SETTING_ROUTE, AUTH_ROUTE } from "../../constants/routes";
+import { SETTING_ROUTE, AUTH_ROUTE, INVITE_DETAILS_ROUTE, JOB_DETAILS_ROUTE } from "../../constants/routes";
 import accountStore from '../Account/AccountStore';
+import * as accountActions from '../Account/actions';
 import * as inviteActions from '../Invite/actions';
 import inviteStore from '../Invite/InviteStore';
+import * as fcmActions from './actions';
+import fcmStore from './FcmStore';
 import * as jobActions from '../MyJobs/actions';
 import jobStore from '../MyJobs/JobStore';
 import { CustomToast, Loading } from '../../utils/components';
 import { LOG, WARN, ERROR } from "../../utils";
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
+import firebase from 'react-native-firebase';
+
 
 class DashboardScreen extends Component {
 
@@ -76,11 +81,62 @@ class DashboardScreen extends Component {
         this.getJobsHandler(data);
       });
 
+    this.updateTokenSubscription = fcmStore
+      .subscribe('UpdateFcmToken', (fcmToken) => {
+        const session = accountStore.getState('Login');
+        session.fcmToken = fcmToken;
+        accountActions.setStoredUser(session);
+        LOG(this, `fcmToken updated ${fcmToken}`);
+      });
+
+    this.fcmStoreError = fcmStore
+      .subscribe('FcmStoreError', (err) => {
+        this.errorHandler(err)
+      });
+
     this.inviteStoreError = inviteStore
       .subscribe('InviteStoreError', (err) => {
         this.errorHandler(err)
       });
 
+    this.accountStoreError = accountStore
+    .subscribe('AccountStoreError', this.errorHandler);
+
+    this.onTokenRefreshListener = firebase.messaging()
+      .onTokenRefresh((fcmToken) => {
+        let fcmTokenStored;
+
+        try {
+          fcmTokenStored = fcmStore.getState('UpdateFcmToken') || accountStore.getState('Login').fcmToken;
+        } catch (e) {
+          return LOG(this, 'failed to get fcmToken from Store');
+        }
+
+        if (!fcmTokenStored) return LOG(this, 'No Token on state');
+
+        this.updateFcmToken(fcmTokenStored, fcmToken);
+      });
+
+    this.notificationOpenedListener = firebase.notifications()
+      .onNotificationOpened((notificationOpen) => {
+        if (notificationOpen) {
+          const action = notificationOpen.action;
+          const notification = notificationOpen.notification;
+          this.pushNotificationHandler(notification.data);
+        }
+      });
+
+    firebase.notifications()
+      .getInitialNotification()
+      .then((notificationOpen) => {
+        if (notificationOpen) {
+          const action = notificationOpen.action;
+          const notification = notificationOpen.notification;
+          this.pushNotificationHandler(notification.data);
+        }
+      });
+
+    this.hasFcmMessagePermission();
     this.firstLoad();
   }
 
@@ -91,7 +147,12 @@ class DashboardScreen extends Component {
     this.stopReceivingInvitesSubscription.unsubscribe();
     this.getJobInvitesSubscription.unsubscribe();
     this.getUpcomingJobsSubscription.unsubscribe();
+    this.updateTokenSubscription.unsubscribe();
+    this.fcmStoreError.unsubscribe();
     this.inviteStoreError.unsubscribe();
+    this.accountStoreError.unsubscribe();
+    this.onTokenRefreshListener();
+    this.notificationOpenedListener();
   }
 
   logoutHandler = (data) => {
@@ -131,6 +192,33 @@ class DashboardScreen extends Component {
 
   getJobsHandler = (upcomingJobs) => {
     this.setState({ upcomingJobs });
+  }
+
+  pushNotificationHandler = (notificationData) => {
+    if (!notificationData) {
+      return LOG(this, 'no notification data');
+    }
+
+    if (notificationData.type === "shift" && notificationData.id) {
+      this.props.navigation
+        .navigate(JOB_DETAILS_ROUTE, {
+          shiftId: notificationData.id
+        });
+    }
+
+    if (notificationData.type === "application" && notificationData.id) {
+      this.props.navigation
+        .navigate(JOB_DETAILS_ROUTE, {
+          applicationId: notificationData.id
+        });
+    }
+
+    if (notificationData.type === "invite" && notificationData.id) {
+      this.props.navigation
+        .navigate(INVITE_DETAILS_ROUTE, {
+          inviteId: notificationData.id
+        });
+    }
   }
 
   errorHandler = (err) => {
@@ -274,6 +362,54 @@ class DashboardScreen extends Component {
     this.getUpcomingJobs();
   }
 
+  getFcmToken = () => {
+    let fcmTokenStored;
+
+    try {
+      fcmTokenStored = fcmStore.getState('UpdateFcmToken') || accountStore.getState('Login').fcmToken;
+    } catch (e) {
+      LOG(this, 'failed to get fcmToken from Store');
+    }
+
+    firebase.messaging().getToken()
+      .then(fcmToken => {
+        if (fcmToken) {
+          if (fcmTokenStored) return LOG(this, 'No Token on state');
+
+          if (fcmTokenStored !== fcmToken) {
+            return this.updateFcmToken(fcmTokenStored, fcmToken);
+          }
+        } else {
+          LOG(this, 'NoTokenYet')
+        }
+      });
+  }
+
+  updateFcmToken = (currentFcmToken, fcmToken) => {
+    fcmActions.updateFcmToken(currentFcmToken, fcmToken);
+  }
+
+  hasFcmMessagePermission = () => {
+    firebase.messaging().hasPermission()
+      .then(enabled => {
+        if (enabled) {
+          LOG(this, 'FCM has persmission');
+        } else {
+          LOG(this, 'FCM not permitted, requesting Permission');
+          this.requestFcmMessagesPermission();
+        }
+      });
+  }
+
+  requestFcmMessagesPermission = () => {
+    firebase.messaging().requestPermission()
+      .then(() => {
+        LOG(this, 'FCM authorized by the user');
+      })
+      .catch(() => {
+        LOG(this, 'FCM permission rejected');
+      });
+  }
 
   getEmployee = () => {
     inviteActions.getJobPreferences();
