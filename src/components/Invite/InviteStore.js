@@ -35,7 +35,20 @@ class InviteStore extends FluxStore {
 
     this.addEvent('EditPositions');
 
-    this.addEvent('GetAvailability');
+    /**
+     * Get availability list event, order array by starting_at date
+     */
+    this.addEvent('GetAvailability', (availability) => {
+      if (Array.isArray(availability)) {
+        availability.sort((a,b) => {
+          if (a.starting_at > b.starting_at) return 1;
+          if (a.starting_at < b.starting_at) return -1;
+          return 0;
+        });
+      }
+
+      return availability;
+    });
 
     this.addEvent('EditAvailability');
 
