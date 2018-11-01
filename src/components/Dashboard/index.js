@@ -371,11 +371,11 @@ class DashboardScreen extends Component {
       return WARN(this, 'failed to get fcmToken from Store');
     }
 
+    if (!fcmTokenStored) return WARN(this, 'No Token on state');
+
     firebase.messaging().getToken()
       .then(fcmToken => {
         if (fcmToken) {
-          if (!fcmTokenStored) return WARN(this, 'No Token on state');
-
           if (fcmTokenStored !== fcmToken) {
             return this.updateFcmToken(fcmTokenStored, fcmToken);
           }
