@@ -34,7 +34,7 @@ class DashboardScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: accountStore.getState("Login").user || {},
+      user: (accountStore.getState("Login") || {}).user || {},
       isLoading: false,
       isRefreshing: false,
       stopReceivingInvites: false,
@@ -167,9 +167,11 @@ class DashboardScreen extends Component {
                     refreshing={this.state.isRefreshing}
                     onRefresh={this.refresh}/>
                   }>
-                    <Text style={styles.textHello}>
+                    {(this.state.user) ?
+                      <Text style={styles.textHello}>
                       {`${t('DASHBOARD.hello')} ${this.state.user.first_name} ${this.state.user.last_name},`}
-                    </Text>
+                      </Text>
+                    : null}
                     <Text style={styles.textWelcome}>
                       {t('DASHBOARD.welcome')}
                     </Text>

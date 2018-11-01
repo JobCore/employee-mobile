@@ -19,7 +19,7 @@
     "react-native-maps": "^0.21.0",
     "react-native-modal-datetime-picker": "^6.0.0",
     "react-native-offline": "^3.14.1",
-    "react-navigation": "^2.13.0",
+    "react-navigation": "2.18.2",
     "rxjs": "^5.5.10"
   },
   "devDependencies": {
