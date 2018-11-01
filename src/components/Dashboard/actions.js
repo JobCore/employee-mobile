@@ -8,7 +8,7 @@ import { putData } from '../../fetch';
  */
 const updateFcmToken = (currentFcmToken, fcmToken) => {
   putData(`/employees/me/devices/${currentFcmToken}`, {
-      refgistration_id: fcmToken,
+      registration_id: fcmToken,
     })
     .then((data) => {
       Flux.dispatchEvent('UpdateFcmToken', data);
