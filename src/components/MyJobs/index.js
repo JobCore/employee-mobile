@@ -7,7 +7,7 @@ import {
 import { Container, Header, Content, Button, Text, Left, Body, Title, Right, Segment, ListItem, Spinner } from 'native-base';
 import styles from './style'
 import { BLUE_MAIN, BLUE_DARK } from "../../constants/colorPalette";
-import { SETTING_ROUTE, JOB_DETAILS_ROUTE } from "../../constants/routes";
+import { SETTING_ROUTE, JOB_DETAILS_ROUTE, APPLICATION_DETAILS_ROUTE } from "../../constants/routes";
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as jobActions from './actions';
@@ -234,7 +234,7 @@ class MyJobs extends Component {
     if (!job) return;
 
     if (job.applicationId) {
-      return this.props.navigation.navigate(JOB_DETAILS_ROUTE, { applicationId: job.applicationId })
+      return this.props.navigation.navigate(APPLICATION_DETAILS_ROUTE, { applicationId: job.applicationId })
     }
 
     this.props.navigation.navigate(JOB_DETAILS_ROUTE, { shiftId: job.id });

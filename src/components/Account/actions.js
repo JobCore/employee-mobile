@@ -1,7 +1,8 @@
 import * as Flux from '../../utils/flux-state';
 import accountStore from './AccountStore';
-
-import { postData, putData } from '../../fetch';
+import fcmStore from '../Dashboard/FcmStore';
+import { LOG, WARN, ERROR } from "../../utils";
+import { postData, putData, deleteData } from '../../fetch';
 import { loginValidator, registerValidator, passwordResetValidator, editProfileValidator } from './validators';
 
 /**
@@ -9,15 +10,16 @@ import { loginValidator, registerValidator, passwordResetValidator, editProfileV
  * @param  {string} email
  * @param  {string} password
  */
-const login = (email, password) => {
+const login = (email, password, fcmToken) => {
   try {
     loginValidator(email, password);
   } catch (err) {
     return Flux.dispatchEvent('AccountStoreError', err);
   }
 
-  postData('/login', { username_or_email: email, password: password }, false)
+  postData('/login', { username_or_email: email, password: password, registration_id: fcmToken }, false)
     .then((data) => {
+      data.fcmToken = fcmToken;
       Flux.dispatchEvent('Login', data);
     })
     .catch((err) => {
@@ -27,7 +29,7 @@ const login = (email, password) => {
 
 /**
  * Action for registering the User
- * @param  {string} email     
+ * @param  {string} email
  * @param  {string} password
  * @param  {string} firstName
  * @param  {string} lastName
@@ -104,13 +106,32 @@ const passwordReset = (email) => {
  * Action for logOut, YOU MUST CLEAR ALL flux stores you need here
  */
 const logout = () => {
-  accountStore.clearState();
+  let fcmTokenStored;
 
-  Flux.dispatchEvent('Logout', {});
+  try {
+    fcmTokenStored = fcmStore.getState('UpdateFcmToken') || accountStore.getState('Login').fcmToken;
+  } catch (e) {
+    LOG(this, 'failed to get fcmToken from Store');
+  }
+
+  if (!fcmTokenStored) {
+    LOG(this, 'No Token on state');
+    accountStore.clearState();
+    return Flux.dispatchEvent('Logout', {});
+  }
+
+  deleteData(`/employees/me/devices/${fcmTokenStored}`)
+    .then(() => {
+      accountStore.clearState();
+      Flux.dispatchEvent('Logout', {});
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('AccountStoreError', err);
+    });
 }
 
 /**
- * Action for setting/updating the stored user from AsyncStorage/Flux on app first load
+ * Action for setting/updating the stored user from AsyncStorage/Flux or to ser user on app first load
  * @param {object} user
  */
 const setStoredUser = (user) => {
