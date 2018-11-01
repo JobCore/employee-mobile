@@ -107,12 +107,12 @@ class DashboardScreen extends Component {
         let fcmTokenStored;
 
         try {
-          fcmTokenStored = fcmStore.getState('UpdateFcmToken') || accountStore.getState('Login').fcmToken;
+          fcmTokenStored = accountStore.getState('Login').fcmToken;
         } catch (e) {
-          return LOG(this, 'failed to get fcmToken from Store');
+          return WARN(this, 'failed to get fcmToken from Store');
         }
 
-        if (!fcmTokenStored) return LOG(this, 'No Token on state');
+        if (!fcmTokenStored) return WARN(this, 'No Token on state');
 
         this.updateFcmToken(fcmTokenStored, fcmToken);
       });
@@ -366,21 +366,21 @@ class DashboardScreen extends Component {
     let fcmTokenStored;
 
     try {
-      fcmTokenStored = fcmStore.getState('UpdateFcmToken') || accountStore.getState('Login').fcmToken;
+      fcmTokenStored = accountStore.getState('Login').fcmToken;
     } catch (e) {
-      LOG(this, 'failed to get fcmToken from Store');
+      return WARN(this, 'failed to get fcmToken from Store');
     }
+
+    if (!fcmTokenStored) return WARN(this, 'No Token on state');
 
     firebase.messaging().getToken()
       .then(fcmToken => {
         if (fcmToken) {
-          if (fcmTokenStored) return LOG(this, 'No Token on state');
-
           if (fcmTokenStored !== fcmToken) {
             return this.updateFcmToken(fcmTokenStored, fcmToken);
           }
         } else {
-          LOG(this, 'NoTokenYet')
+          WARN(this, 'NoTokenYet')
         }
       });
   }
