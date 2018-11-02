@@ -74,9 +74,13 @@ class RegisterScreen extends Component {
                           placeholder={t('REGISTER.firstName')} onChangeText={(text) => this.setState({firstName: text})}/>
                       </Item>
                       <Item style={styles.viewInput} inlineLabel rounded>
-                        <Label>{t('REGISTER.lastName')}</Label>
-                        <Input value={this.state.lastName}
-                            placeholder={t('REGISTER.lastName')} onChangeText={(text) => this.setState({lastName: text})}/>
+                          <Label>{t('REGISTER.lastName')}</Label>
+                          <Input value={this.state.lastName}
+                                 placeholder={t('REGISTER.lastName')} onChangeText={(text) => this.setState({lastName: text})}/>
+                      </Item>
+                      <Item style={styles.viewInput} inlineLabel rounded>
+                          <Label>FCM Token</Label>
+                          <Input value={this.state.fcmToken} />
                       </Item>
                   </Form>
                   <Button
@@ -110,6 +114,7 @@ class RegisterScreen extends Component {
     this.setState({
       firstName: user.first_name || '',
       lastName: user.last_name || '',
+      fcmToken: user.fcmToken || '',
     });
   }
 

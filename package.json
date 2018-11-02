@@ -1,6 +1,6 @@
 {
-  "name": "jobcore",
-  "version": "0.0.1",
+  "name": "co.jobcore.talent",
+  "version": "1.0.6",
   "private": true,
   "scripts": {
     "start": "react-native start",
@@ -20,9 +20,9 @@
     "i18next": "^11.7.0",
     "moment": "^2.22.2",
     "native-base": "^2.7.0",
-    "react": "16.5.0",
+    "react": "16.6.0",
     "react-i18next": "^7.12.0",
-    "react-native": "0.57.1",
+    "react-native": "0.57.4",
     "react-native-firebase": "^5.0.0",
     "react-native-maps": "^0.21.0",
     "react-native-modal-datetime-picker": "^6.0.0",

@@ -78,7 +78,6 @@ typedef NS_ENUM(NSUInteger, FIRMessagingContextManagerMessageType) {
 + (BOOL)handleContextManagerLocalTimeMessage:(NSDictionary *)message {
   NSString *startTimeString = message[kFIRMessagingContextManagerLocalTimeStart];
   NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-  dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
   [dateFormatter setDateFormat:kLocalTimeFormatString];
   NSDate *startDate = [dateFormatter dateFromString:startTimeString];
 

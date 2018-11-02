@@ -147,7 +147,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 
 + (NSString *)removePrefixFromTopic:(NSString *)topic;
-
 /**
  *  Check if the topic name has "/topics/" prefix.
  *

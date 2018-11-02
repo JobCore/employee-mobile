@@ -152,7 +152,7 @@ class LoginScreen extends Component {
     this.props.navigation.navigate(FORGOT_ROUTE);
   }
 
-  login = async () => {
+    login = async () => {
     this.isLoading(true);
 
     const fcmToken = await firebase.messaging().getToken();
