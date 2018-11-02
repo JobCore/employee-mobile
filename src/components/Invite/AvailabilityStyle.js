@@ -38,6 +38,7 @@ export default StyleSheet.create({
     color: BLUE_DARK,
     textAlign: 'center',
     fontSize: 12,
+    marginLeft: -25
   },
   textDay: {
     textAlign: 'left',
@@ -55,6 +56,7 @@ export default StyleSheet.create({
   },
   textTo: {
     color: BLUE_DARK,
+    marginTop: 5
   },
   buttonPosition: {
     textAlign: 'center',
@@ -77,8 +79,8 @@ export default StyleSheet.create({
   },
   viewContainer: {
     marginTop: 20,
-    paddingLeft: 20,
-    paddingRight: 20
+    paddingLeft: 0,
+    paddingRight: 0
   },
   textHeader:{
     color: BLUE_DARK,
@@ -168,4 +170,26 @@ export default StyleSheet.create({
   labelForm:{
     color: BLUE_DARK
   },
+
+  viewContainerItems:{
+    flex: 1,
+    flexDirection: 'row',
+  },
+  viewTextDay:{
+    width: '25%',
+  },
+  viewRadio:{
+    width: 80,
+  },
+  radioItems:{
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  radio:{
+    width: 40,
+  },
+  viewPicker:{
+    width: '33.3%',
+  }
 });
