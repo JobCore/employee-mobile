@@ -1,19 +1,18 @@
 import React, { Component } from "react";
-import { BLUE_DARK } from '../../constants/colorPalette';
 import {
   View,
   Image,
   TouchableOpacity,
   Alert,
 } from "react-native";
-import { Item, Input, Button, Text, Form, Label, Spinner, Content } from 'native-base';
+import { Item, Input, Button, Text, Form, Label, Content } from 'native-base';
 import styles from './EditProfileStyle';
 import * as actions from './actions';
 import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import { FormView } from "../../utils/platform";
-import { LOG, WARN, ERROR } from "../../utils";
+import { LOG, WARN } from "../../utils";
 import { CustomToast, Loading } from '../../utils/components';
 
 class RegisterScreen extends Component {
@@ -78,10 +77,6 @@ class RegisterScreen extends Component {
                           <Input value={this.state.lastName}
                                  placeholder={t('REGISTER.lastName')} onChangeText={(text) => this.setState({lastName: text})}/>
                       </Item>
-                      <Item style={styles.viewInput} inlineLabel rounded>
-                          <Label>FCM Token</Label>
-                          <Input value={this.state.fcmToken} />
-                      </Item>
                   </Form>
                   <Button
                       full
@@ -114,7 +109,6 @@ class RegisterScreen extends Component {
     this.setState({
       firstName: user.first_name || '',
       lastName: user.last_name || '',
-      fcmToken: user.fcmToken || '',
     });
   }
 

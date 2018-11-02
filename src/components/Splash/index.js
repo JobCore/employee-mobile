@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     imgSplash: {
-        width:200,
-        height:200,
+        width:400,
+        height:400,
         resizeMode: 'center',
         flexDirection: 'column',
         justifyContent: 'center',
