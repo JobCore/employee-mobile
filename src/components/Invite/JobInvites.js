@@ -63,7 +63,6 @@ class JobInvites extends Component {
       ? true
       : false;
 
-    this.isLoading(false);
     this.setState({
       jobInvites,
       showNoInvitesText,
