@@ -13,7 +13,7 @@ import { BLUE_MAIN, BLUE_DARK } from "../../constants/colorPalette";
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import { LOG, WARN, ERROR } from "../../utils";
-import { CustomToast, Loading } from '../../utils/components';
+import { CustomToast, Loading, CenteredText } from '../../utils/components';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import moment from 'moment';
@@ -37,6 +37,7 @@ class JobInvites extends Component {
       isLoading: false,
       basic: false,
       isRefreshingInvites: false,
+      showNoInvitesText: false,
       jobInvites: [],
     };
   }
@@ -58,10 +59,15 @@ class JobInvites extends Component {
   }
 
   getJobInvitesHandler = (jobInvites) => {
-    this.isLoading(false);
+    const showNoInvitesText = (Array.isArray(jobInvites) && !jobInvites.length)
+      ? true
+      : false;
+
     this.setState({
       jobInvites,
+      showNoInvitesText,
       isRefreshingInvites: false,
+      isLoading: false,
      });
   }
 
@@ -89,6 +95,10 @@ class JobInvites extends Component {
     return (<I18n>{(t, { i18n }) => (
       <Container>
         {this.state.isLoading ? <Loading/> : null}
+
+        {(this.state.showNoInvitesText) ?
+          <CenteredText text={`${t('JOB_INVITES.noInvites')}`}/>
+        : null}
 
         <Header androidStatusBarColor={BLUE_MAIN} style={styles.headerCustom}>
           <Left/>
