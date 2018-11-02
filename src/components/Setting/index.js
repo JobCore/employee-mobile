@@ -96,7 +96,7 @@ class SettingScreen extends Component {
   render() {
     return (<I18n>{(t, { i18n }) => (
             <Container>
-                <Loading isLoading={this.state.isLoading}></Loading>
+                {this.state.isLoading ? <Loading/> : null}
 
                 <Header androidStatusBarColor={BLUE_MAIN} style={styles.headerCustom}>
                     <Left>

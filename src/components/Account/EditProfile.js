@@ -1,19 +1,18 @@
 import React, { Component } from "react";
-import { BLUE_DARK } from '../../constants/colorPalette';
 import {
   View,
   Image,
   TouchableOpacity,
   Alert,
 } from "react-native";
-import { Item, Input, Button, Text, Form, Label, Spinner, Content } from 'native-base';
+import { Item, Input, Button, Text, Form, Label, Content } from 'native-base';
 import styles from './EditProfileStyle';
 import * as actions from './actions';
 import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import { FormView } from "../../utils/platform";
-import { LOG, WARN, ERROR } from "../../utils";
+import { LOG, WARN } from "../../utils";
 import { CustomToast, Loading } from '../../utils/components';
 
 class RegisterScreen extends Component {
@@ -56,7 +55,7 @@ class RegisterScreen extends Component {
     return (<I18n>{(t, { i18n }) => (
         <Content contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>
-              <Loading isLoading={this.state.isLoading}></Loading>
+              {this.state.isLoading ? <Loading/> : null}
 
                 <Image
                     style={styles.viewBackground}
@@ -74,9 +73,9 @@ class RegisterScreen extends Component {
                           placeholder={t('REGISTER.firstName')} onChangeText={(text) => this.setState({firstName: text})}/>
                       </Item>
                       <Item style={styles.viewInput} inlineLabel rounded>
-                        <Label>{t('REGISTER.lastName')}</Label>
-                        <Input value={this.state.lastName}
-                            placeholder={t('REGISTER.lastName')} onChangeText={(text) => this.setState({lastName: text})}/>
+                          <Label>{t('REGISTER.lastName')}</Label>
+                          <Input value={this.state.lastName}
+                                 placeholder={t('REGISTER.lastName')} onChangeText={(text) => this.setState({lastName: text})}/>
                       </Item>
                   </Form>
                   <Button

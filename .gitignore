@@ -1,3 +1,5 @@
+Pods/
+*.orig
 # OSX
 #
 .DS_Store

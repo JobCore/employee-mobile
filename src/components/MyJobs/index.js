@@ -12,7 +12,7 @@ import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as jobActions from './actions';
 import { LOG, WARN, ERROR, equalMonthAndYear } from "../../utils";
-import { CustomToast, Loading } from '../../utils/components';
+import { CustomToast, Loading, CenteredText } from '../../utils/components';
 import jobStore from './JobStore';
 import moment from 'moment';
 
@@ -33,6 +33,7 @@ class MyJobs extends Component {
       isLoading: false,
       isLoadingJobs: false,
       isRefreshing: false,
+      showNoJobsText: false,
       jobs: [],
       jobFilterSelected: 'getPendingJobs',
       // for jobs filters array.map
@@ -95,19 +96,24 @@ class MyJobs extends Component {
   }
 
   getJobsHandler = (jobs) => {
-    this.isLoading(false);
+    const showNoJobsText = (Array.isArray(jobs) && !jobs.length)
+      ? true
+      : false;
+
     this.setState({
       jobs,
+      showNoJobsText,
       isRefreshing: false,
       isLoadingJobs: false,
+      isLoading: false
     });
   }
 
   errorHandler = (err) => {
-    this.isLoading(false);
     this.setState({
       isRefreshing: false,
       isLoadingJobs: false,
+      isLoading: false
     });
     CustomToast(err, 'danger');
   }
@@ -115,7 +121,11 @@ class MyJobs extends Component {
   render() {
     return (<I18n>{(t, { i18n }) => (
       <Container>
-        <Loading isLoading={this.state.isLoading}></Loading>
+        {this.state.isLoading ? <Loading/> : null}
+
+        {(this.state.showNoJobsText) ?
+          <CenteredText text={`${t('MY_JOBS.noJobs')}`}/>
+        : null}
 
         <Header androidStatusBarColor={BLUE_MAIN} style={styles.headerCustom}>
         <Left/>
