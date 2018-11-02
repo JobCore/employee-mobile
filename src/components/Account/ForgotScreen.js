@@ -49,7 +49,7 @@ class ForgotScreen extends Component {
   render() {
     return (<I18n>{(t, { i18n }) => (<Content contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
-        <Loading isLoading={this.state.isLoading}></Loading>
+        {this.state.isLoading ? <Loading/> : null}
 
         <Image
           style={styles.viewBackground}
