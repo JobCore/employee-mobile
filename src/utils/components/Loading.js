@@ -3,40 +3,21 @@ import PropTypes from 'prop-types';
 import {
   StyleSheet,
   View,
-  Modal,
 } from 'react-native';
 import { Spinner } from 'native-base';
 import { BLUE_DARK, WHITE_MAIN } from '../../constants/colorPalette';
-import { LOG } from "../../utils";
-
-const Loading = props => {
-  const {
-    isLoading,
-    ...attributes
-  } = props;
-
-  return (
-    <Modal
-      transparent={true}
-      animationType={'fade'}
-      visible={isLoading}
-      onRequestClose={() => {LOG(this, 'close modal')}}>
-      <View style={styles.modalBackground}>
-        <View style={styles.activityIndicatorWrapper}>
-          <Spinner color={BLUE_DARK}/>
-        </View>
-      </View>
-    </Modal>
-  )
-}
 
 const styles = StyleSheet.create({
   modalBackground: {
-    flex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
     backgroundColor: '#00000040',
+    zIndex: 999999,
   },
   activityIndicatorWrapper: {
     backgroundColor: WHITE_MAIN,
@@ -49,8 +30,16 @@ const styles = StyleSheet.create({
   }
 });
 
-Loading.propTypes = {
-  isLoading: PropTypes.bool,
-};
+class Loading extends Component {
+  render() {
+    return (
+        <View style={styles.modalBackground}>
+          <View style={styles.activityIndicatorWrapper}>
+            <Spinner color={BLUE_DARK}/>
+          </View>
+        </View>
+    )
+  }
+}
 
 export default Loading;
