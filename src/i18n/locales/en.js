@@ -54,6 +54,7 @@ export default {
   },
   JOB_INVITES: {
     jobOffers: 'Invitations',
+    noInvites: 'You have no invitations yet',
     inviteDetails: 'Invitation details',
     applyJob: 'Apply job?',
     rejectJob: 'Reject job?',
@@ -101,6 +102,7 @@ export default {
   MY_JOBS: {
     myJobs: 'My Jobs',
     jobDetails: 'Job details',
+    noJobs: 'No jobs were found',
     pending: 'Pending',
     upcoming: 'Upcoming',
     completed: 'Completed',
