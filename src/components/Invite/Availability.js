@@ -131,42 +131,50 @@ class AddAvailability extends Component {
               </Body>
             </ListItem>
             {(Array.isArray(this.state.availability)) ?
-             this.state.availability.map((block) =>
+            this.state.availability.map((block) =>
               <ListItem key={block.id}  style={styles.itemSelectCheck}>
-                <Text style={styles.textDay}>
-                  {moment(block.starting_at).format('dddd')}
-                </Text>
-
-                <TouchableOpacity style={styles.radioButtonLeft} onPress={() => this.setAllday(true, block)} rounded transparent>
-                  <Icon name={(block.allday) ? 'md-radio-button-on' : 'md-radio-button-off'} style={{color: (block.allday) ? BLUE_DARK : BLUE_MAIN, fontSize: 24}}/>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.radioButtonRight} onPress={() => this.setAllday(false, block)} rounded transparent>
-                  <Icon name={(!block.allday) ? 'md-radio-button-on' : 'md-radio-button-off'} style={{color: (!block.allday) ? BLUE_DARK : BLUE_MAIN, fontSize: 24 }}/>
-                </TouchableOpacity>
-
-                {(block.allday === false) ?
-                <View style={{flexDirection: 'row'}}>
-                 <Button onPress={() => this.showStartTimePicker(block)} style={styles.buttonHour} rounded bordered small>
-                    <Text style={styles.textHour}>
-                      {moment(block.starting_at).format('h:mma')}
+                <View style={styles.viewContainerItems}>
+                  <View style={styles.viewTextDay}>
+                    <Text style={styles.textDay}>
+                      {moment(block.starting_at).format('dddd')}
                     </Text>
-                 </Button>
-
-                <View style={styles.textToView}>
-                  <Text style={styles.textTo}>
-                    {t('APP.to')}
-                  </Text>
-                </View>
-
-                <Button onPress={() => this.showEndTimePicker(block)} style={styles.buttonHour} rounded bordered small>
-                  <Text style={styles.textHour}>
-                    {moment(block.ending_at).format('h:mma')}
-                  </Text>
-                </Button>
-
+                  </View>
+                  <View style={styles.viewRadio}>
+                    <View style={styles.radioItems}>
+                      <View style={styles.radio}>
+                        <TouchableOpacity style={styles.radioButtonLeft} onPress={() => this.setAllday(true, block)} rounded transparent>
+                          <Icon name={(block.allday) ? 'md-radio-button-on' : 'md-radio-button-off'} style={{color: (block.allday) ? BLUE_DARK : BLUE_MAIN, fontSize: 24}}/>
+                        </TouchableOpacity>
+                      </View>
+                      <View style={styles.radio}>
+                        <TouchableOpacity style={styles.radioButtonRight} onPress={() => this.setAllday(false, block)} rounded transparent>
+                          <Icon name={(!block.allday) ? 'md-radio-button-on' : 'md-radio-button-off'} style={{color: (!block.allday) ? BLUE_DARK : BLUE_MAIN, fontSize: 24 }}/>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                  <View style={styles.viewPicker}>
+                  {(block.allday === false) ?
+                <View style={{flexDirection: 'row'}}>
+                  <Button onPress={() => this.showStartTimePicker(block)} style={styles.buttonHour} rounded bordered small>
+                      <Text style={styles.textHour}>
+                        {moment(block.starting_at).format('h:mma')}
+                      </Text>
+                  </Button>
+                  <View style={styles.textToView}>
+                    <Text style={styles.textTo}>
+                      {t('APP.to')}
+                    </Text>
+                  </View>
+                  <Button onPress={() => this.showEndTimePicker(block)} style={styles.buttonHour} rounded bordered small>
+                    <Text style={styles.textHour}>
+                      {moment(block.ending_at).format('h:mma')}
+                    </Text>
+                  </Button>
                 </View>
                 : null}
+                  </View>
+                </View>
               </ListItem>)
               : null}
           </List>
