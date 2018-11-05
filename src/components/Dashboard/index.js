@@ -82,11 +82,11 @@ class DashboardScreen extends Component {
       });
 
     this.updateTokenSubscription = fcmStore
-      .subscribe('UpdateFcmToken', (fcmToken) => {
+      .subscribe('UpdateFcmToken', (data) => {
         const session = accountStore.getState('Login');
-        session.fcmToken = fcmToken;
+        session.fcmToken = data.registration_id;
         accountActions.setStoredUser(session);
-        LOG(this, `fcmToken updated ${fcmToken}`);
+        LOG(this, `fcmToken updated ${data.registration_id}`);
       });
 
     this.fcmStoreError = fcmStore
