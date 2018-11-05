@@ -44,19 +44,19 @@ export default StyleSheet.create({
     width: 5,
     height: 5,
     borderRadius: 50,
-    backgroundColor: BLUE_DARK,
+    backgroundColor: BLACK_MAIN,
   },
   pointUpcoming:{
     width: 5,
     height: 5,
     borderRadius: 50,
-    backgroundColor: GREEN_MAIN,
+    backgroundColor: BLACK_MAIN,
   },
   pointFailed:{
     width: 5,
     height: 5,
     borderRadius: 50,
-    backgroundColor: VIOLET_MAIN,
+    backgroundColor: BLACK_MAIN,
   },
   titleDate:{
     textAlign: 'center',
