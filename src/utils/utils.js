@@ -70,4 +70,25 @@ const equalMonthAndYear = (date1, date2) => {
   moment(date1).get('year') === moment(date2).get('year'))
 }
 
-export {isValidString, isValidNumber, isValidInteger, LOG, WARN, ERROR, equalMonthAndYear};
+/**
+ * Error handler for stores
+ * @return {[type]} [description]
+ */
+const storeErrorHandler = (err) => {
+  if (err.datail) {
+    return err.datail;
+  }
+  if (err.non_field_errors) {
+    return err.non_field_errors.join(", ");
+  }
+  if (err.message) {
+    return err.message;
+  }
+  if (err.error) {
+    return err.error;
+  }
+
+  return err;
+}
+
+export {isValidString, isValidNumber, isValidInteger, LOG, WARN, ERROR, equalMonthAndYear, storeErrorHandler};

@@ -1,5 +1,5 @@
 import { FluxStore } from '../../utils/flux-state';
-import { LOG, WARN, ERROR } from "../../utils";
+import { LOG, WARN, ERROR, storeErrorHandler } from "../../utils";
 
 class JobStore extends FluxStore {
   constructor() {
@@ -71,18 +71,7 @@ class JobStore extends FluxStore {
 
     this.addEvent('GetFailedJobs');
 
-    this.addEvent('JobStoreError', nextState => {
-      LOG(this, nextState);
-
-      if (nextState.non_field_errors) {
-        return nextState.non_field_errors.join(", ");
-      }
-      if (nextState.message) {
-        return nextState.message;
-      }
-
-      return nextState;
-    });
+    this.addEvent('JobStoreError', storeErrorHandler);
   }
 }
 

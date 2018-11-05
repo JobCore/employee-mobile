@@ -1,5 +1,5 @@
 import { FluxStore } from '../../utils/flux-state';
-import { LOG, WARN, ERROR } from "../../utils";
+import { LOG, WARN, ERROR, storeErrorHandler } from "../../utils";
 
 class FcmStore extends FluxStore {
   constructor() {
@@ -7,18 +7,7 @@ class FcmStore extends FluxStore {
 
     this.addEvent('UpdateFcmToken');
 
-    this.addEvent('FcmStoreError', nextState => {
-      LOG(this, nextState);
-
-      if (nextState.non_field_errors) {
-        return nextState.non_field_errors.join(", ");
-      }
-      if (nextState.message) {
-        return nextState.message;
-      }
-
-      return nextState;
-    });
+    this.addEvent('FcmStoreError', storeErrorHandler);
   }
 }
 

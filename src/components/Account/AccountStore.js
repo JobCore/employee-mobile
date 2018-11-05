@@ -1,6 +1,6 @@
 import { FluxStore } from '../../utils/flux-state';
 import { AsyncStorage } from "react-native";
-import { LOG, WARN, ERROR } from "../../utils";
+import { LOG, WARN, ERROR, storeErrorHandler } from "../../utils";
 
 class AccountStore extends FluxStore {
   constructor() {
@@ -47,18 +47,7 @@ class AccountStore extends FluxStore {
 
     this.addEvent('EditProfile');
 
-    this.addEvent('AccountStoreError', nextState => {
-      LOG(this, nextState);
-
-      if (nextState.non_field_errors) {
-        return nextState.non_field_errors.join(", ");
-      }
-      if (nextState.message) {
-        return nextState.message;
-      }
-
-      return nextState;
-    });
+    this.addEvent('AccountStoreError', storeErrorHandler);
   }
 }
 
