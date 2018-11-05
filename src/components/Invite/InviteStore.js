@@ -1,5 +1,5 @@
 import { FluxStore } from '../../utils/flux-state';
-import { LOG, WARN, ERROR } from "../../utils";
+import { LOG, WARN, ERROR, storeErrorHandler } from "../../utils";
 
 class InviteStore extends FluxStore {
   constructor() {
@@ -54,18 +54,7 @@ class InviteStore extends FluxStore {
 
     this.addEvent('DeleteAvailability');
 
-    this.addEvent('InviteStoreError', nextState => {
-      LOG(this, nextState);
-
-      if (nextState.non_field_errors) {
-        return nextState.non_field_errors.join(", ");
-      }
-      if (nextState.message) {
-        return nextState.message;
-      }
-
-      return nextState;
-    });
+    this.addEvent('InviteStoreError', storeErrorHandler);
   }
 }
 

@@ -21,7 +21,7 @@ class ForgotScreen extends Component {
     super(props);
     this.state = {
       isLoading: false,
-      email: '',
+      email: props.navigation.getParam('email', ''),
     };
   }
 
@@ -62,7 +62,7 @@ class ForgotScreen extends Component {
         <FormView>
           <Form>
             <Item style={styles.viewInput} rounded inlineLabel>
-              <Input value={this.state.email}
+              <Input keyboardType={'email-address'} autoCapitalize={'none'} value={this.state.email}
                      placeholder={t('FORGOT.email')}
                      onChangeText={(text) => this.setState({email: text})}/>
             </Item>

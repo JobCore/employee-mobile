@@ -97,9 +97,9 @@ class LoginScreen extends Component {
                 <FormView>
                   <Form>
                       <Item style={styles.viewInput} inlineLabel rounded>
-                          <Input value={this.state.email}
+                          <Input keyboardType={'email-address'} autoCapitalize={'none'} value={this.state.email}
                             placeholder={t('LOGIN.email')}
-                                 onChangeText={(text) => this.setState({email: text.toLowerCase()})}/>
+                                 onChangeText={(text) => this.setState({email: text})}/>
                       </Item>
                       <Item style={styles.viewInput} inlineLabel rounded>
                           <Input value={this.state.password}

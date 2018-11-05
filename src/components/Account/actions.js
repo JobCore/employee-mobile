@@ -104,6 +104,8 @@ const passwordReset = (email) => {
 
 /**
  * Action for logOut, YOU MUST CLEAR ALL flux stores you need here
+ * // YOU MUST use logoutOnUnautorized For unautorized API error
+ * (status 401/403)
  */
 const logout = () => {
   let fcmTokenStored;
@@ -132,6 +134,15 @@ const logout = () => {
 }
 
 /**
+ * Logout on unautorized API response (status 401/403)
+ * YOU MUST use this for unautorized API error
+ */
+const logoutOnUnautorized = () => {
+  accountStore.clearState();
+  return Flux.dispatchEvent('Logout', {});
+}
+
+/**
  * Action for setting/updating the stored user from AsyncStorage/Flux or to ser user on app first load
  * @param {object} user
  */
@@ -142,4 +153,4 @@ const setStoredUser = (user) => {
   });
 }
 
-export { login, register, passwordReset, setStoredUser, logout, editProfile };
+export { login, register, passwordReset, setStoredUser, logout, logoutOnUnautorized, editProfile };
