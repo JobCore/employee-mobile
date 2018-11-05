@@ -176,7 +176,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   viewTextDay:{
-    width: '25%',
+    width: '20%',
   },
   viewRadio:{
     width: 80,
