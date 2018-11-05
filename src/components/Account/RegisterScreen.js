@@ -75,8 +75,8 @@ class RegisterScreen extends Component {
                             placeholder={t('REGISTER.lastName')} onChangeText={(text) => this.setState({lastName: text})}/>
                       </Item>
                       <Item style={styles.viewInput} inlineLabel rounded>
-                          <Input value={this.state.email}
-                            placeholder={t('REGISTER.email')} onChangeText={(text) => this.setState({email: text.toLowerCase()})}/>
+                          <Input keyboardType={'email-address'} autoCapitalize={'none'} value={this.state.email}
+                            placeholder={t('REGISTER.email')} onChangeText={(text) => this.setState({email: text})}/>
                       </Item>
                       <Item style={styles.viewInput} inlineLabel rounded>
                           <Input value={this.state.password}

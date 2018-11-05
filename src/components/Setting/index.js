@@ -189,7 +189,15 @@ class SettingScreen extends Component {
   }
 
   passwordReset = () => {
-    this.props.navigation.navigate(RESET_ROUTE);
+    let email;
+
+    try {
+      email = this.state.user.email || '';
+    } catch (e) {
+      email = '';
+    }
+
+    this.props.navigation.navigate(RESET_ROUTE, { email });
   }
 
   isLoading = (isLoading) => {
