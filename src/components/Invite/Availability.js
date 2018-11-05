@@ -136,7 +136,7 @@ class AddAvailability extends Component {
                 <View style={styles.viewContainerItems}>
                   <View style={styles.viewTextDay}>
                     <Text style={styles.textDay}>
-                      {moment(block.starting_at).format('dddd')}
+                      {moment(block.starting_at).format('ddd')}
                     </Text>
                   </View>
                   <View style={styles.viewRadio}>
