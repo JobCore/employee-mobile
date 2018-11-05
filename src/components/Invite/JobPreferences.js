@@ -6,7 +6,7 @@ import {
   Slider,
   RefreshControl,
 } from "react-native";
-import { Container, Header, Content, Button, Text, Left, Body, Title, Right, ListItem, Form, Spinner } from 'native-base';
+import { Container, Header, Content, Button, Text, Left, Body, Title, Right, ListItem, Form } from 'native-base';
 import styles from './JobPreferencesStyle';
 import { BLUE_DARK, BLUE_MAIN } from '../../constants/colorPalette'
 import { SETTING_ROUTE, AVAILABILITY_ROUTE, POSITION_ROUTE } from "../../constants/routes";
@@ -240,10 +240,13 @@ class JobPreferences extends Component {
                        this.state.availability.length - 1)
                        ? true
                        : false
+                     const dateFilter = (block.allday)
+                       ? 'dddd: '
+                       : 'dddd: h:mma';
 
                        return(
                          <Text style={styles.textPositions} key={index}>
-                           {`${moment(block.starting_at).format('dddd: h:mma')}${(!isLast) ? ', ' : ' '}`}
+                           {`${moment(block.starting_at).format(dateFilter)}${(block.allday) ? t('JOB_PREFERENCES.allday') : ''}${(!isLast) ? ', ' : ' '}`}
                          </Text>
                        );
                    })}
