@@ -199,6 +199,8 @@ class DashboardScreen extends Component {
       return LOG(this, 'no notification data');
     }
 
+    LOG(this, JSON.stringify(notificationData));
+
     if (notificationData.type === "shift" && notificationData.id) {
       this.props.navigation
         .navigate(JOB_DETAILS_ROUTE, {
