@@ -9,12 +9,12 @@ import {
 import { Container, Header, Content, Button, Text, Left, Body, Title, Right, ListItem, Form } from 'native-base';
 import styles from './JobPreferencesStyle';
 import { BLUE_DARK, BLUE_MAIN } from '../../constants/colorPalette'
-import { SETTING_ROUTE, AVAILABILITY_ROUTE, POSITION_ROUTE } from "../../constants/routes";
+import {SETTING_ROUTE, AVAILABILITY_ROUTE, POSITION_ROUTE, EDIT_LOCATION_ROUTE} from "../../constants/routes";
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
-import { FormViewPreferences } from "../../utils/platform";
+import {FormView, FormViewPreferences} from "../../utils/platform";
 import { CustomToast, Loading } from '../../utils/components';
 import { LOG, WARN, ERROR } from "../../utils";
 import moment from 'moment';
@@ -100,6 +100,10 @@ class JobPreferences extends Component {
     this.isLoading(false);
     this.setState({ isRefreshing: false });
     CustomToast(err, 'danger');
+  }
+
+  editLocation = ()=>{
+      this.props.navigation.navigate(EDIT_LOCATION_ROUTE);
   }
 
   render() {
@@ -191,6 +195,17 @@ class JobPreferences extends Component {
                   thumbTintColor={BLUE_DARK}
                   minimumTrackTintColor={BLUE_DARK}
                   maximumTrackTintColor={BLUE_MAIN}/>
+
+                  <Button
+                      full
+                      onPress={this.editLocation}
+                      rounded
+                      style={styles.buttonRounded}>
+                      <Text
+                          style={styles.textButton}>
+                          {t('EDIT_PROFILE.editLocation')}
+                      </Text>
+                  </Button>
 
                 <Text style={styles.sliderLabel}>
                   {t('JOB_PREFERENCES.maximumJobDistanceMiles')}
