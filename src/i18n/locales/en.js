@@ -117,7 +117,7 @@ export default {
     invitations: 'Invitations',
     upcomingJobs: 'Upcoming jobs',
     myRating: 'My rating',
-    stopReceivingInvites: 'Stop receiving invites',
+    stopReceivingInvites: 'Stop receiving auto invites',
     y: 'Y',
     n: 'N',
   }
