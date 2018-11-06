@@ -73,13 +73,13 @@ class JobInvites extends Component {
 
   applyJobHandler = () => {
     this.isLoading(false);
-    this.getJobInvites();
+    this.deleteRow();
     CustomToast(i18next.t('JOB_INVITES.jobApplied'));
   }
 
   rejectJobHandler = () => {
     this.isLoading(false);
-    this.getJobInvites();
+    this.deleteRow();
     CustomToast(i18next.t('JOB_INVITES.jobRejected'));
   }
 
@@ -176,12 +176,12 @@ class JobInvites extends Component {
               </View>
             </ListItem>
             }
-            renderLeftHiddenRow={data =>
-              <Button style={styles.buttomApply} onPress={() => this.applyJob(data)}>
+            renderLeftHiddenRow={(data, secId, rowId, rowMap) =>
+              <Button style={styles.buttomApply} onPress={() => this.applyJob(data, secId, rowId, rowMap)}>
                 <Icon active name="md-checkmark"/>
               </Button>}
             renderRightHiddenRow={(data, secId, rowId, rowMap) =>
-              <Button style={styles.buttomReject} full danger onPress={() => this.rejectJob(data)}>
+              <Button style={styles.buttomReject} full danger onPress={() => this.rejectJob(data, secId, rowId, rowMap)}>
                 <Icon active name="md-close"/>
               </Button>}
           />
@@ -204,7 +204,7 @@ class JobInvites extends Component {
     this.getJobInvites();
   }
 
-  applyJob = (invitation) => {
+  applyJob = (invitation, secId, rowId, rowMap) => {
     let jobTitle;
 
     try {
@@ -226,13 +226,15 @@ class JobInvites extends Component {
         text: i18next.t('JOB_INVITES.apply'),
         onPress: () => {
           this.isLoading(true);
-          inviteActions.applyJob(invitation.id);
+          this.setState({secId, rowId, rowMap}, () => {
+            inviteActions.applyJob(invitation.id);
+          });
         }
       }, ], { cancelable: false }
     )
   }
 
-  rejectJob = (invitation) => {
+  rejectJob = (invitation, secId, rowId, rowMap) => {
     let jobTitle;
 
     try {
@@ -254,7 +256,9 @@ class JobInvites extends Component {
         text: i18next.t('JOB_INVITES.reject'),
         onPress: () => {
           this.isLoading(true);
-          inviteActions.rejectJob(invitation.id);
+          this.setState({secId, rowId, rowMap}, () => {
+            inviteActions.rejectJob(invitation.id);
+          });
         }
       }, ], { cancelable: false }
     )
@@ -264,11 +268,13 @@ class JobInvites extends Component {
     this.setState({ isLoading });
   }
 
-  deleteRow(secId, rowId, rowMap) {
-    rowMap[`${secId}${rowId}`].props.closeRow();
+  deleteRow() {
+    this.state.rowMap[`${this.state.secId}${this.state.rowId}`].props.closeRow();
     const newData = [...this.state.jobInvites];
-    newData.splice(rowId, 1);
-    this.setState({ jobInvites: newData });
+    newData.splice(this.state.rowId, 1);
+    this.setState({ jobInvites: newData }, () => {
+      this.getJobInvites();
+    });
   }
 }
 export default JobInvites;
