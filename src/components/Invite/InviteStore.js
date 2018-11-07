@@ -54,6 +54,10 @@ class InviteStore extends FluxStore {
 
     this.addEvent('DeleteAvailability');
 
+    this.addEvent('GetProfile');
+
+    this.addEvent('SaveLocation');
+
     this.addEvent('InviteStoreError', storeErrorHandler);
   }
 }

@@ -5,7 +5,7 @@ import {
   Image,
   Dimensions,
   Alert,
-  
+
 } from "react-native";
 import {
   Container,
@@ -29,7 +29,6 @@ import inviteStore from './InviteStore';
 import { JobDetails } from '../../utils/components';
 import { LOG, WARN, ERROR } from "../../utils";
 import { Loading } from '../../utils/components';
-import moment from 'moment';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -157,7 +156,8 @@ class InviteDetails extends Component {
                 <MapView
                   style={styles.map}
                   region={this.state.region}
-                  onRegionChangeComplete={this.onRegionChangeComplete}>
+                  onRegionChangeComplete={this.onRegionChangeComplete}
+                >
                   {(this.state.invite &&
                     this.state.invite.shift &&
                     this.state.invite.shift.venue && this.state.invite.shift.venue.latitude >= 0 && this.state.invite.shift.venue.longitude >= 0)

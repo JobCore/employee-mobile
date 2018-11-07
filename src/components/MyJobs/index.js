@@ -241,6 +241,8 @@ class MyJobs extends Component {
   }
 
   goToJobDetails = (job) => {
+    LOG(this, ["goToJobDetails", job]);
+
     if (!job) return;
 
     if (job.applicationId) {

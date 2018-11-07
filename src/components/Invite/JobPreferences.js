@@ -9,7 +9,7 @@ import {
 import { Container, Header, Content, Button, Text, Left, Body, Title, Right, ListItem, Form } from 'native-base';
 import styles from './JobPreferencesStyle';
 import { BLUE_DARK, BLUE_MAIN } from '../../constants/colorPalette'
-import { SETTING_ROUTE, AVAILABILITY_ROUTE, POSITION_ROUTE } from "../../constants/routes";
+import {SETTING_ROUTE, AVAILABILITY_ROUTE, POSITION_ROUTE, EDIT_LOCATION_ROUTE} from "../../constants/routes";
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import { I18n } from 'react-i18next';
@@ -36,6 +36,7 @@ class JobPreferences extends Component {
     this.state = {
       isLoading: false,
       isRefreshing: false,
+      location: '',
       positionList: [],
       positions: [],
       availability: [],
@@ -60,6 +61,10 @@ class JobPreferences extends Component {
       .subscribe('EditJobPreferences', (data) => this.editJobPreferencesHandler(data));
     this.getAvailabilitySubscription = inviteStore
       .subscribe('GetAvailability', (data) => this.getAvailabilityHandler(data));
+    this.getLocationSubscription = inviteStore
+      .subscribe('GetProfile', this.getLocationHandler);
+    this.saveLocationSubscription = inviteStore
+      .subscribe('SaveLocation', this.saveLocationHandler);
     this.inviteStoreError = inviteStore
       .subscribe('InviteStoreError', (err) => this.errorHandler(err));
 
@@ -71,6 +76,8 @@ class JobPreferences extends Component {
     this.getJobPreferencesSubscription.unsubscribe();
     this.editJobPreferencesSubscription.unsubscribe();
     this.getAvailabilitySubscription.unsubscribe();
+    this.getLocationSubscription.unsubscribe();
+    this.saveLocationSubscription.unsubscribe();
     this.inviteStoreError.unsubscribe();
   }
 
@@ -100,6 +107,18 @@ class JobPreferences extends Component {
     this.isLoading(false);
     this.setState({ isRefreshing: false });
     CustomToast(err, 'danger');
+  }
+
+  getLocationHandler = (profile) => {
+    this.setState({ location: profile.location });
+  }
+
+  saveLocationHandler = (profile) => {
+    this.setState({ location: profile.location });
+  }
+
+  editLocation = ()=>{
+      this.props.navigation.navigate(EDIT_LOCATION_ROUTE);
   }
 
   render() {
@@ -145,7 +164,7 @@ class JobPreferences extends Component {
 
               {(Array.isArray(this.state.positions)) ?
                 <View style={styles.viewPositions}>
-                  <Text>
+                  <Text style={{textAlign: 'center'}}>
                    {this.state.positions.map((position, index) => {
                      const isLast = (index ===
                        this.state.positions.length - 1)
@@ -192,6 +211,26 @@ class JobPreferences extends Component {
                   minimumTrackTintColor={BLUE_DARK}
                   maximumTrackTintColor={BLUE_MAIN}/>
 
+                <View style={styles.viewButtonLocation}>
+                  <Button
+                      full
+                      onPress={this.editLocation}
+                      rounded
+                      style={styles.buttonRounded}>
+                      <Text
+                          uppercase={false}
+                          style={styles.textButton}>
+                          {t('JOB_PREFERENCES.myLocation')}
+                      </Text>
+                  </Button>
+
+                  {(this.state.location) ?
+                    <Text style={styles.textLocation}>
+                      {`${this.state.location}`}
+                    </Text>
+                  : null }
+                </View>
+
                 <Text style={styles.sliderLabel}>
                   {t('JOB_PREFERENCES.maximumJobDistanceMiles')}
                 </Text>
@@ -234,7 +273,7 @@ class JobPreferences extends Component {
 
               {(Array.isArray(this.state.availability)) ?
                 <View style={styles.viewPositions}>
-                  <Text>
+                  <Text style={{textAlign: 'center'}}>
                    {this.state.availability.map((block, index) => {
                      const isLast = (index ===
                        this.state.availability.length - 1)
@@ -266,6 +305,7 @@ class JobPreferences extends Component {
       this.getPositions();
       this.getJobPreferences();
       this.getAvailability();
+      this.getProfile();
     });
   }
 
@@ -274,6 +314,7 @@ class JobPreferences extends Component {
       this.getPositions();
       this.getJobPreferences();
       this.getAvailability();
+      this.getProfile();
     });
   }
 
@@ -297,6 +338,10 @@ class JobPreferences extends Component {
       maximumJobDistanceMiles,
       maximumJobDistanceMilesPrev: null,
     }, this.editJobPreferences);
+  }
+
+  getProfile = () => {
+    inviteActions.getProfile();
   }
 
   getPositions = () => {
