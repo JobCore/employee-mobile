@@ -6,7 +6,7 @@ import { putData, getData } from '../../fetch';
  * Action for listing the job invites
  */
 const getJobInvites = () => {
-  getData('/shifts/invites?status=')
+  getData('/shifts/invites?status=PENDING')
     .then((jobInvites) => {
       Flux.dispatchEvent('JobInvites', jobInvites);
     })
