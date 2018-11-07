@@ -14,7 +14,6 @@ import {i18next} from '../../i18n';
 import {FormView} from "../../utils/platform";
 import {LOG, WARN} from "../../utils";
 import {CustomToast, Loading} from '../../utils/components';
-import {EDIT_LOCATION_ROUTE} from "../../constants/routes";
 
 class RegisterScreen extends Component {
     static navigationOptions = {header: null}
@@ -151,10 +150,6 @@ class RegisterScreen extends Component {
                 }
             },], {cancelable: false}
         );
-    }
-
-    editLocation = () => {
-        this.props.navigation.navigate(EDIT_LOCATION_ROUTE);
     }
 
     isLoading = (isLoading) => {

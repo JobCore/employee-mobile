@@ -6,21 +6,19 @@ import {
   GRAY_MAIN,
   RED_MAIN,
   BLACK_MAIN,
+  BLUE_DARK,
 } from '../../constants/colorPalette';
 
 export default StyleSheet.create({
-  mapContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   map: {
-    ...StyleSheet.absoluteFillObject,
-    width: '90%',
-    top: '38%',
-    left: '5%',
+    marginTop: 30,
+    marginBottom: 30,
+    paddingLeft: 20,
+    paddingRight: 20,
     height: 300,
+    width: '90%',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignSelf: 'center',
     shadowColor: '#000000',
     shadowOffset: {
       width: 0,
@@ -28,7 +26,14 @@ export default StyleSheet.create({
     },
     shadowRadius: 5,
     shadowOpacity: 1.0,
-    zIndex: 99999
+  },
+  viewLocation: {
+    marginTop: 40,
+    marginBottom: 30,
+  },
+  textLocation: {
+    textAlign: 'center',
+    color: BLUE_DARK,
   },
   container: {
     flex: 1,
@@ -95,9 +100,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 20,
     paddingRight: 20,
-    marginTop: '40%',
-    marginBottom: 20,
-    height: 100
+    height: 100,
   },
   viewButtomLeft: {
     width: '50%',

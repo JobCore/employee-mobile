@@ -48,7 +48,7 @@ import {BLUE_MAIN, BLUE_DARK, BLUE_LIGHT, GRAY_MAIN, BLUE_SEMI_LIGHT} from './sr
 import SettingScreen from './src/components/Setting';
 
 import Splash from './src/components/Splash';
-import {EditLocation} from "./src/components/Account/EditLocation";
+import EditLocation from "./src/components/Invite/EditLocation";
 
 window.DEBUG = true;
 

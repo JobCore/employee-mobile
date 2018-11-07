@@ -70,7 +70,6 @@ export async function getData(url, isAuth = true) {
         'Content-Type': 'application/json',
         'Authorization': (isAuth) ? `jwt ${accountStore.getState('Login').token}` : '',
     };
-    LOG(this, ["getData", url, headers]);
 
     return timeout(20000, fetch(`${API_URL}${url}`, {
         headers,
@@ -162,7 +161,6 @@ export async function postFormData(url, formData, isAuth = true) {
 reject or resolve based on status then Parses the response to json
  */
 function checkStatus(response) {
-    LOG(this, ["services:checkStatus", response]);
     if (response && response.status === 401 || response.status === 403) {
         accountActions.logoutOnUnautorized();
     }

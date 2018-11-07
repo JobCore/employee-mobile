@@ -39,6 +39,12 @@ export default  StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20
   },
+  viewButtonLocation: {
+    marginTop: 40,
+    marginBottom: 20,
+    paddingLeft: 20,
+    paddingRight: 20
+  },
   sliderValue: {
     marginLeft: 0,
     marginRight: 0,
@@ -106,6 +112,10 @@ export default  StyleSheet.create({
     textAlign: 'center',
     color: BLUE_DARK,
     fontSize: 16,
+  },
+  textLocation:{
+    textAlign: 'center',
+    color: BLUE_DARK,
   },
   accordionPosition:{
     borderColor: 'transparent',

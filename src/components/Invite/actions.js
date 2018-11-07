@@ -6,7 +6,7 @@ import { putData, getData } from '../../fetch';
  * Action for listing the job invites
  */
 const getJobInvites = () => {
-  getData('/shifts/invites?status=PENDING')
+  getData('/shifts/invites?status=')
     .then((jobInvites) => {
       Flux.dispatchEvent('JobInvites', jobInvites);
     })
@@ -201,6 +201,41 @@ const editAvailabilityDates = (startingAt, endingAt, availabilityId) => {
     });
 }
 
+/**
+ * Save Location action
+ * @param  {object} location
+ * @param  {object} location.location
+ * @param  {object} location.street_address
+ * @param  {object} location.city
+ * @param  {object} location.state
+ * @param  {object} location.country
+ * @param  {object} location.zipCode
+ * @param  {object} location.latitude
+ * @param  {object} location.longitude
+ */
+const saveLocation = (location) => {
+  putData(`/profiles/me`, location)
+    .then((data) => {
+      Flux.dispatchEvent('SaveLocation', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('InviteStoreError', err);
+    });
+};
+
+/**
+ * get profile action, to get user's location
+ */
+const getProfile = () => {
+  getData(`/profiles/me`)
+    .then((data) => {
+      Flux.dispatchEvent('GetProfile', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('InviteStoreError', err);
+    });
+};
+
 export {
   getJobInvites,
   getInvite,
@@ -214,4 +249,6 @@ export {
   editAvailabilityAllday,
   editAvailabilityDates,
   stopReceivingInvites,
+  saveLocation,
+  getProfile,
 };

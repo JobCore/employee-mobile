@@ -31,7 +31,6 @@ export default {
   },
   EDIT_PROFILE: {
     editProfile: 'Edit profile',
-    editLocation: 'My Location',
     wantToEditProfile: 'Edit profile?',
     profileUpdated: 'Profile updated!',
     update: 'Update',
@@ -96,6 +95,10 @@ export default {
     deleteAvailability: 'Delete availability?',
     allday: 'All day',
     orSpecificTime: 'Or specific time',
+    myLocation: 'My Location',
+    typeLocation: 'Type your location',
+    wantToSaveLocation: 'Save location?',
+    locationUpdated: 'Location updated!',
     update: 'update',
     delete: 'delete',
     save: 'Save',
