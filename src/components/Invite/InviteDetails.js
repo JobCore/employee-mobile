@@ -99,17 +99,16 @@ class InviteDetails extends Component {
       longitude = DEFAULT_LONGITUDE;
     }
 
-    this.setState({
-      invite,
-      region: {
-        latitude: latitude,
-        longitude: longitude,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      }
-    });
+    const region = {
+      latitude: latitude,
+      longitude: longitude,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    };
 
-    this.isLoading(false);
+    this.setState({ invite, isLoading: false }, () => {
+       this.onRegionChangeComplete(region);
+    });
   }
 
   applyJobHandler = () => {
@@ -160,7 +159,7 @@ class InviteDetails extends Component {
                 >
                   {(this.state.invite &&
                     this.state.invite.shift &&
-                    this.state.invite.shift.venue && this.state.invite.shift.venue.latitude >= 0 && this.state.invite.shift.venue.longitude >= 0)
+                    this.state.invite.shift.venue && this.state.invite.shift.venue.latitude !== 0 && this.state.invite.shift.venue.longitude !== 0)
                     ? <Marker
                       pinColor={BLUE_DARK}
                       coordinate={{
@@ -169,7 +168,13 @@ class InviteDetails extends Component {
                       }}
                       title={this.state.invite.shift.venue.title}
                       />
-                    : null}
+                    : <Marker
+                      pinColor={BLUE_DARK}
+                      coordinate={{
+                        latitude: DEFAULT_LATIDUDE,
+                        longitude: DEFAULT_LONGITUDE,
+                      }}
+                      />}
                 </MapView>
 
                 <Content>

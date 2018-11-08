@@ -6,7 +6,6 @@ import {LOG} from "../../utils";
  * Get shift application
  */
 const getApplication = (applicationId) => {
-    LOG(this, ["getApplication", applicationId]);
     getData(`/applications/${applicationId}`)
         .then((jobs) => {
             Flux.dispatchEvent('GetApplication', jobs);
@@ -20,7 +19,6 @@ const getApplication = (applicationId) => {
  * Get shift job
  */
 const getJob = (shiftId) => {
-    LOG(this, ["getJob", shiftId]);
     getData(`/shifts/${shiftId}`)
         .then((jobs) => {
             Flux.dispatchEvent('GetJob', jobs);
