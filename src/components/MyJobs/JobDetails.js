@@ -61,7 +61,6 @@ class JobDetailsScreen extends Component {
             shiftId: props.navigation.getParam('shiftId', null),
             applicationId: props.navigation.getParam('applicationId', null),
         };
-        LOG(this, ["constructor", this.state]);
     }
 
     componentDidMount() {
@@ -103,18 +102,16 @@ class JobDetailsScreen extends Component {
             longitude = DEFAULT_LONGITUDE;
         }
 
-        this.setState({
-            shift,
-            region: {
-                latitude: latitude,
-                longitude: longitude,
-                latitudeDelta: LATITUDE_DELTA,
-                longitudeDelta: LONGITUDE_DELTA,
-            },
-            isLoading: false,
+        const region = {
+            latitude: latitude,
+            longitude: longitude,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+        };
+
+        this.setState({ shift, isLoading: false }, () => {
+          this.onRegionChangeComplete(region);
         });
-
-
     };
 
     errorHandler = (err) => {
@@ -153,7 +150,7 @@ class JobDetailsScreen extends Component {
                     region={this.state.region}
                     onRegionChangeComplete={this.onRegionChangeComplete}>
                     {(this.state.shift &&
-                        this.state.shift.venue && this.state.shift.venue.latitude >= 0 && this.state.shift.venue.longitude >= 0)
+                        this.state.shift.venue && this.state.shift.venue.latitude !== 0 && this.state.shift.venue.longitude !== 0)
                         ? <Marker
                             pinColor={BLUE_DARK}
                             coordinate={{
@@ -162,7 +159,13 @@ class JobDetailsScreen extends Component {
                             }}
                             title={this.state.shift.venue.title}
                         />
-                        : null}
+                        : <Marker
+                            pinColor={BLUE_DARK}
+                            coordinate={{
+                                latitude: DEFAULT_LATIDUDE,
+                                longitude: DEFAULT_LONGITUDE,
+                            }}
+                        />}
                 </MapView>
             </Container>
         )
@@ -174,7 +177,6 @@ class JobDetailsScreen extends Component {
     }
 
     getJob = () => {
-        LOG(this, ["getJob", this.state]);
         if (!this.state.shiftId && !this.state.applicationId) {
             return this.props.navigation.goBack();
         }
