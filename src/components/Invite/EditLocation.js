@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Image, Dimensions, Alert } from 'react-native';
+import { View, Image, Dimensions, Alert, TouchableOpacity } from 'react-native';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import styles from "../Invite/EditLocationStyle";
 import { I18n } from 'react-i18next';
@@ -18,7 +18,7 @@ import {
 } from 'native-base';
 import { WHITE_MAIN, BLUE_DARK, BLUE_MAIN } from "../../constants/colorPalette";
 import { LOG, WARN, ERROR } from "../../utils";
-import { Loading, CustomToast } from '../../utils/components';
+import { Loading, CustomToast, openMapsApp } from '../../utils/components';
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import MARKER_IMG from '../../assets/image/map-marker.png';
@@ -168,12 +168,15 @@ class EditLocation extends PureComponent {
                         nearbyPlacesAPI='GooglePlacesSearch'
                     />
 
-                    {this.state.marker &&
-                    <View style={styles.viewLocation}>
-                      <Text style={styles.textLocation}>
-                        {this.state.marker.details.formatted_address}
-                      </Text>
-                    </View>}
+                    {this.state.marker
+                     ? <View style={styles.viewLocation}>
+                      <TouchableOpacity onPress={this.openMapsApp}>
+                        <Text style={styles.textLocation}>
+                          {`${this.state.marker.details.formatted_address}`}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                    : null }
 
                     {this.state.marker &&
                     <MapView style={styles.map}
@@ -184,8 +187,9 @@ class EditLocation extends PureComponent {
                             latitude: this.state.marker.details.geometry.location.lat,
                             longitude: this.state.marker.details.geometry.location.lng,
                           }}
-                          title={this.state.marker.data.description}/>
+                          title={this.state.marker.data.formatted_address}/>
                     </MapView>}
+
 
                     {this.state.marker &&
                     <View style={styles.viewCrud}>
@@ -210,6 +214,23 @@ class EditLocation extends PureComponent {
                 </Container>
               )}</I18n>);
       }
+
+  openMapsApp = () => {
+    let latitude;
+    let longitude;
+
+    try {
+      latitude = this.state.marker.details.geometry.location.lat ||
+       DEFAULT_LATIDUDE;
+      longitude = this.state.marker.details.geometry.location.lng ||
+       DEFAULT_LONGITUDE;
+    } catch (e) {
+      latitude = DEFAULT_LATIDUDE;
+      longitude = DEFAULT_LONGITUDE;
+    }
+
+    openMapsApp(latitude, longitude);
+  }
 
   saveLocationAlert = () => {
     if (!this.state.marker) return;

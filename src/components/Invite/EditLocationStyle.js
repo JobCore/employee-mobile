@@ -13,8 +13,6 @@ export default StyleSheet.create({
   map: {
     marginTop: 30,
     marginBottom: 30,
-    paddingLeft: 20,
-    paddingRight: 20,
     height: 300,
     width: '90%',
     justifyContent: 'center',
