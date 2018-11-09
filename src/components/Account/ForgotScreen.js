@@ -73,7 +73,9 @@ class ForgotScreen extends Component {
             style={styles.viewButtomLogin} >
             <Text
               style={styles.textButtom}>
-              {t('FORGOT.recoverPassword')}
+              {(this.props.navigation.state.routeName === 'FORGOT_ROUTE')
+                ? t('FORGOT.recoverPassword')
+                : t('FORGOT.changePassword')}
             </Text>
           </Button>
           <TouchableOpacity

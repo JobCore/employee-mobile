@@ -50,6 +50,7 @@ export default {
     email: 'Correo',
     emailResetPassword: 'Recibirás un correo electrónico para restablecer tu contraseña',
     recoverPassword: 'Recuperar contraseña',
+    changePassword: 'Cambiar contraseña',
   },
   JOB_INVITES: {
     jobOffers: 'Invitaciones',

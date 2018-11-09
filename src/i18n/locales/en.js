@@ -50,6 +50,7 @@ export default {
     email: 'Email',
     emailResetPassword: 'You will receive an email to reset your password',
     recoverPassword: 'Recover password',
+    changePassword: 'Change password',
   },
   JOB_INVITES: {
     jobOffers: 'Invitations',
