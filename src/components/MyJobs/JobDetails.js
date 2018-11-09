@@ -4,6 +4,7 @@ import {
     View,
     Image,
     Dimensions,
+    TouchableOpacity,
 } from "react-native";
 import {
     Container,
@@ -14,8 +15,8 @@ import {
     Right,
     Body,
     Title,
-    Spinner,
     Icon,
+    Text,
 } from 'native-base';
 import styles from '../Invite/InviteDetailsStyle';
 import {WHITE_MAIN, BLUE_DARK, BLUE_MAIN} from "../../constants/colorPalette";
@@ -25,7 +26,8 @@ import * as jobActions from './actions';
 import jobStore from './JobStore';
 import {JobDetails} from '../../utils/components';
 import {LOG, WARN, ERROR} from "../../utils";
-import {Loading} from '../../utils/components';
+import {Loading, openMapsApp} from '../../utils/components';
+import MARKER_IMG from '../../assets/image/map-marker.png';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -143,33 +145,60 @@ class JobDetailsScreen extends Component {
                             <JobDetails shift={this.state.shift}></JobDetails>
                             : null}
                     </View>
-                </Content>
 
-                <MapView
-                    style={styles.map}
-                    region={this.state.region}
-                    onRegionChangeComplete={this.onRegionChangeComplete}>
+                    <MapView
+                        style={styles.map}
+                        region={this.state.region}
+                        onRegionChangeComplete={this.onRegionChangeComplete}>
+                        {(this.state.shift &&
+                            this.state.shift.venue && this.state.shift.venue.latitude && this.state.shift.venue.longitude)
+                            ? <Marker
+                                image={MARKER_IMG}
+                                coordinate={{
+                                    latitude: this.state.shift.venue.latitude,
+                                    longitude: this.state.shift.venue.longitude,
+                                }}
+                                title={this.state.shift.venue.title}
+                            />
+                            : <Marker
+                                image={MARKER_IMG}
+                                coordinate={{
+                                    latitude: DEFAULT_LATIDUDE,
+                                    longitude: DEFAULT_LONGITUDE,
+                                }}
+                            />}
+                    </MapView>
+
                     {(this.state.shift &&
-                        this.state.shift.venue && this.state.shift.venue.latitude !== 0 && this.state.shift.venue.longitude !== 0)
-                        ? <Marker
-                            pinColor={BLUE_DARK}
-                            coordinate={{
-                                latitude: this.state.shift.venue.latitude,
-                                longitude: this.state.shift.venue.longitude,
-                            }}
-                            title={this.state.shift.venue.title}
-                        />
-                        : <Marker
-                            pinColor={BLUE_DARK}
-                            coordinate={{
-                                latitude: DEFAULT_LATIDUDE,
-                                longitude: DEFAULT_LONGITUDE,
-                            }}
-                        />}
-                </MapView>
+                      this.state.shift.venue &&
+                      this.state.shift.venue.title)
+                     ? <View>
+                        <TouchableOpacity onPress={this.openMapsApp}>
+                          <Text style={styles.textLocation}>
+                            {`${this.state.shift.venue.title}`}
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                     : null}
+                </Content>
             </Container>
         )
         }</I18n>);
+    }
+
+    openMapsApp = () => {
+      let latitude;
+      let longitude;
+
+      try {
+        latitude = this.state.shift.venue.latitude || DEFAULT_LATIDUDE;
+        longitude = this.state.shift.venue.longitude || DEFAULT_LONGITUDE;
+      } catch (e) {
+        latitude = DEFAULT_LATIDUDE;
+        longitude = DEFAULT_LONGITUDE;
+      }
+
+      openMapsApp(latitude, longitude);
     }
 
     onRegionChangeComplete = (region) => {

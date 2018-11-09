@@ -5,7 +5,7 @@ import {
   Image,
   Dimensions,
   Alert,
-
+  TouchableOpacity,
 } from "react-native";
 import {
   Container,
@@ -16,8 +16,6 @@ import {
   Left,
   Right,
   Body,
-  Title,
-  Spinner,
   Icon,
 } from 'native-base';
 import styles from './InviteDetailsStyle';
@@ -28,7 +26,8 @@ import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import { JobDetails } from '../../utils/components';
 import { LOG, WARN, ERROR } from "../../utils";
-import { Loading } from '../../utils/components';
+import { Loading, openMapsApp } from '../../utils/components';
+import MARKER_IMG from '../../assets/image/map-marker.png';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -150,7 +149,6 @@ class InviteDetails extends Component {
                       <JobDetails shift={this.state.invite.shift}></JobDetails>
                     : null }
                   </View>
-                </Content>
 
                 <MapView
                   style={styles.map}
@@ -159,9 +157,9 @@ class InviteDetails extends Component {
                 >
                   {(this.state.invite &&
                     this.state.invite.shift &&
-                    this.state.invite.shift.venue && this.state.invite.shift.venue.latitude !== 0 && this.state.invite.shift.venue.longitude !== 0)
+                    this.state.invite.shift.venue && this.state.invite.shift.venue.latitude && this.state.invite.shift.venue.longitude)
                     ? <Marker
-                      pinColor={BLUE_DARK}
+                      image={MARKER_IMG}
                       coordinate={{
                         latitude: this.state.invite.shift.venue.latitude,
                         longitude: this.state.invite.shift.venue.longitude,
@@ -169,7 +167,7 @@ class InviteDetails extends Component {
                       title={this.state.invite.shift.venue.title}
                       />
                     : <Marker
-                      pinColor={BLUE_DARK}
+                      image={MARKER_IMG}
                       coordinate={{
                         latitude: DEFAULT_LATIDUDE,
                         longitude: DEFAULT_LONGITUDE,
@@ -177,8 +175,19 @@ class InviteDetails extends Component {
                       />}
                 </MapView>
 
-                <Content>
-                <View style={styles.viewCrud}>
+                {(this.state.invite &&
+                  this.state.invite.shift &&
+                  this.state.invite.shift.venue && this.state.invite.shift.venue.title)
+                 ? <View>
+                    <TouchableOpacity onPress={this.openMapsApp}>
+                      <Text style={styles.textLocation}>
+                        {`${this.state.invite.shift.venue.title}`}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                 : null}
+
+                  <View style={styles.viewCrud}>
                           <View style={styles.viewButtomLeft}>
                               <Button onPress={this.rejectJob}
                                   style={styles.buttomLeft} full rounded bordered>
@@ -204,6 +213,21 @@ class InviteDetails extends Component {
 
   onRegionChangeComplete = (region) => {
     this.setState({ region });
+  }
+
+  openMapsApp = () => {
+    let latitude;
+    let longitude;
+
+    try {
+      latitude = this.state.invite.shift.venue.latitude || DEFAULT_LATIDUDE;
+      longitude = this.state.invite.shift.venue.longitude || DEFAULT_LONGITUDE;
+    } catch (e) {
+      latitude = DEFAULT_LATIDUDE;
+      longitude = DEFAULT_LONGITUDE;
+    }
+
+    openMapsApp(latitude, longitude);
   }
 
   getInvite = () => {
