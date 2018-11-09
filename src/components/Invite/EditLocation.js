@@ -187,7 +187,7 @@ class EditLocation extends PureComponent {
                             latitude: this.state.marker.details.geometry.location.lat,
                             longitude: this.state.marker.details.geometry.location.lng,
                           }}
-                          title={this.state.marker.data.formatted_address}/>
+                          title={this.state.marker.details.formatted_address}/>
                     </MapView>}
 
 
