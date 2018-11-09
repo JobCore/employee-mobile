@@ -21,6 +21,7 @@ import { LOG, WARN, ERROR } from "../../utils";
 import { Loading, CustomToast } from '../../utils/components';
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
+import MARKER_IMG from '../../assets/image/map-marker.png';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -178,7 +179,7 @@ class EditLocation extends PureComponent {
                     <MapView style={styles.map}
                              region={this.state.region}>
                         <Marker
-                          pinColor={BLUE_DARK}
+                          image={MARKER_IMG}
                           coordinate={{
                             latitude: this.state.marker.details.geometry.location.lat,
                             longitude: this.state.marker.details.geometry.location.lng,

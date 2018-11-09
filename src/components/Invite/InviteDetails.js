@@ -29,6 +29,7 @@ import inviteStore from './InviteStore';
 import { JobDetails } from '../../utils/components';
 import { LOG, WARN, ERROR } from "../../utils";
 import { Loading } from '../../utils/components';
+import MARKER_IMG from '../../assets/image/map-marker.png';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -159,9 +160,9 @@ class InviteDetails extends Component {
                 >
                   {(this.state.invite &&
                     this.state.invite.shift &&
-                    this.state.invite.shift.venue && this.state.invite.shift.venue.latitude !== 0 && this.state.invite.shift.venue.longitude !== 0)
+                    this.state.invite.shift.venue && this.state.invite.shift.venue.latitude && this.state.invite.shift.venue.longitude)
                     ? <Marker
-                      pinColor={BLUE_DARK}
+                      image={MARKER_IMG}
                       coordinate={{
                         latitude: this.state.invite.shift.venue.latitude,
                         longitude: this.state.invite.shift.venue.longitude,
@@ -169,7 +170,7 @@ class InviteDetails extends Component {
                       title={this.state.invite.shift.venue.title}
                       />
                     : <Marker
-                      pinColor={BLUE_DARK}
+                      image={MARKER_IMG}
                       coordinate={{
                         latitude: DEFAULT_LATIDUDE,
                         longitude: DEFAULT_LONGITUDE,

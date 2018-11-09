@@ -26,6 +26,7 @@ import jobStore from './JobStore';
 import {JobDetails} from '../../utils/components';
 import {LOG, WARN, ERROR} from "../../utils";
 import {Loading} from '../../utils/components';
+import MARKER_IMG from '../../assets/image/map-marker.png';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -150,9 +151,9 @@ class JobDetailsScreen extends Component {
                     region={this.state.region}
                     onRegionChangeComplete={this.onRegionChangeComplete}>
                     {(this.state.shift &&
-                        this.state.shift.venue && this.state.shift.venue.latitude !== 0 && this.state.shift.venue.longitude !== 0)
+                        this.state.shift.venue && this.state.shift.venue.latitude && this.state.shift.venue.longitude)
                         ? <Marker
-                            pinColor={BLUE_DARK}
+                            image={MARKER_IMG}
                             coordinate={{
                                 latitude: this.state.shift.venue.latitude,
                                 longitude: this.state.shift.venue.longitude,
@@ -160,7 +161,7 @@ class JobDetailsScreen extends Component {
                             title={this.state.shift.venue.title}
                         />
                         : <Marker
-                            pinColor={BLUE_DARK}
+                            image={MARKER_IMG}
                             coordinate={{
                                 latitude: DEFAULT_LATIDUDE,
                                 longitude: DEFAULT_LONGITUDE,
