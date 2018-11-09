@@ -1,8 +1,8 @@
 export default {
   APP: {
-    cancel: 'cancel',
+    cancel: 'Cancel',
     goBack: 'Go back',
-    noInternet: 'Please check your internet connection and try again.',
+    noInternet: 'Please check your internet connection and try again',
     timeout: 'The server has taken a long time to respond',
     to: 'to',
   },
@@ -44,7 +44,6 @@ export default {
     signUp: 'Sign Up',
     logout: 'Logout',
     wantToLogout: 'Logout?',
-    linkBank: 'Link Bank Account',
     editProfile: 'Edit profile',
   },
   FORGOT: {
@@ -85,7 +84,7 @@ export default {
     selectPosition: 'Select position',
     availableOnWeekends: 'Available on weekends',
     minimumHourlyRate: 'Minimum hourly rate',
-    maximumJobDistanceMiles: 'Accepts jobs no further than:',
+    maximumJobDistanceMiles: 'Accepts jobs no further than',
     hourlyRateLabel: 'Minimum $/h.',
     dateStartToEnd: 'From {{startingAt}} to {{endingAt}}',
     startDate: 'Start date',

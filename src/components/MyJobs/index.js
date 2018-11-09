@@ -15,7 +15,6 @@ import { LOG, WARN, ERROR, equalMonthAndYear } from "../../utils";
 import { CustomToast, Loading, CenteredText } from '../../utils/components';
 import jobStore from './JobStore';
 import moment from 'moment';
-import 'moment-timezone';
 import DeviceInfo from 'react-native-device-info';
 
 class MyJobs extends Component {

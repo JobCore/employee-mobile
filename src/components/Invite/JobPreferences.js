@@ -18,7 +18,6 @@ import { FormViewPreferences } from "../../utils/platform";
 import { CustomToast, Loading } from '../../utils/components';
 import { LOG, WARN, ERROR } from "../../utils";
 import moment from 'moment';
-import 'moment-timezone';
 import DeviceInfo from 'react-native-device-info';
 
 class JobPreferences extends Component {

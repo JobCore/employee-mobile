@@ -16,7 +16,6 @@ import { LOG, WARN, ERROR } from "../../utils";
 import { Loading } from '../../utils/components';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
-import 'moment-timezone';
 import DeviceInfo from 'react-native-device-info';
 
 

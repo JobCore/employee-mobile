@@ -17,7 +17,6 @@ import { CustomToast, Loading, CenteredText } from '../../utils/components';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import moment from 'moment';
-import 'moment-timezone';
 import DeviceInfo from 'react-native-device-info';
 import myJobsImg from '../../assets/image/myJobs.png';
 
