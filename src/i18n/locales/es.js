@@ -84,7 +84,7 @@ export default {
     selectPosition: 'Seleccionar oficio',
     availableOnWeekends: 'Disponible fines de semana',
     minimumHourlyRate: 'Tarifa mínima por hora',
-    maximumJobDistanceMiles: 'Aceptar trabajos no más allá de:',
+    maximumJobDistanceMiles: 'Aceptar trabajos no más allá de',
     hourlyRateLabel: '$/h. Mínimo',
     dateStartToEnd: 'Desde {{startingAt}} a {{endingAt}}',
     startDate: 'fecha de inicio',
