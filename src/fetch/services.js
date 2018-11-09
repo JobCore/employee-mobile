@@ -62,7 +62,7 @@ export async function putData(url, data, isAuth = true) {
  * @return {Promise}         the data from the endpoint
  */
 export async function getData(url, isAuth = true) {
-    // await checkConnection();
+    await checkConnection();
 
     const headers = {
         'Accept': 'application/json',
