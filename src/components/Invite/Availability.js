@@ -16,6 +16,8 @@ import { LOG, WARN, ERROR } from "../../utils";
 import { Loading } from '../../utils/components';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
+import 'moment-timezone';
+import DeviceInfo from 'react-native-device-info';
 
 
 class AddAvailability extends Component {
@@ -136,7 +138,7 @@ class AddAvailability extends Component {
                 <View style={styles.viewContainerItems}>
                   <View style={styles.viewTextDay}>
                     <Text style={styles.textDay}>
-                      {moment(block.starting_at).format('ddd')}
+                      {moment(block.starting_at).tz(DeviceInfo.getTimezone()).format('ddd')}
                     </Text>
                   </View>
                   <View style={styles.viewRadio}>
@@ -158,7 +160,7 @@ class AddAvailability extends Component {
                 <View style={{flexDirection: 'row'}}>
                   <Button onPress={() => this.showStartTimePicker(block)} style={styles.buttonHour} rounded bordered small>
                       <Text style={styles.textHour}>
-                        {moment(block.starting_at).format('h:mma')}
+                        {moment(block.starting_at).tz(DeviceInfo.getTimezone()).format('h:mma')}
                       </Text>
                   </Button>
                   <View style={styles.textToView}>
@@ -168,7 +170,7 @@ class AddAvailability extends Component {
                   </View>
                   <Button onPress={() => this.showEndTimePicker(block)} style={styles.buttonHour} rounded bordered small>
                     <Text style={styles.textHour}>
-                      {moment(block.ending_at).format('h:mma')}
+                      {moment(block.ending_at).tz(DeviceInfo.getTimezone()).format('h:mma')}
                     </Text>
                   </Button>
                 </View>
@@ -240,8 +242,8 @@ class AddAvailability extends Component {
     }
 
     const availabilityCopy = Object.assign({}, availability);
-    const hour = moment(dateTime).get('hour');
-    const minute = moment(dateTime).get('minute');
+    const hour = moment(dateTime).tz(DeviceInfo.getTimezone()).get('hour');
+    const minute = moment(dateTime).tz(DeviceInfo.getTimezone()).get('minute');
 
     availabilityCopy[startOrEndDate] = moment(availabilityCopy[startOrEndDate])
       .set('minute', minute)
