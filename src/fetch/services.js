@@ -1,6 +1,5 @@
 import accountStore from '../components/Account/AccountStore';
 import {checkInternetConnection} from 'react-native-offline';
-import * as Flux from '../utils/flux-state';
 import * as accountActions from '../components/Account/actions';
 import {i18next} from '../i18n';
 import {LOG, WARN, ERROR} from "../utils";
@@ -20,7 +19,7 @@ export async function postData(url, data, isAuth = true) {
         body: JSON.stringify(data),
         headers: {
             'Accept': 'application/json',
-            'Accept-Language': 'en',
+            'Accept-Language': i18next.language,
             'Content-Type': 'application/json',
             'Authorization': (isAuth) ? `jwt ${accountStore.getState('Login').token}` : '',
         },
@@ -44,7 +43,7 @@ export async function putData(url, data, isAuth = true) {
         body: JSON.stringify(data),
         headers: {
             'Accept': 'application/json',
-            'Accept-Language': 'en',
+            'Accept-Language': i18next.language,
             'Content-Type': 'application/json',
             'Authorization': (isAuth) ? `jwt ${accountStore.getState('Login').token}` : '',
         },
@@ -66,7 +65,7 @@ export async function getData(url, isAuth = true) {
 
     const headers = {
         'Accept': 'application/json',
-        'Accept-Language': 'en',
+        'Accept-Language': i18next.language,
         'Content-Type': 'application/json',
         'Authorization': (isAuth) ? `jwt ${accountStore.getState('Login').token}` : '',
     };
@@ -92,7 +91,7 @@ export async function deleteData(url, isAuth = true) {
     return timeout(20000, fetch(`${API_URL}${url}`, {
         headers: {
             'Accept': 'application/json',
-            'Accept-Language': 'en',
+            'Accept-Language': i18next.language,
             'Content-Type': 'application/json',
             'Authorization': (isAuth) ? `jwt ${accountStore.getState('Login').token}` : '',
         },
@@ -146,7 +145,7 @@ export async function postFormData(url, formData, isAuth = true) {
         body: formData,
         headers: {
             'Accept': 'application/json',
-            'Accept-Language': 'en',
+            'Accept-Language': i18next.language,
             'Authorization': (isAuth) ? `jwt ${accountStore.getState('Login').token}` : '',
         },
         method: 'POST',
