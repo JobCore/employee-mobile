@@ -93,7 +93,7 @@ export default {
     selectStartDate: 'Seleccionar fecha de inicio',
     selectendDate: 'Seleccionar fecha de finalización',
     deleteAvailability: 'Eliminar disponibilidad?',
-    allday: 'todo el día',
+    allday: 'Todo el día',
     orSpecificTime: 'O tiempo específico',
     myLocation: 'Mi ubicación',
     typeLocation: 'Escriba su ubicación',
