@@ -18,7 +18,6 @@ import { FormViewPreferences } from "../../utils/platform";
 import { CustomToast, Loading } from '../../utils/components';
 import { LOG, WARN, ERROR } from "../../utils";
 import moment from 'moment';
-import DeviceInfo from 'react-native-device-info';
 
 class JobPreferences extends Component {
   static navigationOptions = {
@@ -286,7 +285,7 @@ class JobPreferences extends Component {
 
                        return(
                          <Text style={styles.textPositions} key={index}>
-                           {`${moment(block.starting_at).tz(DeviceInfo.getTimezone()).format(dateFilter)}${(block.allday) ? t('JOB_PREFERENCES.allday') : ''}${(!isLast) ? ', ' : ' '}`}
+                           {`${moment(block.starting_at).tz(moment.tz.guess()).format(dateFilter)}${(block.allday) ? t('JOB_PREFERENCES.allday') : ''}${(!isLast) ? ', ' : ' '}`}
                          </Text>
                        );
                    })}

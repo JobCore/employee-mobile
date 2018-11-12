@@ -17,7 +17,6 @@ import { CustomToast, Loading, CenteredText } from '../../utils/components';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import moment from 'moment';
-import DeviceInfo from 'react-native-device-info';
 import myJobsImg from '../../assets/image/myJobs.png';
 
 class JobInvites extends Component {
@@ -163,8 +162,8 @@ class JobInvites extends Component {
                     <Text style={styles.textBlack}>
                     {`${
                       t('JOB_PREFERENCES.dateStartToEnd', {
-                        startingAt: moment(data.shift.starting_at).tz(DeviceInfo.getTimezone()).format('lll'),
-                        endingAt: moment(data.shift.ending_at).tz(DeviceInfo.getTimezone()).format('lll'),
+                        startingAt: moment(data.shift.starting_at).tz(moment.tz.guess()).format('lll'),
+                        endingAt: moment(data.shift.ending_at).tz(moment.tz.guess()).format('lll'),
                       })
                     } `}
                     {/* Sep 24th From 3pm to 6pm. */}
