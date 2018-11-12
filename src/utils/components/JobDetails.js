@@ -17,7 +17,6 @@ import { I18n } from 'react-i18next';
 import myJobsImg from '../../assets/image/myJobs.png';
 import { BLUE_MAIN, BLUE_DARK } from '../../constants/colorPalette';
 import moment from 'moment';
-import DeviceInfo from 'react-native-device-info';
 
 class InviteDetails extends Component {
   render() {
@@ -91,10 +90,10 @@ class InviteDetails extends Component {
                   {`${
                     t('JOB_PREFERENCES.dateStartToEnd', {
                       startingAt: moment(this.props.shift.starting_at)
-                      .tz(DeviceInfo.getTimezone())
+                      .tz(moment.tz.guess())
                       .format('lll'),
                       endingAt: moment(this.props.shift.ending_at)
-                      .tz(DeviceInfo.getTimezone())
+                      .tz(moment.tz.guess())
                       .format('lll'),
                     })
                   } `}

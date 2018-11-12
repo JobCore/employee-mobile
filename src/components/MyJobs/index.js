@@ -15,7 +15,6 @@ import { LOG, WARN, ERROR, equalMonthAndYear } from "../../utils";
 import { CustomToast, Loading, CenteredText } from '../../utils/components';
 import jobStore from './JobStore';
 import moment from 'moment';
-import DeviceInfo from 'react-native-device-info';
 
 class MyJobs extends Component {
   static navigationOptions = {
@@ -181,7 +180,7 @@ class MyJobs extends Component {
             return (<View key={index}>
               {(showDate) ?
                 <Text style={styles.titleDate}>
-                  {moment(job.starting_at).tz(DeviceInfo.getTimezone()).format('MMM YYYY')}
+                  {moment(job.starting_at).tz(moment.tz.guess()).format('MMM YYYY')}
                 </Text>
               : null}
 
@@ -193,7 +192,7 @@ class MyJobs extends Component {
                 </Left>
                 <Body>
                   <Text style={styles.textBody}>
-                    {moment(job.starting_at).tz(DeviceInfo.getTimezone()).format('ddd D')}
+                    {moment(job.starting_at).tz(moment.tz.guess()).format('ddd D')}
                   </Text>
                 </Body>
                 <Right style={styles.noRight}>
@@ -204,7 +203,7 @@ class MyJobs extends Component {
                       </Text>
                     : null}
                     <Text style={styles.itemTime}>
-                      {` ${moment(job.starting_at).tz(DeviceInfo.getTimezone()).format('h:mm a')}`}
+                      {` ${moment(job.starting_at).tz(moment.tz.guess()).format('h:mm a')}`}
                     </Text>
                   </Text>
                 </Right>
