@@ -11,8 +11,8 @@ import {
 
 export default StyleSheet.create({
   map: {
-    marginTop: 30,
-    marginBottom: 30,
+    marginTop: 15,
+    marginBottom: 15,
     height: 300,
     width: '90%',
     justifyContent: 'center',
@@ -26,8 +26,11 @@ export default StyleSheet.create({
     shadowOpacity: 1.0,
   },
   viewLocation: {
-    marginTop: 40,
-    marginBottom: 30,
+    width: '90%',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 30,
+    marginBottom: 15,
   },
   textLocation: {
     textAlign: 'center',

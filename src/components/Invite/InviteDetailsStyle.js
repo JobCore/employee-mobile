@@ -29,6 +29,12 @@ export default StyleSheet.create({
     shadowRadius: 5,
     shadowOpacity: 1.0,
   },
+  viewShift: {
+    paddingLeft: 18,
+    paddingRight: 18,
+    paddingBottom: 18,
+    paddingTop: 0,
+  },
   textLocation: {
     color: BLUE_DARK,
     textAlign: 'center',

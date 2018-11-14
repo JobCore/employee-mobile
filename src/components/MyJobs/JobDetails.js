@@ -140,7 +140,7 @@ class JobDetailsScreen extends Component {
                 </Header>
 
                 <Content>
-                    <View style={{padding: 18}}>
+                    <View style={styles.viewShift}>
                         {(this.state.shift) ?
                             <JobDetails shift={this.state.shift}></JobDetails>
                             : null}
