@@ -144,7 +144,7 @@ class InviteDetails extends Component {
                 </Header>
 
                 <Content>
-                  <View style={{padding: 18}}>
+                  <View style={styles.viewShift}>
                     {(this.state.invite && this.state.invite.shift) ?
                       <JobDetails shift={this.state.invite.shift}></JobDetails>
                     : null }

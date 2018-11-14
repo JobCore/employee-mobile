@@ -10,7 +10,7 @@ export default  StyleSheet.create({
   sliderLabel: {
     textAlign: 'center',
     color: BLUE_DARK,
-    marginTop: 20,
+    marginTop: 15,
   },
   textButton: {
     textAlign: 'center',
@@ -30,20 +30,18 @@ export default  StyleSheet.create({
     backgroundColor: BLUE_LIGHT,
   },
   viewButtonPosition: {
-    marginTop: 30,
+    marginTop: 15,
     paddingLeft: 20,
     paddingRight: 20
   },
   viewButtonAvailability: {
-    marginTop: 40,
+    marginTop: 30,
     paddingLeft: 20,
     paddingRight: 20
   },
   viewButtonLocation: {
-    marginTop: 40,
-    marginBottom: 20,
-    paddingLeft: 20,
-    paddingRight: 20
+    marginTop: 30,
+    marginBottom: 15,
   },
   sliderValue: {
     marginLeft: 0,
@@ -115,11 +113,12 @@ export default  StyleSheet.create({
   },
   textLocation:{
     textAlign: 'center',
-    color: BLUE_DARK,
+    fontSize: 12,
+    color: GRAY_LIGHT,
   },
   accordionPosition:{
     borderColor: 'transparent',
-    marginTop: 20,
+    marginTop: 15,
     paddingLeft: 20,
     paddingRight: 20
   },
@@ -191,30 +190,6 @@ export default  StyleSheet.create({
     padding: 14,
     fontSize: 14,
     color: BLUE_DARK
-  },
-  buttomLeftActive:{
-    backgroundColor: BLUE_MAIN,
-    borderColor:'transparent',
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0,
-  },
-  buttomLeftDesactive:{
-    backgroundColor: 'transparent',
-    borderColor: BLUE_MAIN,
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0
-  },
-  buttomRightDesactive:{
-    backgroundColor: BLUE_MAIN,
-    borderColor:'transparent',
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0
-  },
-  buttomRightDesactive:{
-    backgroundColor: 'transparent',
-    borderColor: BLUE_MAIN,
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0,
   },
   labelForm:{
     color: BLUE_DARK
