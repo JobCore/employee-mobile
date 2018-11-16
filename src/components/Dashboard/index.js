@@ -1,13 +1,20 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
-  View,
-  Image,
-  RefreshControl,
+    View,
+    Image,
+    RefreshControl,
+    TouchableHighlight
 } from "react-native";
-import { Container, Header, Content, Text, Button, Left, Icon, Body, Title, Right, Segment } from "native-base";
+import {Container, Header, Content, Text, Button, Left, Icon, Body, Title, Right, Segment} from "native-base";
 import styles from './style';
-import { VIOLET_MAIN, BLUE_MAIN, BLUE_DARK } from "../../constants/colorPalette";
-import { SETTING_ROUTE, AUTH_ROUTE, INVITE_DETAILS_ROUTE, JOB_DETAILS_ROUTE } from "../../constants/routes";
+import {VIOLET_MAIN, BLUE_MAIN, BLUE_DARK} from "../../constants/colorPalette";
+import {
+    SETTING_ROUTE,
+    AUTH_ROUTE,
+    INVITE_DETAILS_ROUTE,
+    JOB_DETAILS_ROUTE,
+    DASHBOARD_ROUTE, JOB_INVITES_ROUTE
+} from "../../constants/routes";
 import accountStore from '../Account/AccountStore';
 import * as accountActions from '../Account/actions';
 import * as inviteActions from '../Invite/actions';
@@ -16,230 +23,236 @@ import * as fcmActions from './actions';
 import fcmStore from './FcmStore';
 import * as jobActions from '../MyJobs/actions';
 import jobStore from '../MyJobs/JobStore';
-import { CustomToast, Loading } from '../../utils/components';
-import { LOG, WARN, ERROR } from "../../utils";
-import { I18n } from 'react-i18next';
-import { i18next } from '../../i18n';
+import {CustomToast, Loading} from '../../utils/components';
+import {LOG, WARN, ERROR} from "../../utils";
+import {I18n} from 'react-i18next';
+import {i18next} from '../../i18n';
 import firebase from 'react-native-firebase';
+import {FormView} from "../../utils/platform";
 
 
 class DashboardScreen extends Component {
 
-  static navigationOptions = {
-    header: null,
-    tabBarLabel: i18next.t('DASHBOARD.dashboard'),
-    tabBarIcon: ({ tintColor }) => (
-      <Image
+    static navigationOptions = {
+        header: null,
+        tabBarLabel: i18next.t('DASHBOARD.dashboard'),
+        tabBarIcon: ({tintColor}) => (
+            <Image
                 style={{resizeMode: 'contain', height: 30}}
                 source={require('../../assets/image/dashboard.png')}
             />
-    )
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: (accountStore.getState("Login") || {}).user || {},
-      isLoading: false,
-      isRefreshing: false,
-      stopReceivingInvites: false,
-      rating: 0,
-      pendingPayments: 'N/A',
-      invites: [],
-      upcomingJobs: [],
+        )
     };
-  }
 
-  componentDidMount() {
-    this.logoutSubscription = accountStore
-      .subscribe('Logout', (data) => {
-        this.logoutHandler(data);
-      });
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: (accountStore.getState("Login") || {}).user || {},
+            isLoading: false,
+            isRefreshing: false,
+            stopReceivingInvites: false,
+            rating: 0,
+            pendingPayments: 'N/A',
+            invites: [],
+            upcomingJobs: [],
+        };
+    }
 
-    this.loginSubscription = accountStore
-      .subscribe('Login', (data) => {
-        this.loginHandler(data);
-      });
+    componentDidMount() {
+        this.logoutSubscription = accountStore
+            .subscribe('Logout', (data) => {
+                this.logoutHandler(data);
+            });
 
-    this.getEmployeeSubscription = inviteStore
-      .subscribe('GetJobPreferences', (data) => {
-        this.getEmployeeHandler(data);
-      });
+        this.loginSubscription = accountStore
+            .subscribe('Login', (data) => {
+                this.loginHandler(data);
+            });
 
-    this.stopReceivingInvitesSubscription = inviteStore
-      .subscribe('StopReceivingInvites', (data) => {
-        this.stopReceivingInvitesHandler(data);
-      });
+        this.getEmployeeSubscription = inviteStore
+            .subscribe('GetJobPreferences', (data) => {
+                this.getEmployeeHandler(data);
+            });
 
-    this.getJobInvitesSubscription = inviteStore
-      .subscribe('JobInvites', (jobInvites) => {
-        this.getJobInvitesHandler(jobInvites);
-      });
+        this.stopReceivingInvitesSubscription = inviteStore
+            .subscribe('StopReceivingInvites', (data) => {
+                this.stopReceivingInvitesHandler(data);
+            });
 
-    this.getUpcomingJobsSubscription = jobStore
-      .subscribe('GetUpcomingJobs', (data) => {
-        this.getJobsHandler(data);
-      });
+        this.getJobInvitesSubscription = inviteStore
+            .subscribe('JobInvites', (jobInvites) => {
+                this.getJobInvitesHandler(jobInvites);
+            });
 
-    this.updateTokenSubscription = fcmStore
-      .subscribe('UpdateFcmToken', (data) => {
-        const session = accountStore.getState('Login');
-        session.fcmToken = data.registration_id;
-        accountActions.setStoredUser(session);
-        LOG(this, `fcmToken updated ${data.registration_id}`);
-      });
+        this.getUpcomingJobsSubscription = jobStore
+            .subscribe('GetUpcomingJobs', (data) => {
+                this.getJobsHandler(data);
+            });
 
-    this.fcmStoreError = fcmStore
-      .subscribe('FcmStoreError', (err) => {
-        this.errorHandler(err)
-      });
+        this.updateTokenSubscription = fcmStore
+            .subscribe('UpdateFcmToken', (data) => {
+                const session = accountStore.getState('Login');
+                session.fcmToken = data.registration_id;
+                accountActions.setStoredUser(session);
+                LOG(this, `fcmToken updated ${data.registration_id}`);
+            });
 
-    this.inviteStoreError = inviteStore
-      .subscribe('InviteStoreError', (err) => {
-        this.errorHandler(err)
-      });
+        this.fcmStoreError = fcmStore
+            .subscribe('FcmStoreError', (err) => {
+                this.errorHandler(err)
+            });
 
-    this.accountStoreError = accountStore
-    .subscribe('AccountStoreError', this.errorHandler);
+        this.inviteStoreError = inviteStore
+            .subscribe('InviteStoreError', (err) => {
+                this.errorHandler(err)
+            });
 
-    this.onTokenRefreshListener = firebase.messaging()
-      .onTokenRefresh((fcmToken) => {
-        let fcmTokenStored;
+        this.accountStoreError = accountStore
+            .subscribe('AccountStoreError', this.errorHandler);
+
+        this.onTokenRefreshListener = firebase.messaging()
+            .onTokenRefresh((fcmToken) => {
+                let fcmTokenStored;
+
+                try {
+                    fcmTokenStored = accountStore.getState('Login').fcmToken;
+                } catch (e) {
+                    return WARN(this, 'failed to get fcmToken from Store');
+                }
+
+                if (!fcmTokenStored) return WARN(this, 'No Token on state');
+
+                this.updateFcmToken(fcmTokenStored, fcmToken);
+            });
+
+        this.notificationOpenedListener = firebase.notifications()
+            .onNotificationOpened((notificationOpen) => {
+                if (notificationOpen) {
+                    const action = notificationOpen.action;
+                    const notification = notificationOpen.notification;
+                    this.pushNotificationHandler(notification.data);
+                }
+            });
+
+        firebase.notifications()
+            .getInitialNotification()
+            .then((notificationOpen) => {
+                if (notificationOpen) {
+                    const action = notificationOpen.action;
+                    const notification = notificationOpen.notification;
+                    this.pushNotificationHandler(notification.data);
+                }
+            });
+
+        this.hasFcmMessagePermission();
+        this.firstLoad();
+    }
+
+    componentWillUnmount() {
+        this.logoutSubscription.unsubscribe();
+        this.loginSubscription.unsubscribe();
+        this.getEmployeeSubscription.unsubscribe();
+        this.stopReceivingInvitesSubscription.unsubscribe();
+        this.getJobInvitesSubscription.unsubscribe();
+        this.getUpcomingJobsSubscription.unsubscribe();
+        this.updateTokenSubscription.unsubscribe();
+        this.fcmStoreError.unsubscribe();
+        this.inviteStoreError.unsubscribe();
+        this.accountStoreError.unsubscribe();
+        this.onTokenRefreshListener();
+        this.notificationOpenedListener();
+    }
+
+    logoutHandler = (data) => {
+        this.props.navigation.navigate(AUTH_ROUTE);
+    }
+
+    loginHandler = (data) => {
+        let user;
 
         try {
-          fcmTokenStored = accountStore.getState('Login').fcmToken;
+            user = data.user;
         } catch (e) {
-          return WARN(this, 'failed to get fcmToken from Store');
+            return LOG(this, data);
         }
 
-        if (!fcmTokenStored) return WARN(this, 'No Token on state');
-
-        this.updateFcmToken(fcmTokenStored, fcmToken);
-      });
-
-    this.notificationOpenedListener = firebase.notifications()
-      .onNotificationOpened((notificationOpen) => {
-        if (notificationOpen) {
-          const action = notificationOpen.action;
-          const notification = notificationOpen.notification;
-          this.pushNotificationHandler(notification.data);
-        }
-      });
-
-    firebase.notifications()
-      .getInitialNotification()
-      .then((notificationOpen) => {
-        if (notificationOpen) {
-          const action = notificationOpen.action;
-          const notification = notificationOpen.notification;
-          this.pushNotificationHandler(notification.data);
-        }
-      });
-
-    this.hasFcmMessagePermission();
-    this.firstLoad();
-  }
-
-  componentWillUnmount() {
-    this.logoutSubscription.unsubscribe();
-    this.loginSubscription.unsubscribe();
-    this.getEmployeeSubscription.unsubscribe();
-    this.stopReceivingInvitesSubscription.unsubscribe();
-    this.getJobInvitesSubscription.unsubscribe();
-    this.getUpcomingJobsSubscription.unsubscribe();
-    this.updateTokenSubscription.unsubscribe();
-    this.fcmStoreError.unsubscribe();
-    this.inviteStoreError.unsubscribe();
-    this.accountStoreError.unsubscribe();
-    this.onTokenRefreshListener();
-    this.notificationOpenedListener();
-  }
-
-  logoutHandler = (data) => {
-    this.props.navigation.navigate(AUTH_ROUTE);
-  }
-
-  loginHandler = (data) => {
-    let user;
-
-    try {
-      user = data.user;
-    } catch (e) {
-      return LOG(this, data);
+        this.setState({user: user});
     }
 
-    this.setState({ user: user });
-  }
-
-  getEmployeeHandler = (data) => {
-    this.setState({
-      isLoading: false,
-      isRefreshing: false,
-      stopReceivingInvites: data.stop_receiving_invites,
-      rating: data.rating || 'N/A',
-    });
-  }
-
-  stopReceivingInvitesHandler = (data) => {
-    this.setState({
-      stopReceivingInvites: data.stop_receiving_invites,
-    });
-  }
-
-  getJobInvitesHandler = (invites) => {
-    this.setState({ invites });
-  }
-
-  getJobsHandler = (upcomingJobs) => {
-    this.setState({ upcomingJobs });
-  }
-
-  pushNotificationHandler = (notificationData) => {
-    if (!notificationData) {
-      return LOG(this, 'no notification data');
-    }
-
-    LOG(this, JSON.stringify(notificationData));
-
-    if (notificationData.type === "shift" && notificationData.id) {
-      this.props.navigation
-        .navigate(JOB_DETAILS_ROUTE, {
-          shiftId: notificationData.id
+    getEmployeeHandler = (data) => {
+        this.setState({
+            isLoading: false,
+            isRefreshing: false,
+            stopReceivingInvites: data.stop_receiving_invites,
+            rating: data.rating || 'N/A',
         });
     }
 
-    if (notificationData.type === "application" && notificationData.id) {
-      this.props.navigation
-        .navigate(JOB_DETAILS_ROUTE, {
-          applicationId: notificationData.id
+    stopReceivingInvitesHandler = (data) => {
+        this.setState({
+            stopReceivingInvites: data.stop_receiving_invites,
         });
     }
 
-    if (notificationData.type === "invite" && notificationData.id) {
-      this.props.navigation
-        .navigate(INVITE_DETAILS_ROUTE, {
-          inviteId: notificationData.id
-        });
+    getJobInvitesHandler = (invites) => {
+        this.setState({invites});
     }
-  }
 
-  errorHandler = (err) => {
-    this.setState({
-      isLoading: false,
-      isRefreshing: false,
-    });
-    CustomToast(err, 'danger');
-  }
+    getJobsHandler = (upcomingJobs) => {
+        this.setState({upcomingJobs});
+    }
 
-  render() {
-    return (<I18n>{(t, { i18n }) => (
+    pushNotificationHandler = (notificationData) => {
+        if (!notificationData) {
+            return LOG(this, 'no notification data');
+        }
+
+        LOG(this, JSON.stringify(notificationData));
+
+        if (notificationData.type === "shift" && notificationData.id) {
+            this.props.navigation
+                .navigate(JOB_DETAILS_ROUTE, {
+                    shiftId: notificationData.id
+                });
+        }
+
+        if (notificationData.type === "application" && notificationData.id) {
+            this.props.navigation
+                .navigate(JOB_DETAILS_ROUTE, {
+                    applicationId: notificationData.id
+                });
+        }
+
+        if (notificationData.type === "invite" && notificationData.id) {
+            this.props.navigation
+                .navigate(INVITE_DETAILS_ROUTE, {
+                    inviteId: notificationData.id
+                });
+        }
+    }
+
+    errorHandler = (err) => {
+        this.setState({
+            isLoading: false,
+            isRefreshing: false,
+        });
+        CustomToast(err, 'danger');
+    };
+
+    goToInvitation = () => {
+        console.log("NAVIGATE");
+        this.props.navigation.navigate(JOB_INVITES_ROUTE);
+    };
+
+    render() {
+        return (<I18n>{(t, {i18n}) => (
             <Container>
                 {this.state.isLoading ? <Loading/> : null}
                 <Header androidStatusBarColor={BLUE_MAIN} style={styles.headerCustom}>
                     <Left/>
                     <Body>
                     <Title style={styles.titleHeader}>
-                      {t('DASHBOARD.dashboard')}
+                        {t('DASHBOARD.dashboard')}
                     </Title>
                     </Body>
                     <Right>
@@ -252,185 +265,196 @@ class DashboardScreen extends Component {
                     </Right>
                 </Header>
                 <Content refreshControl={
-                  <RefreshControl
-                    refreshing={this.state.isRefreshing}
-                    onRefresh={this.refresh}/>
-                  }>
+                    <RefreshControl
+                        refreshing={this.state.isRefreshing}
+                        onRefresh={this.refresh}/>
+                }>
                     {(this.state.user) ?
-                      <Text style={styles.textHello}>
-                      {`${t('DASHBOARD.hello')} ${this.state.user.first_name} ${this.state.user.last_name},`}
-                      </Text>
-                    : null}
+                        <Text style={styles.textHello}>
+                            {`${t('DASHBOARD.hello')} ${this.state.user.first_name} ${this.state.user.last_name},`}
+                        </Text>
+                        : null}
                     <Text style={styles.textWelcome}>
-                      {t('DASHBOARD.welcome')}
+                        {t('DASHBOARD.welcome')}
                     </Text>
 
                     <View style={styles.viewDashboard}>
                         <View style={styles.viewItemJobsLeft}>
                             <Text style={styles.titleItem}>
-                              {t('DASHBOARD.pendingPayments')}
+                                {t('DASHBOARD.pendingPayments')}
                             </Text>
                             <Image
                                 style={styles.viewBackground}
                                 source={require('../../assets/image/payments.png')}
                             />
                             <Text style={styles.itemData}>
-                              {this.state.pendingPayments}
+                                {this.state.pendingPayments}
                             </Text>
                         </View>
                         <View style={styles.viewItemJobsRight}>
                             <Text style={styles.titleItem}>
-                              {t('DASHBOARD.invitations')}
+                                {t('DASHBOARD.invitations')}
                             </Text>
-                            <Image
-                                style={styles.imgJobs}
-                                source={require('../../assets/image/invite.png')}
-                            />
+                            <TouchableHighlight onPress={this.goToInvitation}>
+                                <Image
+                                    style={styles.imgJobs}
+                                    source={require('../../assets/image/invite.png')}
+                                />
+                            </TouchableHighlight>
+
                             {(Array.isArray(this.state.invites)) ?
-                            <Text style={styles.itemData}>
-                              {this.state.invites.length}
-                            </Text>
-                           : null}
+                                <Text style={styles.itemData}>
+                                    {this.state.invites.length}
+                                </Text>
+                                : null}
                         </View>
                     </View>
 
                     <View style={styles.viewDashboard}>
                         <View style={styles.viewItemJobsLeft}>
                             <Text style={styles.titleItem}>
-                              {t('DASHBOARD.upcomingJobs')}
+                                {t('DASHBOARD.upcomingJobs')}
                             </Text>
                             <Image
                                 style={styles.viewBackground}
                                 source={require('../../assets/image/jobs.png')}
                             />
                             {(Array.isArray(this.state.upcomingJobs)) ?
-                            <Text style={styles.itemData}>
-                              {this.state.upcomingJobs.length}
-                            </Text>
-                           : null}
+                                <Text style={styles.itemData}>
+                                    {this.state.upcomingJobs.length}
+                                </Text>
+                                : null}
                         </View>
                         <View style={styles.viewItemJobsRight}>
                             <Text style={styles.titleItem}>
-                              {t('DASHBOARD.myRating')}
+                                {t('DASHBOARD.myRating')}
                             </Text>
                             <Image
                                 style={styles.viewBackground}
                                 source={require('../../assets/image/ranking.png')}
                             />
                             <Text style={styles.itemData}>
-                              {this.state.rating}
+                                {this.state.rating}
                             </Text>
                         </View>
                     </View>
 
                     <View style={styles.viewInvite}>
                         <Text style={styles.titleInvite}>
-                          {t('DASHBOARD.stopReceivingInvites')}
+                            {t('DASHBOARD.stopReceivingInvites')}
                         </Text>
                         <Segment>
                             <Text style={styles.itemInvite}>
-                              {t('DASHBOARD.y')}
+                                {t('DASHBOARD.y')}
                             </Text>
-                            <Button onPress={this.stopReceivingInvites} style={styles[(this.state.stopReceivingInvites) ? 'buttonLeftActive' : 'buttonLeftInactive']} first active>
-                              <Icon style={{color: BLUE_DARK}} name={(this.state.stopReceivingInvites) ? "md-radio-button-on" : "md-radio-button-off"} size={5}/>
+                            <Button onPress={this.stopReceivingInvites}
+                                    style={styles[(this.state.stopReceivingInvites) ? 'buttonLeftActive' : 'buttonLeftInactive']}
+                                    first active>
+                                <Icon style={{color: BLUE_DARK}}
+                                      name={(this.state.stopReceivingInvites) ? "md-radio-button-on" : "md-radio-button-off"}
+                                      size={5}/>
                             </Button>
-                            <Button onPress={this.startReceivingInvites} style={styles[(this.state.stopReceivingInvites) ? 'buttonRightInactive' : 'buttonRightActive']} last>
-                              <Icon style={{color: VIOLET_MAIN}} name={(this.state.stopReceivingInvites) ? "md-radio-button-off" : "md-radio-button-on"} size={5}/>
+                            <Button onPress={this.startReceivingInvites}
+                                    style={styles[(this.state.stopReceivingInvites) ? 'buttonRightInactive' : 'buttonRightActive']}
+                                    last>
+                                <Icon style={{color: VIOLET_MAIN}}
+                                      name={(this.state.stopReceivingInvites) ? "md-radio-button-off" : "md-radio-button-on"}
+                                      size={5}/>
                             </Button>
                             <Text style={styles.itemInvite}>
-                              {t('DASHBOARD.n')}
+                                {t('DASHBOARD.n')}
                             </Text>
                         </Segment>
                     </View>
                 </Content>
             </Container>
-          )}</I18n>);
-  }
-
-  firstLoad = () => {
-    this.setState({ isLoading: true }, () => {
-      this.getEmployee();
-      this.getInvites();
-      this.getUpcomingJobs();
-    });
-  }
-
-  refresh = () => {
-    this.setState({ isRefreshing: true });
-
-    this.getEmployee();
-    this.getInvites();
-    this.getUpcomingJobs();
-  }
-
-  getFcmToken = () => {
-    let fcmTokenStored;
-
-    try {
-      fcmTokenStored = accountStore.getState('Login').fcmToken;
-    } catch (e) {
-      return WARN(this, 'failed to get fcmToken from Store');
+        )}</I18n>);
     }
 
-    if (!fcmTokenStored) return WARN(this, 'No Token on state');
+    firstLoad = () => {
+        this.setState({isLoading: true}, () => {
+            this.getEmployee();
+            this.getInvites();
+            this.getUpcomingJobs();
+        });
+    }
 
-    firebase.messaging().getToken()
-      .then(fcmToken => {
-        if (fcmToken) {
-          if (fcmTokenStored !== fcmToken) {
-            return this.updateFcmToken(fcmTokenStored, fcmToken);
-          }
-        } else {
-          WARN(this, 'NoTokenYet')
+    refresh = () => {
+        this.setState({isRefreshing: true});
+
+        this.getEmployee();
+        this.getInvites();
+        this.getUpcomingJobs();
+    }
+
+    getFcmToken = () => {
+        let fcmTokenStored;
+
+        try {
+            fcmTokenStored = accountStore.getState('Login').fcmToken;
+        } catch (e) {
+            return WARN(this, 'failed to get fcmToken from Store');
         }
-      });
-  }
 
-  updateFcmToken = (currentFcmToken, fcmToken) => {
-    fcmActions.updateFcmToken(currentFcmToken, fcmToken);
-  }
+        if (!fcmTokenStored) return WARN(this, 'No Token on state');
 
-  hasFcmMessagePermission = () => {
-    firebase.messaging().hasPermission()
-      .then(enabled => {
-        if (enabled) {
-          LOG(this, 'FCM has persmission');
-        } else {
-          LOG(this, 'FCM not permitted, requesting Permission');
-          this.requestFcmMessagesPermission();
-        }
-      });
-  }
+        firebase.messaging().getToken()
+            .then(fcmToken => {
+                if (fcmToken) {
+                    if (fcmTokenStored !== fcmToken) {
+                        return this.updateFcmToken(fcmTokenStored, fcmToken);
+                    }
+                } else {
+                    WARN(this, 'NoTokenYet')
+                }
+            });
+    }
 
-  requestFcmMessagesPermission = () => {
-    firebase.messaging().requestPermission()
-      .then(() => {
-        LOG(this, 'FCM authorized by the user');
-      })
-      .catch(() => {
-        LOG(this, 'FCM permission rejected');
-      });
-  }
+    updateFcmToken = (currentFcmToken, fcmToken) => {
+        fcmActions.updateFcmToken(currentFcmToken, fcmToken);
+    }
 
-  getEmployee = () => {
-    inviteActions.getJobPreferences();
-  }
+    hasFcmMessagePermission = () => {
+        firebase.messaging().hasPermission()
+            .then(enabled => {
+                if (enabled) {
+                    LOG(this, 'FCM has persmission');
+                } else {
+                    LOG(this, 'FCM not permitted, requesting Permission');
+                    this.requestFcmMessagesPermission();
+                }
+            });
+    }
 
-  stopReceivingInvites = () => {
-    inviteActions.stopReceivingInvites(true);
-  }
+    requestFcmMessagesPermission = () => {
+        firebase.messaging().requestPermission()
+            .then(() => {
+                LOG(this, 'FCM authorized by the user');
+            })
+            .catch(() => {
+                LOG(this, 'FCM permission rejected');
+            });
+    }
 
-  startReceivingInvites = () => {
-    inviteActions.stopReceivingInvites(false);
-  }
+    getEmployee = () => {
+        inviteActions.getJobPreferences();
+    }
 
-  getInvites = () => {
-    inviteActions.getJobInvites();
-  }
+    stopReceivingInvites = () => {
+        inviteActions.stopReceivingInvites(true);
+    }
 
-  getUpcomingJobs = () => {
-    jobActions.getUpcomingJobs();
-  }
+    startReceivingInvites = () => {
+        inviteActions.stopReceivingInvites(false);
+    }
+
+    getInvites = () => {
+        inviteActions.getJobInvites();
+    }
+
+    getUpcomingJobs = () => {
+        jobActions.getUpcomingJobs();
+    }
 }
 
 export default DashboardScreen;

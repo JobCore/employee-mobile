@@ -40,6 +40,7 @@ const applyJob = (inviteId) => {
       Flux.dispatchEvent('ApplyJob', data);
     })
     .catch((err) => {
+      console.log("Invite:actions:applyJob", err);
       Flux.dispatchEvent('InviteStoreError', err);
     });
 };
