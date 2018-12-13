@@ -75,8 +75,8 @@ const equalMonthAndYear = (date1, date2) => {
  * @return {[type]} [description]
  */
 const storeErrorHandler = (err) => {
-  if (err.datail) {
-    return err.datail;
+  if (err.detail) {
+    return err.detail;
   }
   if (err.non_field_errors) {
     return err.non_field_errors.join(", ");
