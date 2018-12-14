@@ -48,7 +48,7 @@ export default StyleSheet.create({
     color: '#fff',
     fontWeight: '500',
     fontSize: 13,
-    width: '80%'
+    width: '90%'
   },
   buttomApply: {
     backgroundColor: BLUE_MAIN

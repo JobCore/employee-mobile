@@ -160,6 +160,7 @@ export async function postFormData(url, formData, isAuth = true) {
 reject or resolve based on status then Parses the response to json
  */
 function checkStatus(response) {
+    console.log("services:checkStatus", response);
     if (response && response.status === 401 || response.status === 403) {
         accountActions.logoutOnUnautorized();
     }
