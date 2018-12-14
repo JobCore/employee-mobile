@@ -5,13 +5,6 @@ import {
   createBottomTabNavigator,
 } from 'react-navigation';
 
-import { i18next } from './src/i18n';
-import moment from 'moment';
-import 'moment-timezone';
-import 'moment/locale/es';
-
-moment.locale(i18next.language);
-
 import { YellowBox, Platform } from 'react-native';
 
 YellowBox.ignoreWarnings([
