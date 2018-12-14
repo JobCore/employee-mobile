@@ -19,9 +19,18 @@
     "plugin:react/recommended"
   ],
   "globals": {
-    "fetch": true
+    "fetch": true,
+    "FormData": true
   },
   "rules": {
-    "react/prop-types": [1, { "ignore": ["navigation"], "customValidators": [] }]
+    "no-console": 0,
+    "indent": ["error", 2],
+    "object-curly-spacing": ["error", "always"],
+    "array-bracket-spacing": ["error", "never"],
+    "comma-dangle": ["error", "always-multiline"],
+    "jsx-quotes": ["error", "prefer-double"],
+    "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+    "react/display-name": 0,
+    "react/prop-types": [1, { "ignore": ["navigation", "t"], "customValidators": [] }]
   }
 }

@@ -12,7 +12,7 @@ import {YellowBox, Platform} from 'react-native';
 
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Warning: Failed prop type', 'Module RCTImageLoader']);
 
-import {Root} from "native-base";
+import {Root, Text} from "native-base";
 
 import LoginScreen from './src/components/Account/LoginScreen';
 import RegisterScreen from './src/components/Account/RegisterScreen';
