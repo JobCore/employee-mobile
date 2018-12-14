@@ -20,7 +20,7 @@ YellowBox.ignoreWarnings([
   'Module RCTImageLoader',
 ]);
 
-import { Root, Text } from 'native-base';
+import { Root } from 'native-base';
 
 import LoginScreen from './src/components/Account/LoginScreen';
 import RegisterScreen from './src/components/Account/RegisterScreen';

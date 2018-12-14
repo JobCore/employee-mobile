@@ -20,7 +20,8 @@
   ],
   "globals": {
     "fetch": true,
-    "FormData": true
+    "FormData": true,
+    "window": true
   },
   "rules": {
     "no-console": 0,
