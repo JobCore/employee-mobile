@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   createSwitchNavigator,
   createStackNavigator,
@@ -38,7 +38,6 @@ import JobDetailsScreen from './src/components/MyJobs/JobDetails';
 
 import {
   DASHBOARD_ROUTE,
-  TABBAR_ROUTE,
   LOGIN_ROUTE,
   REGISTER_ROUTE,
   FORGOT_ROUTE,
@@ -47,7 +46,6 @@ import {
   MYJOBS_ROUTE,
   SETTING_ROUTE,
   APP_ROUTE,
-  STACK_ROUTE,
   AUTH_ROUTE,
   RESET_ROUTE,
   AVAILABILITY_ROUTE,
@@ -59,7 +57,6 @@ import {
   EDIT_LOCATION_ROUTE,
 } from './src/constants/routes';
 import {
-  BLUE_MAIN,
   BLUE_DARK,
   BLUE_LIGHT,
   GRAY_MAIN,
