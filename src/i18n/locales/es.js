@@ -2,7 +2,8 @@ export default {
   APP: {
     cancel: 'Cancelar',
     goBack: 'Ir atrás',
-    noInternet: 'Por favor, compruebe su conexión a Internet y vuelva a intentarlo',
+    noInternet:
+      'Por favor, compruebe su conexión a Internet y vuelva a intentarlo',
     timeout: 'El servidor ha tardado mucho en responder',
     to: 'a',
   },
@@ -14,7 +15,8 @@ export default {
     emptyEmail: 'Ingresa tu correo',
     emptyPassword: 'Ingresa tu contraseña',
     forgotPassword: 'Olvidaste tu contraseña?',
-    youMustValidateEmail: 'Debe validar su correo electrónico para iniciar sesión',
+    youMustValidateEmail:
+      'Debe validar su correo electrónico para iniciar sesión',
     dontHaveAnAccount: `No tienes una cuenta?`,
     clickToSignUp: `Registrate aquí`,
   },
@@ -48,7 +50,8 @@ export default {
   },
   FORGOT: {
     email: 'Correo',
-    emailResetPassword: 'Recibirás un correo electrónico para restablecer tu contraseña',
+    emailResetPassword:
+      'Recibirás un correo electrónico para restablecer tu contraseña',
     recoverPassword: 'Recuperar contraseña',
     changePassword: 'Cambiar contraseña',
   },
@@ -65,6 +68,7 @@ export default {
     lookingFor: 'Inc está buscando un',
     on: 'en',
     hr: 'hr',
+    openDirection: 'Abrir dirección',
   },
   JOB_PREFERENCES: {
     jobPreferences: 'Preferencias',
@@ -76,7 +80,8 @@ export default {
     invalidPositions: 'Oficios invalidos',
     youMustSelectOnePosition: 'Debes seleccionar al menos un oficio',
     invalidAvailability: 'Disponibilidad inválida',
-    invalidAvailabilityDates: 'La fecha de finalización debe ser mayor que la fecha de inicio',
+    invalidAvailabilityDates:
+      'La fecha de finalización debe ser mayor que la fecha de inicio',
     invalidAllday: 'El campo "todo el dia" debe ser true o false',
     availability: 'Mi disponibilidad',
     addAvailability: 'Agragar disponibilidad',
@@ -124,5 +129,5 @@ export default {
     stopReceivingInvites: 'Deja de recibir invitaciones automáticas',
     y: 'S',
     n: 'N',
-  }
-}
+  },
+};

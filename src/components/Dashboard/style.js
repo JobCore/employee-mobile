@@ -1,5 +1,5 @@
 import { StyleSheet, Platform } from 'react-native';
-import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN} from '../../constants/colorPalette';
+import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN } from '../../constants/colorPalette';
 
 export default StyleSheet.create({
   container: {
@@ -7,22 +7,22 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  headerCustom:{
+  headerCustom: {
     backgroundColor: BLUE_MAIN,
   },
-  titleHeader:{
+  titleHeader: {
     color: WHITE_MAIN,
     fontWeight: '500',
     fontSize: 18,
   },
-  textHello:{
+  textHello: {
     textAlign: 'center',
     marginTop: 30,
     color: BLUE_DARK,
     fontSize: 22,
     fontWeight: '600',
   },
-  textWelcome:{
+  textWelcome: {
     textAlign: 'center',
     marginTop: 10,
     color: BLUE_DARK,
@@ -33,9 +33,9 @@ export default StyleSheet.create({
       android: {
         marginBottom: 35,
       },
-  }),
+    }),
   },
-  viewDashboard:{
+  viewDashboard: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -44,83 +44,82 @@ export default StyleSheet.create({
     paddingRight: 30,
     marginBottom: 50,
   },
-  viewInvite:{
+  viewInvite: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     paddingLeft: 30,
     paddingRight: 30,
-    marginBottom: 70
+    marginBottom: 70,
   },
-  viewItemJobsLeft:{
+  viewItemJobsLeft: {
     width: '50%',
     justifyContent: 'center',
     alignItems: 'center',
     height: 50,
-    marginRight: 5
+    marginRight: 5,
   },
-  viewItemJobsRight:{
+  viewItemJobsRight: {
     width: '50%',
     justifyContent: 'center',
     alignItems: 'center',
     height: 50,
-    marginLeft: 5
+    marginLeft: 5,
   },
-  titleItem:{
+  titleItem: {
+    textAlign: 'center',
     color: BLUE_DARK,
     fontSize: 12,
-    marginBottom: 15
+    marginBottom: 15,
   },
-  titleInvite:{
+  titleInvite: {
     color: BLUE_DARK,
     fontSize: 14,
-    marginBottom: 10
+    marginBottom: 10,
   },
-  itemInvite:{
+  itemInvite: {
     padding: 14,
     fontSize: 14,
-    color: BLUE_DARK
+    color: BLUE_DARK,
   },
-  itemData:{
+  itemData: {
     color: BLUE_DARK,
     fontSize: 18,
-    marginTop: 10
+    marginTop: 10,
   },
-  imgJobs:{
+  imgJobs: {
     width: 25,
-    height: 25
+    height: 25,
   },
-  buttonLeftActive:{
+  buttonLeftActive: {
     backgroundColor: BLUE_MAIN,
-    borderColor:'transparent',
+    borderColor: 'transparent',
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
   },
-  buttonLeftInactive:{
+  buttonLeftInactive: {
     backgroundColor: 'transparent',
     borderColor: BLUE_MAIN,
     borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0
+    borderBottomLeftRadius: 0,
   },
-  buttonRightActive:{
+  buttonRightActive: {
     backgroundColor: BLUE_MAIN,
     borderColor: 'transparent',
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
   },
-  buttonRightInactive:{
+  buttonRightInactive: {
     backgroundColor: 'transparent',
     borderColor: BLUE_MAIN,
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
   },
-  pointActive:{
+  pointActive: {
     width: 8,
     height: 8,
     borderRadius: 50,
-    backgroundColor: 'red'
-  }
-
-
+    backgroundColor: 'red',
+  },
 });
