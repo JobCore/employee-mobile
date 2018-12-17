@@ -24,7 +24,7 @@ export default StyleSheet.create({
     shadowColor: '#000000',
     shadowOffset: {
       width: 0,
-      height: 3
+      height: 3,
     },
     shadowRadius: 5,
     shadowOpacity: 1.0,
@@ -51,52 +51,52 @@ export default StyleSheet.create({
     color: '#fff',
     fontWeight: '500',
     fontSize: 13,
-    width: '90%'
+    width: '90%',
   },
   buttomApply: {
-    backgroundColor: BLUE_MAIN
+    backgroundColor: BLUE_MAIN,
   },
   buttomReject: {
-    backgroundColor: VIOLET_MAIN
+    backgroundColor: VIOLET_MAIN,
   },
   viewListItem: {
     paddingLeft: 50,
-    paddingRight: 50
+    paddingRight: 50,
   },
   viewDataOffers: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-end',
-    marginLeft: 15
+    marginLeft: 15,
   },
   textOne: {
     color: VIOLET_MAIN,
     fontSize: 12,
-    textAlign: 'left'
+    textAlign: 'left',
   },
   textTwo: {
     color: GRAY_MAIN,
     fontSize: 12,
-    textAlign: 'left'
+    textAlign: 'left',
   },
   textThree: {
     color: BLUE_MAIN,
     fontSize: 12,
-    textAlign: 'left'
+    textAlign: 'left',
   },
   textRed: {
     color: RED_MAIN,
     fontSize: 12,
-    textAlign: 'left'
+    textAlign: 'left',
   },
   textBlack: {
     color: BLACK_MAIN,
     fontSize: 12,
-    textAlign: 'left'
+    textAlign: 'left',
   },
   viewTitleInfo: {
     alignSelf: 'flex-start',
-    marginBottom: 5
+    marginBottom: 5,
   },
   viewCrud: {
     flexDirection: 'row',
@@ -104,7 +104,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 20,
     paddingRight: 20,
-    height: 100
+    height: 100,
   },
   viewButtomLeft: {
     width: '50%',
@@ -127,5 +127,9 @@ export default StyleSheet.create({
   },
   textBlue: {
     color: BLUE_MAIN,
-  }
+  },
+  openDirectionButton: {
+    backgroundColor: BLUE_DARK,
+    alignSelf: 'center',
+  },
 });

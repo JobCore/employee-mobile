@@ -65,6 +65,7 @@ export default {
     lookingFor: 'Inc is looking for a',
     on: 'on',
     hr: 'hr',
+    openDirection: 'Open direction',
   },
   JOB_PREFERENCES: {
     jobPreferences: 'Preferences',
@@ -124,5 +125,5 @@ export default {
     stopReceivingInvites: 'Stop receiving auto invites',
     y: 'Y',
     n: 'N',
-  }
-}
+  },
+};
