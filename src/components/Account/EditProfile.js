@@ -160,12 +160,21 @@ class EditProfile extends Component {
 
   getUser = () => {
     const user = accountStore.getState('Login').user || {};
+    let picture;
+    let bio;
+
+    try {
+      picture = user.profile.picture;
+      bio = user.profile.bio;
+    } catch (err) {
+      LOG(this, 'No profile to get picture & bio');
+    }
 
     this.setState({
       firstName: user.first_name || '',
       lastName: user.last_name || '',
-      picture: user.profile.picture || '',
-      bio: user.profile.bio || '',
+      picture: picture || '',
+      bio: bio || '',
     });
   };
 
