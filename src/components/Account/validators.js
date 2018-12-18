@@ -11,7 +11,7 @@ const loginValidator = (email, password) => {
   }
 };
 
-const registerValidator = (email, password, firstName, lastName) => {
+const registerValidator = (email, password, firstName, lastName, bio) => {
   if (!utils.isValidString(firstName)) {
     throw new Error(i18next.t('REGISTER.emptyFirstName'));
   }
@@ -27,6 +27,10 @@ const registerValidator = (email, password, firstName, lastName) => {
   if (!utils.isValidString(password)) {
     throw new Error(i18next.t('LOGIN.emptyPassword'));
   }
+
+  if (!utils.isValidString(bio, true)) {
+    throw new Error(i18next.t('REGISTER.invalidBio'));
+  }
 };
 
 const passwordResetValidator = (email) => {
@@ -35,13 +39,17 @@ const passwordResetValidator = (email) => {
   }
 };
 
-const editProfileValidator = (firstName, lastName) => {
+const editProfileValidator = (firstName, lastName, bio) => {
   if (!utils.isValidString(firstName)) {
     throw new Error(i18next.t('REGISTER.emptyFirstName'));
   }
 
   if (!utils.isValidString(lastName)) {
     throw new Error(i18next.t('REGISTER.emptyLastName'));
+  }
+
+  if (!utils.isValidString(bio, true)) {
+    throw new Error(i18next.t('REGISTER.invalidBio'));
   }
 };
 

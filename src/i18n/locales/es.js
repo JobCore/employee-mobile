@@ -30,6 +30,7 @@ export default {
     password: 'Contraseña',
     goBack: 'Ir atrás',
     youHaveRegistered: 'Has iniciado sesión!',
+    bio: 'Biografía',
   },
   EDIT_PROFILE: {
     editProfile: 'Editar perfil',

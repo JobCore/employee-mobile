@@ -65,6 +65,7 @@ class SettingScreen extends Component {
   componentWillUnmount() {
     this.logoutSubscription.unsubscribe();
     this.loginSubscription.unsubscribe();
+    this.accountStoreError.unsubscribe();
   }
 
   logoutHandler = () => {

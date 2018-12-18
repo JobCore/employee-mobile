@@ -43,9 +43,9 @@ const login = (email, password, fcmToken) => {
  * @param  {string} firstName
  * @param  {string} lastName
  */
-const register = (email, password, firstName, lastName) => {
+const register = (email, password, firstName, lastName, bio) => {
   try {
-    registerValidator(email, password, firstName, lastName);
+    registerValidator(email, password, firstName, lastName, bio);
   } catch (err) {
     return Flux.dispatchEvent('AccountStoreError', err);
   }
@@ -59,6 +59,7 @@ const register = (email, password, firstName, lastName) => {
       username: email,
       email: email,
       password: password,
+      bio,
     },
     false,
   )
@@ -76,9 +77,9 @@ const register = (email, password, firstName, lastName) => {
  * @param  {string} firstName
  * @param  {string} lastName
  */
-const editProfile = (userId, firstName, lastName) => {
+const editProfile = (userId, firstName, lastName, bio) => {
   try {
-    editProfileValidator(firstName, lastName);
+    editProfileValidator(firstName, lastName, bio);
   } catch (err) {
     return Flux.dispatchEvent('AccountStoreError', err);
   }
@@ -86,6 +87,7 @@ const editProfile = (userId, firstName, lastName) => {
   putData(`/profiles/${userId}`, {
     first_name: firstName,
     last_name: lastName,
+    bio,
   })
     .then((data) => {
       Flux.dispatchEvent('EditProfile', data);

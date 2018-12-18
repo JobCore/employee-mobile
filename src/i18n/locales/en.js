@@ -28,6 +28,7 @@ export default {
     password: 'Password',
     goBack: 'Go back',
     youHaveRegistered: 'You have signed up!',
+    bio: 'Biography',
   },
   EDIT_PROFILE: {
     editProfile: 'Edit profile',

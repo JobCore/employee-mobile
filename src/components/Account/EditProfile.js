@@ -1,16 +1,33 @@
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity, Alert } from 'react-native';
-import { Item, Input, Button, Text, Form, Label, Content } from 'native-base';
+import {
+  Item,
+  Input,
+  Button,
+  Text,
+  Form,
+  Label,
+  Content,
+  Thumbnail,
+  Textarea,
+} from 'native-base';
 import styles from './EditProfileStyle';
 import * as actions from './actions';
 import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
-import { FormView } from '../../utils/platform';
 import { LOG, WARN } from '../../utils';
 import { CustomToast, Loading } from '../../utils/components';
+import ImagePicker from 'react-native-image-picker';
+import PROFILE_IMG from '../../assets/image/myJobs.png';
 
-class RegisterScreen extends Component {
+const IMAGE_PICKER_OPTIONS = {
+  mediaType: 'photo',
+  noData: true,
+  skipBackup: true,
+};
+
+class EditProfile extends Component {
   static navigationOptions = { header: null };
 
   constructor(props) {
@@ -19,6 +36,9 @@ class RegisterScreen extends Component {
       isLoading: false,
       firstName: '',
       lastName: '',
+      picture: '',
+      bio: '',
+      selectedImage: {},
     };
   }
 
@@ -57,18 +77,33 @@ class RegisterScreen extends Component {
       <I18n>
         {(t) => (
           <Content contentContainerStyle={{ flexGrow: 1 }}>
+            <Image
+              style={styles.viewBackground}
+              source={require('../../assets/image/bg.jpg')}
+            />
+
             <View style={styles.container}>
               {this.state.isLoading ? <Loading /> : null}
-
-              <Image
-                style={styles.viewBackground}
-                source={require('../../assets/image/bg.jpg')}
-              />
               <Image
                 style={styles.viewLogo}
                 source={require('../../assets/image/logo1.png')}
               />
-              <FormView>
+
+              <TouchableOpacity onPress={this.openImagePicker}>
+                <Thumbnail
+                  style={styles.profileImg}
+                  large
+                  source={
+                    this.state.selectedImage && this.state.selectedImage.uri
+                      ? { uri: this.state.selectedImage.uri }
+                      : this.state.user && this.state.user.picture
+                        ? { uri: this.state.user.picture }
+                        : PROFILE_IMG
+                  }
+                />
+              </TouchableOpacity>
+
+              <View>
                 <Form>
                   <Item style={styles.viewInput} inlineLabel rounded>
                     <Label>{t('REGISTER.firstName')}</Label>
@@ -88,6 +123,18 @@ class RegisterScreen extends Component {
                       onChangeText={(text) => this.setState({ lastName: text })}
                     />
                   </Item>
+                  <Item
+                    onPress={this.focusTextarea}
+                    style={styles.viewTextArea}
+                    rounded>
+                    <Label>{t('REGISTER.bio')}</Label>
+                    <Textarea
+                      ref={(textarea) => (this.textarea = textarea)}
+                      rowSpan={5}
+                      value={this.state.bio}
+                      onChangeText={(text) => this.setState({ bio: text })}
+                    />
+                  </Item>
                 </Form>
                 <Button
                   full
@@ -103,7 +150,7 @@ class RegisterScreen extends Component {
                   style={styles.viewButtomSignUp}>
                   <Text style={styles.textButtomSignUp}>{t('APP.goBack')}</Text>
                 </TouchableOpacity>
-              </FormView>
+              </View>
             </View>
           </Content>
         )}
@@ -117,6 +164,8 @@ class RegisterScreen extends Component {
     this.setState({
       firstName: user.first_name || '',
       lastName: user.last_name || '',
+      picture: user.profile.picture || '',
+      bio: user.profile.bio || '',
     });
   };
 
@@ -126,6 +175,8 @@ class RegisterScreen extends Component {
     try {
       session.user.first_name = data.user.first_name;
       session.user.last_name = data.user.last_name;
+      session.user.profile.picture = data.picture;
+      session.user.profile.bio = data.bio;
     } catch (e) {
       return WARN(this, `${data} error updating user session`);
     }
@@ -155,6 +206,7 @@ class RegisterScreen extends Component {
               user.id,
               this.state.firstName,
               this.state.lastName,
+              this.state.bio,
             );
           },
         },
@@ -163,9 +215,56 @@ class RegisterScreen extends Component {
     );
   };
 
+  focusTextarea = () => {
+    try {
+      this.textarea._root.focus();
+    } catch (err) {
+      WARN(`focusTextarea error: ${err}`);
+    }
+  };
+
+  openImagePicker = () => {
+    ImagePicker.showImagePicker(
+      IMAGE_PICKER_OPTIONS,
+      this.handleImagePickerResponse,
+    );
+  };
+
+  /**
+   * Handle react-native-image-picker response and set the selected image
+   * @param  {object} response A react-native-image-picker response
+   * with the uri, type & name
+   */
+  handleImagePickerResponse = (response) => {
+    if (response.didCancel) {
+      // for react-native-image-picker response
+      LOG(this, 'User cancelled image picker');
+    } else if (response.error) {
+      // for react-native-image-picker response
+      LOG(this, `ImagePicker Error: ${response.error}`);
+    } else if (response.customButton) {
+      // for react-native-image-picker response
+      LOG(this, `User tapped custom button: ${response.customButton}`);
+    } else {
+      const selectedImage = {
+        uri: response.uri,
+        type:
+          response.type ||
+          `image/${
+            response.fileName.split('.')[
+              response.fileName.split('.').length - 1
+            ]
+          }`,
+        name: response.fileName,
+      };
+
+      this.setState({ selectedImage });
+    }
+  };
+
   isLoading = (isLoading) => {
     this.setState({ isLoading });
   };
 }
 
-export default RegisterScreen;
+export default EditProfile;

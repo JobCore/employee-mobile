@@ -324,8 +324,10 @@ class DashboardScreen extends Component {
                   style={styles.profileImg}
                   large
                   source={
-                    this.state.user && this.state.user.picture
-                      ? { uri: this.state.user.picture }
+                    this.state.user &&
+                    this.state.user.profile &&
+                    this.state.user.profile.picture
+                      ? { uri: this.state.user.profile.picture }
                       : PROFILE_IMG
                   }
                 />

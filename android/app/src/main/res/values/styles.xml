@@ -14,6 +14,6 @@
         <item name="android:textColorPrimary">#000000</item>
 
         <!-- Used for the background -->
-        <item name="android:background">#76C5D0</item>
+        <item name="android:background">#fff</item>
     </style>
 </resources>
