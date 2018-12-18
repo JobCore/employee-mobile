@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, RefreshControl, TouchableHighlight } from 'react-native';
+import { View, Image, RefreshControl, TouchableOpacity } from 'react-native';
 import {
   Container,
   Header,
@@ -12,6 +12,7 @@ import {
   Title,
   Right,
   Segment,
+  Thumbnail,
 } from 'native-base';
 import styles from './style';
 import {
@@ -22,6 +23,7 @@ import {
 import {
   SETTING_ROUTE,
   AUTH_ROUTE,
+  MYJOBS_ROUTE,
   INVITE_DETAILS_ROUTE,
   JOB_DETAILS_ROUTE,
   JOB_INVITES_ROUTE,
@@ -40,6 +42,7 @@ import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import firebase from 'react-native-firebase';
 import { NavigationActions } from 'react-navigation';
+import PROFILE_IMG from '../../assets/image/myJobs.png';
 
 class DashboardScreen extends Component {
   static navigationOptions = {
@@ -273,11 +276,6 @@ class DashboardScreen extends Component {
     CustomToast(err, 'danger');
   };
 
-  goToInvitation = () => {
-    console.log('NAVIGATE');
-    this.props.navigation.navigate(JOB_INVITES_ROUTE);
-  };
-
   render() {
     return (
       <I18n>
@@ -304,6 +302,7 @@ class DashboardScreen extends Component {
                 </Button>
               </Right>
             </Header>
+
             <Content
               refreshControl={
                 <RefreshControl
@@ -319,6 +318,18 @@ class DashboardScreen extends Component {
                 </Text>
               ) : null}
               <Text style={styles.textWelcome}>{t('DASHBOARD.welcome')}</Text>
+
+              <TouchableOpacity onPress={this.goToSetting}>
+                <Thumbnail
+                  style={styles.profileImg}
+                  large
+                  source={
+                    this.state.user && this.state.user.picture
+                      ? { uri: this.state.user.picture }
+                      : PROFILE_IMG
+                  }
+                />
+              </TouchableOpacity>
 
               <View style={styles.viewDashboard}>
                 <View style={styles.viewItemJobsLeft}>
@@ -337,12 +348,12 @@ class DashboardScreen extends Component {
                   <Text style={styles.titleItem}>
                     {t('DASHBOARD.invitations')}
                   </Text>
-                  <TouchableHighlight onPress={this.goToInvitation}>
+                  <TouchableOpacity onPress={this.goToInvitation}>
                     <Image
                       style={styles.imgJobs}
                       source={require('../../assets/image/invite.png')}
                     />
-                  </TouchableHighlight>
+                  </TouchableOpacity>
 
                   {Array.isArray(this.state.invites) ? (
                     <Text style={styles.itemData}>
@@ -357,10 +368,12 @@ class DashboardScreen extends Component {
                   <Text style={styles.titleItem}>
                     {t('DASHBOARD.upcomingJobs')}
                   </Text>
-                  <Image
-                    style={styles.viewBackground}
-                    source={require('../../assets/image/jobs.png')}
-                  />
+                  <TouchableOpacity onPress={this.goToMyJobs}>
+                    <Image
+                      style={styles.viewBackground}
+                      source={require('../../assets/image/jobs.png')}
+                    />
+                  </TouchableOpacity>
                   {Array.isArray(this.state.upcomingJobs) ? (
                     <Text style={styles.itemData}>
                       {this.state.upcomingJobs.length}
@@ -505,6 +518,19 @@ class DashboardScreen extends Component {
       .catch(() => {
         LOG(this, 'FCM permission rejected');
       });
+  };
+
+  goToInvitation = () => {
+    this.props.navigation.navigate(JOB_INVITES_ROUTE);
+  };
+
+  goToSetting = () => {
+    this.props.navigation.navigate(SETTING_ROUTE);
+  };
+
+  goToMyJobs = () => {
+    const tabAction = 'getUpcomingJobs';
+    this.props.navigation.navigate(MYJOBS_ROUTE, { tabAction });
   };
 
   getEmployee = () => {

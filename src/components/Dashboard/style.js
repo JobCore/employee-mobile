@@ -15,6 +15,10 @@ export default StyleSheet.create({
     fontWeight: '500',
     fontSize: 18,
   },
+  profileImg: {
+    alignSelf: 'center',
+    marginBottom: 30,
+  },
   textHello: {
     textAlign: 'center',
     marginTop: 30,
@@ -28,10 +32,10 @@ export default StyleSheet.create({
     color: BLUE_DARK,
     fontSize: 18,
     fontWeight: '500',
-    marginBottom: 60,
+    marginBottom: 40,
     ...Platform.select({
       android: {
-        marginBottom: 35,
+        marginBottom: 15,
       },
     }),
   },
