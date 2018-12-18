@@ -10,6 +10,10 @@ target 'jobcore' do
   pod 'Firebase/Messaging'
   pod 'Firebase/Analytics'
   pod 'GoogleAppMeasurement', '~> 5.2.0'
+  
+  # Add new pods below this line
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
 
   target 'jobcoreTests' do
     inherit! :search_paths
