@@ -4,13 +4,18 @@ import { BLUE_MAIN, BLUE_DARK } from '../../constants/colorPalette';
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingHorizontal: 35,
+  },
+  profileImg: {
+    alignSelf: 'center',
+    marginTop: 30,
+    marginBottom: 30,
   },
   viewLogo: {
-    width: '75%',
-    height: 75,
+    width: '100%',
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    height: 90,
     ...Platform.select({
       android: {
         marginTop: '20%',
@@ -30,7 +35,7 @@ export default StyleSheet.create({
     width: width,
     paddingLeft: 35,
     paddingRight: 35,
-    marginTop: '20%',
+    marginTop: 0,
     marginBottom: 20,
   },
   viewButtomLogin: {
@@ -65,7 +70,13 @@ export default StyleSheet.create({
     marginRight: 10,
     color: BLUE_DARK,
   },
-
+  viewTextArea: {
+    backgroundColor: 'transparent',
+    borderColor: BLUE_MAIN,
+    color: BLUE_DARK,
+    marginBottom: 10,
+    paddingLeft: 20,
+  },
   viewInput: {
     backgroundColor: 'transparent',
     height: 55,
