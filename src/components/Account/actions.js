@@ -2,12 +2,13 @@ import * as Flux from '../../utils/flux-state';
 import accountStore from './AccountStore';
 import fcmStore from '../Dashboard/FcmStore';
 import { LOG } from '../../utils';
-import { postData, putData, deleteData } from '../../fetch';
+import { postData, putData, deleteData, putFormData } from '../../fetch';
 import {
   loginValidator,
   registerValidator,
   passwordResetValidator,
   editProfileValidator,
+  editProfilePictureValidator,
 } from './validators';
 
 /**
@@ -160,6 +161,34 @@ const logoutOnUnautorized = () => {
 };
 
 /**
+ * Edit profile picture action
+ * @param  {File}  image
+ */
+const editProfilePicture = (image) => {
+  try {
+    editProfilePictureValidator(image);
+  } catch (err) {
+    return Flux.dispatchEvent('AccountStoreError', err);
+  }
+
+  const body = new FormData();
+
+  body.append('image', {
+    uri: image.uri,
+    name: image.name,
+    type: image.type,
+  });
+
+  putFormData(`/profiles/me/image`, body)
+    .then((data) => {
+      Flux.dispatchEvent('EditProfilePicture', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('AccountStoreError', err);
+    });
+};
+
+/**
  * Action for setting/updating the stored user from AsyncStorage/Flux or to ser user on app first load
  * @param {object} user
  */
@@ -178,4 +207,5 @@ export {
   logout,
   logoutOnUnautorized,
   editProfile,
+  editProfilePicture,
 };

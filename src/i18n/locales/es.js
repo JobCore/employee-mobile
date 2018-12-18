@@ -37,6 +37,7 @@ export default {
     wantToEditProfile: 'Editar perfil?',
     profileUpdated: 'Perfil actualizado!',
     update: 'Editar',
+    invalidImage: 'Solo se permiten archivos jpg y png',
   },
   SETTINGS: {
     settings: 'Ajustes',

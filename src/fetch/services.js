@@ -154,28 +154,25 @@ export async function downloadData(url, isAuth = true) {
 }
 
 /**
- * POST method fetch (multipart/form-data)
+ * PUT method fetch (multipart/form-data)
  * @param  {string}  url    Endpoint URL
  * @param  {Boolean} isAuth true if api requires token, true by default
  * @return {Promise}         the data from the endpoint
  */
-export async function postFormData(url, formData, isAuth = true) {
+export async function putFormData(url, formData, isAuth = true) {
   await checkConnection();
 
-  return timeout(
-    20000,
-    fetch(`${API_URL}${url}`, {
-      body: formData,
-      headers: {
-        Accept: 'application/json',
-        'Accept-Language': i18next.language,
-        Authorization: isAuth
-          ? `jwt ${accountStore.getState('Login').token}`
-          : '',
-      },
-      method: 'POST',
-    }),
-  )
+  return fetch(`${API_URL}${url}`, {
+    body: formData,
+    headers: {
+      Accept: 'application/json',
+      'Accept-Language': i18next.language,
+      Authorization: isAuth
+        ? `jwt ${accountStore.getState('Login').token}`
+        : '',
+    },
+    method: 'PUT',
+  })
     .then(checkStatus)
     .then((res) => res)
     .catch((err) => Promise.reject(err));

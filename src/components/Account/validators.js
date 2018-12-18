@@ -1,6 +1,8 @@
 import * as utils from '../../utils';
 import { i18next } from '../../i18n';
 
+const validFileTypes = ['image/jpg', 'image/jpeg', 'image/png'];
+
 const loginValidator = (email, password) => {
   if (!utils.isValidString(email)) {
     throw new Error(i18next.t('LOGIN.emptyEmail'));
@@ -53,9 +55,32 @@ const editProfileValidator = (firstName, lastName, bio) => {
   }
 };
 
+const editProfilePictureValidator = (image) => {
+  const { uri, name, type } = image;
+
+  if (!utils.isValidString(uri)) {
+    throw new Error(i18next.t('EDIT_PROFILE.invalidImage'));
+  }
+  if (!utils.isValidString(name)) {
+    throw new Error(i18next.t('EDIT_PROFILE.invalidImage'));
+  }
+
+  if (utils.isValidString(type)) {
+    let isValidType = false;
+    for (const validType of validFileTypes) {
+      if (type === validType) isValidType = true;
+    }
+
+    if (!isValidType) {
+      throw new Error(i18next.t('EDIT_PROFILE.invalidImage'));
+    }
+  } else throw new Error(i18next.t('EDIT_PROFILE.invalidImage'));
+};
+
 export {
   loginValidator,
   registerValidator,
   passwordResetValidator,
   editProfileValidator,
+  editProfilePictureValidator,
 };

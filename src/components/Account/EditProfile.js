@@ -45,11 +45,15 @@ class EditProfile extends Component {
   componentDidMount() {
     this.editProfileSubscription = accountStore.subscribe(
       'EditProfile',
-      (user) => this.editProfileHandler(user),
+      this.editProfileHandler,
+    );
+    this.editProfilePictureSubscription = accountStore.subscribe(
+      'EditProfilePicture',
+      this.editProfilePictureHandler,
     );
     this.accountStoreError = accountStore.subscribe(
       'AccountStoreError',
-      (err) => this.errorHandler(err),
+      this.errorHandler,
     );
 
     this.getUser();
@@ -57,8 +61,14 @@ class EditProfile extends Component {
 
   componentWillUnmount() {
     this.editProfileSubscription.unsubscribe();
+    this.editProfilePictureSubscription.unsubscribe();
     this.accountStoreError.unsubscribe();
   }
+
+  editProfilePictureHandler = (data) => {
+    this.setUser(data);
+    this.editProfile();
+  };
 
   editProfileHandler = (data) => {
     this.isLoading(false);
@@ -96,8 +106,8 @@ class EditProfile extends Component {
                   source={
                     this.state.selectedImage && this.state.selectedImage.uri
                       ? { uri: this.state.selectedImage.uri }
-                      : this.state.user && this.state.user.picture
-                        ? { uri: this.state.user.picture }
+                      : this.state.picture
+                        ? { uri: this.state.picture }
                         : PROFILE_IMG
                   }
                 />
@@ -138,7 +148,7 @@ class EditProfile extends Component {
                 </Form>
                 <Button
                   full
-                  onPress={this.editProfile}
+                  onPress={this.editProfileAlert}
                   style={styles.viewButtomLogin}>
                   <Text style={styles.textButtom}>
                     {t('EDIT_PROFILE.editProfile')}
@@ -193,7 +203,7 @@ class EditProfile extends Component {
     actions.setStoredUser(session);
   };
 
-  editProfile = () => {
+  editProfileAlert = () => {
     Alert.alert(
       i18next.t('EDIT_PROFILE.wantToEditProfile'),
       '',
@@ -207,20 +217,28 @@ class EditProfile extends Component {
         {
           text: i18next.t('EDIT_PROFILE.update'),
           onPress: () => {
-            const user = accountStore.getState('Login').user || {};
+            this.setState({ isLoading: true }, () => {
+              if (this.state.selectedImage && this.state.selectedImage.uri) {
+                return actions.editProfilePicture(this.state.selectedImage);
+              }
 
-            this.isLoading(true);
-
-            actions.editProfile(
-              user.id,
-              this.state.firstName,
-              this.state.lastName,
-              this.state.bio,
-            );
+              this.editProfile();
+            });
           },
         },
       ],
       { cancelable: false },
+    );
+  };
+
+  editProfile = () => {
+    const user = accountStore.getState('Login').user || {};
+
+    actions.editProfile(
+      user.id,
+      this.state.firstName,
+      this.state.lastName,
+      this.state.bio,
     );
   };
 
