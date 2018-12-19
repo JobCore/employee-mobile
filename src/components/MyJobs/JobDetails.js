@@ -23,6 +23,7 @@ import { JobDetails } from '../../utils/components';
 import { LOG } from '../../utils';
 import { Loading, openMapsApp } from '../../utils/components';
 import MARKER_IMG from '../../assets/image/map-marker.png';
+import { RATE_JOB_ROUTE } from '../../constants/routes';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -72,7 +73,7 @@ class JobDetailsScreen extends Component {
       },
     );
 
-    this.inviteStoreError = jobStore.subscribe('JobStoreError', (err) => {
+    this.jobStoreError = jobStore.subscribe('JobStoreError', (err) => {
       this.errorHandler(err);
     });
 
@@ -82,7 +83,7 @@ class JobDetailsScreen extends Component {
   componentWillUnmount() {
     this.getJobSubscription.unsubscribe();
     this.getApplicationSubscription.unsubscribe();
-    this.inviteStoreError.unsubscribe();
+    this.jobStoreError.unsubscribe();
   }
 
   getJobHandler = (shift) => {
@@ -181,14 +182,26 @@ class JobDetailsScreen extends Component {
                     {`${this.state.shift.venue.title}`}
                   </Text>
                   <Button
+                    rounded
+                    small
                     style={styles.openDirectionButton}
                     onPress={this.openMapsApp}>
-                    <Text style={styles.textLocation}>
-                      {`${this.state.invite.shift.venue.title}`}
-                    </Text>
+                    <Text>{t('JOB_INVITES.openDirection')}</Text>
                   </Button>
                 </View>
               ) : null}
+
+              <View style={styles.viewShift}>
+                <Button
+                  block
+                  style={{
+                    marginVertical: 15,
+                    backgroundColor: BLUE_MAIN,
+                  }}
+                  onPress={this.goToRateJob}>
+                  <Text>{t('MY_JOBS.rateJob')}</Text>
+                </Button>
+              </View>
             </Content>
           </Container>
         )}
@@ -251,6 +264,12 @@ class JobDetailsScreen extends Component {
       this.setState({ isLoading: true });
       return jobActions.getApplication(this.state.applicationId);
     }
+  };
+
+  goToRateJob = () => {
+    if (!this.state.shift || !this.state.shift.id) return;
+
+    this.props.navigation.navigate(RATE_JOB_ROUTE, { shift: this.state.shift });
   };
 }
 

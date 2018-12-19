@@ -1,5 +1,6 @@
 import * as Flux from '../../utils/flux-state';
-import { getData } from '../../fetch';
+import { getData, postData } from '../../fetch';
+import { rateJobValidator } from './validators';
 
 /**
  * Get shift application
@@ -79,6 +80,34 @@ const getFailedJobs = () => {
     });
 };
 
+/**
+ * Rate job employer action
+ * @param  {number} shiftId
+ * @param  {number} employerId
+ * @param  {number} rating
+ * @param  {string} comments
+ */
+const rateJob = (shiftId, employerId, rating, comments) => {
+  try {
+    rateJobValidator(shiftId, employerId, rating, comments);
+  } catch (err) {
+    return Flux.dispatchEvent('JobStoreError', err);
+  }
+
+  postData('/ratings', {
+    employer: employerId,
+    shift: shiftId,
+    rating,
+    comments,
+  })
+    .then((jobs) => {
+      Flux.dispatchEvent('RateJob', jobs);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('JobStoreError', err);
+    });
+};
+
 export {
   getUpcomingJobs,
   getPendingJobs,
@@ -86,4 +115,5 @@ export {
   getFailedJobs,
   getApplication,
   getJob,
+  rateJob,
 };

@@ -119,6 +119,17 @@ export default {
     completed: 'Completetados',
     failed: 'Fallidos',
     review: 'Opiniones',
+    rateJob: 'Calificar trabajo',
+    rateComment: 'Escribe un comentario',
+    rate: 'Calificar',
+    rateThisJob: `Califica al empleador de este trabajo y dale un comentario`,
+    invalidShift: 'Trabajo invalido',
+    invalidEmployer: 'Empleador invalido',
+    invalidRating: 'La calificación debe ser de 1 a 5',
+    invalidComments:
+      'Debes introducir un comentario para calificar al empleador',
+    wantToRateJob: `Calificar al empleador?`,
+    jobRated: 'Tu comentario fue enviado!',
   },
   DASHBOARD: {
     dashboard: 'Inicio',
