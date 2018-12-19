@@ -1,23 +1,27 @@
 import { StyleSheet, Platform, Dimensions } from 'react-native';
 var width = Dimensions.get('window').width;
-import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN, VIOLET_MAIN } from '../../constants/colorPalette'
+import {
+  BLUE_MAIN,
+  BLUE_DARK,
+  WHITE_MAIN,
+  VIOLET_MAIN,
+} from '../../constants/colorPalette';
 
 export default StyleSheet.create({
-
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  headerCustom:{
+  headerCustom: {
     backgroundColor: BLUE_MAIN,
   },
-  titleHeader:{
+  titleHeader: {
     color: WHITE_MAIN,
     fontWeight: '500',
     fontSize: 18,
   },
-  viewForm:{
+  viewForm: {
     width: width,
     paddingLeft: 35,
     paddingRight: 35,
@@ -27,41 +31,41 @@ export default StyleSheet.create({
       ios: {
         paddingTop: 0,
       },
-  }),
+    }),
   },
-  viewButtomLogin:{
+  viewButtomLogin: {
     marginBottom: 0,
     borderRadius: 50,
     height: 55,
     backgroundColor: BLUE_DARK,
   },
-  viewButtomSignUp:{
+  viewButtomSignUp: {
     borderRadius: 50,
     height: 55,
     textAlign: 'center',
     backgroundColor: 'transparent',
   },
-  textButtom:{
+  textButtom: {
     fontSize: 16,
     fontWeight: '500',
-    textAlign: 'center'
+    textAlign: 'center',
   },
-  textButtomSignUp:{
+  textButtomSignUp: {
     fontSize: 14,
     fontWeight: '500',
     textAlign: 'center',
     marginTop: 25,
-    color: BLUE_DARK
+    color: BLUE_DARK,
   },
-  textButtomSave:{
+  textButtomSave: {
     fontSize: 14,
     fontWeight: '500',
     textAlign: 'right',
     marginTop: 5,
     marginRight: 10,
-    color: BLUE_DARK
+    color: BLUE_DARK,
   },
-  viewInput:{
+  viewInput: {
     backgroundColor: 'transparent',
     height: 55,
     width: '100%',
@@ -74,53 +78,51 @@ export default StyleSheet.create({
     paddingRight: 10,
     marginBottom: 10,
     ...Platform.select({
-        ios: {
-          paddingTop: 0,
-        },
+      ios: {
+        paddingTop: 0,
+      },
     }),
   },
-  borderNone:{
-    borderBottomColor: 'transparent'
+  borderNone: {
+    borderBottomColor: 'transparent',
   },
-  labelForm:{
+  labelForm: {
     color: BLUE_DARK,
   },
-  labelBank:{
+  labelBank: {
     color: BLUE_DARK,
     textAlign: 'center',
     marginBottom: 15,
     fontSize: 18,
-    fontWeight: '500'
+    fontWeight: '500',
   },
-  viewCrud:{
+  viewCrud: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     paddingLeft: 20,
     paddingRight: 20,
     marginTop: 15,
-    marginBottom: 20
+    marginBottom: 20,
   },
-  viewButtomLeft:{
+  viewButtomLeft: {
     width: '50%',
     marginRight: 5,
   },
-  buttomLeft:{
+  buttomLeft: {
     backgroundColor: 'transparent',
   },
-  textButtomLeft:{
-    color: BLUE_MAIN
+  textButtomLeft: {
+    color: BLUE_MAIN,
   },
-  viewButtomRight:{
+  viewButtomRight: {
     width: '50%',
     marginLeft: 5,
   },
-  buttomRight:{
+  buttomRight: {
     backgroundColor: 'transparent',
   },
-  textButtomRight:{
-    color: VIOLET_MAIN
+  textButtomRight: {
+    color: VIOLET_MAIN,
   },
-
-
 });

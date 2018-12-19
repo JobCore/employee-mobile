@@ -47,7 +47,10 @@ class MyJobs extends Component {
       isRefreshing: false,
       showNoJobsText: false,
       jobs: [],
-      jobFilterSelected: 'getPendingJobs',
+      jobFilterSelected: props.navigation.getParam(
+        'tabAction',
+        'getPendingJobs',
+      ),
       // for jobs filters array.map
       jobFilters: [
         {

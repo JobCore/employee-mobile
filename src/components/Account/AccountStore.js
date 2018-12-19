@@ -1,6 +1,6 @@
 import { FluxStore } from '../../utils/flux-state';
-import { AsyncStorage } from "react-native";
-import { LOG, WARN, ERROR, storeErrorHandler } from "../../utils";
+import { AsyncStorage } from 'react-native';
+import { LOG, ERROR, storeErrorHandler } from '../../utils';
 
 class AccountStore extends FluxStore {
   constructor() {
@@ -11,15 +11,20 @@ class AccountStore extends FluxStore {
 
       if (!nextState.token) return nextState;
 
-      if (!nextState.user || !nextState.user.profile || !nextState.user.profile.status || nextState.user.profile.status === 'PENDING_EMAIL_VALIDATION') {
+      if (
+        !nextState.user ||
+        !nextState.user.profile ||
+        !nextState.user.profile.status ||
+        nextState.user.profile.status === 'PENDING_EMAIL_VALIDATION'
+      ) {
         return nextState;
       }
 
-      AsyncStorage.setItem("user", JSON.stringify(nextState))
+      AsyncStorage.setItem('user', JSON.stringify(nextState))
         .then(() => {
-          LOG(this, "user saved to local storage");
+          LOG(this, 'user saved to local storage');
         })
-        .catch(err => {
+        .catch((err) => {
           ERROR(this, err);
         });
 
@@ -32,7 +37,7 @@ class AccountStore extends FluxStore {
 
       AsyncStorage.clear()
         .then(() => {
-          LOG(this, "AsyncStorage deleted");
+          LOG(this, 'AsyncStorage deleted');
         })
         .catch((err) => {
           ERROR(this, err);
@@ -46,6 +51,8 @@ class AccountStore extends FluxStore {
     this.addEvent('PasswordReset');
 
     this.addEvent('EditProfile');
+
+    this.addEvent('EditProfilePicture');
 
     this.addEvent('AccountStoreError', storeErrorHandler);
   }

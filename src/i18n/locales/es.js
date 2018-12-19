@@ -30,12 +30,14 @@ export default {
     password: 'Contraseña',
     goBack: 'Ir atrás',
     youHaveRegistered: 'Has iniciado sesión!',
+    bio: 'Biografía',
   },
   EDIT_PROFILE: {
     editProfile: 'Editar perfil',
     wantToEditProfile: 'Editar perfil?',
     profileUpdated: 'Perfil actualizado!',
     update: 'Editar',
+    invalidImage: 'Solo se permiten archivos jpg y png',
   },
   SETTINGS: {
     settings: 'Ajustes',

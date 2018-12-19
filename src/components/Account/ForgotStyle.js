@@ -1,24 +1,23 @@
 import { StyleSheet, Platform, Dimensions } from 'react-native';
 var width = Dimensions.get('window').width;
-import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN } from '../../constants/colorPalette'
+import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN } from '../../constants/colorPalette';
 
 export default StyleSheet.create({
-
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  viewLogo:{
+  viewLogo: {
     width: '75%',
-    height: 75,
+    height: 90,
     ...Platform.select({
       android: {
         marginTop: '20%',
       },
-  }),
+    }),
   },
-  viewBackground:{
+  viewBackground: {
     backgroundColor: WHITE_MAIN,
     flex: 1,
     resizeMode: 'cover',
@@ -27,45 +26,45 @@ export default StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
   },
-  viewForm:{
+  viewForm: {
     width: width,
     paddingLeft: 35,
     paddingRight: 35,
     marginTop: '20%',
-    marginBottom: 20
+    marginBottom: 20,
   },
-  viewButtomLogin:{
+  viewButtomLogin: {
     marginBottom: 0,
     borderRadius: 50,
     height: 55,
     backgroundColor: BLUE_DARK,
   },
-  viewButtomSignUp:{
+  viewButtomSignUp: {
     borderRadius: 50,
     height: 55,
     textAlign: 'center',
     backgroundColor: 'transparent',
   },
-  textButtom:{
+  textButtom: {
     fontSize: 16,
     fontWeight: '500',
-    textAlign: 'center'
+    textAlign: 'center',
   },
-  textButtomSignUp:{
+  textButtomSignUp: {
     fontSize: 14,
     fontWeight: '500',
     textAlign: 'center',
     marginTop: 25,
-    color: BLUE_DARK
+    color: BLUE_DARK,
   },
-  textButtomForgot:{
+  textButtomForgot: {
     fontSize: 14,
     fontWeight: '500',
     textAlign: 'right',
     marginTop: 5,
-    color: BLUE_DARK
+    color: BLUE_DARK,
   },
-  viewInput:{
+  viewInput: {
     backgroundColor: 'transparent',
     height: 55,
     width: '100%',
@@ -79,17 +78,15 @@ export default StyleSheet.create({
     marginBottom: 10,
     marginLeft: 0,
     ...Platform.select({
-        ios: {
-            paddingTop: 0,
-        },
+      ios: {
+        paddingTop: 0,
+      },
     }),
   },
-  borderNone:{
-    borderBottomColor: 'transparent'
+  borderNone: {
+    borderBottomColor: 'transparent',
   },
-  labelForm:{
-    color: BLUE_DARK
+  labelForm: {
+    color: BLUE_DARK,
   },
-
-
 });

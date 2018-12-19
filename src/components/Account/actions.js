@@ -1,9 +1,15 @@
 import * as Flux from '../../utils/flux-state';
 import accountStore from './AccountStore';
 import fcmStore from '../Dashboard/FcmStore';
-import { LOG, WARN, ERROR } from "../../utils";
-import { postData, putData, deleteData } from '../../fetch';
-import { loginValidator, registerValidator, passwordResetValidator, editProfileValidator } from './validators';
+import { LOG } from '../../utils';
+import { postData, putData, deleteData, putFormData } from '../../fetch';
+import {
+  loginValidator,
+  registerValidator,
+  passwordResetValidator,
+  editProfileValidator,
+  editProfilePictureValidator,
+} from './validators';
 
 /**
  * Login action
@@ -17,7 +23,11 @@ const login = (email, password, fcmToken) => {
     return Flux.dispatchEvent('AccountStoreError', err);
   }
 
-  postData('/login', { username_or_email: email, password: password, registration_id: fcmToken }, false)
+  postData(
+    '/login',
+    { username_or_email: email, password: password, registration_id: fcmToken },
+    false,
+  )
     .then((data) => {
       data.fcmToken = fcmToken;
       Flux.dispatchEvent('Login', data);
@@ -34,28 +44,33 @@ const login = (email, password, fcmToken) => {
  * @param  {string} firstName
  * @param  {string} lastName
  */
-const register = (email, password, firstName, lastName) => {
+const register = (email, password, firstName, lastName, bio) => {
   try {
-    registerValidator(email, password, firstName, lastName);
+    registerValidator(email, password, firstName, lastName, bio);
   } catch (err) {
     return Flux.dispatchEvent('AccountStoreError', err);
   }
 
-  postData('/user/register', {
+  postData(
+    '/user/register',
+    {
       account_type: 'employee',
       first_name: firstName,
       last_name: lastName,
       username: email,
       email: email,
       password: password,
-    }, false)
+      bio,
+    },
+    false,
+  )
     .then((data) => {
       Flux.dispatchEvent('Register', data);
     })
     .catch((err) => {
       Flux.dispatchEvent('AccountStoreError', err);
     });
-}
+};
 
 /**
  * Edit profile action
@@ -63,24 +78,25 @@ const register = (email, password, firstName, lastName) => {
  * @param  {string} firstName
  * @param  {string} lastName
  */
-const editProfile = (userId, firstName, lastName) => {
+const editProfile = (userId, firstName, lastName, bio) => {
   try {
-    editProfileValidator(firstName, lastName);
+    editProfileValidator(firstName, lastName, bio);
   } catch (err) {
     return Flux.dispatchEvent('AccountStoreError', err);
   }
 
   putData(`/profiles/${userId}`, {
-      first_name: firstName,
-      last_name: lastName,
-    })
+    first_name: firstName,
+    last_name: lastName,
+    bio,
+  })
     .then((data) => {
       Flux.dispatchEvent('EditProfile', data);
     })
     .catch((err) => {
       Flux.dispatchEvent('AccountStoreError', err);
     });
-}
+};
 
 /**
  * Action for changing password, an email will be sent to reset your password
@@ -100,7 +116,7 @@ const passwordReset = (email) => {
     .catch((err) => {
       Flux.dispatchEvent('AccountStoreError', err);
     });
-}
+};
 
 /**
  * Action for logOut, YOU MUST CLEAR ALL flux stores you need here
@@ -111,7 +127,9 @@ const logout = () => {
   let fcmTokenStored;
 
   try {
-    fcmTokenStored = fcmStore.getState('UpdateFcmToken') || accountStore.getState('Login').fcmToken;
+    fcmTokenStored =
+      fcmStore.getState('UpdateFcmToken') ||
+      accountStore.getState('Login').fcmToken;
   } catch (e) {
     LOG(this, 'failed to get fcmToken from Store');
   }
@@ -131,7 +149,7 @@ const logout = () => {
       Flux.dispatchEvent('Logout', {});
       Flux.dispatchEvent('AccountStoreError', err);
     });
-}
+};
 
 /**
  * Logout on unautorized API response (status 401/403)
@@ -140,7 +158,35 @@ const logout = () => {
 const logoutOnUnautorized = () => {
   accountStore.clearState();
   return Flux.dispatchEvent('Logout', {});
-}
+};
+
+/**
+ * Edit profile picture action
+ * @param  {File}  image
+ */
+const editProfilePicture = (image) => {
+  try {
+    editProfilePictureValidator(image);
+  } catch (err) {
+    return Flux.dispatchEvent('AccountStoreError', err);
+  }
+
+  const body = new FormData();
+
+  body.append('image', {
+    uri: image.uri,
+    name: image.name,
+    type: image.type,
+  });
+
+  putFormData(`/profiles/me/image`, body)
+    .then((data) => {
+      Flux.dispatchEvent('EditProfilePicture', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('AccountStoreError', err);
+    });
+};
 
 /**
  * Action for setting/updating the stored user from AsyncStorage/Flux or to ser user on app first load
@@ -151,6 +197,15 @@ const setStoredUser = (user) => {
   setTimeout(() => {
     Flux.dispatchEvent('Login', user);
   });
-}
+};
 
-export { login, register, passwordReset, setStoredUser, logout, logoutOnUnautorized, editProfile };
+export {
+  login,
+  register,
+  passwordReset,
+  setStoredUser,
+  logout,
+  logoutOnUnautorized,
+  editProfile,
+  editProfilePicture,
+};

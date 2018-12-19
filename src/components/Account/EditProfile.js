@@ -1,160 +1,297 @@
-import React, {Component} from "react";
+import React, { Component } from 'react';
+import { View, Image, TouchableOpacity, Alert } from 'react-native';
 import {
-    View,
-    Image,
-    TouchableOpacity,
-    Alert,
-} from "react-native";
-import {Item, Input, Button, Text, Form, Label, Content} from 'native-base';
+  Item,
+  Input,
+  Button,
+  Text,
+  Form,
+  Label,
+  Content,
+  Thumbnail,
+  Textarea,
+} from 'native-base';
 import styles from './EditProfileStyle';
 import * as actions from './actions';
 import accountStore from './AccountStore';
-import {I18n} from 'react-i18next';
-import {i18next} from '../../i18n';
-import {FormView} from "../../utils/platform";
-import {LOG, WARN} from "../../utils";
-import {CustomToast, Loading} from '../../utils/components';
+import { I18n } from 'react-i18next';
+import { i18next } from '../../i18n';
+import { LOG, WARN } from '../../utils';
+import { CustomToast, Loading } from '../../utils/components';
+import ImagePicker from 'react-native-image-picker';
+import PROFILE_IMG from '../../assets/image/myJobs.png';
 
-class RegisterScreen extends Component {
-    static navigationOptions = {header: null}
+const IMAGE_PICKER_OPTIONS = {
+  mediaType: 'photo',
+  noData: true,
+  skipBackup: true,
+};
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            isLoading: false,
-            firstName: '',
-            lastName: '',
-        };
-    }
+class EditProfile extends Component {
+  static navigationOptions = { header: null };
 
-    componentDidMount() {
-        this.editProfileSubscription = accountStore.subscribe('EditProfile', (user) => this.editProfileHandler(user));
-        this.accountStoreError = accountStore.subscribe('AccountStoreError', (err) => this.errorHandler(err));
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false,
+      firstName: '',
+      lastName: '',
+      picture: '',
+      bio: '',
+      selectedImage: {},
+    };
+  }
 
-        this.getUser();
-    }
+  componentDidMount() {
+    this.editProfileSubscription = accountStore.subscribe(
+      'EditProfile',
+      this.editProfileHandler,
+    );
+    this.editProfilePictureSubscription = accountStore.subscribe(
+      'EditProfilePicture',
+      this.editProfilePictureHandler,
+    );
+    this.accountStoreError = accountStore.subscribe(
+      'AccountStoreError',
+      this.errorHandler,
+    );
 
-    componentWillUnmount() {
-        this.editProfileSubscription.unsubscribe();
-        this.accountStoreError.unsubscribe();
-    }
+    this.getUser();
+  }
 
-    editProfileHandler = (data) => {
-        this.isLoading(false);
-        CustomToast(i18next.t('EDIT_PROFILE.profileUpdated'));
-        this.setUser(data);
-        this.props.navigation.goBack();
-    }
+  componentWillUnmount() {
+    this.editProfileSubscription.unsubscribe();
+    this.editProfilePictureSubscription.unsubscribe();
+    this.accountStoreError.unsubscribe();
+  }
 
-    errorHandler = (err) => {
-        this.isLoading(false);
-        CustomToast(err, 'danger');
-    }
+  editProfilePictureHandler = (data) => {
+    this.setUser(data);
+    this.editProfile();
+  };
 
-    render() {
-        return (<I18n>{(t, {i18n}) => (
-            <Content contentContainerStyle={{flexGrow: 1}}>
-                <View style={styles.container}>
-                    {this.state.isLoading ? <Loading/> : null}
+  editProfileHandler = (data) => {
+    this.isLoading(false);
+    CustomToast(i18next.t('EDIT_PROFILE.profileUpdated'));
+    this.setUser(data);
+    this.props.navigation.goBack();
+  };
 
-                    <Image
-                        style={styles.viewBackground}
-                        source={require('../../assets/image/bg.jpg')}
+  errorHandler = (err) => {
+    this.isLoading(false);
+    CustomToast(err, 'danger');
+  };
+
+  render() {
+    return (
+      <I18n>
+        {(t) => (
+          <Content contentContainerStyle={{ flexGrow: 1 }}>
+            <Image
+              style={styles.viewBackground}
+              source={require('../../assets/image/bg.jpg')}
+            />
+
+            <View style={styles.container}>
+              {this.state.isLoading ? <Loading /> : null}
+              <Image
+                style={styles.viewLogo}
+                source={require('../../assets/image/logo1.png')}
+              />
+
+              <TouchableOpacity onPress={this.openImagePicker}>
+                <Thumbnail
+                  style={styles.profileImg}
+                  large
+                  source={
+                    this.state.selectedImage && this.state.selectedImage.uri
+                      ? { uri: this.state.selectedImage.uri }
+                      : this.state.picture
+                        ? { uri: this.state.picture }
+                        : PROFILE_IMG
+                  }
+                />
+              </TouchableOpacity>
+
+              <View>
+                <Form>
+                  <Item style={styles.viewInput} inlineLabel rounded>
+                    <Label>{t('REGISTER.firstName')}</Label>
+                    <Input
+                      value={this.state.firstName}
+                      placeholder={t('REGISTER.firstName')}
+                      onChangeText={(text) =>
+                        this.setState({ firstName: text })
+                      }
                     />
-                    <Image
-                        style={styles.viewLogo}
-                        source={require('../../assets/image/logo1.png')}
+                  </Item>
+                  <Item style={styles.viewInput} inlineLabel rounded>
+                    <Label>{t('REGISTER.lastName')}</Label>
+                    <Input
+                      value={this.state.lastName}
+                      placeholder={t('REGISTER.lastName')}
+                      onChangeText={(text) => this.setState({ lastName: text })}
                     />
-                    <FormView>
-                        <Form>
-                            <Item style={styles.viewInput} inlineLabel rounded>
-                                <Label>{t('REGISTER.firstName')}</Label>
-                                <Input value={this.state.firstName}
-                                       placeholder={t('REGISTER.firstName')}
-                                       onChangeText={(text) => this.setState({firstName: text})}/>
-                            </Item>
-                            <Item style={styles.viewInput} inlineLabel rounded>
-                                <Label>{t('REGISTER.lastName')}</Label>
-                                <Input value={this.state.lastName}
-                                       placeholder={t('REGISTER.lastName')}
-                                       onChangeText={(text) => this.setState({lastName: text})}/>
-                            </Item>
-                        </Form>
-                        <Button
-                            full
-                            onPress={this.editProfile}
-                            style={styles.viewButtomLogin}>
-                            <Text
-                                style={styles.textButtom}>
-                                {t('EDIT_PROFILE.editProfile')}
-                            </Text>
-                        </Button>
-                        <TouchableOpacity
-                            full
-                            onPress={() => this.props.navigation.goBack()}
-                            style={styles.viewButtomSignUp}>
-                            <Text
-                                style={styles.textButtomSignUp}>
-                                {t('APP.goBack')}
-                            </Text>
-                        </TouchableOpacity>
-                    </FormView>
-                </View>
-            </Content>
-        )
-        }</I18n>);
+                  </Item>
+                  <Item
+                    onPress={this.focusTextarea}
+                    style={styles.viewTextArea}
+                    rounded>
+                    <Label>{t('REGISTER.bio')}</Label>
+                    <Textarea
+                      ref={(textarea) => (this.textarea = textarea)}
+                      rowSpan={5}
+                      value={this.state.bio}
+                      onChangeText={(text) => this.setState({ bio: text })}
+                    />
+                  </Item>
+                </Form>
+                <Button
+                  full
+                  onPress={this.editProfileAlert}
+                  style={styles.viewButtomLogin}>
+                  <Text style={styles.textButtom}>
+                    {t('EDIT_PROFILE.editProfile')}
+                  </Text>
+                </Button>
+                <TouchableOpacity
+                  full
+                  onPress={() => this.props.navigation.goBack()}
+                  style={styles.viewButtomSignUp}>
+                  <Text style={styles.textButtomSignUp}>{t('APP.goBack')}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Content>
+        )}
+      </I18n>
+    );
+  }
+
+  getUser = () => {
+    const user = accountStore.getState('Login').user || {};
+    let picture;
+    let bio;
+
+    try {
+      picture = user.profile.picture;
+      bio = user.profile.bio;
+    } catch (err) {
+      LOG(this, 'No profile to get picture & bio');
     }
 
-    getUser = () => {
-        const user = accountStore.getState('Login').user || {};
+    this.setState({
+      firstName: user.first_name || '',
+      lastName: user.last_name || '',
+      picture: picture || '',
+      bio: bio || '',
+    });
+  };
 
-        this.setState({
-            firstName: user.first_name || '',
-            lastName: user.last_name || '',
-        });
+  setUser = (data) => {
+    const session = accountStore.getState('Login');
+
+    try {
+      session.user.first_name = data.user.first_name;
+      session.user.last_name = data.user.last_name;
+      session.user.profile.picture = data.picture;
+      session.user.profile.bio = data.bio;
+    } catch (e) {
+      return WARN(this, `${data} error updating user session`);
     }
 
-    setUser = (data) => {
-        const session = accountStore.getState('Login');
+    actions.setStoredUser(session);
+  };
 
-        try {
-            session.user.first_name = data.user.first_name;
-            session.user.last_name = data.user.last_name;
-        } catch (e) {
-            return WARN(this, `${data} error updating user session`)
-        }
+  editProfileAlert = () => {
+    Alert.alert(
+      i18next.t('EDIT_PROFILE.wantToEditProfile'),
+      '',
+      [
+        {
+          text: i18next.t('APP.cancel'),
+          onPress: () => {
+            LOG(this, 'Cancel edit profile');
+          },
+        },
+        {
+          text: i18next.t('EDIT_PROFILE.update'),
+          onPress: () => {
+            this.setState({ isLoading: true }, () => {
+              if (this.state.selectedImage && this.state.selectedImage.uri) {
+                return actions.editProfilePicture(this.state.selectedImage);
+              }
 
-        actions.setStoredUser(session);
+              this.editProfile();
+            });
+          },
+        },
+      ],
+      { cancelable: false },
+    );
+  };
+
+  editProfile = () => {
+    const user = accountStore.getState('Login').user || {};
+
+    actions.editProfile(
+      user.id,
+      this.state.firstName,
+      this.state.lastName,
+      this.state.bio,
+    );
+  };
+
+  focusTextarea = () => {
+    try {
+      this.textarea._root.focus();
+    } catch (err) {
+      WARN(`focusTextarea error: ${err}`);
     }
+  };
 
-    editProfile = () => {
-        Alert.alert(
-            i18next.t('EDIT_PROFILE.wantToEditProfile'),
-            '', [{
-                text: i18next.t('APP.cancel'),
-                onPress: () => {
-                    LOG(this, 'Cancel edit profile');
-                }
-            }, {
-                text: i18next.t('EDIT_PROFILE.update'),
-                onPress: () => {
-                    const user = accountStore.getState('Login').user || {};
+  openImagePicker = () => {
+    ImagePicker.showImagePicker(
+      IMAGE_PICKER_OPTIONS,
+      this.handleImagePickerResponse,
+    );
+  };
 
-                    this.isLoading(true);
+  /**
+   * Handle react-native-image-picker response and set the selected image
+   * @param  {object} response A react-native-image-picker response
+   * with the uri, type & name
+   */
+  handleImagePickerResponse = (response) => {
+    if (response.didCancel) {
+      // for react-native-image-picker response
+      LOG(this, 'User cancelled image picker');
+    } else if (response.error) {
+      // for react-native-image-picker response
+      LOG(this, `ImagePicker Error: ${response.error}`);
+    } else if (response.customButton) {
+      // for react-native-image-picker response
+      LOG(this, `User tapped custom button: ${response.customButton}`);
+    } else {
+      const selectedImage = {
+        uri: response.uri,
+        type:
+          response.type ||
+          `image/${
+            response.fileName.split('.')[
+              response.fileName.split('.').length - 1
+            ]
+          }`,
+        name: response.fileName,
+      };
 
-                    actions.editProfile(
-                        user.id,
-                        this.state.firstName,
-                        this.state.lastName,
-                    );
-                }
-            },], {cancelable: false}
-        );
+      this.setState({ selectedImage });
     }
+  };
 
-    isLoading = (isLoading) => {
-        this.setState({isLoading});
-    }
+  isLoading = (isLoading) => {
+    this.setState({ isLoading });
+  };
 }
 
-export default RegisterScreen;
+export default EditProfile;

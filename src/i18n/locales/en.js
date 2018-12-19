@@ -28,12 +28,14 @@ export default {
     password: 'Password',
     goBack: 'Go back',
     youHaveRegistered: 'You have signed up!',
+    bio: 'Biography',
   },
   EDIT_PROFILE: {
     editProfile: 'Edit profile',
     wantToEditProfile: 'Edit profile?',
     profileUpdated: 'Profile updated!',
     update: 'Update',
+    invalidImage: 'Only jpg, and png files are allowed',
   },
   SETTINGS: {
     settings: 'Settings',
