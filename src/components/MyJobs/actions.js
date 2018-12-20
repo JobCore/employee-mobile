@@ -1,6 +1,6 @@
 import * as Flux from '../../utils/flux-state';
 import { getData, postData } from '../../fetch';
-import { rateJobValidator } from './validators';
+import { rateEmployerValidator, clockInOutValidator } from './validators';
 
 /**
  * Get shift application
@@ -17,6 +17,7 @@ const getApplication = (applicationId) => {
 
 /**
  * Get shift job
+ * @param  {string|number} shiftId [description]
  */
 const getJob = (shiftId) => {
   getData(`/shifts/${shiftId}`)
@@ -81,15 +82,30 @@ const getFailedJobs = () => {
 };
 
 /**
- * Rate job employer action
+ * Get job rate action
+ * to check if the employee already rated the job's employer
+ */
+const getJobRate = (shiftId) => {
+  //: TODO FIX the url
+  getData(`/employees/me/ratings?shift=${shiftId}`)
+    .then((data) => {
+      Flux.dispatchEvent('GetJobRate', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('JobStoreError', err);
+    });
+};
+
+/**
+ * Rate job's employer action
  * @param  {number} shiftId
  * @param  {number} employerId
  * @param  {number} rating
  * @param  {string} comments
  */
-const rateJob = (shiftId, employerId, rating, comments) => {
+const rateEmployer = (shiftId, employerId, rating, comments) => {
   try {
-    rateJobValidator(shiftId, employerId, rating, comments);
+    rateEmployerValidator(shiftId, employerId, rating, comments);
   } catch (err) {
     return Flux.dispatchEvent('JobStoreError', err);
   }
@@ -100,8 +116,78 @@ const rateJob = (shiftId, employerId, rating, comments) => {
     rating,
     comments,
   })
-    .then((jobs) => {
-      Flux.dispatchEvent('RateJob', jobs);
+    .then((data) => {
+      Flux.dispatchEvent('RateEmployer', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('JobStoreError', err);
+    });
+};
+
+/**
+ * ClockIn action
+ * @param  {number} shiftId
+ * @param  {string} latitudeIn
+ * @param  {string} longitudeIn
+ * @param  {Date} startedAt
+ */
+const clockIn = (shiftId, latitudeIn, longitudeIn, startedAt) => {
+  try {
+    clockInOutValidator(shiftId, latitudeIn, longitudeIn, startedAt);
+  } catch (err) {
+    return Flux.dispatchEvent('JobStoreError', err);
+  }
+
+  postData('/employees/me/clockins', {
+    shift: shiftId,
+    latitude_in: latitudeIn,
+    longitude_in: longitudeIn,
+    started_at: startedAt,
+  })
+    .then((data) => {
+      Flux.dispatchEvent('ClockIn', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('JobStoreError', err);
+    });
+};
+
+/**
+ * ClockOut action
+ * @param  {number} shiftId
+ * @param  {string} latitudeIn
+ * @param  {string} longitudeIn
+ * @param  {Date} startedAt
+ */
+const clockOut = (shiftId, latitudeOut, longitudeOut, startedAt) => {
+  try {
+    clockInOutValidator(shiftId, latitudeOut, longitudeOut, startedAt);
+  } catch (err) {
+    return Flux.dispatchEvent('JobStoreError', err);
+  }
+
+  postData('/employees/me/clockins', {
+    shift: shiftId,
+    latitude_out: latitudeOut,
+    longitude_out: longitudeOut,
+    ended_at: startedAt,
+  })
+    .then((data) => {
+      Flux.dispatchEvent('ClockOut', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('JobStoreError', err);
+    });
+};
+
+/**
+ * ClockOut action
+ * @param  {number} shiftId
+ */
+const getClockins = (shiftId) => {
+  getData(`/employees/me/clockins?shift=${shiftId}`)
+    .then((data) => {
+      Flux.dispatchEvent('GetClockins', data);
     })
     .catch((err) => {
       Flux.dispatchEvent('JobStoreError', err);
@@ -115,5 +201,9 @@ export {
   getFailedJobs,
   getApplication,
   getJob,
-  rateJob,
+  rateEmployer,
+  getJobRate,
+  getClockins,
+  clockIn,
+  clockOut,
 };
