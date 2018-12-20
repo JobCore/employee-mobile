@@ -2,6 +2,7 @@ import * as Flux from '../../utils/flux-state';
 import accountStore from './AccountStore';
 import fcmStore from '../Dashboard/FcmStore';
 import { LOG } from '../../utils';
+import { CustomToast } from '../../utils/components';
 import { postData, putData, deleteData, putFormData } from '../../fetch';
 import {
   loginValidator,
@@ -155,9 +156,10 @@ const logout = () => {
  * Logout on unautorized API response (status 401/403)
  * YOU MUST use this for unautorized API error
  */
-const logoutOnUnautorized = () => {
+const logoutOnUnautorized = (err) => {
   accountStore.clearState();
-  return Flux.dispatchEvent('Logout', {});
+  CustomToast(err, 'danger');
+  Flux.dispatchEvent('Logout', {});
 };
 
 /**

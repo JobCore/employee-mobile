@@ -27,7 +27,7 @@ import JobPreferences from './src/components/Invite/JobPreferences';
 import Position from './src/components/Invite/Position';
 import Availability from './src/components/Invite/Availability';
 import MyJobs from './src/components/MyJobs';
-import RateJob from './src/components/MyJobs/RateJob';
+import RateEmployer from './src/components/MyJobs/RateEmployer';
 import JobDetailsScreen from './src/components/MyJobs/JobDetails';
 
 import {
@@ -49,7 +49,7 @@ import {
   JOB_DETAILS_ROUTE,
   APPLICATION_DETAILS_ROUTE,
   EDIT_LOCATION_ROUTE,
-  RATE_JOB_ROUTE,
+  RATE_EMPLOYER_ROUTE,
 } from './src/constants/routes';
 import {
   BLUE_DARK,
@@ -117,7 +117,7 @@ export const AppStack = createStackNavigator(
     [EDIT_LOCATION_ROUTE]: EditLocation,
     [AVAILABILITY_ROUTE]: Availability,
     [POSITION_ROUTE]: Position,
-    [RATE_JOB_ROUTE]: RateJob,
+    [RATE_EMPLOYER_ROUTE]: RateEmployer,
     [INVITE_DETAILS_ROUTE]: {
       screen: InviteDetails,
       path: 'invite/:inviteId',

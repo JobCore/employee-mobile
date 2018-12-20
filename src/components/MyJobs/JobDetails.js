@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { View, Image, Dimensions } from 'react-native';
+import { View, Image, Dimensions, Alert } from 'react-native';
 import {
   Container,
   Content,
@@ -14,16 +14,22 @@ import {
   Text,
 } from 'native-base';
 import styles from '../Invite/InviteDetailsStyle';
-import { WHITE_MAIN, BLUE_MAIN } from '../../constants/colorPalette';
+import {
+  WHITE_MAIN,
+  BLUE_MAIN,
+  BLUE_DARK,
+  VIOLET_MAIN,
+} from '../../constants/colorPalette';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as jobActions from './actions';
 import jobStore from './JobStore';
 import { JobDetails } from '../../utils/components';
 import { LOG } from '../../utils';
-import { Loading, openMapsApp } from '../../utils/components';
+import { Loading, openMapsApp, CustomToast } from '../../utils/components';
 import MARKER_IMG from '../../assets/image/map-marker.png';
-import { RATE_JOB_ROUTE } from '../../constants/routes';
+import { RATE_EMPLOYER_ROUTE } from '../../constants/routes';
+import moment from 'moment';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -56,33 +62,52 @@ class JobDetailsScreen extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       },
+      clockIns: null,
       shiftId: props.navigation.getParam('shiftId', null),
       applicationId: props.navigation.getParam('applicationId', null),
     };
   }
 
   componentDidMount() {
-    this.getJobSubscription = jobStore.subscribe('GetJob', (job) => {
-      this.getJobHandler(job);
-    });
+    this.getJobSubscription = jobStore.subscribe('GetJob', this.getJobHandler);
 
     this.getApplicationSubscription = jobStore.subscribe(
       'GetApplication',
-      (job) => {
-        this.getJobHandler(job);
-      },
+      this.getJobHandler,
     );
 
-    this.jobStoreError = jobStore.subscribe('JobStoreError', (err) => {
-      this.errorHandler(err);
-    });
+    this.getJobRateSubscription = jobStore.subscribe(
+      'GetJobRate',
+      this.getJobRateHandler,
+    );
 
-    this.getJob();
+    this.clockInSubscription = jobStore.subscribe(
+      'ClockIn',
+      this.clockInHandler,
+    );
+
+    this.clockOutSubscription = jobStore.subscribe(
+      'ClockOut',
+      this.clockOutHandler,
+    );
+
+    this.getClockInsSubscription = jobStore.subscribe(
+      'GetClockins',
+      this.getClockInsHandler,
+    );
+
+    this.jobStoreError = jobStore.subscribe('JobStoreError', this.errorHandler);
+
+    this.getJobOrApplication();
   }
 
   componentWillUnmount() {
     this.getJobSubscription.unsubscribe();
     this.getApplicationSubscription.unsubscribe();
+    this.getJobRateSubscription.unsubscribe();
+    this.clockInSubscription.unsubscribe();
+    this.clockOutSubscription.unsubscribe();
+    this.getClockInsSubscription.unsubscribe();
     this.jobStoreError.unsubscribe();
   }
 
@@ -110,6 +135,26 @@ class JobDetailsScreen extends Component {
     this.setState({ shift, isLoading: false }, () => {
       this.onRegionChangeComplete(region);
     });
+  };
+
+  getJobRateHandler = () => {
+    // TODO: FIX getJobRate action's route
+  };
+
+  getClockInsHandler = (clockIns) => {
+    this.setState({ clockIns });
+  };
+
+  clockInHandler = () => {
+    this.setState({ isLoading: false });
+    CustomToast(i18next.t('MY_JOBS.clockedIn'));
+    this.getClockins();
+  };
+
+  clockOutHandler = () => {
+    this.setState({ isLoading: false });
+    CustomToast(i18next.t('MY_JOBS.clockedOut'));
+    this.getClockins();
   };
 
   errorHandler = () => {
@@ -192,15 +237,44 @@ class JobDetailsScreen extends Component {
               ) : null}
 
               <View style={styles.viewShift}>
-                <Button
-                  block
-                  style={{
-                    marginVertical: 15,
-                    backgroundColor: BLUE_MAIN,
-                  }}
-                  onPress={this.goToRateJob}>
-                  <Text>{t('MY_JOBS.rateJob')}</Text>
-                </Button>
+                {this.showRateButton() ? (
+                  <Button
+                    block
+                    rounded
+                    style={{
+                      marginVertical: 15,
+                      backgroundColor: BLUE_MAIN,
+                    }}
+                    onPress={this.goToRateJob}>
+                    <Text>{t('MY_JOBS.rateYourEmployer')}</Text>
+                  </Button>
+                ) : null}
+
+                {this.showClockInButton() ? (
+                  <Button
+                    block
+                    rounded
+                    style={{
+                      marginVertical: 15,
+                      backgroundColor: BLUE_DARK,
+                    }}
+                    onPress={this.clockIn}>
+                    <Text>{t('MY_JOBS.clockIn')}</Text>
+                  </Button>
+                ) : null}
+
+                {this.showClockOutButton() ? (
+                  <Button
+                    block
+                    rounded
+                    style={{
+                      marginVertical: 15,
+                      backgroundColor: VIOLET_MAIN,
+                    }}
+                    onPress={this.clockOut}>
+                    <Text>{t('MY_JOBS.clockOut')}</Text>
+                  </Button>
+                ) : null}
               </View>
             </Content>
           </Container>
@@ -231,6 +305,45 @@ class JobDetailsScreen extends Component {
     return false;
   };
 
+  showRateButton = () => {
+    // TODO: showRateButton conditions
+    return false;
+  };
+
+  showClockInButton = () => {
+    // TODO: Add delta date conditions
+    if (Array.isArray(this.state.clockIns)) {
+      if (!this.state.clockIns.length) return true;
+
+      const latitudeOut = this.state.clockIns[this.state.clockIns.length - 1]
+        .latitude_out;
+
+      if (latitudeOut != 0) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+  showClockOutButton = () => {
+    // TODO: Add delta date conditions
+    if (Array.isArray(this.state.clockIns)) {
+      if (!this.state.clockIns.length) return false;
+
+      const latitudeIn = this.state.clockIns[this.state.clockIns.length - 1]
+        .latitude_in;
+      const latitudeOut = this.state.clockIns[this.state.clockIns.length - 1]
+        .latitude_Out;
+
+      if (latitudeIn != 0 && latitudeOut == 0) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
   openMapsApp = () => {
     let latitude;
     let longitude;
@@ -250,14 +363,17 @@ class JobDetailsScreen extends Component {
     this.setState({ region });
   };
 
-  getJob = () => {
+  getJobOrApplication = () => {
     if (!this.state.shiftId && !this.state.applicationId) {
       return this.props.navigation.goBack();
     }
 
     if (this.state.shiftId) {
-      this.setState({ isLoading: true });
-      return jobActions.getJob(this.state.shiftId);
+      this.setState({ isLoading: true }, () => {
+        this.getJobRate();
+        this.getClockins();
+        return jobActions.getJob(this.state.shiftId);
+      });
     }
 
     if (this.state.applicationId) {
@@ -266,10 +382,110 @@ class JobDetailsScreen extends Component {
     }
   };
 
-  goToRateJob = () => {
-    if (!this.state.shift || !this.state.shift.id) return;
+  getJobRate = () => {
+    jobActions.getJobRate(this.state.shiftId);
+  };
 
-    this.props.navigation.navigate(RATE_JOB_ROUTE, { shift: this.state.shift });
+  getClockins = () => {
+    jobActions.getClockins(this.state.shiftId);
+  };
+
+  clockIn = () => {
+    if (this.state.shiftId) return;
+    let jobTitle;
+
+    try {
+      jobTitle = this.state.shift.venue.title;
+    } catch (e) {
+      return;
+    }
+
+    if (!jobTitle) return;
+
+    // TODO: get latitude an longitude with current location
+    const latitude = this.state.shift.venue.latitude;
+    const longitude = this.state.shift.venue.longitude;
+
+    Alert.alert(
+      i18next.t('MY_JOBS.wantToClockIn'),
+      jobTitle,
+      [
+        {
+          text: i18next.t('APP.cancel'),
+          onPress: () => {
+            LOG(this, 'Cancel clockIn');
+          },
+        },
+        {
+          text: i18next.t('MY_JOBS.clockIn'),
+          onPress: () => {
+            this.setState({ isLoading: true }, () => {
+              jobActions.clockIn(
+                this.state.shift.id,
+                latitude,
+                longitude,
+                moment().utc(),
+              );
+            });
+          },
+        },
+      ],
+      { cancelable: false },
+    );
+  };
+
+  clockOut = () => {
+    if (this.state.shiftId) return;
+    let jobTitle;
+
+    try {
+      jobTitle = this.state.shift.venue.title;
+    } catch (e) {
+      return;
+    }
+
+    if (!jobTitle) return;
+
+    // TODO: get latitude an longitude with current location
+    const latitude = this.state.shift.venue.latitude;
+    const longitude = this.state.shift.venue.longitude;
+
+    Alert.alert(
+      i18next.t('MY_JOBS.wantToClockOut'),
+      jobTitle,
+      [
+        {
+          text: i18next.t('APP.cancel'),
+          onPress: () => {
+            LOG(this, 'Cancel clockOut');
+          },
+        },
+        {
+          text: i18next.t('MY_JOBS.clockOut'),
+          onPress: () => {
+            this.setState({ isLoading: true }, () => {
+              jobActions.clockOut(
+                this.state.shift.id,
+                latitude,
+                longitude,
+                moment().utc(),
+              );
+            });
+          },
+        },
+      ],
+      { cancelable: false },
+    );
+  };
+
+  goToRateJob = () => {
+    if (!this.state.shiftId || !this.state.shift || !this.state.shift.id) {
+      return;
+    }
+
+    this.props.navigation.navigate(RATE_EMPLOYER_ROUTE, {
+      shift: this.state.shift,
+    });
   };
 }
 

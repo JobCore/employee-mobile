@@ -139,7 +139,9 @@ export async function downloadData(url, isAuth = true) {
       },
     }).then((response) => {
       if (response.status === 401 || response.status === 403) {
-        accountActions.logoutOnUnautorized();
+        response.json().then((res) => {
+          accountActions.logoutOnUnautorized(res);
+        });
       }
 
       if (response.ok) return response.blob();
@@ -184,7 +186,9 @@ reject or resolve based on status then Parses the response to json
 function checkStatus(response) {
   console.log('services:checkStatus', response);
   if ((response && response.status === 401) || response.status === 403) {
-    accountActions.logoutOnUnautorized();
+    response.json().then((res) => {
+      accountActions.logoutOnUnautorized(res);
+    });
   }
 
   if (response && response.ok) {

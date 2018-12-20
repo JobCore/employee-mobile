@@ -1,7 +1,8 @@
 import * as utils from '../../utils';
 import { i18next } from '../../i18n';
+import moment from 'moment';
 
-const rateJobValidator = (shiftId, employerId, rating, comments) => {
+const rateEmployerValidator = (shiftId, employerId, rating, comments) => {
   if (!utils.isValidInteger(shiftId)) {
     throw new Error(i18next.t('MY_JOBS.invalidShift'));
   }
@@ -21,4 +22,29 @@ const rateJobValidator = (shiftId, employerId, rating, comments) => {
   }
 };
 
-export { rateJobValidator };
+/**
+ * Clock in/out validator
+ * @param  {number} shiftId
+ * @param  {string} latitude
+ * @param  {string} longitude
+ * @param  {Date} date
+ */
+const clockInOutValidator = (shiftId, latitude, longitude, date) => {
+  if (!utils.isValidInteger(shiftId)) {
+    throw new Error(i18next.t('MY_JOBS.invalidShift'));
+  }
+
+  if (!utils.isValidNumber(latitude, false, true)) {
+    throw new Error(i18next.t('MY_JOBS.invalidLatitude'));
+  }
+
+  if (!utils.isValidNumber(longitude, false, true)) {
+    throw new Error(i18next.t('MY_JOBS.invalidLongitude'));
+  }
+
+  if (!moment(date).isValid()) {
+    throw new Error(i18next.t('MY_JOBS.invalidDate'));
+  }
+};
+
+export { rateEmployerValidator, clockInOutValidator };
