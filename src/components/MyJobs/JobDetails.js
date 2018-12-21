@@ -369,16 +369,17 @@ class JobDetailsScreen extends Component {
     }
 
     if (this.state.shiftId) {
-      this.setState({ isLoading: true }, () => {
+      return this.setState({ isLoading: true }, () => {
         this.getJobRate();
         this.getClockins();
-        return jobActions.getJob(this.state.shiftId);
+        jobActions.getJob(this.state.shiftId);
       });
     }
 
     if (this.state.applicationId) {
-      this.setState({ isLoading: true });
-      return jobActions.getApplication(this.state.applicationId);
+      return this.setState({ isLoading: true }, () => {
+        jobActions.getApplication(this.state.applicationId);
+      });
     }
   };
 
@@ -391,7 +392,7 @@ class JobDetailsScreen extends Component {
   };
 
   clockIn = () => {
-    if (this.state.shiftId) return;
+    if (!this.state.shiftId) return;
     let jobTitle;
 
     try {
@@ -403,39 +404,32 @@ class JobDetailsScreen extends Component {
     if (!jobTitle) return;
 
     // TODO: get latitude an longitude with current location
-    const latitude = this.state.shift.venue.latitude;
-    const longitude = this.state.shift.venue.longitude;
 
-    Alert.alert(
-      i18next.t('MY_JOBS.wantToClockIn'),
-      jobTitle,
-      [
-        {
-          text: i18next.t('APP.cancel'),
-          onPress: () => {
-            LOG(this, 'Cancel clockIn');
-          },
+    Alert.alert(i18next.t('MY_JOBS.wantToClockIn'), jobTitle, [
+      { text: i18next.t('APP.cancel') },
+      {
+        text: i18next.t('MY_JOBS.clockIn'),
+        onPress: () => {
+          navigator.geolocation.getCurrentPosition(
+            (data) => {
+              this.setState({ isLoading: true }, () => {
+                jobActions.clockIn(
+                  this.state.shift.id,
+                  data.coords.latitude,
+                  data.coords.longitude,
+                  moment.utc(),
+                );
+              });
+            },
+            (err) => CustomToast(err, 'danger'),
+          );
         },
-        {
-          text: i18next.t('MY_JOBS.clockIn'),
-          onPress: () => {
-            this.setState({ isLoading: true }, () => {
-              jobActions.clockIn(
-                this.state.shift.id,
-                latitude,
-                longitude,
-                moment().utc(),
-              );
-            });
-          },
-        },
-      ],
-      { cancelable: false },
-    );
+      },
+    ]);
   };
 
   clockOut = () => {
-    if (this.state.shiftId) return;
+    if (!this.state.shiftId) return;
     let jobTitle;
 
     try {
@@ -446,36 +440,27 @@ class JobDetailsScreen extends Component {
 
     if (!jobTitle) return;
 
-    // TODO: get latitude an longitude with current location
-    const latitude = this.state.shift.venue.latitude;
-    const longitude = this.state.shift.venue.longitude;
-
-    Alert.alert(
-      i18next.t('MY_JOBS.wantToClockOut'),
-      jobTitle,
-      [
-        {
-          text: i18next.t('APP.cancel'),
-          onPress: () => {
-            LOG(this, 'Cancel clockOut');
-          },
+    Alert.alert(i18next.t('MY_JOBS.wantToClockOut'), jobTitle, [
+      { text: i18next.t('APP.cancel') },
+      {
+        text: i18next.t('MY_JOBS.clockOut'),
+        onPress: () => {
+          navigator.geolocation.getCurrentPosition(
+            (data) => {
+              this.setState({ isLoading: true }, () => {
+                jobActions.clockOut(
+                  this.state.shift.id,
+                  data.coords.latitude,
+                  data.coords.longitude,
+                  moment.utc(),
+                );
+              });
+            },
+            (err) => CustomToast(err, 'danger'),
+          );
         },
-        {
-          text: i18next.t('MY_JOBS.clockOut'),
-          onPress: () => {
-            this.setState({ isLoading: true }, () => {
-              jobActions.clockOut(
-                this.state.shift.id,
-                latitude,
-                longitude,
-                moment().utc(),
-              );
-            });
-          },
-        },
-      ],
-      { cancelable: false },
-    );
+      },
+    ]);
   };
 
   goToRateJob = () => {
