@@ -62,6 +62,7 @@ class JobDetailsScreen extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       },
+      jobRate: null,
       clockIns: null,
       shiftId: props.navigation.getParam('shiftId', null),
       applicationId: props.navigation.getParam('applicationId', null),
@@ -137,8 +138,8 @@ class JobDetailsScreen extends Component {
     });
   };
 
-  getJobRateHandler = () => {
-    // TODO: FIX getJobRate action's route
+  getJobRateHandler = (jobRate) => {
+    this.setState({ jobRate });
   };
 
   getClockInsHandler = (clockIns) => {
@@ -306,7 +307,11 @@ class JobDetailsScreen extends Component {
   };
 
   showRateButton = () => {
-    // TODO: showRateButton conditions
+    // TODO: showRateButton date conditions
+    if (Array.isArray(this.state.jobRate) && !this.state.jobRate.length) {
+      return true;
+    }
+
     return false;
   };
 
@@ -315,10 +320,10 @@ class JobDetailsScreen extends Component {
     if (Array.isArray(this.state.clockIns)) {
       if (!this.state.clockIns.length) return true;
 
-      const latitudeOut = this.state.clockIns[this.state.clockIns.length - 1]
-        .latitude_out;
+      const endedAt = this.state.clockIns[this.state.clockIns.length - 1]
+        .ended_at;
 
-      if (latitudeOut != 0) {
+      if (endedAt) {
         return true;
       }
     }
@@ -331,12 +336,12 @@ class JobDetailsScreen extends Component {
     if (Array.isArray(this.state.clockIns)) {
       if (!this.state.clockIns.length) return false;
 
-      const latitudeIn = this.state.clockIns[this.state.clockIns.length - 1]
-        .latitude_in;
-      const latitudeOut = this.state.clockIns[this.state.clockIns.length - 1]
-        .latitude_Out;
+      const startedAt = this.state.clockIns[this.state.clockIns.length - 1]
+        .started_at;
+      const endedAt = this.state.clockIns[this.state.clockIns.length - 1]
+        .ended_at;
 
-      if (latitudeIn != 0 && latitudeOut == 0) {
+      if (startedAt && !endedAt) {
         return true;
       }
     }
