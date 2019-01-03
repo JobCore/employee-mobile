@@ -307,7 +307,23 @@ class JobDetailsScreen extends Component {
   };
 
   showRateButton = () => {
-    // TODO: showRateButton date conditions
+    // check if current time is before ending_at
+    if (moment.utc().isSameOrBefore(moment.utc(this.state.shift.ending_at))) {
+      return false;
+    }
+
+    // check for missing clockouts or clockins
+    if (Array.isArray(this.state.clockIns)) {
+      if (!this.state.clockIns.length) return false;
+
+      const endedAt = this.state.clockIns[this.state.clockIns.length - 1]
+        .ended_at;
+
+      if (!endedAt) {
+        return false;
+      }
+    }
+
     if (Array.isArray(this.state.jobRate) && !this.state.jobRate.length) {
       return true;
     }
@@ -316,7 +332,30 @@ class JobDetailsScreen extends Component {
   };
 
   showClockInButton = () => {
-    // TODO: Add delta date conditions
+    if (!this.state.shift) return false;
+
+    // check if current time is after ending_at
+    if (moment.utc().isSameOrAfter(moment.utc(this.state.shift.ending_at))) {
+      return false;
+    }
+
+    /**
+     * Diff in minutes from current time to starting_at parsed to positive
+     * to check the delta time
+     * @type {number}
+     */
+    const diffInMinutes = Math.abs(
+      moment.utc().diff(moment.utc(this.state.shift.starting_at), 'minutes'),
+    );
+
+    // delta time checking
+    if (
+      this.state.shift.maximum_clockin_delta_minutes !== null &&
+      diffInMinutes > this.state.shift.maximum_clockin_delta_minutes
+    ) {
+      return false;
+    }
+
     if (Array.isArray(this.state.clockIns)) {
       if (!this.state.clockIns.length) return true;
 
@@ -332,7 +371,8 @@ class JobDetailsScreen extends Component {
   };
 
   showClockOutButton = () => {
-    // TODO: Add delta date conditions
+    if (!this.state.shift) return false;
+
     if (Array.isArray(this.state.clockIns)) {
       if (!this.state.clockIns.length) return false;
 
