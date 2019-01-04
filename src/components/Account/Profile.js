@@ -167,7 +167,9 @@ class Profile extends Component {
                 </Text>
               ) : null}
 
-              <Text style={styles.textBio}>{this.state.profile.bio}</Text>
+              <View style={styles.viewPadding}>
+                <Text style={styles.textBio}>{this.state.profile.bio}</Text>
+              </View>
 
               {this.state.profile && this.state.profile.employee ? (
                 <View style={styles.viewRow}>
