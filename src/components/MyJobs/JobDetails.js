@@ -307,6 +307,8 @@ class JobDetailsScreen extends Component {
   };
 
   showRateButton = () => {
+    if (!this.state.shift) return false;
+
     // check if current time is before ending_at
     if (moment.utc().isSameOrBefore(moment.utc(this.state.shift.ending_at))) {
       return false;
