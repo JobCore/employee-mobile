@@ -97,6 +97,20 @@ const getJobRate = (shiftId) => {
 };
 
 /**
+ * Get employee ratings reviews
+ */
+const getEmployeeRatings = () => {
+  //: TODO FIX the url
+  getData(`/employees/me/ratings`)
+    .then((data) => {
+      Flux.dispatchEvent('GetEmployeeRatings', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('JobStoreError', err);
+    });
+};
+
+/**
  * Rate job's employer action
  * @param  {number} shiftId
  * @param  {number} employerId
@@ -206,4 +220,5 @@ export {
   getClockins,
   clockIn,
   clockOut,
+  getEmployeeRatings,
 };

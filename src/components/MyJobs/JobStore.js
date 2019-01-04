@@ -80,6 +80,8 @@ class JobStore extends FluxStore {
 
     this.addEvent('GetClockins');
 
+    this.addEvent('GetEmployeeRatings');
+
     this.addEvent('JobStoreError', storeErrorHandler);
   }
 }

@@ -137,11 +137,11 @@ class EditProfile extends Component {
                     onPress={this.focusTextarea}
                     style={styles.viewTextArea}
                     rounded>
-                    <Label>{t('REGISTER.bio')}</Label>
                     <Textarea
                       ref={(textarea) => (this.textarea = textarea)}
                       rowSpan={5}
                       value={this.state.bio}
+                      placeholder={t('REGISTER.bio')}
                       onChangeText={(text) => this.setState({ bio: text })}
                     />
                   </Item>

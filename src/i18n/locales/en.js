@@ -145,4 +145,11 @@ export default {
     y: 'Y',
     n: 'N',
   },
+  PROFILE: {
+    profile: 'Profile',
+    yourRating: 'Your rating',
+    completedJobs: 'Completed jobs',
+    badges: 'Badges',
+    whatEmployersSaid: 'What employers said about you',
+  },
 };

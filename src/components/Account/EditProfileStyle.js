@@ -75,7 +75,6 @@ export default StyleSheet.create({
     borderColor: BLUE_MAIN,
     color: BLUE_DARK,
     marginBottom: 10,
-    paddingLeft: 20,
   },
   viewInput: {
     backgroundColor: 'transparent',

@@ -150,4 +150,11 @@ export default {
     y: 'S',
     n: 'N',
   },
+  PROFILE: {
+    profile: 'Perfil',
+    yourRating: 'Tu clasificación',
+    completedJobs: 'Trabajos completados',
+    badges: 'Insignias',
+    whatEmployersSaid: 'Lo que los empleadores dijeron de ti',
+  },
 };

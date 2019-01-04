@@ -22,6 +22,7 @@ import {
 } from '../../constants/colorPalette';
 import {
   SETTING_ROUTE,
+  PROFILE_ROUTE,
   AUTH_ROUTE,
   MYJOBS_ROUTE,
   INVITE_DETAILS_ROUTE,
@@ -292,9 +293,7 @@ class DashboardScreen extends Component {
                 </Title>
               </Body>
               <Right>
-                <Button
-                  transparent
-                  onPress={() => this.props.navigation.navigate(SETTING_ROUTE)}>
+                <Button transparent onPress={this.goToSetting}>
                   <Image
                     style={{ resizeMode: 'contain', height: 25 }}
                     source={require('../../assets/image/controls.png')}
@@ -319,7 +318,7 @@ class DashboardScreen extends Component {
               ) : null}
               <Text style={styles.textWelcome}>{t('DASHBOARD.welcome')}</Text>
 
-              <TouchableOpacity onPress={this.goToSetting}>
+              <TouchableOpacity onPress={this.goToProfile}>
                 <Thumbnail
                   style={styles.profileImg}
                   large
@@ -533,6 +532,10 @@ class DashboardScreen extends Component {
   goToMyJobs = () => {
     const tabAction = 'getUpcomingJobs';
     this.props.navigation.navigate(MYJOBS_ROUTE, { tabAction });
+  };
+
+  goToProfile = () => {
+    this.props.navigation.navigate(PROFILE_ROUTE);
   };
 
   getEmployee = () => {

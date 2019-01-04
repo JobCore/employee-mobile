@@ -1,5 +1,9 @@
 import * as Flux from '../../utils/flux-state';
-import { editPositionsValidator, editAvailabilityDatesValidator, editAvailabilityAlldayValidator, } from './validators'
+import {
+  editPositionsValidator,
+  editAvailabilityDatesValidator,
+  editAvailabilityAlldayValidator,
+} from './validators';
 import { putData, getData } from '../../fetch';
 
 /**
@@ -14,7 +18,6 @@ const getJobInvites = () => {
       Flux.dispatchEvent('InviteStoreError', err);
     });
 };
-
 
 /**
  * Invite details action
@@ -40,7 +43,7 @@ const applyJob = (inviteId) => {
       Flux.dispatchEvent('ApplyJob', data);
     })
     .catch((err) => {
-      console.log("Invite:actions:applyJob", err);
+      console.log('Invite:actions:applyJob', err);
       Flux.dispatchEvent('InviteStoreError', err);
     });
 };
@@ -70,7 +73,7 @@ const getPositions = () => {
     .catch((err) => {
       Flux.dispatchEvent('InviteStoreError', err);
     });
-}
+};
 
 /**
  * Get Job Preferences action
@@ -83,7 +86,7 @@ const getJobPreferences = () => {
     .catch((err) => {
       Flux.dispatchEvent('InviteStoreError', err);
     });
-}
+};
 
 /**
  * Edit positions action
@@ -97,15 +100,15 @@ const editPositions = (positions) => {
   }
 
   putData(`/employees/me`, {
-      "positions": positions,
-    })
+    positions: positions,
+  })
     .then((data) => {
       Flux.dispatchEvent('EditPositions', data);
     })
     .catch((err) => {
       Flux.dispatchEvent('InviteStoreError', err);
     });
-}
+};
 
 /**
  * Edit jobs preferences action
@@ -114,16 +117,16 @@ const editPositions = (positions) => {
  */
 const editJobPreferences = (minimumHourlyRate, maximumJobDistanceMiles) => {
   putData(`/employees/me`, {
-      "minimum_hourly_rate": minimumHourlyRate,
-      "maximum_job_distance_miles": maximumJobDistanceMiles,
-    })
+    minimum_hourly_rate: minimumHourlyRate,
+    maximum_job_distance_miles: maximumJobDistanceMiles,
+  })
     .then((data) => {
       Flux.dispatchEvent('EditJobPreferences', data);
     })
     .catch((err) => {
       Flux.dispatchEvent('InviteStoreError', err);
     });
-}
+};
 
 /**
  * Edit stopReceivingInvites field on employees
@@ -131,15 +134,15 @@ const editJobPreferences = (minimumHourlyRate, maximumJobDistanceMiles) => {
  */
 const stopReceivingInvites = (stopReceivingInvites) => {
   putData(`/employees/me`, {
-      "stop_receiving_invites": stopReceivingInvites,
-    })
+    stop_receiving_invites: stopReceivingInvites,
+  })
     .then((data) => {
       Flux.dispatchEvent('StopReceivingInvites', data);
     })
     .catch((err) => {
       Flux.dispatchEvent('InviteStoreError', err);
     });
-}
+};
 
 /**
  * List availability action
@@ -152,7 +155,7 @@ const getAvailability = () => {
     .catch((err) => {
       Flux.dispatchEvent('InviteStoreError', err);
     });
-}
+};
 
 /**
  * Add availability allday action
@@ -161,21 +164,21 @@ const getAvailability = () => {
  */
 const editAvailabilityAllday = (allday, availabilityId) => {
   try {
-    editAvailabilityAlldayValidator(allday, availabilityId)
+    editAvailabilityAlldayValidator(allday, availabilityId);
   } catch (err) {
     return Flux.dispatchEvent('InviteStoreError', err);
   }
 
   putData(`/employees/me/availability/${availabilityId}`, {
-      "allday": allday,
-    })
+    allday: allday,
+  })
     .then((data) => {
       Flux.dispatchEvent('EditAvailability', data);
     })
     .catch((err) => {
       Flux.dispatchEvent('InviteStoreError', err);
     });
-}
+};
 
 /**
  * Add availability dates action
@@ -185,22 +188,22 @@ const editAvailabilityAllday = (allday, availabilityId) => {
  */
 const editAvailabilityDates = (startingAt, endingAt, availabilityId) => {
   try {
-    editAvailabilityDatesValidator(startingAt, endingAt, availabilityId)
+    editAvailabilityDatesValidator(startingAt, endingAt, availabilityId);
   } catch (err) {
     return Flux.dispatchEvent('InviteStoreError', err);
   }
 
   putData(`/employees/me/availability/${availabilityId}`, {
-      "starting_at": startingAt,
-      "ending_at": endingAt,
-    })
+    starting_at: startingAt,
+    ending_at: endingAt,
+  })
     .then((data) => {
       Flux.dispatchEvent('EditAvailability', data);
     })
     .catch((err) => {
       Flux.dispatchEvent('InviteStoreError', err);
     });
-}
+};
 
 /**
  * Save Location action
@@ -225,7 +228,7 @@ const saveLocation = (location) => {
 };
 
 /**
- * get profile action, to get user's location
+ * get profile action, to get user's location and public profile
  */
 const getProfile = () => {
   getData(`/profiles/me`)

@@ -19,6 +19,7 @@ import LoginScreen from './src/components/Account/LoginScreen';
 import RegisterScreen from './src/components/Account/RegisterScreen';
 import EditProfile from './src/components/Account/EditProfile';
 import ForgotScreen from './src/components/Account/ForgotScreen';
+import Profile from './src/components/Account/Profile';
 
 import DashboardScreen from './src/components/Dashboard';
 import JobInvites from './src/components/Invite/JobInvites';
@@ -45,6 +46,7 @@ import {
   AVAILABILITY_ROUTE,
   INVITE_DETAILS_ROUTE,
   EDIT_PROFILE_ROUTE,
+  PROFILE_ROUTE,
   POSITION_ROUTE,
   JOB_DETAILS_ROUTE,
   APPLICATION_DETAILS_ROUTE,
@@ -114,6 +116,7 @@ export const AppStack = createStackNavigator(
     [SETTING_ROUTE]: SettingScreen,
     [RESET_ROUTE]: ForgotScreen,
     [EDIT_PROFILE_ROUTE]: EditProfile,
+    [PROFILE_ROUTE]: Profile,
     [EDIT_LOCATION_ROUTE]: EditLocation,
     [AVAILABILITY_ROUTE]: Availability,
     [POSITION_ROUTE]: Position,
