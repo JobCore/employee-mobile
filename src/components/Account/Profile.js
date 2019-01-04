@@ -100,7 +100,6 @@ class Profile extends Component {
   }
 
   getProfileHandler = (profile) => {
-    alert(JSON.stringify(profile));
     this.setState({ profile, isLoading: false });
   };
 
