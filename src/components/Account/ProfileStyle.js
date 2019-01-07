@@ -78,20 +78,20 @@ export default StyleSheet.create({
   badgesList: {
     marginBottom: 30,
   },
-  circleBadge: {
+  viewBadgeListItem: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     marginHorizontal: 10,
-    backgroundColor: BLUE_MAIN,
-    width: 50,
-    height: 50,
-    borderRadius: 50 / 2,
   },
-  textBadge: {
-    fontWeight: 'bold',
+  imageBadge: {
+    alignSelf: 'center',
+  },
+  textBadgeName: {
+    fontSize: 14,
     textAlign: 'center',
-    color: WHITE_MAIN,
+    color: BLUE_DARK,
+    width: 70,
   },
   textReview: {
     color: BLUE_DARK,

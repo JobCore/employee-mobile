@@ -49,21 +49,6 @@ class Profile extends Component {
       isLoading: false,
       isRefreshing: false,
       starsArray: [1, 2, 3, 4, 5],
-      badges: [
-        // TODO: remove this and get the data from profile.badges
-        'EP',
-        'ES',
-        'OK',
-        'US',
-        'EP',
-        'ES',
-        'OK',
-        'US',
-        'EP',
-        'ES',
-        'OK',
-        'US',
-      ],
       ratings: [],
       profile: {},
     };
@@ -206,7 +191,7 @@ class Profile extends Component {
                 </View>
               ) : null}
 
-              {Array.isArray(this.state.badges) && this.state.badges.length ? (
+              {this.showBadges() ? (
                 <>
                   <View style={styles.viewPaddingBadges}>
                     <Text style={styles.textSubtitle}>
@@ -217,15 +202,23 @@ class Profile extends Component {
                   <FlatList
                     style={styles.badgesList}
                     horizontal
-                    data={this.state.badges}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item: review, index }) => (
+                    data={this.state.profile.employee.badges}
+                    keyExtractor={(item) => String(item.id)}
+                    renderItem={({ item: badge, index }) => (
                       <View
                         style={[
-                          styles.circleBadge,
+                          styles.viewBadgeListItem,
                           index === 0 ? { marginLeft: 30 } : null,
                         ]}>
-                        <Text style={styles.textBadge}>{review}</Text>
+                        <Thumbnail
+                          source={
+                            badge.image_url
+                              ? { uri: badge.image_url }
+                              : PROFILE_IMG
+                          }
+                          style={styles.imageBadge}
+                        />
+                        <Text style={styles.textBadgeName}>{badge.title}</Text>
                       </View>
                     )}
                   />
@@ -260,6 +253,20 @@ class Profile extends Component {
       this.getProfile();
       this.getEmployeeRatings();
     });
+  };
+
+  showBadges = () => {
+    try {
+      if (
+        Array.isArray(this.state.profile.employee.badges) &&
+        this.state.profile.employee.badges.length
+      )
+        return true;
+    } catch (e) {
+      return false;
+    }
+
+    return false;
   };
 
   getProfile = () => {
