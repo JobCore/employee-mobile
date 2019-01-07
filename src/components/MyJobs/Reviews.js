@@ -234,7 +234,7 @@ class Reviews extends Component {
                     <ListItem
                       style={{ paddingTop: 5, paddingLeft: 18, marginLeft: 0 }}
                       noBorder={false}>
-                      <Text style={{ color: BLUE_MAIN, fontSize: 14 }}>{`" ${
+                      <Text style={{ color: BLUE_DARK, fontSize: 14 }}>{`" ${
                         review.comments
                       }`}</Text>
                     </ListItem>
