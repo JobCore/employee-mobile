@@ -72,8 +72,6 @@ class Reviews extends Component {
     let emptyReviews = false;
     if (Array.isArray && !reviews.length) emptyReviews = true;
 
-    reviews.push(reviews[0]);
-
     this.setState({
       isLoading: false,
       isRefreshing: false,
