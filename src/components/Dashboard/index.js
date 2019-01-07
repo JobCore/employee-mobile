@@ -28,6 +28,7 @@ import {
   INVITE_DETAILS_ROUTE,
   JOB_DETAILS_ROUTE,
   JOB_INVITES_ROUTE,
+  REVIEWS_ROUTE,
 } from '../../constants/routes';
 import accountStore from '../Account/AccountStore';
 import * as accountActions from '../Account/actions';
@@ -266,6 +267,10 @@ class DashboardScreen extends Component {
       });
 
       this.getInvites();
+    }
+
+    if (notificationData.type === 'review') {
+      this.props.navigation.navigate(REVIEWS_ROUTE);
     }
   };
 
