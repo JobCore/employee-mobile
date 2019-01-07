@@ -13,7 +13,7 @@ const loginValidator = (email, password) => {
   }
 };
 
-const registerValidator = (email, password, firstName, lastName, bio) => {
+const registerValidator = (email, password, firstName, lastName) => {
   if (!utils.isValidString(firstName)) {
     throw new Error(i18next.t('REGISTER.emptyFirstName'));
   }
@@ -28,10 +28,6 @@ const registerValidator = (email, password, firstName, lastName, bio) => {
 
   if (!utils.isValidString(password)) {
     throw new Error(i18next.t('LOGIN.emptyPassword'));
-  }
-
-  if (!utils.isValidString(bio, true)) {
-    throw new Error(i18next.t('REGISTER.invalidBio'));
   }
 };
 

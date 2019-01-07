@@ -29,6 +29,7 @@ export default {
     goBack: 'Go back',
     youHaveRegistered: 'You have signed up!',
     bio: 'Biography',
+    invalidBio: 'Invalid Bio',
   },
   EDIT_PROFILE: {
     editProfile: 'Edit profile',

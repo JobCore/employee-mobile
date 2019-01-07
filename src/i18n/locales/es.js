@@ -31,6 +31,7 @@ export default {
     goBack: 'Ir atrás',
     youHaveRegistered: 'Has iniciado sesión!',
     bio: 'Biografía',
+    invalidBio: 'Biografía Inválida',
   },
   EDIT_PROFILE: {
     editProfile: 'Editar perfil',
