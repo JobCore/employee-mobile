@@ -22,12 +22,12 @@ import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import { CustomToast, Loading } from '../../utils/components';
-import { EDIT_PROFILE_ROUTE } from '../../constants/routes';
+import { EDIT_PROFILE_ROUTE, REVIEWS_ROUTE } from '../../constants/routes';
 import {
   BLUE_MAIN,
   WHITE_MAIN,
   BLUE_DARK,
-  GRAY_LIGHT,
+  BLUE_LIGHT,
 } from '../../constants/colorPalette';
 import PROFILE_IMG from '../../assets/image/myJobs.png';
 
@@ -188,7 +188,7 @@ class Profile extends Component {
                             color:
                               this.state.profile.employee.rating >= star
                                 ? BLUE_DARK
-                                : GRAY_LIGHT,
+                                : BLUE_LIGHT,
                             fontSize: 16,
                           }}
                         />
@@ -235,13 +235,15 @@ class Profile extends Component {
               {Array.isArray(this.state.ratings) &&
               this.state.ratings.length ? (
                   <View style={styles.viewPadding}>
-                    <Text style={styles.textSubtitle}>
-                      {t('PROFILE.whatEmployersSaid')}
-                    </Text>
+                    <TouchableOpacity onPress={this.goToReviews}>
+                      <Text style={styles.textSubtitle}>
+                        {t('PROFILE.whatEmployersSaid')}
+                      </Text>
+                    </TouchableOpacity>
 
                     {this.state.ratings.map((rating, index) => (
                       <Text key={index} style={styles.textReview}>
-                        {`"${rating.comments}"`}
+                        {`" ${rating.comments}`}
                       </Text>
                     ))}
                   </View>
@@ -270,6 +272,10 @@ class Profile extends Component {
 
   goToEditProfile = () => {
     this.props.navigation.navigate(EDIT_PROFILE_ROUTE);
+  };
+
+  goToReviews = () => {
+    this.props.navigation.navigate(REVIEWS_ROUTE);
   };
 }
 export default Profile;

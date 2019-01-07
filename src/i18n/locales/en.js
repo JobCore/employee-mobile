@@ -153,4 +153,9 @@ export default {
     badges: 'Badges',
     whatEmployersSaid: 'What employers said about you',
   },
+  REVIEWS: {
+    reviews: 'Reviews',
+    emptyReviews: 'You have no reviews yet',
+    workingAs: 'Working as',
+  },
 };

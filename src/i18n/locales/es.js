@@ -158,4 +158,9 @@ export default {
     badges: 'Insignias',
     whatEmployersSaid: 'Lo que los empleadores dijeron de ti',
   },
+  REVIEWS: {
+    Reviews: 'Opiniones',
+    emptyReviews: 'No se encontraron opiniones',
+    workingAs: 'Trabajando como',
+  },
 };

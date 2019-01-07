@@ -30,6 +30,7 @@ import Availability from './src/components/Invite/Availability';
 import MyJobs from './src/components/MyJobs';
 import RateEmployer from './src/components/MyJobs/RateEmployer';
 import JobDetailsScreen from './src/components/MyJobs/JobDetails';
+import Reviews from './src/components/MyJobs/Reviews';
 
 import {
   DASHBOARD_ROUTE,
@@ -52,6 +53,7 @@ import {
   APPLICATION_DETAILS_ROUTE,
   EDIT_LOCATION_ROUTE,
   RATE_EMPLOYER_ROUTE,
+  REVIEWS_ROUTE,
 } from './src/constants/routes';
 import {
   BLUE_DARK,
@@ -121,6 +123,7 @@ export const AppStack = createStackNavigator(
     [AVAILABILITY_ROUTE]: Availability,
     [POSITION_ROUTE]: Position,
     [RATE_EMPLOYER_ROUTE]: RateEmployer,
+    [REVIEWS_ROUTE]: Reviews,
     [INVITE_DETAILS_ROUTE]: {
       screen: InviteDetails,
       path: 'invite/:inviteId',
