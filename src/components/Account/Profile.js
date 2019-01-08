@@ -120,7 +120,7 @@ class Profile extends Component {
                   <Icon
                     name="ios-close"
                     size={24}
-                    style={{ color: WHITE_MAIN }}
+                    style={{ color: WHITE_MAIN, marginLeft: 20 }}
                   />
                 </Button>
               </Left>
