@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { Text, Thumbnail, Left, Body, ListItem, Icon } from 'native-base';
 import styles from '../../components/Invite/InviteDetailsStyle';
 import { I18n } from 'react-i18next';
-import myJobsImg from '../../assets/image/myJobs.png';
+import PROFILE_IMG from '../../assets/image/profile.png';
 import { BLUE_DARK } from '../../constants/colorPalette';
 import moment from 'moment';
 
@@ -34,7 +34,7 @@ class InviteDetails extends Component {
                         this.props.shift.position &&
                         this.props.shift.position.picture
                           ? this.props.shift.position.picture
-                          : myJobsImg
+                          : PROFILE_IMG
                       }
                     />
                     <Body>

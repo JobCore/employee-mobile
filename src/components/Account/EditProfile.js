@@ -28,7 +28,7 @@ import { LOG, WARN } from '../../utils';
 import { CustomToast, Loading } from '../../utils/components';
 import ImagePicker from 'react-native-image-picker';
 import { RESET_ROUTE } from '../../constants/routes';
-import PROFILE_IMG from '../../assets/image/myJobs.png';
+import PROFILE_IMG from '../../assets/image/profile.png';
 import {
   BLUE_MAIN,
   WHITE_MAIN,

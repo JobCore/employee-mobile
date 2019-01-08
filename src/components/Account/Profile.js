@@ -29,7 +29,7 @@ import {
   BLUE_DARK,
   BLUE_LIGHT,
 } from '../../constants/colorPalette';
-import PROFILE_IMG from '../../assets/image/myJobs.png';
+import PROFILE_IMG from '../../assets/image/profile.png';
 
 class Profile extends Component {
   static navigationOptions = {

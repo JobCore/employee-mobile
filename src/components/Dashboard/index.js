@@ -45,7 +45,7 @@ import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import firebase from 'react-native-firebase';
 import { NavigationActions } from 'react-navigation';
-import PROFILE_IMG from '../../assets/image/myJobs.png';
+import PROFILE_IMG from '../../assets/image/profile.png';
 
 class DashboardScreen extends Component {
   static navigationOptions = {

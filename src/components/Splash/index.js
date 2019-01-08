@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, AsyncStorage, StyleSheet, Image } from 'react-native';
+import { AsyncStorage, StyleSheet, ImageBackground } from 'react-native';
 import { APP_ROUTE, AUTH_ROUTE } from '../../constants/routes';
 import store from '../Account/AccountStore';
 import { LOG } from '../../utils';
@@ -59,29 +59,12 @@ class Splash extends Component {
 
   // Render any loading content that you like here
   render() {
-    return (
-      <View style={styles.container}>
-        <Image source={SPLASH_IMG} style={styles.imgSplash} />
-      </View>
-    );
+    return <ImageBackground source={SPLASH_IMG} style={styles.imgSplash} />;
   }
 }
 
 export default Splash;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-  },
-  imgSplash: {
-    width: 400,
-    height: 400,
-    resizeMode: 'center',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  imgSplash: { width: '100%', height: '100%' },
 });

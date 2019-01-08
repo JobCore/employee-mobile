@@ -29,7 +29,7 @@ import { CustomToast, Loading, CenteredText } from '../../utils/components';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import moment from 'moment';
-import myJobsImg from '../../assets/image/myJobs.png';
+import PROFILE_IMG from '../../assets/image/profile.png';
 
 class JobInvites extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -184,7 +184,7 @@ class JobInvites extends Component {
                         data.shift.position &&
                         data.shift.position.picture
                           ? data.shift.position.picture
-                          : myJobsImg
+                          : PROFILE_IMG
                       }
                     />
                     <View style={styles.viewDataOffers}>
