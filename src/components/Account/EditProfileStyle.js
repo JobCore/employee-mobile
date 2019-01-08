@@ -70,7 +70,7 @@ export default StyleSheet.create({
     textAlign: 'right',
     marginRight: 10,
     color: BLUE_DARK,
-    marginBottom: 10,
+    marginBottom: 20,
   },
   textButtomSave: {
     fontSize: 14,

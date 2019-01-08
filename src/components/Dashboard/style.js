@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN } from '../../constants/colorPalette';
 
 export default StyleSheet.create({
@@ -15,35 +15,34 @@ export default StyleSheet.create({
     fontWeight: '500',
     fontSize: 18,
   },
-  profileImg: {
-    alignSelf: 'center',
-    marginBottom: 30,
+  welcomeItem: {
+    paddingHorizontal: 30,
+    marginLeft: 0,
   },
   textHello: {
     textAlign: 'center',
-    marginTop: 30,
     color: BLUE_DARK,
     fontSize: 22,
     fontWeight: '600',
   },
   textWelcome: {
     textAlign: 'center',
-    marginTop: 10,
     color: BLUE_DARK,
     fontSize: 18,
     fontWeight: '500',
-    marginBottom: 40,
-    ...Platform.select({
-      android: {
-        marginBottom: 15,
-      },
-    }),
+    // marginBottom: 40,
+    // ...Platform.select({
+    //   android: {
+    //     marginBottom: 15,
+    //   },
+    // }),
   },
   viewDashboard: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 30,
     paddingLeft: 30,
     paddingRight: 30,
     marginBottom: 50,
@@ -92,9 +91,9 @@ export default StyleSheet.create({
     fontSize: 18,
     marginTop: 10,
   },
-  imgJobs: {
-    width: 25,
-    height: 25,
+  iconSize: {
+    width: 32,
+    height: 32,
   },
   buttonLeftActive: {
     backgroundColor: BLUE_MAIN,

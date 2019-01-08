@@ -41,6 +41,7 @@ export default StyleSheet.create({
   textBio: {
     textAlign: 'center',
     color: BLUE_DARK,
+    marginTop: 10,
     marginBottom: 30,
   },
   textRowTitle: {

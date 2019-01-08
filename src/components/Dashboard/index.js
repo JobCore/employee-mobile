@@ -13,6 +13,7 @@ import {
   Right,
   Segment,
   Thumbnail,
+  ListItem,
 } from 'native-base';
 import styles from './style';
 import {
@@ -38,7 +39,7 @@ import * as fcmActions from './actions';
 import fcmStore from './FcmStore';
 import * as jobActions from '../MyJobs/actions';
 import jobStore from '../MyJobs/JobStore';
-import { CustomToast, Loading } from '../../utils/components';
+import { CustomToast, Loading, BackgroundHeader } from '../../utils/components';
 import { LOG, WARN } from '../../utils';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
@@ -52,7 +53,7 @@ class DashboardScreen extends Component {
     tabBarLabel: i18next.t('DASHBOARD.dashboard'),
     tabBarIcon: () => (
       <Image
-        style={{ resizeMode: 'contain', height: 30 }}
+        style={{ resizeMode: 'contain', height: 42, width: 42 }}
         source={require('../../assets/image/dashboard.png')}
       />
     ),
@@ -300,7 +301,13 @@ class DashboardScreen extends Component {
               <Right>
                 <Button transparent onPress={this.goToSetting}>
                   <Image
-                    style={{ resizeMode: 'contain', height: 25 }}
+                    style={{
+                      resizeMode: 'contain',
+                      height: 32,
+                      width: 32,
+                      selfAlign: 'right',
+                      marginRight: 20,
+                    }}
                     source={require('../../assets/image/controls.png')}
                   />
                 </Button>
@@ -314,28 +321,36 @@ class DashboardScreen extends Component {
                   onRefresh={this.refresh}
                 />
               }>
-              {this.state.user ? (
-                <Text style={styles.textHello}>
-                  {`${t('DASHBOARD.hello')} ${this.state.user.first_name} ${
-                    this.state.user.last_name
-                  },`}
-                </Text>
-              ) : null}
-              <Text style={styles.textWelcome}>{t('DASHBOARD.welcome')}</Text>
-
-              <TouchableOpacity onPress={this.goToProfile}>
-                <Thumbnail
-                  style={styles.profileImg}
-                  large
-                  source={
-                    this.state.user &&
-                    this.state.user.profile &&
-                    this.state.user.profile.picture
-                      ? { uri: this.state.user.profile.picture }
-                      : PROFILE_IMG
-                  }
-                />
-              </TouchableOpacity>
+              <BackgroundHeader>
+                <ListItem noBorder style={styles.welcomeItem}>
+                  <Left>
+                    <TouchableOpacity onPress={this.goToProfile}>
+                      <Thumbnail
+                        large
+                        source={
+                          this.state.user &&
+                          this.state.user.profile &&
+                          this.state.user.profile.picture
+                            ? { uri: this.state.user.profile.picture }
+                            : PROFILE_IMG
+                        }
+                      />
+                    </TouchableOpacity>
+                    <Body>
+                      {this.state.user ? (
+                        <Text style={styles.textHello}>
+                          {`${t('DASHBOARD.hello')} ${
+                            this.state.user.first_name
+                          } ${this.state.user.last_name},`}
+                        </Text>
+                      ) : null}
+                      <Text style={styles.textWelcome}>
+                        {t('DASHBOARD.welcome')}
+                      </Text>
+                    </Body>
+                  </Left>
+                </ListItem>
+              </BackgroundHeader>
 
               <View style={styles.viewDashboard}>
                 <View style={styles.viewItemJobsLeft}>
@@ -343,7 +358,7 @@ class DashboardScreen extends Component {
                     {t('DASHBOARD.pendingPayments')}
                   </Text>
                   <Image
-                    style={styles.viewBackground}
+                    style={styles.iconSize}
                     source={require('../../assets/image/payments.png')}
                   />
                   <Text style={styles.itemData}>
@@ -356,7 +371,7 @@ class DashboardScreen extends Component {
                   </Text>
                   <TouchableOpacity onPress={this.goToInvitation}>
                     <Image
-                      style={styles.imgJobs}
+                      style={styles.iconSize}
                       source={require('../../assets/image/invite.png')}
                     />
                   </TouchableOpacity>
@@ -376,7 +391,7 @@ class DashboardScreen extends Component {
                   </Text>
                   <TouchableOpacity onPress={this.goToMyJobs}>
                     <Image
-                      style={styles.viewBackground}
+                      style={styles.iconSize}
                       source={require('../../assets/image/jobs.png')}
                     />
                   </TouchableOpacity>
@@ -391,7 +406,7 @@ class DashboardScreen extends Component {
                     {t('DASHBOARD.myRating')}
                   </Text>
                   <Image
-                    style={styles.viewBackground}
+                    style={styles.iconSize}
                     source={require('../../assets/image/ranking.png')}
                   />
                   <Text style={styles.itemData}>{this.state.rating}</Text>

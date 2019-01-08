@@ -21,7 +21,7 @@ import jobStore from '../MyJobs/JobStore';
 import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
-import { CustomToast, Loading } from '../../utils/components';
+import { CustomToast, Loading, BackgroundHeader } from '../../utils/components';
 import { EDIT_PROFILE_ROUTE, REVIEWS_ROUTE } from '../../constants/routes';
 import {
   BLUE_MAIN,
@@ -120,7 +120,7 @@ class Profile extends Component {
                   <Icon
                     name="ios-close"
                     size={24}
-                    style={{ color: WHITE_MAIN, marginLeft: 20 }}
+                    style={{ color: WHITE_MAIN }}
                   />
                 </Button>
               </Left>
@@ -131,25 +131,27 @@ class Profile extends Component {
             </Header>
 
             <Content>
-              <TouchableOpacity onPress={this.goToEditProfile}>
-                <Thumbnail
-                  style={styles.profileImg}
-                  large
-                  source={
-                    this.state.profile && this.state.profile.picture
-                      ? { uri: this.state.profile.picture }
-                      : PROFILE_IMG
-                  }
-                />
-              </TouchableOpacity>
+              <BackgroundHeader>
+                <TouchableOpacity onPress={this.goToEditProfile}>
+                  <Thumbnail
+                    style={styles.profileImg}
+                    large
+                    source={
+                      this.state.profile && this.state.profile.picture
+                        ? { uri: this.state.profile.picture }
+                        : PROFILE_IMG
+                    }
+                  />
+                </TouchableOpacity>
 
-              {this.state.profile && this.state.profile.user ? (
-                <Text style={styles.textName}>
-                  {`${this.state.profile.user.first_name} ${
-                    this.state.profile.user.last_name
-                  }`}
-                </Text>
-              ) : null}
+                {this.state.profile && this.state.profile.user ? (
+                  <Text style={styles.textName}>
+                    {`${this.state.profile.user.first_name} ${
+                      this.state.profile.user.last_name
+                    }`}
+                  </Text>
+                ) : null}
+              </BackgroundHeader>
 
               <View style={styles.viewPadding}>
                 <Text style={styles.textBio}>{this.state.profile.bio}</Text>

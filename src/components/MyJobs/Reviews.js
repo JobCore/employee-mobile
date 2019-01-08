@@ -17,7 +17,12 @@ import * as jobActions from './actions';
 import jobStore from './JobStore';
 import styles from './ReviewsStyle';
 import profileStyles from '../Account/ProfileStyle';
-import { CustomToast, Loading, CenteredText } from '../../utils/components';
+import {
+  CustomToast,
+  Loading,
+  CenteredText,
+  BackgroundHeader,
+} from '../../utils/components';
 import { I18n } from 'react-i18next';
 import {
   BLUE_MAIN,
@@ -134,43 +139,45 @@ class Reviews extends Component {
                 data={this.state.reviews}
                 extraData={this.state}
                 ListHeaderComponent={
-                  <View style={profileStyles.viewRow}>
-                    {this.state.profile && this.state.profile.employee ? (
-                      <>
-                        <View style={profileStyles.viewLeft}>
-                          <Text style={profileStyles.textRowTitle}>
-                            {t('PROFILE.yourRating')}
-                          </Text>
-                          <Text style={profileStyles.textRowNumber}>
-                            {this.state.profile.employee.rating}
-                          </Text>
-                          <Text style={profileStyles.textRowTitle}>
-                            {this.state.starsArray.map((star) => (
-                              <Icon
-                                key={star}
-                                name={'md-star'}
-                                style={{
-                                  color:
-                                    this.state.profile.employee.rating >= star
-                                      ? BLUE_DARK
-                                      : BLUE_LIGHT,
-                                  fontSize: 16,
-                                }}
-                              />
-                            ))}
-                          </Text>
-                        </View>
-                        <View style={profileStyles.viewRight}>
-                          <Text style={profileStyles.textRowTitle}>
-                            {t('PROFILE.completedJobs')}
-                          </Text>
-                          <Text style={profileStyles.textRowNumber}>
-                            {this.state.profile.employee.total_ratings}
-                          </Text>
-                        </View>
-                      </>
-                    ) : null}
-                  </View>
+                  <BackgroundHeader>
+                    <View style={[profileStyles.viewRow, { marginBottom: 0 }]}>
+                      {this.state.profile && this.state.profile.employee ? (
+                        <>
+                          <View style={[profileStyles.viewLeft]}>
+                            <Text style={profileStyles.textRowTitle}>
+                              {t('PROFILE.yourRating')}
+                            </Text>
+                            <Text style={profileStyles.textRowNumber}>
+                              {this.state.profile.employee.rating}
+                            </Text>
+                            <Text style={profileStyles.textRowTitle}>
+                              {this.state.starsArray.map((star) => (
+                                <Icon
+                                  key={star}
+                                  name={'md-star'}
+                                  style={{
+                                    color:
+                                      this.state.profile.employee.rating >= star
+                                        ? BLUE_DARK
+                                        : BLUE_LIGHT,
+                                    fontSize: 16,
+                                  }}
+                                />
+                              ))}
+                            </Text>
+                          </View>
+                          <View style={[profileStyles.viewRight]}>
+                            <Text style={profileStyles.textRowTitle}>
+                              {t('PROFILE.completedJobs')}
+                            </Text>
+                            <Text style={profileStyles.textRowNumber}>
+                              {this.state.profile.employee.total_ratings}
+                            </Text>
+                          </View>
+                        </>
+                      ) : null}
+                    </View>
+                  </BackgroundHeader>
                 }
                 keyExtractor={(review) => String(review.id)}
                 renderItem={({ item: review }) => (

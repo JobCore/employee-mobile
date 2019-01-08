@@ -39,6 +39,7 @@ export default {
     profileUpdated: 'Perfil actualizado!',
     update: 'Editar',
     invalidImage: 'Solo se permiten archivos jpg y png',
+    saveProfile: 'Guardar perfil',
   },
   SETTINGS: {
     settings: 'Ajustes',

@@ -36,7 +36,7 @@ class JobPreferences extends Component {
     tabBarLabel: i18next.t('JOB_PREFERENCES.jobPreferences'),
     tabBarIcon: () => (
       <Image
-        style={{ resizeMode: 'contain', height: 30 }}
+        style={{ resizeMode: 'contain', width: 42, height: 42 }}
         source={require('../../assets/image/preferences.png')}
       />
     ),
@@ -168,7 +168,13 @@ class JobPreferences extends Component {
                     this.props.navigation.navigate(EDIT_PROFILE_ROUTE)
                   }>
                   <Image
-                    style={{ resizeMode: 'contain', height: 25 }}
+                    style={{
+                      resizeMode: 'contain',
+                      height: 32,
+                      width: 32,
+                      selfAlign: 'right',
+                      marginRight: 20,
+                    }}
                     source={require('../../assets/image/controls.png')}
                   />
                 </Button>

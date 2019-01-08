@@ -105,6 +105,7 @@ export default StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     marginTop: 15,
+    marginBottom: 10,
   },
   viewButtomLeft: {
     width: '50%',
