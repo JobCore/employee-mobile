@@ -21,7 +21,7 @@ import {
   BLUE_DARK,
 } from '../../constants/colorPalette';
 import {
-  SETTING_ROUTE,
+  EDIT_PROFILE_ROUTE,
   PROFILE_ROUTE,
   AUTH_ROUTE,
   MYJOBS_ROUTE,
@@ -531,7 +531,7 @@ class DashboardScreen extends Component {
   };
 
   goToSetting = () => {
-    this.props.navigation.navigate(SETTING_ROUTE);
+    this.props.navigation.navigate(EDIT_PROFILE_ROUTE);
   };
 
   goToMyJobs = () => {

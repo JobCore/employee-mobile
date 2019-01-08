@@ -95,7 +95,7 @@ export default {
     minimumHourlyRate: 'Tarifa mínima por hora',
     maximumJobDistanceMiles: 'Aceptar trabajos no más allá de',
     hourlyRateLabel: '$/h. Mínimo',
-    dateStartToEnd: 'Desde {{startingAt}} a {{endingAt}}',
+    dateStartToEnd: 'desde {{startingAt}} a {{endingAt}}',
     startDate: 'fecha de inicio',
     endDate: 'fecha de finalización',
     selectStartDate: 'Seleccionar fecha de inicio',

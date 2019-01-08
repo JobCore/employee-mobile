@@ -16,7 +16,7 @@ import {
 import styles from './style';
 import { BLUE_MAIN } from '../../constants/colorPalette';
 import {
-  SETTING_ROUTE,
+  EDIT_PROFILE_ROUTE,
   JOB_DETAILS_ROUTE,
   APPLICATION_DETAILS_ROUTE,
 } from '../../constants/routes';
@@ -171,7 +171,9 @@ class MyJobs extends Component {
               <Right>
                 <Button
                   transparent
-                  onPress={() => this.props.navigation.navigate(SETTING_ROUTE)}>
+                  onPress={() =>
+                    this.props.navigation.navigate(EDIT_PROFILE_ROUTE)
+                  }>
                   <Image
                     style={{ resizeMode: 'contain', height: 25 }}
                     source={require('../../assets/image/controls.png')}

@@ -34,14 +34,15 @@ export default StyleSheet.create({
     backgroundColor: VIOLET_MAIN,
   },
   viewListItem: {
-    marginLeft: 30,
-    marginRight: 30,
+    paddingLeft: 30,
+    paddingRight: 30,
   },
   viewDataOffers: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-end',
     marginLeft: 15,
+    marginRight: 30,
   },
   textOne: {
     color: VIOLET_MAIN,

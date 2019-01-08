@@ -91,7 +91,7 @@ export default {
     minimumHourlyRate: 'Minimum hourly rate',
     maximumJobDistanceMiles: 'Accepts jobs no further than',
     hourlyRateLabel: 'Minimum $/h.',
-    dateStartToEnd: 'From {{startingAt}} to {{endingAt}}',
+    dateStartToEnd: 'from {{startingAt}} to {{endingAt}}',
     startDate: 'Start date',
     endDate: 'End date',
     selectStartDate: 'Select start date',

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, Alert } from 'react-native';
+import { View, TouchableOpacity, Alert } from 'react-native';
 import {
   Item,
   Input,
@@ -10,8 +10,16 @@ import {
   Content,
   Thumbnail,
   Textarea,
+  Container,
+  Header,
+  Left,
+  Body,
+  Title,
+  Right,
+  Icon,
 } from 'native-base';
 import styles from './EditProfileStyle';
+import profileStyles from './ProfileStyle';
 import * as actions from './actions';
 import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
@@ -19,7 +27,14 @@ import { i18next } from '../../i18n';
 import { LOG, WARN } from '../../utils';
 import { CustomToast, Loading } from '../../utils/components';
 import ImagePicker from 'react-native-image-picker';
+import { RESET_ROUTE } from '../../constants/routes';
 import PROFILE_IMG from '../../assets/image/myJobs.png';
+import {
+  BLUE_MAIN,
+  WHITE_MAIN,
+  GRAY_MAIN,
+  BG_GRAY_LIGHT,
+} from '../../constants/colorPalette';
 
 const IMAGE_PICKER_OPTIONS = {
   mediaType: 'photo',
@@ -36,6 +51,7 @@ class EditProfile extends Component {
       isLoading: false,
       firstName: '',
       lastName: '',
+      email: '',
       picture: '',
       bio: '',
       selectedImage: {},
@@ -46,6 +62,10 @@ class EditProfile extends Component {
     this.editProfileSubscription = accountStore.subscribe(
       'EditProfile',
       this.editProfileHandler,
+    );
+    this.logoutSubscription = accountStore.subscribe(
+      'Logout',
+      this.logoutHandler,
     );
     this.editProfilePictureSubscription = accountStore.subscribe(
       'EditProfilePicture',
@@ -60,6 +80,7 @@ class EditProfile extends Component {
   }
 
   componentWillUnmount() {
+    this.logoutSubscription.unsubscribe();
     this.editProfileSubscription.unsubscribe();
     this.editProfilePictureSubscription.unsubscribe();
     this.accountStoreError.unsubscribe();
@@ -77,6 +98,10 @@ class EditProfile extends Component {
     this.props.navigation.goBack();
   };
 
+  logoutHandler = () => {
+    this.setState({ isLoading: false });
+  };
+
   errorHandler = (err) => {
     this.isLoading(false);
     CustomToast(err, 'danger');
@@ -86,83 +111,132 @@ class EditProfile extends Component {
     return (
       <I18n>
         {(t) => (
-          <Content contentContainerStyle={{ flexGrow: 1 }}>
-            <Image
-              style={styles.viewBackground}
-              source={require('../../assets/image/bg.jpg')}
-            />
+          <Container>
+            {this.state.isLoading ? <Loading /> : null}
 
-            <View style={styles.container}>
-              {this.state.isLoading ? <Loading /> : null}
-              <Image
-                style={styles.viewLogo}
-                source={require('../../assets/image/logo1.png')}
-              />
-
-              <TouchableOpacity onPress={this.openImagePicker}>
-                <Thumbnail
-                  style={styles.profileImg}
-                  large
-                  source={
-                    this.state.selectedImage && this.state.selectedImage.uri
-                      ? { uri: this.state.selectedImage.uri }
-                      : this.state.picture
-                        ? { uri: this.state.picture }
-                        : PROFILE_IMG
-                  }
-                />
-              </TouchableOpacity>
-
-              <View>
-                <Form>
-                  <Item style={styles.viewInput} inlineLabel rounded>
-                    <Label>{t('REGISTER.firstName')}</Label>
-                    <Input
-                      value={this.state.firstName}
-                      placeholder={t('REGISTER.firstName')}
-                      onChangeText={(text) =>
-                        this.setState({ firstName: text })
-                      }
-                    />
-                  </Item>
-                  <Item style={styles.viewInput} inlineLabel rounded>
-                    <Label>{t('REGISTER.lastName')}</Label>
-                    <Input
-                      value={this.state.lastName}
-                      placeholder={t('REGISTER.lastName')}
-                      onChangeText={(text) => this.setState({ lastName: text })}
-                    />
-                  </Item>
-                  <Item
-                    onPress={this.focusTextarea}
-                    style={styles.viewTextArea}
-                    rounded>
-                    <Textarea
-                      ref={(textarea) => (this.textarea = textarea)}
-                      rowSpan={5}
-                      value={this.state.bio}
-                      placeholder={t('REGISTER.bio')}
-                      onChangeText={(text) => this.setState({ bio: text })}
-                    />
-                  </Item>
-                </Form>
+            <Header
+              androidStatusBarColor={BLUE_MAIN}
+              style={profileStyles.headerCustom}>
+              <Left>
                 <Button
-                  full
-                  onPress={this.editProfileAlert}
-                  style={styles.viewButtomLogin}>
-                  <Text style={styles.textButtom}>
-                    {t('EDIT_PROFILE.editProfile')}
-                  </Text>
+                  transparent
+                  onPress={() => this.props.navigation.goBack()}>
+                  <Icon
+                    name="ios-close"
+                    style={{ color: WHITE_MAIN, marginLeft: 20 }}
+                  />
                 </Button>
-                <TouchableOpacity
-                  full
-                  onPress={() => this.props.navigation.goBack()}
-                  style={styles.viewButtomSignUp}>
-                  <Text style={styles.textButtomSignUp}>{t('APP.goBack')}</Text>
+              </Left>
+              <Body>
+                <Title style={profileStyles.titleHeader}>
+                  {t('EDIT_PROFILE.editProfile')}
+                </Title>
+              </Body>
+              <Right>
+                <Button transparent onPress={this.logout}>
+                  <Icon
+                    name="ios-log-out"
+                    style={{ color: WHITE_MAIN, marginRight: 20, fontSize: 32 }}
+                  />
+                </Button>
+              </Right>
+            </Header>
+
+            <Content>
+              <View style={styles.container}>
+                <TouchableOpacity onPress={this.openImagePicker}>
+                  <Thumbnail
+                    style={styles.profileImg}
+                    large
+                    source={
+                      this.state.selectedImage && this.state.selectedImage.uri
+                        ? { uri: this.state.selectedImage.uri }
+                        : this.state.picture
+                          ? { uri: this.state.picture }
+                          : PROFILE_IMG
+                    }
+                  />
                 </TouchableOpacity>
+
+                <View>
+                  <Form>
+                    <Item style={styles.viewInput} inlineLabel rounded>
+                      <Label>{t('REGISTER.firstName')}</Label>
+                      <Input
+                        value={this.state.firstName}
+                        placeholder={t('REGISTER.firstName')}
+                        onChangeText={(text) =>
+                          this.setState({ firstName: text })
+                        }
+                      />
+                    </Item>
+                    <Item style={styles.viewInput} inlineLabel rounded>
+                      <Label>{t('REGISTER.lastName')}</Label>
+                      <Input
+                        value={this.state.lastName}
+                        placeholder={t('REGISTER.lastName')}
+                        onChangeText={(text) =>
+                          this.setState({ lastName: text })
+                        }
+                      />
+                    </Item>
+                    <Item
+                      style={[
+                        styles.viewInput,
+                        {
+                          borderColor: GRAY_MAIN,
+                          backgroundColor: BG_GRAY_LIGHT,
+                        },
+                      ]}
+                      inlineLabel
+                      rounded>
+                      <Label>{t('REGISTER.email')}</Label>
+                      <Input
+                        editable={false}
+                        value={this.state.email}
+                        placeholder={t('REGISTER.email')}
+                      />
+                    </Item>
+                    <Item
+                      onPress={this.focusTextarea}
+                      style={styles.viewTextArea}
+                      rounded>
+                      <Textarea
+                        ref={(textarea) => (this.textarea = textarea)}
+                        rowSpan={5}
+                        value={this.state.bio}
+                        placeholder={t('REGISTER.bio')}
+                        onChangeText={(text) => this.setState({ bio: text })}
+                      />
+                    </Item>
+                  </Form>
+                  <TouchableOpacity
+                    onPress={this.passwordReset}
+                    style={styles.viewButtomChangePassword}>
+                    <Text style={styles.textButtomChangePassword}>
+                      {t('SETTINGS.changePassword')}
+                    </Text>
+                  </TouchableOpacity>
+                  <Button
+                    full
+                    onPress={this.editProfileAlert}
+                    style={styles.viewButtomLogin}>
+                    <Text style={styles.textButtom}>
+                      {t('EDIT_PROFILE.saveProfile')}
+                    </Text>
+                  </Button>
+                  <TouchableOpacity
+                    full
+                    onPress={() => this.props.navigation.goBack()}
+                    style={styles.viewButtomSignUp}>
+                    <Text style={styles.textButtomSignUp}>
+                      {t('APP.goBack')}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-          </Content>
+            </Content>
+          </Container>
         )}
       </I18n>
     );
@@ -183,6 +257,7 @@ class EditProfile extends Component {
     this.setState({
       firstName: user.first_name || '',
       lastName: user.last_name || '',
+      email: user.email,
       picture: picture || '',
       bio: bio || '',
     });
@@ -240,6 +315,35 @@ class EditProfile extends Component {
       this.state.lastName,
       this.state.bio,
     );
+  };
+
+  logout = () => {
+    Alert.alert(i18next.t('SETTINGS.wantToLogout'), '', [
+      {
+        text: i18next.t('APP.cancel'),
+        onPress: () => {
+          LOG(this, 'Cancel logout');
+        },
+      },
+      {
+        text: i18next.t('SETTINGS.logout'),
+        onPress: () => {
+          this.setState({ isLoading: true }, actions.logout());
+        },
+      },
+    ]);
+  };
+
+  passwordReset = () => {
+    let email;
+
+    try {
+      email = this.state.email || '';
+    } catch (e) {
+      email = '';
+    }
+
+    this.props.navigation.navigate(RESET_ROUTE, { email });
   };
 
   focusTextarea = () => {

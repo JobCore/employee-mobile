@@ -17,7 +17,10 @@ import {
   Badge,
 } from 'native-base';
 import styles from './JobInvitesStyle';
-import { SETTING_ROUTE, INVITE_DETAILS_ROUTE } from '../../constants/routes';
+import {
+  EDIT_PROFILE_ROUTE,
+  INVITE_DETAILS_ROUTE,
+} from '../../constants/routes';
 import { BLUE_MAIN } from '../../constants/colorPalette';
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
@@ -139,7 +142,9 @@ class JobInvites extends Component {
               <Right>
                 <Button
                   transparent
-                  onPress={() => this.props.navigation.navigate(SETTING_ROUTE)}>
+                  onPress={() =>
+                    this.props.navigation.navigate(EDIT_PROFILE_ROUTE)
+                  }>
                   <Image
                     style={{ resizeMode: 'contain', height: 25 }}
                     source={require('../../assets/image/controls.png')}
@@ -193,16 +198,8 @@ class JobInvites extends Component {
                               {data.shift.position.title}
                             </Text>
                           ) : null}
-                        </Text>
-                      ) : null}
-                      {/* title date info */}
-                      {data.shift ? (
-                        <Text>
-                          <Text style={styles.textTwo}>
-                            {` ${t('JOB_INVITES.on')} `}
-                          </Text>
                           <Text style={styles.textBlack}>
-                            {`${t('JOB_PREFERENCES.dateStartToEnd', {
+                            {` ${t('JOB_PREFERENCES.dateStartToEnd', {
                               startingAt: moment(data.shift.starting_at)
                                 .tz(moment.tz.guess())
                                 .format('lll'),
@@ -210,7 +207,6 @@ class JobInvites extends Component {
                                 .tz(moment.tz.guess())
                                 .format('lll'),
                             })} `}
-                            {/* Sep 24th From 3pm to 6pm. */}
                           </Text>
                           <Text style={styles.textRed}>
                             {`$${data.shift.minimum_hourly_rate}/${t(
