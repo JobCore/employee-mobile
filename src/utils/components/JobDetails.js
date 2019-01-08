@@ -24,7 +24,7 @@ class InviteDetails extends Component {
       <I18n>
         {(t) => (
           <View>
-            {this.props.shift && !this.props.isInvite ? (
+            {/*this.props.shift && !this.props.isInvite ? (
               <View style={{ marginBottom: 10 }}>
                 <ListItem noBorder={false} style={{ marginLeft: 0 }}>
                   <Left>
@@ -68,12 +68,12 @@ class InviteDetails extends Component {
                   </Left>
                 </ListItem>
               </View>
-            ) : null}
+            ) : null*/}
             {this.props.shift ? (
               <Text
                 style={[
                   styles.viewTitleInfo,
-                  this.props.isInvite ? { marginTop: 30 } : null,
+                  { marginTop: 30 },
                 ]}>
                 {this.props.shift.venue ? (
                   <Text style={styles.textOne}>
