@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Alert } from 'react-native';
+import { View, TouchableOpacity, Alert, Image } from 'react-native';
 import {
   Item,
   Input,
@@ -145,17 +145,24 @@ class EditProfile extends Component {
             <Content>
               <View style={styles.container}>
                 <TouchableOpacity onPress={this.openImagePicker}>
-                  <Thumbnail
-                    style={styles.profileImg}
-                    large
-                    source={
-                      this.state.selectedImage && this.state.selectedImage.uri
-                        ? { uri: this.state.selectedImage.uri }
-                        : this.state.picture
-                          ? { uri: this.state.picture }
-                          : PROFILE_IMG
-                    }
-                  />
+                  <View style={profileStyles.viewProfileImg}>
+                    <Thumbnail
+                      large
+                      source={
+                        this.state.selectedImage && this.state.selectedImage.uri
+                          ? { uri: this.state.selectedImage.uri }
+                          : this.state.picture
+                            ? { uri: this.state.picture }
+                            : PROFILE_IMG
+                      }
+                    />
+                    <View style={profileStyles.viewCameraCircle}>
+                      <Image
+                        style={profileStyles.camera}
+                        source={require('../../assets/image/camera.png')}
+                      />
+                    </View>
+                  </View>
                 </TouchableOpacity>
 
                 <View>

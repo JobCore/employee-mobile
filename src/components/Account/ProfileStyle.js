@@ -27,10 +27,32 @@ export default StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
   },
+  viewProfileImg: {
+    alignSelf: 'center',
+    marginTop: 15,
+    marginBottom: 15,
+    width: 80,
+  },
   profileImg: {
     alignSelf: 'center',
     marginTop: 15,
     marginBottom: 15,
+  },
+  camera: {
+    resizeMode: 'contain',
+    height: 26,
+    width: 26,
+  },
+  viewCameraCircle: {
+    height: 32,
+    width: 32,
+    borderRadius: 32 / 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(29, 93, 102, 80)',
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
   },
   textName: {
     textAlign: 'center',

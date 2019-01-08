@@ -133,15 +133,22 @@ class Profile extends Component {
             <Content>
               <BackgroundHeader>
                 <TouchableOpacity onPress={this.goToEditProfile}>
-                  <Thumbnail
-                    style={styles.profileImg}
-                    large
-                    source={
-                      this.state.profile && this.state.profile.picture
-                        ? { uri: this.state.profile.picture }
-                        : PROFILE_IMG
-                    }
-                  />
+                  <View style={styles.viewProfileImg}>
+                    <Thumbnail
+                      large
+                      source={
+                        this.state.profile && this.state.profile.picture
+                          ? { uri: this.state.profile.picture }
+                          : PROFILE_IMG
+                      }
+                    />
+                    <View style={styles.viewCameraCircle}>
+                      <Image
+                        style={styles.camera}
+                        source={require('../../assets/image/camera.png')}
+                      />
+                    </View>
+                  </View>
                 </TouchableOpacity>
 
                 {this.state.profile && this.state.profile.user ? (
