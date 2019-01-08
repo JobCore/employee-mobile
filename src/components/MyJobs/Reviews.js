@@ -33,7 +33,7 @@ import {
 } from '../../constants/colorPalette';
 import * as inviteActions from '../Invite/actions';
 import inviteStore from '../Invite/InviteStore';
-import myJobsImg from '../../assets/image/myJobs.png';
+import myJobsImg from '../../assets/image/profile.png';
 import moment from 'moment';
 
 class Reviews extends Component {
