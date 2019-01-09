@@ -78,6 +78,9 @@ const storeErrorHandler = (err) => {
   if (err.detail) {
     return err.detail;
   }
+  if (err.details) {
+    return err.details;
+  }
   if (err.non_field_errors) {
     return err.non_field_errors.join(", ");
   }
