@@ -6,6 +6,7 @@ export default {
       'Por favor, compruebe su conexión a Internet y vuelva a intentarlo',
     timeout: 'El servidor ha tardado mucho en responder',
     to: 'a',
+    na: 'N/A',
   },
   LOGIN: {
     signIn: 'Iniciar sesión',

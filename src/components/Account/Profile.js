@@ -132,32 +132,34 @@ class Profile extends Component {
 
             <Content>
               <BackgroundHeader>
-                <TouchableOpacity onPress={this.goToEditProfile}>
-                  <View style={styles.viewProfileImg}>
-                    <Thumbnail
-                      large
-                      source={
-                        this.state.profile && this.state.profile.picture
-                          ? { uri: this.state.profile.picture }
-                          : PROFILE_IMG
-                      }
-                    />
-                    <View style={styles.viewCameraCircle}>
-                      <Image
-                        style={styles.camera}
-                        source={require('../../assets/image/camera.png')}
+                <>
+                  <TouchableOpacity onPress={this.goToEditProfile}>
+                    <View style={styles.viewProfileImg}>
+                      <Thumbnail
+                        large
+                        source={
+                          this.state.profile && this.state.profile.picture
+                            ? { uri: this.state.profile.picture }
+                            : PROFILE_IMG
+                        }
                       />
+                      <View style={styles.viewCameraCircle}>
+                        <Image
+                          style={styles.camera}
+                          source={require('../../assets/image/camera.png')}
+                        />
+                      </View>
                     </View>
-                  </View>
-                </TouchableOpacity>
+                  </TouchableOpacity>
 
-                {this.state.profile && this.state.profile.user ? (
-                  <Text style={styles.textName}>
-                    {`${this.state.profile.user.first_name} ${
-                      this.state.profile.user.last_name
-                    }`}
-                  </Text>
-                ) : null}
+                  {this.state.profile && this.state.profile.user ? (
+                    <Text style={styles.textName}>
+                      {`${this.state.profile.user.first_name} ${
+                        this.state.profile.user.last_name
+                      }`}
+                    </Text>
+                  ) : null}
+                </>
               </BackgroundHeader>
 
               <View style={styles.viewPadding}>
@@ -171,23 +173,25 @@ class Profile extends Component {
                       {t('PROFILE.yourRating')}
                     </Text>
                     <Text style={styles.textRowNumber}>
-                      {this.state.profile.employee.rating}
+                      {this.state.profile.employee.rating || t('APP.na')}
                     </Text>
-                    <Text style={styles.textRowTitle}>
-                      {this.state.starsArray.map((star) => (
-                        <Icon
-                          key={star}
-                          name={'md-star'}
-                          style={{
-                            color:
-                              this.state.profile.employee.rating >= star
-                                ? BLUE_DARK
-                                : BLUE_LIGHT,
-                            fontSize: 16,
-                          }}
-                        />
-                      ))}
-                    </Text>
+                    {this.state.profile.employee.rating ? (
+                      <Text style={styles.textRowTitle}>
+                        {this.state.starsArray.map((star) => (
+                          <Icon
+                            key={star}
+                            name={'md-star'}
+                            style={{
+                              color:
+                                this.state.profile.employee.rating >= star
+                                  ? BLUE_DARK
+                                  : BLUE_LIGHT,
+                              fontSize: 16,
+                            }}
+                          />
+                        ))}
+                      </Text>
+                    ) : null}
                   </View>
                   <View style={styles.viewRight}>
                     <Text style={styles.textRowTitle}>

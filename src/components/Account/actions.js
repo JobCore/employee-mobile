@@ -92,14 +92,14 @@ const register = (email, password, firstName, lastName) => {
  * @param  {string} firstName
  * @param  {string} lastName
  */
-const editProfile = (userId, firstName, lastName, bio) => {
+const editProfile = (firstName, lastName, bio) => {
   try {
     editProfileValidator(firstName, lastName, bio);
   } catch (err) {
     return Flux.dispatchEvent('AccountStoreError', err);
   }
 
-  putData(`/profiles/${userId}`, {
+  putData(`/profiles/me`, {
     first_name: firstName,
     last_name: lastName,
     bio,

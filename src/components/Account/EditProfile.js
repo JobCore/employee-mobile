@@ -314,10 +314,7 @@ class EditProfile extends Component {
   };
 
   editProfile = () => {
-    const user = accountStore.getState('Login').user || {};
-
     actions.editProfile(
-      user.id,
       this.state.firstName,
       this.state.lastName,
       this.state.bio,

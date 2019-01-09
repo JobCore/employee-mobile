@@ -5,6 +5,7 @@ export default {
     noInternet: 'Please check your internet connection and try again',
     timeout: 'The server has taken a long time to respond',
     to: 'to',
+    na: 'N/A',
   },
   LOGIN: {
     signIn: 'Sign In',
