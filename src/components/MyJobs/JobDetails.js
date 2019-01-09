@@ -205,6 +205,7 @@ class JobDetailsScreen extends Component {
                 {this.showMarker() ? (
                   <Marker
                     image={MARKER_IMG}
+                    anchor={{ x: 0.5, y: 1 }}
                     coordinate={{
                       latitude: this.state.shift.venue.latitude,
                       longitude: this.state.shift.venue.longitude,
@@ -214,6 +215,7 @@ class JobDetailsScreen extends Component {
                 ) : (
                   <Marker
                     image={MARKER_IMG}
+                    anchor={{ x: 0.5, y: 1 }}
                     coordinate={{
                       latitude: DEFAULT_LATIDUDE,
                       longitude: DEFAULT_LONGITUDE,

@@ -3,7 +3,7 @@ import accountStore from './AccountStore';
 import fcmStore from '../Dashboard/FcmStore';
 import inviteStore from '../Invite/InviteStore';
 import jobStore from '../MyJobs/JobStore';
-import { LOG } from '../../utils';
+import { LOG, storeErrorHandler } from '../../utils';
 import { CustomToast } from '../../utils/components';
 import { postData, putData, deleteData, putFormData } from '../../fetch';
 import {
@@ -172,7 +172,7 @@ const logout = () => {
  */
 const logoutOnUnautorized = (err) => {
   clearStores();
-  CustomToast(err, 'danger');
+  CustomToast(storeErrorHandler(err), 'danger');
   Flux.dispatchEvent('Logout', {});
 };
 
