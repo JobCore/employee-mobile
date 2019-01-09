@@ -270,7 +270,7 @@ class DashboardScreen extends Component {
       this.getInvites();
     }
 
-    if (notificationData.type === 'review') {
+    if (notificationData.type === 'rating') {
       this.props.navigation.navigate(REVIEWS_ROUTE);
     }
   };
