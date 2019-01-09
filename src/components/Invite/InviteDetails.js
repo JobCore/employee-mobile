@@ -145,7 +145,7 @@ class InviteDetails extends Component {
                 </Button>
               </Left>
               <Body>
-                <Text style={[{ width: 150 }, textStyles.title]}>
+                <Text style={[{ width: 150 }, textStyles.titleHeader]}>
                   {t('JOB_INVITES.inviteDetails')}
                 </Text>
               </Body>

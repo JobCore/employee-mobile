@@ -50,8 +50,6 @@ export default StyleSheet.create({
   titleHeader: {
     color: '#fff',
     fontWeight: '500',
-    fontSize: 13,
-    width: '90%',
   },
   buttomApply: {
     backgroundColor: BLUE_MAIN,
