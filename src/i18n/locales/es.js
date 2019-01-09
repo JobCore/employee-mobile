@@ -69,7 +69,7 @@ export default {
     reject: 'Rechazar',
     jobApplied: 'Trabajo aplicado!',
     jobRejected: 'Trabajo rechazado!',
-    lookingFor: 'Inc está buscando un',
+    lookingFor: 'está buscando un',
     on: 'en',
     hr: 'hr',
     openDirection: 'Abrir dirección',

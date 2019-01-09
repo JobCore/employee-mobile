@@ -66,7 +66,7 @@ export default {
     reject: 'Reject',
     jobApplied: 'Job applied!',
     jobRejected: 'Job rejected!',
-    lookingFor: 'Inc is looking for a',
+    lookingFor: 'is looking for a',
     on: 'on',
     hr: 'hr',
     openDirection: 'Open direction',
