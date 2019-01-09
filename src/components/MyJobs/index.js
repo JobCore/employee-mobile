@@ -179,7 +179,6 @@ class MyJobs extends Component {
                       resizeMode: 'contain',
                       height: 32,
                       width: 32,
-                      selfAlign: 'right',
                       marginRight: 20,
                     }}
                     source={require('../../assets/image/controls.png')}

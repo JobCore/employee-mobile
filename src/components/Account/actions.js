@@ -1,6 +1,8 @@
 import * as Flux from '../../utils/flux-state';
 import accountStore from './AccountStore';
 import fcmStore from '../Dashboard/FcmStore';
+import inviteStore from '../Invite/InviteStore';
+import jobStore from '../MyJobs/JobStore';
 import { LOG } from '../../utils';
 import { CustomToast } from '../../utils/components';
 import { postData, putData, deleteData, putFormData } from '../../fetch';
@@ -11,6 +13,18 @@ import {
   editProfileValidator,
   editProfilePictureValidator,
 } from './validators';
+
+/**
+ * To clear all store's state on logout
+ * ALL stores must be included here
+ * This must be called on logout
+ */
+const clearStores = () => {
+  accountStore.clearState();
+  fcmStore.clearState();
+  inviteStore.clearState();
+  jobStore.clearState();
+};
 
 /**
  * Login action
@@ -136,16 +150,17 @@ const logout = () => {
 
   if (!fcmTokenStored) {
     LOG(this, 'No Token on state');
-    accountStore.clearState();
+    clearStores();
     return Flux.dispatchEvent('Logout', {});
   }
 
   deleteData(`/employees/me/devices/${fcmTokenStored}`)
     .then(() => {
-      accountStore.clearState();
+      clearStores();
       Flux.dispatchEvent('Logout', {});
     })
     .catch((err) => {
+      clearStores();
       Flux.dispatchEvent('Logout', {});
       Flux.dispatchEvent('AccountStoreError', err);
     });
@@ -156,7 +171,7 @@ const logout = () => {
  * YOU MUST use this for unautorized API error
  */
 const logoutOnUnautorized = (err) => {
-  accountStore.clearState();
+  clearStores();
   CustomToast(err, 'danger');
   Flux.dispatchEvent('Logout', {});
 };
