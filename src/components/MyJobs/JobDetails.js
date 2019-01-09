@@ -25,7 +25,7 @@ import { i18next } from '../../i18n';
 import * as jobActions from './actions';
 import jobStore from './JobStore';
 import { JobDetails } from '../../utils/components';
-import { LOG } from '../../utils';
+import { LOG, storeErrorHandler } from '../../utils';
 import { Loading, openMapsApp, CustomToast } from '../../utils/components';
 import MARKER_IMG from '../../assets/image/map-marker.png';
 import { RATE_EMPLOYER_ROUTE } from '../../constants/routes';
@@ -468,7 +468,7 @@ class JobDetailsScreen extends Component {
                 );
               });
             },
-            (err) => CustomToast(err, 'danger'),
+            (err) => CustomToast(storeErrorHandler(err), 'danger'),
           );
         },
       },
@@ -503,7 +503,7 @@ class JobDetailsScreen extends Component {
                 );
               });
             },
-            (err) => CustomToast(err, 'danger'),
+            (err) => CustomToast(storeErrorHandler(err), 'danger'),
           );
         },
       },
