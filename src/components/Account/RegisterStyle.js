@@ -75,14 +75,9 @@ export default StyleSheet.create({
     borderRadius: 50,
     borderWidth: 1,
     paddingLeft: 20,
-    paddingTop: 12,
+    paddingTop: 0,
     paddingRight: 10,
     marginBottom: 10,
-    ...Platform.select({
-      ios: {
-        paddingTop: 0,
-      },
-    }),
   },
   borderNone: {
     borderBottomColor: 'transparent',
