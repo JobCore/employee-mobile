@@ -5,7 +5,7 @@ import {
   createBottomTabNavigator,
 } from 'react-navigation';
 
-import { YellowBox, Platform } from 'react-native';
+import { YellowBox } from 'react-native';
 
 YellowBox.ignoreWarnings([
   'Warning: isMounted(...) is deprecated',
@@ -151,7 +151,7 @@ const SwitchNavigator = createSwitchNavigator(
   },
 );
 
-const prefix = Platform.OS == 'android' ? 'jobcore://jobcore/' : 'jobcore://';
+const prefix = 'https://jobcore/';
 
 export default () => (
   <Root>
