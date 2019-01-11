@@ -98,8 +98,7 @@ class Profile extends Component {
   };
 
   errorHandler = (err) => {
-    this.isLoading(false);
-    this.setState({ isRefreshing: false });
+    this.setState({ isLoading: false, isRefreshing: false });
     CustomToast(err, 'danger');
   };
 
