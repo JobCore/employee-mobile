@@ -182,7 +182,7 @@ class JobInvites extends Component {
                         data.shift &&
                         data.shift.position &&
                         data.shift.position.picture
-                          ? data.shift.position.picture
+                          ? { uri: data.shift.position.picture }
                           : PROFILE_IMG
                       }
                     />
