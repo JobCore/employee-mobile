@@ -22,7 +22,6 @@ import { JobDetails } from '../../utils/components';
 import { LOG } from '../../utils';
 import { Loading, openMapsApp } from '../../utils/components';
 import MARKER_IMG from '../../assets/image/map-marker.png';
-import textStyles from '../../constants/textStyles';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -145,7 +144,7 @@ class InviteDetails extends Component {
                 </Button>
               </Left>
               <Body>
-                <Text style={[{ width: 150 }, textStyles.titleHeader]}>
+                <Text style={[{ width: 150 }, styles.titleHeader]}>
                   {t('JOB_INVITES.inviteDetails')}
                 </Text>
               </Body>
