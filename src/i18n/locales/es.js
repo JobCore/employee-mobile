@@ -59,6 +59,7 @@ export default {
       'Recibirás un correo electrónico para restablecer tu contraseña',
     recoverPassword: 'Recuperar contraseña',
     changePassword: 'Cambiar contraseña',
+    sendInstructions: 'Enviar instrucciones',
   },
   JOB_INVITES: {
     jobOffers: 'Invitaciones',
