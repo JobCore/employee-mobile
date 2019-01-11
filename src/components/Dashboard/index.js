@@ -351,7 +351,7 @@ class DashboardScreen extends Component {
                 </ListItem>
               </BackgroundHeader>
 
-              <View style={styles.viewDashboard}>
+              <View style={[styles.viewDashboard, { marginTop: 40 }]}>
                 <View style={styles.viewItemJobsLeft}>
                   <Text style={styles.titleItem}>
                     {t('DASHBOARD.pendingPayments')}
@@ -365,10 +365,10 @@ class DashboardScreen extends Component {
                   </Text>
                 </View>
                 <View style={styles.viewItemJobsRight}>
-                  <Text style={styles.titleItem}>
-                    {t('DASHBOARD.invitations')}
-                  </Text>
                   <TouchableOpacity onPress={this.goToInvitation}>
+                    <Text style={styles.titleItem}>
+                      {t('DASHBOARD.invitations')}
+                    </Text>
                     <Image
                       style={styles.iconSize}
                       source={require('../../assets/image/invite.png')}
@@ -385,10 +385,10 @@ class DashboardScreen extends Component {
 
               <View style={styles.viewDashboard}>
                 <View style={styles.viewItemJobsLeft}>
-                  <Text style={styles.titleItem}>
-                    {t('DASHBOARD.upcomingJobs')}
-                  </Text>
                   <TouchableOpacity onPress={this.goToMyJobs}>
+                    <Text style={styles.titleItem}>
+                      {t('DASHBOARD.upcomingJobs')}
+                    </Text>
                     <Image
                       style={styles.iconSize}
                       source={require('../../assets/image/jobs.png')}
@@ -401,13 +401,15 @@ class DashboardScreen extends Component {
                   ) : null}
                 </View>
                 <View style={styles.viewItemJobsRight}>
-                  <Text style={styles.titleItem}>
-                    {t('DASHBOARD.myRating')}
-                  </Text>
-                  <Image
-                    style={styles.iconSize}
-                    source={require('../../assets/image/ranking.png')}
-                  />
+                  <TouchableOpacity onPress={this.goToReviews}>
+                    <Text style={styles.titleItem}>
+                      {t('DASHBOARD.myRating')}
+                    </Text>
+                    <Image
+                      style={styles.iconSize}
+                      source={require('../../assets/image/ranking.png')}
+                    />
+                  </TouchableOpacity>
                   <Text style={styles.itemData}>{this.state.rating}</Text>
                 </View>
               </View>
@@ -555,6 +557,10 @@ class DashboardScreen extends Component {
 
   goToProfile = () => {
     this.props.navigation.navigate(PROFILE_ROUTE);
+  };
+
+  goToReviews = () => {
+    this.props.navigation.navigate(REVIEWS_ROUTE);
   };
 
   getEmployee = () => {

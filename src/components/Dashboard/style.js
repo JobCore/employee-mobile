@@ -92,8 +92,9 @@ export default StyleSheet.create({
     marginTop: 10,
   },
   iconSize: {
-    width: 32,
-    height: 32,
+    width: 40,
+    height: 40,
+    alignSelf: 'center',
   },
   buttonLeftActive: {
     backgroundColor: BLUE_MAIN,
