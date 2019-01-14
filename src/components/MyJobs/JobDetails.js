@@ -326,7 +326,7 @@ class JobDetailsScreen extends Component {
       if (!endedAt) {
         return false;
       }
-    }
+    } else return false;
 
     if (Array.isArray(this.state.jobRate) && !this.state.jobRate.length) {
       return true;
