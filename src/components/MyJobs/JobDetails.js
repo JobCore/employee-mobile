@@ -326,7 +326,7 @@ class JobDetailsScreen extends Component {
       if (!endedAt) {
         return false;
       }
-    } else return false;
+    } else return false; // dont show rate button until clockins are loaded
 
     if (Array.isArray(this.state.jobRate) && !this.state.jobRate.length) {
       return true;
@@ -355,7 +355,7 @@ class JobDetailsScreen extends Component {
     // delta time checking
     if (
       this.state.shift.maximum_clockin_delta_minutes !== null &&
-      diffInMinutes > this.state.shift.maximum_clockin_delta_minutes
+      diffInMinutes >= this.state.shift.maximum_clockin_delta_minutes
     ) {
       return false;
     }
@@ -451,8 +451,6 @@ class JobDetailsScreen extends Component {
     }
 
     if (!jobTitle) return;
-
-    // TODO: get latitude an longitude with current location
 
     Alert.alert(i18next.t('MY_JOBS.wantToClockIn'), jobTitle, [
       { text: i18next.t('APP.cancel') },

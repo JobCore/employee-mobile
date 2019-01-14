@@ -336,14 +336,20 @@ class JobInvites extends Component {
   };
 
   deleteRow() {
-    this.state.rowMap[
-      `${this.state.secId}${this.state.rowId}`
-    ].props.closeRow();
-    const newData = [...this.state.jobInvites];
-    newData.splice(this.state.rowId, 1);
-    this.setState({ jobInvites: newData }, () => {
+    try {
+      this.state.rowMap[
+        `${this.state.secId}${this.state.rowId}`
+      ].props.closeRow();
+
+      const newData = [...this.state.jobInvites];
+      newData.splice(this.state.rowId, 1);
+      this.setState({ jobInvites: newData }, () => {
+        this.getJobInvites();
+      });
+    } catch (e) {
+      LOG(this, `CloseInviteRow error: ${e}`);
       this.getJobInvites();
-    });
+    }
   }
 }
 export default JobInvites;
