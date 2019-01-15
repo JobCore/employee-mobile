@@ -86,8 +86,7 @@ const getFailedJobs = () => {
  * to check if the employee already rated the job's employer
  */
 const getJobRate = (shiftId) => {
-  //: TODO FIX the url
-  getData(`/employees/me/ratings?shift=${shiftId}`)
+  getData(`/employees/me/ratings/sent?shift=${shiftId}`)
     .then((data) => {
       Flux.dispatchEvent('GetJobRate', data);
     })
@@ -100,8 +99,7 @@ const getJobRate = (shiftId) => {
  * Get employee ratings reviews
  */
 const getEmployeeRatings = () => {
-  //: TODO FIX the url
-  getData(`/employees/me/ratings`)
+  getData(`/employees/me/ratings/received`)
     .then((data) => {
       Flux.dispatchEvent('GetEmployeeRatings', data);
     })

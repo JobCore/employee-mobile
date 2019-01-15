@@ -232,14 +232,25 @@ class JobDetailsScreen extends Component {
                   <Button
                     rounded
                     small
+                    bordered
                     style={styles.openDirectionButton}
                     onPress={this.openMapsApp}>
-                    <Text>{t('JOB_INVITES.openDirection')}</Text>
+                    <Text style={{ color: BLUE_DARK }}>
+                      {t('JOB_INVITES.openDirection')}
+                    </Text>
                   </Button>
                 </View>
               ) : null}
 
               <View style={styles.viewShift}>
+                {this.showAlreadyRated() ? (
+                  <View>
+                    <Text style={styles.textAlreadyRated}>
+                      {`${t('MY_JOBS.alreadyRated')}`}
+                    </Text>
+                  </View>
+                ) : null}
+
                 {this.showRateButton() ? (
                   <Button
                     block
@@ -326,9 +337,19 @@ class JobDetailsScreen extends Component {
       if (!endedAt) {
         return false;
       }
-    }
+    } else return false; // dont show rate button until clockins are loaded
 
     if (Array.isArray(this.state.jobRate) && !this.state.jobRate.length) {
+      return true;
+    }
+
+    return false;
+  };
+
+  showAlreadyRated = () => {
+    if (!this.state.shift) return false;
+
+    if (Array.isArray(this.state.jobRate) && this.state.jobRate.length) {
       return true;
     }
 
@@ -355,7 +376,7 @@ class JobDetailsScreen extends Component {
     // delta time checking
     if (
       this.state.shift.maximum_clockin_delta_minutes !== null &&
-      diffInMinutes > this.state.shift.maximum_clockin_delta_minutes
+      diffInMinutes >= this.state.shift.maximum_clockin_delta_minutes
     ) {
       return false;
     }
@@ -451,8 +472,6 @@ class JobDetailsScreen extends Component {
     }
 
     if (!jobTitle) return;
-
-    // TODO: get latitude an longitude with current location
 
     Alert.alert(i18next.t('MY_JOBS.wantToClockIn'), jobTitle, [
       { text: i18next.t('APP.cancel') },
