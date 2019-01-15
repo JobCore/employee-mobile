@@ -146,6 +146,7 @@ const rateEmployer = (shiftId, employerId, rating, comments) => {
  * @param  {Date} startedAt
  */
 const clockIn = (shiftId, latitudeIn, longitudeIn, startedAt) => {
+  console.log('CLOCKIN', shiftId, latitudeIn, longitudeIn, startedAt);
   try {
     clockInOutValidator(shiftId, latitudeIn, longitudeIn, startedAt);
   } catch (err) {

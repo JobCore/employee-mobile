@@ -300,10 +300,10 @@ class EditProfile extends Component {
           text: i18next.t('EDIT_PROFILE.update'),
           onPress: () => {
             this.setState({ isLoading: true }, () => {
+              LOG(this, this.state);
               if (this.state.selectedImage && this.state.selectedImage.uri) {
                 return actions.editProfilePicture(this.state.selectedImage);
               }
-
               this.editProfile();
             });
           },
@@ -371,6 +371,26 @@ class EditProfile extends Component {
    * with the uri, type & name
    */
   handleImagePickerResponse = (response) => {
+    let type = response.type;
+    if (type === undefined && response.fileName === undefined) {
+      // IOS
+      const pos = response.uri.lastIndexOf('.');
+      type = response.uri.substring(pos + 1);
+    }
+    if (type === undefined) {
+      // IOS
+      const splitted = response.fileName.split('.');
+      type = splitted[splitted.length - 1];
+    }
+    type = `image/${type}`.toLowerCase();
+
+    let name = response.fileName;
+    if (name === undefined && response.fileName === undefined) {
+      // IOS
+      const pos = response.uri.lastIndexOf('/');
+      name = response.uri.substring(pos + 1);
+    }
+
     if (response.didCancel) {
       // for react-native-image-picker response
       LOG(this, 'User cancelled image picker');
@@ -383,14 +403,8 @@ class EditProfile extends Component {
     } else {
       const selectedImage = {
         uri: response.uri,
-        type:
-          response.type ||
-          `image/${
-            response.fileName.split('.')[
-              response.fileName.split('.').length - 1
-            ]
-          }`,
-        name: response.fileName,
+        type,
+        name,
       };
 
       this.setState({ selectedImage });
