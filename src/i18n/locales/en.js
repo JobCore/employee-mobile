@@ -123,6 +123,7 @@ export default {
     rateComment: 'Rate comment',
     rate: 'Rate',
     rateThisEmployer: `Rate this job's employer and give it a feedback`,
+    alreadyRated: '"You have already rated this employer for this job!"',
     invalidShift: 'Invalid job',
     invalidEmployer: 'Invalid employer',
     invalidRating: 'Rating must be from 1 to 5',

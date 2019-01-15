@@ -127,6 +127,8 @@ export default {
     rateComment: 'Escribe un comentario',
     rate: 'Calificar',
     rateThisEmployer: `Califica al empleador de este trabajo y dale un comentario`,
+    alreadyRated:
+      '"Usted ya ha calificado a este empleador para este trabajo!"',
     invalidShift: 'Trabajo invalido',
     invalidEmployer: 'Empleador invalido',
     invalidRating: 'La calificación debe ser de 1 a 5',

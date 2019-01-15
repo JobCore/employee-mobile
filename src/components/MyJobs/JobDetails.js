@@ -232,14 +232,25 @@ class JobDetailsScreen extends Component {
                   <Button
                     rounded
                     small
+                    bordered
                     style={styles.openDirectionButton}
                     onPress={this.openMapsApp}>
-                    <Text>{t('JOB_INVITES.openDirection')}</Text>
+                    <Text style={{ color: BLUE_DARK }}>
+                      {t('JOB_INVITES.openDirection')}
+                    </Text>
                   </Button>
                 </View>
               ) : null}
 
               <View style={styles.viewShift}>
+                {this.showAlreadyRated() ? (
+                  <View>
+                    <Text style={styles.textAlreadyRated}>
+                      {`${t('MY_JOBS.alreadyRated')}`}
+                    </Text>
+                  </View>
+                ) : null}
+
                 {this.showRateButton() ? (
                   <Button
                     block
@@ -329,6 +340,16 @@ class JobDetailsScreen extends Component {
     } else return false; // dont show rate button until clockins are loaded
 
     if (Array.isArray(this.state.jobRate) && !this.state.jobRate.length) {
+      return true;
+    }
+
+    return false;
+  };
+
+  showAlreadyRated = () => {
+    if (!this.state.shift) return false;
+
+    if (Array.isArray(this.state.jobRate) && this.state.jobRate.length) {
       return true;
     }
 

@@ -35,6 +35,11 @@ export default StyleSheet.create({
     paddingBottom: 18,
     paddingTop: 0,
   },
+  textAlreadyRated: {
+    marginTop: 10,
+    color: BLUE_MAIN,
+    textAlign: 'center',
+  },
   textLocation: {
     color: BLUE_DARK,
     textAlign: 'center',
@@ -128,7 +133,8 @@ export default StyleSheet.create({
     color: BLUE_MAIN,
   },
   openDirectionButton: {
-    backgroundColor: BLUE_DARK,
+    borderColor: BLUE_DARK,
+    marginTop: 10,
     alignSelf: 'center',
   },
 });
