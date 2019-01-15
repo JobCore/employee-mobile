@@ -107,7 +107,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 20,
     paddingRight: 20,
-    marginTop: 15,
+    marginTop: 20,
     marginBottom: 10,
   },
   viewButtomLeft: {

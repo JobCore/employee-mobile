@@ -13,7 +13,7 @@ import {
   Icon,
 } from 'native-base';
 import styles from './InviteDetailsStyle';
-import { WHITE_MAIN, BLUE_MAIN } from '../../constants/colorPalette';
+import { WHITE_MAIN, BLUE_MAIN, BLUE_DARK } from '../../constants/colorPalette';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as inviteActions from './actions';
@@ -190,11 +190,14 @@ class InviteDetails extends Component {
                     {`${this.state.invite.shift.venue.title}`}
                   </Text>
                   <Button
-                    small
                     rounded
+                    small
+                    bordered
                     style={styles.openDirectionButton}
                     onPress={this.openMapsApp}>
-                    <Text>{t(`JOB_INVITES.openDirection`)}</Text>
+                    <Text style={{ color: BLUE_DARK }}>
+                      {t('JOB_INVITES.openDirection')}
+                    </Text>
                   </Button>
                 </View>
               ) : null}
