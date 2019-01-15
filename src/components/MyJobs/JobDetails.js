@@ -373,16 +373,18 @@ class JobDetailsScreen extends Component {
       moment.utc().diff(moment.utc(this.state.shift.starting_at), 'minutes'),
     );
 
-    // delta time checking
-    if (
-      this.state.shift.maximum_clockin_delta_minutes !== null &&
-      diffInMinutes >= this.state.shift.maximum_clockin_delta_minutes
-    ) {
-      return false;
-    }
-
     if (Array.isArray(this.state.clockIns)) {
-      if (!this.state.clockIns.length) return true;
+      if (!this.state.clockIns.length) {
+        // delta time checking for the first clockIn only
+        if (
+          this.state.shift.maximum_clockin_delta_minutes !== null &&
+          diffInMinutes >= this.state.shift.maximum_clockin_delta_minutes
+        ) {
+          return false;
+        }
+
+        return true;
+      }
 
       const endedAt = this.state.clockIns[this.state.clockIns.length - 1]
         .ended_at;
