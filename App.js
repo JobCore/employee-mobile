@@ -152,7 +152,7 @@ const SwitchNavigator = createSwitchNavigator(
   },
 );
 
-const prefix = 'https://jobcore.com/';
+const prefix = 'https://talent.jobcore.co/';
 
 export default () => (
   <Root>

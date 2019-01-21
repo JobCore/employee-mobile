@@ -52,6 +52,7 @@ export default {
     logout: 'Cerrar sesión',
     wantToLogout: 'Cerrar sesión?',
     editProfile: 'Editar perfil',
+    jobPreferences: 'Preferencias de trabajo',
   },
   FORGOT: {
     email: 'Correo',

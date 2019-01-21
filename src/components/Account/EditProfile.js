@@ -27,7 +27,7 @@ import { i18next } from '../../i18n';
 import { LOG, WARN } from '../../utils';
 import { CustomToast, Loading } from '../../utils/components';
 import ImagePicker from 'react-native-image-picker';
-import { RESET_ROUTE } from '../../constants/routes';
+import { RESET_ROUTE, JOB_PREFERENCES_ROUTE } from '../../constants/routes';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import {
   BLUE_MAIN,
@@ -234,6 +234,14 @@ class EditProfile extends Component {
                   </Button>
                   <TouchableOpacity
                     full
+                    onPress={this.goToJobPreferences}
+                    style={styles.viewButtomSignUp}>
+                    <Text style={styles.textButtomSignUp}>
+                      {t('SETTINGS.jobPreferences')}
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    full
                     onPress={() => this.props.navigation.goBack()}
                     style={styles.viewButtomSignUp}>
                     <Text style={styles.textButtomSignUp}>
@@ -408,6 +416,10 @@ class EditProfile extends Component {
 
       this.setState({ selectedImage });
     }
+  };
+
+  goToJobPreferences = () => {
+    this.props.navigation.navigate(JOB_PREFERENCES_ROUTE);
   };
 
   isLoading = (isLoading) => {

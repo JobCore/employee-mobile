@@ -299,7 +299,7 @@ class DashboardScreen extends Component {
                 </Title>
               </Body>
               <Right>
-                <Button transparent onPress={this.goToSetting}>
+                <Button transparent onPress={this.goToEditProfile}>
                   <Image
                     style={{
                       resizeMode: 'contain',
@@ -336,16 +336,18 @@ class DashboardScreen extends Component {
                       />
                     </TouchableOpacity>
                     <Body>
-                      {this.state.user ? (
-                        <Text style={styles.textHello}>
-                          {`${t('DASHBOARD.hello')} ${
-                            this.state.user.first_name
-                          } ${this.state.user.last_name},`}
+                      <TouchableOpacity onPress={this.goToEditProfile}>
+                        {this.state.user ? (
+                          <Text style={styles.textHello}>
+                            {`${t('DASHBOARD.hello')} ${
+                              this.state.user.first_name
+                            } ${this.state.user.last_name},`}
+                          </Text>
+                        ) : null}
+                        <Text style={styles.textWelcome}>
+                          {t('DASHBOARD.welcome')}
                         </Text>
-                      ) : null}
-                      <Text style={styles.textWelcome}>
-                        {t('DASHBOARD.welcome')}
-                      </Text>
+                      </TouchableOpacity>
                     </Body>
                   </Left>
                 </ListItem>
@@ -546,7 +548,7 @@ class DashboardScreen extends Component {
     this.props.navigation.navigate(JOB_INVITES_ROUTE);
   };
 
-  goToSetting = () => {
+  goToEditProfile = () => {
     this.props.navigation.navigate(EDIT_PROFILE_ROUTE);
   };
 
