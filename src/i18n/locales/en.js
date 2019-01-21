@@ -50,6 +50,7 @@ export default {
     logout: 'Logout',
     wantToLogout: 'Logout?',
     editProfile: 'Edit profile',
+    jobPreferences: 'Job preferences',
   },
   FORGOT: {
     email: 'Email',
