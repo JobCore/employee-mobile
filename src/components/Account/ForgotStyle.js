@@ -8,6 +8,9 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  containerChange: {
+    paddingHorizontal: 35,
+  },
   viewLogo: {
     width: '75%',
     height: 90,
@@ -83,5 +86,10 @@ export default StyleSheet.create({
   },
   labelForm: {
     color: BLUE_DARK,
+  },
+  fillOutEmailText: {
+    textAlign: 'center',
+    color: BLUE_DARK,
+    marginVertical: 50,
   },
 });

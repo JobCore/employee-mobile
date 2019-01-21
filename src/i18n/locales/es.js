@@ -60,6 +60,8 @@ export default {
     recoverPassword: 'Recuperar contraseña',
     changePassword: 'Cambiar contraseña',
     sendInstructions: 'Enviar instrucciones',
+    fillOutEmail:
+      'Complete su dirección de correo electrónico y le enviaremos un correo electrónico con instrucciones para cambiar su contraseña',
   },
   JOB_INVITES: {
     jobOffers: 'Invitaciones',

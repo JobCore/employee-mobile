@@ -19,6 +19,7 @@ import LoginScreen from './src/components/Account/LoginScreen';
 import RegisterScreen from './src/components/Account/RegisterScreen';
 import EditProfile from './src/components/Account/EditProfile';
 import ForgotScreen from './src/components/Account/ForgotScreen';
+import ChangePassword from './src/components/Account/ChangePassword';
 import Profile from './src/components/Account/Profile';
 
 import DashboardScreen from './src/components/Dashboard';
@@ -116,7 +117,7 @@ export const AppStack = createStackNavigator(
   {
     ['Tabs']: Tabs,
     [SETTING_ROUTE]: SettingScreen,
-    [RESET_ROUTE]: ForgotScreen,
+    [RESET_ROUTE]: ChangePassword,
     [EDIT_PROFILE_ROUTE]: EditProfile,
     [PROFILE_ROUTE]: Profile,
     [EDIT_LOCATION_ROUTE]: EditLocation,

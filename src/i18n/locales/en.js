@@ -57,6 +57,8 @@ export default {
     recoverPassword: 'Recover password',
     changePassword: 'Change password',
     sendInstructions: 'Send instructions',
+    fillOutEmail:
+      'Fill out your email address and we will send you and email with instructions to change your password',
   },
   JOB_INVITES: {
     jobOffers: 'Invitations',
