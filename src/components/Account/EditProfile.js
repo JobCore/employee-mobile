@@ -372,21 +372,20 @@ class EditProfile extends Component {
    */
   handleImagePickerResponse = (response) => {
     let type = response.type;
+
     if (type === undefined && response.fileName === undefined) {
-      // IOS
       const pos = response.uri.lastIndexOf('.');
       type = response.uri.substring(pos + 1);
+      if (type) type = `image/${type}`;
     }
     if (type === undefined) {
-      // IOS
       const splitted = response.fileName.split('.');
       type = splitted[splitted.length - 1];
+      if (type) type = `image/${type}`;
     }
-    type = `image/${type}`.toLowerCase();
 
     let name = response.fileName;
     if (name === undefined && response.fileName === undefined) {
-      // IOS
       const pos = response.uri.lastIndexOf('/');
       name = response.uri.substring(pos + 1);
     }
@@ -403,7 +402,7 @@ class EditProfile extends Component {
     } else {
       const selectedImage = {
         uri: response.uri,
-        type,
+        type: type.toLowerCase(),
         name,
       };
 
