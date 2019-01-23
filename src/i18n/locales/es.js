@@ -6,6 +6,7 @@ export default {
       'Por favor, compruebe su conexión a Internet y vuelva a intentarlo',
     timeout: 'El servidor ha tardado mucho en responder',
     to: 'a',
+    na: 'N/A',
   },
   LOGIN: {
     signIn: 'Iniciar sesión',
@@ -31,6 +32,7 @@ export default {
     goBack: 'Ir atrás',
     youHaveRegistered: 'Has iniciado sesión!',
     bio: 'Biografía',
+    invalidBio: 'Biografía Inválida',
   },
   EDIT_PROFILE: {
     editProfile: 'Editar perfil',
@@ -38,6 +40,7 @@ export default {
     profileUpdated: 'Perfil actualizado!',
     update: 'Editar',
     invalidImage: 'Solo se permiten archivos jpg y png',
+    saveProfile: 'Guardar perfil',
   },
   SETTINGS: {
     settings: 'Ajustes',
@@ -49,6 +52,7 @@ export default {
     logout: 'Cerrar sesión',
     wantToLogout: 'Cerrar sesión?',
     editProfile: 'Editar perfil',
+    jobPreferences: 'Preferencias de trabajo',
   },
   FORGOT: {
     email: 'Correo',
@@ -56,6 +60,9 @@ export default {
       'Recibirás un correo electrónico para restablecer tu contraseña',
     recoverPassword: 'Recuperar contraseña',
     changePassword: 'Cambiar contraseña',
+    sendInstructions: 'Enviar instrucciones',
+    fillOutEmail:
+      'Complete su dirección de correo electrónico y le enviaremos un correo electrónico con instrucciones para cambiar su contraseña',
   },
   JOB_INVITES: {
     jobOffers: 'Invitaciones',
@@ -67,7 +74,7 @@ export default {
     reject: 'Rechazar',
     jobApplied: 'Trabajo aplicado!',
     jobRejected: 'Trabajo rechazado!',
-    lookingFor: 'Inc está buscando un',
+    lookingFor: 'está buscando un',
     on: 'en',
     hr: 'hr',
     openDirection: 'Abrir dirección',
@@ -94,7 +101,7 @@ export default {
     minimumHourlyRate: 'Tarifa mínima por hora',
     maximumJobDistanceMiles: 'Aceptar trabajos no más allá de',
     hourlyRateLabel: '$/h. Mínimo',
-    dateStartToEnd: 'Desde {{startingAt}} a {{endingAt}}',
+    dateStartToEnd: 'desde {{startingAt}} a {{endingAt}}',
     startDate: 'fecha de inicio',
     endDate: 'fecha de finalización',
     selectStartDate: 'Seleccionar fecha de inicio',
@@ -119,6 +126,26 @@ export default {
     completed: 'Completetados',
     failed: 'Fallidos',
     review: 'Opiniones',
+    rateJob: 'Calificar trabajo',
+    rateComment: 'Escribe un comentario',
+    rate: 'Calificar',
+    rateThisEmployer: `Califica al empleador de este trabajo y dale un comentario`,
+    alreadyRated:
+      '"Usted ya ha calificado a este empleador para este trabajo!"',
+    invalidShift: 'Trabajo invalido',
+    invalidEmployer: 'Empleador invalido',
+    invalidRating: 'La calificación debe ser de 1 a 5',
+    invalidComments:
+      'Debes introducir un comentario para calificar al empleador',
+    wantToRateEmployer: `Calificar al empleador?`,
+    employerRated: 'Tu comentario fue enviado!',
+    rateYourEmployer: 'Califica a tu empleador',
+    wantToClockIn: 'Checar entrada?',
+    wantToClockOut: 'Checar salida?',
+    clockIn: 'Checar entrada',
+    clockOut: 'Checar salida',
+    clockedIn: 'Entrada checada!',
+    clockedOut: 'Salida checada!',
   },
   DASHBOARD: {
     dashboard: 'Inicio',
@@ -131,5 +158,17 @@ export default {
     stopReceivingInvites: 'Deja de recibir invitaciones automáticas',
     y: 'S',
     n: 'N',
+  },
+  PROFILE: {
+    profile: 'Perfil',
+    yourRating: 'Tu clasificación',
+    completedJobs: 'Trabajos completados',
+    badges: 'Insignias',
+    whatEmployersSaid: 'Lo que los empleadores dijeron de ti',
+  },
+  REVIEWS: {
+    Reviews: 'Opiniones',
+    emptyReviews: 'No se encontraron opiniones',
+    workingAs: 'Trabajando como',
   },
 };

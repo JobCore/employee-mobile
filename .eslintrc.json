@@ -12,7 +12,8 @@
   },
   "env": {
     "es6": true,
-    "node": true
+    "node": true,
+    "browser": true
   },
   "extends": [
     "eslint:recommended",
@@ -25,6 +26,7 @@
   },
   "rules": {
     "no-console": 0,
+    "no-alert": "error",
     "indent": ["error", 2],
     "object-curly-spacing": ["error", "always"],
     "array-bracket-spacing": ["error", "never"],

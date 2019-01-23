@@ -1,13 +1,28 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Image } from 'react-native';
-import { Item, Input, Button, Text, Form, Content } from 'native-base';
+import { View, TouchableOpacity } from 'react-native';
+import {
+  Item,
+  Input,
+  Button,
+  Text,
+  Form,
+  Content,
+  Header,
+  Left,
+  Icon,
+  Body,
+  Right,
+  Container,
+  Title,
+} from 'native-base';
 import styles from './ForgotStyle';
+import profileStyles from './ProfileStyle';
 import * as accountActions from './actions';
 import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import { CustomToast, Loading } from '../../utils/components';
-import { FormView } from '../../utils/platform';
+import { BLUE_MAIN, WHITE_MAIN } from '../../constants/colorPalette';
 
 class ForgotScreen extends Component {
   static navigationOptions = { header: null };
@@ -51,19 +66,36 @@ class ForgotScreen extends Component {
     return (
       <I18n>
         {(t) => (
-          <Content contentContainerStyle={{ flexGrow: 1 }}>
-            <View style={styles.container}>
-              {this.state.isLoading ? <Loading /> : null}
+          <Container>
+            {this.state.isLoading ? <Loading /> : null}
 
-              <Image
-                style={styles.viewBackground}
-                source={require('../../assets/image/bg.jpg')}
-              />
-              <Image
-                style={styles.viewLogo}
-                source={require('../../assets/image/logo1.png')}
-              />
-              <FormView>
+            <Header
+              androidStatusBarColor={BLUE_MAIN}
+              style={profileStyles.headerCustom}>
+              <Left>
+                <Button
+                  transparent
+                  onPress={() => this.props.navigation.goBack()}>
+                  <Icon
+                    name="ios-close"
+                    style={{ color: WHITE_MAIN, marginLeft: 20 }}
+                  />
+                </Button>
+              </Left>
+              <Body>
+                <Title style={profileStyles.titleHeader}>
+                  {t('FORGOT.changePassword')}
+                </Title>
+              </Body>
+              <Right />
+            </Header>
+
+            <Content>
+              <View style={styles.containerChange}>
+                <Text style={styles.fillOutEmailText}>
+                  {t('FORGOT.fillOutEmail')}
+                </Text>
+
                 <Form>
                   <Item style={styles.viewInput} rounded inlineLabel>
                     <Input
@@ -91,9 +123,9 @@ class ForgotScreen extends Component {
                     {t('REGISTER.goBack')}
                   </Text>
                 </TouchableOpacity>
-              </FormView>
-            </View>
-          </Content>
+              </View>
+            </Content>
+          </Container>
         )}
       </I18n>
     );

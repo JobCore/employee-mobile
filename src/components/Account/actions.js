@@ -1,7 +1,10 @@
 import * as Flux from '../../utils/flux-state';
 import accountStore from './AccountStore';
 import fcmStore from '../Dashboard/FcmStore';
-import { LOG } from '../../utils';
+import inviteStore from '../Invite/InviteStore';
+import jobStore from '../MyJobs/JobStore';
+import { LOG, storeErrorHandler } from '../../utils';
+import { CustomToast } from '../../utils/components';
 import { postData, putData, deleteData, putFormData } from '../../fetch';
 import {
   loginValidator,
@@ -10,6 +13,18 @@ import {
   editProfileValidator,
   editProfilePictureValidator,
 } from './validators';
+
+/**
+ * To clear all store's state on logout
+ * ALL stores must be included here
+ * This must be called on logout
+ */
+const clearStores = () => {
+  accountStore.clearState();
+  fcmStore.clearState();
+  inviteStore.clearState();
+  jobStore.clearState();
+};
 
 /**
  * Login action
@@ -44,9 +59,9 @@ const login = (email, password, fcmToken) => {
  * @param  {string} firstName
  * @param  {string} lastName
  */
-const register = (email, password, firstName, lastName, bio) => {
+const register = (email, password, firstName, lastName) => {
   try {
-    registerValidator(email, password, firstName, lastName, bio);
+    registerValidator(email, password, firstName, lastName);
   } catch (err) {
     return Flux.dispatchEvent('AccountStoreError', err);
   }
@@ -60,7 +75,6 @@ const register = (email, password, firstName, lastName, bio) => {
       username: email,
       email: email,
       password: password,
-      bio,
     },
     false,
   )
@@ -78,14 +92,14 @@ const register = (email, password, firstName, lastName, bio) => {
  * @param  {string} firstName
  * @param  {string} lastName
  */
-const editProfile = (userId, firstName, lastName, bio) => {
+const editProfile = (firstName, lastName, bio) => {
   try {
     editProfileValidator(firstName, lastName, bio);
   } catch (err) {
     return Flux.dispatchEvent('AccountStoreError', err);
   }
 
-  putData(`/profiles/${userId}`, {
+  putData(`/profiles/me`, {
     first_name: firstName,
     last_name: lastName,
     bio,
@@ -136,16 +150,17 @@ const logout = () => {
 
   if (!fcmTokenStored) {
     LOG(this, 'No Token on state');
-    accountStore.clearState();
+    clearStores();
     return Flux.dispatchEvent('Logout', {});
   }
 
   deleteData(`/employees/me/devices/${fcmTokenStored}`)
     .then(() => {
-      accountStore.clearState();
+      clearStores();
       Flux.dispatchEvent('Logout', {});
     })
     .catch((err) => {
+      clearStores();
       Flux.dispatchEvent('Logout', {});
       Flux.dispatchEvent('AccountStoreError', err);
     });
@@ -155,9 +170,10 @@ const logout = () => {
  * Logout on unautorized API response (status 401/403)
  * YOU MUST use this for unautorized API error
  */
-const logoutOnUnautorized = () => {
-  accountStore.clearState();
-  return Flux.dispatchEvent('Logout', {});
+const logoutOnUnautorized = (err) => {
+  clearStores();
+  CustomToast(storeErrorHandler(err), 'danger');
+  Flux.dispatchEvent('Logout', {});
 };
 
 /**

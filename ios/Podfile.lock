@@ -59,12 +59,58 @@ PODS:
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - Protobuf (3.6.1)
+  - React (0.57.4):
+    - React/Core (= 0.57.4)
+  - react-native-image-picker (0.27.2):
+    - React
+  - React/Core (0.57.4):
+    - yoga (= 0.57.4.React)
+  - React/fishhook (0.57.4)
+  - React/RCTActionSheet (0.57.4):
+    - React/Core
+  - React/RCTAnimation (0.57.4):
+    - React/Core
+  - React/RCTBlob (0.57.4):
+    - React/Core
+  - React/RCTGeolocation (0.57.4):
+    - React/Core
+  - React/RCTImage (0.57.4):
+    - React/Core
+    - React/RCTNetwork
+  - React/RCTLinkingIOS (0.57.4):
+    - React/Core
+  - React/RCTNetwork (0.57.4):
+    - React/Core
+  - React/RCTSettings (0.57.4):
+    - React/Core
+  - React/RCTText (0.57.4):
+    - React/Core
+  - React/RCTVibration (0.57.4):
+    - React/Core
+  - React/RCTWebSocket (0.57.4):
+    - React/Core
+    - React/fishhook
+    - React/RCTBlob
+  - yoga (0.57.4.React)
 
 DEPENDENCIES:
   - Firebase/Analytics
   - Firebase/Core
   - Firebase/Messaging
   - GoogleAppMeasurement (~> 5.2.0)
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - React/Core (from `../node_modules/react-native`)
+  - React/RCTActionSheet (from `../node_modules/react-native`)
+  - React/RCTAnimation (from `../node_modules/react-native`)
+  - React/RCTGeolocation (from `../node_modules/react-native`)
+  - React/RCTImage (from `../node_modules/react-native`)
+  - React/RCTLinkingIOS (from `../node_modules/react-native`)
+  - React/RCTNetwork (from `../node_modules/react-native`)
+  - React/RCTSettings (from `../node_modules/react-native`)
+  - React/RCTText (from `../node_modules/react-native`)
+  - React/RCTVibration (from `../node_modules/react-native`)
+  - React/RCTWebSocket (from `../node_modules/react-native`)
+  - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -78,6 +124,14 @@ SPEC REPOS:
     - nanopb
     - Protobuf
 
+EXTERNAL SOURCES:
+  React:
+    :path: "../node_modules/react-native"
+  react-native-image-picker:
+    :path: "../node_modules/react-native-image-picker"
+  yoga:
+    :path: "../node_modules/react-native/ReactCommon/yoga/yoga.podspec"
+
 SPEC CHECKSUMS:
   Firebase: 383fa29aca93e371cab776b48a5c66544d3c2003
   FirebaseAnalytics: 831f1f127f4a75698e9875a87bf7e2668730d953
@@ -88,7 +142,10 @@ SPEC CHECKSUMS:
   GoogleUtilities: abb092d2c12e817fa3e0e7b274987dd72fb86ec3
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
+  React: 1f4ca35c4aeac2b47e42e8be98bb9188f48fba84
+  react-native-image-picker: e47cbaf230af8902316e4d69dc83f959bde45e23
+  yoga: ac0f4c6ff31ac05bad1bd166fec5204c19de0277
 
-PODFILE CHECKSUM: a59540eb02b2f978d369ae2d04d4018498a109a4
+PODFILE CHECKSUM: fe5bbc2477aa913724a19fe520f24b9714dd628a
 
 COCOAPODS: 1.6.0.beta.2

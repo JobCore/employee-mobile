@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { View, Image, Dimensions } from 'react-native';
+import { View, Image, Dimensions, Alert } from 'react-native';
 import {
   Container,
   Content,
@@ -14,15 +14,22 @@ import {
   Text,
 } from 'native-base';
 import styles from '../Invite/InviteDetailsStyle';
-import { WHITE_MAIN, BLUE_MAIN } from '../../constants/colorPalette';
+import {
+  WHITE_MAIN,
+  BLUE_MAIN,
+  BLUE_DARK,
+  VIOLET_MAIN,
+} from '../../constants/colorPalette';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as jobActions from './actions';
 import jobStore from './JobStore';
 import { JobDetails } from '../../utils/components';
-import { LOG } from '../../utils';
-import { Loading, openMapsApp } from '../../utils/components';
+import { LOG, storeErrorHandler } from '../../utils';
+import { Loading, openMapsApp, CustomToast } from '../../utils/components';
 import MARKER_IMG from '../../assets/image/map-marker.png';
+import { RATE_EMPLOYER_ROUTE } from '../../constants/routes';
+import moment from 'moment';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -55,34 +62,54 @@ class JobDetailsScreen extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       },
+      jobRate: null,
+      clockIns: null,
       shiftId: props.navigation.getParam('shiftId', null),
       applicationId: props.navigation.getParam('applicationId', null),
     };
   }
 
   componentDidMount() {
-    this.getJobSubscription = jobStore.subscribe('GetJob', (job) => {
-      this.getJobHandler(job);
-    });
+    this.getJobSubscription = jobStore.subscribe('GetJob', this.getJobHandler);
 
     this.getApplicationSubscription = jobStore.subscribe(
       'GetApplication',
-      (job) => {
-        this.getJobHandler(job);
-      },
+      this.getJobHandler,
     );
 
-    this.inviteStoreError = jobStore.subscribe('JobStoreError', (err) => {
-      this.errorHandler(err);
-    });
+    this.getJobRateSubscription = jobStore.subscribe(
+      'GetJobRate',
+      this.getJobRateHandler,
+    );
 
-    this.getJob();
+    this.clockInSubscription = jobStore.subscribe(
+      'ClockIn',
+      this.clockInHandler,
+    );
+
+    this.clockOutSubscription = jobStore.subscribe(
+      'ClockOut',
+      this.clockOutHandler,
+    );
+
+    this.getClockInsSubscription = jobStore.subscribe(
+      'GetClockins',
+      this.getClockInsHandler,
+    );
+
+    this.jobStoreError = jobStore.subscribe('JobStoreError', this.errorHandler);
+
+    this.getJobOrApplication();
   }
 
   componentWillUnmount() {
     this.getJobSubscription.unsubscribe();
     this.getApplicationSubscription.unsubscribe();
-    this.inviteStoreError.unsubscribe();
+    this.getJobRateSubscription.unsubscribe();
+    this.clockInSubscription.unsubscribe();
+    this.clockOutSubscription.unsubscribe();
+    this.getClockInsSubscription.unsubscribe();
+    this.jobStoreError.unsubscribe();
   }
 
   getJobHandler = (shift) => {
@@ -109,6 +136,26 @@ class JobDetailsScreen extends Component {
     this.setState({ shift, isLoading: false }, () => {
       this.onRegionChangeComplete(region);
     });
+  };
+
+  getJobRateHandler = (jobRate) => {
+    this.setState({ jobRate });
+  };
+
+  getClockInsHandler = (clockIns) => {
+    this.setState({ clockIns });
+  };
+
+  clockInHandler = () => {
+    this.setState({ isLoading: false });
+    CustomToast(i18next.t('MY_JOBS.clockedIn'));
+    this.getClockins();
+  };
+
+  clockOutHandler = () => {
+    this.setState({ isLoading: false });
+    CustomToast(i18next.t('MY_JOBS.clockedOut'));
+    this.getClockins();
   };
 
   errorHandler = () => {
@@ -158,6 +205,7 @@ class JobDetailsScreen extends Component {
                 {this.showMarker() ? (
                   <Marker
                     image={MARKER_IMG}
+                    anchor={{ x: 0.5, y: 1 }}
                     coordinate={{
                       latitude: this.state.shift.venue.latitude,
                       longitude: this.state.shift.venue.longitude,
@@ -167,6 +215,7 @@ class JobDetailsScreen extends Component {
                 ) : (
                   <Marker
                     image={MARKER_IMG}
+                    anchor={{ x: 0.5, y: 1 }}
                     coordinate={{
                       latitude: DEFAULT_LATIDUDE,
                       longitude: DEFAULT_LONGITUDE,
@@ -181,14 +230,66 @@ class JobDetailsScreen extends Component {
                     {`${this.state.shift.venue.title}`}
                   </Text>
                   <Button
+                    rounded
+                    small
+                    bordered
                     style={styles.openDirectionButton}
                     onPress={this.openMapsApp}>
-                    <Text style={styles.textLocation}>
-                      {`${this.state.invite.shift.venue.title}`}
+                    <Text style={{ color: BLUE_DARK }}>
+                      {t('JOB_INVITES.openDirection')}
                     </Text>
                   </Button>
                 </View>
               ) : null}
+
+              <View style={styles.viewShift}>
+                {this.showAlreadyRated() ? (
+                  <View>
+                    <Text style={styles.textAlreadyRated}>
+                      {`${t('MY_JOBS.alreadyRated')}`}
+                    </Text>
+                  </View>
+                ) : null}
+
+                {this.showRateButton() ? (
+                  <Button
+                    block
+                    rounded
+                    style={{
+                      marginVertical: 15,
+                      backgroundColor: BLUE_MAIN,
+                    }}
+                    onPress={this.goToRateJob}>
+                    <Text>{t('MY_JOBS.rateYourEmployer')}</Text>
+                  </Button>
+                ) : null}
+
+                {this.showClockInButton() ? (
+                  <Button
+                    block
+                    rounded
+                    style={{
+                      marginVertical: 15,
+                      backgroundColor: BLUE_DARK,
+                    }}
+                    onPress={this.clockIn}>
+                    <Text>{t('MY_JOBS.clockIn')}</Text>
+                  </Button>
+                ) : null}
+
+                {this.showClockOutButton() ? (
+                  <Button
+                    block
+                    rounded
+                    style={{
+                      marginVertical: 15,
+                      backgroundColor: VIOLET_MAIN,
+                    }}
+                    onPress={this.clockOut}>
+                    <Text>{t('MY_JOBS.clockOut')}</Text>
+                  </Button>
+                ) : null}
+              </View>
             </Content>
           </Container>
         )}
@@ -218,6 +319,103 @@ class JobDetailsScreen extends Component {
     return false;
   };
 
+  showRateButton = () => {
+    if (!this.state.shift) return false;
+
+    // check if current time is before ending_at
+    if (moment.utc().isSameOrBefore(moment.utc(this.state.shift.ending_at))) {
+      return false;
+    }
+
+    // check for missing clockouts or clockins
+    if (Array.isArray(this.state.clockIns)) {
+      if (!this.state.clockIns.length) return false;
+
+      const endedAt = this.state.clockIns[this.state.clockIns.length - 1]
+        .ended_at;
+
+      if (!endedAt) {
+        return false;
+      }
+    } else return false; // dont show rate button until clockins are loaded
+
+    if (Array.isArray(this.state.jobRate) && !this.state.jobRate.length) {
+      return true;
+    }
+
+    return false;
+  };
+
+  showAlreadyRated = () => {
+    if (!this.state.shift) return false;
+
+    if (Array.isArray(this.state.jobRate) && this.state.jobRate.length) {
+      return true;
+    }
+
+    return false;
+  };
+
+  showClockInButton = () => {
+    if (!this.state.shift) return false;
+
+    // check if current time is after ending_at
+    if (moment.utc().isSameOrAfter(moment.utc(this.state.shift.ending_at))) {
+      return false;
+    }
+
+    /**
+     * Diff in minutes from current time to starting_at parsed to positive
+     * to check the delta time
+     * @type {number}
+     */
+    const diffInMinutes = Math.abs(
+      moment.utc().diff(moment.utc(this.state.shift.starting_at), 'minutes'),
+    );
+
+    if (Array.isArray(this.state.clockIns)) {
+      if (!this.state.clockIns.length) {
+        // delta time checking for the first clockIn only
+        if (
+          this.state.shift.maximum_clockin_delta_minutes !== null &&
+          diffInMinutes >= this.state.shift.maximum_clockin_delta_minutes
+        ) {
+          return false;
+        }
+
+        return true;
+      }
+
+      const endedAt = this.state.clockIns[this.state.clockIns.length - 1]
+        .ended_at;
+
+      if (endedAt) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+  showClockOutButton = () => {
+    if (!this.state.shift) return false;
+
+    if (Array.isArray(this.state.clockIns)) {
+      if (!this.state.clockIns.length) return false;
+
+      const startedAt = this.state.clockIns[this.state.clockIns.length - 1]
+        .started_at;
+      const endedAt = this.state.clockIns[this.state.clockIns.length - 1]
+        .ended_at;
+
+      if (startedAt && !endedAt) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
   openMapsApp = () => {
     let latitude;
     let longitude;
@@ -237,20 +435,112 @@ class JobDetailsScreen extends Component {
     this.setState({ region });
   };
 
-  getJob = () => {
+  getJobOrApplication = () => {
     if (!this.state.shiftId && !this.state.applicationId) {
       return this.props.navigation.goBack();
     }
 
     if (this.state.shiftId) {
-      this.setState({ isLoading: true });
-      return jobActions.getJob(this.state.shiftId);
+      return this.setState({ isLoading: true }, () => {
+        this.getJobRate();
+        this.getClockins();
+        jobActions.getJob(this.state.shiftId);
+      });
     }
 
     if (this.state.applicationId) {
-      this.setState({ isLoading: true });
-      return jobActions.getApplication(this.state.applicationId);
+      return this.setState({ isLoading: true }, () => {
+        jobActions.getApplication(this.state.applicationId);
+      });
     }
+  };
+
+  getJobRate = () => {
+    jobActions.getJobRate(this.state.shiftId);
+  };
+
+  getClockins = () => {
+    jobActions.getClockins(this.state.shiftId);
+  };
+
+  clockIn = () => {
+    if (!this.state.shiftId) return;
+    let jobTitle;
+
+    try {
+      jobTitle = this.state.shift.venue.title;
+    } catch (e) {
+      return;
+    }
+
+    if (!jobTitle) return;
+
+    Alert.alert(i18next.t('MY_JOBS.wantToClockIn'), jobTitle, [
+      { text: i18next.t('APP.cancel') },
+      {
+        text: i18next.t('MY_JOBS.clockIn'),
+        onPress: () => {
+          navigator.geolocation.getCurrentPosition(
+            (data) => {
+              this.setState({ isLoading: true }, () => {
+                jobActions.clockIn(
+                  this.state.shift.id,
+                  data.coords.latitude,
+                  data.coords.longitude,
+                  moment.utc(),
+                );
+              });
+            },
+            (err) => CustomToast(storeErrorHandler(err), 'danger'),
+          );
+        },
+      },
+    ]);
+  };
+
+  clockOut = () => {
+    if (!this.state.shiftId) return;
+    let jobTitle;
+
+    try {
+      jobTitle = this.state.shift.venue.title;
+    } catch (e) {
+      return;
+    }
+
+    if (!jobTitle) return;
+
+    Alert.alert(i18next.t('MY_JOBS.wantToClockOut'), jobTitle, [
+      { text: i18next.t('APP.cancel') },
+      {
+        text: i18next.t('MY_JOBS.clockOut'),
+        onPress: () => {
+          navigator.geolocation.getCurrentPosition(
+            (data) => {
+              this.setState({ isLoading: true }, () => {
+                jobActions.clockOut(
+                  this.state.shift.id,
+                  data.coords.latitude,
+                  data.coords.longitude,
+                  moment.utc(),
+                );
+              });
+            },
+            (err) => CustomToast(storeErrorHandler(err), 'danger'),
+          );
+        },
+      },
+    ]);
+  };
+
+  goToRateJob = () => {
+    if (!this.state.shiftId || !this.state.shift || !this.state.shift.id) {
+      return;
+    }
+
+    this.props.navigation.navigate(RATE_EMPLOYER_ROUTE, {
+      shift: this.state.shift,
+    });
   };
 }
 

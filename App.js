@@ -5,7 +5,7 @@ import {
   createBottomTabNavigator,
 } from 'react-navigation';
 
-import { YellowBox, Platform } from 'react-native';
+import { YellowBox } from 'react-native';
 
 YellowBox.ignoreWarnings([
   'Warning: isMounted(...) is deprecated',
@@ -19,6 +19,8 @@ import LoginScreen from './src/components/Account/LoginScreen';
 import RegisterScreen from './src/components/Account/RegisterScreen';
 import EditProfile from './src/components/Account/EditProfile';
 import ForgotScreen from './src/components/Account/ForgotScreen';
+import ChangePassword from './src/components/Account/ChangePassword';
+import Profile from './src/components/Account/Profile';
 
 import DashboardScreen from './src/components/Dashboard';
 import JobInvites from './src/components/Invite/JobInvites';
@@ -27,7 +29,9 @@ import JobPreferences from './src/components/Invite/JobPreferences';
 import Position from './src/components/Invite/Position';
 import Availability from './src/components/Invite/Availability';
 import MyJobs from './src/components/MyJobs';
+import RateEmployer from './src/components/MyJobs/RateEmployer';
 import JobDetailsScreen from './src/components/MyJobs/JobDetails';
+import Reviews from './src/components/MyJobs/Reviews';
 
 import {
   DASHBOARD_ROUTE,
@@ -44,10 +48,13 @@ import {
   AVAILABILITY_ROUTE,
   INVITE_DETAILS_ROUTE,
   EDIT_PROFILE_ROUTE,
+  PROFILE_ROUTE,
   POSITION_ROUTE,
   JOB_DETAILS_ROUTE,
   APPLICATION_DETAILS_ROUTE,
   EDIT_LOCATION_ROUTE,
+  RATE_EMPLOYER_ROUTE,
+  REVIEWS_ROUTE,
 } from './src/constants/routes';
 import {
   BLUE_DARK,
@@ -110,11 +117,14 @@ export const AppStack = createStackNavigator(
   {
     ['Tabs']: Tabs,
     [SETTING_ROUTE]: SettingScreen,
-    [RESET_ROUTE]: ForgotScreen,
+    [RESET_ROUTE]: ChangePassword,
     [EDIT_PROFILE_ROUTE]: EditProfile,
+    [PROFILE_ROUTE]: Profile,
     [EDIT_LOCATION_ROUTE]: EditLocation,
     [AVAILABILITY_ROUTE]: Availability,
     [POSITION_ROUTE]: Position,
+    [RATE_EMPLOYER_ROUTE]: RateEmployer,
+    [REVIEWS_ROUTE]: Reviews,
     [INVITE_DETAILS_ROUTE]: {
       screen: InviteDetails,
       path: 'invite/:inviteId',
@@ -142,7 +152,7 @@ const SwitchNavigator = createSwitchNavigator(
   },
 );
 
-const prefix = Platform.OS == 'android' ? 'jobcore://jobcore/' : 'jobcore://';
+const prefix = 'https://talent.jobcore.co/';
 
 export default () => (
   <Root>

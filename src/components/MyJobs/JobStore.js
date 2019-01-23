@@ -1,5 +1,5 @@
 import { FluxStore } from '../../utils/flux-state';
-import { LOG, WARN, ERROR, storeErrorHandler } from "../../utils";
+import { LOG, storeErrorHandler } from '../../utils';
 
 class JobStore extends FluxStore {
   constructor() {
@@ -19,7 +19,7 @@ class JobStore extends FluxStore {
       }
 
       return shift;
-    }
+    };
 
     this.addEvent('GetJob', (shift) => parseLatLngToNumber(shift));
 
@@ -37,7 +37,7 @@ class JobStore extends FluxStore {
       }
 
       return {};
-    })
+    });
 
     /**
      * copy the shift object properties to the main object properties,
@@ -61,7 +61,6 @@ class JobStore extends FluxStore {
         return shiftsWithApplicationId;
       }
 
-
       return state;
     });
 
@@ -70,6 +69,18 @@ class JobStore extends FluxStore {
     this.addEvent('GetCompletedJobs');
 
     this.addEvent('GetFailedJobs');
+
+    this.addEvent('GetJobRate');
+
+    this.addEvent('RateEmployer');
+
+    this.addEvent('ClockIn');
+
+    this.addEvent('ClockOut');
+
+    this.addEvent('GetClockins');
+
+    this.addEvent('GetEmployeeRatings');
 
     this.addEvent('JobStoreError', storeErrorHandler);
   }

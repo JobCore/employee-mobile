@@ -18,7 +18,7 @@ export default StyleSheet.create({
     height: 90,
     ...Platform.select({
       android: {
-        marginTop: '20%',
+        marginTop: '10%',
       },
     }),
   },
@@ -45,10 +45,9 @@ export default StyleSheet.create({
     backgroundColor: BLUE_DARK,
   },
   viewButtomSignUp: {
-    borderRadius: 50,
-    height: 55,
     textAlign: 'center',
     backgroundColor: 'transparent',
+    marginTop: 20,
   },
   textButtom: {
     fontSize: 16,
@@ -59,8 +58,19 @@ export default StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     textAlign: 'center',
-    marginTop: 25,
     color: BLUE_DARK,
+  },
+  viewButtomChangePassword: {
+    alignSelf: 'flex-end',
+    backgroundColor: 'transparent',
+  },
+  textButtomChangePassword: {
+    fontSize: 14,
+    fontWeight: '500',
+    textAlign: 'right',
+    marginRight: 10,
+    color: BLUE_DARK,
+    marginBottom: 20,
   },
   textButtomSave: {
     fontSize: 14,
@@ -74,8 +84,15 @@ export default StyleSheet.create({
     backgroundColor: 'transparent',
     borderColor: BLUE_MAIN,
     color: BLUE_DARK,
+    paddingLeft: 10,
+    paddingRight: 10,
+    ...Platform.select({
+      ios: {
+        paddingTop: 10,
+        paddingBottom: 10,
+      },
+    }),
     marginBottom: 10,
-    paddingLeft: 20,
   },
   viewInput: {
     backgroundColor: 'transparent',
@@ -86,14 +103,9 @@ export default StyleSheet.create({
     borderRadius: 50,
     borderWidth: 1,
     paddingLeft: 20,
-    paddingTop: 12,
+    paddingTop: 0,
     paddingRight: 10,
     marginBottom: 10,
-    ...Platform.select({
-      ios: {
-        paddingTop: 0,
-      },
-    }),
   },
   borderNone: {
     borderBottomColor: 'transparent',

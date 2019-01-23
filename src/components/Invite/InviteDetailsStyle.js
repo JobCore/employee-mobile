@@ -35,6 +35,11 @@ export default StyleSheet.create({
     paddingBottom: 18,
     paddingTop: 0,
   },
+  textAlreadyRated: {
+    marginTop: 10,
+    color: BLUE_MAIN,
+    textAlign: 'center',
+  },
   textLocation: {
     color: BLUE_DARK,
     textAlign: 'center',
@@ -50,8 +55,6 @@ export default StyleSheet.create({
   titleHeader: {
     color: '#fff',
     fontWeight: '500',
-    fontSize: 13,
-    width: '90%',
   },
   buttomApply: {
     backgroundColor: BLUE_MAIN,
@@ -104,7 +107,8 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 20,
     paddingRight: 20,
-    marginTop: 15,
+    marginTop: 20,
+    marginBottom: 10,
   },
   viewButtomLeft: {
     width: '50%',
@@ -129,7 +133,8 @@ export default StyleSheet.create({
     color: BLUE_MAIN,
   },
   openDirectionButton: {
-    backgroundColor: BLUE_DARK,
+    borderColor: BLUE_DARK,
+    marginTop: 10,
     alignSelf: 'center',
   },
 });

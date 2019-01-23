@@ -17,7 +17,10 @@ import {
   Badge,
 } from 'native-base';
 import styles from './JobInvitesStyle';
-import { SETTING_ROUTE, INVITE_DETAILS_ROUTE } from '../../constants/routes';
+import {
+  EDIT_PROFILE_ROUTE,
+  INVITE_DETAILS_ROUTE,
+} from '../../constants/routes';
 import { BLUE_MAIN } from '../../constants/colorPalette';
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
@@ -26,7 +29,7 @@ import { CustomToast, Loading, CenteredText } from '../../utils/components';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import moment from 'moment';
-import myJobsImg from '../../assets/image/myJobs.png';
+import PROFILE_IMG from '../../assets/image/profile.png';
 
 class JobInvites extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -36,7 +39,7 @@ class JobInvites extends Component {
       tabBarIcon: () => (
         <>
           <Image
-            style={{ resizeMode: 'contain', height: 30 }}
+            style={{ resizeMode: 'contain', width: 42, height: 42 }}
             source={require('../../assets/image/offers.png')}
           />
           {params && params.invitationCount ? (
@@ -139,9 +142,16 @@ class JobInvites extends Component {
               <Right>
                 <Button
                   transparent
-                  onPress={() => this.props.navigation.navigate(SETTING_ROUTE)}>
+                  onPress={() =>
+                    this.props.navigation.navigate(EDIT_PROFILE_ROUTE)
+                  }>
                   <Image
-                    style={{ resizeMode: 'contain', height: 25 }}
+                    style={{
+                      resizeMode: 'contain',
+                      height: 32,
+                      width: 32,
+                      marginRight: 20,
+                    }}
                     source={require('../../assets/image/controls.png')}
                   />
                 </Button>
@@ -172,8 +182,8 @@ class JobInvites extends Component {
                         data.shift &&
                         data.shift.position &&
                         data.shift.position.picture
-                          ? data.shift.position.picture
-                          : myJobsImg
+                          ? { uri: data.shift.position.picture }
+                          : PROFILE_IMG
                       }
                     />
                     <View style={styles.viewDataOffers}>
@@ -193,16 +203,8 @@ class JobInvites extends Component {
                               {data.shift.position.title}
                             </Text>
                           ) : null}
-                        </Text>
-                      ) : null}
-                      {/* title date info */}
-                      {data.shift ? (
-                        <Text>
-                          <Text style={styles.textTwo}>
-                            {` ${t('JOB_INVITES.on')} `}
-                          </Text>
                           <Text style={styles.textBlack}>
-                            {`${t('JOB_PREFERENCES.dateStartToEnd', {
+                            {` ${t('JOB_PREFERENCES.dateStartToEnd', {
                               startingAt: moment(data.shift.starting_at)
                                 .tz(moment.tz.guess())
                                 .format('lll'),
@@ -210,7 +212,6 @@ class JobInvites extends Component {
                                 .tz(moment.tz.guess())
                                 .format('lll'),
                             })} `}
-                            {/* Sep 24th From 3pm to 6pm. */}
                           </Text>
                           <Text style={styles.textRed}>
                             {`$${data.shift.minimum_hourly_rate}/${t(
@@ -335,14 +336,20 @@ class JobInvites extends Component {
   };
 
   deleteRow() {
-    this.state.rowMap[
-      `${this.state.secId}${this.state.rowId}`
-    ].props.closeRow();
-    const newData = [...this.state.jobInvites];
-    newData.splice(this.state.rowId, 1);
-    this.setState({ jobInvites: newData }, () => {
+    try {
+      this.state.rowMap[
+        `${this.state.secId}${this.state.rowId}`
+      ].props.closeRow();
+
+      const newData = [...this.state.jobInvites];
+      newData.splice(this.state.rowId, 1);
+      this.setState({ jobInvites: newData }, () => {
+        this.getJobInvites();
+      });
+    } catch (e) {
+      LOG(this, `CloseInviteRow error: ${e}`);
       this.getJobInvites();
-    });
+    }
   }
 }
 export default JobInvites;

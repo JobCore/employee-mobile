@@ -16,7 +16,7 @@ import {
 import styles from './style';
 import { BLUE_MAIN } from '../../constants/colorPalette';
 import {
-  SETTING_ROUTE,
+  EDIT_PROFILE_ROUTE,
   JOB_DETAILS_ROUTE,
   APPLICATION_DETAILS_ROUTE,
 } from '../../constants/routes';
@@ -33,7 +33,7 @@ class MyJobs extends Component {
     tabBarLabel: i18next.t('MY_JOBS.myJobs'),
     tabBarIcon: () => (
       <Image
-        style={{ resizeMode: 'contain', height: 30 }}
+        style={{ resizeMode: 'contain', width: 42, height: 42 }}
         source={require('../../assets/image/myJobs.png')}
       />
     ),
@@ -171,9 +171,16 @@ class MyJobs extends Component {
               <Right>
                 <Button
                   transparent
-                  onPress={() => this.props.navigation.navigate(SETTING_ROUTE)}>
+                  onPress={() =>
+                    this.props.navigation.navigate(EDIT_PROFILE_ROUTE)
+                  }>
                   <Image
-                    style={{ resizeMode: 'contain', height: 25 }}
+                    style={{
+                      resizeMode: 'contain',
+                      height: 32,
+                      width: 32,
+                      marginRight: 20,
+                    }}
                     source={require('../../assets/image/controls.png')}
                   />
                 </Button>

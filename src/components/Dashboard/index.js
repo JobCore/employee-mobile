@@ -13,6 +13,7 @@ import {
   Right,
   Segment,
   Thumbnail,
+  ListItem,
 } from 'native-base';
 import styles from './style';
 import {
@@ -21,12 +22,14 @@ import {
   BLUE_DARK,
 } from '../../constants/colorPalette';
 import {
-  SETTING_ROUTE,
+  EDIT_PROFILE_ROUTE,
+  PROFILE_ROUTE,
   AUTH_ROUTE,
   MYJOBS_ROUTE,
   INVITE_DETAILS_ROUTE,
   JOB_DETAILS_ROUTE,
   JOB_INVITES_ROUTE,
+  REVIEWS_ROUTE,
 } from '../../constants/routes';
 import accountStore from '../Account/AccountStore';
 import * as accountActions from '../Account/actions';
@@ -36,13 +39,13 @@ import * as fcmActions from './actions';
 import fcmStore from './FcmStore';
 import * as jobActions from '../MyJobs/actions';
 import jobStore from '../MyJobs/JobStore';
-import { CustomToast, Loading } from '../../utils/components';
+import { CustomToast, Loading, BackgroundHeader } from '../../utils/components';
 import { LOG, WARN } from '../../utils';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import firebase from 'react-native-firebase';
 import { NavigationActions } from 'react-navigation';
-import PROFILE_IMG from '../../assets/image/myJobs.png';
+import PROFILE_IMG from '../../assets/image/profile.png';
 
 class DashboardScreen extends Component {
   static navigationOptions = {
@@ -50,7 +53,7 @@ class DashboardScreen extends Component {
     tabBarLabel: i18next.t('DASHBOARD.dashboard'),
     tabBarIcon: () => (
       <Image
-        style={{ resizeMode: 'contain', height: 30 }}
+        style={{ resizeMode: 'contain', height: 42, width: 42 }}
         source={require('../../assets/image/dashboard.png')}
       />
     ),
@@ -266,6 +269,10 @@ class DashboardScreen extends Component {
 
       this.getInvites();
     }
+
+    if (notificationData.type === 'rating') {
+      this.props.navigation.navigate(REVIEWS_ROUTE);
+    }
   };
 
   errorHandler = (err) => {
@@ -292,11 +299,14 @@ class DashboardScreen extends Component {
                 </Title>
               </Body>
               <Right>
-                <Button
-                  transparent
-                  onPress={() => this.props.navigation.navigate(SETTING_ROUTE)}>
+                <Button transparent onPress={this.goToEditProfile}>
                   <Image
-                    style={{ resizeMode: 'contain', height: 25 }}
+                    style={{
+                      resizeMode: 'contain',
+                      height: 32,
+                      width: 32,
+                      marginRight: 20,
+                    }}
                     source={require('../../assets/image/controls.png')}
                   />
                 </Button>
@@ -310,36 +320,46 @@ class DashboardScreen extends Component {
                   onRefresh={this.refresh}
                 />
               }>
-              {this.state.user ? (
-                <Text style={styles.textHello}>
-                  {`${t('DASHBOARD.hello')} ${this.state.user.first_name} ${
-                    this.state.user.last_name
-                  },`}
-                </Text>
-              ) : null}
-              <Text style={styles.textWelcome}>{t('DASHBOARD.welcome')}</Text>
+              <BackgroundHeader>
+                <ListItem noBorder style={styles.welcomeItem}>
+                  <Left>
+                    <TouchableOpacity onPress={this.goToProfile}>
+                      <Thumbnail
+                        large
+                        source={
+                          this.state.user &&
+                          this.state.user.profile &&
+                          this.state.user.profile.picture
+                            ? { uri: this.state.user.profile.picture }
+                            : PROFILE_IMG
+                        }
+                      />
+                    </TouchableOpacity>
+                    <Body>
+                      <TouchableOpacity onPress={this.goToEditProfile}>
+                        {this.state.user ? (
+                          <Text style={styles.textHello}>
+                            {`${t('DASHBOARD.hello')} ${
+                              this.state.user.first_name
+                            } ${this.state.user.last_name},`}
+                          </Text>
+                        ) : null}
+                        <Text style={styles.textWelcome}>
+                          {t('DASHBOARD.welcome')}
+                        </Text>
+                      </TouchableOpacity>
+                    </Body>
+                  </Left>
+                </ListItem>
+              </BackgroundHeader>
 
-              <TouchableOpacity onPress={this.goToSetting}>
-                <Thumbnail
-                  style={styles.profileImg}
-                  large
-                  source={
-                    this.state.user &&
-                    this.state.user.profile &&
-                    this.state.user.profile.picture
-                      ? { uri: this.state.user.profile.picture }
-                      : PROFILE_IMG
-                  }
-                />
-              </TouchableOpacity>
-
-              <View style={styles.viewDashboard}>
+              <View style={[styles.viewDashboard, { marginTop: 40 }]}>
                 <View style={styles.viewItemJobsLeft}>
                   <Text style={styles.titleItem}>
                     {t('DASHBOARD.pendingPayments')}
                   </Text>
                   <Image
-                    style={styles.viewBackground}
+                    style={styles.iconSize}
                     source={require('../../assets/image/payments.png')}
                   />
                   <Text style={styles.itemData}>
@@ -347,12 +367,12 @@ class DashboardScreen extends Component {
                   </Text>
                 </View>
                 <View style={styles.viewItemJobsRight}>
-                  <Text style={styles.titleItem}>
-                    {t('DASHBOARD.invitations')}
-                  </Text>
                   <TouchableOpacity onPress={this.goToInvitation}>
+                    <Text style={styles.titleItem}>
+                      {t('DASHBOARD.invitations')}
+                    </Text>
                     <Image
-                      style={styles.imgJobs}
+                      style={styles.iconSize}
                       source={require('../../assets/image/invite.png')}
                     />
                   </TouchableOpacity>
@@ -367,12 +387,12 @@ class DashboardScreen extends Component {
 
               <View style={styles.viewDashboard}>
                 <View style={styles.viewItemJobsLeft}>
-                  <Text style={styles.titleItem}>
-                    {t('DASHBOARD.upcomingJobs')}
-                  </Text>
                   <TouchableOpacity onPress={this.goToMyJobs}>
+                    <Text style={styles.titleItem}>
+                      {t('DASHBOARD.upcomingJobs')}
+                    </Text>
                     <Image
-                      style={styles.viewBackground}
+                      style={styles.iconSize}
                       source={require('../../assets/image/jobs.png')}
                     />
                   </TouchableOpacity>
@@ -383,13 +403,15 @@ class DashboardScreen extends Component {
                   ) : null}
                 </View>
                 <View style={styles.viewItemJobsRight}>
-                  <Text style={styles.titleItem}>
-                    {t('DASHBOARD.myRating')}
-                  </Text>
-                  <Image
-                    style={styles.viewBackground}
-                    source={require('../../assets/image/ranking.png')}
-                  />
+                  <TouchableOpacity onPress={this.goToReviews}>
+                    <Text style={styles.titleItem}>
+                      {t('DASHBOARD.myRating')}
+                    </Text>
+                    <Image
+                      style={styles.iconSize}
+                      source={require('../../assets/image/ranking.png')}
+                    />
+                  </TouchableOpacity>
                   <Text style={styles.itemData}>{this.state.rating}</Text>
                 </View>
               </View>
@@ -526,13 +548,21 @@ class DashboardScreen extends Component {
     this.props.navigation.navigate(JOB_INVITES_ROUTE);
   };
 
-  goToSetting = () => {
-    this.props.navigation.navigate(SETTING_ROUTE);
+  goToEditProfile = () => {
+    this.props.navigation.navigate(EDIT_PROFILE_ROUTE);
   };
 
   goToMyJobs = () => {
     const tabAction = 'getUpcomingJobs';
     this.props.navigation.navigate(MYJOBS_ROUTE, { tabAction });
+  };
+
+  goToProfile = () => {
+    this.props.navigation.navigate(PROFILE_ROUTE);
+  };
+
+  goToReviews = () => {
+    this.props.navigation.navigate(REVIEWS_ROUTE);
   };
 
   getEmployee = () => {
