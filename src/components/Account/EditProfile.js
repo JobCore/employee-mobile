@@ -379,25 +379,6 @@ class EditProfile extends Component {
    * with the uri, type & name
    */
   handleImagePickerResponse = (response) => {
-    let type = response.type;
-
-    if (type === undefined && response.fileName === undefined) {
-      const pos = response.uri.lastIndexOf('.');
-      type = response.uri.substring(pos + 1);
-      if (type) type = `image/${type}`;
-    }
-    if (type === undefined) {
-      const splitted = response.fileName.split('.');
-      type = splitted[splitted.length - 1];
-      if (type) type = `image/${type}`;
-    }
-
-    let name = response.fileName;
-    if (name === undefined && response.fileName === undefined) {
-      const pos = response.uri.lastIndexOf('/');
-      name = response.uri.substring(pos + 1);
-    }
-
     if (response.didCancel) {
       // for react-native-image-picker response
       LOG(this, 'User cancelled image picker');
@@ -408,6 +389,27 @@ class EditProfile extends Component {
       // for react-native-image-picker response
       LOG(this, `User tapped custom button: ${response.customButton}`);
     } else {
+      if (!response.uri) return;    
+
+      let type = response.type;
+
+      if (type === undefined && response.fileName === undefined) {
+        const pos = response.uri.lastIndexOf('.');
+        type = response.uri.substring(pos + 1);
+        if (type) type = `image/${type}`;
+      }
+      if (type === undefined) {
+        const splitted = response.fileName.split('.');
+        type = splitted[splitted.length - 1];
+        if (type) type = `image/${type}`;
+      }
+
+      let name = response.fileName;
+      if (name === undefined && response.fileName === undefined) {
+        const pos = response.uri.lastIndexOf('/');
+        name = response.uri.substring(pos + 1);
+      }
+
       const selectedImage = {
         uri: response.uri,
         type: type.toLowerCase(),
