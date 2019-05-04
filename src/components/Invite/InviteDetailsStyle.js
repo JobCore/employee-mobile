@@ -7,6 +7,7 @@ import {
   RED_MAIN,
   BLACK_MAIN,
   BLUE_DARK,
+  BG_GRAY_LIGHT,
 } from '../../constants/colorPalette';
 
 export default StyleSheet.create({
@@ -17,8 +18,8 @@ export default StyleSheet.create({
   map: {
     marginTop: 10,
     marginBottom: 10,
-    height: 300,
-    width: '90%',
+    height: 270,
+    width: '100%',
     justifyContent: 'center',
     alignSelf: 'center',
     shadowColor: '#000000',
@@ -115,16 +116,18 @@ export default StyleSheet.create({
     marginRight: 5,
   },
   buttomLeft: {
-    borderColor: VIOLET_MAIN,
-    color: WHITE_MAIN,
+    borderColor: 'transparent',
+    backgroundColor: VIOLET_MAIN,
+    height: 38,
   },
   viewButtomRight: {
     width: '50%',
     marginLeft: 5,
   },
   buttomRight: {
-    borderColor: BLUE_MAIN,
-    color: WHITE_MAIN,
+    borderColor: 'transparent',
+    backgroundColor: BLUE_MAIN,
+    height: 38,
   },
   textViolet: {
     color: VIOLET_MAIN,
@@ -132,9 +135,59 @@ export default StyleSheet.create({
   textBlue: {
     color: BLUE_MAIN,
   },
+  textWhite: {
+    color: WHITE_MAIN,
+  },
   openDirectionButton: {
     borderColor: BLUE_DARK,
     marginTop: 10,
     alignSelf: 'center',
+  },
+
+  // Css New design
+  bgInfo: {
+    backgroundColor: BG_GRAY_LIGHT,
+  },
+  imgCover: {
+    width: 50,
+    height: 50,
+  },
+  bodyItemText: {
+    marginTop: 10,
+  },
+  viewInfoDate: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 5,
+    paddingBottom: 10,
+  },
+  viewContent: {
+    width: '50%',
+  },
+  textTitle: {
+    textAlign: 'center',
+    color: BLUE_DARK,
+    fontWeight: '800',
+  },
+  textSubTitle: {
+    textAlign: 'center',
+    color: BLUE_DARK,
+    fontWeight: '100',
+  },
+  textCenter: {
+    textAlign: 'center',
+  },
+  viewDir: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingBottom: 20,
+  },
+  viewAmount: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 15,
+    marginBottom: 5,
   },
 });

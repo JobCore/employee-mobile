@@ -20,6 +20,7 @@ import styles from './JobInvitesStyle';
 import {
   EDIT_PROFILE_ROUTE,
   INVITE_DETAILS_ROUTE,
+  INVITE_DETAILS_NEW_ROUTE,
 } from '../../constants/routes';
 import { BLUE_MAIN } from '../../constants/colorPalette';
 import * as inviteActions from './actions';
@@ -164,6 +165,12 @@ class JobInvites extends Component {
                   onRefresh={this.refreshInvites}
                 />
               }>
+              <Text
+                onPress={() =>
+                  this.props.navigation.navigate(INVITE_DETAILS_NEW_ROUTE)
+                }>
+                Link para ver detalles
+              </Text>
               <List
                 leftOpenValue={75}
                 rightOpenValue={-75}

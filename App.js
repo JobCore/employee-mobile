@@ -25,6 +25,7 @@ import Profile from './src/components/Account/Profile';
 import DashboardScreen from './src/components/Dashboard';
 import JobInvites from './src/components/Invite/JobInvites';
 import InviteDetails from './src/components/Invite/InviteDetails';
+import InviteDetailsNew from './src/components/Invite/InviteDetailsNew';
 import JobPreferences from './src/components/Invite/JobPreferences';
 import Position from './src/components/Invite/Position';
 import Availability from './src/components/Invite/Availability';
@@ -47,6 +48,7 @@ import {
   RESET_ROUTE,
   AVAILABILITY_ROUTE,
   INVITE_DETAILS_ROUTE,
+  INVITE_DETAILS_NEW_ROUTE,
   EDIT_PROFILE_ROUTE,
   PROFILE_ROUTE,
   POSITION_ROUTE,
@@ -128,6 +130,9 @@ export const AppStack = createStackNavigator(
     [INVITE_DETAILS_ROUTE]: {
       screen: InviteDetails,
       path: 'invite/:inviteId',
+    },
+    [INVITE_DETAILS_NEW_ROUTE]: {
+      screen: InviteDetailsNew,
     },
     [JOB_DETAILS_ROUTE]: {
       screen: JobDetailsScreen,
