@@ -19,6 +19,9 @@ import {
   EDIT_PROFILE_ROUTE,
   JOB_DETAILS_ROUTE,
   APPLICATION_DETAILS_ROUTE,
+  JOB_DETAILS_NEW_ROUTE,
+  JOB_DETAILS_NEW_ONE_ROUTE,
+  JOB_DETAILS_NEW_TWO_ROUTE,
 } from '../../constants/routes';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
@@ -186,7 +189,26 @@ class MyJobs extends Component {
                 </Button>
               </Right>
             </Header>
-
+            <View>
+              <Text
+                onPress={() =>
+                  this.props.navigation.navigate(JOB_DETAILS_NEW_ROUTE)
+                }>
+                Link para ver detalles Job
+              </Text>
+              <Text
+                onPress={() =>
+                  this.props.navigation.navigate(JOB_DETAILS_NEW_ONE_ROUTE)
+                }>
+                Link para ver detalles Job y hacer Review
+              </Text>
+              <Text
+                onPress={() =>
+                  this.props.navigation.navigate(JOB_DETAILS_NEW_TWO_ROUTE)
+                }>
+                Link para ver detalles Job y ver los Review
+              </Text>
+            </View>
             <Segment style={styles.viewSegment}>
               {Array.isArray(this.state.jobFilters)
                 ? this.state.jobFilters.map((filter, index) => (

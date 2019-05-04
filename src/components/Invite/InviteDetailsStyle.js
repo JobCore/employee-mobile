@@ -109,15 +109,26 @@ export default StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 40,
+    flex: 1,
   },
   viewButtomLeft: {
     width: '50%',
     marginRight: 5,
   },
+  viewButtomClock: {
+    width: '50%',
+    marginRight: 5,
+    marginTop: 25,
+  },
   buttomLeft: {
     borderColor: 'transparent',
     backgroundColor: VIOLET_MAIN,
+    height: 38,
+  },
+  buttomBlueDark: {
+    borderColor: 'transparent',
+    backgroundColor: BLUE_DARK,
     height: 38,
   },
   viewButtomRight: {
@@ -137,6 +148,9 @@ export default StyleSheet.create({
   },
   textWhite: {
     color: WHITE_MAIN,
+  },
+  textDark: {
+    color: BLUE_DARK,
   },
   openDirectionButton: {
     borderColor: BLUE_DARK,
@@ -189,5 +203,30 @@ export default StyleSheet.create({
     justifyContent: 'center',
     marginTop: 15,
     marginBottom: 5,
+  },
+  viewTime: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: BLUE_MAIN,
+    margin: 25,
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 5,
+    paddingBottom: 5,
+    borderRadius: 100,
+  },
+  viewCheck: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin: 25,
+    marginLeft: 70,
+    marginRight: 70,
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 5,
+    paddingBottom: 5,
+    borderRadius: 100,
   },
 });

@@ -74,6 +74,7 @@ export default {
     lookingFor: 'is looking for a',
     on: 'on',
     hr: 'hr',
+    job: 'Job',
     openDirection: 'Open direction',
   },
   JOB_PREFERENCES: {
