@@ -1,115 +1,161 @@
-// Find out why eslint is complaining here
-/* eslint-disable react/no-unused-state */
+import React from 'react';
+import {
+  createSwitchNavigator,
+  createStackNavigator,
+  createBottomTabNavigator,
+} from 'react-navigation';
 
-import React, { Component } from 'react'
-import { createStackNavigator, createDrawerNavigator } from 'react-navigation'
+import { YellowBox } from 'react-native';
 
-import { HOME_SCREEN_ROUTE, VIEW_ITEM_ROUTE, FAVORITES_ROUTE,
-         REGION_GRAN_CARACAS_ROUTE, REGION_CENTRO_ROUTE, REGION_GUAYANA_ROUTE,
-         REGION_LOS_ANDES_ROUTE, REGION_LOS_LLANOS_ROUTE,
-         REGION_OCCIDENTE_ROUTE, REGION_ORIENTE_ROUTE, SECTION_SUCESOS_ROUTE,
-         SECTION_POLITICA_ROUTE, SECTION_ECONOMIA_ROUTE, SECTION_DEPORTES_ROUTE,
-         SECTION_TECNOLOGIA_ROUTE, SECTION_INTERNACIONAL_ROUTE,
-         SECTION_REPORTAJES_ROUTE, SECTION_SALUD_ROUTE, SECTION_OPINION_ROUTE,
-         SECTION_MIGRACION_ROUTE, SECTION_MAS_NOTICIAS_ROUTE,
-         RESTFUL_INVESTIGACIONES_ROUTE, RESTFUL_EL_PITAZO_EN_LA_CALLE_ROUTE,
-         RESTFUL_ALIANZAS_ROUTE, MEDIA_FOTOGALERIAS_ROUTE, MEDIA_VIDEOS_ROUTE,
-         MEDIA_INFOGRAFIAS_ROUTE, RADIO_ROUTE,
-         ABOUTUS_ROUTE, OFFLINE_CONTENT_DOWNLOAD_ROUTE,
-         SETTINGS_ROUTE } from './src/constants/routes'
-import HomeScreen from './src/HomeScreen'
-import Favorites from './src/Favorites'
-import DetailsInfo from './src/DetailsInfo'
-import SideBarRoute from './src/SideBarRoute'
-import SideBar from './src/SideBar/SideBar'
-import OfflineContentDownload from './src/OfflineContentDownload'
-import Settings from './src/Settings'
-import AboutUs from './src/AboutUs'
+YellowBox.ignoreWarnings([
+  'Warning: isMounted(...) is deprecated',
+  'Warning: Failed prop type',
+  'Module RCTImageLoader',
+]);
 
+import { Root } from 'native-base';
 
-/**
- * Route for main initial screen. Not exported as it will only be navigated to
- * from the view item route by method of goBack()
- * @type {'MAIN_DRAWER_NAVIGATOR_ROUTE'}
- */
-const MAIN_DRAWER_NAVIGATOR_ROUTE = 'MAIN_DRAWER_NAVIGATOR_ROUTE'
+import LoginScreen from './src/components/Account/LoginScreen';
+import RegisterScreen from './src/components/Account/RegisterScreen';
+import EditProfile from './src/components/Account/EditProfile';
+import ForgotScreen from './src/components/Account/ForgotScreen';
+import ChangePassword from './src/components/Account/ChangePassword';
+import Profile from './src/components/Account/Profile';
 
-const MainDrawerNavigator = createDrawerNavigator({
-  [HOME_SCREEN_ROUTE]: { screen: HomeScreen },
+import DashboardScreen from './src/components/Dashboard';
+import JobInvites from './src/components/Invite/JobInvites';
+import InviteDetails from './src/components/Invite/InviteDetails';
+import JobPreferences from './src/components/Invite/JobPreferences';
+import Position from './src/components/Invite/Position';
+import Availability from './src/components/Invite/Availability';
+import MyJobs from './src/components/MyJobs';
+import RateEmployer from './src/components/MyJobs/RateEmployer';
+import JobDetailsScreen from './src/components/MyJobs/JobDetails';
+import Reviews from './src/components/MyJobs/Reviews';
 
-  // HACK: nameless SFC invokes sub React Element to be able to use the same
-  // screen for different routes
+import {
+  DASHBOARD_ROUTE,
+  LOGIN_ROUTE,
+  REGISTER_ROUTE,
+  FORGOT_ROUTE,
+  JOB_INVITES_ROUTE,
+  JOB_PREFERENCES_ROUTE,
+  MYJOBS_ROUTE,
+  SETTING_ROUTE,
+  APP_ROUTE,
+  AUTH_ROUTE,
+  RESET_ROUTE,
+  AVAILABILITY_ROUTE,
+  INVITE_DETAILS_ROUTE,
+  EDIT_PROFILE_ROUTE,
+  PROFILE_ROUTE,
+  POSITION_ROUTE,
+  JOB_DETAILS_ROUTE,
+  APPLICATION_DETAILS_ROUTE,
+  EDIT_LOCATION_ROUTE,
+  RATE_EMPLOYER_ROUTE,
+  REVIEWS_ROUTE,
+} from './src/constants/routes';
+import {
+  BLUE_DARK,
+  BLUE_LIGHT,
+  GRAY_MAIN,
+  BLUE_SEMI_LIGHT,
+} from './src/constants/colorPalette';
 
-  [REGION_GRAN_CARACAS_ROUTE]: props => <SideBarRoute {...props} />,
-  [REGION_CENTRO_ROUTE]: props => <SideBarRoute {...props} />,
-  [REGION_GUAYANA_ROUTE]: props => <SideBarRoute {...props} />,
-  [REGION_LOS_ANDES_ROUTE]: props => <SideBarRoute {...props} />,
-  [REGION_LOS_LLANOS_ROUTE]: props => <SideBarRoute {...props} />,
-  [REGION_OCCIDENTE_ROUTE]: props => <SideBarRoute {...props} />,
-  [REGION_ORIENTE_ROUTE]: props => <SideBarRoute {...props} />,
+import SettingScreen from './src/components/Setting';
 
-  [SECTION_SUCESOS_ROUTE]: props => <SideBarRoute {...props} />,
-  [SECTION_POLITICA_ROUTE]: props => <SideBarRoute {...props} />,
-  [SECTION_ECONOMIA_ROUTE]: props => <SideBarRoute {...props} />,
-  [SECTION_DEPORTES_ROUTE]: props => <SideBarRoute {...props} />,
-  [SECTION_TECNOLOGIA_ROUTE]: props => <SideBarRoute {...props} />,
-  [SECTION_INTERNACIONAL_ROUTE]: props => <SideBarRoute {...props} />,
-  [SECTION_REPORTAJES_ROUTE]: props => <SideBarRoute {...props} />,
-  [SECTION_SALUD_ROUTE]: props => <SideBarRoute {...props} />,
-  [SECTION_OPINION_ROUTE]: props => <SideBarRoute {...props} />,
-  [SECTION_MIGRACION_ROUTE]: props => <SideBarRoute {...props} />,
-  [SECTION_MAS_NOTICIAS_ROUTE]: props => <SideBarRoute {...props} />,
+import Splash from './src/components/Splash';
+import EditLocation from './src/components/Invite/EditLocation';
 
-  [RESTFUL_INVESTIGACIONES_ROUTE]: props => <SideBarRoute {...props} />,
-  [RESTFUL_EL_PITAZO_EN_LA_CALLE_ROUTE]: props => <SideBarRoute {...props} />,
-  [RESTFUL_ALIANZAS_ROUTE]: props => <SideBarRoute {...props} />,
+window.DEBUG = true;
 
-  [MEDIA_FOTOGALERIAS_ROUTE]: props => <SideBarRoute {...props} />,
-  [MEDIA_VIDEOS_ROUTE]: props => <SideBarRoute {...props} />,
-  [MEDIA_INFOGRAFIAS_ROUTE]: props => <SideBarRoute {...props} />,
-
-  [RADIO_ROUTE]: props => <SideBarRoute {...props} />,
-
-  [ABOUTUS_ROUTE]: AboutUs,
-
-  [FAVORITES_ROUTE]: Favorites,
-
-  [OFFLINE_CONTENT_DOWNLOAD_ROUTE]: OfflineContentDownload,
-
-  [SETTINGS_ROUTE]: Settings,
-}, {
-  contentComponent: props => <SideBar {...props} />,
-  initialRouteName: HOME_SCREEN_ROUTE,
-})
-
-/**
- * Switches between the main navigator (drawer plus lists of articles) and
- * an individual article view.
- */
-const MainStackNavigator = createStackNavigator({
-  [MAIN_DRAWER_NAVIGATOR_ROUTE]: MainDrawerNavigator,
-  [VIEW_ITEM_ROUTE]: DetailsInfo,
-}, {
-  initialRouteName: MAIN_DRAWER_NAVIGATOR_ROUTE,
-  navigationOptions: {
-    header: null,
+export const AuthStack = createStackNavigator({
+  [LOGIN_ROUTE]: {
+    screen: LoginScreen,
+    path: 'login/:email',
   },
-})
+  [REGISTER_ROUTE]: {
+    screen: RegisterScreen,
+    path: 'register',
+  },
+  [FORGOT_ROUTE]: ForgotScreen,
+});
 
+export const Tabs = createBottomTabNavigator(
+  {
+    [DASHBOARD_ROUTE]: { screen: DashboardScreen },
+    [JOB_INVITES_ROUTE]: { screen: JobInvites },
+    [JOB_PREFERENCES_ROUTE]: { screen: JobPreferences },
+    [MYJOBS_ROUTE]: { screen: MyJobs },
+  },
+  {
+    tabBarPosition: 'bottom',
+    tabBarOptions: {
+      activeBackgroundColor: BLUE_SEMI_LIGHT,
+      inactiveBackgroundColor: BLUE_LIGHT,
+      activeTintColor: BLUE_DARK,
+      inactiveTintColor: GRAY_MAIN,
+      showLabel: true,
+      showIcon: true,
+      labelStyle: {
+        fontSize: 10,
+      },
+      style: {
+        backgroundColor: BLUE_LIGHT,
+        height: 60,
+        borderTopColor: 'transparent',
+      },
+      tabStyle: {
+        width: 100,
+      },
+    },
+  },
+);
 
-export default class AwesomeApp extends Component {
-  constructor() {
-    super()
-    this.state = {
-      isReady: false,
-    }
-  }
+export const AppStack = createStackNavigator(
+  {
+    ['Tabs']: Tabs,
+    [SETTING_ROUTE]: SettingScreen,
+    [RESET_ROUTE]: ChangePassword,
+    [EDIT_PROFILE_ROUTE]: EditProfile,
+    [PROFILE_ROUTE]: Profile,
+    [EDIT_LOCATION_ROUTE]: EditLocation,
+    [AVAILABILITY_ROUTE]: Availability,
+    [POSITION_ROUTE]: Position,
+    [RATE_EMPLOYER_ROUTE]: RateEmployer,
+    [REVIEWS_ROUTE]: Reviews,
+    [INVITE_DETAILS_ROUTE]: {
+      screen: InviteDetails,
+      path: 'invite/:inviteId',
+    },
+    [JOB_DETAILS_ROUTE]: {
+      screen: JobDetailsScreen,
+      path: 'shift/:shiftId',
+    },
+    [APPLICATION_DETAILS_ROUTE]: {
+      screen: JobDetailsScreen,
+      path: 'application/:applicationId',
+    },
+  },
+  { navigationOptions: { header: null } },
+);
 
-  async componentWillMount() {
-    this.setState({ isReady: true })
-  }
+const SwitchNavigator = createSwitchNavigator(
+  {
+    AuthLoading: Splash,
+    [AUTH_ROUTE]: AuthStack,
+    [APP_ROUTE]: AppStack,
+  },
+  {
+    initialRouteName: 'AuthLoading',
+  },
+);
 
-  render() {
-    return <MainStackNavigator />
-  }
-}
+const prefix = 'https://talent.jobcore.co/';
+
+export default () => (
+  <Root>
+    <SwitchNavigator uriPrefix={prefix} />
+  </Root>
+);

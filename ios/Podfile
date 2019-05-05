@@ -1,0 +1,53 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '9.0'
+
+target 'jobcore' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for jobcore
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
+  pod 'Firebase/Analytics'
+  pod 'GoogleAppMeasurement', '~> 5.2.0'
+  
+  # Add new pods below this line
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
+  rn_path = '../node_modules/react-native'
+
+  pod 'yoga', path: "#{rn_path}/ReactCommon/yoga/yoga.podspec"
+  pod 'React', path: rn_path, subspecs: [
+    'Core',
+    'RCTActionSheet',
+    'RCTAnimation',
+    'RCTGeolocation',
+    'RCTImage',
+    'RCTLinkingIOS',
+    'RCTNetwork',
+    'RCTSettings',
+    'RCTText',
+    'RCTVibration',
+    'RCTWebSocket'
+  ]
+  
+  post_install do |installer|
+    installer.pods_project.targets.each do |target|
+      targets_to_ignore = %w(React yoga)
+      
+      if targets_to_ignore.include? target.name
+        target.remove_from_project
+      end
+      
+      if target.name == "React"
+        target.remove_from_project
+      end
+    end
+  end
+
+  target 'jobcoreTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end

@@ -45,12 +45,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.elpitazo.app",
+    package = "co.jobcore.talent",
 )
 
 android_resource(
     name = "res",
-    package = "com.elpitazo.app",
+    package = "co.jobcore.talent",
     res = "src/main/res",
 )
 
