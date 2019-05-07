@@ -131,6 +131,12 @@ export default StyleSheet.create({
     backgroundColor: BLUE_DARK,
     height: 38,
   },
+  buttomBottom: {
+    borderColor: 'transparent',
+    backgroundColor: BLUE_DARK,
+    height: 38,
+    width: '100%',
+  },
   viewButtomRight: {
     width: '50%',
     marginLeft: 5,

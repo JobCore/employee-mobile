@@ -75,6 +75,7 @@ export default {
     on: 'on',
     hr: 'hr',
     job: 'Job',
+    work: 'Work Mode',
     openDirection: 'Open direction',
   },
   JOB_PREFERENCES: {
