@@ -91,7 +91,7 @@ export default StyleSheet.create({
     paddingLeft: 30,
   },
   viewPadding: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 15,
   },
   textSubtitle: {
     fontWeight: 'bold',
@@ -119,5 +119,23 @@ export default StyleSheet.create({
   textReview: {
     color: BLUE_DARK,
     marginBottom: 5,
+  },
+  textInfo: {
+    textAlign: 'center',
+    color: BLUE_DARK,
+    padding: 15,
+  },
+  titleProfile: {
+    fontWeight: 'bold',
+    color: BLUE_DARK,
+  },
+  textProfile: {
+    color: BLUE_DARK,
+    fontWeight: 'normal',
+  },
+  viewInfo: {
+    paddingLeft: 15,
+    paddingRight: 15,
+    marginBottom: 10,
   },
 });

@@ -1,7 +1,14 @@
 import { StyleSheet, Platform } from 'react-native';
-import { BLUE_MAIN, VIOLET_MAIN, BLUE_DARK, WHITE_MAIN, BLUE_LIGHT, GRAY_LIGHT  } from '../../constants/colorPalette';
+import {
+  BLUE_MAIN,
+  VIOLET_MAIN,
+  BLUE_DARK,
+  WHITE_MAIN,
+  BLUE_LIGHT,
+  GRAY_LIGHT,
+} from '../../constants/colorPalette';
 
-export default  StyleSheet.create({
+export default StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
@@ -10,7 +17,6 @@ export default  StyleSheet.create({
   sliderLabel: {
     textAlign: 'center',
     color: BLUE_DARK,
-    marginTop: 15,
   },
   textButton: {
     textAlign: 'center',
@@ -18,7 +24,7 @@ export default  StyleSheet.create({
   },
   viewPositions: {
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 20,
   },
   textPositions: {
     textAlign: 'center',
@@ -32,12 +38,12 @@ export default  StyleSheet.create({
   viewButtonPosition: {
     marginTop: 15,
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 20,
   },
   viewButtonAvailability: {
     marginTop: 30,
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 20,
   },
   viewButtonLocation: {
     marginTop: 30,
@@ -54,27 +60,27 @@ export default  StyleSheet.create({
     textAlign: 'left',
     color: BLUE_DARK,
   },
-  headerCustom:{
+  headerCustom: {
     backgroundColor: BLUE_MAIN,
   },
-  titleHeader:{
+  titleHeader: {
     color: WHITE_MAIN,
     fontWeight: '500',
     fontSize: 18,
   },
-  viewHeader:{
+  viewHeader: {
     backgroundColor: BLUE_LIGHT,
     borderRadius: 50,
     padding: 15,
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 20,
   },
-  textHeader:{
+  textHeader: {
     color: BLUE_DARK,
     fontSize: 14,
-    textAlign: 'center'
+    textAlign: 'center',
   },
-  contentScroll:{
+  contentScroll: {
     height: 350,
     borderWidth: 1,
     borderColor: BLUE_MAIN,
@@ -83,46 +89,46 @@ export default  StyleSheet.create({
     paddingTop: 5,
     borderTopColor: 'transparent',
     borderTopLeftRadius: 0,
-    borderTopRightRadius: 0
+    borderTopRightRadius: 0,
   },
-  itemSelectCheck:{
+  itemSelectCheck: {
     marginLeft: 0,
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 20,
   },
-  IconCheck:{
+  IconCheck: {
     fontSize: 20,
-    color: BLUE_DARK
+    color: BLUE_DARK,
   },
-  textList:{
-    color: BLUE_DARK
+  textList: {
+    color: BLUE_DARK,
   },
   weekendsText: {
-    color: BLUE_DARK
+    color: BLUE_DARK,
   },
-  accordionAvailability:{
+  accordionAvailability: {
     borderColor: 'transparent',
     paddingLeft: 20,
     paddingRight: 20,
     marginTop: 15,
   },
-  textAvailability:{
+  textAvailability: {
     textAlign: 'center',
     color: BLUE_DARK,
     fontSize: 16,
   },
-  textLocation:{
+  textLocation: {
     textAlign: 'center',
     fontSize: 12,
     color: GRAY_LIGHT,
   },
-  accordionPosition:{
+  accordionPosition: {
     borderColor: 'transparent',
     marginTop: 15,
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 20,
   },
-  viewCrud:{
+  viewCrud: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -131,29 +137,29 @@ export default  StyleSheet.create({
     paddingRight: 20,
     marginTop: 30,
   },
-  viewButtomLeft:{
+  viewButtomLeft: {
     width: '50%',
     marginRight: 5,
   },
-  buttomLeft:{
+  buttomLeft: {
     backgroundColor: BLUE_DARK,
   },
-  textButtomLeft:{
+  textButtomLeft: {
     color: WHITE_MAIN,
   },
-  viewButtomRight:{
+  viewButtomRight: {
     width: '50%',
     marginLeft: 5,
   },
-  buttomRight:{
+  buttomRight: {
     backgroundColor: 'transparent',
     borderColor: VIOLET_MAIN,
-    borderWidth: 1
+    borderWidth: 1,
   },
-  textButtomRight:{
-    color: VIOLET_MAIN
+  textButtomRight: {
+    color: VIOLET_MAIN,
   },
-  viewInput:{
+  viewInput: {
     backgroundColor: 'transparent',
     height: 55,
     width: '100%',
@@ -166,12 +172,12 @@ export default  StyleSheet.create({
     paddingRight: 10,
     marginBottom: 10,
     ...Platform.select({
-        ios: {
-            paddingTop: 0,
-        },
+      ios: {
+        paddingTop: 0,
+      },
     }),
   },
-  viewInvite:{
+  viewInvite: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
@@ -179,19 +185,23 @@ export default  StyleSheet.create({
     paddingLeft: 30,
     paddingRight: 30,
     marginBottom: 70,
-    marginTop: 50
+    marginTop: 50,
   },
-  titleInvite:{
+  titleInvite: {
     color: BLUE_DARK,
     fontSize: 14,
-    marginBottom: 10
+    marginBottom: 10,
   },
-  itemInvite:{
+  itemInvite: {
     padding: 14,
     fontSize: 14,
-    color: BLUE_DARK
+    color: BLUE_DARK,
   },
-  labelForm:{
-    color: BLUE_DARK
+  labelForm: {
+    color: BLUE_DARK,
+  },
+  viewWarning: {
+    backgroundColor: '#ff7272',
+    padding: 15,
   },
 });

@@ -98,6 +98,7 @@ export const Tabs = createBottomTabNavigator(
     [JOB_INVITES_ROUTE]: { screen: JobInvites },
     [JOB_PREFERENCES_ROUTE]: { screen: JobPreferences },
     [MYJOBS_ROUTE]: { screen: MyJobs },
+    [PROFILE_ROUTE]: { screen: Profile },
   },
   {
     tabBarPosition: 'bottom',

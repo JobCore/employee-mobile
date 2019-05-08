@@ -179,7 +179,12 @@ class JobPreferences extends Component {
                 </Button>
               </Right>
             </Header>
-
+            <View style={styles.viewWarning}>
+              <Text style={{ color: '#fff', textAlign: 'center' }}>
+                Your job preferences might be to narrow, the more flexible you
+                are the more job invites you will get
+              </Text>
+            </View>
             <Content
               padder
               refreshControl={

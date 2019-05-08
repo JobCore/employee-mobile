@@ -33,12 +33,11 @@ import PROFILE_IMG from '../../assets/image/profile.png';
 
 class Profile extends Component {
   static navigationOptions = {
-    header: null,
-    tabBarLabel: i18next.t('DASHBOARD.dashboard'),
+    tabBarLabel: i18next.t('PROFILE.profile'),
     tabBarIcon: () => (
       <Image
-        style={{ resizeMode: 'contain', height: 30 }}
-        source={require('../../assets/image/dashboard.png')}
+        style={{ resizeMode: 'contain', width: 42, height: 42 }}
+        source={require('../../assets/image/myJobs.png')}
       />
     ),
   };
@@ -108,7 +107,6 @@ class Profile extends Component {
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-
             <Header
               androidStatusBarColor={BLUE_MAIN}
               style={styles.headerCustom}>
@@ -126,12 +124,27 @@ class Profile extends Component {
               <Body>
                 <Title style={styles.titleHeader}>{t('PROFILE.profile')}</Title>
               </Body>
-              <Right />
+              <Right>
+                <Button
+                  transparent
+                  onPress={() => this.props.navigation.goBack()}>
+                  <Icon
+                    name="questioncircle"
+                    size={24}
+                    style={{ color: WHITE_MAIN, marginLeft: 20 }}
+                  />
+                </Button>
+              </Right>
             </Header>
 
             <Content>
               <BackgroundHeader>
                 <>
+                  <Text style={styles.textInfo}>
+                    Add a picture of yourself and talk about your experiece to
+                    increase your visibility and receive more invites
+                  </Text>
+
                   <TouchableOpacity onPress={this.goToEditProfile}>
                     <View style={styles.viewProfileImg}>
                       <Thumbnail
@@ -162,7 +175,11 @@ class Profile extends Component {
               </BackgroundHeader>
 
               <View style={styles.viewPadding}>
-                <Text style={styles.textBio}>{this.state.profile.bio}</Text>
+                {/* <Text style={styles.textBio}>{this.state.profile.bio}</Text> */}
+                <Text style={styles.textBio}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </Text>
               </View>
 
               {this.state.profile && this.state.profile.employee ? (
@@ -253,6 +270,20 @@ class Profile extends Component {
                     ))}
                   </View>
                 ) : null}
+              <View style={styles.viewInfo}>
+                <Text style={styles.titleProfile}>Badges</Text>
+                <Text style={styles.textProfile}>
+                  The more badges you receive, the more invitations you will get
+                </Text>
+              </View>
+              <View style={styles.viewInfo}>
+                <Text style={styles.titleProfile}>
+                  What employers said about you
+                </Text>
+                <Text style={styles.textProfile}>
+                  To get jobs you can have comments
+                </Text>
+              </View>
             </Content>
           </Container>
         )}
