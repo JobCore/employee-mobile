@@ -144,7 +144,11 @@ class Profile extends Component {
                     Add a picture of yourself and talk about your experiece to
                     increase your visibility and receive more invites
                   </Text>
-
+                  <View style={styles.viewProgress}>
+                    <View style={styles.barProgress} />
+                    <View style={styles.barProgressCompleted} />
+                    <Text style={styles.textProgress}>Completed 50%</Text>
+                  </View>
                   <TouchableOpacity onPress={this.goToEditProfile}>
                     <View style={styles.viewProfileImg}>
                       <Thumbnail

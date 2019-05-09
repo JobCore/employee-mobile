@@ -245,7 +245,7 @@ class JobDetailsNew extends Component {
                 </View>
               ) : null}
 
-              <View style={styles.viewCrud}>
+              {/* <View style={styles.viewCrud}>
                 <View style={styles.viewButtomClock}>
                   <Button
                     onPress={this.rejectJob}
@@ -256,8 +256,26 @@ class JobDetailsNew extends Component {
                     <Text style={styles.textWhite}>Clock In 1:30 min</Text>
                   </Button>
                 </View>
-              </View>
+              </View> */}
             </Content>
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 20,
+                right: 0,
+                left: 0,
+                paddingLeft: 60,
+                paddingRight: 60,
+              }}>
+              <Button
+                onPress={this.rejectJob}
+                style={styles.buttomBottom}
+                full
+                rounded
+                bordered>
+                <Text style={styles.textWhite}>Clock In 1:30 min</Text>
+              </Button>
+            </View>
           </Container>
         )}
       </I18n>

@@ -35,6 +35,7 @@ import JobDetailsScreen from './src/components/MyJobs/JobDetails';
 import JobDetailsNewScreen from './src/components/MyJobs/JobDetailsNew';
 import JobDetailsNewOneScreen from './src/components/MyJobs/JobDetailsNewOne';
 import JobDetailsNewTwoScreen from './src/components/MyJobs/JobDetailsNewTwo';
+import JobPendingPaymentScreen from './src/components/MyJobs/JobPendingPayments';
 import JobWorkModeScreen from './src/components/MyJobs/JobWorkMode';
 import Reviews from './src/components/MyJobs/Reviews';
 
@@ -65,6 +66,7 @@ import {
   JOB_DETAILS_NEW_ONE_ROUTE,
   JOB_DETAILS_NEW_TWO_ROUTE,
   JOB_WORK_MODE_ROUTE,
+  JOB_PENDING_PAYMENTS_ROUTE,
 } from './src/constants/routes';
 import {
   BLUE_DARK,
@@ -158,6 +160,9 @@ export const AppStack = createStackNavigator(
     },
     [JOB_WORK_MODE_ROUTE]: {
       screen: JobWorkModeScreen,
+    },
+    [JOB_PENDING_PAYMENTS_ROUTE]: {
+      screen: JobPendingPaymentScreen,
     },
     [APPLICATION_DETAILS_ROUTE]: {
       screen: JobDetailsScreen,

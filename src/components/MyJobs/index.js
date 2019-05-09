@@ -23,6 +23,7 @@ import {
   JOB_DETAILS_NEW_ONE_ROUTE,
   JOB_DETAILS_NEW_TWO_ROUTE,
   JOB_WORK_MODE_ROUTE,
+  JOB_PENDING_PAYMENTS_ROUTE,
 } from '../../constants/routes';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
@@ -214,6 +215,12 @@ class MyJobs extends Component {
                   this.props.navigation.navigate(JOB_WORK_MODE_ROUTE)
                 }>
                 Link para ver Work Mode
+              </Text>
+              <Text
+                onPress={() =>
+                  this.props.navigation.navigate(JOB_PENDING_PAYMENTS_ROUTE)
+                }>
+                Link para ver Pending payments
               </Text>
             </View>
             <Segment style={styles.viewSegment}>

@@ -82,7 +82,7 @@ class JobDetailsNewOne extends Component {
 
               <DetailsCheck />
 
-              <View style={styles.viewCrud}>
+              {/* <View style={styles.viewCrud}>
                 <View style={styles.viewButtomClock}>
                   <Button
                     onPress={this.rejectJob}
@@ -93,8 +93,26 @@ class JobDetailsNewOne extends Component {
                     <Text style={styles.textWhite}>Review Employer</Text>
                   </Button>
                 </View>
-              </View>
+              </View> */}
             </Content>
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 20,
+                right: 0,
+                left: 0,
+                paddingLeft: 60,
+                paddingRight: 60,
+              }}>
+              <Button
+                onPress={this.rejectJob}
+                style={styles.buttomBottom}
+                full
+                rounded
+                bordered>
+                <Text style={styles.textWhite}>Review Employer</Text>
+              </Button>
+            </View>
           </Container>
         )}
       </I18n>

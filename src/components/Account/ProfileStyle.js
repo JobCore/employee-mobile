@@ -29,7 +29,7 @@ export default StyleSheet.create({
   },
   viewProfileImg: {
     alignSelf: 'center',
-    marginTop: 15,
+    marginTop: 5,
     marginBottom: 15,
     width: 80,
   },
@@ -137,5 +137,25 @@ export default StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     marginBottom: 10,
+  },
+  viewProgress: {
+    marginLeft: 35,
+    marginRight: 35,
+  },
+  barProgress: {
+    width: '100%',
+    height: 4,
+    backgroundColor: '#c5d4d6',
+  },
+  barProgressCompleted: {
+    position: 'absolute',
+    width: '50%',
+    height: 4,
+    backgroundColor: BLUE_DARK,
+  },
+  textProgress: {
+    textAlign: 'center',
+    margin: 10,
+    color: BLUE_DARK,
   },
 });
