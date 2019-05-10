@@ -100,15 +100,7 @@ class JobWorkMode extends Component {
                 <Text style={styles.textWhite}>Upcomming Shifts</Text>
               </Button>
             </View>
-            <View
-              style={{
-                position: 'absolute',
-                bottom: 20,
-                right: 0,
-                left: 0,
-                paddingLeft: 30,
-                paddingRight: 30,
-              }}>
+            <View style={styles.viewBottom}>
               <Button
                 onPress={this.rejectJob}
                 style={styles.buttomBottom}

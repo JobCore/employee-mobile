@@ -235,4 +235,12 @@ export default StyleSheet.create({
     paddingBottom: 5,
     borderRadius: 100,
   },
+  viewBottom: {
+    position: 'absolute',
+    bottom: 20,
+    right: 0,
+    left: 0,
+    paddingLeft: 60,
+    paddingRight: 60,
+  },
 });

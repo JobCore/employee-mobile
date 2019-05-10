@@ -95,15 +95,7 @@ class JobDetailsNewOne extends Component {
                 </View>
               </View> */}
             </Content>
-            <View
-              style={{
-                position: 'absolute',
-                bottom: 20,
-                right: 0,
-                left: 0,
-                paddingLeft: 60,
-                paddingRight: 60,
-              }}>
+            <View style={styles.viewBottom}>
               <Button
                 onPress={this.rejectJob}
                 style={styles.buttomBottom}
