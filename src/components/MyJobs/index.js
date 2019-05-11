@@ -14,7 +14,7 @@ import {
   ListItem,
 } from 'native-base';
 import styles from './style';
-import { BLUE_MAIN } from '../../constants/colorPalette';
+import { BLUE_MAIN } from '../../shared/colorPalette';
 import {
   EDIT_PROFILE_ROUTE,
   JOB_DETAILS_ROUTE,
@@ -28,10 +28,11 @@ import {
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as jobActions from './actions';
-import { equalMonthAndYear } from '../../utils';
-import { CustomToast, Loading, CenteredText } from '../../utils/components';
+import { equalMonthAndYear } from '../../shared';
+import { CustomToast, Loading, CenteredText } from '../../shared/components';
 import jobStore from './JobStore';
 import moment from 'moment';
+import { TabHeader } from '../../shared/components/TabHeader';
 
 class MyJobs extends Component {
   static navigationOptions = {
@@ -166,31 +167,11 @@ class MyJobs extends Component {
               <CenteredText text={`${t('MY_JOBS.noJobs')}`} />
             ) : null}
 
-            <Header
-              androidStatusBarColor={BLUE_MAIN}
-              style={styles.headerCustom}>
-              <Left />
-              <Body>
-                <Title style={styles.titleHeader}>{t('MY_JOBS.myJobs')}</Title>
-              </Body>
-              <Right>
-                <Button
-                  transparent
-                  onPress={() =>
-                    this.props.navigation.navigate(EDIT_PROFILE_ROUTE)
-                  }>
-                  <Image
-                    style={{
-                      resizeMode: 'contain',
-                      height: 32,
-                      width: 32,
-                      marginRight: 20,
-                    }}
-                    source={require('../../assets/image/controls.png')}
-                  />
-                </Button>
-              </Right>
-            </Header>
+            <TabHeader
+              title={t('MY_JOBS.myJobs')}
+              onPressHelp={this.goToEditProfile}
+            />
+
             <View>
               <Text
                 onPress={() =>

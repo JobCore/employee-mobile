@@ -8,9 +8,9 @@ import {
   BLACK_MAIN,
   BLUE_DARK,
   BG_GRAY_LIGHT,
-} from '../../constants/colorPalette';
+} from '../../shared/colorPalette';
 
-export default StyleSheet.create({
+const inviteStyles = StyleSheet.create({
   mapContainer: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -167,6 +167,8 @@ export default StyleSheet.create({
   // Css New design
   bgInfo: {
     backgroundColor: BG_GRAY_LIGHT,
+    minHeight: 200,
+    padding: 5,
   },
   imgCover: {
     width: 50,
@@ -179,7 +181,7 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 5,
+    marginTop: 15,
     paddingBottom: 10,
   },
   viewContent: {
@@ -207,8 +209,11 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 15,
+    alignItems: 'center',
+    marginTop: 0,
     marginBottom: 5,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   viewTime: {
     flex: 1,
@@ -244,3 +249,5 @@ export default StyleSheet.create({
     paddingRight: 60,
   },
 });
+
+export { inviteStyles };

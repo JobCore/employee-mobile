@@ -1,5 +1,5 @@
-import { FluxStore } from '../../utils/flux-state';
-import { LOG, storeErrorHandler } from '../../utils';
+import { FluxStore } from '../../shared/flux-state';
+import { LOG, storeErrorHandler } from '../../shared';
 
 class JobStore extends FluxStore {
   constructor() {

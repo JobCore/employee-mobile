@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   View,
   ScrollView,
   AsyncStorage,
   KeyboardAvoidingView,
   Platform,
-} from "react-native";
+} from 'react-native';
 import styles from './styles';
 
 class FormViewPreferences extends Component {
@@ -13,7 +13,9 @@ class FormViewPreferences extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.viewFormPreferences} keyboardShouldPersistTaps={'always'}>
+      <ScrollView
+        style={styles.viewFormPreferences}
+        keyboardShouldPersistTaps={'always'}>
         {this.props.children}
       </ScrollView>
     );

@@ -14,16 +14,16 @@ import {
   ListItem,
 } from 'native-base';
 import styles from './style';
-import { WHITE_MAIN, BLUE_MAIN } from '../../constants/colorPalette';
+import { WHITE_MAIN, BLUE_MAIN } from '../../shared/colorPalette';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as inviteActions from './actions';
 // import inviteStore from './InviteStore';
-// import { JobDetails } from '../../utils/components';
-import { LOG } from '../../utils';
+// import { JobDetails } from '../../shared/components';
+import { LOG } from '../../shared';
 import CHICKEN from '../../assets/image/chicken.png';
 
-import HeaderPayments from '../../utils/components/HeaderPayments';
+import HeaderPayments from '../../shared/components/HeaderPayments';
 // import IconTime from '../../assets/image/time.png'
 
 class JobPendingPayments extends Component {
@@ -211,13 +211,13 @@ class JobPendingPayments extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPress: () => {
+          onPressHelp: () => {
             LOG(this, 'Cancel applyJob');
           },
         },
         {
           text: i18next.t('JOB_INVITES.apply'),
-          onPress: () => {
+          onPressHelp: () => {
             this.isLoading(true);
             inviteActions.applyJob(this.state.invite.id);
           },
@@ -244,13 +244,13 @@ class JobPendingPayments extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPress: () => {
+          onPressHelp: () => {
             LOG(this, 'Cancel rejectJob');
           },
         },
         {
           text: i18next.t('JOB_INVITES.reject'),
-          onPress: () => {
+          onPressHelp: () => {
             this.isLoading(true);
             inviteActions.rejectJob(this.state.invite.id);
           },

@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { Platform, Dimensions } from 'react-native';
 
 /**
  * Validate if a string is valid or not
@@ -102,6 +103,12 @@ const storeErrorHandler = (err) => {
   }
 
   return err;
+};
+
+export const hasNotch = () => {
+  if (Platform.OS !== 'ios') return false;
+  const dim = Dimensions.get('window');
+  return dim.height > 812 || dim.width > 812;
 };
 
 export {

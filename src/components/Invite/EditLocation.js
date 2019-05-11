@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { View, Image, Dimensions, Alert, TouchableOpacity } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import styles from '../Invite/EditLocationStyle';
-import textStyles from '../../constants/textStyles';
+import textStyles from '../../shared/textStyles';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import MapView, { Marker } from 'react-native-maps';
@@ -22,9 +22,9 @@ import {
   BLUE_DARK,
   BLUE_MAIN,
   BLACK_MAIN,
-} from '../../constants/colorPalette';
-import { LOG } from '../../utils';
-import { Loading, CustomToast, openMapsApp } from '../../utils/components';
+} from '../../shared/colorPalette';
+import { LOG } from '../../shared';
+import { Loading, CustomToast, openMapsApp } from '../../shared/components';
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import MARKER_IMG from '../../assets/image/map-marker.png';
@@ -276,13 +276,13 @@ class EditLocation extends PureComponent {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPress: () => {
+          onPressHelp: () => {
             LOG(this, 'Cancel saveLocation');
           },
         },
         {
           text: i18next.t('JOB_PREFERENCES.save'),
-          onPress: () => {
+          onPressHelp: () => {
             this.saveLocation();
           },
         },

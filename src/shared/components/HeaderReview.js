@@ -3,7 +3,7 @@ import { View, Image } from 'react-native';
 import { Text, List, ListItem, Body, Left, Icon } from 'native-base';
 import CHICKEN from '../../assets/image/chicken.png';
 import styles from '../../components/Invite/InviteDetailsStyle';
-import { BLUE_DARK } from '../../constants/colorPalette';
+import { BLUE_DARK } from '../colorPalette';
 
 export default class HeaderReview extends Component {
   render() {

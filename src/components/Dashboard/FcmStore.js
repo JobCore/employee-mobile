@@ -1,5 +1,5 @@
-import { FluxStore } from '../../utils/flux-state';
-import { LOG, WARN, ERROR, storeErrorHandler } from "../../utils";
+import { FluxStore } from '../../shared/flux-state';
+import { storeErrorHandler } from '../../shared';
 
 class FcmStore extends FluxStore {
   constructor() {

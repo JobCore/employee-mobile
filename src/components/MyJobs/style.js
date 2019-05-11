@@ -8,7 +8,7 @@ import {
   VIOLET_MAIN,
   GRAY_MAIN,
   RED_MAIN,
-} from '../../constants/colorPalette';
+} from '../../shared/colorPalette';
 
 export default StyleSheet.create({
   container: {

@@ -22,7 +22,7 @@ import {
   Loading,
   CenteredText,
   BackgroundHeader,
-} from '../../utils/components';
+} from '../../shared/components';
 import { I18n } from 'react-i18next';
 import {
   BLUE_MAIN,
@@ -30,7 +30,7 @@ import {
   BLUE_LIGHT,
   WHITE_MAIN,
   VIOLET_MAIN,
-} from '../../constants/colorPalette';
+} from '../../shared/colorPalette';
 import * as inviteActions from '../Invite/actions';
 import inviteStore from '../Invite/InviteStore';
 import myJobsImg from '../../assets/image/profile.png';

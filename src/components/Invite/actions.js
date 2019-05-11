@@ -1,4 +1,4 @@
-import * as Flux from '../../utils/flux-state';
+import * as Flux from '../../shared/flux-state';
 import {
   editPositionsValidator,
   editAvailabilityDatesValidator,

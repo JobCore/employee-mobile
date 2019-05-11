@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { View, Dimensions, Alert } from 'react-native';
-import { Container, Content, Button, Text } from 'native-base';
-import styles from './InviteDetailsStyle';
-import { BLUE_DARK } from '../../shared/colorPalette';
+import { Alert, Dimensions, View } from 'react-native';
+import { Button, Container, H1, Text } from 'native-base';
+import { inviteStyles } from './InviteDetailsStyle';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as inviteActions from './actions';
-import inviteStore from './InviteStore';
-import { JobDetails } from '../../shared/components';
+import { ViewFlex } from '../../shared/components/ViewFlex';
 import { LOG } from '../../shared';
 import { Loading, openMapsApp } from '../../shared/components';
 import MARKER_IMG from '../../assets/image/map-marker.png';
 import { ModalHeader } from '../../shared/components/ModalHeader';
+import { InviteHeader } from './components/InviteHeader';
+import inviteStore from './InviteStore';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -22,10 +22,7 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const DEFAULT_LATITUDE = 25.761681;
 const DEFAULT_LONGITUDE = -80.191788;
 
-/**
- * @deprecated Use InviteDetailsV2 instead
- */
-class InviteDetails extends Component {
+class InviteDetailsV2 extends Component {
   // static navigationOptions = {
   //   header: null,
   //   tabBarLabel: i18next.t('JOB_INVITES.inviteDetails'),
@@ -127,84 +124,93 @@ class InviteDetails extends Component {
               title={t('JOB_INVITES.inviteDetails')}
               onPressHelp={() => this.props.navigation.goBack()}
             />
-            <Content>
-              <View style={styles.viewShift}>
-                {this.state.invite && this.state.invite.shift ? (
-                  <JobDetails isInvite shift={this.state.invite.shift} />
-                ) : null}
+
+            <ViewFlex justifyContent={'space-between'}>
+              <View style={{ flex: 4 }}>
+                <InviteHeader
+                  clientName={'The Club of Knights'}
+                  positionName={'Kitchen Assistant'}
+                  dateString={'Feb 23 to Feb 24'}
+                  timeString={'3pm to 6pm'}
+                  addressString={
+                    '270 Catalonia Ave #001, Coral Gables, FL 33134, USA'
+                  }
+                  onPressDirection={
+                    this.showOpenDirection() ? this.openMapsApp : () => {}
+                  }
+                />
               </View>
-
-              <MapView
-                style={styles.map}
-                region={this.state.region}
-                onRegionChangeComplete={this.onRegionChangeComplete}>
-                {this.showMarker() ? (
-                  <Marker
-                    image={MARKER_IMG}
-                    anchor={{ x: 0.5, y: 1 }}
-                    coordinate={{
-                      latitude: this.state.invite.shift.venue.latitude,
-                      longitude: this.state.invite.shift.venue.longitude,
-                    }}
-                    title={this.state.invite.shift.venue.title}
-                  />
-                ) : (
-                  <Marker
-                    image={MARKER_IMG}
-                    anchor={{ x: 0.5, y: 1 }}
-                    coordinate={{
-                      latitude: DEFAULT_LATITUDE,
-                      longitude: DEFAULT_LONGITUDE,
-                    }}
-                  />
-                )}
-              </MapView>
-
-              {this.showOpenDirection() ? (
-                <View>
-                  <Text style={styles.textLocation}>
-                    {`${this.state.invite.shift.venue.title}`}
-                  </Text>
-                  <Button
-                    rounded
-                    small
-                    bordered
-                    style={styles.openDirectionButton}
-                    onPress={this.openMapsApp}>
-                    <Text style={{ color: BLUE_DARK }}>
-                      {t('JOB_INVITES.openDirection')}
-                    </Text>
-                  </Button>
-                </View>
-              ) : null}
-
-              <View style={styles.viewCrud}>
-                <View style={styles.viewButtomLeft}>
-                  <Button
-                    onPress={this.rejectJob}
-                    style={styles.buttomLeft}
-                    full
-                    rounded
-                    bordered>
-                    <Text style={styles.textViolet}>
-                      {t('JOB_INVITES.reject')}
-                    </Text>
-                  </Button>
-                </View>
-                <View style={styles.viewButtomRight}>
-                  <Button
-                    onPress={this.applyJob}
-                    style={styles.buttomRight}
-                    full
-                    rounded
-                    bordered>
-                    <Text style={styles.textBlue}>
-                      {t('JOB_INVITES.apply')}
-                    </Text>
-                  </Button>
+              {/*Details*/}
+              <View style={{ flex: 2 }}>
+                <View style={inviteStyles.viewAmount}>
+                  <View style={inviteStyles.viewContent}>
+                    <Text style={inviteStyles.textTitle}>Amount</Text>
+                    <H1 style={inviteStyles.textSubTitle}>$1000</H1>
+                  </View>
+                  <View style={inviteStyles.viewContent}>
+                    <Text style={inviteStyles.textTitle}>Total Hours</Text>
+                    <H1 style={inviteStyles.textSubTitle}>10</H1>
+                  </View>
                 </View>
               </View>
-            </Content>
+              <View style={{ flex: 7 }}>
+                <MapView
+                  style={inviteStyles.map}
+                  region={this.state.region}
+                  onRegionChangeComplete={this.onRegionChangeComplete}>
+                  {this.showMarker() ? (
+                    <Marker
+                      image={MARKER_IMG}
+                      anchor={{ x: 0.5, y: 1 }}
+                      coordinate={{
+                        latitude: this.state.invite.shift.venue.latitude,
+                        longitude: this.state.invite.shift.venue.longitude,
+                      }}
+                      title={this.state.invite.shift.venue.title}
+                    />
+                  ) : (
+                    <Marker
+                      image={MARKER_IMG}
+                      anchor={{ x: 0.5, y: 1 }}
+                      coordinate={{
+                        latitude: DEFAULT_LATITUDE,
+                        longitude: DEFAULT_LONGITUDE,
+                      }}
+                    />
+                  )}
+                </MapView>
+              </View>
+
+              <View style={{ flex: 3 }}>
+                <View style={inviteStyles.viewCrud}>
+                  <View style={inviteStyles.viewButtomLeft}>
+                    <Button
+                      onPress={this.rejectJob}
+                      style={inviteStyles.buttomLeft}
+                      full
+                      rounded
+                      bordered>
+                      <Text style={inviteStyles.textWhite}>
+                        {t('JOB_INVITES.reject')}
+                      </Text>
+                    </Button>
+                  </View>
+                  <View style={inviteStyles.viewButtomRight}>
+                    <Button
+                      title={''}
+                      onPress={this.applyJob}
+                      style={inviteStyles.buttomRight}
+                      full
+                      rounded
+                      bordered>
+                      <Text style={inviteStyles.textWhite}>
+                        {t('JOB_INVITES.apply')}
+                      </Text>
+                    </Button>
+                  </View>
+                </View>
+              </View>
+            </ViewFlex>
           </Container>
         )}
       </I18n>
@@ -335,4 +341,4 @@ class InviteDetails extends Component {
   };
 }
 
-export default InviteDetails;
+export default InviteDetailsV2;

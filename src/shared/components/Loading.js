@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  StyleSheet,
-  View,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Spinner } from 'native-base';
-import { BLUE_DARK, WHITE_MAIN } from '../../constants/colorPalette';
+import { BLUE_DARK, WHITE_MAIN } from '../colorPalette';
 
 const styles = StyleSheet.create({
   modalBackground: {
@@ -26,19 +23,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-around'
-  }
+    justifyContent: 'space-around',
+  },
 });
 
 class Loading extends Component {
   render() {
     return (
-        <View style={styles.modalBackground}>
-          <View style={styles.activityIndicatorWrapper}>
-            <Spinner color={BLUE_DARK}/>
-          </View>
+      <View style={styles.modalBackground}>
+        <View style={styles.activityIndicatorWrapper}>
+          <Spinner color={BLUE_DARK} />
         </View>
-    )
+      </View>
+    );
   }
 }
 

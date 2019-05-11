@@ -11,12 +11,6 @@ import {
   Thumbnail,
   Textarea,
   Container,
-  Header,
-  Left,
-  Body,
-  Title,
-  Right,
-  Icon,
 } from 'native-base';
 import styles from './EditProfileStyle';
 import profileStyles from './ProfileStyle';
@@ -24,17 +18,13 @@ import * as actions from './actions';
 import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
-import { LOG, WARN } from '../../utils';
-import { CustomToast, Loading } from '../../utils/components';
+import { LOG, WARN } from '../../shared';
+import { CustomToast, Loading } from '../../shared/components';
 import ImagePicker from 'react-native-image-picker';
 import { RESET_ROUTE, JOB_PREFERENCES_ROUTE } from '../../constants/routes';
 import PROFILE_IMG from '../../assets/image/profile.png';
-import {
-  BLUE_MAIN,
-  WHITE_MAIN,
-  GRAY_MAIN,
-  BG_GRAY_LIGHT,
-} from '../../constants/colorPalette';
+import { GRAY_MAIN, BG_GRAY_LIGHT } from '../../shared/colorPalette';
+import { TabHeader } from '../../shared/components/TabHeader';
 
 const IMAGE_PICKER_OPTIONS = {
   mediaType: 'photo',
@@ -43,7 +33,15 @@ const IMAGE_PICKER_OPTIONS = {
 };
 
 class EditProfile extends Component {
-  static navigationOptions = { header: null };
+  static navigationOptions = {
+    tabBarLabel: i18next.t('PROFILE.profile'),
+    tabBarIcon: () => (
+      <Image
+        style={{ resizeMode: 'contain', width: 42, height: 42 }}
+        source={require('../../assets/image/myJobs.png')}
+      />
+    ),
+  };
 
   constructor(props) {
     super(props);
@@ -114,33 +112,12 @@ class EditProfile extends Component {
           <Container>
             {this.state.isLoading ? <Loading /> : null}
 
-            <Header
-              androidStatusBarColor={BLUE_MAIN}
-              style={profileStyles.headerCustom}>
-              <Left>
-                <Button
-                  transparent
-                  onPress={() => this.props.navigation.goBack()}>
-                  <Icon
-                    name="ios-close"
-                    style={{ color: WHITE_MAIN, marginLeft: 20 }}
-                  />
-                </Button>
-              </Left>
-              <Body>
-                <Title style={profileStyles.titleHeader}>
-                  {t('EDIT_PROFILE.editProfile')}
-                </Title>
-              </Body>
-              <Right>
-                <Button transparent onPress={this.logout}>
-                  <Icon
-                    name="ios-log-out"
-                    style={{ color: WHITE_MAIN, marginRight: 20, fontSize: 32 }}
-                  />
-                </Button>
-              </Right>
-            </Header>
+            <TabHeader
+              title={t('EDIT_PROFILE.editProfile')}
+              onPressHelp={this.goToEditProfile}
+            />
+
+            {/*// TODO: Logout*/}
 
             <Content>
               <View style={styles.container}>
@@ -300,13 +277,13 @@ class EditProfile extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPress: () => {
+          onPressHelp: () => {
             LOG(this, 'Cancel edit profile');
           },
         },
         {
           text: i18next.t('EDIT_PROFILE.update'),
-          onPress: () => {
+          onPressHelp: () => {
             this.setState({ isLoading: true }, () => {
               LOG(this, this.state);
               if (this.state.selectedImage && this.state.selectedImage.uri) {
@@ -333,13 +310,13 @@ class EditProfile extends Component {
     Alert.alert(i18next.t('SETTINGS.wantToLogout'), '', [
       {
         text: i18next.t('APP.cancel'),
-        onPress: () => {
+        onPressHelp: () => {
           LOG(this, 'Cancel logout');
         },
       },
       {
         text: i18next.t('SETTINGS.logout'),
-        onPress: () => {
+        onPressHelp: () => {
           this.setState({ isLoading: true }, actions.logout());
         },
       },
@@ -389,7 +366,7 @@ class EditProfile extends Component {
       // for react-native-image-picker response
       LOG(this, `User tapped custom button: ${response.customButton}`);
     } else {
-      if (!response.uri) return;    
+      if (!response.uri) return;
 
       let type = response.type;
 

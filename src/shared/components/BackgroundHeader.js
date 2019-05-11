@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
-import { BG_GRAY_LIGHT } from '../../constants/colorPalette';
+import { BG_GRAY_LIGHT } from '../colorPalette';
 
 const styles = StyleSheet.create({
   bgView: {
-    flex: 1,
     backgroundColor: BG_GRAY_LIGHT,
     justifyContent: 'center',
+    height: 150,
   },
 });
 

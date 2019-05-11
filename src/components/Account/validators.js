@@ -1,4 +1,4 @@
-import * as utils from '../../utils';
+import * as utils from '../../shared';
 import { i18next } from '../../i18n';
 
 const validFileTypes = ['image/jpg', 'image/jpeg', 'image/png'];

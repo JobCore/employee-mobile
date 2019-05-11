@@ -9,9 +9,14 @@ import { Toast } from 'native-base';
  * @param {number} [duration=4000]  Toast Duration
  * @param {string} [position='top'] Toast Position
  */
-const CustomToast = (text, type = 'success', duration = 4000, position = 'top') => {
+const CustomToast = (
+  text,
+  type = 'success',
+  duration = 4000,
+  position = 'top',
+) => {
   // To parse the text in case is not a string
-  if (text && typeof(text) !== 'string') {
+  if (text && typeof text !== 'string') {
     text = JSON.stringify(text);
   }
 
@@ -22,6 +27,6 @@ const CustomToast = (text, type = 'success', duration = 4000, position = 'top') 
     position: position,
     buttonText: 'Ok',
   });
-}
+};
 
 export default CustomToast;

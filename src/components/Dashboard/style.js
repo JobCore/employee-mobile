@@ -1,14 +1,11 @@
 import { StyleSheet } from 'react-native';
-import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN } from '../../constants/colorPalette';
+import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN } from '../../shared/colorPalette';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  headerCustom: {
-    backgroundColor: BLUE_MAIN,
   },
   titleHeader: {
     color: WHITE_MAIN,

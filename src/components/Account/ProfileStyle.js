@@ -4,7 +4,7 @@ import {
   BLUE_DARK,
   WHITE_MAIN,
   BLUE_LIGHT,
-} from '../../constants/colorPalette';
+} from '../../shared/colorPalette';
 
 export default StyleSheet.create({
   headerCustom: {

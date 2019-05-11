@@ -1,24 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
-import { Text, Thumbnail, Left, Body, ListItem, Icon } from 'native-base';
+import { Text } from 'native-base';
 import styles from '../../components/Invite/InviteDetailsStyle';
 import { I18n } from 'react-i18next';
-import PROFILE_IMG from '../../assets/image/profile.png';
-import { BLUE_DARK } from '../../constants/colorPalette';
 import moment from 'moment';
 
 class InviteDetails extends Component {
   render() {
-    const ratingAsNumber =
-      this.props.shift && this.props.shift.employer
-        ? parseInt(this.props.shift.employer.rating)
-        : 0;
+    // const ratingAsNumber =
+    //   this.props.shift && this.props.shift.employer
+    //     ? parseInt(this.props.shift.employer.rating)
+    //     : 0;
 
     // An Array To set the stars with array.map
-    const ratingArray = Number.isInteger(ratingAsNumber)
-      ? Array.from({ length: ratingAsNumber }, (v, k) => k + 1)
-      : new Array(0);
+    // const ratingArray = Number.isInteger(ratingAsNumber)
+    //   ? Array.from({ length: ratingAsNumber }, (v, k) => k + 1)
+    //   : new Array(0);
 
     return (
       <I18n>
@@ -70,11 +68,7 @@ class InviteDetails extends Component {
               </View>
             ) : null*/}
             {this.props.shift ? (
-              <Text
-                style={[
-                  styles.viewTitleInfo,
-                  { marginTop: 30 },
-                ]}>
+              <Text style={[styles.viewTitleInfo, { marginTop: 30 }]}>
                 {this.props.shift.venue ? (
                   <Text style={styles.textOne}>
                     {this.props.shift.venue.title}

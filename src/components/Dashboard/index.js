@@ -1,34 +1,26 @@
 import React, { Component } from 'react';
-import { View, Image, RefreshControl, TouchableOpacity } from 'react-native';
+import { Image, RefreshControl, TouchableOpacity, View } from 'react-native';
 import {
-  Container,
-  Header,
-  Content,
-  Text,
-  Button,
-  Left,
-  Icon,
   Body,
-  Title,
-  Right,
-  Segment,
-  Thumbnail,
+  Button,
+  Container,
+  Content,
+  Icon,
   ListItem,
+  Segment,
+  Text,
+  Thumbnail,
 } from 'native-base';
 import styles from './style';
+import { BLUE_DARK, VIOLET_MAIN } from '../../shared/colorPalette';
 import {
-  VIOLET_MAIN,
-  BLUE_MAIN,
-  BLUE_DARK,
-} from '../../constants/colorPalette';
-import {
-  EDIT_PROFILE_ROUTE,
-  PROFILE_ROUTE,
   AUTH_ROUTE,
-  MYJOBS_ROUTE,
+  EDIT_PROFILE_ROUTE,
   INVITE_DETAILS_ROUTE,
   JOB_DETAILS_ROUTE,
   JOB_INVITES_ROUTE,
+  MYJOBS_ROUTE,
+  PROFILE_ROUTE,
   REVIEWS_ROUTE,
 } from '../../constants/routes';
 import accountStore from '../Account/AccountStore';
@@ -39,13 +31,18 @@ import * as fcmActions from './actions';
 import fcmStore from './FcmStore';
 import * as jobActions from '../MyJobs/actions';
 import jobStore from '../MyJobs/JobStore';
-import { CustomToast, Loading, BackgroundHeader } from '../../utils/components';
-import { LOG, WARN } from '../../utils';
+import {
+  BackgroundHeader,
+  CustomToast,
+  Loading,
+} from '../../shared/components';
+import { LOG, WARN } from '../../shared';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import firebase from 'react-native-firebase';
 import { NavigationActions } from 'react-navigation';
 import PROFILE_IMG from '../../assets/image/profile.png';
+import { TabHeader } from '../../shared/components/TabHeader';
 
 class DashboardScreen extends Component {
   static navigationOptions = {
@@ -289,30 +286,10 @@ class DashboardScreen extends Component {
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-            <Header
-              androidStatusBarColor={BLUE_MAIN}
-              style={styles.headerCustom}>
-              <Left />
-              <Body>
-                <Title style={styles.titleHeader}>
-                  {t('DASHBOARD.dashboard')}
-                </Title>
-              </Body>
-              <Right>
-                <Button transparent onPress={this.goToEditProfile}>
-                  <Image
-                    style={{
-                      resizeMode: 'contain',
-                      height: 32,
-                      width: 32,
-                      marginRight: 20,
-                    }}
-                    source={require('../../assets/image/controls.png')}
-                  />
-                </Button>
-              </Right>
-            </Header>
-
+            <TabHeader
+              title={t('DASHBOARD.dashboard')}
+              onPressHelp={this.goToEditProfile}
+            />
             <Content
               refreshControl={
                 <RefreshControl
@@ -322,38 +299,40 @@ class DashboardScreen extends Component {
               }>
               <BackgroundHeader>
                 <ListItem noBorder style={styles.welcomeItem}>
-                  <Left>
-                    <TouchableOpacity onPress={this.goToProfile}>
-                      <Thumbnail
-                        large
-                        source={
-                          this.state.user &&
-                          this.state.user.profile &&
-                          this.state.user.profile.picture
-                            ? { uri: this.state.user.profile.picture }
-                            : PROFILE_IMG
-                        }
-                      />
-                    </TouchableOpacity>
-                    <Body>
-                      <TouchableOpacity onPress={this.goToEditProfile}>
-                        {this.state.user ? (
-                          <Text style={styles.textHello}>
-                            {`${t('DASHBOARD.hello')} ${
-                              this.state.user.first_name
-                            } ${this.state.user.last_name},`}
-                          </Text>
-                        ) : null}
-                        <Text style={styles.textWelcome}>
-                          {t('DASHBOARD.welcome')}
+                  <TouchableOpacity onPress={this.goToProfile}>
+                    <Thumbnail
+                      large
+                      source={
+                        this.state.user &&
+                        this.state.user.profile &&
+                        this.state.user.profile.picture
+                          ? { uri: this.state.user.profile.picture }
+                          : PROFILE_IMG
+                      }
+                    />
+                  </TouchableOpacity>
+                  <Body>
+                    <TouchableOpacity onPress={this.goToEditProfile}>
+                      {this.state.user ? (
+                        <Text style={styles.textHello}>
+                          {`${t('DASHBOARD.hello')} ${
+                            this.state.user.first_name
+                          } ${this.state.user.last_name},`}
                         </Text>
-                      </TouchableOpacity>
-                    </Body>
-                  </Left>
+                      ) : null}
+                      <Text style={styles.textWelcome}>
+                        {t('DASHBOARD.welcome')}
+                      </Text>
+                    </TouchableOpacity>
+                  </Body>
                 </ListItem>
               </BackgroundHeader>
-
-              <View style={[styles.viewDashboard, { marginTop: 40 }]}>
+              <View
+                style={[
+                  { flex: 4 },
+                  styles.viewDashboard,
+                  { marginTop: 40, flex: 2 },
+                ]}>
                 <View style={styles.viewItemJobsLeft}>
                   <Text style={styles.titleItem}>
                     {t('DASHBOARD.pendingPayments')}
@@ -385,7 +364,12 @@ class DashboardScreen extends Component {
                 </View>
               </View>
 
-              <View style={styles.viewDashboard}>
+              <View
+                style={[
+                  { flex: 40 },
+                  styles.viewDashboard,
+                  { marginTop: 40, flex: 2 },
+                ]}>
                 <View style={styles.viewItemJobsLeft}>
                   <TouchableOpacity onPress={this.goToMyJobs}>
                     <Text style={styles.titleItem}>
@@ -416,7 +400,7 @@ class DashboardScreen extends Component {
                 </View>
               </View>
 
-              <View style={styles.viewInvite}>
+              <View style={[styles.viewInvite, { marginTop: 40, flex: 2 }]}>
                 <Text style={styles.titleInvite}>
                   {t('DASHBOARD.stopReceivingInvites')}
                 </Text>

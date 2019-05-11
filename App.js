@@ -25,7 +25,7 @@ import Profile from './src/components/Account/Profile';
 import DashboardScreen from './src/components/Dashboard';
 import JobInvites from './src/components/Invite/JobInvites';
 import InviteDetails from './src/components/Invite/InviteDetails';
-import InviteDetailsNew from './src/components/Invite/InviteDetailsNew';
+import InviteDetailsV2 from './src/components/Invite/InviteDetailsV2';
 import JobPreferences from './src/components/Invite/JobPreferences';
 import Position from './src/components/Invite/Position';
 import Availability from './src/components/Invite/Availability';
@@ -53,7 +53,7 @@ import {
   RESET_ROUTE,
   AVAILABILITY_ROUTE,
   INVITE_DETAILS_ROUTE,
-  INVITE_DETAILS_NEW_ROUTE,
+  INVITE_DETAILS_ROUTE_V2,
   EDIT_PROFILE_ROUTE,
   PROFILE_ROUTE,
   POSITION_ROUTE,
@@ -73,7 +73,7 @@ import {
   BLUE_LIGHT,
   GRAY_MAIN,
   BLUE_SEMI_LIGHT,
-} from './src/constants/colorPalette';
+} from './src/shared/colorPalette';
 
 import SettingScreen from './src/components/Setting';
 
@@ -100,7 +100,7 @@ export const Tabs = createBottomTabNavigator(
     [JOB_INVITES_ROUTE]: { screen: JobInvites },
     [JOB_PREFERENCES_ROUTE]: { screen: JobPreferences },
     [MYJOBS_ROUTE]: { screen: MyJobs },
-    [PROFILE_ROUTE]: { screen: Profile },
+    [PROFILE_ROUTE]: { screen: EditProfile },
   },
   {
     tabBarPosition: 'bottom',
@@ -142,8 +142,9 @@ export const AppStack = createStackNavigator(
       screen: InviteDetails,
       path: 'invite/:inviteId',
     },
-    [INVITE_DETAILS_NEW_ROUTE]: {
-      screen: InviteDetailsNew,
+    [INVITE_DETAILS_ROUTE_V2]: {
+      screen: InviteDetailsV2,
+      path: 'invite/:inviteId',
     },
     [JOB_DETAILS_ROUTE]: {
       screen: JobDetailsScreen,

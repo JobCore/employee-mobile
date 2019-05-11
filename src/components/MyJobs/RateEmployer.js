@@ -22,13 +22,13 @@ import {
   BLUE_MAIN,
   BLUE_DARK,
   GRAY_LIGHT,
-} from '../../constants/colorPalette';
+} from '../../shared/colorPalette';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as jobActions from './actions';
 import jobStore from './JobStore';
-import { Loading, CustomToast } from '../../utils/components';
-import { WARN, LOG } from '../../utils';
+import { Loading, CustomToast } from '../../shared/components';
+import { WARN, LOG } from '../../shared';
 
 class RateEmployer extends Component {
   constructor(props) {
@@ -197,13 +197,13 @@ class RateEmployer extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPress: () => {
+          onPressHelp: () => {
             LOG(this, 'Cancel rateEmployer');
           },
         },
         {
           text: i18next.t('MY_JOBS.rate'),
-          onPress: () => {
+          onPressHelp: () => {
             this.setState({ isLoading: true }, () => {
               jobActions.rateEmployer(
                 this.state.shift.id,

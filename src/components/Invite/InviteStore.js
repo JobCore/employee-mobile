@@ -1,5 +1,5 @@
-import { FluxStore } from '../../utils/flux-state';
-import { LOG, WARN, ERROR, storeErrorHandler } from "../../utils";
+import { FluxStore } from '../../shared/flux-state';
+import { LOG, storeErrorHandler } from '../../shared';
 
 class InviteStore extends FluxStore {
   constructor() {
@@ -40,7 +40,7 @@ class InviteStore extends FluxStore {
      */
     this.addEvent('GetAvailability', (availability) => {
       if (Array.isArray(availability)) {
-        availability.sort((a,b) => {
+        availability.sort((a, b) => {
           if (a.starting_at > b.starting_at) return 1;
           if (a.starting_at < b.starting_at) return -1;
           return 0;

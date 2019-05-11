@@ -13,17 +13,17 @@ import {
   H1,
 } from 'native-base';
 import styles from '../Invite/InviteDetailsStyle';
-import { WHITE_MAIN, BLUE_MAIN } from '../../constants/colorPalette';
+import { WHITE_MAIN, BLUE_MAIN } from '../../shared/colorPalette';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as inviteActions from './actions';
 // import inviteStore from './InviteStore';
-// import { JobDetails } from '../../utils/components';
-import { LOG } from '../../utils';
-import { HeaderDetails } from '../../utils/components';
-import DetailsCheck from '../../utils/components/DetailsCheck';
-import DetailsTime from '../../utils/components/DetailsTime';
-import HeaderReview from '../../utils/components/HeaderReview';
+// import { JobDetails } from '../../shared/components';
+import { LOG } from '../../shared';
+import { HeaderDetails } from '../../shared/components';
+import DetailsCheck from '../../shared/components/DetailsCheck';
+import DetailsTime from '../../shared/components/DetailsTime';
+import HeaderReview from '../../shared/components/HeaderReview';
 // import IconTime from '../../assets/image/time.png'
 
 class JobDetailsNewTwo extends Component {
@@ -142,13 +142,13 @@ class JobDetailsNewTwo extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPress: () => {
+          onPressHelp: () => {
             LOG(this, 'Cancel applyJob');
           },
         },
         {
           text: i18next.t('JOB_INVITES.apply'),
-          onPress: () => {
+          onPressHelp: () => {
             this.isLoading(true);
             inviteActions.applyJob(this.state.invite.id);
           },
@@ -175,13 +175,13 @@ class JobDetailsNewTwo extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPress: () => {
+          onPressHelp: () => {
             LOG(this, 'Cancel rejectJob');
           },
         },
         {
           text: i18next.t('JOB_INVITES.reject'),
-          onPress: () => {
+          onPressHelp: () => {
             this.isLoading(true);
             inviteActions.rejectJob(this.state.invite.id);
           },

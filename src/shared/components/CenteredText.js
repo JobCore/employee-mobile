@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  StyleSheet,
-  View,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Text } from 'native-base';
-import { BLUE_DARK } from '../../constants/colorPalette';
+import { BLUE_DARK } from '../colorPalette';
 
 const styles = StyleSheet.create({
   centeredView: {
@@ -20,18 +17,16 @@ const styles = StyleSheet.create({
   textCentered: {
     color: BLUE_DARK,
     textAlign: 'center',
-  }
+  },
 });
 
 class CenteredText extends Component {
   render() {
     return (
-        <View style={styles.centeredView}>
-          <Text style={styles.textCentered}>
-            {this.props.text}
-          </Text>
-        </View>
-    )
+      <View style={styles.centeredView}>
+        <Text style={styles.textCentered}>{this.props.text}</Text>
+      </View>
+    );
   }
 }
 

@@ -1,10 +1,10 @@
-import * as Flux from '../../utils/flux-state';
+import * as Flux from '../../shared/flux-state';
 import accountStore from './AccountStore';
 import fcmStore from '../Dashboard/FcmStore';
 import inviteStore from '../Invite/InviteStore';
 import jobStore from '../MyJobs/JobStore';
-import { LOG, storeErrorHandler } from '../../utils';
-import { CustomToast } from '../../utils/components';
+import { LOG, storeErrorHandler } from '../../shared';
+import { CustomToast } from '../../shared/components';
 import { postData, putData, deleteData, putFormData } from '../../fetch';
 import {
   loginValidator,

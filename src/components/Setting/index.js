@@ -18,13 +18,13 @@ import {
 } from 'native-base';
 import styles from './style';
 import { RESET_ROUTE, EDIT_PROFILE_ROUTE } from '../../constants/routes';
-import { WHITE_MAIN, BLUE_MAIN } from '../../constants/colorPalette';
-import { LOG } from '../../utils';
+import { WHITE_MAIN, BLUE_MAIN } from '../../shared/colorPalette';
+import { LOG } from '../../shared';
 import store from '../Account/AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
-import { FormView } from '../../utils/platform';
-import { Loading } from '../../utils/components';
+import { FormView } from '../../shared/platform';
+import { Loading } from '../../shared/components';
 import * as accountActions from '../Account/actions';
 import accountStore from '../Account/AccountStore';
 
@@ -180,13 +180,13 @@ class SettingScreen extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPress: () => {
+          onPressHelp: () => {
             LOG(this, 'Cancel logout');
           },
         },
         {
           text: i18next.t('SETTINGS.logout'),
-          onPress: () => {
+          onPressHelp: () => {
             this.setState({ isLoading: true }, accountActions.logout());
           },
         },

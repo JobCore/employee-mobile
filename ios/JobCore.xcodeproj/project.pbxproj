@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -35,7 +36,7 @@
 		9AE7F4FB372048198EA4D7DD /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A22BD9159F004C76A25A843C /* Roboto.ttf */; };
 		A1A1CD3C92BF4BDB85DF7C63 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 90D6422058164D7EB627F9C6 /* SimpleLineIcons.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
-		BD6C71A9218B802500E1094A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD6C71A8218B802500E1094A /* GoogleService-Info.plist */; };
+		BDAE1C93228746C300491E78 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDAE1C92228746C200491E78 /* GoogleService-Info.plist */; };
 		C7D8C1A3911B4F3B9386B15A /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B0D3397D79714614A3F2ED40 /* Octicons.ttf */; };
 		C9E146C706FA4E7EA4202B70 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26CC06F327E84530861DB88D /* libAirMaps.a */; };
 		CCC5546CAE8C4C5DA1392185 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 985E4AE2179A4285AC9D4B73 /* MaterialCommunityIcons.ttf */; };
@@ -377,7 +378,7 @@
 		B89753A26CB07C6E9FDB75EB /* Pods-jobcore-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-jobcore-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-jobcore-tvOSTests/Pods-jobcore-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BBE36CBDF47FEB3B970A08F8 /* Pods-jobcore-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-jobcore-tvOS.release.xcconfig"; path = "Target Support Files/Pods-jobcore-tvOS/Pods-jobcore-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		BD18A0FB218A0D35009A660D /* jobcore.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = jobcore.entitlements; path = jobcore/jobcore.entitlements; sourceTree = "<group>"; };
-		BD6C71A8218B802500E1094A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BDAE1C92228746C200491E78 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CF41C2B3827C4C5ABBD41DDF /* Roboto_medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto_medium.ttf; path = "../node_modules/native-base/Fonts/Roboto_medium.ttf"; sourceTree = "<group>"; };
 		D0882E8CB1954F359910BCAC /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/native-base/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		D5274E0E3DA04887A6B87D9D /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
@@ -504,10 +505,10 @@
 		13B07FAE1A68108700A75B9A /* jobcore */ = {
 			isa = PBXGroup;
 			children = (
-				BD6C71A8218B802500E1094A /* GoogleService-Info.plist */,
 				BD18A0FB218A0D35009A660D /* jobcore.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
+				BDAE1C92228746C200491E78 /* GoogleService-Info.plist */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
@@ -772,6 +773,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -1144,7 +1146,7 @@
 				77D5AF18468F41EC927E2AEF /* MaterialIcons.ttf in Resources */,
 				C7D8C1A3911B4F3B9386B15A /* Octicons.ttf in Resources */,
 				DED1AB33676F4AAB85DF3A1B /* Roboto_medium.ttf in Resources */,
-				BD6C71A9218B802500E1094A /* GoogleService-Info.plist in Resources */,
+				BDAE1C93228746C300491E78 /* GoogleService-Info.plist in Resources */,
 				9AE7F4FB372048198EA4D7DD /* Roboto.ttf in Resources */,
 				037D925712214245B44C0417 /* rubicon-icon-font.ttf in Resources */,
 				A1A1CD3C92BF4BDB85DF7C63 /* SimpleLineIcons.ttf in Resources */,

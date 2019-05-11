@@ -1,6 +1,6 @@
 import { StyleSheet, Platform, Dimensions } from 'react-native';
 var width = Dimensions.get('window').width;
-import { BLUE_MAIN, BLUE_DARK } from '../../constants/colorPalette';
+import { BLUE_MAIN, BLUE_DARK } from '../../shared/colorPalette';
 
 export default StyleSheet.create({
   container: {

@@ -5,7 +5,7 @@ import {
   VIOLET_MAIN,
   BLUE_DARK,
   GRAY_DARK,
-} from '../../constants/colorPalette';
+} from '../../shared/colorPalette';
 
 export default StyleSheet.create({
   content: {

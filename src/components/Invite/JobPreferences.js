@@ -2,19 +2,17 @@ import React, { Component } from 'react';
 import { View, Image, ScrollView, Slider, RefreshControl } from 'react-native';
 import {
   Container,
-  Header,
   Content,
   Button,
   Text,
   Left,
   Body,
-  Title,
   Right,
   ListItem,
   Form,
 } from 'native-base';
 import styles from './JobPreferencesStyle';
-import { BLUE_DARK, BLUE_MAIN } from '../../constants/colorPalette';
+import { BLUE_DARK, BLUE_MAIN } from '../../shared/colorPalette';
 import {
   EDIT_PROFILE_ROUTE,
   AVAILABILITY_ROUTE,
@@ -25,10 +23,11 @@ import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
-import { FormViewPreferences } from '../../utils/platform';
-import { CustomToast, Loading } from '../../utils/components';
-import { LOG } from '../../utils';
+import { FormViewPreferences } from '../../shared/platform';
+import { CustomToast, Loading } from '../../shared/components';
+import { LOG } from '../../shared';
 import moment from 'moment';
+import { TabHeader } from '../../shared/components/TabHeader';
 
 class JobPreferences extends Component {
   static navigationOptions = {
@@ -145,6 +144,10 @@ class JobPreferences extends Component {
     this.props.navigation.navigate(EDIT_LOCATION_ROUTE);
   };
 
+  goToEditProfile = () => {
+    this.props.navigation.navigate(EDIT_PROFILE_ROUTE);
+  };
+
   render() {
     return (
       <I18n>
@@ -152,33 +155,10 @@ class JobPreferences extends Component {
           <Container>
             {this.state.isLoading ? <Loading /> : null}
 
-            <Header
-              androidStatusBarColor={BLUE_MAIN}
-              style={styles.headerCustom}>
-              <Left />
-              <Body>
-                <Title style={styles.titleHeader}>
-                  {t('JOB_PREFERENCES.jobPreferences')}
-                </Title>
-              </Body>
-              <Right>
-                <Button
-                  transparent
-                  onPress={() =>
-                    this.props.navigation.navigate(EDIT_PROFILE_ROUTE)
-                  }>
-                  <Image
-                    style={{
-                      resizeMode: 'contain',
-                      height: 32,
-                      width: 32,
-                      marginRight: 20,
-                    }}
-                    source={require('../../assets/image/controls.png')}
-                  />
-                </Button>
-              </Right>
-            </Header>
+            <TabHeader
+              title={t('JOB_PREFERENCES.jobPreferences')}
+              onPress={this.goToEditProfile}
+            />
             <View style={styles.viewWarning}>
               <Text style={{ color: '#fff', textAlign: 'center' }}>
                 Your job preferences might be to narrow, the more flexible you
@@ -212,9 +192,7 @@ class JobPreferences extends Component {
                       <Text style={{ textAlign: 'center' }}>
                         {this.state.positions.map((position, index) => {
                           const isLast =
-                            index === this.state.positions.length - 1
-                              ? true
-                              : false;
+                            index === this.state.positions.length - 1;
 
                           return (
                             <Text style={styles.textPositions} key={index}>
@@ -233,7 +211,11 @@ class JobPreferences extends Component {
                       {t('JOB_PREFERENCES.minimumHourlyRate')}
                     </Text>
                     <ListItem noBorder>
-                      <Left />
+                      <Left>
+                        <Text style={styles.sliderMaxValue}>
+                          {`$${this.state.minHourly}`}
+                        </Text>
+                      </Left>
                       <Body>
                         <Text style={styles.sliderValue}>
                           {`$${this.state.minimumHourlyRatePrev ||
@@ -282,7 +264,11 @@ class JobPreferences extends Component {
                       {t('JOB_PREFERENCES.maximumJobDistanceMiles')}
                     </Text>
                     <ListItem noBorder>
-                      <Left />
+                      <Left>
+                        <Text style={styles.sliderMaxValue}>
+                          {`${this.state.minDistance}M`}
+                        </Text>
+                      </Left>
                       <Body>
                         <Text style={styles.sliderValue}>
                           {`${this.state.maximumJobDistanceMilesPrev ||
@@ -443,4 +429,5 @@ class JobPreferences extends Component {
     this.setState({ isLoading });
   };
 }
+
 export default JobPreferences;

@@ -6,8 +6,8 @@ import * as accountActions from './actions';
 import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
-import { CustomToast, Loading } from '../../utils/components';
-import { FormView } from '../../utils/platform';
+import { CustomToast, Loading } from '../../shared/components';
+import { FormView } from '../../shared/platform';
 
 class ForgotScreen extends Component {
   static navigationOptions = { header: null };

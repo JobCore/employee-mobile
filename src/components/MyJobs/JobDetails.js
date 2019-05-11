@@ -19,14 +19,14 @@ import {
   BLUE_MAIN,
   BLUE_DARK,
   VIOLET_MAIN,
-} from '../../constants/colorPalette';
+} from '../../shared/colorPalette';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as jobActions from './actions';
 import jobStore from './JobStore';
-import { JobDetails } from '../../utils/components';
-import { LOG, storeErrorHandler } from '../../utils';
-import { Loading, openMapsApp, CustomToast } from '../../utils/components';
+import { JobDetails } from '../../shared/components';
+import { LOG, storeErrorHandler } from '../../shared';
+import { Loading, openMapsApp, CustomToast } from '../../shared/components';
 import MARKER_IMG from '../../assets/image/map-marker.png';
 import { RATE_EMPLOYER_ROUTE } from '../../constants/routes';
 import moment from 'moment';
@@ -479,7 +479,7 @@ class JobDetailsScreen extends Component {
       { text: i18next.t('APP.cancel') },
       {
         text: i18next.t('MY_JOBS.clockIn'),
-        onPress: () => {
+        onPressHelp: () => {
           navigator.geolocation.getCurrentPosition(
             (data) => {
               this.setState({ isLoading: true }, () => {
@@ -514,7 +514,7 @@ class JobDetailsScreen extends Component {
       { text: i18next.t('APP.cancel') },
       {
         text: i18next.t('MY_JOBS.clockOut'),
-        onPress: () => {
+        onPressHelp: () => {
           navigator.geolocation.getCurrentPosition(
             (data) => {
               this.setState({ isLoading: true }, () => {

@@ -1,18 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity, FlatList } from 'react-native';
-import {
-  Container,
-  Header,
-  Content,
-  Text,
-  Left,
-  Body,
-  Title,
-  Right,
-  Thumbnail,
-  Button,
-  Icon,
-} from 'native-base';
+import { Container, Content, Text, Thumbnail, Icon } from 'native-base';
 import styles from './ProfileStyle';
 import * as inviteActions from '../Invite/actions';
 import inviteStore from '../Invite/InviteStore';
@@ -21,15 +9,15 @@ import jobStore from '../MyJobs/JobStore';
 import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
-import { CustomToast, Loading, BackgroundHeader } from '../../utils/components';
-import { EDIT_PROFILE_ROUTE, REVIEWS_ROUTE } from '../../constants/routes';
 import {
-  BLUE_MAIN,
-  WHITE_MAIN,
-  BLUE_DARK,
-  BLUE_LIGHT,
-} from '../../constants/colorPalette';
+  CustomToast,
+  Loading,
+  BackgroundHeader,
+} from '../../shared/components';
+import { EDIT_PROFILE_ROUTE, REVIEWS_ROUTE } from '../../constants/routes';
+import { BLUE_DARK, BLUE_LIGHT } from '../../shared/colorPalette';
 import PROFILE_IMG from '../../assets/image/profile.png';
+import { ModalHeader } from '../../shared/components/ModalHeader';
 
 class Profile extends Component {
   static navigationOptions = {
@@ -107,36 +95,11 @@ class Profile extends Component {
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-            <Header
-              androidStatusBarColor={BLUE_MAIN}
-              style={styles.headerCustom}>
-              <Left>
-                <Button
-                  transparent
-                  onPress={() => this.props.navigation.goBack()}>
-                  <Icon
-                    name="ios-close"
-                    size={24}
-                    style={{ color: WHITE_MAIN, marginLeft: 20 }}
-                  />
-                </Button>
-              </Left>
-              <Body>
-                <Title style={styles.titleHeader}>{t('PROFILE.profile')}</Title>
-              </Body>
-              <Right>
-                <Button
-                  transparent
-                  onPress={() => this.props.navigation.goBack()}>
-                  <Icon
-                    name="questioncircle"
-                    size={24}
-                    style={{ color: WHITE_MAIN, marginLeft: 20 }}
-                  />
-                </Button>
-              </Right>
-            </Header>
-
+            <ModalHeader
+              title={t('PROFILE.profile')}
+              onPressClose={() => this.props.navigation.goBack()}
+              onPressHelp={() => this.props.navigation.goBack()}
+            />
             <Content>
               <BackgroundHeader>
                 <>
@@ -332,4 +295,5 @@ class Profile extends Component {
     this.props.navigation.navigate(REVIEWS_ROUTE);
   };
 }
+
 export default Profile;

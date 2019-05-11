@@ -5,7 +5,7 @@ import {
   GRAY_MAIN,
   RED_MAIN,
   BLACK_MAIN,
-} from '../../constants/colorPalette';
+} from '../../shared/colorPalette';
 
 export default StyleSheet.create({
   container: {

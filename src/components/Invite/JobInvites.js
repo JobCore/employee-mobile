@@ -2,36 +2,33 @@ import React, { Component } from 'react';
 import { View, Image, ListView, Alert, RefreshControl } from 'react-native';
 import {
   Container,
-  Header,
   Content,
   Button,
   Icon,
   List,
   ListItem,
   Text,
-  Left,
-  Body,
-  Title,
-  Right,
   Thumbnail,
   Badge,
 } from 'native-base';
 import styles from './JobInvitesStyle';
 import {
   EDIT_PROFILE_ROUTE,
-  INVITE_DETAILS_ROUTE,
-  INVITE_DETAILS_NEW_ROUTE,
+  INVITE_DETAILS_ROUTE_V2,
 } from '../../constants/routes';
-import { BLUE_MAIN } from '../../constants/colorPalette';
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
-import { LOG } from '../../utils';
-import { CustomToast, Loading, CenteredText } from '../../utils/components';
+import { LOG } from '../../shared';
+import { CustomToast, Loading, CenteredText } from '../../shared/components';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import moment from 'moment';
 import PROFILE_IMG from '../../assets/image/profile.png';
+import { TabHeader } from '../../shared/components/TabHeader';
 
+/**
+ * The Job Invites View
+ */
 class JobInvites extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
@@ -79,7 +76,6 @@ class JobInvites extends Component {
     this.inviteStoreError = inviteStore.subscribe('InviteStoreError', (err) =>
       this.errorHandler(err),
     );
-
     this.firstLoadJobInvites();
   }
 
@@ -93,7 +89,6 @@ class JobInvites extends Component {
   getJobInvitesHandler = (jobInvites) => {
     const showNoInvitesText =
       Array.isArray(jobInvites) && !jobInvites.length ? true : false;
-
     this.setState({
       jobInvites,
       showNoInvitesText,
@@ -120,6 +115,10 @@ class JobInvites extends Component {
     CustomToast(err, 'danger');
   };
 
+  goToEditProfile = () => {
+    this.props.navigation.navigate(EDIT_PROFILE_ROUTE);
+  };
+
   render() {
     return (
       <I18n>
@@ -131,33 +130,11 @@ class JobInvites extends Component {
               <CenteredText text={`${t('JOB_INVITES.noInvites')}`} />
             ) : null}
 
-            <Header
-              androidStatusBarColor={BLUE_MAIN}
-              style={styles.headerCustom}>
-              <Left />
-              <Body>
-                <Title style={styles.titleHeader}>
-                  {t('JOB_INVITES.jobOffers')}
-                </Title>
-              </Body>
-              <Right>
-                <Button
-                  transparent
-                  onPress={() =>
-                    this.props.navigation.navigate(EDIT_PROFILE_ROUTE)
-                  }>
-                  <Image
-                    style={{
-                      resizeMode: 'contain',
-                      height: 32,
-                      width: 32,
-                      marginRight: 20,
-                    }}
-                    source={require('../../assets/image/controls.png')}
-                  />
-                </Button>
-              </Right>
-            </Header>
+            <TabHeader
+              title={t('JOB_INVITES.jobOffers')}
+              onPress={this.goToEditProfile}
+            />
+
             <Content
               refreshControl={
                 <RefreshControl
@@ -167,7 +144,7 @@ class JobInvites extends Component {
               }>
               <Text
                 onPress={() =>
-                  this.props.navigation.navigate(INVITE_DETAILS_NEW_ROUTE)
+                  this.props.navigation.navigate(INVITE_DETAILS_ROUTE_V2)
                 }>
                 Link para ver detalles
               </Text>
@@ -178,7 +155,7 @@ class JobInvites extends Component {
                 renderRow={(data) => (
                   <ListItem
                     onPress={() =>
-                      this.props.navigation.navigate(INVITE_DETAILS_ROUTE, {
+                      this.props.navigation.navigate(INVITE_DETAILS_ROUTE_V2, {
                         inviteId: data.id,
                       })
                     }
@@ -255,8 +232,7 @@ class JobInvites extends Component {
   }
 
   firstLoadJobInvites() {
-    this.isLoading(true);
-    this.getJobInvites();
+    this.setState({ isLoading: true }, inviteActions.getJobInvites());
   }
 
   getJobInvites = () => {
@@ -285,13 +261,13 @@ class JobInvites extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPress: () => {
+          onPressHelp: () => {
             LOG(this, 'Cancel applyJob');
           },
         },
         {
           text: i18next.t('JOB_INVITES.apply'),
-          onPress: () => {
+          onPressHelp: () => {
             this.isLoading(true);
             this.setState({ secId, rowId, rowMap }, () => {
               inviteActions.applyJob(invitation.id);
@@ -320,13 +296,13 @@ class JobInvites extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPress: () => {
+          onPressHelp: () => {
             LOG(this, 'Cancel rejectJob');
           },
         },
         {
           text: i18next.t('JOB_INVITES.reject'),
-          onPress: () => {
+          onPressHelp: () => {
             this.isLoading(true);
             this.setState({ secId, rowId, rowMap }, () => {
               inviteActions.rejectJob(invitation.id);
@@ -359,4 +335,5 @@ class JobInvites extends Component {
     }
   }
 }
+
 export default JobInvites;

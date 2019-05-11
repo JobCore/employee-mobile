@@ -13,14 +13,14 @@ import {
   Icon,
 } from 'native-base';
 import styles from '../Invite/InviteDetailsStyle';
-import { WHITE_MAIN, BLUE_MAIN, BLUE_DARK } from '../../constants/colorPalette';
+import { WHITE_MAIN, BLUE_MAIN, BLUE_DARK } from '../../shared/colorPalette';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as inviteActions from './actions';
 // import inviteStore from './InviteStore';
-// import { JobDetails } from '../../utils/components';
-import { LOG } from '../../utils';
-import { Loading, openMapsApp, HeaderDetails } from '../../utils/components';
+// import { JobDetails } from '../../shared/components';
+import { LOG } from '../../shared';
+import { Loading, openMapsApp, HeaderDetails } from '../../shared/components';
 import MARKER_IMG from '../../assets/image/map-marker.png';
 
 const width = Dimensions.get('window').width;
@@ -352,13 +352,13 @@ class JobDetailsNew extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPress: () => {
+          onPressHelp: () => {
             LOG(this, 'Cancel applyJob');
           },
         },
         {
           text: i18next.t('JOB_INVITES.apply'),
-          onPress: () => {
+          onPressHelp: () => {
             this.isLoading(true);
             inviteActions.applyJob(this.state.invite.id);
           },
@@ -385,13 +385,13 @@ class JobDetailsNew extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPress: () => {
+          onPressHelp: () => {
             LOG(this, 'Cancel rejectJob');
           },
         },
         {
           text: i18next.t('JOB_INVITES.reject'),
-          onPress: () => {
+          onPressHelp: () => {
             this.isLoading(true);
             inviteActions.rejectJob(this.state.invite.id);
           },

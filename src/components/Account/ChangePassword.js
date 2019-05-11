@@ -21,8 +21,8 @@ import * as accountActions from './actions';
 import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
-import { CustomToast, Loading } from '../../utils/components';
-import { BLUE_MAIN, WHITE_MAIN } from '../../constants/colorPalette';
+import { CustomToast, Loading } from '../../shared/components';
+import { BLUE_MAIN, WHITE_MAIN } from '../../shared/colorPalette';
 
 class ForgotScreen extends Component {
   static navigationOptions = { header: null };

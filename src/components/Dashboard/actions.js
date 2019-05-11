@@ -1,4 +1,4 @@
-import * as Flux from '../../utils/flux-state';
+import * as Flux from '../../shared/flux-state';
 import { putData } from '../../fetch';
 
 /**
@@ -8,16 +8,14 @@ import { putData } from '../../fetch';
  */
 const updateFcmToken = (currentFcmToken, fcmToken) => {
   putData(`/employees/me/devices/${currentFcmToken}`, {
-      registration_id: fcmToken,
-    })
+    registration_id: fcmToken,
+  })
     .then((data) => {
       Flux.dispatchEvent('UpdateFcmToken', data);
     })
     .catch((err) => {
       Flux.dispatchEvent('FcmStoreError', err);
     });
-}
-
-export {
-  updateFcmToken,
 };
+
+export { updateFcmToken };

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { AsyncStorage, StyleSheet, ImageBackground } from 'react-native';
 import { APP_ROUTE, AUTH_ROUTE } from '../../constants/routes';
 import store from '../Account/AccountStore';
-import { LOG } from '../../utils';
+import { LOG } from '../../shared';
 import accountStore from '../Account/AccountStore';
 import * as accountActions from '../Account/actions';
 import SPLASH_IMG from '../../assets/image/splash.png';
