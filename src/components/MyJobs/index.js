@@ -2,24 +2,18 @@ import React, { Component } from 'react';
 import { View, Image, RefreshControl } from 'react-native';
 import {
   Container,
-  Header,
   Content,
   Button,
   Text,
   Left,
   Body,
-  Title,
   Right,
   Segment,
   ListItem,
 } from 'native-base';
 import styles from './style';
-import { BLUE_MAIN } from '../../shared/colorPalette';
 import {
-  EDIT_PROFILE_ROUTE,
-  JOB_DETAILS_ROUTE,
-  APPLICATION_DETAILS_ROUTE,
-  JOB_DETAILS_NEW_ROUTE,
+  JOB_DETAILS_V2,
   JOB_DETAILS_NEW_ONE_ROUTE,
   JOB_DETAILS_NEW_TWO_ROUTE,
   JOB_WORK_MODE_ROUTE,
@@ -33,6 +27,7 @@ import { CustomToast, Loading, CenteredText } from '../../shared/components';
 import jobStore from './JobStore';
 import moment from 'moment';
 import { TabHeader } from '../../shared/components/TabHeader';
+import { log } from 'pure-logger';
 
 class MyJobs extends Component {
   static navigationOptions = {
@@ -135,6 +130,7 @@ class MyJobs extends Component {
    * to set the active tab
    */
   getJobsHandler = (jobs, jobFilterSelected) => {
+    log(`getJobsHandler`, jobs, jobFilterSelected);
     const showNoJobsText = Array.isArray(jobs) && !jobs.length ? true : false;
 
     this.setState({
@@ -174,9 +170,7 @@ class MyJobs extends Component {
 
             <View>
               <Text
-                onPress={() =>
-                  this.props.navigation.navigate(JOB_DETAILS_NEW_ROUTE)
-                }>
+                onPress={() => this.props.navigation.navigate(JOB_DETAILS_V2)}>
                 Link para ver detalles Job
               </Text>
               <Text
@@ -330,15 +324,16 @@ class MyJobs extends Component {
   }
 
   goToJobDetails = (job) => {
+    log('goToJobDetails', job);
     if (!job) return;
 
     if (job.applicationId) {
-      return this.props.navigation.navigate(APPLICATION_DETAILS_ROUTE, {
+      return this.props.navigation.navigate(JOB_DETAILS_V2, {
         applicationId: job.applicationId,
       });
     }
 
-    this.props.navigation.navigate(JOB_DETAILS_ROUTE, { shiftId: job.id });
+    this.props.navigation.navigate(JOB_DETAILS_V2, { shiftId: job.id });
   };
 
   isLoading = (isLoading) => {

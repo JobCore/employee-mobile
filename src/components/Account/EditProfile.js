@@ -277,13 +277,13 @@ class EditProfile extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPressHelp: () => {
+          onPress: () => {
             LOG(this, 'Cancel edit profile');
           },
         },
         {
           text: i18next.t('EDIT_PROFILE.update'),
-          onPressHelp: () => {
+          onPress: () => {
             this.setState({ isLoading: true }, () => {
               LOG(this, this.state);
               if (this.state.selectedImage && this.state.selectedImage.uri) {
@@ -310,13 +310,13 @@ class EditProfile extends Component {
     Alert.alert(i18next.t('SETTINGS.wantToLogout'), '', [
       {
         text: i18next.t('APP.cancel'),
-        onPressHelp: () => {
+        onPress: () => {
           LOG(this, 'Cancel logout');
         },
       },
       {
         text: i18next.t('SETTINGS.logout'),
-        onPressHelp: () => {
+        onPress: () => {
           this.setState({ isLoading: true }, actions.logout());
         },
       },

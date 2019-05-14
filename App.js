@@ -24,7 +24,6 @@ import Profile from './src/components/Account/Profile';
 
 import DashboardScreen from './src/components/Dashboard';
 import JobInvites from './src/components/Invite/JobInvites';
-import InviteDetails from './src/components/Invite/InviteDetails';
 import InviteDetailsV2 from './src/components/Invite/InviteDetailsV2';
 import JobPreferences from './src/components/Invite/JobPreferences';
 import Position from './src/components/Invite/Position';
@@ -32,7 +31,7 @@ import Availability from './src/components/Invite/Availability';
 import MyJobs from './src/components/MyJobs';
 import RateEmployer from './src/components/MyJobs/RateEmployer';
 import JobDetailsScreen from './src/components/MyJobs/JobDetails';
-import JobDetailsNewScreen from './src/components/MyJobs/JobDetailsNew';
+import JobDetailsNewScreen from './src/components/MyJobs/JobDetailsV2';
 import JobDetailsNewOneScreen from './src/components/MyJobs/JobDetailsNewOne';
 import JobDetailsNewTwoScreen from './src/components/MyJobs/JobDetailsNewTwo';
 import JobPendingPaymentScreen from './src/components/MyJobs/JobPendingPayments';
@@ -52,17 +51,15 @@ import {
   AUTH_ROUTE,
   RESET_ROUTE,
   AVAILABILITY_ROUTE,
-  INVITE_DETAILS_ROUTE,
   INVITE_DETAILS_ROUTE_V2,
   EDIT_PROFILE_ROUTE,
   PROFILE_ROUTE,
   POSITION_ROUTE,
-  JOB_DETAILS_ROUTE,
   APPLICATION_DETAILS_ROUTE,
   EDIT_LOCATION_ROUTE,
   RATE_EMPLOYER_ROUTE,
   REVIEWS_ROUTE,
-  JOB_DETAILS_NEW_ROUTE,
+  JOB_DETAILS_V2,
   JOB_DETAILS_NEW_ONE_ROUTE,
   JOB_DETAILS_NEW_TWO_ROUTE,
   JOB_WORK_MODE_ROUTE,
@@ -138,20 +135,21 @@ export const AppStack = createStackNavigator(
     [POSITION_ROUTE]: Position,
     [RATE_EMPLOYER_ROUTE]: RateEmployer,
     [REVIEWS_ROUTE]: Reviews,
-    [INVITE_DETAILS_ROUTE]: {
-      screen: InviteDetails,
-      path: 'invite/:inviteId',
-    },
+    // [INVITE_DETAILS_ROUTE]: {
+    //   screen: InviteDetails,
+    //   path: 'invite/:inviteId',
+    // },
     [INVITE_DETAILS_ROUTE_V2]: {
       screen: InviteDetailsV2,
       path: 'invite/:inviteId',
     },
-    [JOB_DETAILS_ROUTE]: {
-      screen: JobDetailsScreen,
-      path: 'shift/:shiftId',
-    },
-    [JOB_DETAILS_NEW_ROUTE]: {
+    // [JOB_DETAILS_ROUTE]: {
+    //   screen: JobDetailsScreen,
+    //   path: 'shift/:shiftId',
+    // },
+    [JOB_DETAILS_V2]: {
       screen: JobDetailsNewScreen,
+      path: 'shift/:shiftId',
     },
     [JOB_DETAILS_NEW_ONE_ROUTE]: {
       screen: JobDetailsNewOneScreen,

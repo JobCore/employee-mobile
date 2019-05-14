@@ -1,35 +1,21 @@
 import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { View, Image, Dimensions, Alert } from 'react-native';
-import {
-  Container,
-  Content,
-  Button,
-  Header,
-  Left,
-  Right,
-  Body,
-  Title,
-  Icon,
-  Text,
-} from 'native-base';
-import styles from '../Invite/InviteDetailsStyle';
-import {
-  WHITE_MAIN,
-  BLUE_MAIN,
-  BLUE_DARK,
-  VIOLET_MAIN,
-} from '../../shared/colorPalette';
+import { Container, Button, Text } from 'native-base';
+import * as jobActions from './actions';
+import { inviteStyles } from '../Invite/InviteDetailsStyle';
+import jobStore from './JobStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
-import * as jobActions from './actions';
-import jobStore from './JobStore';
-import { JobDetails } from '../../shared/components';
 import { LOG, storeErrorHandler } from '../../shared';
 import { Loading, openMapsApp, CustomToast } from '../../shared/components';
 import MARKER_IMG from '../../assets/image/map-marker.png';
-import { RATE_EMPLOYER_ROUTE } from '../../constants/routes';
+import { log } from 'pure-logger';
+import { ModalHeader } from '../../shared/components/ModalHeader';
 import moment from 'moment';
+import { RATE_EMPLOYER_ROUTE } from '../../constants/routes';
+import { InviteHeader } from '../Invite/components/InviteHeader';
+import { ViewFlex } from '../../shared/components/ViewFlex';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -40,9 +26,9 @@ const DEFAULT_LATIDUDE = 25.761681;
 const DEFAULT_LONGITUDE = -80.191788;
 
 /**
- * @deprecated use
+ *
  */
-class JobDetailsScreen extends Component {
+class JobDetailsV2 extends Component {
   static navigationOptions = {
     header: null,
     tabBarLabel: i18next.t('JOB_INVITES.inviteDetails'),
@@ -57,8 +43,9 @@ class JobDetailsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      isLoading: true,
       shift: undefined,
+      invite: {},
       region: {
         latitude: DEFAULT_LATIDUDE,
         longitude: DEFAULT_LONGITUDE,
@@ -66,7 +53,7 @@ class JobDetailsScreen extends Component {
         longitudeDelta: LONGITUDE_DELTA,
       },
       jobRate: null,
-      clockIns: null,
+      clockIns: [],
       shiftId: props.navigation.getParam('shiftId', null),
       applicationId: props.navigation.getParam('applicationId', null),
     };
@@ -109,6 +96,7 @@ class JobDetailsScreen extends Component {
   }
 
   getJobHandler = (shift) => {
+    LOG(`DEBUG:getJobHandler`, shift);
     let latitude;
     let longitude;
 
@@ -159,43 +147,52 @@ class JobDetailsScreen extends Component {
   };
 
   render() {
-    return (
-      <I18n>
-        {(t) => (
-          <Container>
-            {this.state.isLoading ? <Loading /> : null}
-
-            <Header
-              androidStatusBarColor={BLUE_MAIN}
-              style={styles.headerCustom}>
-              <Left>
-                <Button
-                  transparent
-                  onPress={() => this.props.navigation.goBack()}>
-                  <Icon
-                    name="ios-close"
-                    size={24}
-                    style={{ color: WHITE_MAIN, marginLeft: 20 }}
-                  />
-                </Button>
-              </Left>
-              <Body>
-                <Title style={styles.titleHeader}>
-                  {t('MY_JOBS.jobDetails')}
-                </Title>
-              </Body>
-              <Right />
-            </Header>
-
-            <Content>
-              <View style={styles.viewShift}>
-                {this.state.shift ? (
-                  <JobDetails shift={this.state.shift} />
-                ) : null}
-              </View>
-
+    log(`DEBUG:state:`, this.state);
+    const { isLoading, shift } = this.state;
+    const renderDetail = (t, shift) => {
+      log(`DEBUG:shift:`, shift);
+      const { venue, starting_at, ending_at } = shift;
+      const todayAtMoment = moment().tz(moment.tz.guess());
+      const todayString = todayAtMoment.format('MMM D');
+      const startingAtMoment = moment(starting_at).tz(moment.tz.guess());
+      const from = startingAtMoment.format('MMM D');
+      const endingAtMoment = moment(ending_at).tz(moment.tz.guess());
+      const to = endingAtMoment.format('MMM D');
+      const dateString =
+        from === to
+          ? from === todayString
+            ? 'Today'
+            : from
+          : `${from} to ${to}`;
+      const fromTime = startingAtMoment.format('h A');
+      const toTime = endingAtMoment.format('h A');
+      const timeString = `${fromTime} to ${toTime}`;
+      // const hours = endingAtMoment.diff(startingAtMoment, 'hours');
+      // const price = hours * parseFloat(shift.minimum_hourly_rate);
+      const address = venue.street_address;
+      return (
+        <>
+          <ModalHeader
+            onPressClose={() => this.props.navigation.goBack()}
+            title={t('JOB_INVITES.inviteDetails')}
+            onPressHelp={() => this.props.navigation.goBack()}
+          />
+          <ViewFlex justifyContent={'space-between'}>
+            <View style={{ flex: 4 }}>
+              <InviteHeader
+                clientName={venue.title}
+                positionName={shift.position.title}
+                dateString={dateString}
+                timeString={timeString}
+                addressString={address}
+                onPressDirection={
+                  this.showOpenDirection() ? this.openMapsApp : () => {}
+                }
+              />
+            </View>
+            <View style={{ flex: 4 }}>
               <MapView
-                style={styles.map}
+                style={inviteStyles.map}
                 region={this.state.region}
                 onRegionChangeComplete={this.onRegionChangeComplete}>
                 {this.showMarker() ? (
@@ -203,10 +200,10 @@ class JobDetailsScreen extends Component {
                     image={MARKER_IMG}
                     anchor={{ x: 0.5, y: 1 }}
                     coordinate={{
-                      latitude: this.state.shift.venue.latitude,
-                      longitude: this.state.shift.venue.longitude,
+                      latitude: shift.venue.latitude,
+                      longitude: shift.venue.longitude,
                     }}
-                    title={this.state.shift.venue.title}
+                    title={shift.venue.title}
                   />
                 ) : (
                   <Marker
@@ -219,74 +216,18 @@ class JobDetailsScreen extends Component {
                   />
                 )}
               </MapView>
+            </View>
+            <View style={{ flex: 4 }}>{this.renderClockInButton()}</View>
+          </ViewFlex>
+        </>
+      );
+    };
 
-              {this.showOpenDirection() ? (
-                <View>
-                  <Text style={styles.textLocation}>
-                    {`${this.state.shift.venue.title}`}
-                  </Text>
-                  <Button
-                    rounded
-                    small
-                    bordered
-                    style={styles.openDirectionButton}
-                    onPress={this.openMapsApp}>
-                    <Text style={{ color: BLUE_DARK }}>
-                      {t('JOB_INVITES.openDirection')}
-                    </Text>
-                  </Button>
-                </View>
-              ) : null}
-
-              <View style={styles.viewShift}>
-                {this.showAlreadyRated() ? (
-                  <View>
-                    <Text style={styles.textAlreadyRated}>
-                      {`${t('MY_JOBS.alreadyRated')}`}
-                    </Text>
-                  </View>
-                ) : null}
-
-                {this.showRateButton() ? (
-                  <Button
-                    block
-                    rounded
-                    style={{
-                      marginVertical: 15,
-                      backgroundColor: BLUE_MAIN,
-                    }}
-                    onPress={this.goToRateJob}>
-                    <Text>{t('MY_JOBS.rateYourEmployer')}</Text>
-                  </Button>
-                ) : null}
-
-                {this.showClockInButton() ? (
-                  <Button
-                    block
-                    rounded
-                    style={{
-                      marginVertical: 15,
-                      backgroundColor: BLUE_DARK,
-                    }}
-                    onPress={this.clockIn}>
-                    <Text>{t('MY_JOBS.clockIn')}</Text>
-                  </Button>
-                ) : null}
-
-                {this.showClockOutButton() ? (
-                  <Button
-                    block
-                    rounded
-                    style={{
-                      marginVertical: 15,
-                      backgroundColor: VIOLET_MAIN,
-                    }}
-                    onPress={this.clockOut}>
-                    <Text>{t('MY_JOBS.clockOut')}</Text>
-                  </Button>
-                ) : null}
-              </View>
-            </Content>
+    return (
+      <I18n>
+        {(t) => (
+          <Container>
+            {isLoading ? <Loading /> : renderDetail(t, shift)}
           </Container>
         )}
       </I18n>
@@ -352,13 +293,11 @@ class JobDetailsScreen extends Component {
     return false;
   };
 
-  showClockInButton = () => {
-    if (!this.state.shift) return false;
-
+  renderClockInButton = () => {
+    if (!this.state.shift) return null;
     // check if current time is after ending_at
-    if (moment.utc().isSameOrAfter(moment.utc(this.state.shift.ending_at))) {
-      return false;
-    }
+    if (moment.utc().isSameOrAfter(moment.utc(this.state.shift.ending_at)))
+      return null;
 
     /**
      * Diff in minutes from current time to starting_at parsed to positive
@@ -369,28 +308,65 @@ class JobDetailsScreen extends Component {
       moment.utc().diff(moment.utc(this.state.shift.starting_at), 'minutes'),
     );
 
-    if (Array.isArray(this.state.clockIns)) {
-      if (!this.state.clockIns.length) {
-        // delta time checking for the first clockIn only
-        if (
-          this.state.shift.maximum_clockin_delta_minutes !== null &&
-          diffInMinutes >= this.state.shift.maximum_clockin_delta_minutes
-        ) {
-          return false;
-        }
+    if (!this.state.clockIns.length) {
+      // delta time checking for the first clockIn only
+      if (
+        this.state.shift.maximum_clockin_delta_minutes !== null &&
+        diffInMinutes >= this.state.shift.maximum_clockin_delta_minutes
+      )
+        return null;
 
-        return true;
-      }
-
-      const endedAt = this.state.clockIns[this.state.clockIns.length - 1]
-        .ended_at;
-
-      if (endedAt) {
-        return true;
-      }
+      return (
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 20,
+            right: 0,
+            left: 0,
+            paddingLeft: 60,
+            paddingRight: 60,
+          }}>
+          <Button
+            onPress={this.rejectJob}
+            style={inviteStyles.buttomBottom}
+            full
+            rounded
+            bordered>
+            <Text style={inviteStyles.textWhite}>
+              Clock In in {`${diffInMinutes}`} minutes
+            </Text>
+          </Button>
+        </View>
+      );
     }
 
-    return false;
+    const endedAt = this.state.clockIns[this.state.clockIns.length - 1]
+      .ended_at;
+
+    if (!endedAt) {
+      return (
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 20,
+            right: 0,
+            left: 0,
+            paddingLeft: 60,
+            paddingRight: 60,
+          }}>
+          <Button
+            onPress={this.clockIn}
+            style={inviteStyles.buttomBottom}
+            full
+            rounded
+            bordered>
+            <Text style={inviteStyles.textWhite}>Clock In</Text>
+          </Button>
+        </View>
+      );
+    }
+
+    return null;
   };
 
   showClockOutButton = () => {
@@ -432,6 +408,7 @@ class JobDetailsScreen extends Component {
   };
 
   getJobOrApplication = () => {
+    LOG(`DEBUG: getJobOrApplication`, this.state);
     if (!this.state.shiftId && !this.state.applicationId) {
       return this.props.navigation.goBack();
     }
@@ -540,4 +517,4 @@ class JobDetailsScreen extends Component {
   };
 }
 
-export default JobDetailsScreen;
+export default JobDetailsV2;

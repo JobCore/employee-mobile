@@ -3,6 +3,7 @@ import { inviteStyles } from '../InviteDetailsStyle';
 import { Body, Left, List, ListItem, Text } from 'native-base';
 import CHICKEN from '../../../assets/image/chicken.png';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const InviteHeader = ({
   clientLogo = CHICKEN,
@@ -48,6 +49,16 @@ const InviteHeader = ({
       </View>
     </View>
   );
+};
+
+InviteHeader.propTypes = {
+  clientLogo: PropTypes.any,
+  clientName: PropTypes.string.isRequired,
+  positionName: PropTypes.string.isRequired,
+  dateString: PropTypes.string.isRequired,
+  timeString: PropTypes.string.isRequired,
+  addressString: PropTypes.string.isRequired,
+  onPressDirection: PropTypes.func,
 };
 
 export { InviteHeader };

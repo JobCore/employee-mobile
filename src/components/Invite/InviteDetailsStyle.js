@@ -167,7 +167,7 @@ const inviteStyles = StyleSheet.create({
   // Css New design
   bgInfo: {
     backgroundColor: BG_GRAY_LIGHT,
-    minHeight: 200,
+    minHeight: 190,
     padding: 5,
   },
   imgCover: {
@@ -199,11 +199,14 @@ const inviteStyles = StyleSheet.create({
   },
   textCenter: {
     textAlign: 'center',
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   viewDir: {
     flex: 1,
     justifyContent: 'center',
-    paddingBottom: 20,
+    paddingBottom: 0,
+    marginTop: 5,
   },
   viewAmount: {
     flex: 1,

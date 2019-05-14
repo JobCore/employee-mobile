@@ -276,13 +276,13 @@ class EditLocation extends PureComponent {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPressHelp: () => {
+          onPress: () => {
             LOG(this, 'Cancel saveLocation');
           },
         },
         {
           text: i18next.t('JOB_PREFERENCES.save'),
-          onPressHelp: () => {
+          onPress: () => {
             this.saveLocation();
           },
         },

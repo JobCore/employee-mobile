@@ -13,6 +13,7 @@ import MARKER_IMG from '../../assets/image/map-marker.png';
 import { ModalHeader } from '../../shared/components/ModalHeader';
 import { InviteHeader } from './components/InviteHeader';
 import inviteStore from './InviteStore';
+import moment from 'moment';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -37,7 +38,7 @@ class InviteDetailsV2 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      isLoading: true,
       invite: {},
       region: {
         latitude: DEFAULT_LATITUDE,
@@ -62,7 +63,6 @@ class InviteDetailsV2 extends Component {
     this.inviteStoreError = inviteStore.subscribe('InviteStoreError', (err) =>
       this.errorHandler(err),
     );
-
     this.getInvite();
   }
 
@@ -114,103 +114,132 @@ class InviteDetailsV2 extends Component {
   };
 
   render() {
+    const { isLoading, invite } = this.state;
+
+    const renderInvite = (t, invite) => {
+      const { shift } = invite;
+      const { venue, starting_at, ending_at } = shift;
+      const todayAtMoment = moment().tz(moment.tz.guess());
+      const todayString = todayAtMoment.format('MMM D');
+      const startingAtMoment = moment(starting_at).tz(moment.tz.guess());
+      const from = startingAtMoment.format('MMM D');
+      const endingAtMoment = moment(ending_at).tz(moment.tz.guess());
+      const to = endingAtMoment.format('MMM D');
+      const dateString =
+        from === to
+          ? from === todayString
+            ? 'Today'
+            : from
+          : `${from} to ${to}`;
+      const fromTime = startingAtMoment.format('h A');
+      const toTime = endingAtMoment.format('h A');
+      const timeString = `${fromTime} to ${toTime}`;
+      const hours = endingAtMoment.diff(startingAtMoment, 'hours');
+      const price = hours * parseFloat(shift.minimum_hourly_rate);
+      const address = venue.street_address;
+
+      //hA
+      return (
+        <>
+          <ModalHeader
+            onPressClose={() => this.props.navigation.goBack()}
+            title={t('JOB_INVITES.inviteDetails')}
+            onPressHelp={() => this.props.navigation.goBack()}
+          />
+
+          <ViewFlex justifyContent={'space-between'}>
+            <View style={{ flex: 4 }}>
+              <InviteHeader
+                clientName={venue.title}
+                positionName={shift.position.title}
+                dateString={dateString}
+                timeString={timeString}
+                addressString={address}
+                onPressDirection={
+                  this.showOpenDirection() ? this.openMapsApp : () => {}
+                }
+              />
+            </View>
+            {/*Details*/}
+            <View style={{ flex: 2 }}>
+              <View style={inviteStyles.viewAmount}>
+                <View style={inviteStyles.viewContent}>
+                  <Text style={inviteStyles.textTitle}>Amount</Text>
+                  <H1 style={inviteStyles.textSubTitle}>${`${price}`}</H1>
+                </View>
+                <View style={inviteStyles.viewContent}>
+                  <Text style={inviteStyles.textTitle}>Total Hours</Text>
+                  <H1 style={inviteStyles.textSubTitle}>{`${hours}`}</H1>
+                </View>
+              </View>
+            </View>
+            <View style={{ flex: 7 }}>
+              <MapView
+                style={inviteStyles.map}
+                region={this.state.region}
+                onRegionChangeComplete={this.onRegionChangeComplete}>
+                {this.showMarker() ? (
+                  <Marker
+                    image={MARKER_IMG}
+                    anchor={{ x: 0.5, y: 1 }}
+                    coordinate={{
+                      latitude: shift.venue.latitude,
+                      longitude: shift.venue.longitude,
+                    }}
+                    title={shift.venue.title}
+                  />
+                ) : (
+                  <Marker
+                    image={MARKER_IMG}
+                    anchor={{ x: 0.5, y: 1 }}
+                    coordinate={{
+                      latitude: DEFAULT_LATITUDE,
+                      longitude: DEFAULT_LONGITUDE,
+                    }}
+                  />
+                )}
+              </MapView>
+            </View>
+
+            <View style={{ flex: 3 }}>
+              <View style={inviteStyles.viewCrud}>
+                <View style={inviteStyles.viewButtomLeft}>
+                  <Button
+                    onPress={this.rejectJob}
+                    style={inviteStyles.buttomLeft}
+                    full
+                    rounded
+                    bordered>
+                    <Text style={inviteStyles.textWhite}>
+                      {t('JOB_INVITES.reject')}
+                    </Text>
+                  </Button>
+                </View>
+                <View style={inviteStyles.viewButtomRight}>
+                  <Button
+                    title={''}
+                    onPress={this.applyJob}
+                    style={inviteStyles.buttomRight}
+                    full
+                    rounded
+                    bordered>
+                    <Text style={inviteStyles.textWhite}>
+                      {t('JOB_INVITES.apply')}
+                    </Text>
+                  </Button>
+                </View>
+              </View>
+            </View>
+          </ViewFlex>
+        </>
+      );
+    };
+
     return (
       <I18n>
         {(t) => (
           <Container>
-            {this.state.isLoading ? <Loading /> : null}
-            <ModalHeader
-              onPressClose={() => this.props.navigation.goBack()}
-              title={t('JOB_INVITES.inviteDetails')}
-              onPressHelp={() => this.props.navigation.goBack()}
-            />
-
-            <ViewFlex justifyContent={'space-between'}>
-              <View style={{ flex: 4 }}>
-                <InviteHeader
-                  clientName={'The Club of Knights'}
-                  positionName={'Kitchen Assistant'}
-                  dateString={'Feb 23 to Feb 24'}
-                  timeString={'3pm to 6pm'}
-                  addressString={
-                    '270 Catalonia Ave #001, Coral Gables, FL 33134, USA'
-                  }
-                  onPressDirection={
-                    this.showOpenDirection() ? this.openMapsApp : () => {}
-                  }
-                />
-              </View>
-              {/*Details*/}
-              <View style={{ flex: 2 }}>
-                <View style={inviteStyles.viewAmount}>
-                  <View style={inviteStyles.viewContent}>
-                    <Text style={inviteStyles.textTitle}>Amount</Text>
-                    <H1 style={inviteStyles.textSubTitle}>$1000</H1>
-                  </View>
-                  <View style={inviteStyles.viewContent}>
-                    <Text style={inviteStyles.textTitle}>Total Hours</Text>
-                    <H1 style={inviteStyles.textSubTitle}>10</H1>
-                  </View>
-                </View>
-              </View>
-              <View style={{ flex: 7 }}>
-                <MapView
-                  style={inviteStyles.map}
-                  region={this.state.region}
-                  onRegionChangeComplete={this.onRegionChangeComplete}>
-                  {this.showMarker() ? (
-                    <Marker
-                      image={MARKER_IMG}
-                      anchor={{ x: 0.5, y: 1 }}
-                      coordinate={{
-                        latitude: this.state.invite.shift.venue.latitude,
-                        longitude: this.state.invite.shift.venue.longitude,
-                      }}
-                      title={this.state.invite.shift.venue.title}
-                    />
-                  ) : (
-                    <Marker
-                      image={MARKER_IMG}
-                      anchor={{ x: 0.5, y: 1 }}
-                      coordinate={{
-                        latitude: DEFAULT_LATITUDE,
-                        longitude: DEFAULT_LONGITUDE,
-                      }}
-                    />
-                  )}
-                </MapView>
-              </View>
-
-              <View style={{ flex: 3 }}>
-                <View style={inviteStyles.viewCrud}>
-                  <View style={inviteStyles.viewButtomLeft}>
-                    <Button
-                      onPress={this.rejectJob}
-                      style={inviteStyles.buttomLeft}
-                      full
-                      rounded
-                      bordered>
-                      <Text style={inviteStyles.textWhite}>
-                        {t('JOB_INVITES.reject')}
-                      </Text>
-                    </Button>
-                  </View>
-                  <View style={inviteStyles.viewButtomRight}>
-                    <Button
-                      title={''}
-                      onPress={this.applyJob}
-                      style={inviteStyles.buttomRight}
-                      full
-                      rounded
-                      bordered>
-                      <Text style={inviteStyles.textWhite}>
-                        {t('JOB_INVITES.apply')}
-                      </Text>
-                    </Button>
-                  </View>
-                </View>
-              </View>
-            </ViewFlex>
+            {isLoading ? <Loading /> : renderInvite(t, invite)}
           </Container>
         )}
       </I18n>
@@ -265,8 +294,6 @@ class InviteDetailsV2 extends Component {
     if (this.state.inviteId === 'NO_ID') {
       return this.props.navigation.goBack();
     }
-
-    this.isLoading(true);
     inviteActions.getInvite(this.state.inviteId);
   };
 
@@ -287,15 +314,18 @@ class InviteDetailsV2 extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPressHelp: () => {
+          onPress: () => {
             LOG(this, 'Cancel applyJob');
           },
         },
         {
           text: i18next.t('JOB_INVITES.apply'),
-          onPressHelp: () => {
+          onPress: () => {
+            LOG(this, 'ACCEPT applyJob');
+            this.setState({ isLoading: true }, () => {
+              inviteActions.applyJob(this.state.invite.id);
+            });
             this.isLoading(true);
-            inviteActions.applyJob(this.state.invite.id);
           },
         },
       ],
@@ -320,13 +350,13 @@ class InviteDetailsV2 extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPressHelp: () => {
+          onPress: () => {
             LOG(this, 'Cancel rejectJob');
           },
         },
         {
           text: i18next.t('JOB_INVITES.reject'),
-          onPressHelp: () => {
+          onPress: () => {
             this.isLoading(true);
             inviteActions.rejectJob(this.state.invite.id);
           },

@@ -180,13 +180,13 @@ class SettingScreen extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPressHelp: () => {
+          onPress: () => {
             LOG(this, 'Cancel logout');
           },
         },
         {
           text: i18next.t('SETTINGS.logout'),
-          onPressHelp: () => {
+          onPress: () => {
             this.setState({ isLoading: true }, accountActions.logout());
           },
         },

@@ -6,7 +6,7 @@ import { rateEmployerValidator, clockInOutValidator } from './validators';
  * Get shift application
  */
 const getApplication = (applicationId) => {
-  getData(`/applications/${applicationId}`)
+  getData(`/employees/me/applications/${applicationId}`)
     .then((jobs) => {
       Flux.dispatchEvent('GetApplication', jobs);
     })
@@ -20,7 +20,7 @@ const getApplication = (applicationId) => {
  * @param  {string|number} shiftId [description]
  */
 const getJob = (shiftId) => {
-  getData(`/shifts/${shiftId}`)
+  getData(`/employees/me/shifts/${shiftId}`)
     .then((jobs) => {
       Flux.dispatchEvent('GetJob', jobs);
     })

@@ -10,7 +10,7 @@ import { putData, getData } from '../../fetch';
  * Action for listing the job invites
  */
 const getJobInvites = () => {
-  getData('/shifts/invites?status=PENDING')
+  getData('/employees/me/shifts/invites?status=PENDING')
     .then((jobInvites) => {
       Flux.dispatchEvent('JobInvites', jobInvites);
     })
@@ -24,7 +24,7 @@ const getJobInvites = () => {
  * @param  {string || number} inviteId the invite id
  */
 const getInvite = (inviteId) => {
-  getData(`/shifts/invites/${inviteId}`)
+  getData(`/employees/me/shifts/invites/${inviteId}`)
     .then((jobInvites) => {
       Flux.dispatchEvent('GetInvite', jobInvites);
     })
@@ -38,7 +38,7 @@ const getInvite = (inviteId) => {
  * @param  {string || number} inviteId the invite id
  */
 const applyJob = (inviteId) => {
-  putData(`/shifts/invites/${inviteId}/apply`)
+  putData(`/employees/me/shifts/invites/${inviteId}/APPLY`)
     .then((data) => {
       Flux.dispatchEvent('ApplyJob', data);
     })
@@ -53,7 +53,7 @@ const applyJob = (inviteId) => {
  * @param  {string || number} inviteId the invite id
  */
 const rejectJob = (inviteId) => {
-  putData(`/shifts/invites/${inviteId}/reject`)
+  putData(`/employees/me/shifts/invites/${inviteId}/REJECT`)
     .then((data) => {
       Flux.dispatchEvent('RejectJob', data);
     })

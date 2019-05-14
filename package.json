@@ -21,6 +21,7 @@
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.23",
     "native-base": "^2.7.0",
+    "pure-logger": "0.0.1",
     "react": "16.6.0",
     "react-i18next": "^7.12.0",
     "react-native": "^0.57.8",

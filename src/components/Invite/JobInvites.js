@@ -142,12 +142,6 @@ class JobInvites extends Component {
                   onRefresh={this.refreshInvites}
                 />
               }>
-              <Text
-                onPress={() =>
-                  this.props.navigation.navigate(INVITE_DETAILS_ROUTE_V2)
-                }>
-                Link para ver detalles
-              </Text>
               <List
                 leftOpenValue={75}
                 rightOpenValue={-75}
@@ -261,13 +255,13 @@ class JobInvites extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPressHelp: () => {
+          onPress: () => {
             LOG(this, 'Cancel applyJob');
           },
         },
         {
           text: i18next.t('JOB_INVITES.apply'),
-          onPressHelp: () => {
+          onPress: () => {
             this.isLoading(true);
             this.setState({ secId, rowId, rowMap }, () => {
               inviteActions.applyJob(invitation.id);
@@ -296,13 +290,13 @@ class JobInvites extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPressHelp: () => {
+          onPress: () => {
             LOG(this, 'Cancel rejectJob');
           },
         },
         {
           text: i18next.t('JOB_INVITES.reject'),
-          onPressHelp: () => {
+          onPress: () => {
             this.isLoading(true);
             this.setState({ secId, rowId, rowMap }, () => {
               inviteActions.rejectJob(invitation.id);

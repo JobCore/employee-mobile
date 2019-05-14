@@ -197,13 +197,13 @@ class RateEmployer extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPressHelp: () => {
+          onPress: () => {
             LOG(this, 'Cancel rateEmployer');
           },
         },
         {
           text: i18next.t('MY_JOBS.rate'),
-          onPressHelp: () => {
+          onPress: () => {
             this.setState({ isLoading: true }, () => {
               jobActions.rateEmployer(
                 this.state.shift.id,

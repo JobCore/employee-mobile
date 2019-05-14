@@ -11,7 +11,7 @@ const ModalHeader = ({
 }) => {
   return (
     <Header androidStatusBarColor={BLUE_MAIN} style={headerStyles.headerCustom}>
-      <Left style={{ width: 2, backgroundColor: 'yellow' }}>
+      <Left>
         <Button transparent onPress={onPressClose} title={''}>
           <Icon
             name="ios-close"
@@ -20,10 +20,10 @@ const ModalHeader = ({
           />
         </Button>
       </Left>
-      <Body style={{ backgroundColor: 'blue' }}>
+      <Body>
         <Text style={[headerStyles.titleHeader]}>{title}</Text>
       </Body>
-      <Right style={{ backgroundColor: 'red', width: 2 }}>
+      <Right>
         <Button title={''} transparent onPress={onPressHelp}>
           <Icon
             name="questioncircle"

@@ -142,13 +142,13 @@ class JobDetailsNewTwo extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPressHelp: () => {
+          onPress: () => {
             LOG(this, 'Cancel applyJob');
           },
         },
         {
           text: i18next.t('JOB_INVITES.apply'),
-          onPressHelp: () => {
+          onPress: () => {
             this.isLoading(true);
             inviteActions.applyJob(this.state.invite.id);
           },
@@ -175,13 +175,13 @@ class JobDetailsNewTwo extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPressHelp: () => {
+          onPress: () => {
             LOG(this, 'Cancel rejectJob');
           },
         },
         {
           text: i18next.t('JOB_INVITES.reject'),
-          onPressHelp: () => {
+          onPress: () => {
             this.isLoading(true);
             inviteActions.rejectJob(this.state.invite.id);
           },

@@ -279,13 +279,13 @@ class Position extends Component {
       [
         {
           text: i18next.t('APP.cancel'),
-          onPressHelp: () => {
+          onPress: () => {
             LOG(this, 'Cancel editPosition');
           },
         },
         {
           text: i18next.t('JOB_PREFERENCES.update'),
-          onPressHelp: () => {
+          onPress: () => {
             this.isLoading(true);
 
             inviteActions.editPositions(
