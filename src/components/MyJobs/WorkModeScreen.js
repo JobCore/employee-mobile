@@ -12,7 +12,7 @@ import {
   Icon,
   H1,
 } from 'native-base';
-import styles from '../Invite/InviteDetailsStyle';
+import { inviteStyles } from '../Invite/InviteDetailsStyle';
 import { WHITE_MAIN, BLUE_MAIN } from '../../shared/colorPalette';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
@@ -20,12 +20,14 @@ import * as inviteActions from './actions';
 // import inviteStore from './InviteStore';
 // import { JobDetails } from '../../shared/components';
 import { LOG } from '../../shared';
-import { HeaderDetails } from '../../shared/components';
+import { CustomToast, HeaderDetails } from '../../shared/components';
 import DetailsCheck from '../../shared/components/DetailsCheck';
 import DetailsTime from '../../shared/components/DetailsTime';
+import moment from './UpcomingJobScreen';
+
 // import IconTime from '../../assets/image/time.png'
 
-class JobDetailsNewOne extends Component {
+class WorkModeScreen extends Component {
   static navigationOptions = {
     header: null,
     tabBarLabel: i18next.t('JOB_INVITES.inviteDetails'),
@@ -37,6 +39,75 @@ class JobDetailsNewOne extends Component {
     ),
   };
 
+  getJobRateHandler = (jobRate) => {
+    this.setState({ jobRate });
+  };
+
+  clockOutHandler = () => {
+    this.setState({ isLoading: false });
+    CustomToast(i18next.t('MY_JOBS.clockedOut'));
+    this.getClockins();
+  };
+
+  showRateButton = () => {
+    if (!this.state.shift) return false;
+
+    // check if current time is before ending_at
+    if (moment.utc().isSameOrBefore(moment.utc(this.state.shift.ending_at))) {
+      return false;
+    }
+
+    // check for missing clockouts or clockins
+    if (Array.isArray(this.state.clockIns)) {
+      if (!this.state.clockIns.length) return false;
+
+      const endedAt = this.state.clockIns[this.state.clockIns.length - 1]
+        .ended_at;
+
+      if (!endedAt) {
+        return false;
+      }
+    } else return false; // dont show rate button until clockins are loaded
+
+    if (Array.isArray(this.state.jobRate) && !this.state.jobRate.length) {
+      return true;
+    }
+
+    return false;
+  };
+
+  showAlreadyRated = () => {
+    if (!this.state.shift) return false;
+
+    if (Array.isArray(this.state.jobRate) && this.state.jobRate.length) {
+      return true;
+    }
+
+    return false;
+  };
+
+  showClockOutButton = () => {
+    if (!this.state.shift) return false;
+
+    if (Array.isArray(this.state.clockIns)) {
+      if (!this.state.clockIns.length) return false;
+
+      const startedAt = this.state.clockIns[this.state.clockIns.length - 1]
+        .started_at;
+      const endedAt = this.state.clockIns[this.state.clockIns.length - 1]
+        .ended_at;
+
+      if (startedAt && !endedAt) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  canClockOut = () => {
+    return false;
+  };
+
   render() {
     return (
       <I18n>
@@ -44,7 +115,7 @@ class JobDetailsNewOne extends Component {
           <Container>
             <Header
               androidStatusBarColor={BLUE_MAIN}
-              style={styles.headerCustom}>
+              style={inviteStyles.headerCustom}>
               <Left>
                 <Button
                   transparent
@@ -57,7 +128,7 @@ class JobDetailsNewOne extends Component {
                 </Button>
               </Left>
               <Body>
-                <Text style={[{ width: 150 }, styles.titleHeader]}>
+                <Text style={[{ width: 150 }, inviteStyles.titleHeader]}>
                   {t('JOB_INVITES.job')}
                 </Text>
               </Body>
@@ -69,14 +140,14 @@ class JobDetailsNewOne extends Component {
 
               <DetailsTime />
 
-              <View style={styles.viewAmount}>
-                <View style={styles.viewContent}>
-                  <Text style={styles.textTitle}>Earnings</Text>
-                  <H1 style={styles.textSubTitle}>$1000</H1>
+              <View style={inviteStyles.viewAmount}>
+                <View style={inviteStyles.viewContent}>
+                  <Text style={inviteStyles.textTitle}>Earnings</Text>
+                  <H1 style={inviteStyles.textSubTitle}>$1000</H1>
                 </View>
-                <View style={styles.viewContent}>
-                  <Text style={styles.textTitle}>Hours Completed</Text>
-                  <H1 style={styles.textSubTitle}>10</H1>
+                <View style={inviteStyles.viewContent}>
+                  <Text style={inviteStyles.textTitle}>Hours Completed</Text>
+                  <H1 style={inviteStyles.textSubTitle}>10</H1>
                 </View>
               </View>
 
@@ -95,14 +166,14 @@ class JobDetailsNewOne extends Component {
                 </View>
               </View> */}
             </Content>
-            <View style={styles.viewBottom}>
+            <View style={inviteStyles.viewBottom}>
               <Button
                 onPress={this.rejectJob}
-                style={styles.buttomBottom}
+                style={inviteStyles.buttomBottom}
                 full
                 rounded
                 bordered>
-                <Text style={styles.textWhite}>Review Employer</Text>
+                <Text style={inviteStyles.textWhite}>Review Employer</Text>
               </Button>
             </View>
           </Container>
@@ -216,4 +287,4 @@ class JobDetailsNewOne extends Component {
   };
 }
 
-export default JobDetailsNewOne;
+export default WorkModeScreen;

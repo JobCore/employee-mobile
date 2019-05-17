@@ -13,7 +13,7 @@ import {
   Icon,
   Text,
 } from 'native-base';
-import styles from '../Invite/InviteDetailsStyle';
+import { inviteStyles } from '../Invite/InviteDetailsStyle';
 import {
   WHITE_MAIN,
   BLUE_MAIN,
@@ -40,7 +40,7 @@ const DEFAULT_LATIDUDE = 25.761681;
 const DEFAULT_LONGITUDE = -80.191788;
 
 /**
- * @deprecated use
+ * @deprecated use UpcomingJobScreen instead
  */
 class JobDetailsScreen extends Component {
   static navigationOptions = {
@@ -167,7 +167,7 @@ class JobDetailsScreen extends Component {
 
             <Header
               androidStatusBarColor={BLUE_MAIN}
-              style={styles.headerCustom}>
+              style={inviteStyles.headerCustom}>
               <Left>
                 <Button
                   transparent
@@ -180,7 +180,7 @@ class JobDetailsScreen extends Component {
                 </Button>
               </Left>
               <Body>
-                <Title style={styles.titleHeader}>
+                <Title style={inviteStyles.titleHeader}>
                   {t('MY_JOBS.jobDetails')}
                 </Title>
               </Body>
@@ -188,14 +188,14 @@ class JobDetailsScreen extends Component {
             </Header>
 
             <Content>
-              <View style={styles.viewShift}>
+              <View style={inviteStyles.viewShift}>
                 {this.state.shift ? (
                   <JobDetails shift={this.state.shift} />
                 ) : null}
               </View>
 
               <MapView
-                style={styles.map}
+                style={inviteStyles.map}
                 region={this.state.region}
                 onRegionChangeComplete={this.onRegionChangeComplete}>
                 {this.showMarker() ? (
@@ -222,14 +222,14 @@ class JobDetailsScreen extends Component {
 
               {this.showOpenDirection() ? (
                 <View>
-                  <Text style={styles.textLocation}>
+                  <Text style={inviteStyles.textLocation}>
                     {`${this.state.shift.venue.title}`}
                   </Text>
                   <Button
                     rounded
                     small
                     bordered
-                    style={styles.openDirectionButton}
+                    style={inviteStyles.openDirectionButton}
                     onPress={this.openMapsApp}>
                     <Text style={{ color: BLUE_DARK }}>
                       {t('JOB_INVITES.openDirection')}
@@ -238,10 +238,10 @@ class JobDetailsScreen extends Component {
                 </View>
               ) : null}
 
-              <View style={styles.viewShift}>
+              <View style={inviteStyles.viewShift}>
                 {this.showAlreadyRated() ? (
                   <View>
-                    <Text style={styles.textAlreadyRated}>
+                    <Text style={inviteStyles.textAlreadyRated}>
                       {`${t('MY_JOBS.alreadyRated')}`}
                     </Text>
                   </View>

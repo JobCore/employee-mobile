@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { Alert, Dimensions, View } from 'react-native';
-import { Button, Container, H1, Text } from 'native-base';
+import { Button, Container, Text } from 'native-base';
 import { inviteStyles } from './InviteDetailsStyle';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
@@ -11,7 +11,8 @@ import { LOG } from '../../shared';
 import { Loading, openMapsApp } from '../../shared/components';
 import MARKER_IMG from '../../assets/image/map-marker.png';
 import { ModalHeader } from '../../shared/components/ModalHeader';
-import { InviteHeader } from './components/InviteHeader';
+import { JobHeader } from '../MyJobs/components/JobHeader';
+import { JobHours } from '../MyJobs/components/JobHours';
 import inviteStore from './InviteStore';
 import moment from 'moment';
 
@@ -149,7 +150,7 @@ class InviteDetailsV2 extends Component {
 
           <ViewFlex justifyContent={'space-between'}>
             <View style={{ flex: 4 }}>
-              <InviteHeader
+              <JobHeader
                 clientName={venue.title}
                 positionName={shift.position.title}
                 dateString={dateString}
@@ -162,18 +163,9 @@ class InviteDetailsV2 extends Component {
             </View>
             {/*Details*/}
             <View style={{ flex: 2 }}>
-              <View style={inviteStyles.viewAmount}>
-                <View style={inviteStyles.viewContent}>
-                  <Text style={inviteStyles.textTitle}>Amount</Text>
-                  <H1 style={inviteStyles.textSubTitle}>${`${price}`}</H1>
-                </View>
-                <View style={inviteStyles.viewContent}>
-                  <Text style={inviteStyles.textTitle}>Total Hours</Text>
-                  <H1 style={inviteStyles.textSubTitle}>{`${hours}`}</H1>
-                </View>
-              </View>
+              <JobHours price={price} hours={hours} />
             </View>
-            <View style={{ flex: 7 }}>
+            <View style={{ flex: 6 }}>
               <MapView
                 style={inviteStyles.map}
                 region={this.state.region}
@@ -201,7 +193,7 @@ class InviteDetailsV2 extends Component {
               </MapView>
             </View>
 
-            <View style={{ flex: 3 }}>
+            <View style={{ flex: 2 }}>
               <View style={inviteStyles.viewCrud}>
                 <View style={inviteStyles.viewButtomLeft}>
                   <Button

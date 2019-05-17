@@ -12,7 +12,7 @@ import {
   Icon,
   H1,
 } from 'native-base';
-import styles from '../Invite/InviteDetailsStyle';
+import { inviteStyles } from '../Invite/InviteDetailsStyle';
 import { WHITE_MAIN, BLUE_MAIN } from '../../shared/colorPalette';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
@@ -24,6 +24,7 @@ import { HeaderDetails } from '../../shared/components';
 import DetailsCheck from '../../shared/components/DetailsCheck';
 import DetailsTime from '../../shared/components/DetailsTime';
 import HeaderReview from '../../shared/components/HeaderReview';
+
 // import IconTime from '../../assets/image/time.png'
 
 class JobDetailsNewTwo extends Component {
@@ -45,7 +46,7 @@ class JobDetailsNewTwo extends Component {
           <Container>
             <Header
               androidStatusBarColor={BLUE_MAIN}
-              style={styles.headerCustom}>
+              style={inviteStyles.headerCustom}>
               <Left>
                 <Button
                   transparent
@@ -58,7 +59,7 @@ class JobDetailsNewTwo extends Component {
                 </Button>
               </Left>
               <Body>
-                <Text style={[{ width: 150 }, styles.titleHeader]}>
+                <Text style={[{ width: 150 }, inviteStyles.titleHeader]}>
                   {t('JOB_INVITES.job')}
                 </Text>
               </Body>
@@ -70,14 +71,14 @@ class JobDetailsNewTwo extends Component {
 
               <DetailsTime />
 
-              <View style={styles.viewAmount}>
-                <View style={styles.viewContent}>
-                  <Text style={styles.textTitle}>Earnings</Text>
-                  <H1 style={styles.textSubTitle}>$1000</H1>
+              <View style={inviteStyles.viewAmount}>
+                <View style={inviteStyles.viewContent}>
+                  <Text style={inviteStyles.textTitle}>Earnings</Text>
+                  <H1 style={inviteStyles.textSubTitle}>$1000</H1>
                 </View>
-                <View style={styles.viewContent}>
-                  <Text style={styles.textTitle}>Hours Completed</Text>
-                  <H1 style={styles.textSubTitle}>10</H1>
+                <View style={inviteStyles.viewContent}>
+                  <Text style={inviteStyles.textTitle}>Hours Completed</Text>
+                  <H1 style={inviteStyles.textSubTitle}>10</H1>
                 </View>
               </View>
 

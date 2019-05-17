@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { BLUE_MAIN, WHITE_MAIN } from './colorPalette';
-import { Platform } from 'react-native';
 import { hasNotch } from './utils';
 
 const PADDING_TOP = hasNotch() ? 40 : 20;
@@ -33,6 +32,7 @@ const headerStyles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 18,
     width: 150,
+    textAlign: 'center',
   },
 });
 

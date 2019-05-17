@@ -39,7 +39,7 @@ const ModalHeader = ({
 ModalHeader.propTypes = {
   title: PropTypes.string.isRequired,
   onPressClose: PropTypes.func,
-  onPressHelp: PropTypes.object,
+  onPressHelp: PropTypes.func,
 };
 
 export { ModalHeader };

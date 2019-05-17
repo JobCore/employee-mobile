@@ -28,6 +28,8 @@ import jobStore from './JobStore';
 import moment from 'moment';
 import { TabHeader } from '../../shared/components/TabHeader';
 import { log } from 'pure-logger';
+import UpcomingJobScreen from './UpcomingJobScreen';
+import ApplicationDetailScreen from './ApplicationDetailScreen';
 
 class MyJobs extends Component {
   static navigationOptions = {
@@ -168,36 +170,32 @@ class MyJobs extends Component {
               onPressHelp={this.goToEditProfile}
             />
 
-            <View>
-              <Text
-                onPress={() => this.props.navigation.navigate(JOB_DETAILS_V2)}>
-                Link para ver detalles Job
-              </Text>
-              <Text
-                onPress={() =>
-                  this.props.navigation.navigate(JOB_DETAILS_NEW_ONE_ROUTE)
-                }>
-                Link para ver detalles Job y hacer Review
-              </Text>
-              <Text
-                onPress={() =>
-                  this.props.navigation.navigate(JOB_DETAILS_NEW_TWO_ROUTE)
-                }>
-                Link para ver detalles Job y ver los Review
-              </Text>
-              <Text
-                onPress={() =>
-                  this.props.navigation.navigate(JOB_WORK_MODE_ROUTE)
-                }>
-                Link para ver Work Mode
-              </Text>
-              <Text
-                onPress={() =>
-                  this.props.navigation.navigate(JOB_PENDING_PAYMENTS_ROUTE)
-                }>
-                Link para ver Pending payments
-              </Text>
-            </View>
+            {/*<View>*/}
+            {/*  <Text*/}
+            {/*    onPress={() =>*/}
+            {/*      this.props.navigation.navigate(JOB_DETAILS_NEW_ONE_ROUTE)*/}
+            {/*    }>*/}
+            {/*    Link para ver detalles Job y hacer Review*/}
+            {/*  </Text>*/}
+            {/*  <Text*/}
+            {/*    onPress={() =>*/}
+            {/*      this.props.navigation.navigate(JOB_DETAILS_NEW_TWO_ROUTE)*/}
+            {/*    }>*/}
+            {/*    Link para ver detalles Job y ver los Review*/}
+            {/*  </Text>*/}
+            {/*  <Text*/}
+            {/*    onPress={() =>*/}
+            {/*      this.props.navigation.navigate(JOB_WORK_MODE_ROUTE)*/}
+            {/*    }>*/}
+            {/*    Link para ver Work Mode*/}
+            {/*  </Text>*/}
+            {/*  <Text*/}
+            {/*    onPress={() =>*/}
+            {/*      this.props.navigation.navigate(JOB_PENDING_PAYMENTS_ROUTE)*/}
+            {/*    }>*/}
+            {/*    Link para ver Pending payments*/}
+            {/*  </Text>*/}
+            {/*</View>*/}
             <Segment style={styles.viewSegment}>
               {Array.isArray(this.state.jobFilters)
                 ? this.state.jobFilters.map((filter, index) => (
@@ -261,24 +259,21 @@ class MyJobs extends Component {
                         icon
                         style={styles.viewList}>
                         <Left>
-                          <Button transparent>
-                            <View style={styles.pointPending} />
-                          </Button>
-                        </Left>
-                        <Body>
                           <Text style={styles.textBody}>
                             {moment(job.starting_at)
                               .tz(moment.tz.guess())
                               .format('ddd D')}
                           </Text>
+                        </Left>
+                        <Body>
+                          <Text style={styles.textBody}>
+                            <Text style={styles.itemName}>
+                              {job.position.title}
+                            </Text>
+                          </Text>
                         </Body>
-                        <Right style={styles.noRight}>
-                          <Text>
-                            {job.position ? (
-                              <Text style={styles.itemName}>
-                                {job.position.title}
-                              </Text>
-                            ) : null}
+                        <Right style={[styles.noRight]}>
+                          <Text style={{ textAlign: 'center' }}>
                             <Text style={styles.itemTime}>
                               {` ${moment(job.starting_at)
                                 .tz(moment.tz.guess())
@@ -328,12 +323,12 @@ class MyJobs extends Component {
     if (!job) return;
 
     if (job.applicationId) {
-      return this.props.navigation.navigate(JOB_DETAILS_V2, {
+      return this.props.navigation.navigate(ApplicationDetailScreen.name, {
         applicationId: job.applicationId,
       });
     }
 
-    this.props.navigation.navigate(JOB_DETAILS_V2, { shiftId: job.id });
+    this.props.navigation.navigate(UpcomingJobScreen.name, { shiftId: job.id });
   };
 
   isLoading = (isLoading) => {

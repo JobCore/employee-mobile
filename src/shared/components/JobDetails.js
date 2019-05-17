@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { Text } from 'native-base';
-import styles from '../../components/Invite/InviteDetailsStyle';
+import { inviteStyles } from '../../components/Invite/InviteDetailsStyle';
 import { I18n } from 'react-i18next';
 import moment from 'moment';
 
@@ -68,21 +68,21 @@ class InviteDetails extends Component {
               </View>
             ) : null*/}
             {this.props.shift ? (
-              <Text style={[styles.viewTitleInfo, { marginTop: 30 }]}>
+              <Text style={[inviteStyles.viewTitleInfo, { marginTop: 30 }]}>
                 {this.props.shift.venue ? (
-                  <Text style={styles.textOne}>
+                  <Text style={inviteStyles.textOne}>
                     {this.props.shift.venue.title}
                   </Text>
                 ) : null}
-                <Text style={styles.textTwo}>
+                <Text style={inviteStyles.textTwo}>
                   {` ${t('JOB_INVITES.lookingFor')} `}
                 </Text>
                 {this.props.shift.position ? (
-                  <Text style={styles.textThree}>
+                  <Text style={inviteStyles.textThree}>
                     {this.props.shift.position.title}
                   </Text>
                 ) : null}
-                <Text style={styles.textBlack}>
+                <Text style={inviteStyles.textBlack}>
                   {` ${t('JOB_PREFERENCES.dateStartToEnd', {
                     startingAt: moment(this.props.shift.starting_at)
                       .tz(moment.tz.guess())
@@ -92,7 +92,7 @@ class InviteDetails extends Component {
                       .format('lll'),
                   })} `}
                 </Text>
-                <Text style={styles.textRed}>
+                <Text style={inviteStyles.textRed}>
                   {`$${this.props.shift.minimum_hourly_rate}/${t(
                     'JOB_INVITES.hr',
                   )}.`}

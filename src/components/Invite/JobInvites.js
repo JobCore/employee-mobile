@@ -11,7 +11,7 @@ import {
   Thumbnail,
   Badge,
 } from 'native-base';
-import styles from './JobInvitesStyle';
+import { inviteStyles } from './JobInvitesStyle';
 import {
   EDIT_PROFILE_ROUTE,
   INVITE_DETAILS_ROUTE_V2,
@@ -41,7 +41,7 @@ class JobInvites extends Component {
             source={require('../../assets/image/offers.png')}
           />
           {params && params.invitationCount ? (
-            <Badge style={styles.badge}>
+            <Badge style={inviteStyles.badge}>
               <Text>{params.invitationCount}</Text>
             </Badge>
           ) : null}
@@ -153,7 +153,7 @@ class JobInvites extends Component {
                         inviteId: data.id,
                       })
                     }
-                    style={styles.viewListItem}>
+                    style={inviteStyles.viewListItem}>
                     <Thumbnail
                       small
                       source={
@@ -164,24 +164,24 @@ class JobInvites extends Component {
                           : PROFILE_IMG
                       }
                     />
-                    <View style={styles.viewDataOffers}>
+                    <View style={inviteStyles.viewDataOffers}>
                       {/* title info */}
                       {data.shift ? (
-                        <Text style={styles.viewTitleInfo}>
+                        <Text style={inviteStyles.viewTitleInfo}>
                           {data.shift.venue ? (
-                            <Text style={styles.textOne}>
+                            <Text style={inviteStyles.textOne}>
                               {data.shift.venue.title}
                             </Text>
                           ) : null}
-                          <Text style={styles.textTwo}>
+                          <Text style={inviteStyles.textTwo}>
                             {` ${t('JOB_INVITES.lookingFor')} `}
                           </Text>
                           {data.shift.position ? (
-                            <Text style={styles.textThree}>
+                            <Text style={inviteStyles.textThree}>
                               {data.shift.position.title}
                             </Text>
                           ) : null}
-                          <Text style={styles.textBlack}>
+                          <Text style={inviteStyles.textBlack}>
                             {` ${t('JOB_PREFERENCES.dateStartToEnd', {
                               startingAt: moment(data.shift.starting_at)
                                 .tz(moment.tz.guess())
@@ -191,7 +191,7 @@ class JobInvites extends Component {
                                 .format('lll'),
                             })} `}
                           </Text>
-                          <Text style={styles.textRed}>
+                          <Text style={inviteStyles.textRed}>
                             {`$${data.shift.minimum_hourly_rate}/${t(
                               'JOB_INVITES.hr',
                             )}.`}
@@ -203,14 +203,14 @@ class JobInvites extends Component {
                 )}
                 renderLeftHiddenRow={(data, secId, rowId, rowMap) => (
                   <Button
-                    style={styles.buttomApply}
+                    style={inviteStyles.buttomApply}
                     onPress={() => this.applyJob(data, secId, rowId, rowMap)}>
                     <Icon active name="md-checkmark" />
                   </Button>
                 )}
                 renderRightHiddenRow={(data, secId, rowId, rowMap) => (
                   <Button
-                    style={styles.buttomReject}
+                    style={inviteStyles.buttomReject}
                     full
                     danger
                     onPress={() => this.rejectJob(data, secId, rowId, rowMap)}>

@@ -1,11 +1,11 @@
 import { Image, View } from 'react-native';
-import { inviteStyles } from '../InviteDetailsStyle';
+import { inviteStyles } from '../../Invite/InviteDetailsStyle';
 import { Body, Left, List, ListItem, Text } from 'native-base';
 import CHICKEN from '../../../assets/image/chicken.png';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const InviteHeader = ({
+const JobHeader = ({
   clientLogo = CHICKEN,
   clientName,
   positionName,
@@ -51,7 +51,7 @@ const InviteHeader = ({
   );
 };
 
-InviteHeader.propTypes = {
+JobHeader.propTypes = {
   clientLogo: PropTypes.any,
   clientName: PropTypes.string.isRequired,
   positionName: PropTypes.string.isRequired,
@@ -61,4 +61,4 @@ InviteHeader.propTypes = {
   onPressDirection: PropTypes.func,
 };
 
-export { InviteHeader };
+export { JobHeader };

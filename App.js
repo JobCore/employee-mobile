@@ -30,11 +30,12 @@ import Position from './src/components/Invite/Position';
 import Availability from './src/components/Invite/Availability';
 import MyJobs from './src/components/MyJobs';
 import RateEmployer from './src/components/MyJobs/RateEmployer';
-import JobDetailsScreen from './src/components/MyJobs/JobDetails';
-import JobDetailsNewScreen from './src/components/MyJobs/JobDetailsV2';
-import JobDetailsNewOneScreen from './src/components/MyJobs/JobDetailsNewOne';
+import JobDetailsScreen from './src/components/MyJobs/JobDetailsScreen';
+import UpcomingJobScreen from './src/components/MyJobs/UpcomingJobScreen';
+import JobDetailsNewOneScreen from './src/components/MyJobs/WorkModeScreen';
 import JobDetailsNewTwoScreen from './src/components/MyJobs/JobDetailsNewTwo';
 import JobPendingPaymentScreen from './src/components/MyJobs/JobPendingPayments';
+import WorkModeScreen from './src/components/MyJobs/WorkModeScreen';
 import JobWorkModeScreen from './src/components/MyJobs/JobWorkMode';
 import Reviews from './src/components/MyJobs/Reviews';
 
@@ -55,11 +56,9 @@ import {
   EDIT_PROFILE_ROUTE,
   PROFILE_ROUTE,
   POSITION_ROUTE,
-  APPLICATION_DETAILS_ROUTE,
   EDIT_LOCATION_ROUTE,
   RATE_EMPLOYER_ROUTE,
   REVIEWS_ROUTE,
-  JOB_DETAILS_V2,
   JOB_DETAILS_NEW_ONE_ROUTE,
   JOB_DETAILS_NEW_TWO_ROUTE,
   JOB_WORK_MODE_ROUTE,
@@ -76,6 +75,7 @@ import SettingScreen from './src/components/Setting';
 
 import Splash from './src/components/Splash';
 import EditLocation from './src/components/Invite/EditLocation';
+import ApplicationDetailScreen from './src/components/MyJobs/ApplicationDetailScreen';
 
 window.DEBUG = true;
 
@@ -143,13 +143,12 @@ export const AppStack = createStackNavigator(
       screen: InviteDetailsV2,
       path: 'invite/:inviteId',
     },
-    // [JOB_DETAILS_ROUTE]: {
-    //   screen: JobDetailsScreen,
-    //   path: 'shift/:shiftId',
-    // },
-    [JOB_DETAILS_V2]: {
-      screen: JobDetailsNewScreen,
+    [UpcomingJobScreen.name]: {
+      screen: UpcomingJobScreen,
       path: 'shift/:shiftId',
+    },
+    [WorkModeScreen.name]: {
+      screen: WorkModeScreen,
     },
     [JOB_DETAILS_NEW_ONE_ROUTE]: {
       screen: JobDetailsNewOneScreen,
@@ -163,8 +162,8 @@ export const AppStack = createStackNavigator(
     [JOB_PENDING_PAYMENTS_ROUTE]: {
       screen: JobPendingPaymentScreen,
     },
-    [APPLICATION_DETAILS_ROUTE]: {
-      screen: JobDetailsScreen,
+    [ApplicationDetailScreen.name]: {
+      screen: ApplicationDetailScreen,
       path: 'application/:applicationId',
     },
   },

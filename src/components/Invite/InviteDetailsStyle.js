@@ -16,7 +16,6 @@ const inviteStyles = StyleSheet.create({
     alignItems: 'center',
   },
   map: {
-    marginTop: 10,
     marginBottom: 10,
     height: 270,
     width: '100%',
@@ -108,8 +107,6 @@ const inviteStyles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 20,
     paddingRight: 20,
-    marginTop: 20,
-    marginBottom: 40,
     flex: 1,
   },
   viewButtomLeft: {
@@ -137,6 +134,27 @@ const inviteStyles = StyleSheet.create({
     height: 38,
     width: '100%',
   },
+  clockInButton: {
+    borderColor: 'transparent',
+    backgroundColor: BLUE_DARK,
+    height: 38,
+    // width: '70%',
+    textAlign: 'center',
+    alignItems: 'center',
+  },
+  clockOutButton: {
+    borderColor: 'transparent',
+    backgroundColor: VIOLET_MAIN,
+    height: 38,
+    width: '70%',
+  },
+  clockInButtonDisabled: {
+    borderColor: 'transparent',
+    backgroundColor: GRAY_MAIN,
+    height: 38,
+    // width: '70%',
+    textAlign: 'center',
+  },
   viewButtomRight: {
     width: '50%',
     marginLeft: 5,
@@ -154,6 +172,7 @@ const inviteStyles = StyleSheet.create({
   },
   textWhite: {
     color: WHITE_MAIN,
+    textAlign: 'center',
   },
   textDark: {
     color: BLUE_DARK,
@@ -167,7 +186,8 @@ const inviteStyles = StyleSheet.create({
   // Css New design
   bgInfo: {
     backgroundColor: BG_GRAY_LIGHT,
-    minHeight: 190,
+    minHeight: 175,
+    height: '100%',
     padding: 5,
   },
   imgCover: {
@@ -181,8 +201,9 @@ const inviteStyles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 15,
+    marginTop: 5,
     paddingBottom: 10,
+    paddingTop: 10,
   },
   viewContent: {
     width: '50%',
@@ -213,8 +234,6 @@ const inviteStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 0,
-    marginBottom: 5,
     paddingTop: 10,
     paddingBottom: 10,
   },

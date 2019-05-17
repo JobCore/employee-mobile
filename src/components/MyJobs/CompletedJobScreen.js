@@ -26,7 +26,7 @@ import DetailsTime from '../../shared/components/DetailsTime';
 
 // import IconTime from '../../assets/image/time.png'
 
-class JobWorkMode extends Component {
+class CompletedJobScreen extends Component {
   static navigationOptions = {
     header: null,
     tabBarLabel: i18next.t('JOB_INVITES.inviteDetails'),
@@ -59,7 +59,7 @@ class JobWorkMode extends Component {
               </Left>
               <Body>
                 <Text style={[{ width: 150 }, inviteStyles.titleHeader]}>
-                  {t('JOB_INVITES.work')}
+                  {t('JOB_INVITES.job')}
                 </Text>
               </Body>
               <Right />
@@ -82,25 +82,20 @@ class JobWorkMode extends Component {
               </View>
 
               <DetailsCheck />
+
+              {/* <View style={styles.viewCrud}>
+                <View style={styles.viewButtomClock}>
+                  <Button
+                    onPress={this.rejectJob}
+                    style={styles.buttomBlueDark}
+                    full
+                    rounded
+                    bordered>
+                    <Text style={styles.textWhite}>Review Employer</Text>
+                  </Button>
+                </View>
+              </View> */}
             </Content>
-            <View
-              style={{
-                position: 'absolute',
-                bottom: 75,
-                right: 0,
-                left: 0,
-                paddingLeft: 100,
-                paddingRight: 100,
-              }}>
-              <Button
-                onPress={this.rejectJob}
-                style={inviteStyles.buttomRight}
-                full
-                rounded
-                bordered>
-                <Text style={inviteStyles.textWhite}>Upcomming Shifts</Text>
-              </Button>
-            </View>
             <View style={inviteStyles.viewBottom}>
               <Button
                 onPress={this.rejectJob}
@@ -108,7 +103,7 @@ class JobWorkMode extends Component {
                 full
                 rounded
                 bordered>
-                <Text style={inviteStyles.textWhite}>Clock out</Text>
+                <Text style={inviteStyles.textWhite}>Review Employer</Text>
               </Button>
             </View>
           </Container>
@@ -222,4 +217,4 @@ class JobWorkMode extends Component {
   };
 }
 
-export default JobWorkMode;
+export default CompletedJobScreen;

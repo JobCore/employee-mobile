@@ -7,7 +7,7 @@ import {
   BLACK_MAIN,
 } from '../../shared/colorPalette';
 
-export default StyleSheet.create({
+const inviteStyles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
@@ -74,3 +74,6 @@ export default StyleSheet.create({
     marginBottom: 5,
   },
 });
+
+export { inviteStyles };
+export default inviteStyles;

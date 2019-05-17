@@ -6,6 +6,8 @@ import { LOG } from '../../shared';
 import accountStore from '../Account/AccountStore';
 import * as accountActions from '../Account/actions';
 import SPLASH_IMG from '../../assets/image/splash.png';
+import { getOpenClockIns } from '../MyJobs/actions';
+import { error } from 'pure-logger';
 
 class Splash extends Component {
   componentDidMount() {
@@ -22,7 +24,7 @@ class Splash extends Component {
     this.loginSubscription.unsubscribe();
   }
 
-  loginHandler = (user) => {
+  loginHandler = async (user) => {
     let status;
     let token;
 
@@ -31,6 +33,17 @@ class Splash extends Component {
       status = user.user.profile.status;
     } catch (e) {
       LOG(this, e);
+    }
+
+    let openClockIns = [];
+    try {
+      openClockIns = await getOpenClockIns();
+    } catch (e) {
+      error(`Splash:`, e);
+    }
+    console.log(`DEBUG:openClockIns`, openClockIns);
+
+    if (openClockIns.length > 0) {
     }
 
     if (token && status && status !== 'PENDING_EMAIL_VALIDATION') {
@@ -59,7 +72,7 @@ class Splash extends Component {
 
   // Render any loading content that you like here
   render() {
-    return <ImageBackground source={SPLASH_IMG} style={styles.imgSplash} />;
+    return <ImageBackground source={SPLASH_IMG} style={styles.imgSplash}/>;
   }
 }
 

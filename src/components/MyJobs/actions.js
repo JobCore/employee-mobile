@@ -46,7 +46,7 @@ const getPendingJobs = () => {
  * Get upcoming jobs
  */
 const getUpcomingJobs = () => {
-  getData('/employees/me/shifts?upcoming=true&status=FILLED,OPEN')
+  getData('/employees/me/shifts?approved=true&status=FILLED,OPEN')
     .then((jobs) => {
       Flux.dispatchEvent('GetUpcomingJobs', jobs);
     })
@@ -155,7 +155,7 @@ const clockIn = (shiftId, latitudeIn, longitudeIn, startedAt) => {
     shift: shiftId,
     latitude_in: latitudeIn,
     longitude_in: longitudeIn,
-    started_at: startedAt,
+    started_at: startedAt.format(),
   })
     .then((data) => {
       Flux.dispatchEvent('ClockIn', data);
@@ -205,6 +205,19 @@ const getClockins = (shiftId) => {
     .catch((err) => {
       Flux.dispatchEvent('JobStoreError', err);
     });
+};
+
+/**
+ * Return open clock ins
+ */
+export const getOpenClockIns = async () => {
+  let data = null;
+  try {
+    data = getData(`/employees/me/clockins?status=OPEN`);
+  } catch (error) {
+    throw error;
+  }
+  return data;
 };
 
 export {

@@ -1,6 +1,8 @@
 import { FluxStore } from '../../shared/flux-state';
 import { LOG, storeErrorHandler } from '../../shared';
 
+export const ON_OPEN_CLOCKINS = 'OnOpenClockins';
+
 class JobStore extends FluxStore {
   constructor() {
     super();
@@ -32,7 +34,6 @@ class JobStore extends FluxStore {
       if (application && application.shift) {
         const shift = application.shift;
         shift.applicationId = application.id;
-
         return parseLatLngToNumber(shift);
       }
 
@@ -65,23 +66,15 @@ class JobStore extends FluxStore {
     });
 
     this.addEvent('GetUpcomingJobs');
-
     this.addEvent('GetCompletedJobs');
-
     this.addEvent('GetFailedJobs');
-
     this.addEvent('GetJobRate');
-
     this.addEvent('RateEmployer');
-
     this.addEvent('ClockIn');
-
     this.addEvent('ClockOut');
-
     this.addEvent('GetClockins');
-
+    this.addEvent(ON_OPEN_CLOCKINS);
     this.addEvent('GetEmployeeRatings');
-
     this.addEvent('JobStoreError', storeErrorHandler);
   }
 }

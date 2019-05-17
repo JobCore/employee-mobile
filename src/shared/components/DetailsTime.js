@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Text } from 'native-base';
 
-import styles from '../../components/Invite/InviteDetailsStyle';
+import { inviteStyles } from '../../components/Invite/InviteDetailsStyle';
 
 export default class DetailsTime extends Component {
   render() {
     return (
-      <View style={styles.viewTime}>
+      <View style={inviteStyles.viewTime}>
         <View>
-          <Text style={styles.textWhite}>3:00 pm</Text>
+          <Text style={inviteStyles.textWhite}>3:00 pm</Text>
         </View>
         <View>
-          <Text style={styles.textDark}>6:00 pm</Text>
+          <Text style={inviteStyles.textDark}>6:00 pm</Text>
         </View>
       </View>
     );
