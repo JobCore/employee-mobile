@@ -43,6 +43,9 @@ import firebase from 'react-native-firebase';
 import { NavigationActions } from 'react-navigation';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import { TabHeader } from '../../shared/components/TabHeader';
+import preferencesStyles from '../Invite/JobPreferencesStyle';
+import { fetchActiveShifts } from '../MyJobs/actions';
+import WorkModeScreen from '../MyJobs/WorkModeScreen';
 
 class DashboardScreen extends Component {
   static navigationOptions = {
@@ -67,14 +70,21 @@ class DashboardScreen extends Component {
       pendingPayments: 'N/A',
       invites: [],
       upcomingJobs: [],
+      activeShift: null,
     };
   }
 
   componentDidMount() {
-    this.logoutSubscription = accountStore.subscribe('Logout', (data) => {
-      this.logoutHandler(data);
-    });
-
+    this.logoutSubscription = accountStore.subscribe(
+      'Logout',
+      this.logoutHandler,
+    );
+    this.logoutSubscription = accountStore.subscribe(
+      'ActiveShifts',
+      (shift) => {
+        if (shift) this.setState({ activeShift: shift });
+      },
+    );
     this.loginSubscription = accountStore.subscribe('Login', (data) => {
       this.loginHandler(data);
     });
@@ -170,6 +180,7 @@ class DashboardScreen extends Component {
     this.hasFcmMessagePermission();
     this.firstLoad();
     this.getFcmToken();
+    fetchActiveShifts();
   }
 
   componentWillUnmount() {
@@ -281,6 +292,7 @@ class DashboardScreen extends Component {
   };
 
   render() {
+    const { activeShift } = this.state;
     return (
       <I18n>
         {(t) => (
@@ -290,6 +302,21 @@ class DashboardScreen extends Component {
               title={t('DASHBOARD.dashboard')}
               onPressHelp={this.goToEditProfile}
             />
+            {activeShift && (
+              <TouchableOpacity
+                onPress={() => {
+                  console.log(`DEBUG:DEBUG:DEBUG:DEBUG:`);
+                  this.props.navigation.navigate(WorkModeScreen.name, {
+                    shiftId: activeShift.id,
+                  });
+                }}>
+                <View style={preferencesStyles.viewWarning}>
+                  <Text style={{ color: '#fff', textAlign: 'center' }}>
+                    Active Shift: {activeShift.position.title}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
             <Content
               refreshControl={
                 <RefreshControl
@@ -297,41 +324,42 @@ class DashboardScreen extends Component {
                   onRefresh={this.refresh}
                 />
               }>
-              <BackgroundHeader>
-                <ListItem noBorder style={styles.welcomeItem}>
-                  <TouchableOpacity onPress={this.goToProfile}>
-                    <Thumbnail
-                      large
-                      source={
-                        this.state.user &&
-                        this.state.user.profile &&
-                        this.state.user.profile.picture
-                          ? { uri: this.state.user.profile.picture }
-                          : PROFILE_IMG
-                      }
-                    />
-                  </TouchableOpacity>
-                  <Body>
-                    <TouchableOpacity onPress={this.goToEditProfile}>
-                      {this.state.user ? (
-                        <Text style={styles.textHello}>
-                          {`${t('DASHBOARD.hello')} ${
-                            this.state.user.first_name
-                          } ${this.state.user.last_name},`}
-                        </Text>
-                      ) : null}
-                      <Text style={styles.textWelcome}>
-                        {t('DASHBOARD.welcome')}
-                      </Text>
+              <View style={{ flex: 2 }}>
+                <BackgroundHeader>
+                  <ListItem noBorder style={styles.welcomeItem}>
+                    <TouchableOpacity onPress={this.goToProfile}>
+                      <Thumbnail
+                        large
+                        source={
+                          this.state.user &&
+                          this.state.user.profile &&
+                          this.state.user.profile.picture
+                            ? { uri: this.state.user.profile.picture }
+                            : PROFILE_IMG
+                        }
+                      />
                     </TouchableOpacity>
-                  </Body>
-                </ListItem>
-              </BackgroundHeader>
+                    <Body>
+                      <TouchableOpacity onPress={this.goToEditProfile}>
+                        {this.state.user ? (
+                          <Text style={styles.textHello}>
+                            {`${t('DASHBOARD.hello')} ${
+                              this.state.user.first_name
+                            } ${this.state.user.last_name},`}
+                          </Text>
+                        ) : null}
+                        <Text style={styles.textWelcome}>
+                          {t('DASHBOARD.welcome')}
+                        </Text>
+                      </TouchableOpacity>
+                    </Body>
+                  </ListItem>
+                </BackgroundHeader>
+              </View>
               <View
                 style={[
-                  { flex: 4 },
                   styles.viewDashboard,
-                  { marginTop: 40, flex: 2 },
+                  { flex: 2, paddingTop: 10, paddingBottom: 10 },
                 ]}>
                 <View style={styles.viewItemJobsLeft}>
                   <Text style={styles.titleItem}>
@@ -366,9 +394,8 @@ class DashboardScreen extends Component {
 
               <View
                 style={[
-                  { flex: 40 },
                   styles.viewDashboard,
-                  { marginTop: 40, flex: 2 },
+                  { flex: 2, paddingTop: 10, paddingBottom: 10 },
                 ]}>
                 <View style={styles.viewItemJobsLeft}>
                   <TouchableOpacity onPress={this.goToMyJobs}>
@@ -400,7 +427,7 @@ class DashboardScreen extends Component {
                 </View>
               </View>
 
-              <View style={[styles.viewInvite, { marginTop: 40, flex: 2 }]}>
+              <View style={[styles.viewInvite, { flex: 2 }]}>
                 <Text style={styles.titleInvite}>
                   {t('DASHBOARD.stopReceivingInvites')}
                 </Text>

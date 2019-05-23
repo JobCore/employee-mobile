@@ -8,18 +8,129 @@ export default class DetailsCheck extends Component {
   render() {
     return (
       <View style={inviteStyles.viewCheck}>
-        <View>
-          <Text style={inviteStyles.textDark}>
-            <Text style={inviteStyles.textTitle}>In </Text>3:00 pm
-          </Text>
+        {/**/}
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '70%',
+          }}>
+          <View>
+            <Text style={inviteStyles.textDark}>
+              <Text style={inviteStyles.textTitle}>In </Text>3:00 pm
+            </Text>
+          </View>
+          <View>
+            <Text style={inviteStyles.textViolet}>-</Text>
+          </View>
+          <View>
+            <Text style={inviteStyles.textDark}>
+              <Text style={inviteStyles.textTitle}>Out </Text>6:00 pm
+            </Text>
+          </View>
         </View>
-        <View>
-          <Text style={inviteStyles.textViolet}>-</Text>
+        {/**/}
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '70%',
+          }}>
+          <View>
+            <Text style={inviteStyles.textDark}>
+              <Text style={inviteStyles.textTitle}>In </Text>3:00 pm
+            </Text>
+          </View>
+          <View>
+            <Text style={inviteStyles.textViolet}>-</Text>
+          </View>
+          <View>
+            <Text style={inviteStyles.textDark}>
+              <Text style={inviteStyles.textTitle}>Out </Text>6:00 pm
+            </Text>
+          </View>
         </View>
-        <View>
-          <Text style={inviteStyles.textDark}>
-            <Text style={inviteStyles.textTitle}>Out </Text>6:00 pm
-          </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '70%',
+          }}>
+          <View>
+            <Text style={inviteStyles.textDark}>
+              <Text style={inviteStyles.textTitle}>In </Text>3:00 pm
+            </Text>
+          </View>
+          <View>
+            <Text style={inviteStyles.textViolet}>-</Text>
+          </View>
+          <View>
+            <Text style={inviteStyles.textDark}>
+              <Text style={inviteStyles.textTitle}>Out </Text>6:00 pm
+            </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '70%',
+          }}>
+          <View>
+            <Text style={inviteStyles.textDark}>
+              <Text style={inviteStyles.textTitle}>In </Text>3:00 pm
+            </Text>
+          </View>
+          <View>
+            <Text style={inviteStyles.textViolet}>-</Text>
+          </View>
+          <View>
+            <Text style={inviteStyles.textDark}>
+              <Text style={inviteStyles.textTitle}>Out </Text>6:00 pm
+            </Text>
+          </View>
+        </View>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '70%',
+          }}>
+          <View>
+            <Text style={inviteStyles.textDark}>
+              <Text style={inviteStyles.textTitle}>In </Text>3:00 pm
+            </Text>
+          </View>
+          <View>
+            <Text style={inviteStyles.textViolet}>-</Text>
+          </View>
+          <View>
+            <Text style={inviteStyles.textDark}>
+              <Text style={inviteStyles.textTitle}>Out </Text>6:00 pm
+            </Text>
+          </View>
+        </View>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '70%',
+          }}>
+          <View>
+            <Text style={inviteStyles.textDark}>
+              <Text style={inviteStyles.textTitle}>In </Text>3:00 pm
+            </Text>
+          </View>
+          <View>
+            <Text style={inviteStyles.textViolet}>-</Text>
+          </View>
+          <View>
+            <Text style={inviteStyles.textDark}>
+              <Text style={inviteStyles.textTitle}>Out </Text>6:00 pm
+            </Text>
+          </View>
         </View>
       </View>
     );

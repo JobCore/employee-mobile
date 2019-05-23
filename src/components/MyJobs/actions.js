@@ -1,6 +1,7 @@
 import * as Flux from '../../shared/flux-state';
 import { getData, postData } from '../../fetch';
 import { rateEmployerValidator, clockInOutValidator } from './validators';
+import moment from 'moment';
 
 /**
  * Get shift application
@@ -144,7 +145,7 @@ const rateEmployer = (shiftId, employerId, rating, comments) => {
  * @param  {Date} startedAt
  */
 const clockIn = (shiftId, latitudeIn, longitudeIn, startedAt) => {
-  console.log('CLOCKIN', shiftId, latitudeIn, longitudeIn, startedAt);
+  console.log('CLOCKIN', shiftId, latitudeIn, longitudeIn, startedAt.format());
   try {
     clockInOutValidator(shiftId, latitudeIn, longitudeIn, startedAt);
   } catch (err) {
@@ -173,6 +174,13 @@ const clockIn = (shiftId, latitudeIn, longitudeIn, startedAt) => {
  * @param  {Date} startedAt
  */
 const clockOut = (shiftId, latitudeOut, longitudeOut, startedAt) => {
+  console.log(
+    'CLOCKOU',
+    shiftId,
+    latitudeOut,
+    longitudeOut,
+    startedAt.format(),
+  );
   try {
     clockInOutValidator(shiftId, latitudeOut, longitudeOut, startedAt);
   } catch (err) {
@@ -183,7 +191,7 @@ const clockOut = (shiftId, latitudeOut, longitudeOut, startedAt) => {
     shift: shiftId,
     latitude_out: latitudeOut,
     longitude_out: longitudeOut,
-    ended_at: startedAt,
+    ended_at: startedAt.format(),
   })
     .then((data) => {
       Flux.dispatchEvent('ClockOut', data);
@@ -213,12 +221,60 @@ const getClockins = (shiftId) => {
 export const getOpenClockIns = async () => {
   let data = null;
   try {
-    data = getData(`/employees/me/clockins?status=OPEN`);
+    data = await getData(`/employees/me/clockins?open=true`);
   } catch (error) {
     throw error;
   }
   return data;
 };
+
+export const fetchActiveShifts = async () => {
+  let data = null;
+  try {
+    data = await getData(
+      '/employees/me/shifts?approved=true&status=FILLED,OPEN',
+    );
+  } catch (err) {
+    Flux.dispatchEvent('JobStoreError', err);
+    throw err;
+  }
+  console.log(`DEBUG`, data);
+  const now = moment.utc();
+
+  const activeShift = data.find((shift) => {
+    const startingAt = moment(shift.starting_at);
+    const endingAt = moment(shift.ending_at);
+    console.log(`DEBUG`, now, startingAt, endingAt);
+    console.log(`DEBUG`, now.isBetween(startingAt, endingAt));
+    return now.isBetween(startingAt, endingAt);
+  });
+  console.log(`DEBUG`, activeShift);
+  Flux.dispatchEvent(
+    'ActiveShifts',
+    activeShift === undefined ? null : activeShift,
+  );
+  return activeShift === undefined ? null : activeShift;
+};
+
+/**
+ * Based on the clocks ins calculate the total amount of hours worked
+ * @param clockins
+ */
+export const calculateEarningsFromClockIns = (clockins) =>
+  clockins.reduce(
+    (acc, c) =>
+      acc +
+      Number(
+        moment
+          .duration(
+            moment(c.ended_at ? c.ended_at : moment().utc()).diff(
+              moment(c.started_at),
+            ),
+          )
+          .asHours(),
+      ),
+    0,
+  );
 
 export {
   getUpcomingJobs,

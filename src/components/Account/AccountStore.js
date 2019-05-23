@@ -47,13 +47,10 @@ class AccountStore extends FluxStore {
     });
 
     this.addEvent('Register');
-
     this.addEvent('PasswordReset');
-
     this.addEvent('EditProfile');
-
     this.addEvent('EditProfilePicture');
-
+    this.addEvent('ActiveShifts');
     this.addEvent('AccountStoreError', storeErrorHandler);
   }
 }

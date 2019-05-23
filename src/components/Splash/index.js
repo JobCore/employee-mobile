@@ -8,6 +8,7 @@ import * as accountActions from '../Account/actions';
 import SPLASH_IMG from '../../assets/image/splash.png';
 import { getOpenClockIns } from '../MyJobs/actions';
 import { error } from 'pure-logger';
+import WorkModeScreen from '../MyJobs/WorkModeScreen';
 
 class Splash extends Component {
   componentDidMount() {
@@ -44,6 +45,9 @@ class Splash extends Component {
     console.log(`DEBUG:openClockIns`, openClockIns);
 
     if (openClockIns.length > 0) {
+      return this.props.navigation.navigate(WorkModeScreen.name, {
+        shiftId: openClockIns[0].shift.id,
+      });
     }
 
     if (token && status && status !== 'PENDING_EMAIL_VALIDATION') {
@@ -72,7 +76,7 @@ class Splash extends Component {
 
   // Render any loading content that you like here
   render() {
-    return <ImageBackground source={SPLASH_IMG} style={styles.imgSplash}/>;
+    return <ImageBackground source={SPLASH_IMG} style={styles.imgSplash} />;
   }
 }
 

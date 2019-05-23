@@ -11,7 +11,7 @@ import {
   ListItem,
   Form,
 } from 'native-base';
-import styles from './JobPreferencesStyle';
+import preferencesStyles from './JobPreferencesStyle';
 import { BLUE_DARK, BLUE_MAIN } from '../../shared/colorPalette';
 import {
   EDIT_PROFILE_ROUTE,
@@ -159,7 +159,7 @@ class JobPreferences extends Component {
               title={t('JOB_PREFERENCES.jobPreferences')}
               onPress={this.goToEditProfile}
             />
-            <View style={styles.viewWarning}>
+            <View style={preferencesStyles.viewWarning}>
               <Text style={{ color: '#fff', textAlign: 'center' }}>
                 Your job preferences might be to narrow, the more flexible you
                 are the more job invites you will get
@@ -174,28 +174,32 @@ class JobPreferences extends Component {
                 />
               }>
               <ScrollView>
-                <View style={styles.viewButtonPosition}>
+                <View style={preferencesStyles.viewButtonPosition}>
                   <Button
                     onPress={() =>
                       this.props.navigation.navigate(POSITION_ROUTE)
                     }
                     full
                     rounded
-                    style={styles.buttonRounded}>
-                    <Text uppercase={false} style={styles.textButton}>
+                    style={preferencesStyles.buttonRounded}>
+                    <Text
+                      uppercase={false}
+                      style={preferencesStyles.textButton}>
                       {t('JOB_PREFERENCES.position')}
                     </Text>
                   </Button>
 
                   {Array.isArray(this.state.positions) ? (
-                    <View style={styles.viewPositions}>
+                    <View style={preferencesStyles.viewPositions}>
                       <Text style={{ textAlign: 'center' }}>
                         {this.state.positions.map((position, index) => {
                           const isLast =
                             index === this.state.positions.length - 1;
 
                           return (
-                            <Text style={styles.textPositions} key={index}>
+                            <Text
+                              style={preferencesStyles.textPositions}
+                              key={index}>
                               {`${position.title}${!isLast ? ', ' : ' '}`}
                             </Text>
                           );
@@ -207,23 +211,23 @@ class JobPreferences extends Component {
 
                 <FormViewPreferences>
                   <Form>
-                    <Text style={styles.sliderLabel}>
+                    <Text style={preferencesStyles.sliderLabel}>
                       {t('JOB_PREFERENCES.minimumHourlyRate')}
                     </Text>
                     <ListItem noBorder>
                       <Left>
-                        <Text style={styles.sliderMaxValue}>
+                        <Text style={preferencesStyles.sliderMaxValue}>
                           {`$${this.state.minHourly}`}
                         </Text>
                       </Left>
                       <Body>
-                        <Text style={styles.sliderValue}>
+                        <Text style={preferencesStyles.sliderValue}>
                           {`$${this.state.minimumHourlyRatePrev ||
                             this.state.minimumHourlyRate}`}
                         </Text>
                       </Body>
                       <Right>
-                        <Text style={styles.sliderMaxValue}>
+                        <Text style={preferencesStyles.sliderMaxValue}>
                           {`$${this.state.maxHourly}`}
                         </Text>
                       </Right>
@@ -242,41 +246,43 @@ class JobPreferences extends Component {
                       maximumTrackTintColor={BLUE_MAIN}
                     />
 
-                    <View style={styles.viewButtonLocation}>
+                    <View style={preferencesStyles.viewButtonLocation}>
                       <Button
                         full
                         onPress={this.editLocation}
                         rounded
-                        style={styles.buttonRounded}>
-                        <Text uppercase={false} style={styles.textButton}>
+                        style={preferencesStyles.buttonRounded}>
+                        <Text
+                          uppercase={false}
+                          style={preferencesStyles.textButton}>
                           {t('JOB_PREFERENCES.myLocation')}
                         </Text>
                       </Button>
 
                       {this.state.location ? (
-                        <Text style={styles.textLocation}>
+                        <Text style={preferencesStyles.textLocation}>
                           {`${this.state.location}`}
                         </Text>
                       ) : null}
                     </View>
 
-                    <Text style={styles.sliderLabel}>
+                    <Text style={preferencesStyles.sliderLabel}>
                       {t('JOB_PREFERENCES.maximumJobDistanceMiles')}
                     </Text>
                     <ListItem noBorder>
                       <Left>
-                        <Text style={styles.sliderMaxValue}>
+                        <Text style={preferencesStyles.sliderMaxValue}>
                           {`${this.state.minDistance}M`}
                         </Text>
                       </Left>
                       <Body>
-                        <Text style={styles.sliderValue}>
+                        <Text style={preferencesStyles.sliderValue}>
                           {`${this.state.maximumJobDistanceMilesPrev ||
                             this.state.maximumJobDistanceMiles}M`}
                         </Text>
                       </Body>
                       <Right>
-                        <Text style={styles.sliderMaxValue}>
+                        <Text style={preferencesStyles.sliderMaxValue}>
                           {`${this.state.maxDistance}M`}
                         </Text>
                       </Right>
@@ -297,21 +303,23 @@ class JobPreferences extends Component {
                   </Form>
                 </FormViewPreferences>
 
-                <View style={styles.viewButtonAvailability}>
+                <View style={preferencesStyles.viewButtonAvailability}>
                   <Button
                     onPress={() =>
                       this.props.navigation.navigate(AVAILABILITY_ROUTE)
                     }
                     full
                     rounded
-                    style={styles.buttonRounded}>
-                    <Text uppercase={false} style={styles.textButton}>
+                    style={preferencesStyles.buttonRounded}>
+                    <Text
+                      uppercase={false}
+                      style={preferencesStyles.textButton}>
                       {t('JOB_PREFERENCES.availability')}
                     </Text>
                   </Button>
 
                   {Array.isArray(this.state.availability) ? (
-                    <View style={styles.viewPositions}>
+                    <View style={preferencesStyles.viewPositions}>
                       <Text style={{ textAlign: 'center' }}>
                         {this.state.availability.map((block, index) => {
                           const isLast =
@@ -323,7 +331,9 @@ class JobPreferences extends Component {
                             : 'dddd: h:mma';
 
                           return (
-                            <Text style={styles.textPositions} key={index}>
+                            <Text
+                              style={preferencesStyles.textPositions}
+                              key={index}>
                               {`${moment(block.starting_at)
                                 .tz(moment.tz.guess())
                                 .format(dateFilter)}${

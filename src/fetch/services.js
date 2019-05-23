@@ -14,21 +14,21 @@ const API_URL = 'https://jobcore.herokuapp.com/api';
 export async function postData(url, data, isAuth = true) {
   await checkConnection();
 
-  return timeout(
-    20000,
-    fetch(`${API_URL}${url}`, {
-      body: JSON.stringify(data),
-      headers: {
-        Accept: 'application/json',
-        'Accept-Language': i18next.language,
-        'Content-Type': 'application/json',
-        Authorization: isAuth
-          ? `jwt ${accountStore.getState('Login').token}`
-          : '',
-      },
-      method: 'POST',
-    }),
-  )
+  const options = {
+    body: JSON.stringify(data),
+    headers: {
+      Accept: 'application/json',
+      'Accept-Language': i18next.language,
+      'Content-Type': 'application/json',
+      Authorization: isAuth
+        ? `jwt ${accountStore.getState('Login').token}`
+        : '',
+    },
+    method: 'POST',
+  };
+  console.log(`DEBUG:PostData:options:`, options);
+
+  return timeout(20000, fetch(`${API_URL}${url}`, options))
     .then(checkStatus)
     .then((res) => res)
     .catch((err) => Promise.reject(err));

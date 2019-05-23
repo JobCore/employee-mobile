@@ -5,21 +5,26 @@ import { headerStyles } from '../styles';
 import PropTypes from 'prop-types';
 
 const ModalHeader = ({
+  canClose = true,
   onPressClose = () => {},
   title,
   onPressHelp = () => {},
 }) => {
   return (
     <Header androidStatusBarColor={BLUE_MAIN} style={headerStyles.headerCustom}>
-      <Left>
-        <Button transparent onPress={onPressClose} title={''}>
-          <Icon
-            name="ios-close"
-            size={24}
-            style={[headerStyles.leftButtonImage]}
-          />
-        </Button>
-      </Left>
+      {canClose ? (
+        <Left>
+          <Button transparent onPress={onPressClose} title={''}>
+            <Icon
+              name="ios-close"
+              size={24}
+              style={[headerStyles.leftButtonImage]}
+            />
+          </Button>
+        </Left>
+      ) : (
+        <Left />
+      )}
       <Body>
         <Text style={[headerStyles.titleHeader]}>{title}</Text>
       </Body>
@@ -40,6 +45,7 @@ ModalHeader.propTypes = {
   title: PropTypes.string.isRequired,
   onPressClose: PropTypes.func,
   onPressHelp: PropTypes.func,
+  canClose: PropTypes.bool,
 };
 
 export { ModalHeader };

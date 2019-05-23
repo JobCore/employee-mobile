@@ -19,6 +19,7 @@ import { ClockInButton } from './components/ClockInButton';
 import { jobStyles } from './JobStyles';
 import WorkModeScreen from './WorkModeScreen';
 import { JobHours } from './components/JobHours';
+import { canClockIn, getDiffInMinutesToStartShift } from './job-utils';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -73,10 +74,13 @@ class UpcomingJobScreen extends Component {
 
   componentWillUnmount() {
     this.getJobSubscription.unsubscribe();
-    this.getJobRateSubscription.unsubscribe();
     this.clockInSubscription.unsubscribe();
     this.jobStoreError.unsubscribe();
   }
+
+  errorHandler = () => {
+    this.setState({ isLoading: false });
+  };
 
   getJobHandler = (shift) => {
     LOG(`DEBUG:getJobHandler`, shift);
@@ -113,10 +117,6 @@ class UpcomingJobScreen extends Component {
         shiftId: this.state.shift.id,
       });
     });
-  };
-
-  errorHandler = () => {
-    this.setState({ isLoading: false });
   };
 
   render() {
@@ -222,8 +222,8 @@ class UpcomingJobScreen extends Component {
         <View>
           <ClockInButton
             onClick={this.clockIn}
-            canClockIn={this.canClockIn()}
-            diffInMinutes={this.getDiffInMinutesToStartShift()}
+            canClockIn={canClockIn(this.state.shift)}
+            diffInMinutes={getDiffInMinutesToStartShift(this.state.shift)}
           />
         </View>
       </View>
@@ -250,53 +250,6 @@ class UpcomingJobScreen extends Component {
     }
 
     return false;
-  };
-
-  getDiffInMinutesToStartShift = () => {
-    if (!this.state.shift) return 0;
-    const startingAtMoment = moment(this.state.shift.starting_at);
-    const nowMoment = moment.utc();
-    return startingAtMoment.diff(nowMoment, 'minutes');
-  };
-
-  canClockIn = () => {
-    const { shift } = this.state;
-    // No shift information yet
-    if (!shift) return false;
-    console.log(`DEBUG:shift:`, shift);
-
-    const endingAtMoment = moment(shift.ending_at);
-    const startingAtMoment = moment(shift.starting_at);
-    const nowMoment = moment.utc();
-
-    console.log(`DEBUG:canClockIn:`, nowMoment.isSameOrAfter(endingAtMoment));
-    // If the shift already ended
-    if (nowMoment.isSameOrAfter(endingAtMoment)) return false;
-
-    console.log(
-      `DEBUG:canClockIn:`,
-      startingAtMoment.diff(nowMoment, 'minutes'),
-    );
-    console.log(`DEBUG:canClockIn:`, this.getDiffInMinutesToStartShift());
-    const diffInMinutesToStartShift = this.getDiffInMinutesToStartShift();
-    const maxClockInDelta =
-      shift.maximum_clockin_delta_minutes !== null
-        ? shift.maximum_clockin_delta_minutes
-        : 15;
-    console.log(`DEBUG:maxClockInDelta:`, maxClockInDelta);
-    // If the shift hasn't started and there is still not the time to clock in
-    if (
-      !shift.clockin_set.length &&
-      Math.abs(diffInMinutesToStartShift) >= maxClockInDelta
-    )
-      return false;
-
-    // If the shift already started, and there is a Pending Clock In
-    if (shift.clockin_set.length > 0)
-      if (shift.clockin_set[shift.clockin_set.length - 1].ended_at)
-        return false;
-
-    return true;
   };
 
   openMapsApp = () => {
@@ -346,13 +299,13 @@ class UpcomingJobScreen extends Component {
       {
         text: i18next.t('MY_JOBS.clockIn'),
         onPress: () => {
-          // jobActions.clockIn(
-          //   this.state.shift.id,
-          //   this.state.shift.venue.latitude,
-          //   this.state.shift.venue.longitude,
-          //   moment.utc(),
-          // );
-          // if (true) return;
+          jobActions.clockIn(
+            this.state.shift.id,
+            this.state.shift.venue.latitude,
+            this.state.shift.venue.longitude,
+            moment.utc(),
+          );
+          if (true) return;
           navigator.geolocation.getCurrentPosition(
             (data) => {
               log(`DEBUG:clockin:`, this.state.shift.id);
