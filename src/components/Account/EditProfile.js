@@ -112,7 +112,7 @@ class EditProfile extends Component {
       <I18n>
         {(t) => (
           <Container>
-            {this.state.isLoading ? <Loading/> : null}
+            {this.state.isLoading ? <Loading /> : null}
 
             <TabHeader
               title={t('EDIT_PROFILE.editProfile')}
@@ -128,8 +128,8 @@ class EditProfile extends Component {
                         this.state.selectedImage && this.state.selectedImage.uri
                           ? { uri: this.state.selectedImage.uri }
                           : this.state.picture
-                          ? { uri: this.state.picture }
-                          : PROFILE_IMG
+                            ? { uri: this.state.picture }
+                            : PROFILE_IMG
                       }
                     />
                     <View style={profileStyles.viewCameraCircle}>
@@ -143,7 +143,10 @@ class EditProfile extends Component {
 
                 <View>
                   <Form>
-                    <Item style={editProfileStyles.viewInput} inlineLabel rounded>
+                    <Item
+                      style={editProfileStyles.viewInput}
+                      inlineLabel
+                      rounded>
                       <Label>{t('REGISTER.firstName')}</Label>
                       <Input
                         value={this.state.firstName}
@@ -153,7 +156,10 @@ class EditProfile extends Component {
                         }
                       />
                     </Item>
-                    <Item style={editProfileStyles.viewInput} inlineLabel rounded>
+                    <Item
+                      style={editProfileStyles.viewInput}
+                      inlineLabel
+                      rounded>
                       <Label>{t('REGISTER.lastName')}</Label>
                       <Input
                         value={this.state.lastName}

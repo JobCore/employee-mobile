@@ -162,8 +162,8 @@ class ApplicationDetailScreen extends Component {
       const dateString =
         from === to
           ? from === todayString
-          ? 'Today'
-          : from
+            ? 'Today'
+            : from
           : `${from} to ${to}`;
       const fromTime = startingAtMoment.format('h A');
       const toTime = endingAtMoment.format('h A');
@@ -187,13 +187,12 @@ class ApplicationDetailScreen extends Component {
                 timeString={timeString}
                 addressString={address}
                 onPressDirection={
-                  this.showOpenDirection() ? this.openMapsApp : () => {
-                  }
+                  this.showOpenDirection() ? this.openMapsApp : () => {}
                 }
               />
             </View>
             <View style={{ flex: 5 }}>
-              <JobHours price={price} hours={hours}/>
+              <JobHours price={price} hours={hours} />
             </View>
             <View style={{ flex: 16 }}>
               <MapView
@@ -222,9 +221,7 @@ class ApplicationDetailScreen extends Component {
                 )}
               </MapView>
             </View>
-            <View style={{ flex: 2 }}>
-              {this.renderButtons()}
-            </View>
+            <View style={{ flex: 2 }}>{this.renderButtons()}</View>
           </ViewFlex>
         </>
       );
@@ -234,7 +231,7 @@ class ApplicationDetailScreen extends Component {
       <I18n>
         {(t) => (
           <Container>
-            {isLoading ? <Loading/> : renderDetail(t, shift)}
+            {isLoading ? <Loading /> : renderDetail(t, shift)}
           </Container>
         )}
       </I18n>

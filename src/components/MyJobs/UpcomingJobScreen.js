@@ -134,8 +134,8 @@ class UpcomingJobScreen extends Component {
       const dateString =
         from === to
           ? from === todayString
-          ? 'Today'
-          : from
+            ? 'Today'
+            : from
           : `${from} to ${to}`;
       const fromTime = startingAtMoment.format('h A');
       const toTime = endingAtMoment.format('h A');
@@ -159,13 +159,12 @@ class UpcomingJobScreen extends Component {
                 timeString={timeString}
                 addressString={address}
                 onPressDirection={
-                  this.showOpenDirection() ? this.openMapsApp : () => {
-                  }
+                  this.showOpenDirection() ? this.openMapsApp : () => {}
                 }
               />
             </View>
             <View style={{ flex: 5 }}>
-              <JobHours price={price} hours={hours}/>
+              <JobHours price={price} hours={hours} />
             </View>
             <View style={{ flex: 16 }}>
               <MapView
@@ -194,9 +193,7 @@ class UpcomingJobScreen extends Component {
                 )}
               </MapView>
             </View>
-            <View style={{ flex: 3 }}>
-              {this.renderButtons()}
-            </View>
+            <View style={{ flex: 3 }}>{this.renderButtons()}</View>
           </ViewFlex>
         </>
       );
@@ -206,7 +203,7 @@ class UpcomingJobScreen extends Component {
       <I18n>
         {(t) => (
           <Container>
-            {isLoading ? <Loading/> : renderDetail(t, shift)}
+            {isLoading ? <Loading /> : renderDetail(t, shift)}
           </Container>
         )}
       </I18n>

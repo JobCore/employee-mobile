@@ -62,7 +62,7 @@ class Splash extends Component {
 
   // Render any loading content that you like here
   render() {
-    return <ImageBackground source={SPLASH_IMG} style={styles.imgSplash}/>;
+    return <ImageBackground source={SPLASH_IMG} style={styles.imgSplash} />;
   }
 }
 

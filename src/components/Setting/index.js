@@ -94,7 +94,7 @@ class SettingScreen extends Component {
       <I18n>
         {(t) => (
           <Container>
-            {this.state.isLoading ? <Loading/> : null}
+            {this.state.isLoading ? <Loading /> : null}
 
             <Header
               androidStatusBarColor={BLUE_MAIN}
@@ -115,7 +115,7 @@ class SettingScreen extends Component {
                   {t('SETTINGS.settings')}
                 </Title>
               </Body>
-              <Right/>
+              <Right />
             </Header>
             <Content>
               <FormView>
@@ -133,13 +133,13 @@ class SettingScreen extends Component {
                     <Label style={styles.labelForm}>
                       {t('SETTINGS.lastName')}
                     </Label>
-                    <Input editable={false} value={this.state.user.last_name}/>
+                    <Input editable={false} value={this.state.user.last_name} />
                   </Item>
                   <Item style={styles.viewInput} inlineLabel rounded>
                     <Label style={styles.labelForm}>
                       {t('SETTINGS.email')}
                     </Label>
-                    <Input editable={false} value={this.state.user.email}/>
+                    <Input editable={false} value={this.state.user.email} />
                   </Item>
                 </Form>
                 <TouchableOpacity

@@ -31,12 +31,14 @@ import { fetchNarrowPreferences } from './actions';
 import EditProfile from '../Account/EditProfile';
 
 function NarrowPreferencesMessage() {
-  return <View style={preferencesStyles.viewWarning}>
-    <Text style={{ color: '#fff', textAlign: 'center' }}>
-      Your job preferences might be to narrow, the more flexible you
-      are the more job invites you will get.
-    </Text>
-  </View>;
+  return (
+    <View style={preferencesStyles.viewWarning}>
+      <Text style={{ color: '#fff', textAlign: 'center' }}>
+        Your job preferences might be to narrow, the more flexible you are the
+        more job invites you will get.
+      </Text>
+    </View>
+  );
 }
 
 class JobPreferences extends Component {
@@ -101,7 +103,10 @@ class JobPreferences extends Component {
     this.inviteStoreError = inviteStore.subscribe('InviteStoreError', (err) =>
       this.errorHandler(err),
     );
-    this.narrowPreferencesSubscription = inviteStore.subscribe('NarrowPreferences', (state) => this.setState({ narrowPreferences: state }));
+    this.narrowPreferencesSubscription = inviteStore.subscribe(
+      'NarrowPreferences',
+      (state) => this.setState({ narrowPreferences: state }),
+    );
     this.firstLoad();
   }
 
@@ -162,12 +167,18 @@ class JobPreferences extends Component {
 
   render() {
     let hasTooNarrowPreferences = false;
-    const { narrowPreferences, maximumJobDistanceMiles, minimumHourlyRate } = this.state;
+    const {
+      narrowPreferences,
+      maximumJobDistanceMiles,
+      minimumHourlyRate,
+    } = this.state;
     if (narrowPreferences !== null) {
       console.log(`DEBUG:`, narrowPreferences);
       console.log(`DEBUG:`, this.state);
       // { minimum_availability_hours: 20, minimum_job_positions: 1}
-      if (maximumJobDistanceMiles <= narrowPreferences.minimum_job_distance_miles)
+      if (
+        maximumJobDistanceMiles <= narrowPreferences.minimum_job_distance_miles
+      )
         hasTooNarrowPreferences = true;
 
       if (minimumHourlyRate >= narrowPreferences.maximum_hourly_rate)
@@ -175,24 +186,25 @@ class JobPreferences extends Component {
 
       const hours = this.state.availability.reduce((acc, block) => {
         if (block.allday) return acc + 8;
-        return acc + moment(block.starting_at).diff(moment(block.ending_at), 'hours');
+        return (
+          acc + moment(block.starting_at).diff(moment(block.ending_at), 'hours')
+        );
       }, 0);
       console.log(`DEBUG:hours`, hours);
 
       if (hours <= narrowPreferences.minimum_availability_hours)
         hasTooNarrowPreferences = true;
-
     }
     return (
       <I18n>
         {(t) => (
           <Container>
-            {this.state.isLoading ? <Loading/> : null}
+            {this.state.isLoading ? <Loading /> : null}
             <TabHeader
               title={t('JOB_PREFERENCES.jobPreferences')}
               onPress={this.goToEditProfile}
             />
-            {hasTooNarrowPreferences && <NarrowPreferencesMessage/>}
+            {hasTooNarrowPreferences && <NarrowPreferencesMessage />}
             <Content
               padder
               refreshControl={
@@ -249,7 +261,7 @@ class JobPreferences extends Component {
                       <Body>
                         <Text style={preferencesStyles.sliderValue}>
                           {`$${this.state.minimumHourlyRatePrev ||
-                          this.state.minimumHourlyRate}`}
+                            this.state.minimumHourlyRate}`}
                         </Text>
                       </Body>
                       <Right>
@@ -304,7 +316,7 @@ class JobPreferences extends Component {
                       <Body>
                         <Text style={preferencesStyles.sliderValue}>
                           {`${this.state.maximumJobDistanceMilesPrev ||
-                          this.state.maximumJobDistanceMiles}M`}
+                            this.state.maximumJobDistanceMiles}M`}
                         </Text>
                       </Body>
                       <Right>
@@ -347,7 +359,8 @@ class JobPreferences extends Component {
                   <View style={preferencesStyles.viewPositions}>
                     <Text style={{ textAlign: 'center' }}>
                       {this.state.availability.map((block, index) => {
-                        const isLast = index === this.state.availability.length - 1;
+                        const isLast =
+                          index === this.state.availability.length - 1;
                         const dateFilter = block.allday
                           ? 'dddd: '
                           : 'dddd: h:mma';
@@ -360,7 +373,7 @@ class JobPreferences extends Component {
                               .tz(moment.tz.guess())
                               .format(dateFilter)}${
                               block.allday ? t('JOB_PREFERENCES.allday') : ''
-                              }${!isLast ? ', ' : ' '}`}
+                            }${!isLast ? ', ' : ' '}`}
                           </Text>
                         );
                       })}

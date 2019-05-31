@@ -179,6 +179,6 @@ const prefix = 'https://talent.jobcore.co/';
 
 export default () => (
   <Root>
-    <SwitchNavigator uriPrefix={prefix}/>
+    <SwitchNavigator uriPrefix={prefix} />
   </Root>
 );

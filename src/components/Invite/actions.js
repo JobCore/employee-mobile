@@ -88,7 +88,6 @@ const getJobPreferences = () => {
     });
 };
 
-
 export const fetchNarrowPreferences = async () => {
   let data = null;
   try {

@@ -159,10 +159,10 @@ class MyJobs extends Component {
       <I18n>
         {(t) => (
           <Container>
-            {this.state.isLoading ? <Loading/> : null}
+            {this.state.isLoading ? <Loading /> : null}
 
             {this.state.showNoJobsText ? (
-              <CenteredText text={`${t('MY_JOBS.noJobs')}`}/>
+              <CenteredText text={`${t('MY_JOBS.noJobs')}`} />
             ) : null}
 
             <TabHeader
@@ -207,10 +207,10 @@ class MyJobs extends Component {
                         this.state.jobFilterSelected === filter.action
                           ? 'buttonActive'
                           : 'buttonInactive'
-                        ],
+                      ],
                       index === 0 ? styles.firstButtonBorderLeft : {},
                     ]}>
-                    <View style={styles[filter.style]}/>
+                    <View style={styles[filter.style]} />
                   </Button>
                 ))
                 : null}
@@ -238,11 +238,11 @@ class MyJobs extends Component {
               {Array.isArray(this.state.jobs)
                 ? this.state.jobs.map((job, index, array) => {
                   const showDate =
-                    index === 0 ||
-                    !equalMonthAndYear(
-                      array[index].starting_at,
-                      array[index - 1].starting_at,
-                    );
+                      index === 0 ||
+                      !equalMonthAndYear(
+                        array[index].starting_at,
+                        array[index - 1].starting_at,
+                      );
 
                   return (
                     <View key={index}>
@@ -321,12 +321,20 @@ class MyJobs extends Component {
   goToJobDetails = (job) => {
     log('goToJobDetails', job);
     if (!job) return;
-    if (!(job.applicationId === null || job.applicationId === undefined || job.applicationId === '')) {
+    if (
+      !(
+        job.applicationId === null ||
+        job.applicationId === undefined ||
+        job.applicationId === ''
+      )
+    ) {
       return this.props.navigation.navigate(ApplicationDetailScreen.routeName, {
         applicationId: job.applicationId,
       });
     }
-    this.props.navigation.navigate(UpcomingJobScreen.routeName, { shiftId: job.id });
+    this.props.navigation.navigate(UpcomingJobScreen.routeName, {
+      shiftId: job.id,
+    });
   };
 
   isLoading = (isLoading) => {

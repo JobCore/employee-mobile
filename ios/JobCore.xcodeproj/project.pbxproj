@@ -754,6 +754,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = GMA9CVBJW8;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -768,7 +769,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "JobCore" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "jobcore" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1327,6 +1328,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = jobcore/jobcore.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = jobcore/jobcore.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=iphonesimulator*]" = jobcore/jobcore.entitlements;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = GMA9CVBJW8;
@@ -1344,6 +1348,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.jobcore.talent;
 				PRODUCT_NAME = jobcore;
+				PROVISIONING_PROFILE_SPECIFIER = Alejandro;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1354,6 +1359,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = jobcore/jobcore.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = jobcore/jobcore.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=iphonesimulator*]" = jobcore/jobcore.entitlements;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GMA9CVBJW8;
 				HEADER_SEARCH_PATHS = (
@@ -1370,6 +1378,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.jobcore.talent;
 				PRODUCT_NAME = jobcore;
+				PROVISIONING_PROFILE_SPECIFIER = Alejandro;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -1494,7 +1503,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "JobCore" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "jobcore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
