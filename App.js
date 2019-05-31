@@ -14,14 +14,12 @@ YellowBox.ignoreWarnings([
 ]);
 
 import { Root } from 'native-base';
-
 import LoginScreen from './src/components/Account/LoginScreen';
 import RegisterScreen from './src/components/Account/RegisterScreen';
 import EditProfile from './src/components/Account/EditProfile';
 import ForgotScreen from './src/components/Account/ForgotScreen';
 import ChangePassword from './src/components/Account/ChangePassword';
 import Profile from './src/components/Account/Profile';
-
 import DashboardScreen from './src/components/Dashboard';
 import JobInvites from './src/components/Invite/JobInvites';
 import InviteDetailsV2 from './src/components/Invite/InviteDetailsV2';
@@ -30,7 +28,6 @@ import Position from './src/components/Invite/Position';
 import Availability from './src/components/Invite/Availability';
 import MyJobs from './src/components/MyJobs';
 import RateEmployer from './src/components/MyJobs/RateEmployer';
-import JobDetailsScreen from './src/components/MyJobs/JobDetailsScreen';
 import UpcomingJobScreen from './src/components/MyJobs/UpcomingJobScreen';
 import JobDetailsNewOneScreen from './src/components/MyJobs/WorkModeScreen';
 import JobDetailsNewTwoScreen from './src/components/MyJobs/JobDetailsNewTwo';
@@ -53,8 +50,6 @@ import {
   RESET_ROUTE,
   AVAILABILITY_ROUTE,
   INVITE_DETAILS_ROUTE_V2,
-  EDIT_PROFILE_ROUTE,
-  PROFILE_ROUTE,
   POSITION_ROUTE,
   EDIT_LOCATION_ROUTE,
   RATE_EMPLOYER_ROUTE,
@@ -72,12 +67,11 @@ import {
 } from './src/shared/colorPalette';
 
 import SettingScreen from './src/components/Setting';
-
 import Splash from './src/components/Splash';
 import EditLocation from './src/components/Invite/EditLocation';
 import ApplicationDetailScreen from './src/components/MyJobs/ApplicationDetailScreen';
 
-window.DEBUG = true;
+window.DEBUG = false;
 
 export const AuthStack = createStackNavigator({
   [LOGIN_ROUTE]: {
@@ -97,7 +91,7 @@ export const Tabs = createBottomTabNavigator(
     [JOB_INVITES_ROUTE]: { screen: JobInvites },
     [JOB_PREFERENCES_ROUTE]: { screen: JobPreferences },
     [MYJOBS_ROUTE]: { screen: MyJobs },
-    [PROFILE_ROUTE]: { screen: EditProfile },
+    [EditProfile.routeName]: { screen: EditProfile },
   },
   {
     tabBarPosition: 'bottom',
@@ -128,8 +122,8 @@ export const AppStack = createStackNavigator(
     ['Tabs']: Tabs,
     [SETTING_ROUTE]: SettingScreen,
     [RESET_ROUTE]: ChangePassword,
-    [EDIT_PROFILE_ROUTE]: EditProfile,
-    [PROFILE_ROUTE]: Profile,
+    [EditProfile.routeName]: EditProfile,
+    [Profile.routeName]: Profile,
     [EDIT_LOCATION_ROUTE]: EditLocation,
     [AVAILABILITY_ROUTE]: Availability,
     [POSITION_ROUTE]: Position,
@@ -143,11 +137,11 @@ export const AppStack = createStackNavigator(
       screen: InviteDetailsV2,
       path: 'invite/:inviteId',
     },
-    [UpcomingJobScreen.name]: {
+    [UpcomingJobScreen.routeName]: {
       screen: UpcomingJobScreen,
       path: 'shift/:shiftId',
     },
-    [WorkModeScreen.name]: {
+    [WorkModeScreen.routeName]: {
       screen: WorkModeScreen,
     },
     [JOB_DETAILS_NEW_ONE_ROUTE]: {
@@ -162,7 +156,7 @@ export const AppStack = createStackNavigator(
     [JOB_PENDING_PAYMENTS_ROUTE]: {
       screen: JobPendingPaymentScreen,
     },
-    [ApplicationDetailScreen.name]: {
+    [ApplicationDetailScreen.routeName]: {
       screen: ApplicationDetailScreen,
       path: 'application/:applicationId',
     },
@@ -185,6 +179,6 @@ const prefix = 'https://talent.jobcore.co/';
 
 export default () => (
   <Root>
-    <SwitchNavigator uriPrefix={prefix} />
+    <SwitchNavigator uriPrefix={prefix}/>
   </Root>
 );

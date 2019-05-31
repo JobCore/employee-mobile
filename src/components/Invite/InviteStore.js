@@ -22,18 +22,13 @@ class InviteStore extends FluxStore {
     });
 
     this.addEvent('ApplyJob');
-
     this.addEvent('RejectJob');
-
     this.addEvent('GetPositions');
-
     this.addEvent('GetJobPreferences');
-
     this.addEvent('EditJobPreferences');
-
     this.addEvent('StopReceivingInvites');
-
     this.addEvent('EditPositions');
+    this.addEvent('NarrowPreferences');
 
     /**
      * Get availability list event, order array by starting_at date

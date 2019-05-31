@@ -41,7 +41,7 @@ export default StyleSheet.create({
   viewButtomLogin: {
     marginBottom: 0,
     borderRadius: 50,
-    height: 55,
+    height: 45,
     backgroundColor: BLUE_DARK,
   },
   viewButtomSignUp: {
@@ -96,7 +96,7 @@ export default StyleSheet.create({
   },
   viewInput: {
     backgroundColor: 'transparent',
-    height: 55,
+    height: 40,
     width: '100%',
     borderColor: BLUE_MAIN,
     color: BLUE_DARK,

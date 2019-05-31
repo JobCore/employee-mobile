@@ -66,7 +66,7 @@ const rejectJob = (inviteId) => {
  * List positions action
  */
 const getPositions = () => {
-  getData('/positions')
+  return getData('/positions')
     .then((positions) => {
       Flux.dispatchEvent('GetPositions', positions);
     })
@@ -79,13 +79,26 @@ const getPositions = () => {
  * Get Job Preferences action
  */
 const getJobPreferences = () => {
-  getData('/employees/me')
+  return getData('/employees/me')
     .then((jobPreferences) => {
       Flux.dispatchEvent('GetJobPreferences', jobPreferences);
     })
     .catch((err) => {
       Flux.dispatchEvent('InviteStoreError', err);
     });
+};
+
+
+export const fetchNarrowPreferences = async () => {
+  let data = null;
+  try {
+    data = await getData('/catalog/narrow-preferences');
+  } catch (err) {
+    Flux.dispatchEvent('InviteStoreError', err);
+    throw err;
+  }
+  Flux.dispatchEvent('NarrowPreferences', data);
+  return data;
 };
 
 /**
@@ -231,7 +244,7 @@ const saveLocation = (location) => {
  * get profile action, to get user's location and public profile
  */
 const getProfile = () => {
-  getData(`/profiles/me`)
+  return getData(`/profiles/me`)
     .then((data) => {
       Flux.dispatchEvent('GetProfile', data);
     })

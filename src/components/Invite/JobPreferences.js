@@ -14,7 +14,6 @@ import {
 import preferencesStyles from './JobPreferencesStyle';
 import { BLUE_DARK, BLUE_MAIN } from '../../shared/colorPalette';
 import {
-  EDIT_PROFILE_ROUTE,
   AVAILABILITY_ROUTE,
   POSITION_ROUTE,
   EDIT_LOCATION_ROUTE,
@@ -28,6 +27,17 @@ import { CustomToast, Loading } from '../../shared/components';
 import { LOG } from '../../shared';
 import moment from 'moment';
 import { TabHeader } from '../../shared/components/TabHeader';
+import { fetchNarrowPreferences } from './actions';
+import EditProfile from '../Account/EditProfile';
+
+function NarrowPreferencesMessage() {
+  return <View style={preferencesStyles.viewWarning}>
+    <Text style={{ color: '#fff', textAlign: 'center' }}>
+      Your job preferences might be to narrow, the more flexible you
+      are the more job invites you will get.
+    </Text>
+  </View>;
+}
 
 class JobPreferences extends Component {
   static navigationOptions = {
@@ -59,6 +69,7 @@ class JobPreferences extends Component {
       minDistance: 10,
       maxDistance: 100,
       availableOnWeekends: false,
+      narrowPreferences: null,
     };
   }
 
@@ -90,7 +101,7 @@ class JobPreferences extends Component {
     this.inviteStoreError = inviteStore.subscribe('InviteStoreError', (err) =>
       this.errorHandler(err),
     );
-
+    this.narrowPreferencesSubscription = inviteStore.subscribe('NarrowPreferences', (state) => this.setState({ narrowPreferences: state }));
     this.firstLoad();
   }
 
@@ -102,6 +113,7 @@ class JobPreferences extends Component {
     this.getLocationSubscription.unsubscribe();
     this.saveLocationSubscription.unsubscribe();
     this.inviteStoreError.unsubscribe();
+    this.narrowPreferencesSubscription.unsubscribe();
   }
 
   getPositionsHandler = (positionList) => {
@@ -145,26 +157,42 @@ class JobPreferences extends Component {
   };
 
   goToEditProfile = () => {
-    this.props.navigation.navigate(EDIT_PROFILE_ROUTE);
+    this.props.navigation.navigate(EditProfile.routeName);
   };
 
   render() {
+    let hasTooNarrowPreferences = false;
+    const { narrowPreferences, maximumJobDistanceMiles, minimumHourlyRate } = this.state;
+    if (narrowPreferences !== null) {
+      console.log(`DEBUG:`, narrowPreferences);
+      console.log(`DEBUG:`, this.state);
+      // { minimum_availability_hours: 20, minimum_job_positions: 1}
+      if (maximumJobDistanceMiles <= narrowPreferences.minimum_job_distance_miles)
+        hasTooNarrowPreferences = true;
+
+      if (minimumHourlyRate >= narrowPreferences.maximum_hourly_rate)
+        hasTooNarrowPreferences = true;
+
+      const hours = this.state.availability.reduce((acc, block) => {
+        if (block.allday) return acc + 8;
+        return acc + moment(block.starting_at).diff(moment(block.ending_at), 'hours');
+      }, 0);
+      console.log(`DEBUG:hours`, hours);
+
+      if (hours <= narrowPreferences.minimum_availability_hours)
+        hasTooNarrowPreferences = true;
+
+    }
     return (
       <I18n>
         {(t) => (
           <Container>
-            {this.state.isLoading ? <Loading /> : null}
-
+            {this.state.isLoading ? <Loading/> : null}
             <TabHeader
               title={t('JOB_PREFERENCES.jobPreferences')}
               onPress={this.goToEditProfile}
             />
-            <View style={preferencesStyles.viewWarning}>
-              <Text style={{ color: '#fff', textAlign: 'center' }}>
-                Your job preferences might be to narrow, the more flexible you
-                are the more job invites you will get
-              </Text>
-            </View>
+            {hasTooNarrowPreferences && <NarrowPreferencesMessage/>}
             <Content
               padder
               refreshControl={
@@ -189,24 +217,22 @@ class JobPreferences extends Component {
                     </Text>
                   </Button>
 
-                  {Array.isArray(this.state.positions) ? (
-                    <View style={preferencesStyles.viewPositions}>
-                      <Text style={{ textAlign: 'center' }}>
-                        {this.state.positions.map((position, index) => {
-                          const isLast =
-                            index === this.state.positions.length - 1;
+                  <View style={preferencesStyles.viewPositions}>
+                    <Text style={{ textAlign: 'center' }}>
+                      {this.state.positions.map((position, index) => {
+                        const isLast =
+                          index === this.state.positions.length - 1;
 
-                          return (
-                            <Text
-                              style={preferencesStyles.textPositions}
-                              key={index}>
-                              {`${position.title}${!isLast ? ', ' : ' '}`}
-                            </Text>
-                          );
-                        })}
-                      </Text>
-                    </View>
-                  ) : null}
+                        return (
+                          <Text
+                            style={preferencesStyles.textPositions}
+                            key={index}>
+                            {`${position.title}${!isLast ? ', ' : ' '}`}
+                          </Text>
+                        );
+                      })}
+                    </Text>
+                  </View>
                 </View>
 
                 <FormViewPreferences>
@@ -223,7 +249,7 @@ class JobPreferences extends Component {
                       <Body>
                         <Text style={preferencesStyles.sliderValue}>
                           {`$${this.state.minimumHourlyRatePrev ||
-                            this.state.minimumHourlyRate}`}
+                          this.state.minimumHourlyRate}`}
                         </Text>
                       </Body>
                       <Right>
@@ -278,7 +304,7 @@ class JobPreferences extends Component {
                       <Body>
                         <Text style={preferencesStyles.sliderValue}>
                           {`${this.state.maximumJobDistanceMilesPrev ||
-                            this.state.maximumJobDistanceMiles}M`}
+                          this.state.maximumJobDistanceMiles}M`}
                         </Text>
                       </Body>
                       <Right>
@@ -318,33 +344,28 @@ class JobPreferences extends Component {
                     </Text>
                   </Button>
 
-                  {Array.isArray(this.state.availability) ? (
-                    <View style={preferencesStyles.viewPositions}>
-                      <Text style={{ textAlign: 'center' }}>
-                        {this.state.availability.map((block, index) => {
-                          const isLast =
-                            index === this.state.availability.length - 1
-                              ? true
-                              : false;
-                          const dateFilter = block.allday
-                            ? 'dddd: '
-                            : 'dddd: h:mma';
+                  <View style={preferencesStyles.viewPositions}>
+                    <Text style={{ textAlign: 'center' }}>
+                      {this.state.availability.map((block, index) => {
+                        const isLast = index === this.state.availability.length - 1;
+                        const dateFilter = block.allday
+                          ? 'dddd: '
+                          : 'dddd: h:mma';
 
-                          return (
-                            <Text
-                              style={preferencesStyles.textPositions}
-                              key={index}>
-                              {`${moment(block.starting_at)
-                                .tz(moment.tz.guess())
-                                .format(dateFilter)}${
-                                block.allday ? t('JOB_PREFERENCES.allday') : ''
+                        return (
+                          <Text
+                            style={preferencesStyles.textPositions}
+                            key={index}>
+                            {`${moment(block.starting_at)
+                              .tz(moment.tz.guess())
+                              .format(dateFilter)}${
+                              block.allday ? t('JOB_PREFERENCES.allday') : ''
                               }${!isLast ? ', ' : ' '}`}
-                            </Text>
-                          );
-                        })}
-                      </Text>
-                    </View>
-                  ) : null}
+                          </Text>
+                        );
+                      })}
+                    </Text>
+                  </View>
                 </View>
               </ScrollView>
             </Content>
@@ -356,10 +377,12 @@ class JobPreferences extends Component {
 
   firstLoad = () => {
     this.setState({ isLoading: true }, () => {
-      this.getPositions();
-      this.getJobPreferences();
-      this.getAvailability();
-      this.getProfile();
+      const promises = [];
+      promises.push(inviteActions.getPositions());
+      promises.push(inviteActions.getJobPreferences());
+      promises.push(inviteActions.getAvailability());
+      promises.push(inviteActions.getProfile());
+      Promise.all(promises).then(() => fetchNarrowPreferences());
     });
   };
 

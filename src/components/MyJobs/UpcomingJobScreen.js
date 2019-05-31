@@ -33,16 +33,16 @@ const DEFAULT_LONGITUDE = -80.191788;
  *
  */
 class UpcomingJobScreen extends Component {
-  static navigationOptions = {
-    header: null,
-    tabBarLabel: i18next.t('JOB_INVITES.inviteDetails'),
-    tabBarIcon: () => (
-      <Image
-        style={{ resizeMode: 'contain', height: 30 }}
-        source={require('../../assets/image/preferences.png')}
-      />
-    ),
-  };
+  // static navigationOptions = {
+  //   header: null,
+  //   tabBarLabel: i18next.t('JOB_INVITES.inviteDetails'),
+  //   tabBarIcon: () => (
+  //     <Image
+  //       style={{ resizeMode: 'contain', height: 30 }}
+  //       source={require('../../assets/image/preferences.png')}
+  //     />
+  //   ),
+  // };
 
   constructor(props) {
     super(props);
@@ -113,7 +113,7 @@ class UpcomingJobScreen extends Component {
     this.setState({ isLoading: false }, () => {
       CustomToast(i18next.t('MY_JOBS.clockedIn'));
       // We move to work mode
-      this.props.navigation.navigate(WorkModeScreen.name, {
+      this.props.navigation.navigate(WorkModeScreen.routeName, {
         shiftId: this.state.shift.id,
       });
     });
@@ -134,8 +134,8 @@ class UpcomingJobScreen extends Component {
       const dateString =
         from === to
           ? from === todayString
-            ? 'Today'
-            : from
+          ? 'Today'
+          : from
           : `${from} to ${to}`;
       const fromTime = startingAtMoment.format('h A');
       const toTime = endingAtMoment.format('h A');
@@ -151,7 +151,7 @@ class UpcomingJobScreen extends Component {
             onPressHelp={() => this.props.navigation.goBack()}
           />
           <ViewFlex justifyContent={'space-between'}>
-            <View style={{ flex: 3 }}>
+            <View style={{ flex: 9 }}>
               <JobHeader
                 clientName={venue.title}
                 positionName={shift.position.title}
@@ -159,14 +159,15 @@ class UpcomingJobScreen extends Component {
                 timeString={timeString}
                 addressString={address}
                 onPressDirection={
-                  this.showOpenDirection() ? this.openMapsApp : () => {}
+                  this.showOpenDirection() ? this.openMapsApp : () => {
+                  }
                 }
               />
             </View>
-            <View style={{ flex: 2 }}>
-              <JobHours price={price} hours={hours} />
+            <View style={{ flex: 5 }}>
+              <JobHours price={price} hours={hours}/>
             </View>
-            <View style={{ flex: 4 }}>
+            <View style={{ flex: 16 }}>
               <MapView
                 style={inviteStyles.map}
                 region={this.state.region}
@@ -193,7 +194,9 @@ class UpcomingJobScreen extends Component {
                 )}
               </MapView>
             </View>
-            {this.renderButtons()}
+            <View style={{ flex: 3 }}>
+              {this.renderButtons()}
+            </View>
           </ViewFlex>
         </>
       );
@@ -203,7 +206,7 @@ class UpcomingJobScreen extends Component {
       <I18n>
         {(t) => (
           <Container>
-            {isLoading ? <Loading /> : renderDetail(t, shift)}
+            {isLoading ? <Loading/> : renderDetail(t, shift)}
           </Container>
         )}
       </I18n>
@@ -274,7 +277,8 @@ class UpcomingJobScreen extends Component {
   getJob = () => {
     LOG(`DEBUG: getJob`, this.state);
     if (!this.state.shiftId && !this.state.applicationId) {
-      return this.props.navigation.goBack();
+      Alert.alert('Upcoming Job Screen Error', JSON.stringify(this.state));
+      return;
     }
 
     if (this.state.shiftId) {
@@ -367,5 +371,7 @@ class UpcomingJobScreen extends Component {
     ]);
   };
 }
+
+UpcomingJobScreen.routeName = 'UpcomingJobScreen';
 
 export default UpcomingJobScreen;

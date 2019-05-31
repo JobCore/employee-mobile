@@ -13,7 +13,6 @@ import {
 } from 'native-base';
 import { inviteStyles } from './JobInvitesStyle';
 import {
-  EDIT_PROFILE_ROUTE,
   INVITE_DETAILS_ROUTE_V2,
 } from '../../constants/routes';
 import * as inviteActions from './actions';
@@ -25,6 +24,7 @@ import { i18next } from '../../i18n';
 import moment from 'moment';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import { TabHeader } from '../../shared/components/TabHeader';
+import EditProfile from '../Account/EditProfile';
 
 /**
  * The Job Invites View
@@ -116,7 +116,7 @@ class JobInvites extends Component {
   };
 
   goToEditProfile = () => {
-    this.props.navigation.navigate(EDIT_PROFILE_ROUTE);
+    this.props.navigation.navigate(EditProfile.routeName);
   };
 
   render() {
@@ -124,10 +124,10 @@ class JobInvites extends Component {
       <I18n>
         {(t) => (
           <Container>
-            {this.state.isLoading ? <Loading /> : null}
+            {this.state.isLoading ? <Loading/> : null}
 
             {this.state.showNoInvitesText ? (
-              <CenteredText text={`${t('JOB_INVITES.noInvites')}`} />
+              <CenteredText text={`${t('JOB_INVITES.noInvites')}`}/>
             ) : null}
 
             <TabHeader
@@ -205,7 +205,7 @@ class JobInvites extends Component {
                   <Button
                     style={inviteStyles.buttomApply}
                     onPress={() => this.applyJob(data, secId, rowId, rowMap)}>
-                    <Icon active name="md-checkmark" />
+                    <Icon active name="md-checkmark"/>
                   </Button>
                 )}
                 renderRightHiddenRow={(data, secId, rowId, rowMap) => (
@@ -214,7 +214,7 @@ class JobInvites extends Component {
                     full
                     danger
                     onPress={() => this.rejectJob(data, secId, rowId, rowMap)}>
-                    <Icon active name="md-close" />
+                    <Icon active name="md-close"/>
                   </Button>
                 )}
               />
@@ -316,7 +316,7 @@ class JobInvites extends Component {
     try {
       this.state.rowMap[
         `${this.state.secId}${this.state.rowId}`
-      ].props.closeRow();
+        ].props.closeRow();
 
       const newData = [...this.state.jobInvites];
       newData.splice(this.state.rowId, 1);

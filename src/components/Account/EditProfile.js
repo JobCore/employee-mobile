@@ -12,7 +12,7 @@ import {
   Textarea,
   Container,
 } from 'native-base';
-import styles from './EditProfileStyle';
+import editProfileStyles from './EditProfileStyle';
 import profileStyles from './ProfileStyle';
 import * as actions from './actions';
 import accountStore from './AccountStore';
@@ -26,6 +26,8 @@ import PROFILE_IMG from '../../assets/image/profile.png';
 import { GRAY_MAIN, BG_GRAY_LIGHT } from '../../shared/colorPalette';
 import { TabHeader } from '../../shared/components/TabHeader';
 
+const icon = require('../../assets/image/tab/profile.png');
+
 const IMAGE_PICKER_OPTIONS = {
   mediaType: 'photo',
   noData: true,
@@ -38,7 +40,7 @@ class EditProfile extends Component {
     tabBarIcon: () => (
       <Image
         style={{ resizeMode: 'contain', width: 42, height: 42 }}
-        source={require('../../assets/image/myJobs.png')}
+        source={icon}
       />
     ),
   };
@@ -110,17 +112,14 @@ class EditProfile extends Component {
       <I18n>
         {(t) => (
           <Container>
-            {this.state.isLoading ? <Loading /> : null}
+            {this.state.isLoading ? <Loading/> : null}
 
             <TabHeader
               title={t('EDIT_PROFILE.editProfile')}
               onPressHelp={this.goToEditProfile}
             />
-
-            {/*// TODO: Logout*/}
-
             <Content>
-              <View style={styles.container}>
+              <View style={editProfileStyles.container}>
                 <TouchableOpacity onPress={this.openImagePicker}>
                   <View style={profileStyles.viewProfileImg}>
                     <Thumbnail
@@ -129,8 +128,8 @@ class EditProfile extends Component {
                         this.state.selectedImage && this.state.selectedImage.uri
                           ? { uri: this.state.selectedImage.uri }
                           : this.state.picture
-                            ? { uri: this.state.picture }
-                            : PROFILE_IMG
+                          ? { uri: this.state.picture }
+                          : PROFILE_IMG
                       }
                     />
                     <View style={profileStyles.viewCameraCircle}>
@@ -144,7 +143,7 @@ class EditProfile extends Component {
 
                 <View>
                   <Form>
-                    <Item style={styles.viewInput} inlineLabel rounded>
+                    <Item style={editProfileStyles.viewInput} inlineLabel rounded>
                       <Label>{t('REGISTER.firstName')}</Label>
                       <Input
                         value={this.state.firstName}
@@ -154,7 +153,7 @@ class EditProfile extends Component {
                         }
                       />
                     </Item>
-                    <Item style={styles.viewInput} inlineLabel rounded>
+                    <Item style={editProfileStyles.viewInput} inlineLabel rounded>
                       <Label>{t('REGISTER.lastName')}</Label>
                       <Input
                         value={this.state.lastName}
@@ -166,7 +165,7 @@ class EditProfile extends Component {
                     </Item>
                     <Item
                       style={[
-                        styles.viewInput,
+                        editProfileStyles.viewInput,
                         {
                           borderColor: GRAY_MAIN,
                           backgroundColor: BG_GRAY_LIGHT,
@@ -183,7 +182,7 @@ class EditProfile extends Component {
                     </Item>
                     <Item
                       onPress={this.focusTextarea}
-                      style={styles.viewTextArea}
+                      style={editProfileStyles.viewTextArea}
                       rounded>
                       <Textarea
                         ref={(textarea) => (this.textarea = textarea)}
@@ -196,33 +195,25 @@ class EditProfile extends Component {
                   </Form>
                   <TouchableOpacity
                     onPress={this.passwordReset}
-                    style={styles.viewButtomChangePassword}>
-                    <Text style={styles.textButtomChangePassword}>
+                    style={editProfileStyles.viewButtomChangePassword}>
+                    <Text style={editProfileStyles.textButtomChangePassword}>
                       {t('SETTINGS.changePassword')}
                     </Text>
                   </TouchableOpacity>
                   <Button
                     full
                     onPress={this.editProfileAlert}
-                    style={styles.viewButtomLogin}>
-                    <Text style={styles.textButtom}>
+                    style={editProfileStyles.viewButtomLogin}>
+                    <Text style={editProfileStyles.textButtom}>
                       {t('EDIT_PROFILE.saveProfile')}
                     </Text>
                   </Button>
                   <TouchableOpacity
                     full
-                    onPress={this.goToJobPreferences}
-                    style={styles.viewButtomSignUp}>
-                    <Text style={styles.textButtomSignUp}>
-                      {t('SETTINGS.jobPreferences')}
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    full
-                    onPress={() => this.props.navigation.goBack()}
-                    style={styles.viewButtomSignUp}>
-                    <Text style={styles.textButtomSignUp}>
-                      {t('APP.goBack')}
+                    onPress={this.logout}
+                    style={editProfileStyles.viewButtomSignUp}>
+                    <Text style={editProfileStyles.textButtomSignUp}>
+                      {'Log Out'}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -405,5 +396,7 @@ class EditProfile extends Component {
     this.setState({ isLoading });
   };
 }
+
+EditProfile.routeName = 'EditProfile';
 
 export default EditProfile;

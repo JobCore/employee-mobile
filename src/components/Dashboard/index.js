@@ -15,12 +15,10 @@ import styles from './style';
 import { BLUE_DARK, VIOLET_MAIN } from '../../shared/colorPalette';
 import {
   AUTH_ROUTE,
-  EDIT_PROFILE_ROUTE,
   INVITE_DETAILS_ROUTE,
   JOB_DETAILS_ROUTE,
   JOB_INVITES_ROUTE,
   MYJOBS_ROUTE,
-  PROFILE_ROUTE,
   REVIEWS_ROUTE,
 } from '../../constants/routes';
 import accountStore from '../Account/AccountStore';
@@ -46,6 +44,9 @@ import { TabHeader } from '../../shared/components/TabHeader';
 import preferencesStyles from '../Invite/JobPreferencesStyle';
 import { fetchActiveShifts } from '../MyJobs/actions';
 import WorkModeScreen from '../MyJobs/WorkModeScreen';
+import { getOpenClockIns } from '../MyJobs/actions';
+import EditProfile from '../Account/EditProfile';
+import Profile from '../Account/Profile';
 
 class DashboardScreen extends Component {
   static navigationOptions = {
@@ -74,7 +75,21 @@ class DashboardScreen extends Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    let openClockIns = [];
+    try {
+      openClockIns = await getOpenClockIns();
+    } catch (e) {
+      console.log(`SPLASH:openClockins`, e);
+    }
+    console.log(`DEBUG:openClockIns`, openClockIns);
+
+    if (openClockIns.length > 0) {
+      return this.props.navigation.navigate(WorkModeScreen.routeName, {
+        shiftId: openClockIns[0].shift.id,
+      });
+    }
+
     this.logoutSubscription = accountStore.subscribe(
       'Logout',
       this.logoutHandler,
@@ -297,16 +312,16 @@ class DashboardScreen extends Component {
       <I18n>
         {(t) => (
           <Container>
-            {this.state.isLoading ? <Loading /> : null}
+            {this.state.isLoading ? <Loading/> : null}
             <TabHeader
               title={t('DASHBOARD.dashboard')}
-              onPressHelp={this.goToEditProfile}
+              screenName={'dashboard'}
             />
             {activeShift && (
               <TouchableOpacity
                 onPress={() => {
                   console.log(`DEBUG:DEBUG:DEBUG:DEBUG:`);
-                  this.props.navigation.navigate(WorkModeScreen.name, {
+                  this.props.navigation.navigate(WorkModeScreen.routeName, {
                     shiftId: activeShift.id,
                   });
                 }}>
@@ -345,7 +360,7 @@ class DashboardScreen extends Component {
                           <Text style={styles.textHello}>
                             {`${t('DASHBOARD.hello')} ${
                               this.state.user.first_name
-                            } ${this.state.user.last_name},`}
+                              } ${this.state.user.last_name},`}
                           </Text>
                         ) : null}
                         <Text style={styles.textWelcome}>
@@ -440,7 +455,7 @@ class DashboardScreen extends Component {
                         this.state.stopReceivingInvites
                           ? 'buttonLeftActive'
                           : 'buttonLeftInactive'
-                      ]
+                        ]
                     }
                     first
                     active>
@@ -461,7 +476,7 @@ class DashboardScreen extends Component {
                         this.state.stopReceivingInvites
                           ? 'buttonRightInactive'
                           : 'buttonRightActive'
-                      ]
+                        ]
                     }
                     last>
                     <Icon
@@ -515,6 +530,7 @@ class DashboardScreen extends Component {
       .messaging()
       .getToken()
       .then((fcmToken) => {
+        console.log(`DEBUG:firebaseToken:`, fcmToken);
         if (fcmToken) {
           if (fcmTokenStored !== fcmToken) {
             return this.updateFcmToken(fcmTokenStored, fcmToken);
@@ -560,7 +576,7 @@ class DashboardScreen extends Component {
   };
 
   goToEditProfile = () => {
-    this.props.navigation.navigate(EDIT_PROFILE_ROUTE);
+    this.props.navigation.navigate(EditProfile.routeName);
   };
 
   goToMyJobs = () => {
@@ -569,7 +585,7 @@ class DashboardScreen extends Component {
   };
 
   goToProfile = () => {
-    this.props.navigation.navigate(PROFILE_ROUTE);
+    this.props.navigation.navigate(Profile.routeName);
   };
 
   goToReviews = () => {

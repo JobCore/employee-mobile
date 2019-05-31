@@ -162,6 +162,8 @@ const logout = () => {
     .catch((err) => {
       clearStores();
       Flux.dispatchEvent('Logout', {});
+      console.log(`DEBUG: logout error:`, err);
+      console.log(`DEBUG: logout error:`, err.status);
       Flux.dispatchEvent('AccountStoreError', err);
     });
 };

@@ -14,10 +14,11 @@ import {
   Loading,
   BackgroundHeader,
 } from '../../shared/components';
-import { EDIT_PROFILE_ROUTE, REVIEWS_ROUTE } from '../../constants/routes';
+import { REVIEWS_ROUTE } from '../../constants/routes';
 import { BLUE_DARK, BLUE_LIGHT } from '../../shared/colorPalette';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import { ModalHeader } from '../../shared/components/ModalHeader';
+import EditProfile from './EditProfile';
 
 class Profile extends Component {
   static navigationOptions = {
@@ -94,7 +95,7 @@ class Profile extends Component {
       <I18n>
         {(t) => (
           <Container>
-            {this.state.isLoading ? <Loading /> : null}
+            {this.state.isLoading ? <Loading/> : null}
             <ModalHeader
               title={t('PROFILE.profile')}
               onPressClose={() => this.props.navigation.goBack()}
@@ -108,8 +109,8 @@ class Profile extends Component {
                     increase your visibility and receive more invites
                   </Text>
                   <View style={styles.viewProgress}>
-                    <View style={styles.barProgress} />
-                    <View style={styles.barProgressCompleted} />
+                    <View style={styles.barProgress}/>
+                    <View style={styles.barProgressCompleted}/>
                     <Text style={styles.textProgress}>Completed 50%</Text>
                   </View>
                   <TouchableOpacity onPress={this.goToEditProfile}>
@@ -135,7 +136,7 @@ class Profile extends Component {
                     <Text style={styles.textName}>
                       {`${this.state.profile.user.first_name} ${
                         this.state.profile.user.last_name
-                      }`}
+                        }`}
                     </Text>
                   ) : null}
                 </>
@@ -223,20 +224,20 @@ class Profile extends Component {
 
               {Array.isArray(this.state.ratings) &&
               this.state.ratings.length ? (
-                  <View style={styles.viewPadding}>
-                    <TouchableOpacity onPress={this.goToReviews}>
-                      <Text style={styles.textSubtitle}>
-                        {t('PROFILE.whatEmployersSaid')}
-                      </Text>
-                    </TouchableOpacity>
+                <View style={styles.viewPadding}>
+                  <TouchableOpacity onPress={this.goToReviews}>
+                    <Text style={styles.textSubtitle}>
+                      {t('PROFILE.whatEmployersSaid')}
+                    </Text>
+                  </TouchableOpacity>
 
-                    {this.state.ratings.map((rating, index) => (
-                      <Text key={index} style={styles.textReview}>
-                        {`" ${rating.comments}`}
-                      </Text>
-                    ))}
-                  </View>
-                ) : null}
+                  {this.state.ratings.map((rating, index) => (
+                    <Text key={index} style={styles.textReview}>
+                      {`" ${rating.comments}`}
+                    </Text>
+                  ))}
+                </View>
+              ) : null}
               <View style={styles.viewInfo}>
                 <Text style={styles.titleProfile}>Badges</Text>
                 <Text style={styles.textProfile}>
@@ -288,12 +289,14 @@ class Profile extends Component {
   };
 
   goToEditProfile = () => {
-    this.props.navigation.navigate(EDIT_PROFILE_ROUTE);
+    this.props.navigation.navigate(EditProfile.routeName);
   };
 
   goToReviews = () => {
     this.props.navigation.navigate(REVIEWS_ROUTE);
   };
 }
+
+Profile.routeName = 'Profile';
 
 export default Profile;

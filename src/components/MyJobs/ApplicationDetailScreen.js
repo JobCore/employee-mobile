@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { View, Image, Dimensions } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import { Container, Text } from 'native-base';
 import * as jobActions from './actions';
 import { inviteStyles } from '../Invite/InviteDetailsStyle';
@@ -30,16 +30,16 @@ const DEFAULT_LONGITUDE = -80.191788;
  *
  */
 class ApplicationDetailScreen extends Component {
-  static navigationOptions = {
-    header: null,
-    tabBarLabel: i18next.t('JOB_INVITES.inviteDetails'),
-    tabBarIcon: () => (
-      <Image
-        style={{ resizeMode: 'contain', height: 30 }}
-        source={require('../../assets/image/preferences.png')}
-      />
-    ),
-  };
+  // static navigationOptions = {
+  //   header: null,
+  //   tabBarLabel: i18next.t('JOB_INVITES.inviteDetails'),
+  //   tabBarIcon: () => (
+  //     <Image
+  //       style={{ resizeMode: 'contain', height: 30 }}
+  //       source={require('../../assets/image/preferences.png')}
+  //     />
+  //   ),
+  // };
 
   constructor(props) {
     super(props);
@@ -162,8 +162,8 @@ class ApplicationDetailScreen extends Component {
       const dateString =
         from === to
           ? from === todayString
-            ? 'Today'
-            : from
+          ? 'Today'
+          : from
           : `${from} to ${to}`;
       const fromTime = startingAtMoment.format('h A');
       const toTime = endingAtMoment.format('h A');
@@ -175,11 +175,11 @@ class ApplicationDetailScreen extends Component {
         <>
           <ModalHeader
             onPressClose={() => this.props.navigation.goBack()}
-            title={`Job Details`}
+            title={`Application Details`}
             onPressHelp={() => this.props.navigation.goBack()}
           />
           <ViewFlex justifyContent={'space-between'}>
-            <View style={{ flex: 3 }}>
+            <View style={{ flex: 9 }}>
               <JobHeader
                 clientName={venue.title}
                 positionName={shift.position.title}
@@ -187,14 +187,15 @@ class ApplicationDetailScreen extends Component {
                 timeString={timeString}
                 addressString={address}
                 onPressDirection={
-                  this.showOpenDirection() ? this.openMapsApp : () => {}
+                  this.showOpenDirection() ? this.openMapsApp : () => {
+                  }
                 }
               />
             </View>
-            <View style={{ flex: 2 }}>
-              <JobHours price={price} hours={hours} />
+            <View style={{ flex: 5 }}>
+              <JobHours price={price} hours={hours}/>
             </View>
-            <View style={{ flex: 4 }}>
+            <View style={{ flex: 16 }}>
               <MapView
                 style={inviteStyles.map}
                 region={this.state.region}
@@ -221,7 +222,9 @@ class ApplicationDetailScreen extends Component {
                 )}
               </MapView>
             </View>
-            {this.renderButtons()}
+            <View style={{ flex: 2 }}>
+              {this.renderButtons()}
+            </View>
           </ViewFlex>
         </>
       );
@@ -231,7 +234,7 @@ class ApplicationDetailScreen extends Component {
       <I18n>
         {(t) => (
           <Container>
-            {isLoading ? <Loading /> : renderDetail(t, shift)}
+            {isLoading ? <Loading/> : renderDetail(t, shift)}
           </Container>
         )}
       </I18n>
@@ -292,7 +295,8 @@ class ApplicationDetailScreen extends Component {
     LOG(`DEBUG: getApplication`, this.state);
     if (!this.state.applicationId) {
       CustomToast('Something went wrong!');
-      return this.props.navigation.goBack();
+      // return this.props.navigation.goBack();
+      return;
     }
 
     this.setState({ isLoading: true }, () => {
@@ -300,5 +304,7 @@ class ApplicationDetailScreen extends Component {
     });
   };
 }
+
+ApplicationDetailScreen.routeName = 'ApplicationDetailScreen';
 
 export default ApplicationDetailScreen;
