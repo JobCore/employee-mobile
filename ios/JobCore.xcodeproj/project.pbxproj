@@ -754,7 +754,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = GMA9CVBJW8;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -769,7 +769,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "jobcore" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "JobCore" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1330,7 +1330,8 @@
 				CODE_SIGN_ENTITLEMENTS = jobcore/jobcore.entitlements;
 				"CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = jobcore/jobcore.entitlements;
 				"CODE_SIGN_ENTITLEMENTS[sdk=iphonesimulator*]" = jobcore/jobcore.entitlements;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = GMA9CVBJW8;
@@ -1346,9 +1347,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.jobcore.talent;
+				PRODUCT_BUNDLE_IDENTIFIER = co.jobcore.talent.new;
 				PRODUCT_NAME = jobcore;
-				PROVISIONING_PROFILE_SPECIFIER = Alejandro;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1361,7 +1362,8 @@
 				CODE_SIGN_ENTITLEMENTS = jobcore/jobcore.entitlements;
 				"CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = jobcore/jobcore.entitlements;
 				"CODE_SIGN_ENTITLEMENTS[sdk=iphonesimulator*]" = jobcore/jobcore.entitlements;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GMA9CVBJW8;
 				HEADER_SEARCH_PATHS = (
@@ -1376,9 +1378,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.jobcore.talent;
+				PRODUCT_BUNDLE_IDENTIFIER = co.jobcore.talent.new;
 				PRODUCT_NAME = jobcore;
-				PROVISIONING_PROFILE_SPECIFIER = Alejandro;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -1503,7 +1505,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "jobcore" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "JobCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

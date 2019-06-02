@@ -48,6 +48,9 @@ import { getOpenClockIns } from '../MyJobs/actions';
 import EditProfile from '../Account/EditProfile';
 import Profile from '../Account/Profile';
 
+/**
+ *
+ */
 class DashboardScreen extends Component {
   static navigationOptions = {
     header: null,
@@ -312,7 +315,7 @@ class DashboardScreen extends Component {
       <I18n>
         {(t) => (
           <Container>
-            {this.state.isLoading ? <Loading /> : null}
+            {this.state.isLoading ? <Loading/> : null}
             <TabHeader
               title={t('DASHBOARD.dashboard')}
               screenName={'dashboard'}
@@ -360,7 +363,7 @@ class DashboardScreen extends Component {
                           <Text style={styles.textHello}>
                             {`${t('DASHBOARD.hello')} ${
                               this.state.user.first_name
-                            } ${this.state.user.last_name},`}
+                              } ${this.state.user.last_name},`}
                           </Text>
                         ) : null}
                         <Text style={styles.textWelcome}>
@@ -455,7 +458,7 @@ class DashboardScreen extends Component {
                         this.state.stopReceivingInvites
                           ? 'buttonLeftActive'
                           : 'buttonLeftInactive'
-                      ]
+                        ]
                     }
                     first
                     active>
@@ -476,7 +479,7 @@ class DashboardScreen extends Component {
                         this.state.stopReceivingInvites
                           ? 'buttonRightInactive'
                           : 'buttonRightActive'
-                      ]
+                        ]
                     }
                     last>
                     <Icon
