@@ -163,6 +163,11 @@ export default {
     completedJobs: 'Completed jobs',
     badges: 'Badges',
     whatEmployersSaid: 'What employers said about you',
+    completeProfileText:
+      'Add a picture of yourself and talk about your experiece to increase your visibility and receive more invites',
+    noRating: 'They have not rated you yet',
+    noBadges: 'The more badges you receive, the more invitations you will get',
+    noJobsComments: 'To get jobs you can have comments'
   },
   REVIEWS: {
     reviews: 'Reviews',

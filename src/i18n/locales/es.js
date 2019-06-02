@@ -167,6 +167,11 @@ export default {
     completedJobs: 'Trabajos completados',
     badges: 'Insignias',
     whatEmployersSaid: 'Lo que los empleadores dijeron de ti',
+    completeProfileText: 
+      'Agrega una foto de ti mismo y habla sobre tu experiencia para aumentar tu visibilidad y recibir más invitaciones',
+    noRating: 'Aún no te han calificado',
+    noBadges: 'Cuantas más insignias recibas, más invitaciones recibirás',
+    noJobsComments: 'Realiza trabajos para recibir comentarios'
   },
   REVIEWS: {
     Reviews: 'Opiniones',
