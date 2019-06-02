@@ -16,8 +16,8 @@ export default {
     emptyPassword: 'Enter your password',
     forgotPassword: 'Forgot password?',
     youMustValidateEmail: 'You must validate your email in order to Log In',
-    dontHaveAnAccount: `Don't have an account?`,
-    clickToSignUp: `Click here to sign up`,
+    dontHaveAnAccount: 'Don\'t have an account?',
+    clickToSignUp: 'Click here to sign up',
   },
   REGISTER: {
     signUp: 'Sign Up',
@@ -39,6 +39,8 @@ export default {
     update: 'Update',
     invalidImage: 'Only jpg, and png files are allowed',
     saveProfile: 'Save profile',
+    textBio:
+      'What makes you a talent? Talk a little about your previous experience and skills',
   },
   SETTINGS: {
     settings: 'Settings',
@@ -127,13 +129,13 @@ export default {
     rateEmployer: 'Rate employer',
     rateComment: 'Rate comment',
     rate: 'Rate',
-    rateThisEmployer: `Rate this job's employer and give it a feedback`,
+    rateThisEmployer: 'Rate this job\'s employer and give it a feedback',
     alreadyRated: '"You have already rated this employer for this job!"',
     invalidShift: 'Invalid job',
     invalidEmployer: 'Invalid employer',
     invalidRating: 'Rating must be from 1 to 5',
     invalidComments: 'You must enter a comment to rate the employer',
-    wantToRateEmployer: `Rate employer?`,
+    wantToRateEmployer: 'Rate employer?',
     employerRated: 'Your comment was sent!',
     rateYourEmployer: 'Rate your employer',
     wantToClockIn: 'Clock in?',
@@ -167,4 +169,4 @@ export default {
     emptyReviews: 'You have no reviews yet',
     workingAs: 'Working as',
   },
-};
+}
