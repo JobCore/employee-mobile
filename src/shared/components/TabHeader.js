@@ -3,17 +3,15 @@ import { BLUE_MAIN } from '../colorPalette';
 import { headerStyles } from '../styles';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { HelpIcon } from '../../components/onboarding/components/HelpIcon';
-
+import HelpIcon from '../../shared/components/HelpIcon';
 
 const TabHeader = ({ title, screenName }) => {
   return (
-    <Header androidStatusBarColor={BLUE_MAIN} style={headerStyles.headerCustom}>
-      <Left style={{ width: 20, backgroundColor: 'yellow' }}/>
+    <Header androidStatusBarColor={BLUE_MAIN} style={headerStyles.headerCustom}>      
       <Body>
         <Title style={headerStyles.titleHeader}>{title}</Title>
       </Body>
-      <HelpIcon screenName={screenName}/>
+      <HelpIcon />
     </Header>
   );
 };

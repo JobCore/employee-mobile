@@ -174,4 +174,7 @@ export default {
     emptyReviews: 'You have no reviews yet',
     workingAs: 'Working as',
   },
+  HELP: {
+    help: 'Tips'
+  }
 }

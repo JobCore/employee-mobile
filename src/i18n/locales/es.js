@@ -178,4 +178,7 @@ export default {
     emptyReviews: 'No se encontraron opiniones',
     workingAs: 'Trabajando como',
   },
+  HELP: {
+    help: 'Ayuda'
+  }
 }

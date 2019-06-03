@@ -35,6 +35,7 @@ import JobPendingPaymentScreen from './src/components/MyJobs/JobPendingPayments'
 import WorkModeScreen from './src/components/MyJobs/WorkModeScreen';
 import JobWorkModeScreen from './src/components/MyJobs/JobWorkMode';
 import Reviews from './src/components/MyJobs/Reviews';
+import Help from './src/components/Help'
 
 import {
   DASHBOARD_ROUTE,
@@ -58,6 +59,7 @@ import {
   JOB_DETAILS_NEW_TWO_ROUTE,
   JOB_WORK_MODE_ROUTE,
   JOB_PENDING_PAYMENTS_ROUTE,
+  HELP_ROUTE
 } from './src/constants/routes';
 import {
   BLUE_DARK,
@@ -159,6 +161,9 @@ export const AppStack = createStackNavigator(
     [ApplicationDetailScreen.routeName]: {
       screen: ApplicationDetailScreen,
       path: 'application/:applicationId',
+    },
+    [HELP_ROUTE]: {
+      screen: Help,
     },
   },
   { navigationOptions: { header: null } },
