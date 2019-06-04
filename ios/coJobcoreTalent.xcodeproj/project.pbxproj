@@ -358,6 +358,7 @@
 		ABDA159176C342F9B41BB226 /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		BD5F470322A4767300AF08BD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BD5F474822A478E500AF08BD /* coJobcoreTalent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = coJobcoreTalent.entitlements; path = coJobcoreTalent/coJobcoreTalent.entitlements; sourceTree = "<group>"; };
 		BD6C73C4391B49B592E8431D /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/native-base/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		C28620B11432A3F660C6FCC9 /* Pods-coJobcoreTalent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-coJobcoreTalent.debug.xcconfig"; path = "Target Support Files/Pods-coJobcoreTalent/Pods-coJobcoreTalent.debug.xcconfig"; sourceTree = "<group>"; };
 		CE7FE02B81114EA49489979C /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/native-base/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -476,6 +477,7 @@
 		13B07FAE1A68108700A75B9A /* coJobcoreTalent */ = {
 			isa = PBXGroup;
 			children = (
+				BD5F474822A478E500AF08BD /* coJobcoreTalent.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				BD5F470322A4767300AF08BD /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -686,6 +688,20 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = GMA9CVBJW8;
+						SystemCapabilities = {
+							com.apple.AccessWiFi = {
+								enabled = 1;
+							};
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.SafariKeychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1131,6 +1147,7 @@
 			baseConfigurationReference = C28620B11432A3F660C6FCC9 /* Pods-coJobcoreTalent.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = coJobcoreTalent/coJobcoreTalent.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = GMA9CVBJW8;
@@ -1160,6 +1177,7 @@
 			baseConfigurationReference = 580021C87921B384BD35AC29 /* Pods-coJobcoreTalent.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = coJobcoreTalent/coJobcoreTalent.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GMA9CVBJW8;
 				HEADER_SEARCH_PATHS = (
