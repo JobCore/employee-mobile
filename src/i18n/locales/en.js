@@ -175,6 +175,8 @@ export default {
     workingAs: 'Working as',
   },
   HELP: {
-    help: 'Tips'
+    help: 'Tips',
+    next: 'Next',
+    skip: 'Skip Tutorial'
   }
 }
