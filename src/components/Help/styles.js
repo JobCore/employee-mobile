@@ -23,7 +23,9 @@ const styles = StyleSheet.create({
   itemText: {
     color: BLUE_MAIN,
     paddingLeft: 30,
-    paddingRight: 30
+    paddingRight: 30,
+    marginTop: 15,
+    marginBottom: 15
   },
   dotStyle: {
     width: 10,
