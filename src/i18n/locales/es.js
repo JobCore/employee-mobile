@@ -18,8 +18,8 @@ export default {
     forgotPassword: 'Olvidaste tu contraseña?',
     youMustValidateEmail:
       'Debe validar su correo electrónico para iniciar sesión',
-    dontHaveAnAccount: `No tienes una cuenta?`,
-    clickToSignUp: `Registrate aquí`,
+    dontHaveAnAccount: 'No tienes una cuenta?',
+    clickToSignUp: 'Registrate aquí',
   },
   REGISTER: {
     signUp: 'Registrarse',
@@ -41,6 +41,8 @@ export default {
     update: 'Editar',
     invalidImage: 'Solo se permiten archivos jpg y png',
     saveProfile: 'Guardar perfil',
+    textBio:
+      '¿Qué te hace talentoso? Habla un poco sobre tu experiencia y habilidades previas',
   },
   SETTINGS: {
     settings: 'Ajustes',
@@ -129,7 +131,7 @@ export default {
     rateJob: 'Calificar trabajo',
     rateComment: 'Escribe un comentario',
     rate: 'Calificar',
-    rateThisEmployer: `Califica al empleador de este trabajo y dale un comentario`,
+    rateThisEmployer: 'Califica al empleador de este trabajo y dale un comentario',
     alreadyRated:
       '"Usted ya ha calificado a este empleador para este trabajo!"',
     invalidShift: 'Trabajo invalido',
@@ -137,7 +139,7 @@ export default {
     invalidRating: 'La calificación debe ser de 1 a 5',
     invalidComments:
       'Debes introducir un comentario para calificar al empleador',
-    wantToRateEmployer: `Calificar al empleador?`,
+    wantToRateEmployer: 'Calificar al empleador?',
     employerRated: 'Tu comentario fue enviado!',
     rateYourEmployer: 'Califica a tu empleador',
     wantToClockIn: 'Checar entrada?',
@@ -165,10 +167,18 @@ export default {
     completedJobs: 'Trabajos completados',
     badges: 'Insignias',
     whatEmployersSaid: 'Lo que los empleadores dijeron de ti',
+    completeProfileText: 
+      'Agrega una foto de ti mismo y habla sobre tu experiencia para aumentar tu visibilidad y recibir más invitaciones',
+    noRating: 'Aún no te han calificado',
+    noBadges: 'Cuantas más insignias recibas, más invitaciones recibirás',
+    noJobsComments: 'Realiza trabajos para recibir comentarios'
   },
   REVIEWS: {
     Reviews: 'Opiniones',
     emptyReviews: 'No se encontraron opiniones',
     workingAs: 'Trabajando como',
   },
-};
+  HELP: {
+    help: 'Ayuda'
+  }
+}

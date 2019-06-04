@@ -4,6 +4,7 @@ import {
   BLUE_DARK,
   WHITE_MAIN,
   BLUE_LIGHT,
+  BG_GRAY_LIGHT
 } from '../../shared/colorPalette';
 
 export default StyleSheet.create({
@@ -49,7 +50,7 @@ export default StyleSheet.create({
     borderRadius: 32 / 2,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(29, 93, 102, 80)',
+    backgroundColor: 'rgba(29, 93, 102, 0.8)',
     position: 'absolute',
     bottom: 0,
     right: 0,
@@ -69,11 +70,16 @@ export default StyleSheet.create({
   textRowTitle: {
     textAlign: 'center',
     color: BLUE_DARK,
+    fontWeight: 'bold'
   },
   textRowNumber: {
-    fontSize: 32,
+    fontSize: 16,
     textAlign: 'center',
     color: BLUE_DARK,
+    marginTop: 15,
+    marginBottom: 10,
+    paddingRight: 30,
+    paddingLeft: 30
   },
   viewRow: {
     flexDirection: 'row',
@@ -123,7 +129,10 @@ export default StyleSheet.create({
   textInfo: {
     textAlign: 'center',
     color: BLUE_DARK,
-    padding: 15,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingRight: 35,
+    paddingLeft: 35
   },
   titleProfile: {
     fontWeight: 'bold',
@@ -134,28 +143,39 @@ export default StyleSheet.create({
     fontWeight: 'normal',
   },
   viewInfo: {
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingLeft: 35,
+    paddingRight: 35,
     marginBottom: 10,
   },
   viewProgress: {
-    marginLeft: 35,
     marginRight: 35,
+    marginLeft: 35
   },
   barProgress: {
     width: '100%',
     height: 4,
     backgroundColor: '#c5d4d6',
   },
-  barProgressCompleted: {
+  barProgressCompleted: completed => ({
     position: 'absolute',
-    width: '50%',
+    width: `${completed}%`,
     height: 4,
     backgroundColor: BLUE_DARK,
-  },
+  }),
   textProgress: {
     textAlign: 'center',
     margin: 10,
     color: BLUE_DARK,
   },
+  barProgressCircle: completed => ({
+    width: 17.5,
+    height: 17.5,
+    backgroundColor: completed ? BLUE_DARK : '#c5d4d6',
+    borderRadius: 70,
+    position: 'absolute',
+    right: -1,
+    top: -6.5,
+    borderColor: completed ? BLUE_DARK : BG_GRAY_LIGHT,
+    borderWidth: 1.5
+  })
 });
