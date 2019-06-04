@@ -128,8 +128,8 @@ class EditProfile extends Component {
                         this.state.selectedImage && this.state.selectedImage.uri
                           ? { uri: this.state.selectedImage.uri }
                           : this.state.picture
-                            ? { uri: this.state.picture }
-                            : PROFILE_IMG
+                          ? { uri: this.state.picture }
+                          : PROFILE_IMG
                       }
                     />
                     <View style={profileStyles.viewCameraCircle}>
@@ -185,6 +185,11 @@ class EditProfile extends Component {
                         value={this.state.email}
                         placeholder={t('REGISTER.email')}
                       />
+                    </Item>
+                    <Item style={editProfileStyles.itemTextBio}>
+                      <Text style={editProfileStyles.textBio}>
+                        "{t('EDIT_PROFILE.textBio')}"
+                      </Text>
                     </Item>
                     <Item
                       onPress={this.focusTextarea}

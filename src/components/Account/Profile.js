@@ -39,6 +39,7 @@ class Profile extends Component {
       starsArray: [1, 2, 3, 4, 5],
       ratings: [],
       profile: {},
+      completed: 0
     };
   }
 
@@ -62,6 +63,7 @@ class Profile extends Component {
     this.jobStoreError = jobStore.subscribe('JobStoreError', this.errorHandler);
 
     this.firstLoad();
+    this.updateCompleted()
   }
 
   componentWillUnmount() {
@@ -73,7 +75,10 @@ class Profile extends Component {
   }
 
   getProfileHandler = (profile) => {
-    this.setState({ profile, isLoading: false });
+    this.setState({
+      profile,
+      isLoading: false
+    }, this.updateCompleted);
   };
 
   getEmployeeRatingsHandler = (ratings) => {
@@ -102,16 +107,16 @@ class Profile extends Component {
               onPressHelp={() => this.props.navigation.goBack()}
             />
             <Content>
-              <BackgroundHeader>
+              <BackgroundHeader heightAuto>
                 <>
                   <Text style={styles.textInfo}>
-                    Add a picture of yourself and talk about your experiece to
-                    increase your visibility and receive more invites
+                    "{t('PROFILE.completeProfileText')}"
                   </Text>
                   <View style={styles.viewProgress}>
                     <View style={styles.barProgress} />
-                    <View style={styles.barProgressCompleted} />
-                    <Text style={styles.textProgress}>Completed 50%</Text>
+                    <View style={styles.barProgressCompleted(this.state.completed)} />
+                    <Text style={styles.textProgress}>Completed {this.state.completed}%</Text>
+                    <View style={styles.barProgressCircle(this.state.completed === 100)} />
                   </View>
                   <TouchableOpacity onPress={this.goToEditProfile}>
                     <View style={styles.viewProfileImg}>
@@ -141,15 +146,9 @@ class Profile extends Component {
                   ) : null}
                 </>
               </BackgroundHeader>
-
-              <View style={styles.viewPadding}>
-                {/* <Text style={styles.textBio}>{this.state.profile.bio}</Text> */}
-                <Text style={styles.textBio}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </Text>
+              <View>
+                <Text style={styles.textBio}>{this.state.profile.bio}</Text>
               </View>
-
               {this.state.profile && this.state.profile.employee ? (
                 <View style={styles.viewRow}>
                   <View style={styles.viewLeft}>
@@ -157,32 +156,30 @@ class Profile extends Component {
                       {t('PROFILE.yourRating')}
                     </Text>
                     <Text style={styles.textRowNumber}>
-                      {this.state.profile.employee.rating || t('APP.na')}
+                      {this.state.profile.employee.rating || t('PROFILE.noRating')}
                     </Text>
-                    {this.state.profile.employee.rating ? (
-                      <Text style={styles.textRowTitle}>
-                        {this.state.starsArray.map((star) => (
-                          <Icon
-                            key={star}
-                            name={'md-star'}
-                            style={{
-                              color:
-                                this.state.profile.employee.rating >= star
-                                  ? BLUE_DARK
-                                  : BLUE_LIGHT,
-                              fontSize: 16,
-                            }}
-                          />
-                        ))}
-                      </Text>
-                    ) : null}
+                    <Text style={styles.textRowTitle}>
+                      {this.state.starsArray.map((star) => (
+                        <Icon
+                          key={star}
+                          name={'md-star'}
+                          style={{
+                            color:
+                              this.state.profile.employee.rating && this.state.profile.employee.rating >= star
+                                ? BLUE_DARK
+                                : BLUE_LIGHT,
+                            fontSize: 22.5,
+                          }}
+                        />
+                      ))}
+                    </Text>
                   </View>
                   <View style={styles.viewRight}>
                     <Text style={styles.textRowTitle}>
                       {t('PROFILE.completedJobs')}
                     </Text>
                     <Text style={styles.textRowNumber}>
-                      {this.state.profile.employee.total_ratings}
+                      {this.state.profile.employee.total_ratings > 0 ? this.state.profile.employee.total_ratings : t('PROFILE.noRating')}
                     </Text>
                   </View>
                 </View>
@@ -195,7 +192,6 @@ class Profile extends Component {
                       {t('PROFILE.badges')}
                     </Text>
                   </View>
-
                   <FlatList
                     style={styles.badgesList}
                     horizontal
@@ -220,7 +216,14 @@ class Profile extends Component {
                     )}
                   />
                 </>
-              ) : null}
+              ) : (
+                <View style={styles.viewInfo}>
+                  <Text style={styles.titleProfile}>{t('PROFILE.badges')}</Text>
+                  <Text style={styles.textProfile}>
+                    {t('PROFILE.noBadges')}
+                  </Text>
+                </View>
+              )}
 
               {Array.isArray(this.state.ratings) &&
               this.state.ratings.length ? (
@@ -237,21 +240,16 @@ class Profile extends Component {
                       </Text>
                     ))}
                   </View>
-                ) : null}
-              <View style={styles.viewInfo}>
-                <Text style={styles.titleProfile}>Badges</Text>
-                <Text style={styles.textProfile}>
-                  The more badges you receive, the more invitations you will get
-                </Text>
-              </View>
-              <View style={styles.viewInfo}>
-                <Text style={styles.titleProfile}>
-                  What employers said about you
-                </Text>
-                <Text style={styles.textProfile}>
-                  To get jobs you can have comments
-                </Text>
-              </View>
+                ) : (
+                  <View style={styles.viewInfo}>
+                    <Text style={styles.titleProfile}>
+                      {t('PROFILE.whatEmployersSaid')}
+                    </Text>
+                    <Text style={styles.textProfile}>
+                      {t('PROFILE.noJobsComments')}
+                    </Text>
+                  </View>
+                )}
             </Content>
           </Container>
         )}
@@ -295,6 +293,20 @@ class Profile extends Component {
   goToReviews = () => {
     this.props.navigation.navigate(REVIEWS_ROUTE);
   };
+
+  updateCompleted () {
+    let {
+      completed,
+      profile
+    } = this.state
+
+    if (profile) {
+      completed += this.state.profile.picture ? 50 : 0
+      completed += this.state.profile.bio ? 50 : 0
+  
+      this.setState({ completed })
+    }
+  }
 }
 
 Profile.routeName = 'Profile';

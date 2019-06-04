@@ -1,84 +1,114 @@
-import { StyleSheet, Platform, Dimensions } from 'react-native';
-var width = Dimensions.get('window').width;
-import { BLUE_MAIN, BLUE_DARK } from '../../shared/colorPalette';
+import { StyleSheet, Platform, Dimensions } from 'react-native'
+import { BLUE_MAIN, BLUE_DARK } from '../../shared/colorPalette'
+
+const { width } = Dimensions.get('window')
 
 export default StyleSheet.create({
+  borderNone: {
+    borderBottomColor: 'transparent',
+  },
   container: {
     paddingHorizontal: 35,
   },
+  itemTextBio: {
+    borderBottomColor: 'transparent',
+    marginBottom: 10,
+  },
+  labelForm: {
+    color: BLUE_DARK,
+  },
   profileImg: {
     alignSelf: 'center',
-    marginTop: 30,
     marginBottom: 30,
+    marginTop: 30,
   },
-  viewLogo: {
-    width: '100%',
-    resizeMode: 'contain',
-    alignSelf: 'center',
-    height: 90,
-    ...Platform.select({
-      android: {
-        marginTop: '10%',
-      },
-    }),
-  },
-  viewBackground: {
-    backgroundColor: '#ccc',
-    flex: 1,
-    resizeMode: 'cover',
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-  },
-  viewForm: {
-    width: width,
-    paddingLeft: 35,
-    paddingRight: 35,
-    marginTop: 0,
-    marginBottom: 20,
-  },
-  viewButtomLogin: {
-    marginBottom: 0,
-    borderRadius: 50,
-    height: 45,
-    backgroundColor: BLUE_DARK,
-  },
-  viewButtomSignUp: {
+  textBio: {
+    color: BLUE_DARK,
+    paddingLeft: 20,
+    paddingRight: 20,
     textAlign: 'center',
-    backgroundColor: 'transparent',
-    marginTop: 20,
   },
   textButtom: {
     fontSize: 16,
     fontWeight: '500',
     textAlign: 'center',
   },
+  textButtomChangePassword: {
+    color: BLUE_DARK,
+    fontSize: 14,
+    fontWeight: '500',
+    marginBottom: 20,
+    marginRight: 10,
+    textAlign: 'right',
+  },
+  textButtomSave: {
+    color: BLUE_DARK,
+    fontSize: 14,
+    fontWeight: '500',
+    marginRight: 10,
+    marginTop: 5,
+    textAlign: 'right',
+  },
   textButtomSignUp: {
+    color: BLUE_DARK,
     fontSize: 14,
     fontWeight: '500',
     textAlign: 'center',
-    color: BLUE_DARK,
+  },
+  viewBackground: {
+    backgroundColor: '#ccc',
+    flex: 1,
+    height: '100%',
+    justifyContent: 'center',
+    position: 'absolute',
+    resizeMode: 'cover',
+    width: '100%',
   },
   viewButtomChangePassword: {
     alignSelf: 'flex-end',
     backgroundColor: 'transparent',
   },
-  textButtomChangePassword: {
-    fontSize: 14,
-    fontWeight: '500',
-    textAlign: 'right',
-    marginRight: 10,
-    color: BLUE_DARK,
-    marginBottom: 20,
+  viewButtomLogin: {
+    backgroundColor: BLUE_DARK,
+    borderRadius: 50,
+    height: 45,
+    marginBottom: 0,
   },
-  textButtomSave: {
-    fontSize: 14,
-    fontWeight: '500',
-    textAlign: 'right',
-    marginTop: 5,
-    marginRight: 10,
+  viewButtomSignUp: {
+    backgroundColor: 'transparent',
+    marginTop: 20,
+    textAlign: 'center',
+  },
+  viewForm: {
+    marginBottom: 20,
+    marginTop: 0,
+    paddingLeft: 35,
+    paddingRight: 35,
+    width,
+  },
+  viewInput: {
+    backgroundColor: 'transparent',
+    borderColor: BLUE_MAIN,
+    borderRadius: 50,
+    borderWidth: 1,
     color: BLUE_DARK,
+    height: 40,
+    marginBottom: 10,
+    paddingLeft: 20,
+    paddingRight: 10,
+    paddingTop: 0,
+    width: '100%',
+  },
+  viewLogo: {
+    alignSelf: 'center',
+    height: 90,
+    resizeMode: 'contain',
+    width: '100%',
+    ...Platform.select({
+      android: {
+        marginTop: '10%',
+      },
+    }),
   },
   viewTextArea: {
     backgroundColor: 'transparent',
@@ -94,23 +124,4 @@ export default StyleSheet.create({
     }),
     marginBottom: 10,
   },
-  viewInput: {
-    backgroundColor: 'transparent',
-    height: 40,
-    width: '100%',
-    borderColor: BLUE_MAIN,
-    color: BLUE_DARK,
-    borderRadius: 50,
-    borderWidth: 1,
-    paddingLeft: 20,
-    paddingTop: 0,
-    paddingRight: 10,
-    marginBottom: 10,
-  },
-  borderNone: {
-    borderBottomColor: 'transparent',
-  },
-  labelForm: {
-    color: BLUE_DARK,
-  },
-});
+})
