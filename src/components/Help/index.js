@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, Image } from 'react-native';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { Dimensions } from 'react-native';
 import { I18n } from 'react-i18next';
-import { Container, Content } from 'native-base';
+import { Container, Content, Button, Title } from 'native-base';
+import { withNavigation } from 'react-navigation';
 
 import { i18next } from '../../i18n';
 import { ModalHeader } from '../../shared/components/ModalHeader';
@@ -16,59 +16,49 @@ class Help extends Component {
     items: this.props.navigation.getParam('screens', []),
   };
 
-  _renderItem({ item, index }) {
+  _renderItem = (t, item) => {
     return (
       <View style={styles.viewItem}>
-        <Image style={styles.image} source={{ uri: item.img_url }} />
-        <Text style={styles.itemText}>{item.heading}</Text>
+        <Text style={styles.itemHeading}>{item.heading}</Text>
+        <Image style={styles.itemImage} source={{ uri: item.img_url }} />
         <Text style={styles.itemText}>{item.message}</Text>
+        <View style={styles.itemBody}>
+          <Button onPress={this.handleOnSnapNextItem} style={styles.itemButtonNext}>
+            <Text style={styles.itemButtonText}>{t('HELP.next')}</Text>
+          </Button>
+          <Button transparent onPress={this.handleGoBack} style={styles.itemButtonSkip}>
+            <Text style={styles.itemButtonTextSkip}>{t('HELP.skip')}</Text>
+          </Button>
+        </View>
       </View>
     );
   }
 
-  get pagination() {
-    const { items, activeSlide } = this.state;
+  handleGoBack = () => {
+    this.props.navigation.goBack()
+  }
 
-    return (
-      <Pagination
-        inactiveDotOpacity={1}
-        inactiveDotScale={1}
-        dotsLength={items.length}
-        activeDotIndex={activeSlide}
-        containerStyle={styles.pagination}
-        dotStyle={styles.dotStyle}
-        inactiveDotStyle={styles.inactiveDotStyle}
-      />
-    );
+  handleOnSnapNextItem = () => {
+    if (this.state.activeSlide === (this.state.items.length - 1)) {
+      this.handleGoBack()
+    } else {
+      this.setState({
+        activeSlide: this.state.activeSlide + 1
+      })
+    }
   }
 
   render() {
     const { width } = Dimensions.get('window');
+    const currentItem = this.state.items[this.state.activeSlide]
 
     return (
       <I18n>
         {(t) => (
           <Container>
-            <ModalHeader
-              withoutHelpIcon
-              title={t('HELP.help')}
-              onPressClose={() => this.props.navigation.goBack()}
-            />
-            <Content>
+            <Content style={styles.content}>
               <View style={styles.view}>
-                <Carousel
-                  ref={(c) => {
-                    this._carousel = c;
-                  }}
-                  data={this.state.items}
-                  renderItem={this._renderItem}
-                  sliderWidth={width}
-                  itemWidth={width}
-                  onSnapToItem={(index) =>
-                    this.setState({ activeSlide: index })
-                  }
-                />
-                {this.pagination}
+                {this._renderItem(t, currentItem)}
               </View>
             </Content>
           </Container>
@@ -78,4 +68,4 @@ class Help extends Component {
   }
 }
 
-export default Help;
+export default withNavigation(Help);
