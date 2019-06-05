@@ -1,12 +1,10 @@
-import { Body, Button, Header, Icon, Left, Right, Text } from 'native-base'
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { withNavigation } from 'react-navigation'
-import { headerStyles } from '../styles'
-import { BLUE_MAIN } from '../colorPalette'
-
-import { HELP_ROUTE } from '../../constants/routes'
-import HelpIcon from './HelpIcon'
+import { Body, Button, Header, Icon, Left, Right, Text } from 'native-base';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withNavigation } from 'react-navigation';
+import { headerStyles } from '../styles';
+import { BLUE_MAIN } from '../colorPalette';
+import HelpIcon from '../../components/onboarding/components/HelpIcon';
 
 class ModalHeader extends Component {
   render() {
@@ -16,43 +14,42 @@ class ModalHeader extends Component {
       title,
       withoutHelpIcon,
       screenName,
-    } = this.props
+    } = this.props;
 
     return (
       <Header
         androidStatusBarColor={BLUE_MAIN}
-        style={headerStyles.headerCustom}
-      >
-        {canClose ? (
-          <Left>
+        style={headerStyles.headerCustom}>
+        <Left>
+          {canClose ? (
             <Button transparent onPress={onPressClose} title="">
               <Icon
                 name="ios-arrow-back"
                 style={[headerStyles.leftButtonImage]}
               />
             </Button>
-          </Left>
-        ) : (
-          <Left />
-        )}
+          ) : null}
+        </Left>
         <Body>
           <Text style={[headerStyles.modalTitleHeader]}>{title}</Text>
         </Body>
         <Right>
-          {!withoutHelpIcon && <HelpIcon screenName={screenName} />}
+          {!withoutHelpIcon ? <HelpIcon screenName={screenName} /> : null}
         </Right>
       </Header>
-    )
+    );
   }
 }
 
 ModalHeader.propTypes = {
   title: PropTypes.string.isRequired,
+  screenName: PropTypes.string.isRequired,
   onPressClose: PropTypes.func,
   onPressHelp: PropTypes.func,
   canClose: PropTypes.bool,
-}
+  withoutHelpIcon: PropTypes.bool,
+};
 
-ModalHeader = withNavigation(ModalHeader)
+ModalHeader = withNavigation(ModalHeader);
 
-export { ModalHeader }
+export { ModalHeader };

@@ -7,12 +7,6 @@ import {
 
 import { YellowBox } from 'react-native';
 
-YellowBox.ignoreWarnings([
-  'Warning: isMounted(...) is deprecated',
-  'Warning: Failed prop type',
-  'Module RCTImageLoader',
-]);
-
 import { Root } from 'native-base';
 import LoginScreen from './src/components/Account/LoginScreen';
 import RegisterScreen from './src/components/Account/RegisterScreen';
@@ -35,7 +29,7 @@ import JobPendingPaymentScreen from './src/components/MyJobs/JobPendingPayments'
 import WorkModeScreen from './src/components/MyJobs/WorkModeScreen';
 import JobWorkModeScreen from './src/components/MyJobs/JobWorkMode';
 import Reviews from './src/components/MyJobs/Reviews';
-import Help from './src/components/Help'
+import Help from './src/components/Help';
 
 import {
   DASHBOARD_ROUTE,
@@ -59,7 +53,7 @@ import {
   JOB_DETAILS_NEW_TWO_ROUTE,
   JOB_WORK_MODE_ROUTE,
   JOB_PENDING_PAYMENTS_ROUTE,
-  HELP_ROUTE
+  HELP_ROUTE,
 } from './src/constants/routes';
 import {
   BLUE_DARK,
@@ -72,6 +66,12 @@ import SettingScreen from './src/components/Setting';
 import Splash from './src/components/Splash';
 import EditLocation from './src/components/Invite/EditLocation';
 import ApplicationDetailScreen from './src/components/MyJobs/ApplicationDetailScreen';
+
+YellowBox.ignoreWarnings([
+  'Warning: isMounted(...) is deprecated',
+  'Warning: Failed prop type',
+  'Module RCTImageLoader',
+]);
 
 window.DEBUG = false;
 
@@ -121,7 +121,7 @@ export const Tabs = createBottomTabNavigator(
 
 export const AppStack = createStackNavigator(
   {
-    ['Tabs']: Tabs,
+    Tabs,
     [SETTING_ROUTE]: SettingScreen,
     [RESET_ROUTE]: ChangePassword,
     [EditProfile.routeName]: EditProfile,

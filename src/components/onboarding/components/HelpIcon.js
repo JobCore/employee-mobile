@@ -1,56 +1,67 @@
-import { Button, Icon, Right } from 'native-base';
-import { headerStyles } from '../../../shared/styles';
-import PropTypes from 'prop-types';
-import { HelpModal } from './HelpModal';
-import React from 'react';
+import React, { Component } from 'react';
+import { withNavigation } from 'react-navigation';
+import { Button, Icon } from 'native-base';
+import { WHITE_MAIN, VIOLET_MAIN } from '../../../shared/colorPalette';
+import { HELP_ROUTE } from '../../../constants/routes';
 import { fetchScreens } from '../onboarding-actions';
+import styled from 'styled-components/native';
 import { onboardingStore, SCREENS_EVENT } from '../onboarding-store';
+import PropTypes from 'prop-types';
 
-class HelpIcon extends React.Component {
+const StyledHelpIcon = styled(Icon)`
+  height: 32;
+  width: 32;
+  color: ${WHITE_MAIN};
+  backgroundcolor: ${VIOLET_MAIN};
+  borderradius: 50;
+  textalign: center;
+  aligncontent: center;
+  paddingtop: 0;
+`;
+
+class HelpIcon extends Component {
   constructor(props) {
     super(props);
-    this.state = { modalOpen: false, screens: [] };
+    this.state = {
+      screens: null,
+    };
   }
 
-  componentDidMount(): void {
-    this.onboardingSubscription = onboardingStore.subscribe(SCREENS_EVENT, (screens) => {
-      this.setState({ screens });
-    });
-    fetchScreens(this.props.screenName);
+  handleOnPress = () => {
+    this.props.navigation.navigate(HELP_ROUTE, { screens: this.state.screens });
+  };
+
+  componentDidMount() {
+    this.onboardingSubscription = onboardingStore.subscribe(
+      SCREENS_EVENT,
+      (screens) => {
+        this.setState({ screens });
+      },
+    );
+
+    const { screenName } = this.props;
+    fetchScreens(screenName);
   }
 
-  componentWillUnmount(): void {
+  componentWillUnmount() {
     this.onboardingSubscription.unsubscribe();
   }
 
   render() {
-    const { modalOpen, screens } = this.state;
-    let content = <></>;
-    if (screens.length > 0)
-      content = <>
-        <HelpModal visible={modalOpen}/>
-        <Button
-          title={''}
-          transparent
-          onPress={() => this.setState({ modalOpen: !modalOpen })}>
-          <Icon
-            name="questioncircle"
-            size={24}
-            style={headerStyles.rightButtonImage}
-          />
-        </Button>
-      </>;
     return (
-      <Right>
-        {content}
-      </Right>
+      <>
+        {this.state.screens ? (
+          <Button title={''} transparent onPress={this.handleOnPress}>
+            <StyledHelpIcon size={24} name="questioncircle" />
+          </Button>
+        ) : null}
+      </>
     );
   }
 }
-
 
 HelpIcon.propTypes = {
   screenName: PropTypes.string.isRequired,
 };
 
-export { HelpIcon };
+export default withNavigation(HelpIcon);

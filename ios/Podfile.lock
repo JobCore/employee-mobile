@@ -64,6 +64,8 @@ PODS:
     - React/Core (= 0.59.8)
   - react-native-image-picker (0.27.2):
     - React
+  - react-native-maps (0.24.2):
+    - React
   - React/Core (0.59.8):
     - yoga (= 0.59.8.React)
   - React/fishhook (0.59.8)
@@ -100,6 +102,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - GoogleAppMeasurement (~> 5.2.0)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - react-native-maps (from `../node_modules/react-native-maps`)
   - React/Core (from `../node_modules/react-native`)
   - React/RCTActionSheet (from `../node_modules/react-native`)
   - React/RCTAnimation (from `../node_modules/react-native`)
@@ -130,6 +133,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-maps:
+    :path: "../node_modules/react-native-maps"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga/yoga.podspec"
 
@@ -145,8 +150,9 @@ SPEC CHECKSUMS:
   Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a
   React: 76e6aa2b87d05eb6cccb6926d72685c9a07df152
   react-native-image-picker: e47cbaf230af8902316e4d69dc83f959bde45e23
+  react-native-maps: 0316ed017dbb64b33b227751fa810e2454fcfa39
   yoga: 92b2102c3d373d1a790db4ab761d2b0ffc634f64
 
-PODFILE CHECKSUM: 2a9be2d7a8a3ecea3cc8c478adb2252c40b83a2f
+PODFILE CHECKSUM: 0d81d77a14e73de13e9aff3a6261c97ad3796ea1
 
 COCOAPODS: 1.6.1

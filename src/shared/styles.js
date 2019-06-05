@@ -1,16 +1,18 @@
-import { StyleSheet } from 'react-native'
-import { BLUE_MAIN, WHITE_MAIN } from './colorPalette'
-import { hasNotch } from './utils'
+import { StyleSheet } from 'react-native';
+import { BLUE_MAIN, WHITE_MAIN } from './colorPalette';
+import { hasNotch } from './utils';
 
-const PADDING_TOP = hasNotch() ? 20 : 5
-const HEIGHT = hasNotch() ? 90 : 60
+const PADDING_TOP = hasNotch() ? 20 : 10;
+const HEIGHT = hasNotch() ? 90 : 70;
 
 const headerStyles = StyleSheet.create({
   headerCustom: {
+    alignContent: 'center',
     alignItems: 'center',
     backgroundColor: BLUE_MAIN,
     height: HEIGHT,
     justifyContent: 'center',
+    paddingBottom: 0,
     paddingTop: PADDING_TOP,
   },
   leftButtonImage: {
@@ -28,16 +30,12 @@ const headerStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
     textAlign: 'left',
-    width: 150,
   },
   titleHeader: {
     color: WHITE_MAIN,
     fontSize: 18,
     fontWeight: '500',
-    marginLeft: 30,
-    textAlign: 'left',
-    width: 150,
   },
-})
+});
 
-export { headerStyles }
+export { headerStyles };
