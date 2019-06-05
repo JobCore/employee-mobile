@@ -179,6 +179,8 @@ export default {
     workingAs: 'Trabajando como',
   },
   HELP: {
-    help: 'Ayuda'
+    help: 'Ayuda',
+    next: 'Siguiente',
+    skip: 'Saltar Tutorial'
   }
 }
