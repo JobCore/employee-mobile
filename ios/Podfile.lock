@@ -1,14 +1,14 @@
 PODS:
-  - Firebase/Analytics (5.9.0):
+  - Firebase/Analytics (5.10.0):
     - Firebase/Core
-  - Firebase/Core (5.9.0):
+  - Firebase/Core (5.10.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 5.2.0)
-  - Firebase/CoreOnly (5.9.0):
-    - FirebaseCore (= 5.1.4)
-  - Firebase/Messaging (5.9.0):
+  - Firebase/CoreOnly (5.10.0):
+    - FirebaseCore (= 5.1.5)
+  - Firebase/Messaging (5.10.0):
     - Firebase/CoreOnly
-    - FirebaseMessaging (= 3.1.2)
+    - FirebaseMessaging (= 3.2.0)
   - FirebaseAnalytics (5.2.0):
     - FirebaseCore (~> 5.1)
     - FirebaseInstanceID (~> 3.2)
@@ -18,15 +18,16 @@ PODS:
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
-  - FirebaseCore (5.1.4):
+  - FirebaseCore (5.1.5):
     - GoogleUtilities/Logger (~> 5.2)
   - FirebaseInstanceID (3.3.0):
     - FirebaseCore (~> 5.1)
     - GoogleUtilities/Environment (~> 5.3)
     - GoogleUtilities/UserDefaults (~> 5.3)
-  - FirebaseMessaging (3.1.2):
+  - FirebaseMessaging (3.2.0):
     - FirebaseCore (~> 5.0)
     - FirebaseInstanceID (~> 3.0)
+    - GoogleUtilities/Environment (~> 5.2)
     - GoogleUtilities/Reachability (~> 5.2)
     - Protobuf (~> 3.1)
   - GoogleAppMeasurement (5.2.0):
@@ -35,63 +36,63 @@ PODS:
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
-  - GoogleUtilities/AppDelegateSwizzler (5.3.4):
+  - GoogleUtilities/AppDelegateSwizzler (5.8.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (5.3.4)
-  - GoogleUtilities/Logger (5.3.4):
+  - GoogleUtilities/Environment (5.8.0)
+  - GoogleUtilities/Logger (5.8.0):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (5.3.4):
+  - GoogleUtilities/MethodSwizzler (5.8.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (5.3.4):
+  - GoogleUtilities/Network (5.8.0):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (5.3.4)"
-  - GoogleUtilities/Reachability (5.3.4):
+  - "GoogleUtilities/NSData+zlib (5.8.0)"
+  - GoogleUtilities/Reachability (5.8.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (5.3.4):
+  - GoogleUtilities/UserDefaults (5.8.0):
     - GoogleUtilities/Logger
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
-  - Protobuf (3.6.1)
-  - React (0.57.8):
-    - React/Core (= 0.57.8)
+  - Protobuf (3.7.0)
+  - React (0.59.8):
+    - React/Core (= 0.59.8)
   - react-native-image-picker (0.27.2):
     - React
-  - React/Core (0.57.8):
-    - yoga (= 0.57.8.React)
-  - React/fishhook (0.57.8)
-  - React/RCTActionSheet (0.57.8):
+  - React/Core (0.59.8):
+    - yoga (= 0.59.8.React)
+  - React/fishhook (0.59.8)
+  - React/RCTActionSheet (0.59.8):
     - React/Core
-  - React/RCTAnimation (0.57.8):
+  - React/RCTAnimation (0.59.8):
     - React/Core
-  - React/RCTBlob (0.57.8):
+  - React/RCTBlob (0.59.8):
     - React/Core
-  - React/RCTGeolocation (0.57.8):
+  - React/RCTGeolocation (0.59.8):
     - React/Core
-  - React/RCTImage (0.57.8):
+  - React/RCTImage (0.59.8):
     - React/Core
     - React/RCTNetwork
-  - React/RCTLinkingIOS (0.57.8):
+  - React/RCTLinkingIOS (0.59.8):
     - React/Core
-  - React/RCTNetwork (0.57.8):
+  - React/RCTNetwork (0.59.8):
     - React/Core
-  - React/RCTSettings (0.57.8):
+  - React/RCTSettings (0.59.8):
     - React/Core
-  - React/RCTText (0.57.8):
+  - React/RCTText (0.59.8):
     - React/Core
-  - React/RCTVibration (0.57.8):
+  - React/RCTVibration (0.59.8):
     - React/Core
-  - React/RCTWebSocket (0.57.8):
+  - React/RCTWebSocket (0.59.8):
     - React/Core
     - React/fishhook
     - React/RCTBlob
-  - yoga (0.57.8.React)
+  - yoga (0.59.8.React)
 
 DEPENDENCIES:
   - Firebase/Analytics
@@ -133,19 +134,19 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga/yoga.podspec"
 
 SPEC CHECKSUMS:
-  Firebase: 383fa29aca93e371cab776b48a5c66544d3c2003
+  Firebase: 6691d47562a780c26281ce8464518faafc90c610
   FirebaseAnalytics: 831f1f127f4a75698e9875a87bf7e2668730d953
-  FirebaseCore: 2a84b6b325792a4319ef71ee18819dcba08d2fd7
+  FirebaseCore: c6079de64c1a87000e52e9b408dddcadc901177f
   FirebaseInstanceID: e2fa4cb35ef5558c200f7f0ad8a53e212215f93e
-  FirebaseMessaging: d6feeb06218d2675b4149b0ada925a6b707a74cf
+  FirebaseMessaging: 000b32447b461b34b6b912b23ec11be20b503b5b
   GoogleAppMeasurement: 2b3a023a61239c8d002e6e4fcf4abce8eddce0e0
-  GoogleUtilities: abb092d2c12e817fa3e0e7b274987dd72fb86ec3
+  GoogleUtilities: 04fce34bcd5620c1ee76fb79172105c74a4df335
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
-  Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
-  React: adbac0757ce35e92fbd447ab98c810209d27d9b0
+  Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a
+  React: 76e6aa2b87d05eb6cccb6926d72685c9a07df152
   react-native-image-picker: e47cbaf230af8902316e4d69dc83f959bde45e23
-  yoga: 74cdf036c30820443b25ade59916236b1e95ee93
+  yoga: 92b2102c3d373d1a790db4ab761d2b0ffc634f64
 
-PODFILE CHECKSUM: fe5bbc2477aa913724a19fe520f24b9714dd628a
+PODFILE CHECKSUM: 2a9be2d7a8a3ecea3cc8c478adb2252c40b83a2f
 
 COCOAPODS: 1.6.1
