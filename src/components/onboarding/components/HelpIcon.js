@@ -12,11 +12,11 @@ const StyledHelpIcon = styled(Icon)`
   height: 32;
   width: 32;
   color: ${WHITE_MAIN};
-  backgroundcolor: ${BLUE_MAIN};
-  borderradius: 50;
-  textalign: center;
-  aligncontent: center;
-  paddingtop: 0;
+  background-color: ${BLUE_MAIN};
+  border-radius: 50;
+  text-align: center;
+  align-content: center;
+  padding-top: 0;
 `;
 
 class HelpIcon extends Component {

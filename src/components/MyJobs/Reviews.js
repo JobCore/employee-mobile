@@ -97,13 +97,16 @@ class Reviews extends Component {
     CustomToast(err, 'danger');
   };
 
+  getRatingEmployeeFormat(rating) {
+    return rating ? rating.toFixed(1) : '0.0';
+  }
+
   render() {
     return (
       <I18n>
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-
             {this.state.emptyReviews ? (
               <CenteredText text={`${t('REVIEWS.emptyReviews')}`} />
             ) : null}
@@ -148,7 +151,9 @@ class Reviews extends Component {
                               {t('PROFILE.yourRating')}
                             </Text>
                             <Text style={profileStyles.textRowNumber}>
-                              {this.state.profile.employee.rating}
+                              {this.getRatingEmployeeFormat(
+                                this.state.profile.employee.rating,
+                              )}
                             </Text>
                             <Text style={profileStyles.textRowTitle}>
                               {this.state.starsArray.map((star) => (
@@ -200,15 +205,29 @@ class Reviews extends Component {
                             </Text>
                           ) : null}
                           {review.shift && review.shift.position ? (
-                            <Text style={{ color: BLUE_LIGHT, fontSize: 14 }}>
+                            <Text
+                              style={{
+                                color: BLUE_LIGHT,
+                                fontSize: 14,
+                                fontWeight: 'normal',
+                              }}>
                               {`${t('REVIEWS.workingAs')} `}
-                              <Text style={{ color: BLUE_MAIN }}>
+                              <Text
+                                style={{
+                                  color: BLUE_MAIN,
+                                  fontWeight: 'bold',
+                                }}>
                                 {review.shift.position.title}
                               </Text>
                             </Text>
                           ) : null}
-                          <Text style={{ color: BLUE_MAIN, fontSize: 14 }}>
-                            {review.rating}{' '}
+                          <Text
+                            style={{
+                              color: BLUE_DARK,
+                              fontSize: 18,
+                              fontWeight: 'normal',
+                            }}>
+                            {this.getRatingEmployeeFormat(review.rating)}{' '}
                             <Text>
                               {this.state.starsArray.map((star) => (
                                 <Icon
@@ -219,7 +238,7 @@ class Reviews extends Component {
                                       review.rating >= star
                                         ? BLUE_DARK
                                         : BLUE_LIGHT,
-                                    fontSize: 14,
+                                    fontSize: 18,
                                   }}
                                 />
                               ))}
@@ -227,6 +246,7 @@ class Reviews extends Component {
                               <Text
                                 style={{
                                   color: BLUE_DARK,
+                                  fontWeight: 'bold',
                                 }}>
                                 {'                '}
                                 {moment(review.created_at)

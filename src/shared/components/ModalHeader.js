@@ -6,7 +6,7 @@ import { headerStyles } from '../styles';
 import { BLUE_MAIN } from '../colorPalette';
 import HelpIcon from '../../components/onboarding/components/HelpIcon';
 
-class ModalHeader extends Component {
+class _ModalHeader extends Component {
   render() {
     const {
       canClose = true,
@@ -41,7 +41,7 @@ class ModalHeader extends Component {
   }
 }
 
-ModalHeader.propTypes = {
+_ModalHeader.propTypes = {
   title: PropTypes.string.isRequired,
   screenName: PropTypes.string.isRequired,
   onPressClose: PropTypes.func,
@@ -50,6 +50,6 @@ ModalHeader.propTypes = {
   withoutHelpIcon: PropTypes.bool,
 };
 
-ModalHeader = withNavigation(ModalHeader);
+const ModalHeader = withNavigation(_ModalHeader);
 
 export { ModalHeader };

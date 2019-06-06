@@ -1,21 +1,17 @@
-import { StyleSheet, Dimensions } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native';
 
-import {
-  BLUE_MAIN,
-  BLUE_DARK,
-  WHITE_MAIN
-} from '../../shared/colorPalette'
+import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN } from '../../shared/colorPalette';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
-const styles = StyleSheet.create({
+const helpStyles = StyleSheet.create({
   view: {
     backgroundColor: BLUE_DARK,
   },
   itemView: {
     textAlign: 'center',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   itemHeading: {
     backgroundColor: BLUE_MAIN,
@@ -23,11 +19,11 @@ const styles = StyleSheet.create({
     color: WHITE_MAIN,
     paddingTop: 10,
     paddingBottom: 15,
-    fontSize: 20
+    fontSize: 20,
   },
   itemImage: {
     width: width,
-    height: 300,
+    height: 350,
   },
   itemText: {
     color: WHITE_MAIN,
@@ -35,7 +31,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     paddingLeft: 50,
-    paddingRight: 50
+    paddingRight: 50,
   },
   itemButtonNext: {
     backgroundColor: '#6CACB5',
@@ -44,7 +40,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 30,
-    marginBottom: 25
+    marginBottom: 25,
   },
   itemButtonSkip: {
     width: '100%',
@@ -56,20 +52,21 @@ const styles = StyleSheet.create({
   },
   itemButtonTextSkip: {
     color: '#F8FCFB',
-    fontSize: 12
+    fontSize: 12,
   },
   itemSkipText: {
     color: WHITE_MAIN,
-    padding: 5
+    padding: 5,
   },
   itemBody: {
     paddingHorizontal: 100,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   content: {
-    backgroundColor: BLUE_DARK
-  }
-})
+    backgroundColor: BLUE_DARK,
+    flex: 1,
+  },
+});
 
-export { styles }
+export { helpStyles };

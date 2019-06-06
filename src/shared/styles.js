@@ -29,7 +29,7 @@ const headerStyles = StyleSheet.create({
     color: WHITE_MAIN,
     fontSize: 18,
     fontWeight: '500',
-    textAlign: 'left',
+    textAlign: 'center',
   },
   titleHeader: {
     color: WHITE_MAIN,
