@@ -150,7 +150,7 @@ class Reviews extends Component {
                             <Text style={profileStyles.textRowTitle}>
                               {t('PROFILE.yourRating')}
                             </Text>
-                            <Text style={profileStyles.textRowNumber}>
+                            <Text style={styles.textRowNumber}>
                               {this.getRatingEmployeeFormat(
                                 this.state.profile.employee.rating,
                               )}
@@ -175,7 +175,7 @@ class Reviews extends Component {
                             <Text style={profileStyles.textRowTitle}>
                               {t('PROFILE.completedJobs')}
                             </Text>
-                            <Text style={profileStyles.textRowNumber}>
+                            <Text style={styles.textRowNumber}>
                               {this.state.profile.employee.total_ratings}
                             </Text>
                           </View>
