@@ -10,8 +10,7 @@ class _ModalHeader extends Component {
   render() {
     const {
       canClose = true,
-      onPressClose = () => {
-      },
+      onPressClose = () => {},
       title,
       withoutHelpIcon,
       screenName,
@@ -35,7 +34,7 @@ class _ModalHeader extends Component {
           <Text style={[headerStyles.modalTitleHeader]}>{title}</Text>
         </Body>
         <Right>
-          {!withoutHelpIcon ? <HelpIcon screenName={screenName}/> : null}
+          {!withoutHelpIcon ? <HelpIcon screenName={screenName} /> : null}
         </Right>
       </Header>
     );
