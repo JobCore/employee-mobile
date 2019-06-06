@@ -74,7 +74,7 @@ export default StyleSheet.create({
     margin: 0,
   },
   textRowNumber: {
-    fontSize: 64,
+    fontSize: 16,
     textAlign: 'center',
     color: BLUE_DARK,
     paddingRight: 30,
