@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
 import { Button, Icon } from 'native-base';
-import { WHITE_MAIN, VIOLET_MAIN } from '../../../shared/colorPalette';
+import { BLUE_MAIN, WHITE_MAIN } from '../../../shared/colorPalette';
 import { HELP_ROUTE } from '../../../constants/routes';
 import { fetchScreens } from '../onboarding-actions';
 import styled from 'styled-components/native';
@@ -12,7 +12,7 @@ const StyledHelpIcon = styled(Icon)`
   height: 32;
   width: 32;
   color: ${WHITE_MAIN};
-  backgroundcolor: ${VIOLET_MAIN};
+  backgroundcolor: ${BLUE_MAIN};
   borderradius: 50;
   textalign: center;
   aligncontent: center;

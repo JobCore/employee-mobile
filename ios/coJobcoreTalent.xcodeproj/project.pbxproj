@@ -687,7 +687,7 @@
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 4STCLHYTV3;
+						DevelopmentTeam = GMA9CVBJW8;
 						SystemCapabilities = {
 							com.apple.AccessWiFi = {
 								enabled = 1;
@@ -1150,7 +1150,7 @@
 				CODE_SIGN_ENTITLEMENTS = coJobcoreTalent/coJobcoreTalent.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 4STCLHYTV3;
+				DEVELOPMENT_TEAM = GMA9CVBJW8;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
@@ -1166,7 +1166,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.jobcore.talent.test;
+				PRODUCT_BUNDLE_IDENTIFIER = co.jobcore.talent;
 				PRODUCT_NAME = coJobcoreTalent;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1179,7 +1179,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = coJobcoreTalent/coJobcoreTalent.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4STCLHYTV3;
+				DEVELOPMENT_TEAM = GMA9CVBJW8;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
@@ -1195,7 +1195,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.jobcore.talent.test;
+				PRODUCT_BUNDLE_IDENTIFIER = co.jobcore.talent;
 				PRODUCT_NAME = coJobcoreTalent;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
