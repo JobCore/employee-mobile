@@ -66,6 +66,8 @@ PODS:
     - React
   - react-native-maps (0.24.2):
     - React
+  - react-native-netinfo (3.2.1):
+    - React
   - React/Core (0.59.8):
     - yoga (= 0.59.8.React)
   - React/fishhook (0.59.8)
@@ -94,6 +96,8 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - RNCAsyncStorage (1.4.2):
+    - React
   - yoga (0.59.8.React)
 
 DEPENDENCIES:
@@ -103,6 +107,7 @@ DEPENDENCIES:
   - GoogleAppMeasurement (~> 5.2.0)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-maps (from `../node_modules/react-native-maps`)
+  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - React/Core (from `../node_modules/react-native`)
   - React/RCTActionSheet (from `../node_modules/react-native`)
   - React/RCTAnimation (from `../node_modules/react-native`)
@@ -114,6 +119,7 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
 
 SPEC REPOS:
@@ -135,6 +141,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-picker"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
+  react-native-netinfo:
+    :path: "../node_modules/@react-native-community/netinfo"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-community/async-storage"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga/yoga.podspec"
 
@@ -151,8 +161,10 @@ SPEC CHECKSUMS:
   React: 76e6aa2b87d05eb6cccb6926d72685c9a07df152
   react-native-image-picker: e47cbaf230af8902316e4d69dc83f959bde45e23
   react-native-maps: 0316ed017dbb64b33b227751fa810e2454fcfa39
+  react-native-netinfo: 27d908bc7ee7b9f29400c02938a0b2a27a1015be
+  RNCAsyncStorage: 285698b8a4f219573174d99e863a78b93f389272
   yoga: 92b2102c3d373d1a790db4ab761d2b0ffc634f64
 
-PODFILE CHECKSUM: 0d81d77a14e73de13e9aff3a6261c97ad3796ea1
+PODFILE CHECKSUM: 46a3084c7a68bce3425c23f50915cf039ea0a80b
 
 COCOAPODS: 1.6.1
