@@ -1,5 +1,5 @@
 import { FluxStore } from '../../shared/flux-state';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { LOG, ERROR, storeErrorHandler } from '../../shared';
 
 class AccountStore extends FluxStore {

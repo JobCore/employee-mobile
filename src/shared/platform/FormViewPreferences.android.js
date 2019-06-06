@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View,
   ScrollView,
-  AsyncStorage,
-  KeyboardAvoidingView,
-  Platform,
 } from 'react-native';
 import styles from './styles';
 

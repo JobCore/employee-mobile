@@ -10,7 +10,8 @@ class _ModalHeader extends Component {
   render() {
     const {
       canClose = true,
-      onPressClose = () => {},
+      onPressClose = () => {
+      },
       title,
       withoutHelpIcon,
       screenName,
@@ -34,7 +35,7 @@ class _ModalHeader extends Component {
           <Text style={[headerStyles.modalTitleHeader]}>{title}</Text>
         </Body>
         <Right>
-          {!withoutHelpIcon ? <HelpIcon screenName={screenName} /> : null}
+          {!withoutHelpIcon ? <HelpIcon screenName={screenName}/> : null}
         </Right>
       </Header>
     );
@@ -43,11 +44,14 @@ class _ModalHeader extends Component {
 
 _ModalHeader.propTypes = {
   title: PropTypes.string.isRequired,
-  screenName: PropTypes.string.isRequired,
+  screenName: PropTypes.string,
   onPressClose: PropTypes.func,
   onPressHelp: PropTypes.func,
   canClose: PropTypes.bool,
   withoutHelpIcon: PropTypes.bool,
+};
+_ModalHeader.defaultProps = {
+  screenName: null,
 };
 
 const ModalHeader = withNavigation(_ModalHeader);

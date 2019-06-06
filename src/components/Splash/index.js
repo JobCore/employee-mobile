@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { AsyncStorage, StyleSheet, ImageBackground } from 'react-native';
+import { StyleSheet, ImageBackground } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { APP_ROUTE, AUTH_ROUTE } from '../../constants/routes';
 import store from '../Account/AccountStore';
 import { LOG } from '../../shared';
 import accountStore from '../Account/AccountStore';
 import * as accountActions from '../Account/actions';
 import SPLASH_IMG from '../../assets/image/splash.png';
-import { getOpenClockIns } from '../MyJobs/actions';
-import { error } from 'pure-logger';
-import WorkModeScreen from '../MyJobs/WorkModeScreen';
+
 
 class Splash extends Component {
   componentDidMount() {
@@ -62,7 +61,7 @@ class Splash extends Component {
 
   // Render any loading content that you like here
   render() {
-    return <ImageBackground source={SPLASH_IMG} style={styles.imgSplash} />;
+    return <ImageBackground source={SPLASH_IMG} style={styles.imgSplash}/>;
   }
 }
 

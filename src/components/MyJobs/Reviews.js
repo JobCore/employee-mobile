@@ -106,9 +106,9 @@ class Reviews extends Component {
       <I18n>
         {(t) => (
           <Container>
-            {this.state.isLoading ? <Loading /> : null}
+            {this.state.isLoading ? <Loading/> : null}
             {this.state.emptyReviews ? (
-              <CenteredText text={`${t('REVIEWS.emptyReviews')}`} />
+              <CenteredText text={`${t('REVIEWS.emptyReviews')}`}/>
             ) : null}
 
             <Header
@@ -130,7 +130,7 @@ class Reviews extends Component {
                   {t('REVIEWS.reviews')}
                 </Title>
               </Body>
-              <Right />
+              <Right/>
             </Header>
 
             {Array.isArray(this.state.reviews) ? (
@@ -263,7 +263,7 @@ class Reviews extends Component {
                       noBorder={false}>
                       <Text style={{ color: BLUE_DARK, fontSize: 14 }}>{`" ${
                         review.comments
-                      }`}</Text>
+                        }`}</Text>
                     </ListItem>
                   </>
                 )}

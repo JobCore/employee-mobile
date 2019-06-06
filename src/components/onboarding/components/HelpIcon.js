@@ -52,7 +52,7 @@ class HelpIcon extends Component {
       <>
         {this.state.screens ? (
           <Button title={''} transparent onPress={this.handleOnPress}>
-            <StyledHelpIcon size={24} name="questioncircle" />
+            <StyledHelpIcon size={24} name="questioncircle"/>
           </Button>
         ) : null}
       </>
@@ -61,7 +61,11 @@ class HelpIcon extends Component {
 }
 
 HelpIcon.propTypes = {
-  screenName: PropTypes.string.isRequired,
+  screenName: PropTypes.string,
+};
+
+HelpIcon.defaultProps = {
+  screenName: null,
 };
 
 export default withNavigation(HelpIcon);
