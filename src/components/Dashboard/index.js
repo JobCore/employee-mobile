@@ -20,6 +20,7 @@ import {
   JOB_INVITES_ROUTE,
   MYJOBS_ROUTE,
   REVIEWS_ROUTE,
+  JOB_PENDING_PAYMENTS_ROUTE
 } from '../../constants/routes';
 import accountStore from '../Account/AccountStore';
 import * as accountActions from '../Account/actions';
@@ -71,7 +72,7 @@ class DashboardScreen extends Component {
       isRefreshing: false,
       stopReceivingInvites: false,
       rating: 0,
-      pendingPayments: 'N/A',
+      pendingPayments: '$150.00',
       invites: [],
       upcomingJobs: [],
       activeShift: null,
@@ -380,16 +381,18 @@ class DashboardScreen extends Component {
                   { flex: 2, paddingTop: 10, paddingBottom: 10 },
                 ]}>
                 <View style={styles.viewItemJobsLeft}>
-                  <Text style={styles.titleItem}>
-                    {t('DASHBOARD.pendingPayments')}
-                  </Text>
-                  <Image
-                    style={styles.iconSize}
-                    source={require('../../assets/image/payments.png')}
-                  />
-                  <Text style={styles.itemData}>
-                    {this.state.pendingPayments}
-                  </Text>
+                  <TouchableOpacity onPress={this.goToPendingPayments}>
+                    <Text style={styles.titleItem}>
+                      {t('DASHBOARD.pendingPayments')}
+                    </Text>
+                    <Image
+                      style={styles.iconSize}
+                      source={require('../../assets/image/payments.png')}
+                    />
+                    <Text style={styles.itemData}>
+                      $1000 {/* this.state.pendingPayments */}
+                    </Text>
+                  </TouchableOpacity>
                 </View>
                 <View style={styles.viewItemJobsRight}>
                   <TouchableOpacity onPress={this.goToInvitation}>
@@ -593,6 +596,10 @@ class DashboardScreen extends Component {
 
   goToReviews = () => {
     this.props.navigation.navigate(REVIEWS_ROUTE);
+  };
+
+  goToPendingPayments = () => {
+    this.props.navigation.navigate(JOB_PENDING_PAYMENTS_ROUTE);
   };
 
   getEmployee = () => {
