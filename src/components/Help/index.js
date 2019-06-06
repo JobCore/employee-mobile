@@ -17,14 +17,6 @@ class Help extends Component {
     return (
       <Content style={helpStyles.content}>
         <View style={{ flex: 1 }}>
-          <ModalHeader
-            title={item.heading}
-            screenName={'help'}
-            withoutHelpIcon={true}
-            onPressClose={this.handleGoBack}
-          />
-        </View>
-        <View style={{ flex: 1 }}>
           <Image style={helpStyles.itemImage} source={{ uri: item.img_url }} />
         </View>
         <View style={{ flex: 1 }}>
@@ -66,7 +58,17 @@ class Help extends Component {
 
     return (
       <I18n>
-        {(t) => <Container>{this._renderItem(t, currentItem)}</Container>}
+        {(t) => (
+          <>
+            <ModalHeader
+              title={currentItem.heading}
+              screenName={'help'}
+              withoutHelpIcon={true}
+              onPressClose={this.handleGoBack}
+            />
+            <Container>{this._renderItem(t, currentItem)}</Container>
+          </>
+        )}
       </I18n>
     );
   }
