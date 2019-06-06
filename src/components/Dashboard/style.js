@@ -79,6 +79,7 @@ export default StyleSheet.create({
   itemData: {
     color: BLUE_DARK,
     fontSize: 18,
+    textAlign: 'center',
     marginTop: 10,
   },
   iconSize: {
