@@ -23,10 +23,7 @@ class _ModalHeader extends Component {
         <Left>
           {canClose ? (
             <Button transparent onPress={onPressClose} title="">
-              <Icon
-                name="ios-arrow-back"
-                style={[headerStyles.leftButtonImage]}
-              />
+              <Icon name="ios-close" style={[headerStyles.leftButtonImage]} />
             </Button>
           ) : null}
         </Left>

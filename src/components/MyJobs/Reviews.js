@@ -98,7 +98,9 @@ class Reviews extends Component {
   };
 
   getRatingEmployeeFormat(rating) {
-    return rating ? rating.toFixed(1) : '0.0';
+    rating = parseFloat(rating);
+
+    return rating && typeof rating === 'number' ? rating.toFixed(1) : '0.0';
   }
 
   render() {
@@ -261,9 +263,11 @@ class Reviews extends Component {
                     <ListItem
                       style={{ paddingTop: 5, paddingLeft: 18, marginLeft: 0 }}
                       noBorder={false}>
-                      <Text style={{ color: BLUE_DARK, fontSize: 14 }}>{`" ${
-                        review.comments
-                      }`}</Text>
+                      <Text
+                        style={{
+                          color: BLUE_DARK,
+                          fontSize: 14,
+                        }}>{`" ${review.comments}`}</Text>
                     </ListItem>
                   </>
                 )}
