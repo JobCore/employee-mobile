@@ -149,7 +149,6 @@ export default {
     dashboard: 'Dashboard',
     hello: 'Hello',
     welcome: 'Welcome to Jobcore',
-    pendingPayments: 'Pending payments',
     invitations: 'Invitations',
     upcomingJobs: 'Upcoming jobs',
     myRating: 'My rating',
@@ -167,7 +166,7 @@ export default {
       'Add a picture of yourself and talk about your experiece to increase your visibility and receive more invites',
     noRating: 'They have not rated you yet',
     noBadges: 'The more badges you receive, the more invitations you will get',
-    noJobsComments: 'To get jobs you can have comments'
+    noJobsComments: 'To get jobs you can have comments',
   },
   REVIEWS: {
     reviews: 'Reviews',
@@ -177,6 +176,10 @@ export default {
   HELP: {
     help: 'Tips',
     next: 'Next',
-    skip: 'Skip Tutorial'
-  }
-}
+    skip: 'Skip Tutorial',
+  },
+  PAYMENTS: {
+    payments: 'Payments',
+    emptyPayments: 'You have no payments yet',
+  },
+};

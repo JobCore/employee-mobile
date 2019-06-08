@@ -25,7 +25,7 @@ import HeaderPayments from '../../shared/components/HeaderPayments';
 import { ModalHeader } from '../../shared/components/ModalHeader';
 // import IconTime from '../../assets/image/time.png'
 
-class JobPendingPayments extends Component {
+class JobPayments extends Component {
   static navigationOptions = {
     header: null,
     tabBarLabel: i18next.t('JOB_INVITES.inviteDetails'),
@@ -133,9 +133,9 @@ class JobPendingPayments extends Component {
           <Container>
             {this.state.isLoading ? <Loading /> : null}
             {this.state.emptyReviews && (
-              <CenteredText text={`${t('REVIEWS.emptyReviews')}`} />
+              <CenteredText text={`${t('PAYMENTS.emptyPaymentes')}`} />
             )}
-            <ModalHeader screenName="payments" title={t('JOB_INVITES.job')} />
+            <ModalHeader screenName="payments" title={t('PAYMENTS.payments')} />
             <Content>
               <HeaderPayments
                 totalAmount={totalAmount.toFixed(2)}
@@ -289,4 +289,4 @@ class JobPendingPayments extends Component {
   };
 }
 
-export default JobPendingPayments;
+export default JobPayments;

@@ -131,7 +131,8 @@ export default {
     rateJob: 'Calificar trabajo',
     rateComment: 'Escribe un comentario',
     rate: 'Calificar',
-    rateThisEmployer: 'Califica al empleador de este trabajo y dale un comentario',
+    rateThisEmployer:
+      'Califica al empleador de este trabajo y dale un comentario',
     alreadyRated:
       '"Usted ya ha calificado a este empleador para este trabajo!"',
     invalidShift: 'Trabajo invalido',
@@ -167,11 +168,11 @@ export default {
     completedJobs: 'Trabajos completados',
     badges: 'Insignias',
     whatEmployersSaid: 'Lo que los empleadores dijeron de ti',
-    completeProfileText: 
+    completeProfileText:
       'Agrega una foto de ti mismo y habla sobre tu experiencia para aumentar tu visibilidad y recibir más invitaciones',
     noRating: 'Aún no te han calificado',
     noBadges: 'Cuantas más insignias recibas, más invitaciones recibirás',
-    noJobsComments: 'Realiza trabajos para recibir comentarios'
+    noJobsComments: 'Realiza trabajos para recibir comentarios',
   },
   REVIEWS: {
     Reviews: 'Opiniones',
@@ -181,6 +182,10 @@ export default {
   HELP: {
     help: 'Ayuda',
     next: 'Siguiente',
-    skip: 'Saltar Tutorial'
-  }
-}
+    skip: 'Saltar Tutorial',
+  },
+  PAYMENTS: {
+    payments: 'Pagos',
+    emptyPayments: 'Aún no tienes pagos',
+  },
+};

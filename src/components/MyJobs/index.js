@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, RefreshControl, Alert } from 'react-native';
+import { View, Image, RefreshControl } from 'react-native';
 import {
   Container,
   Content,
@@ -12,17 +12,10 @@ import {
   ListItem,
 } from 'native-base';
 import styles from './style';
-import {
-  JOB_DETAILS_V2,
-  JOB_DETAILS_NEW_ONE_ROUTE,
-  JOB_DETAILS_NEW_TWO_ROUTE,
-  JOB_WORK_MODE_ROUTE,
-  JOB_PENDING_PAYMENTS_ROUTE,
-} from '../../constants/routes';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as jobActions from './actions';
-import { equalMonthAndYear, isValidString } from '../../shared';
+import { equalMonthAndYear } from '../../shared';
 import { CustomToast, Loading, CenteredText } from '../../shared/components';
 import jobStore from './JobStore';
 import moment from 'moment';
@@ -191,7 +184,7 @@ class MyJobs extends Component {
             {/*  </Text>*/}
             {/*  <Text*/}
             {/*    onPress={() =>*/}
-            {/*      this.props.navigation.navigate(JOB_PENDING_PAYMENTS_ROUTE)*/}
+            {/*      this.props.navigation.navigate(JOB_PAYMENTS_ROUTE)*/}
             {/*    }>*/}
             {/*    Link para ver Pending payments*/}
             {/*  </Text>*/}
