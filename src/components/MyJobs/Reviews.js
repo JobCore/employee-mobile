@@ -267,7 +267,7 @@ class Reviews extends Component {
                         style={{
                           color: BLUE_DARK,
                           fontSize: 14,
-                        }}>{`" ${review.comments}`}</Text>
+                        }}>{`" ${review.comments} "`}</Text>
                     </ListItem>
                   </>
                 )}
