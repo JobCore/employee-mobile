@@ -22,6 +22,9 @@ import * as inviteActions from './actions';
 // import { JobDetails } from '../../shared/components';
 import { LOG } from '../../shared';
 import CHICKEN from '../../assets/image/chicken.png';
+import jobStore from './JobStore';
+import * as jobActions from './actions';
+import { CustomToast, Loading, CenteredText } from '../../shared/components';
 
 import HeaderPayments from '../../shared/components/HeaderPayments';
 // import IconTime from '../../assets/image/time.png'
@@ -38,11 +41,104 @@ class JobPendingPayments extends Component {
     ),
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoading: false,
+      isRefreshing: false,
+      emptyReviews: false,
+      filterSelected: 'getPendingPayments',
+      filters: [
+        {
+          action: 'getPendingPayments',
+        },
+        {
+          action: 'getClearedPayments',
+        },
+      ],
+      payments: [],
+    };
+  }
+
+  componentDidMount() {
+    this.getPendingPaymentsSubscription = jobStore.subscribe(
+      'GetPendingPayments',
+      this.getPaymentsHandler,
+    );
+    this.getClearedPaymentsSubscription = jobStore.subscribe(
+      'GetClearedPayments',
+      this.getPaymentsHandler,
+    );
+    this.jobStoreError = jobStore.subscribe('JobStoreError', this.errorHandler);
+
+    this.loadData();
+  }
+
+  componentWillUnmount() {
+    this.getPendingPaymentsSubscription.unsubscribe();
+    this.getClearedPaymentsSubscription.unsubscribe();
+  }
+
+  getPaymentsHandler = (payments) => {
+    let emptyPayments = false;
+    if (Array.isArray(payments) && !payments.length) emptyPayments = true;
+
+    this.setState({
+      isLoading: false,
+      isRefreshing: false,
+      emptyPayments,
+      payments,
+    });
+  };
+
+  errorHandler = (err) => {
+    this.setState({
+      isLoading: false,
+      isRefreshing: false,
+    });
+    CustomToast(err, 'danger');
+  };
+
+  loadData = () => {
+    this.setState({ isLoading: true }, () => {
+      this.getPayments();
+    });
+  };
+
+  refreshData = () => {
+    this.setState({ isRefreshing: true }, () => {
+      this.getPayments();
+    });
+  };
+
+  getPayments = () => {
+    jobActions[this.state.filterSelected]();
+  };
+
+  selectFilter = (filterSelected) => {
+    if (this.state.isLoading) return;
+
+    this.setState({ filterSelected, isLoading: true }, this.getPayments);
+  };
+
   render() {
+    let totalAmount = 0,
+      totalHours = 0;
+
+    this.state.payments.forEach((payment) => {
+      totalAmount += parseFloat(payment.total_amount);
+      totalHours += parseFloat(payment.regular_hours);
+    });
+
     return (
       <I18n>
         {(t) => (
           <Container>
+            {this.state.isLoading ? <Loading /> : null}
+            {this.state.emptyReviews && (
+              <CenteredText text={`${t('REVIEWS.emptyReviews')}`} />
+            )}
             <Header
               androidStatusBarColor={BLUE_MAIN}
               style={styles.headerCustom}>
@@ -64,95 +160,47 @@ class JobPendingPayments extends Component {
               </Body>
               <Right />
             </Header>
-
             <Content>
-              <HeaderPayments />
-              <List>
-                <ListItem avatar>
-                  <Left>
-                    <Image
-                      resizeMode={'cover'}
-                      circle={true}
-                      source={CHICKEN}
-                      style={styles.imgCover}
-                    />
-                  </Left>
-                  <Body>
-                    <Text>
-                      {' '}
-                      <Text style={styles.textOne}>Company </Text>
-                      <Text style={styles.textTwo}>will pay you </Text>{' '}
-                      <Text style={styles.textRed}>$145 </Text>
-                      <Text style={styles.textTwo}>for being a</Text>{' '}
-                      <Text style={styles.textThree}>Kitchen Assistant</Text>{' '}
-                      from May 30th 3:00pm to May 30th 6:00pm
-                    </Text>
-                  </Body>
-                </ListItem>
-                <ListItem avatar>
-                  <Left>
-                    <Image
-                      resizeMode={'cover'}
-                      circle={true}
-                      source={CHICKEN}
-                      style={styles.imgCover}
-                    />
-                  </Left>
-                  <Body>
-                    <Text>
-                      {' '}
-                      <Text style={styles.textOne}>Company </Text>
-                      <Text style={styles.textTwo}>will pay you </Text>{' '}
-                      <Text style={styles.textRed}>$145 </Text>
-                      <Text style={styles.textTwo}>for being a</Text>{' '}
-                      <Text style={styles.textThree}>Kitchen Assistant</Text>{' '}
-                      from May 30th 3:00pm to May 30th 6:00pm
-                    </Text>
-                  </Body>
-                </ListItem>
-                <ListItem avatar>
-                  <Left>
-                    <Image
-                      resizeMode={'cover'}
-                      circle={true}
-                      source={CHICKEN}
-                      style={styles.imgCover}
-                    />
-                  </Left>
-                  <Body>
-                    <Text>
-                      {' '}
-                      <Text style={styles.textOne}>Company </Text>
-                      <Text style={styles.textTwo}>will pay you </Text>{' '}
-                      <Text style={styles.textRed}>$145 </Text>
-                      <Text style={styles.textTwo}>for being a</Text>{' '}
-                      <Text style={styles.textThree}>Kitchen Assistant</Text>{' '}
-                      from May 30th 3:00pm to May 30th 6:00pm
-                    </Text>
-                  </Body>
-                </ListItem>
-                <ListItem avatar>
-                  <Left>
-                    <Image
-                      resizeMode={'cover'}
-                      circle={true}
-                      source={CHICKEN}
-                      style={styles.imgCover}
-                    />
-                  </Left>
-                  <Body>
-                    <Text>
-                      {' '}
-                      <Text style={styles.textOne}>Company </Text>
-                      <Text style={styles.textTwo}>will pay you </Text>{' '}
-                      <Text style={styles.textRed}>$145 </Text>
-                      <Text style={styles.textTwo}>for being a</Text>{' '}
-                      <Text style={styles.textThree}>Kitchen Assistant</Text>{' '}
-                      from May 30th 3:00pm to May 30th 6:00pm
-                    </Text>
-                  </Body>
-                </ListItem>
-              </List>
+              <HeaderPayments
+                totalAmount={totalAmount.toFixed(2)}
+                totalHours={totalHours.toFixed(2)}
+                selectFilter={this.selectFilter}
+                activeFilter={this.state.filterSelected}
+                filters={this.state.filters}
+              />
+              {this.state.payments.length ? (
+                <List>
+                  {this.state.payments.map((payment, key) => (
+                    <ListItem avatar key={key}>
+                      <Left>
+                        <Image
+                          resizeMode={'cover'}
+                          circle={true}
+                          source={CHICKEN}
+                          style={styles.imgCover}
+                        />
+                      </Left>
+                      <Body>
+                        <Text>
+                          {' '}
+                          <Text style={styles.textOne}>
+                            {payment.employer.title}{' '}
+                          </Text>
+                          <Text style={styles.textTwo}>will pay you </Text>{' '}
+                          <Text style={styles.textRed}>
+                            ${payment.total_amount}
+                          </Text>
+                          <Text style={styles.textTwo}>for being a</Text>{' '}
+                          <Text style={styles.textThree}>
+                            {payment.shift.position.title}
+                          </Text>{' '}
+                          from May 30th 3:00pm to May 30th 6:00pm
+                        </Text>
+                      </Body>
+                    </ListItem>
+                  ))}
+                </List>
+              ) : null}
             </Content>
           </Container>
         )}

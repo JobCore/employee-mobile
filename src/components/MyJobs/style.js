@@ -123,6 +123,7 @@ export default StyleSheet.create({
     paddingLeft: 65,
     paddingRight: 65,
     borderColor: BLUE_MAIN,
+    borderLeftWidth: 1,
   },
   rateContainer: {
     marginTop: 30,
