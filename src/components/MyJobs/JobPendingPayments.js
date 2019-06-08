@@ -3,18 +3,13 @@ import { Image, Alert } from 'react-native';
 import {
   Container,
   Content,
-  Button,
   Text,
-  Header,
   Left,
-  Right,
   Body,
-  Icon,
   List,
   ListItem,
 } from 'native-base';
 import styles from './style';
-import { WHITE_MAIN, BLUE_MAIN } from '../../shared/colorPalette';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as inviteActions from './actions';
@@ -27,6 +22,7 @@ import * as jobActions from './actions';
 import { CustomToast, Loading, CenteredText } from '../../shared/components';
 
 import HeaderPayments from '../../shared/components/HeaderPayments';
+import { ModalHeader } from '../../shared/components/ModalHeader';
 // import IconTime from '../../assets/image/time.png'
 
 class JobPendingPayments extends Component {
@@ -139,27 +135,7 @@ class JobPendingPayments extends Component {
             {this.state.emptyReviews && (
               <CenteredText text={`${t('REVIEWS.emptyReviews')}`} />
             )}
-            <Header
-              androidStatusBarColor={BLUE_MAIN}
-              style={styles.headerCustom}>
-              <Left>
-                <Button
-                  transparent
-                  onPress={() => this.props.navigation.goBack()}>
-                  <Icon
-                    name="ios-close"
-                    size={24}
-                    style={{ color: WHITE_MAIN, marginLeft: 20 }}
-                  />
-                </Button>
-              </Left>
-              <Body>
-                <Text style={[{ width: 150 }, styles.titleHeader]}>
-                  {t('JOB_INVITES.job')}
-                </Text>
-              </Body>
-              <Right />
-            </Header>
+            <ModalHeader screenName="payments" title={t('JOB_INVITES.job')} />
             <Content>
               <HeaderPayments
                 totalAmount={totalAmount.toFixed(2)}

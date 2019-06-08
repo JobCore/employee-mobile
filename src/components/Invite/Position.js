@@ -2,26 +2,24 @@ import React, { Component } from 'react';
 import { View, Image, Alert, ScrollView, RefreshControl } from 'react-native';
 import {
   Container,
-  Header,
   Content,
   Button,
   Text,
   Left,
-  Body,
-  Title,
   Right,
   List,
   ListItem,
   Icon,
 } from 'native-base';
 import styles from './PositionStyle';
-import { BLUE_DARK, BLUE_MAIN, WHITE_MAIN } from '../../shared/colorPalette';
+import { BLUE_DARK } from '../../shared/colorPalette';
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import { CustomToast, Loading } from '../../shared/components';
 import { LOG } from '../../shared';
+import { ModalHeader } from '../../shared/components/ModalHeader';
 
 class Position extends Component {
   static navigationOptions = {
@@ -114,29 +112,10 @@ class Position extends Component {
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-
-            <Header
-              androidStatusBarColor={BLUE_MAIN}
-              style={styles.headerCustom}>
-              <Left>
-                <Button
-                  transparent
-                  onPress={() => this.props.navigation.goBack()}>
-                  <Icon
-                    name="ios-close"
-                    size={24}
-                    style={{ color: WHITE_MAIN, marginLeft: 20 }}
-                  />
-                </Button>
-              </Left>
-              <Body>
-                <Title style={styles.titleHeader}>
-                  {t('JOB_PREFERENCES.position')}
-                </Title>
-              </Body>
-              <Right />
-            </Header>
-
+            <ModalHeader
+              screenName="position"
+              title={t('JOB_PREFERENCES.position')}
+            />
             <Content
               refreshControl={
                 <RefreshControl

@@ -9,16 +9,9 @@ import {
   Text,
   Form,
   Label,
-  Header,
-  Left,
-  Right,
-  Body,
-  Title,
-  Icon,
 } from 'native-base';
 import styles from './style';
 import { RESET_ROUTE } from '../../constants/routes';
-import { WHITE_MAIN, BLUE_MAIN } from '../../shared/colorPalette';
 import { LOG } from '../../shared';
 import store from '../Account/AccountStore';
 import { I18n } from 'react-i18next';
@@ -28,6 +21,7 @@ import { Loading } from '../../shared/components';
 import * as accountActions from '../Account/actions';
 import accountStore from '../Account/AccountStore';
 import EditProfile from '../Account/EditProfile';
+import { ModalHeader } from '../../shared/components/ModalHeader';
 
 class SettingScreen extends Component {
   static navigationOptions = {
@@ -95,28 +89,7 @@ class SettingScreen extends Component {
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-
-            <Header
-              androidStatusBarColor={BLUE_MAIN}
-              style={styles.headerCustom}>
-              <Left>
-                <Button
-                  transparent
-                  onPress={() => this.props.navigation.goBack()}>
-                  <Icon
-                    name="ios-close"
-                    size={24}
-                    style={{ color: WHITE_MAIN, marginLeft: 20 }}
-                  />
-                </Button>
-              </Left>
-              <Body>
-                <Title style={styles.titleHeader}>
-                  {t('SETTINGS.settings')}
-                </Title>
-              </Body>
-              <Right />
-            </Header>
+            <ModalHeader screenName="settings" title={t('SETTINGS.settings')} />
             <Content>
               <FormView>
                 <Form>

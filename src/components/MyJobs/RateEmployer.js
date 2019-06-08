@@ -4,31 +4,21 @@ import {
   Container,
   Content,
   Button,
-  Header,
-  Left,
-  Right,
-  Body,
-  Title,
   Icon,
   View,
   Item,
   Textarea,
   Text,
 } from 'native-base';
-import styles from '../Invite/InviteDetailsStyle';
 import rateEmployerStyle from './RateEmployerStyle.js';
-import {
-  WHITE_MAIN,
-  BLUE_MAIN,
-  BLUE_DARK,
-  GRAY_LIGHT,
-} from '../../shared/colorPalette';
+import { BLUE_DARK, GRAY_LIGHT } from '../../shared/colorPalette';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as jobActions from './actions';
 import jobStore from './JobStore';
 import { Loading, CustomToast } from '../../shared/components';
 import { WARN, LOG } from '../../shared';
+import { ModalHeader } from '../../shared/components/ModalHeader';
 
 class RateEmployer extends Component {
   constructor(props) {
@@ -72,29 +62,10 @@ class RateEmployer extends Component {
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-
-            <Header
-              androidStatusBarColor={BLUE_MAIN}
-              style={styles.headerCustom}>
-              <Left>
-                <Button
-                  transparent
-                  onPress={() => this.props.navigation.goBack()}>
-                  <Icon
-                    name="ios-close"
-                    size={24}
-                    style={{ color: WHITE_MAIN, marginLeft: 20 }}
-                  />
-                </Button>
-              </Left>
-              <Body>
-                <Title style={styles.titleHeader}>
-                  {t('MY_JOBS.rateEmployer')}
-                </Title>
-              </Body>
-              <Right />
-            </Header>
-
+            <ModalHeader
+              screenName="rateEmployer"
+              title={t('MY_JOBS.rateEmployer')}
+            />
             <Content contentContainerStyle={rateEmployerStyle.content}>
               {this.state.shift && this.state.shift.employer ? (
                 <Text style={rateEmployerStyle.textShift}>

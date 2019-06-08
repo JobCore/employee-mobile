@@ -4,13 +4,9 @@ import {
   Icon,
   Text,
   Container,
-  Header,
   Left,
-  Right,
   Body,
-  Title,
   ListItem,
-  Button,
   Thumbnail,
 } from 'native-base';
 import * as jobActions from './actions';
@@ -28,13 +24,13 @@ import {
   BLUE_MAIN,
   BLUE_DARK,
   BLUE_LIGHT,
-  WHITE_MAIN,
   VIOLET_MAIN,
 } from '../../shared/colorPalette';
 import * as inviteActions from '../Invite/actions';
 import inviteStore from '../Invite/InviteStore';
 import myJobsImg from '../../assets/image/profile.png';
 import moment from 'moment';
+import { ModalHeader } from '../../shared/components/ModalHeader';
 
 class Reviews extends Component {
   static navigationOptions = {
@@ -112,29 +108,7 @@ class Reviews extends Component {
             {this.state.emptyReviews ? (
               <CenteredText text={`${t('REVIEWS.emptyReviews')}`} />
             ) : null}
-
-            <Header
-              androidStatusBarColor={BLUE_MAIN}
-              style={profileStyles.headerCustom}>
-              <Left>
-                <Button
-                  transparent
-                  onPress={() => this.props.navigation.goBack()}>
-                  <Icon
-                    name="ios-close"
-                    size={24}
-                    style={{ color: WHITE_MAIN, marginLeft: 20 }}
-                  />
-                </Button>
-              </Left>
-              <Body>
-                <Title style={profileStyles.titleHeader}>
-                  {t('REVIEWS.reviews')}
-                </Title>
-              </Body>
-              <Right />
-            </Header>
-
+            <ModalHeader screenName="reviews" title={t('REVIEWS.reviews')} />
             {Array.isArray(this.state.reviews) ? (
               <FlatList
                 style={styles.list}

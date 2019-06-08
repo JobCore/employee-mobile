@@ -1,25 +1,9 @@
 import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { View, Image, Dimensions, Alert } from 'react-native';
-import {
-  Container,
-  Content,
-  Button,
-  Header,
-  Left,
-  Right,
-  Body,
-  Title,
-  Icon,
-  Text,
-} from 'native-base';
+import { Container, Content, Button, Text } from 'native-base';
 import { inviteStyles } from '../Invite/InviteDetailsStyle';
-import {
-  WHITE_MAIN,
-  BLUE_MAIN,
-  BLUE_DARK,
-  VIOLET_MAIN,
-} from '../../shared/colorPalette';
+import { BLUE_MAIN, BLUE_DARK, VIOLET_MAIN } from '../../shared/colorPalette';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as jobActions from './actions';
@@ -30,6 +14,7 @@ import { Loading, openMapsApp, CustomToast } from '../../shared/components';
 import MARKER_IMG from '../../assets/image/map-marker.png';
 import { RATE_EMPLOYER_ROUTE } from '../../constants/routes';
 import moment from 'moment';
+import { ModalHeader } from '../../shared/components/ModalHeader';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -164,36 +149,16 @@ class JobDetailsScreen extends Component {
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-
-            <Header
-              androidStatusBarColor={BLUE_MAIN}
-              style={inviteStyles.headerCustom}>
-              <Left>
-                <Button
-                  transparent
-                  onPress={() => this.props.navigation.goBack()}>
-                  <Icon
-                    name="ios-close"
-                    size={24}
-                    style={{ color: WHITE_MAIN, marginLeft: 20 }}
-                  />
-                </Button>
-              </Left>
-              <Body>
-                <Title style={inviteStyles.titleHeader}>
-                  {t('MY_JOBS.jobDetails')}
-                </Title>
-              </Body>
-              <Right />
-            </Header>
-
+            <ModalHeader
+              screenName="jobDetails"
+              title={t('MY_JOBS.jobDetails')}
+            />
             <Content>
               <View style={inviteStyles.viewShift}>
                 {this.state.shift ? (
                   <JobDetails shift={this.state.shift} />
                 ) : null}
               </View>
-
               <MapView
                 style={inviteStyles.map}
                 region={this.state.region}

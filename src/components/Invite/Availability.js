@@ -1,21 +1,17 @@
 import React, { Component } from 'react';
 import { View, Image, RefreshControl, TouchableOpacity } from 'react-native';
-import textStyles from '../../shared/textStyles';
 import {
   Container,
-  Header,
   Content,
   Button,
   Text,
-  Left,
   Body,
-  Right,
   List,
   ListItem,
   Icon,
 } from 'native-base';
 import styles from './AvailabilityStyle';
-import { BLUE_DARK, BLUE_MAIN, WHITE_MAIN } from '../../shared/colorPalette';
+import { BLUE_DARK, BLUE_MAIN } from '../../shared/colorPalette';
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import { I18n } from 'react-i18next';
@@ -24,6 +20,7 @@ import { LOG } from '../../shared';
 import { Loading } from '../../shared/components';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
+import { ModalHeader } from '../../shared/components/ModalHeader';
 
 class AddAvailability extends Component {
   static navigationOptions = {
@@ -87,7 +84,7 @@ class AddAvailability extends Component {
     this.isLoading(false);
   };
 
-  errorHandler = (err) => {
+  errorHandler = () => {
     this.isLoading(false);
     this.setState({ isRefreshing: false });
   };
@@ -97,30 +94,11 @@ class AddAvailability extends Component {
       <I18n>
         {(t) => (
           <Container>
-            {this.state.isLoading ? <Loading/> : null}
-
-            <Header
-              androidStatusBarColor={BLUE_MAIN}
-              style={styles.headerCustom}>
-              <Left>
-                <Button
-                  transparent
-                  onPress={() => this.props.navigation.goBack()}>
-                  <Icon
-                    name="ios-close"
-                    size={24}
-                    style={{ color: WHITE_MAIN, marginLeft: 20 }}
-                  />
-                </Button>
-              </Left>
-              <Body>
-                <Text style={[{ width: 150 }, textStyles.title]}>
-                  {t('JOB_PREFERENCES.availability')}
-                </Text>
-              </Body>
-              <Right/>
-            </Header>
-
+            {this.state.isLoading ? <Loading /> : null}
+            <ModalHeader
+              screenName="availability"
+              title={t('JOB_PREFERENCES.availability')}
+            />
             <Content
               padder
               refreshControl={
