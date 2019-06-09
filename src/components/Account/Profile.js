@@ -39,7 +39,7 @@ class Profile extends Component {
       starsArray: [1, 2, 3, 4, 5],
       ratings: [],
       profile: {},
-      completed: 0
+      completed: 0,
     };
   }
 
@@ -63,7 +63,7 @@ class Profile extends Component {
     this.jobStoreError = jobStore.subscribe('JobStoreError', this.errorHandler);
 
     this.firstLoad();
-    this.updateCompleted()
+    this.updateCompleted();
   }
 
   componentWillUnmount() {
@@ -75,10 +75,13 @@ class Profile extends Component {
   }
 
   getProfileHandler = (profile) => {
-    this.setState({
-      profile,
-      isLoading: false
-    }, this.updateCompleted);
+    this.setState(
+      {
+        profile,
+        isLoading: false,
+      },
+      this.updateCompleted,
+    );
   };
 
   getEmployeeRatingsHandler = (ratings) => {
@@ -114,9 +117,17 @@ class Profile extends Component {
                   </Text>
                   <View style={styles.viewProgress}>
                     <View style={styles.barProgress} />
-                    <View style={styles.barProgressCompleted(this.state.completed)} />
-                    <Text style={styles.textProgress}>Completed {this.state.completed}%</Text>
-                    <View style={styles.barProgressCircle(this.state.completed === 100)} />
+                    <View
+                      style={styles.barProgressCompleted(this.state.completed)}
+                    />
+                    <Text style={styles.textProgress}>
+                      Completed {this.state.completed}%
+                    </Text>
+                    <View
+                      style={styles.barProgressCircle(
+                        this.state.completed === 100,
+                      )}
+                    />
                   </View>
                   <TouchableOpacity onPress={this.goToEditProfile}>
                     <View style={styles.viewProfileImg}>
@@ -139,9 +150,7 @@ class Profile extends Component {
 
                   {this.state.profile && this.state.profile.user ? (
                     <Text style={styles.textName}>
-                      {`${this.state.profile.user.first_name} ${
-                        this.state.profile.user.last_name
-                      }`}
+                      {`${this.state.profile.user.first_name} ${this.state.profile.user.last_name}`}
                     </Text>
                   ) : null}
                 </>
@@ -156,7 +165,8 @@ class Profile extends Component {
                       {t('PROFILE.yourRating')}
                     </Text>
                     <Text style={styles.textRowNumber}>
-                      {this.state.profile.employee.rating || t('PROFILE.noRating')}
+                      {this.state.profile.employee.rating ||
+                        t('PROFILE.noRating')}
                     </Text>
                     <Text style={styles.textRowTitle}>
                       {this.state.starsArray.map((star) => (
@@ -165,7 +175,8 @@ class Profile extends Component {
                           name={'md-star'}
                           style={{
                             color:
-                              this.state.profile.employee.rating && this.state.profile.employee.rating >= star
+                              this.state.profile.employee.rating &&
+                              this.state.profile.employee.rating >= star
                                 ? BLUE_DARK
                                 : BLUE_LIGHT,
                             fontSize: 22.5,
@@ -179,7 +190,9 @@ class Profile extends Component {
                       {t('PROFILE.completedJobs')}
                     </Text>
                     <Text style={styles.textRowNumber}>
-                      {this.state.profile.employee.total_ratings > 0 ? this.state.profile.employee.total_ratings : t('PROFILE.noRating')}
+                      {this.state.profile.employee.total_ratings > 0
+                        ? this.state.profile.employee.total_ratings
+                        : t('PROFILE.noRating')}
                     </Text>
                   </View>
                 </View>
@@ -236,7 +249,7 @@ class Profile extends Component {
 
                     {this.state.ratings.map((rating, index) => (
                       <Text key={index} style={styles.textReview}>
-                        {`" ${rating.comments}`}
+                      "{rating.comments}"
                       </Text>
                     ))}
                   </View>
@@ -294,17 +307,14 @@ class Profile extends Component {
     this.props.navigation.navigate(REVIEWS_ROUTE);
   };
 
-  updateCompleted () {
-    let {
-      completed,
-      profile
-    } = this.state
+  updateCompleted() {
+    let { completed, profile } = this.state;
 
     if (profile) {
-      completed += this.state.profile.picture ? 50 : 0
-      completed += this.state.profile.bio ? 50 : 0
-  
-      this.setState({ completed })
+      completed += this.state.profile.picture ? 50 : 0;
+      completed += this.state.profile.bio ? 50 : 0;
+
+      this.setState({ completed });
     }
   }
 }
