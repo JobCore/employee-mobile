@@ -27,7 +27,6 @@ import JobDetailsNewOneScreen from './src/components/MyJobs/WorkModeScreen';
 import JobDetailsNewTwoScreen from './src/components/MyJobs/JobDetailsNewTwo';
 import JobPaymentsScreen from './src/components/MyJobs/JobPayments';
 import WorkModeScreen from './src/components/MyJobs/WorkModeScreen';
-import JobWorkModeScreen from './src/components/MyJobs/JobWorkMode';
 import Reviews from './src/components/MyJobs/Reviews';
 import Help from './src/components/Help';
 
@@ -51,7 +50,6 @@ import {
   REVIEWS_ROUTE,
   JOB_DETAILS_NEW_ONE_ROUTE,
   JOB_DETAILS_NEW_TWO_ROUTE,
-  JOB_WORK_MODE_ROUTE,
   JOB_PAYMENTS_ROUTE,
   HELP_ROUTE,
 } from './src/constants/routes';
@@ -151,9 +149,6 @@ export const AppStack = createStackNavigator(
     },
     [JOB_DETAILS_NEW_TWO_ROUTE]: {
       screen: JobDetailsNewTwoScreen,
-    },
-    [JOB_WORK_MODE_ROUTE]: {
-      screen: JobWorkModeScreen,
     },
     [JOB_PAYMENTS_ROUTE]: {
       screen: JobPaymentsScreen,

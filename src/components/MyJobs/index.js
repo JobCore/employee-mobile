@@ -162,33 +162,6 @@ class MyJobs extends Component {
               title={t('MY_JOBS.myJobs')}
               onPressHelp={this.goToEditProfile}
             />
-
-            {/*<View>*/}
-            {/*  <Text*/}
-            {/*    onPress={() =>*/}
-            {/*      this.props.navigation.navigate(JOB_DETAILS_NEW_ONE_ROUTE)*/}
-            {/*    }>*/}
-            {/*    Link para ver detalles Job y hacer Review*/}
-            {/*  </Text>*/}
-            {/*  <Text*/}
-            {/*    onPress={() =>*/}
-            {/*      this.props.navigation.navigate(JOB_DETAILS_NEW_TWO_ROUTE)*/}
-            {/*    }>*/}
-            {/*    Link para ver detalles Job y ver los Review*/}
-            {/*  </Text>*/}
-            {/*  <Text*/}
-            {/*    onPress={() =>*/}
-            {/*      this.props.navigation.navigate(JOB_WORK_MODE_ROUTE)*/}
-            {/*    }>*/}
-            {/*    Link para ver Work Mode*/}
-            {/*  </Text>*/}
-            {/*  <Text*/}
-            {/*    onPress={() =>*/}
-            {/*      this.props.navigation.navigate(JOB_PAYMENTS_ROUTE)*/}
-            {/*    }>*/}
-            {/*    Link para ver Pending payments*/}
-            {/*  </Text>*/}
-            {/*</View>*/}
             <Segment style={styles.viewSegment}>
               {Array.isArray(this.state.jobFilters)
                 ? this.state.jobFilters.map((filter, index) => (

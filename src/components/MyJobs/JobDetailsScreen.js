@@ -149,10 +149,7 @@ class JobDetailsScreen extends Component {
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-            <ModalHeader
-              screenName="jobDetails"
-              title={t('MY_JOBS.jobDetails')}
-            />
+            <ModalHeader screenName="jobDetails" title={'Job'} />
             <Content>
               <View style={inviteStyles.viewShift}>
                 {this.state.shift ? (
