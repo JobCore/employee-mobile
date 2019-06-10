@@ -2,21 +2,10 @@ import React, { PureComponent } from 'react';
 import { View, Image, Dimensions, Alert, TouchableOpacity } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import styles from '../Invite/EditLocationStyle';
-import textStyles from '../../shared/textStyles';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import MapView, { Marker } from 'react-native-maps';
-import {
-  Container,
-  Content,
-  Button,
-  Text,
-  Header,
-  Left,
-  Right,
-  Body,
-  Icon,
-} from 'native-base';
+import { Container, Content, Button, Text } from 'native-base';
 import {
   WHITE_MAIN,
   BLUE_DARK,
@@ -28,6 +17,7 @@ import { Loading, CustomToast, openMapsApp } from '../../shared/components';
 import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import MARKER_IMG from '../../assets/image/map-marker.png';
+import { ModalHeader } from '../../shared/components/ModalHeader';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -92,29 +82,10 @@ class EditLocation extends PureComponent {
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-
-            <Header
-              androidStatusBarColor={BLUE_MAIN}
-              style={styles.headerCustom}>
-              <Left>
-                <Button
-                  transparent
-                  onPress={() => this.props.navigation.goBack()}>
-                  <Icon
-                    name="ios-close"
-                    size={24}
-                    style={{ color: WHITE_MAIN, marginLeft: 20 }}
-                  />
-                </Button>
-              </Left>
-              <Body>
-                <Text style={textStyles.title}>
-                  {t('JOB_PREFERENCES.myLocation')}
-                </Text>
-              </Body>
-              <Right />
-            </Header>
-
+            <ModalHeader
+              screenName="myLocation"
+              title={t('JOB_PREFERENCES.myLocation')}
+            />
             <Content>
               <GooglePlacesAutocomplete
                 ref={(instance) => {

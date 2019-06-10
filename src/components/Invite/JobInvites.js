@@ -23,6 +23,7 @@ import moment from 'moment';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import { TabHeader } from '../../shared/components/TabHeader';
 import EditProfile from '../Account/EditProfile';
+import textStyles from '../../shared/textStyles';
 
 /**
  * The Job Invites View
@@ -123,16 +124,13 @@ class JobInvites extends Component {
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-
             {this.state.showNoInvitesText ? (
               <CenteredText text={`${t('JOB_INVITES.noInvites')}`} />
             ) : null}
-
             <TabHeader
               title={t('JOB_INVITES.jobOffers')}
               onPress={this.goToEditProfile}
             />
-
             <Content
               refreshControl={
                 <RefreshControl
@@ -167,19 +165,19 @@ class JobInvites extends Component {
                       {data.shift ? (
                         <Text style={inviteStyles.viewTitleInfo}>
                           {data.shift.venue ? (
-                            <Text style={inviteStyles.textOne}>
+                            <Text style={textStyles.textEmployer}>
                               {data.shift.venue.title}
                             </Text>
                           ) : null}
-                          <Text style={inviteStyles.textTwo}>
+                          <Text style={textStyles.textGray}>
                             {` ${t('JOB_INVITES.lookingFor')} `}
                           </Text>
                           {data.shift.position ? (
-                            <Text style={inviteStyles.textThree}>
+                            <Text style={textStyles.textShiftTitle}>
                               {data.shift.position.title}
                             </Text>
                           ) : null}
-                          <Text style={inviteStyles.textBlack}>
+                          <Text>
                             {` ${t('JOB_PREFERENCES.dateStartToEnd', {
                               startingAt: moment(data.shift.starting_at)
                                 .tz(moment.tz.guess())
@@ -189,7 +187,7 @@ class JobInvites extends Component {
                                 .format('lll'),
                             })} `}
                           </Text>
-                          <Text style={inviteStyles.textRed}>
+                          <Text style={textStyles.textRed}>
                             {`$${data.shift.minimum_hourly_rate}/${t(
                               'JOB_INVITES.hr',
                             )}.`}

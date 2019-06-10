@@ -54,6 +54,7 @@ export default StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     textAlign: 'center',
+    paddingBottom: 15,
   },
   viewBackground: {
     backgroundColor: '#ccc',

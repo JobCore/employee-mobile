@@ -11,10 +11,8 @@ import { LOG } from '../../shared';
 import { Loading, openMapsApp } from '../../shared/components';
 import MARKER_IMG from '../../assets/image/map-marker.png';
 import { ModalHeader } from '../../shared/components/ModalHeader';
-import { JobHeader } from '../MyJobs/components/JobHeader';
-import { JobHours } from '../MyJobs/components/JobHours';
+import { JobInformation } from '../../shared/components/JobInformation';
 import inviteStore from './InviteStore';
-import moment from 'moment';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -116,55 +114,19 @@ class InviteDetailsV2 extends Component {
 
   render() {
     const { isLoading, invite } = this.state;
-
     const renderInvite = (t, invite) => {
       const { shift } = invite;
-      const { venue, starting_at, ending_at } = shift;
-      const todayAtMoment = moment().tz(moment.tz.guess());
-      const todayString = todayAtMoment.format('MMM D');
-      const startingAtMoment = moment(starting_at).tz(moment.tz.guess());
-      const from = startingAtMoment.format('MMM D');
-      const endingAtMoment = moment(ending_at).tz(moment.tz.guess());
-      const to = endingAtMoment.format('MMM D');
-      const dateString =
-        from === to
-          ? from === todayString
-            ? 'Today'
-            : from
-          : `${from} to ${to}`;
-      const fromTime = startingAtMoment.format('h A');
-      const toTime = endingAtMoment.format('h A');
-      const timeString = `${fromTime} to ${toTime}`;
-      const hours = endingAtMoment.diff(startingAtMoment, 'hours');
-      const price = hours * parseFloat(shift.minimum_hourly_rate);
-      const address = venue.street_address;
 
-      //hA
       return (
         <>
-          <ModalHeader
-            onPressClose={() => this.props.navigation.goBack()}
-            title={t('JOB_INVITES.inviteDetails')}
-            onPressHelp={() => this.props.navigation.goBack()}
-          />
-
+          <ModalHeader title={t('JOB_INVITES.inviteDetails')} />
           <ViewFlex justifyContent={'space-between'}>
-            <View style={{ flex: 4 }}>
-              <JobHeader
-                clientName={venue.title}
-                positionName={shift.position.title}
-                dateString={dateString}
-                timeString={timeString}
-                addressString={address}
-                onPressDirection={
-                  this.showOpenDirection() ? this.openMapsApp : () => {}
-                }
-              />
-            </View>
-            {/*Details*/}
-            <View style={{ flex: 2 }}>
-              <JobHours price={price} hours={hours} />
-            </View>
+            <JobInformation
+              shift={shift}
+              onPressDirection={
+                this.showOpenDirection() ? this.openMapsApp : () => {}
+              }
+            />
             <View style={{ flex: 6 }}>
               <MapView
                 style={inviteStyles.map}
@@ -192,7 +154,6 @@ class InviteDetailsV2 extends Component {
                 )}
               </MapView>
             </View>
-
             <View style={{ flex: 2 }}>
               <View style={inviteStyles.viewCrud}>
                 <View style={inviteStyles.viewButtomLeft}>

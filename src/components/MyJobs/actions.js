@@ -276,6 +276,32 @@ export const calculateEarningsFromClockIns = (clockins) =>
     0,
   );
 
+/**
+ * PendingPayments action
+ */
+const getPendingPayments = () => {
+  getData('/employees/me/payroll-payments?status=PENDING')
+    .then((data) => {
+      Flux.dispatchEvent('GetPendingPayments', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('JobStoreError', err);
+    });
+};
+
+/**
+ * ClearedPayments action
+ */
+const getClearedPayments = () => {
+  getData('/employees/me/payroll-payments?status=PAID')
+    .then((data) => {
+      Flux.dispatchEvent('GetClearedPayments', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('JobStoreError', err);
+    });
+};
+
 export {
   getUpcomingJobs,
   getPendingJobs,
@@ -289,4 +315,6 @@ export {
   clockIn,
   clockOut,
   getEmployeeRatings,
+  getPendingPayments,
+  getClearedPayments,
 };

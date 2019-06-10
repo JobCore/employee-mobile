@@ -76,6 +76,8 @@ class JobStore extends FluxStore {
     this.addEvent(ON_OPEN_CLOCKINS);
     this.addEvent('GetEmployeeRatings');
     this.addEvent('JobStoreError', storeErrorHandler);
+    this.addEvent('GetPendingPayments');
+    this.addEvent('GetClearedPayments');
   }
 }
 

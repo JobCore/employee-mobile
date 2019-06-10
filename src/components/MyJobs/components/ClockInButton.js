@@ -1,8 +1,22 @@
 import React from 'react';
 import { Button, Text } from 'native-base';
 import { inviteStyles } from '../../Invite/InviteDetailsStyle';
+import PropTypes from 'prop-types';
 
 const ClockInButton = ({ canClockIn, diffInMinutes, onClick }) => {
+  let timeToClockIn = diffInMinutes;
+  let timeUnit = 'MINUTES';
+
+  if (timeToClockIn > 59) {
+    timeToClockIn = timeToClockIn / 60;
+    timeUnit = 'HOURS';
+  }
+
+  if (timeToClockIn > 23) {
+    timeToClockIn = timeToClockIn / 24;
+    timeUnit = 'DAYS';
+  }
+
   if (canClockIn)
     return (
       <Button
@@ -16,7 +30,7 @@ const ClockInButton = ({ canClockIn, diffInMinutes, onClick }) => {
       </Button>
     );
 
-  if (diffInMinutes < 0)
+  if (timeToClockIn < 0)
     return (
       <Button
         title={''}
@@ -37,10 +51,16 @@ const ClockInButton = ({ canClockIn, diffInMinutes, onClick }) => {
       rounded
       bordered>
       <Text style={inviteStyles.textWhite}>
-        Clock In in {`${diffInMinutes}`} minutes
+        Clock In in {`${timeToClockIn.toFixed(2)}`} {timeUnit}
       </Text>
     </Button>
   );
+};
+
+ClockInButton.propTypes = {
+  canClockIn: PropTypes.bool,
+  diffInMinutes: PropTypes.number,
+  onClick: PropTypes.func,
 };
 
 export { ClockInButton };

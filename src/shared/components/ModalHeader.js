@@ -10,7 +10,9 @@ class _ModalHeader extends Component {
   render() {
     const {
       canClose = true,
-      onPressClose = () => {},
+      onPressClose = () => {
+        this.props.navigation.goBack();
+      },
       title,
       withoutHelpIcon,
       screenName,
@@ -22,17 +24,21 @@ class _ModalHeader extends Component {
         style={headerStyles.headerCustom}>
         <Left>
           {canClose ? (
-            <Button transparent onPress={onPressClose} title="">
+            <Button transparent onPress={onPressClose}>
               <Icon name="ios-close" style={[headerStyles.leftButtonImage]} />
             </Button>
           ) : null}
         </Left>
         <Body>
-          <Text style={[headerStyles.modalTitleHeader]}>{title}</Text>
+          <Text style={headerStyles.modalTitleHeader}>{title}</Text>
         </Body>
-        <Right>
-          {!withoutHelpIcon ? <HelpIcon screenName={screenName} /> : null}
-        </Right>
+        {!withoutHelpIcon ? (
+          <Right>
+            <HelpIcon screenName={screenName} />
+          </Right>
+        ) : (
+          <Right />
+        )}
       </Header>
     );
   }

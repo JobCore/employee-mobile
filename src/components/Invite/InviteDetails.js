@@ -123,9 +123,8 @@ class InviteDetails extends Component {
           <Container>
             {this.state.isLoading ? <Loading /> : null}
             <ModalHeader
-              onPressClose={() => this.props.navigation.goBack()}
+              screenName="inviteDetails"
               title={t('JOB_INVITES.inviteDetails')}
-              onPressHelp={() => this.props.navigation.goBack()}
             />
             <Content>
               <View style={styles.viewShift}>
