@@ -12,11 +12,9 @@ import { Loading, openMapsApp, CustomToast } from '../../shared/components';
 import MARKER_IMG from '../../assets/image/map-marker.png';
 import { log } from 'pure-logger';
 import { ModalHeader } from '../../shared/components/ModalHeader';
-import moment from 'moment';
-import { JobHeader } from './components/JobHeader';
+import { JobInformation } from '../../shared/components/JobInformation';
 import { ViewFlex } from '../../shared/components/ViewFlex';
 import { jobStyles } from './JobStyles';
-import { JobHours } from './components/JobHours';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -151,26 +149,6 @@ class ApplicationDetailScreen extends Component {
     log(`DEBUG:state:`, this.state);
     const { isLoading, shift } = this.state;
     const renderDetail = (t, shift) => {
-      log(`DEBUG:shift:`, shift);
-      const { venue, starting_at, ending_at } = shift;
-      const todayAtMoment = moment().tz(moment.tz.guess());
-      const todayString = todayAtMoment.format('MMM D');
-      const startingAtMoment = moment(starting_at).tz(moment.tz.guess());
-      const from = startingAtMoment.format('MMM D');
-      const endingAtMoment = moment(ending_at).tz(moment.tz.guess());
-      const to = endingAtMoment.format('MMM D');
-      const dateString =
-        from === to
-          ? from === todayString
-            ? 'Today'
-            : from
-          : `${from} to ${to}`;
-      const fromTime = startingAtMoment.format('h A');
-      const toTime = endingAtMoment.format('h A');
-      const timeString = `${fromTime} to ${toTime}`;
-      const hours = endingAtMoment.diff(startingAtMoment, 'hours');
-      const price = hours * parseFloat(shift.minimum_hourly_rate);
-      const address = venue.street_address;
       return (
         <>
           <ModalHeader
@@ -179,21 +157,14 @@ class ApplicationDetailScreen extends Component {
             onPressHelp={() => this.props.navigation.goBack()}
           />
           <ViewFlex justifyContent={'space-between'}>
-            <View style={{ flex: 9 }}>
-              <JobHeader
-                clientName={venue.title}
-                positionName={shift.position.title}
-                dateString={dateString}
-                timeString={timeString}
-                addressString={address}
-                onPressDirection={
-                  this.showOpenDirection() ? this.openMapsApp : () => {}
-                }
-              />
-            </View>
-            <View style={{ flex: 5 }}>
-              <JobHours price={price} hours={hours} />
-            </View>
+            <JobInformation
+              shift={shift}
+              onPressDirection={
+                this.showOpenDirection() ? this.openMapsApp : () => {}
+              }
+              flexHeader={9}
+              flexHours={5}
+            />
             <View style={{ flex: 16 }}>
               <MapView
                 style={inviteStyles.map}

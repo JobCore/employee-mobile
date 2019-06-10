@@ -7,22 +7,15 @@ import {
   Text,
   Form,
   Content,
-  Header,
-  Left,
-  Icon,
-  Body,
-  Right,
   Container,
-  Title,
 } from 'native-base';
 import styles from './ForgotStyle';
-import profileStyles from './ProfileStyle';
 import * as accountActions from './actions';
 import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import { CustomToast, Loading } from '../../shared/components';
-import { BLUE_MAIN, WHITE_MAIN } from '../../shared/colorPalette';
+import { ModalHeader } from '../../shared/components/ModalHeader';
 
 class ForgotScreen extends Component {
   static navigationOptions = { header: null };
@@ -68,28 +61,10 @@ class ForgotScreen extends Component {
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-
-            <Header
-              androidStatusBarColor={BLUE_MAIN}
-              style={profileStyles.headerCustom}>
-              <Left>
-                <Button
-                  transparent
-                  onPress={() => this.props.navigation.goBack()}>
-                  <Icon
-                    name="ios-close"
-                    style={{ color: WHITE_MAIN, marginLeft: 20 }}
-                  />
-                </Button>
-              </Left>
-              <Body>
-                <Title style={profileStyles.titleHeader}>
-                  {t('FORGOT.changePassword')}
-                </Title>
-              </Body>
-              <Right />
-            </Header>
-
+            <ModalHeader
+              screenName="changePassword"
+              title={t('FORGOT.changePassword')}
+            />
             <Content>
               <View style={styles.containerChange}>
                 <Text style={styles.fillOutEmailText}>

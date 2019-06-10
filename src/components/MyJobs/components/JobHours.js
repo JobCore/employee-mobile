@@ -4,6 +4,17 @@ import { Text } from 'native-base';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { H1 } from 'native-base';
+import { StyleSheet } from 'react-native';
+import { BLUE_DARK } from '../../../shared/colorPalette';
+
+const styles = StyleSheet.create({
+  textTitle: {
+    textAlign: 'center',
+    color: BLUE_DARK,
+    fontWeight: '800',
+    paddingTop: 20,
+  },
+});
 
 /**
  * Hours and Money information
@@ -15,12 +26,14 @@ const JobHours = (props: { price: number, hours: boolean | number | any }) => {
   return (
     <View style={inviteStyles.viewAmount}>
       <View style={inviteStyles.viewContent}>
-        <Text style={inviteStyles.textTitle}>Amount</Text>
-        <H1 style={inviteStyles.textSubTitle}>${`${props.price}`}</H1>
+        <Text style={styles.textTitle}>Amount</Text>
+        <H1 style={inviteStyles.textSubTitle}>
+          ${`${props.price.toFixed(2)}`}
+        </H1>
       </View>
       <View style={inviteStyles.viewContent}>
-        <Text style={inviteStyles.textTitle}>Total Hours</Text>
-        <H1 style={inviteStyles.textSubTitle}>{`${props.hours}`}</H1>
+        <Text style={styles.textTitle}>Total Hours</Text>
+        <H1 style={inviteStyles.textSubTitle}>{`${props.hours.toFixed(2)}`}</H1>
       </View>
     </View>
   );

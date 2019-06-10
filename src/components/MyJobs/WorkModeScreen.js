@@ -30,7 +30,7 @@ import {
   clockOut,
   getJob,
 } from './actions';
-import { APP_ROUTE, RATE_EMPLOYER_ROUTE } from '../../constants/routes';
+import { RATE_EMPLOYER_ROUTE } from '../../constants/routes';
 import { ClocksIn } from './components/ClocksIn';
 import { jobStyles } from './JobStyles';
 
@@ -143,8 +143,8 @@ class WorkModeScreen extends Component {
             ? 'Today'
             : from
           : `${from} to ${to}`;
-      const fromTime = startingAtMoment.format('h A');
-      const toTime = endingAtMoment.format('h A');
+      const fromTime = startingAtMoment.format('h:mm A');
+      const toTime = endingAtMoment.format('h:mm A');
       const timeString = `${fromTime} to ${toTime}`;
       const minutes = endingAtMoment.diff(startingAtMoment, 'minutes');
       const minutesPassed = todayAtMoment.diff(startingAtMoment, 'minutes');

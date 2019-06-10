@@ -1,19 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, Alert } from 'react-native';
-import {
-  Container,
-  Content,
-  Button,
-  Text,
-  Header,
-  Left,
-  Right,
-  Body,
-  Icon,
-  H1,
-} from 'native-base';
+import { Container, Content, Button, Text, H1 } from 'native-base';
 import { inviteStyles } from '../Invite/InviteDetailsStyle';
-import { WHITE_MAIN, BLUE_MAIN } from '../../shared/colorPalette';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as inviteActions from './actions';
@@ -23,6 +11,7 @@ import { LOG } from '../../shared';
 import { HeaderDetails } from '../../shared/components';
 import DetailsCheck from '../../shared/components/DetailsCheck';
 import DetailsTime from '../../shared/components/DetailsTime';
+import { ModalHeader } from '../../shared/components/ModalHeader';
 
 // import IconTime from '../../assets/image/time.png'
 
@@ -43,33 +32,10 @@ class CompletedJobScreen extends Component {
       <I18n>
         {(t) => (
           <Container>
-            <Header
-              androidStatusBarColor={BLUE_MAIN}
-              style={inviteStyles.headerCustom}>
-              <Left>
-                <Button
-                  transparent
-                  onPress={() => this.props.navigation.goBack()}>
-                  <Icon
-                    name="ios-close"
-                    size={24}
-                    style={{ color: WHITE_MAIN, marginLeft: 20 }}
-                  />
-                </Button>
-              </Left>
-              <Body>
-                <Text style={[{ width: 150 }, inviteStyles.titleHeader]}>
-                  {t('JOB_INVITES.job')}
-                </Text>
-              </Body>
-              <Right />
-            </Header>
-
+            <ModalHeader screenName="job" title={t('JOB_INVITES.job')} />
             <Content>
               <HeaderDetails />
-
               <DetailsTime />
-
               <View style={inviteStyles.viewAmount}>
                 <View style={inviteStyles.viewContent}>
                   <Text style={inviteStyles.textTitle}>Earnings</Text>
@@ -80,9 +46,7 @@ class CompletedJobScreen extends Component {
                   <H1 style={inviteStyles.textSubTitle}>10</H1>
                 </View>
               </View>
-
               <DetailsCheck />
-
               {/* <View style={styles.viewCrud}>
                 <View style={styles.viewButtomClock}>
                   <Button

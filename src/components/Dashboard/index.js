@@ -20,7 +20,7 @@ import {
   JOB_INVITES_ROUTE,
   MYJOBS_ROUTE,
   REVIEWS_ROUTE,
-  JOB_PENDING_PAYMENTS_ROUTE
+  JOB_PAYMENTS_ROUTE,
 } from '../../constants/routes';
 import accountStore from '../Account/AccountStore';
 import * as accountActions from '../Account/actions';
@@ -72,7 +72,7 @@ class DashboardScreen extends Component {
       isRefreshing: false,
       stopReceivingInvites: false,
       rating: 0,
-      pendingPayments: '$150.00',
+      payments: 0,
       invites: [],
       upcomingJobs: [],
       activeShift: null,
@@ -239,6 +239,7 @@ class DashboardScreen extends Component {
       isRefreshing: false,
       stopReceivingInvites: data.stop_receiving_invites,
       rating: data.rating || 'N/A',
+      payments: data.total_pending_payments,
     });
   };
 
@@ -316,7 +317,7 @@ class DashboardScreen extends Component {
       <I18n>
         {(t) => (
           <Container>
-            {this.state.isLoading ? <Loading/> : null}
+            {this.state.isLoading ? <Loading /> : null}
             <TabHeader
               title={t('DASHBOARD.dashboard')}
               screenName={'dashboard'}
@@ -364,7 +365,7 @@ class DashboardScreen extends Component {
                           <Text style={styles.textHello}>
                             {`${t('DASHBOARD.hello')} ${
                               this.state.user.first_name
-                              } ${this.state.user.last_name},`}
+                            } ${this.state.user.last_name},`}
                           </Text>
                         ) : null}
                         <Text style={styles.textWelcome}>
@@ -381,16 +382,16 @@ class DashboardScreen extends Component {
                   { flex: 2, paddingTop: 10, paddingBottom: 10 },
                 ]}>
                 <View style={styles.viewItemJobsLeft}>
-                  <TouchableOpacity onPress={this.goToPendingPayments}>
+                  <TouchableOpacity onPress={this.goToPayments}>
                     <Text style={styles.titleItem}>
-                      {t('DASHBOARD.pendingPayments')}
+                      {t('PAYMENTS.payments')}
                     </Text>
                     <Image
                       style={styles.iconSize}
                       source={require('../../assets/image/payments.png')}
                     />
                     <Text style={styles.itemData}>
-                      $1000 {/* this.state.pendingPayments */}
+                      ${this.state.payments.toFixed(2)}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -461,7 +462,7 @@ class DashboardScreen extends Component {
                         this.state.stopReceivingInvites
                           ? 'buttonLeftActive'
                           : 'buttonLeftInactive'
-                        ]
+                      ]
                     }
                     first
                     active>
@@ -482,7 +483,7 @@ class DashboardScreen extends Component {
                         this.state.stopReceivingInvites
                           ? 'buttonRightInactive'
                           : 'buttonRightActive'
-                        ]
+                      ]
                     }
                     last>
                     <Icon
@@ -598,8 +599,8 @@ class DashboardScreen extends Component {
     this.props.navigation.navigate(REVIEWS_ROUTE);
   };
 
-  goToPendingPayments = () => {
-    this.props.navigation.navigate(JOB_PENDING_PAYMENTS_ROUTE);
+  goToPayments = () => {
+    this.props.navigation.navigate(JOB_PAYMENTS_ROUTE);
   };
 
   getEmployee = () => {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, RefreshControl, Alert } from 'react-native';
+import { View, Image, RefreshControl } from 'react-native';
 import {
   Container,
   Content,
@@ -12,17 +12,10 @@ import {
   ListItem,
 } from 'native-base';
 import styles from './style';
-import {
-  JOB_DETAILS_V2,
-  JOB_DETAILS_NEW_ONE_ROUTE,
-  JOB_DETAILS_NEW_TWO_ROUTE,
-  JOB_WORK_MODE_ROUTE,
-  JOB_PENDING_PAYMENTS_ROUTE,
-} from '../../constants/routes';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as jobActions from './actions';
-import { equalMonthAndYear, isValidString } from '../../shared';
+import { equalMonthAndYear } from '../../shared';
 import { CustomToast, Loading, CenteredText } from '../../shared/components';
 import jobStore from './JobStore';
 import moment from 'moment';
@@ -30,6 +23,7 @@ import { TabHeader } from '../../shared/components/TabHeader';
 import { log } from 'pure-logger';
 import UpcomingJobScreen from './UpcomingJobScreen';
 import ApplicationDetailScreen from './ApplicationDetailScreen';
+import textStyles from '../../shared/textStyles';
 
 class MyJobs extends Component {
   static navigationOptions = {
@@ -160,42 +154,13 @@ class MyJobs extends Component {
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-
             {this.state.showNoJobsText ? (
               <CenteredText text={`${t('MY_JOBS.noJobs')}`} />
             ) : null}
-
             <TabHeader
               title={t('MY_JOBS.myJobs')}
               onPressHelp={this.goToEditProfile}
             />
-
-            {/*<View>*/}
-            {/*  <Text*/}
-            {/*    onPress={() =>*/}
-            {/*      this.props.navigation.navigate(JOB_DETAILS_NEW_ONE_ROUTE)*/}
-            {/*    }>*/}
-            {/*    Link para ver detalles Job y hacer Review*/}
-            {/*  </Text>*/}
-            {/*  <Text*/}
-            {/*    onPress={() =>*/}
-            {/*      this.props.navigation.navigate(JOB_DETAILS_NEW_TWO_ROUTE)*/}
-            {/*    }>*/}
-            {/*    Link para ver detalles Job y ver los Review*/}
-            {/*  </Text>*/}
-            {/*  <Text*/}
-            {/*    onPress={() =>*/}
-            {/*      this.props.navigation.navigate(JOB_WORK_MODE_ROUTE)*/}
-            {/*    }>*/}
-            {/*    Link para ver Work Mode*/}
-            {/*  </Text>*/}
-            {/*  <Text*/}
-            {/*    onPress={() =>*/}
-            {/*      this.props.navigation.navigate(JOB_PENDING_PAYMENTS_ROUTE)*/}
-            {/*    }>*/}
-            {/*    Link para ver Pending payments*/}
-            {/*  </Text>*/}
-            {/*</View>*/}
             <Segment style={styles.viewSegment}>
               {Array.isArray(this.state.jobFilters)
                 ? this.state.jobFilters.map((filter, index) => (
@@ -215,7 +180,6 @@ class MyJobs extends Component {
                 ))
                 : null}
             </Segment>
-
             <View style={styles.viewTitle}>
               {Array.isArray(this.state.jobFilters)
                 ? this.state.jobFilters.map((filter) => (
@@ -227,7 +191,6 @@ class MyJobs extends Component {
                 ))
                 : null}
             </View>
-
             <Content
               refreshControl={
                 <RefreshControl
@@ -259,26 +222,22 @@ class MyJobs extends Component {
                         icon
                         style={styles.viewList}>
                         <Left>
-                          <Text style={styles.textBody}>
+                          <Text>
                             {moment(job.starting_at)
                               .tz(moment.tz.guess())
                               .format('ddd D')}
                           </Text>
                         </Left>
                         <Body>
-                          <Text style={styles.textBody}>
-                            <Text style={styles.itemName}>
-                              {job.position.title}
-                            </Text>
+                          <Text style={textStyles.textShiftTitle}>
+                            {job.position.title}
                           </Text>
                         </Body>
                         <Right style={[styles.noRight]}>
-                          <Text style={{ textAlign: 'center' }}>
-                            <Text style={styles.itemTime}>
-                              {` ${moment(job.starting_at)
-                                .tz(moment.tz.guess())
-                                .format('h:mm a')}`}
-                            </Text>
+                          <Text style={textStyles.textBlack}>
+                            {moment(job.starting_at)
+                              .tz(moment.tz.guess())
+                              .format('h:mm a')}
                           </Text>
                         </Right>
                       </ListItem>
