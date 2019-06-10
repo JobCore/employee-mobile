@@ -23,6 +23,7 @@ import { TabHeader } from '../../shared/components/TabHeader';
 import { log } from 'pure-logger';
 import UpcomingJobScreen from './UpcomingJobScreen';
 import ApplicationDetailScreen from './ApplicationDetailScreen';
+import textStyles from '../../shared/textStyles';
 
 class MyJobs extends Component {
   static navigationOptions = {
@@ -225,26 +226,22 @@ class MyJobs extends Component {
                         icon
                         style={styles.viewList}>
                         <Left>
-                          <Text style={styles.textBody}>
+                          <Text>
                             {moment(job.starting_at)
                               .tz(moment.tz.guess())
                               .format('ddd D')}
                           </Text>
                         </Left>
                         <Body>
-                          <Text style={styles.textBody}>
-                            <Text style={styles.itemName}>
-                              {job.position.title}
-                            </Text>
+                          <Text style={textStyles.textShiftTitle}>
+                            {job.position.title}
                           </Text>
                         </Body>
                         <Right style={[styles.noRight]}>
-                          <Text style={{ textAlign: 'center' }}>
-                            <Text style={styles.itemTime}>
-                              {` ${moment(job.starting_at)
-                                .tz(moment.tz.guess())
-                                .format('h:mm a')}`}
-                            </Text>
+                          <Text style={textStyles.textBlack}>
+                            {moment(job.starting_at)
+                              .tz(moment.tz.guess())
+                              .format('h:mm a')}
                           </Text>
                         </Right>
                       </ListItem>

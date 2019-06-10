@@ -13,8 +13,6 @@ import styles from './style';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import * as inviteActions from './actions';
-// import inviteStore from './InviteStore';
-// import { JobDetails } from '../../shared/components';
 import { LOG } from '../../shared';
 import CHICKEN from '../../assets/image/chicken.png';
 import jobStore from './JobStore';
@@ -23,7 +21,7 @@ import { CustomToast, Loading, CenteredText } from '../../shared/components';
 
 import HeaderPayments from '../../shared/components/HeaderPayments';
 import { ModalHeader } from '../../shared/components/ModalHeader';
-// import IconTime from '../../assets/image/time.png'
+import textStyles from '../../shared/textStyles';
 
 class JobPayments extends Component {
   static navigationOptions = {
@@ -158,19 +156,18 @@ class JobPayments extends Component {
                       </Left>
                       <Body>
                         <Text>
-                          {' '}
-                          <Text style={styles.textOne}>
+                          <Text style={textStyles.textEmployer}>
                             {payment.employer.title}{' '}
                           </Text>
-                          <Text style={styles.textTwo}>will pay you </Text>{' '}
-                          <Text style={styles.textRed}>
+                          <Text style={textStyles.textGray}>will pay you </Text>{' '}
+                          <Text style={textStyles.textRed}>
                             ${payment.total_amount}
                           </Text>
-                          <Text style={styles.textTwo}>for being a</Text>{' '}
-                          <Text style={styles.textThree}>
+                          <Text style={textStyles.textGray}> for being a</Text>{' '}
+                          <Text style={textStyles.textShiftTitle}>
                             {payment.shift.position.title}
                           </Text>{' '}
-                          from May 30th 3:00pm to May 30th 6:00pm
+                          {/* from May 30th 3:00pm to May 30th 6:00pm */}
                         </Text>
                       </Body>
                     </ListItem>

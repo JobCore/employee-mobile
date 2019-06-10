@@ -93,9 +93,6 @@ export default StyleSheet.create({
   viewRight: {
     width: '50%',
   },
-  viewPaddingBadges: {
-    paddingLeft: 30,
-  },
   viewPadding: {
     paddingHorizontal: 15,
   },
@@ -124,7 +121,7 @@ export default StyleSheet.create({
   },
   textReview: {
     color: BLUE_DARK,
-    marginBottom: 5,
+    paddingBottom: 5,
   },
   textInfo: {
     textAlign: 'center',

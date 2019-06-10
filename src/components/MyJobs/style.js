@@ -131,7 +131,6 @@ export default StyleSheet.create({
   },
   textOne: {
     color: VIOLET_MAIN,
-
     textAlign: 'left',
   },
   textTwo: {

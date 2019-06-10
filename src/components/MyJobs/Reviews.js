@@ -184,7 +184,7 @@ class Reviews extends Component {
                             <Text
                               style={{
                                 color: BLUE_LIGHT,
-                                fontSize: 14,
+                                fontSize: 16,
                                 fontWeight: 'normal',
                               }}>
                               {`${t('REVIEWS.workingAs')} `}
@@ -200,7 +200,7 @@ class Reviews extends Component {
                           <Text
                             style={{
                               color: BLUE_DARK,
-                              fontSize: 18,
+                              fontSize: 16,
                               fontWeight: 'normal',
                             }}>
                             {this.getRatingEmployeeFormat(review.rating)}{' '}
@@ -214,7 +214,7 @@ class Reviews extends Component {
                                       review.rating >= star
                                         ? BLUE_DARK
                                         : BLUE_LIGHT,
-                                    fontSize: 18,
+                                    fontSize: 16,
                                   }}
                                 />
                               ))}
@@ -240,8 +240,10 @@ class Reviews extends Component {
                       <Text
                         style={{
                           color: BLUE_DARK,
-                          fontSize: 14,
-                        }}>{`" ${review.comments} "`}</Text>
+                          fontSize: 16,
+                        }}>
+                        "{review.comments}"
+                      </Text>
                     </ListItem>
                   </>
                 )}

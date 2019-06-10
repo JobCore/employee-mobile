@@ -200,7 +200,7 @@ class Profile extends Component {
 
               {this.showBadges() ? (
                 <>
-                  <View style={styles.viewPaddingBadges}>
+                  <View style={styles.viewInfo}>
                     <Text style={styles.textSubtitle}>
                       {t('PROFILE.badges')}
                     </Text>
@@ -237,16 +237,14 @@ class Profile extends Component {
                   </Text>
                 </View>
               )}
-
               {Array.isArray(this.state.ratings) &&
               this.state.ratings.length ? (
-                  <View style={styles.viewPadding}>
+                  <View style={styles.viewInfo}>
                     <TouchableOpacity onPress={this.goToReviews}>
                       <Text style={styles.textSubtitle}>
                         {t('PROFILE.whatEmployersSaid')}
                       </Text>
                     </TouchableOpacity>
-
                     {this.state.ratings.map((rating, index) => (
                       <Text key={index} style={styles.textReview}>
                       "{rating.comments}"
