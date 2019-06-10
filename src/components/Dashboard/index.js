@@ -239,6 +239,7 @@ class DashboardScreen extends Component {
       isRefreshing: false,
       stopReceivingInvites: data.stop_receiving_invites,
       rating: data.rating || 'N/A',
+      payments: data.total_pending_payments,
     });
   };
 
