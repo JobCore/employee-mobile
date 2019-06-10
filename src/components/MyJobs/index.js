@@ -154,11 +154,9 @@ class MyJobs extends Component {
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-
             {this.state.showNoJobsText ? (
               <CenteredText text={`${t('MY_JOBS.noJobs')}`} />
             ) : null}
-
             <TabHeader
               title={t('MY_JOBS.myJobs')}
               onPressHelp={this.goToEditProfile}
@@ -182,7 +180,6 @@ class MyJobs extends Component {
                 ))
                 : null}
             </Segment>
-
             <View style={styles.viewTitle}>
               {Array.isArray(this.state.jobFilters)
                 ? this.state.jobFilters.map((filter) => (
@@ -194,7 +191,6 @@ class MyJobs extends Component {
                 ))
                 : null}
             </View>
-
             <Content
               refreshControl={
                 <RefreshControl
