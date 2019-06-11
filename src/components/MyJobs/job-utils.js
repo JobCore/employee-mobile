@@ -66,3 +66,9 @@ export const getDiffInMinutesToStartShift = (shift) => {
   const nowMoment = moment.utc();
   return startingAtMoment.diff(nowMoment, 'minutes');
 };
+
+export const getRatingEmployeeFormat = (rating) => {
+  rating = parseFloat(rating);
+
+  return rating && typeof rating === 'number' ? rating.toFixed(1) : '0.0';
+};

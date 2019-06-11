@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { View, Alert, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { Container, Text } from 'native-base';
 import { I18n } from 'react-i18next';
-import { i18next } from '../../i18n';
-// import inviteStore from './InviteStore';
-// import { JobDetails } from '../../shared/components';
-import { LOG, storeErrorHandler } from '../../shared';
-import { CustomToast, Loading, openMapsApp } from '../../shared/components';
+import { LOG } from '../../shared';
+import { Loading, openMapsApp } from '../../shared/components';
 import moment from 'moment';
 import { ModalHeader } from '../../shared/components/ModalHeader';
 import { log } from 'pure-logger';
@@ -16,20 +13,9 @@ import { Earnings } from './components/Earnings';
 import jobStore from './JobStore';
 import * as Progress from 'react-native-progress';
 import { BLUE_DARK, BLUE_MAIN } from '../../shared/colorPalette';
-import {
-  canClockIn,
-  canClockOut,
-  getDiffInMinutesToStartShift,
-} from './job-utils';
-import { ClockInButton } from './components/ClockInButton';
+import { Review } from './components/Review';
 import { ReviewButton } from './components/ReviewButton';
-import { ClockOutButton } from './components/ClockOutButton';
-import {
-  calculateEarningsFromClockIns,
-  clockIn,
-  clockOut,
-  getJob,
-} from './actions';
+import { calculateEarningsFromClockIns, getJob, getJobRate } from './actions';
 import { RATE_EMPLOYER_ROUTE } from '../../constants/routes';
 import { ClocksIn } from './components/ClocksIn';
 import { jobStyles } from './JobStyles';
@@ -38,7 +24,7 @@ import { jobStyles } from './JobStyles';
 const DEFAULT_LATIDUDE = 25.761681;
 const DEFAULT_LONGITUDE = -80.191788;
 
-class WorkModeScreen extends Component {
+class JobCompletedScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -46,28 +32,29 @@ class WorkModeScreen extends Component {
       shift: undefined,
       invite: {},
       shiftId: this.props.navigation.getParam('shiftId', null),
+      jobRate: null,
     };
     this.scrollView = null;
   }
 
   componentDidMount() {
     this.getJobSubscription = jobStore.subscribe('GetJob', this.getJobHandler);
-    this.clockInSubscription = jobStore.subscribe('ClockIn', () =>
-      getJob(this.state.shiftId),
-    );
-    this.clockOuSubscription = jobStore.subscribe('ClockOut', () =>
-      getJob(this.state.shiftId),
-    );
     this.jobStoreError = jobStore.subscribe('JobStoreError', this.errorHandler);
+    this.getJobRateSubscription = jobStore.subscribe('GetJobRate', (jobRate) =>
+      this.setState({ jobRate }),
+    );
+    this.rateJobSubscription = jobStore.subscribe('RateEmployer', () =>
+      getJobRate(this.state.shiftId),
+    );
     getJob(this.state.shiftId);
+    getJobRate(this.state.shiftId);
   }
 
   componentWillUnmount() {
     this.getJobSubscription.unsubscribe();
-    this.clockInSubscription.unsubscribe();
-    this.clockOuSubscription.unsubscribe();
-    this.clockInSubscription.unsubscribe();
     this.jobStoreError.unsubscribe();
+    this.getJobRateSubscription.unsubscribe();
+    this.rateJobSubscription.unsubscribe();
   }
 
   getJobHandler = (shift) => {
@@ -77,6 +64,16 @@ class WorkModeScreen extends Component {
 
   errorHandler = () => {
     this.setState({ isLoading: false });
+  };
+
+  showAlreadyRated = () => {
+    if (!this.state.shift) return false;
+
+    if (Array.isArray(this.state.jobRate) && this.state.jobRate.length) {
+      return true;
+    }
+
+    return false;
   };
 
   render() {
@@ -105,7 +102,6 @@ class WorkModeScreen extends Component {
       const minutesPassedPct = parseFloat(minutesPassed / minutes);
       const address = venue.street_address;
       const clockIns = shift.clockin_set ? shift.clockin_set : [];
-      console.log(`DEBUG:clockins:`, clockIns);
       clockIns.sort((a, b) => moment(a.started_at).diff(moment(b.started_at)));
       const hoursWorked = calculateEarningsFromClockIns(
         shift.clockin_set,
@@ -119,13 +115,9 @@ class WorkModeScreen extends Component {
           <ViewFlex justifyContent={'space-between'}>
             <View>
               <ModalHeader
-                canClose={canClockIn(shift)}
-                title={`Work Mode`}
-                onPressClose={() => {
-                  console.log(`DEBUG:navigate to Main Screen`);
-                  this.props.navigation.goBack();
-                }}
-                onPressHelp={() => {}}
+                title={`Job Details`}
+                onPressClose={() => this.props.navigation.goBack()}
+                onPressHelp={() => this.props.navigation.goBack()}
               />
             </View>
             <View style={{ flex: 8 }}>
@@ -178,9 +170,10 @@ class WorkModeScreen extends Component {
               </ScrollView>
             </View>
             <View
-              style={[jobStyles.clockButtonBar, { flex: 2, paddingTop: 20 }]}>
+              style={[jobStyles.clockButtonBar, { flex: 3, paddingTop: 10 }]}>
               {this.renderButtons()}
             </View>
+            <View style={{ flex: 1 }} />
           </ViewFlex>
         </>
       );
@@ -198,126 +191,20 @@ class WorkModeScreen extends Component {
   }
 
   renderButtons = () => {
-    const { shift } = this.state;
-    const canIClockIn = canClockIn(shift);
-    const canIClockOut = canClockOut(shift);
+    if (!this.showAlreadyRated())
+      return <ReviewButton onClick={this.goToRateJob} />;
+
     return (
-      <View>
-        {canIClockIn && (
-          <ClockInButton
-            onClick={this.clockIn}
-            canClockIn={canIClockIn}
-            diffInMinutes={getDiffInMinutesToStartShift(this.state.shift)}
-          />
-        )}
-        {canIClockOut && <ClockOutButton onClick={this.clockOut} />}
-        {!(canIClockIn || canIClockOut) && (
-          <ReviewButton onClick={this.goToRateJob} />
-        )}
+      <View style={{ width: '100%' }}>
+        <Review review={this.state.jobRate[0]} />
       </View>
     );
   };
 
   goToRateJob = () => {
-    if (!this.state.shiftId || !this.state.shift || !this.state.shift.id) {
-      return;
-    }
-
     this.props.navigation.navigate(RATE_EMPLOYER_ROUTE, {
       shift: this.state.shift,
     });
-  };
-
-  clockOut = () => {
-    if (!this.state.shiftId) return;
-    let jobTitle;
-
-    try {
-      jobTitle = this.state.shift.venue.title;
-    } catch (e) {
-      return;
-    }
-
-    if (!jobTitle) return;
-
-    Alert.alert(i18next.t('MY_JOBS.wantToClockOut'), jobTitle, [
-      { text: i18next.t('APP.cancel') },
-      {
-        text: i18next.t('MY_JOBS.clockOut'),
-        onPress: () => {
-          clockOut(
-            this.state.shift.id,
-            this.state.shift.venue.latitude,
-            this.state.shift.venue.longitude,
-            moment.utc(),
-          );
-          // eslint-disable-next-line no-constant-condition
-          if (1 === 2 - 1) return;
-          navigator.geolocation.getCurrentPosition(
-            (data) => {
-              this.setState({ isLoading: true }, () => {
-                clockOut(
-                  this.state.shift.id,
-                  data.coords.latitude,
-                  data.coords.longitude,
-                  moment.utc(),
-                );
-              });
-            },
-            (err) => CustomToast(storeErrorHandler(err), 'danger'),
-          );
-        },
-      },
-    ]);
-  };
-
-  clockIn = () => {
-    if (!this.state.shiftId) return;
-    let jobTitle;
-    try {
-      jobTitle = this.state.shift.venue.title;
-    } catch (e) {
-      CustomToast('The venue has no title!');
-      return;
-    }
-
-    Alert.alert(i18next.t('MY_JOBS.wantToClockIn'), jobTitle, [
-      { text: i18next.t('APP.cancel') },
-      {
-        text: i18next.t('MY_JOBS.clockIn'),
-        onPress: () => {
-          clockIn(
-            this.state.shift.id,
-            this.state.shift.venue.latitude,
-            this.state.shift.venue.longitude,
-            moment.utc(),
-          );
-          // eslint-disable-next-line no-constant-condition
-          if (true) return;
-          navigator.geolocation.getCurrentPosition(
-            (data) => {
-              log(`DEBUG:clockin:`, this.state.shift.id);
-              this.setState({ isLoading: true }, () => {
-                log(
-                  `DEBUG:clockin:`,
-                  this.state.shift.id,
-                  data.coords.latitude,
-                  data.coords.longitude,
-                  moment.utc(),
-                );
-                clockIn(
-                  this.state.shift.id,
-                  data.coords.latitude,
-                  data.coords.longitude,
-                  moment.utc(),
-                );
-              });
-            },
-            (err) => CustomToast(storeErrorHandler(err), 'danger'),
-          );
-        },
-      },
-    ]);
   };
 
   showOpenDirection = () => {
@@ -346,6 +233,6 @@ class WorkModeScreen extends Component {
   };
 }
 
-WorkModeScreen.routeName = 'WorkModeScreen';
+JobCompletedScreen.routeName = 'JobCompletedScreen';
 
-export default WorkModeScreen;
+export default JobCompletedScreen;

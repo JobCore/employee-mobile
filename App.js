@@ -64,6 +64,7 @@ import SettingScreen from './src/components/Setting';
 import Splash from './src/components/Splash';
 import EditLocation from './src/components/Invite/EditLocation';
 import ApplicationDetailScreen from './src/components/MyJobs/ApplicationDetailScreen';
+import JobCompletedScreen from './src/components/MyJobs/JobCompletedScreen';
 
 YellowBox.ignoreWarnings([
   'Warning: isMounted(...) is deprecated',
@@ -156,6 +157,10 @@ export const AppStack = createStackNavigator(
     [ApplicationDetailScreen.routeName]: {
       screen: ApplicationDetailScreen,
       path: 'application/:applicationId',
+    },
+    [JobCompletedScreen.routeName]: {
+      screen: JobCompletedScreen,
+      path: 'job-completed/:shiftId',
     },
     [HELP_ROUTE]: {
       screen: Help,

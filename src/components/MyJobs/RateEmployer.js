@@ -37,7 +37,6 @@ class RateEmployer extends Component {
       'RateEmployer',
       this.rateJobHandler,
     );
-
     this.jobStoreError = jobStore.subscribe('JobStoreError', this.errorHandler);
   }
 

@@ -24,6 +24,30 @@ import { log } from 'pure-logger';
 import UpcomingJobScreen from './UpcomingJobScreen';
 import ApplicationDetailScreen from './ApplicationDetailScreen';
 import textStyles from '../../shared/textStyles';
+import JobCompletedScreen from './JobCompletedScreen';
+
+const jobFilters = [
+  {
+    name: 'pending', // must match the i18n translate
+    action: 'getPendingJobs', // Must match the action's name
+    style: 'pointPending', // must match the style's name
+  },
+  {
+    name: 'upcoming',
+    action: 'getUpcomingJobs',
+    style: 'pointUpcoming',
+  },
+  {
+    name: 'completed',
+    action: 'getCompletedJobs',
+    style: 'pointCompleted',
+  },
+  {
+    name: 'failed',
+    action: 'getFailedJobs',
+    style: 'pointPending',
+  },
+];
 
 class MyJobs extends Component {
   static navigationOptions = {
@@ -48,29 +72,6 @@ class MyJobs extends Component {
         'tabAction',
         'getPendingJobs',
       ),
-      // for jobs filters array.map
-      jobFilters: [
-        {
-          name: 'pending', // must match the i18n translate
-          action: 'getPendingJobs', // Must match the action's name
-          style: 'pointPending', // must match the style's name
-        },
-        {
-          name: 'upcoming',
-          action: 'getUpcomingJobs',
-          style: 'pointUpcoming',
-        },
-        {
-          name: 'completed',
-          action: 'getCompletedJobs',
-          style: 'pointCompleted',
-        },
-        {
-          name: 'failed',
-          action: 'getFailedJobs',
-          style: 'pointPending',
-        },
-      ],
     };
   }
 
@@ -162,34 +163,30 @@ class MyJobs extends Component {
               onPressHelp={this.goToEditProfile}
             />
             <Segment style={styles.viewSegment}>
-              {Array.isArray(this.state.jobFilters)
-                ? this.state.jobFilters.map((filter, index) => (
-                  <Button
-                    key={filter.name}
-                    onPress={() => this.selectJobFilter(filter.action)}
-                    style={[
-                      styles[
-                        this.state.jobFilterSelected === filter.action
-                          ? 'buttonActive'
-                          : 'buttonInactive'
-                      ],
-                      index === 0 ? styles.firstButtonBorderLeft : {},
-                    ]}>
-                    <View style={styles[filter.style]} />
-                  </Button>
-                ))
-                : null}
+              {jobFilters.map((filter, index) => (
+                <Button
+                  key={filter.name}
+                  onPress={() => this.selectJobFilter(filter.action)}
+                  style={[
+                    styles[
+                      this.state.jobFilterSelected === filter.action
+                        ? 'buttonActive'
+                        : 'buttonInactive'
+                    ],
+                    index === 0 ? styles.firstButtonBorderLeft : {},
+                  ]}>
+                  <View style={styles[filter.style]} />
+                </Button>
+              ))}
             </Segment>
             <View style={styles.viewTitle}>
-              {Array.isArray(this.state.jobFilters)
-                ? this.state.jobFilters.map((filter) => (
-                  <View key={filter.name} style={styles.viewItem}>
-                    <Text style={styles.titleItem}>
-                      {t(`MY_JOBS.${filter.name}`)}
-                    </Text>
-                  </View>
-                ))
-                : null}
+              {jobFilters.map((filter) => (
+                <View key={filter.name} style={styles.viewItem}>
+                  <Text style={styles.titleItem}>
+                    {t(`MY_JOBS.${filter.name}`)}
+                  </Text>
+                </View>
+              ))}
             </View>
             <Content
               refreshControl={
@@ -198,53 +195,51 @@ class MyJobs extends Component {
                   onRefresh={this.refreshJobs}
                 />
               }>
-              {Array.isArray(this.state.jobs)
-                ? this.state.jobs.map((job, index, array) => {
-                  const showDate =
-                      index === 0 ||
-                      !equalMonthAndYear(
-                        array[index].starting_at,
-                        array[index - 1].starting_at,
-                      );
+              {this.state.jobs.map((job, index, array) => {
+                const showDate =
+                  index === 0 ||
+                  !equalMonthAndYear(
+                    array[index].starting_at,
+                    array[index - 1].starting_at,
+                  );
 
-                  return (
-                    <View key={index}>
-                      {showDate ? (
-                        <Text style={styles.titleDate}>
+                return (
+                  <View key={index}>
+                    {showDate ? (
+                      <Text style={styles.titleDate}>
+                        {moment(job.starting_at)
+                          .tz(moment.tz.guess())
+                          .format('MMM YYYY')}
+                      </Text>
+                    ) : null}
+
+                    <ListItem
+                      onPress={() => this.goToJobDetails(job)}
+                      icon
+                      style={styles.viewList}>
+                      <Left>
+                        <Text>
                           {moment(job.starting_at)
                             .tz(moment.tz.guess())
-                            .format('MMM YYYY')}
+                            .format('ddd D')}
                         </Text>
-                      ) : null}
-
-                      <ListItem
-                        onPress={() => this.goToJobDetails(job)}
-                        icon
-                        style={styles.viewList}>
-                        <Left>
-                          <Text>
-                            {moment(job.starting_at)
-                              .tz(moment.tz.guess())
-                              .format('ddd D')}
-                          </Text>
-                        </Left>
-                        <Body>
-                          <Text style={textStyles.textShiftTitle}>
-                            {job.position.title}
-                          </Text>
-                        </Body>
-                        <Right style={[styles.noRight]}>
-                          <Text style={textStyles.textBlack}>
-                            {moment(job.starting_at)
-                              .tz(moment.tz.guess())
-                              .format('h:mm a')}
-                          </Text>
-                        </Right>
-                      </ListItem>
-                    </View>
-                  );
-                })
-                : null}
+                      </Left>
+                      <Body>
+                        <Text style={textStyles.textShiftTitle}>
+                          {job.position.title}
+                        </Text>
+                      </Body>
+                      <Right style={[styles.noRight]}>
+                        <Text style={textStyles.textBlack}>
+                          {moment(job.starting_at)
+                            .tz(moment.tz.guess())
+                            .format('h:mm a')}
+                        </Text>
+                      </Right>
+                    </ListItem>
+                  </View>
+                );
+              })}
             </Content>
           </Container>
         )}
@@ -278,7 +273,6 @@ class MyJobs extends Component {
   }
 
   goToJobDetails = (job) => {
-    log('goToJobDetails', job);
     if (!job) return;
     if (
       !(
@@ -289,6 +283,12 @@ class MyJobs extends Component {
     ) {
       return this.props.navigation.navigate(ApplicationDetailScreen.routeName, {
         applicationId: job.applicationId,
+      });
+    }
+    if (!moment(job.ending_at).isAfter(moment().utc())) {
+      log(`DEBUG:jobCompleted`);
+      return this.props.navigation.navigate(JobCompletedScreen.routeName, {
+        shiftId: job.id,
       });
     }
     this.props.navigation.navigate(UpcomingJobScreen.routeName, {

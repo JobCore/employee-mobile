@@ -132,7 +132,9 @@ const inviteStyles = StyleSheet.create({
     borderColor: 'transparent',
     backgroundColor: BLUE_DARK,
     height: 38,
-    width: '100%',
+    // width: '100%',
+    textAlign: 'center',
+    alignItems: 'center',
   },
   clockInButton: {
     borderColor: 'transparent',

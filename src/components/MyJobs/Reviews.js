@@ -1,36 +1,23 @@
 import React, { Component } from 'react';
-import { View, FlatList } from 'react-native';
-import {
-  Icon,
-  Text,
-  Container,
-  Left,
-  Body,
-  ListItem,
-  Thumbnail,
-} from 'native-base';
+import { FlatList, View } from 'react-native';
+import { Container, Icon, Text } from 'native-base';
 import * as jobActions from './actions';
 import jobStore from './JobStore';
 import styles from './ReviewsStyle';
 import profileStyles from '../Account/ProfileStyle';
 import {
+  BackgroundHeader,
+  CenteredText,
   CustomToast,
   Loading,
-  CenteredText,
-  BackgroundHeader,
 } from '../../shared/components';
 import { I18n } from 'react-i18next';
-import {
-  BLUE_MAIN,
-  BLUE_DARK,
-  BLUE_LIGHT,
-  VIOLET_MAIN,
-} from '../../shared/colorPalette';
+import { BLUE_DARK, BLUE_LIGHT } from '../../shared/colorPalette';
 import * as inviteActions from '../Invite/actions';
 import inviteStore from '../Invite/InviteStore';
-import myJobsImg from '../../assets/image/profile.png';
-import moment from 'moment';
 import { ModalHeader } from '../../shared/components/ModalHeader';
+import { getRatingEmployeeFormat } from './job-utils';
+import { Review, starsArray } from './components/Review';
 
 class Reviews extends Component {
   static navigationOptions = {
@@ -43,7 +30,6 @@ class Reviews extends Component {
       isLoading: false,
       isRefreshing: false,
       emptyReviews: false,
-      starsArray: [1, 2, 3, 4, 5],
       reviews: [],
       profile: {},
     };
@@ -93,12 +79,6 @@ class Reviews extends Component {
     CustomToast(err, 'danger');
   };
 
-  getRatingEmployeeFormat(rating) {
-    rating = parseFloat(rating);
-
-    return rating && typeof rating === 'number' ? rating.toFixed(1) : '0.0';
-  }
-
   render() {
     return (
       <I18n>
@@ -127,12 +107,12 @@ class Reviews extends Component {
                               {t('PROFILE.yourRating')}
                             </Text>
                             <Text style={styles.textRowNumber}>
-                              {this.getRatingEmployeeFormat(
+                              {getRatingEmployeeFormat(
                                 this.state.profile.employee.rating,
                               )}
                             </Text>
                             <Text style={profileStyles.textRowTitle}>
-                              {this.state.starsArray.map((star) => (
+                              {starsArray.map((star) => (
                                 <Icon
                                   key={star}
                                   name={'md-star'}
@@ -161,92 +141,7 @@ class Reviews extends Component {
                   </BackgroundHeader>
                 }
                 keyExtractor={(review) => String(review.id)}
-                renderItem={({ item: review }) => (
-                  <>
-                    <ListItem noBorder style={{ paddingBottom: 5 }}>
-                      <Left>
-                        <Thumbnail
-                          source={
-                            review.shift &&
-                            review.shift.position &&
-                            review.shift.position.picture
-                              ? review.shift.position.picture
-                              : myJobsImg
-                          }
-                        />
-                        <Body>
-                          {review.shift && review.shift.employer ? (
-                            <Text style={{ color: VIOLET_MAIN, fontSize: 14 }}>
-                              {review.shift.employer.title}
-                            </Text>
-                          ) : null}
-                          {review.shift && review.shift.position ? (
-                            <Text
-                              style={{
-                                color: BLUE_LIGHT,
-                                fontSize: 16,
-                                fontWeight: 'normal',
-                              }}>
-                              {`${t('REVIEWS.workingAs')} `}
-                              <Text
-                                style={{
-                                  color: BLUE_MAIN,
-                                  fontWeight: 'bold',
-                                }}>
-                                {review.shift.position.title}
-                              </Text>
-                            </Text>
-                          ) : null}
-                          <Text
-                            style={{
-                              color: BLUE_DARK,
-                              fontSize: 16,
-                              fontWeight: 'normal',
-                            }}>
-                            {this.getRatingEmployeeFormat(review.rating)}{' '}
-                            <Text>
-                              {this.state.starsArray.map((star) => (
-                                <Icon
-                                  key={star}
-                                  name={'md-star'}
-                                  style={{
-                                    color:
-                                      review.rating >= star
-                                        ? BLUE_DARK
-                                        : BLUE_LIGHT,
-                                    fontSize: 16,
-                                  }}
-                                />
-                              ))}
-
-                              <Text
-                                style={{
-                                  color: BLUE_DARK,
-                                  fontWeight: 'bold',
-                                }}>
-                                {'                '}
-                                {moment(review.created_at)
-                                  .tz(moment.tz.guess())
-                                  .format('L')}
-                              </Text>
-                            </Text>
-                          </Text>
-                        </Body>
-                      </Left>
-                    </ListItem>
-                    <ListItem
-                      style={{ paddingTop: 5, paddingLeft: 18, marginLeft: 0 }}
-                      noBorder={false}>
-                      <Text
-                        style={{
-                          color: BLUE_DARK,
-                          fontSize: 16,
-                        }}>
-                        "{review.comments}"
-                      </Text>
-                    </ListItem>
-                  </>
-                )}
+                renderItem={({ item: review }) => <Review review={review} />}
               />
             ) : null}
           </Container>
