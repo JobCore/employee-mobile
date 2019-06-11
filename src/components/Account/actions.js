@@ -30,6 +30,7 @@ const clearStores = () => {
  * Login action
  * @param  {string} email
  * @param  {string} password
+ * @param {string} fcmToken
  */
 const login = (email, password, fcmToken) => {
   try {
@@ -215,6 +216,16 @@ const setStoredUser = (user) => {
   setTimeout(() => {
     Flux.dispatchEvent('Login', user);
   });
+};
+
+export const requestSendValidationLink = (email) => {
+  postData(`/user/email/validate/send/${email}`, {}, false)
+    .then((data) => {
+      Flux.dispatchEvent('ValidationLink', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('AccountStoreError', err);
+    });
 };
 
 export {

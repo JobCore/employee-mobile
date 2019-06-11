@@ -140,33 +140,22 @@ class WorkModeScreen extends Component {
       const dateString =
         from === to
           ? from === todayString
-            ? 'Today'
-            : from
+          ? 'Today'
+          : from
           : `${from} to ${to}`;
       const fromTime = startingAtMoment.format('h:mm A');
       const toTime = endingAtMoment.format('h:mm A');
       const timeString = `${fromTime} to ${toTime}`;
       const minutes = endingAtMoment.diff(startingAtMoment, 'minutes');
       const minutesPassed = todayAtMoment.diff(startingAtMoment, 'minutes');
-      console.log(
-        `DEBUG:calculateEarningsFromClockIns:`,
-        minutes,
-        minutesPassed,
-      );
       const minutesPassedPct = parseFloat(minutesPassed / minutes);
-      console.log(
-        `DEBUG:calculateEarningsFromClockIns:`,
-        minutesPassedPct,
-        minutesPassed / minutes,
-      );
-      // const price = minutes * parseFloat(shift.minimum_hourly_rate);
       const address = venue.street_address;
       const clockIns = shift.clockin_set ? shift.clockin_set : [];
-      console.log(`DEBUG:calculateEarningsFromClockIns:`, shift.clockin_set);
+      console.log(`DEBUG:clockins:`, clockIns);
+      clockIns.sort((a, b) => moment(a.started_at).diff(moment(b.started_at)));
       const hoursWorked = calculateEarningsFromClockIns(
         shift.clockin_set,
       ).toFixed(2);
-      console.log(`DEBUG:calculateEarningsFromClockIns:`, hoursWorked);
       const earningsSoFar = (hoursWorked * shift.minimum_hourly_rate).toFixed(
         2,
       );
@@ -182,7 +171,8 @@ class WorkModeScreen extends Component {
                   console.log(`DEBUG:navigate to Main Screen`);
                   this.props.navigation.goBack();
                 }}
-                onPressHelp={() => {}}
+                onPressHelp={() => {
+                }}
               />
             </View>
             <View style={{ flex: 8 }}>
@@ -193,7 +183,8 @@ class WorkModeScreen extends Component {
                 timeString={timeString}
                 addressString={address}
                 onPressDirection={
-                  this.showOpenDirection() ? this.openMapsApp : () => {}
+                  this.showOpenDirection() ? this.openMapsApp : () => {
+                  }
                 }
               />
             </View>
@@ -227,11 +218,11 @@ class WorkModeScreen extends Component {
               </Progress.Bar>
             </View>
             <View style={{ flex: 3 }}>
-              <Earnings price={earningsSoFar} hours={hoursWorked} />
+              <Earnings price={earningsSoFar} hours={hoursWorked}/>
             </View>
             <View style={[{ flex: 10 }]}>
               <ScrollView ref={(component) => (this.scrollView = component)}>
-                <ClocksIn clockIns={clockIns} />
+                <ClocksIn clockIns={clockIns}/>
               </ScrollView>
             </View>
             <View
@@ -247,7 +238,7 @@ class WorkModeScreen extends Component {
       <I18n>
         {(t) => (
           <Container>
-            {isLoading ? <Loading /> : <>{renderDetail(t, shift)}</>}
+            {isLoading ? <Loading/> : <>{renderDetail(t, shift)}</>}
           </Container>
         )}
       </I18n>
@@ -267,9 +258,9 @@ class WorkModeScreen extends Component {
             diffInMinutes={getDiffInMinutesToStartShift(this.state.shift)}
           />
         )}
-        {canIClockOut && <ClockOutButton onClick={this.clockOut} />}
+        {canIClockOut && <ClockOutButton onClick={this.clockOut}/>}
         {!(canIClockIn || canIClockOut) && (
-          <ReviewButton onClick={this.goToRateJob} />
+          <ReviewButton onClick={this.goToRateJob}/>
         )}
       </View>
     );
@@ -308,7 +299,7 @@ class WorkModeScreen extends Component {
             this.state.shift.venue.longitude,
             moment.utc(),
           );
-          if (true) return;
+          if (1 === (2 - 1)) return;
           navigator.geolocation.getCurrentPosition(
             (data) => {
               this.setState({ isLoading: true }, () => {

@@ -185,6 +185,14 @@ reject or resolve based on status then Parses the response to json
  */
 function checkStatus(response) {
   console.log('services:checkStatus', response);
+
+  if (response && response.status === 500) {
+    response.text().then((res) => {
+      console.log('services:checkStatus: 500:', res);
+      return Promise.reject(new Error(res));
+    });
+  }
+
   if ((response && response.status === 401) || response.status === 403) {
     response.json().then((res) => {
       accountActions.logoutOnUnautorized(res);
@@ -195,13 +203,15 @@ function checkStatus(response) {
     if (response.status === 204) {
       return { status: 'No content response' };
     }
-
     return response.json().then((res) => {
       return Promise.resolve(res);
     });
   } else {
     return response.json().then((err) => {
-      return Promise.reject(err);
+      console.log('services:checkStatus: 400:', err);
+      const errorMessage = err[Object.keys(err)[0]];
+      if (Array.isArray(errorMessage)) return Promise.reject(errorMessage[0]);
+      return Promise.reject(errorMessage);
     });
   }
 }

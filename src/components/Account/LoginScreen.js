@@ -5,7 +5,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import { Content, Item, Input, Button, Text, Form } from 'native-base';
+import { Content, Item, Input, Button, Text, Form, Toast } from 'native-base';
 import styles from './LoginStyle';
 import {
   REGISTER_ROUTE,
@@ -15,11 +15,11 @@ import {
 import * as accountActions from './actions';
 import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
-import { i18next } from '../../i18n';
 import { LOG } from '../../shared';
 import { CustomToast, Loading } from '../../shared/components';
 import { FormView } from '../../shared/platform';
 import firebase from 'react-native-firebase';
+import { WHITE_MAIN } from '../../shared/colorPalette';
 
 class LoginScreen extends Component {
   static navigationOptions = { header: null };
@@ -44,6 +44,19 @@ class LoginScreen extends Component {
       'AccountStoreError',
       (err) => this.errorHandler(err),
     );
+    this.accountStoreError = accountStore.subscribe('ValidationLink', () => {
+      // Toast.show({
+      //   text: 'You need to validate your email to log in the platform.',
+      //   type: 'danger',
+      //   duration: 180000,
+      //   position: 'top',
+      //   buttonText: 'Resend',
+      //   onClose: () => {
+      //     accountActions.requestSendValidationLink(email);
+      //   },
+      // });
+      CustomToast('Validation link sent! Check your email inbox.');
+    });
   }
 
   componentWillUnmount() {
@@ -60,20 +73,34 @@ class LoginScreen extends Component {
     });
   };
 
-  loginHandler = (user) => {
+  loginHandler = (response: any) => {
+    console.log('DEBUG:LOGIN:', response);
     this.isLoading(false);
     let status;
     let token;
 
     try {
-      token = user.token;
-      status = user.user.profile.status;
+      token = response.token;
+      status = response.user.profile.status;
     } catch (e) {
       return LOG(this, e);
     }
 
     if (!status || status === 'PENDING_EMAIL_VALIDATION') {
-      return CustomToast(i18next.t('LOGIN.youMustValidateEmail'), 'danger');
+      const email = this.state.email.toLowerCase().trim();
+      Toast.show({
+        text: 'You need to validate your email to log in the platform.',
+        type: 'danger',
+        duration: 180000,
+        position: 'top',
+        buttonText: 'Resend Email',
+        buttonStyle: { width: 85, height: 60, backgroundColor: '#c3453c' },
+        buttonTextStyle: { color: WHITE_MAIN, textAlign: 'center' },
+        onClose: () => {
+          accountActions.requestSendValidationLink(email);
+        },
+      });
+      return;
     }
 
     if (token) {
@@ -92,7 +119,7 @@ class LoginScreen extends Component {
         {(t) => (
           <Content contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>
-              {this.state.isLoading ? <Loading /> : null}
+              {this.state.isLoading ? <Loading/> : null}
               <Image
                 style={styles.viewBackground}
                 source={require('../../assets/image/bg.jpg')}

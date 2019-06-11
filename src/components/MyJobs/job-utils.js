@@ -50,6 +50,8 @@ export const canClockOut = (shift) => {
   const clockinSet = shift.clockin_set;
   if (clockinSet.length === 0) return false;
 
+  clockinSet.sort((a, b) => moment(a.started_at).diff(moment(b.started_at)));
+
   const startedAt = clockinSet[clockinSet.length - 1].started_at;
   const endedAt = clockinSet[clockinSet.length - 1].ended_at;
 
