@@ -40,7 +40,10 @@ class HelpIcon extends Component {
     );
 
     const { screenName } = this.props;
-    fetchScreens(screenName);
+
+    if (screenName) {
+      fetchScreens(screenName);
+    }
   }
 
   componentWillUnmount() {
