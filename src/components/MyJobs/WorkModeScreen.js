@@ -53,7 +53,7 @@ class WorkModeScreen extends Component {
   }
 
   componentDidMount() {
-    this.getJobSubscription  = jobStore.subscribe('GetJob', this.getJobHandler);
+    this.getJobSubscription = jobStore.subscribe('GetJob', this.getJobHandler);
     this.clockInSubscription = jobStore.subscribe('ClockIn', () =>
       getJob(this.state.shiftId),
     );
@@ -70,12 +70,16 @@ class WorkModeScreen extends Component {
     this.clockOuSubscription.unsubscribe();
     this.clockInSubscription.unsubscribe();
     this.jobStoreError.unsubscribe();
+    clearInterval(this.intervalBar);
   }
 
   getJobHandler = (shift) => {
     LOG(`DEBUG:getJobHandler`, shift);
+
     this.setState({ shift, isLoading: false }, () => {
-      this.setDataTimes();
+      this.intervalBar = setInterval(() => {
+        this.setDataTimes();
+      }, 1000);
     });
   };
 
@@ -140,8 +144,8 @@ class WorkModeScreen extends Component {
     const dateString =
       from === to
         ? from === todayString
-        ? 'Today'
-        : from
+          ? 'Today'
+          : from
         : `${from} to ${to}`;
     const fromTime = startingAtMoment.format('h:mm A');
     const toTime = endingAtMoment.format('h:mm A');
@@ -150,27 +154,33 @@ class WorkModeScreen extends Component {
     const minutesPassed = todayAtMoment.diff(startingAtMoment, 'minutes');
     const minutesPassedPct = parseFloat(minutesPassed / minutes);
 
-    this.setState({ times: {
-      toTime,
-      fromTime,
-      dateString,
-      timeString,
-      minutesPassedPct,
-    }});
-  }
+    this.setState({
+      times: {
+        toTime,
+        fromTime,
+        dateString,
+        timeString,
+        minutesPassedPct,
+      },
+    });
+  };
 
-  render () {
+  render() {
     const { isLoading, shift } = this.state;
     const renderDetail = (t, shift) => {
       const { venue } = shift;
-      const address   = venue.street_address;
-      const clockIns  = shift.clockin_set ? shift.clockin_set : [];
-      const times     = this.state.times;
+      const address = venue.street_address;
+      const clockIns = shift.clockin_set ? shift.clockin_set : [];
+      const times = this.state.times;
 
       clockIns.sort((a, b) => moment(a.started_at).diff(moment(b.started_at)));
 
-      const hoursWorked = calculateEarningsFromClockIns(shift.clockin_set).toFixed(2);
-      const earningsSoFar = (hoursWorked * shift.minimum_hourly_rate).toFixed(2);
+      const hoursWorked = calculateEarningsFromClockIns(
+        shift.clockin_set,
+      ).toFixed(2);
+      const earningsSoFar = (hoursWorked * shift.minimum_hourly_rate).toFixed(
+        2,
+      );
 
       setTimeout(() => this.scrollView.scrollToEnd(), 1000);
 
@@ -299,8 +309,6 @@ class WorkModeScreen extends Component {
 
     if (!jobTitle) return;
 
-    clearInterval(this.intervalBar);
-
     Alert.alert(i18next.t('MY_JOBS.wantToClockOut'), jobTitle, [
       { text: i18next.t('APP.cancel') },
       {
@@ -341,10 +349,6 @@ class WorkModeScreen extends Component {
       CustomToast('The venue has no title!');
       return;
     }
-
-    this.intervalBar = setInterval(() => {
-      this.setDataTimes()
-    }, 1000);
 
     Alert.alert(i18next.t('MY_JOBS.wantToClockIn'), jobTitle, [
       { text: i18next.t('APP.cancel') },
