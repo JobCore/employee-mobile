@@ -18,6 +18,7 @@ import CHICKEN from '../../assets/image/chicken.png';
 import jobStore from './JobStore';
 import * as jobActions from './actions';
 import { CustomToast, Loading, CenteredText } from '../../shared/components';
+import moment from 'moment'
 
 import HeaderPayments from '../../shared/components/HeaderPayments';
 import { ModalHeader } from '../../shared/components/ModalHeader';
@@ -167,7 +168,16 @@ class JobPayments extends Component {
                           <Text style={textStyles.textShiftTitle}>
                             {payment.shift.position.title}
                           </Text>{' '}
-                          {/* from May 30th 3:00pm to May 30th 6:00pm */}
+                          <Text>
+                            {` ${t('JOB_PREFERENCES.dateStartToEnd', {
+                              startingAt: moment(payment.shift.starting_at)
+                                .tz(moment.tz.guess())
+                                .format('lll'),
+                              endingAt: moment(payment.shift.ending_at)
+                                .tz(moment.tz.guess())
+                                .format('lll'),
+                            })} `}
+                          </Text>
                         </Text>
                       </Body>
                     </ListItem>
