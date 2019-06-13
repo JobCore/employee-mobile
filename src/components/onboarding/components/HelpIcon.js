@@ -55,7 +55,7 @@ class HelpIcon extends Component {
       <>
         {this.state.screens ? (
           <Button title={''} transparent onPress={this.handleOnPress}>
-            <StyledHelpIcon size={24} />
+            <StyledHelpIcon size={24}>?</StyledHelpIcon>
           </Button>
         ) : null}
       </>
