@@ -18,7 +18,7 @@ import CHICKEN from '../../assets/image/chicken.png';
 import jobStore from './JobStore';
 import * as jobActions from './actions';
 import { CustomToast, Loading, CenteredText } from '../../shared/components';
-import moment from 'moment'
+import moment from 'moment';
 
 import HeaderPayments from '../../shared/components/HeaderPayments';
 import { ModalHeader } from '../../shared/components/ModalHeader';
@@ -134,7 +134,7 @@ class JobPayments extends Component {
             {this.state.emptyReviews && (
               <CenteredText text={`${t('PAYMENTS.emptyPaymentes')}`} />
             )}
-            <ModalHeader screenName="payments" title={t('PAYMENTS.payments')} />
+            <ModalHeader title={t('PAYMENTS.payments')} />
             <Content>
               <HeaderPayments
                 totalAmount={totalAmount.toFixed(2)}
