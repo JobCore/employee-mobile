@@ -46,7 +46,6 @@ class WorkModeScreen extends Component {
       shift: undefined,
       invite: {},
       shiftId: this.props.navigation.getParam('shiftId', null),
-      times: {},
     };
     this.scrollView = null;
     this.intervalBar = null;
@@ -70,15 +69,14 @@ class WorkModeScreen extends Component {
     this.clockOuSubscription.unsubscribe();
     this.clockInSubscription.unsubscribe();
     this.jobStoreError.unsubscribe();
-    clearInterval(this.intervalBar);
+    this.intervalBar = null;
   }
 
   getJobHandler = (shift) => {
     LOG(`DEBUG:getJobHandler`, shift);
-
     this.setState({ shift, isLoading: false }, () => {
       this.intervalBar = setInterval(() => {
-        this.setDataTimes();
+        this.forceUpdate();
       }, 1000);
     });
   };
@@ -87,103 +85,44 @@ class WorkModeScreen extends Component {
     this.setState({ isLoading: false });
   };
 
-  getJobRateHandler = (jobRate) => {
-    this.setState({ jobRate });
-  };
-
-  clockOutHandler = () => {
-    CustomToast(i18next.t('MY_JOBS.clockedOut'));
-    this.getClockins();
-  };
-
-  showRateButton = () => {
-    if (!this.state.shift) return false;
-
-    // check if current time is before ending_at
-    if (moment.utc().isSameOrBefore(moment.utc(this.state.shift.ending_at))) {
-      return false;
-    }
-
-    // check for missing clockouts or clockins
-    if (Array.isArray(this.state.clockIns)) {
-      if (!this.state.clockIns.length) return false;
-
-      const endedAt = this.state.clockIns[this.state.clockIns.length - 1]
-        .ended_at;
-
-      if (!endedAt) {
-        return false;
-      }
-    } else return false; // dont show rate button until clockins are loaded
-
-    if (Array.isArray(this.state.jobRate) && !this.state.jobRate.length) {
-      return true;
-    }
-
-    return false;
-  };
-
-  showAlreadyRated = () => {
-    if (!this.state.shift) return false;
-
-    if (Array.isArray(this.state.jobRate) && this.state.jobRate.length) {
-      return true;
-    }
-
-    return false;
-  };
-
-  setDataTimes = () => {
-    const { starting_at, ending_at } = this.state.shift;
-    const todayAtMoment = moment().tz(moment.tz.guess());
-    const todayString = todayAtMoment.format('MMM D');
-    const startingAtMoment = moment(starting_at).tz(moment.tz.guess());
-    const from = startingAtMoment.format('MMM D');
-    const endingAtMoment = moment(ending_at).tz(moment.tz.guess());
-    const to = endingAtMoment.format('MMM D');
-    const dateString =
-      from === to
-        ? from === todayString
-          ? 'Today'
-          : from
-        : `${from} to ${to}`;
-    const fromTime = startingAtMoment.format('h:mm A');
-    const toTime = endingAtMoment.format('h:mm A');
-    const timeString = `${fromTime} to ${toTime}`;
-    const minutes = endingAtMoment.diff(startingAtMoment, 'minutes');
-    const minutesPassed = todayAtMoment.diff(startingAtMoment, 'minutes');
-    const minutesPassedPct = parseFloat(minutesPassed / minutes);
-
-    this.setState({
-      times: {
-        toTime,
-        fromTime,
-        dateString,
-        timeString,
-        minutesPassedPct,
-      },
-    });
-  };
-
   render() {
+    log(`DEBUG:state:`, this.state);
     const { isLoading, shift } = this.state;
     const renderDetail = (t, shift) => {
-      const { venue } = shift;
+      log(`DEBUG:shift:`, shift);
+      const { venue, starting_at, ending_at } = shift;
+      const todayAtMoment = moment().tz(moment.tz.guess());
+      const todayString = todayAtMoment.format('MMM D');
+      const startingAtMoment = moment(starting_at).tz(moment.tz.guess());
+      const from = startingAtMoment.format('MMM D');
+      const endingAtMoment = moment(ending_at).tz(moment.tz.guess());
+      const to = endingAtMoment.format('MMM D');
+      const dateString =
+        from === to
+          ? from === todayString
+            ? 'Today'
+            : from
+          : `${from} to ${to}`;
+      const fromTime = startingAtMoment.format('h:mm A');
+      const toTime = endingAtMoment.format('h:mm A');
+      const timeString = `${fromTime} to ${toTime}`;
+      const minutes = endingAtMoment.diff(startingAtMoment, 'minutes');
+      const minutesPassed = todayAtMoment.diff(startingAtMoment, 'minutes');
+      const minutesPassedPct = parseFloat(minutesPassed / minutes);
       const address = venue.street_address;
       const clockIns = shift.clockin_set ? shift.clockin_set : [];
-      const times = this.state.times;
-
+      console.log(`DEBUG:clockins:`, clockIns);
       clockIns.sort((a, b) => moment(a.started_at).diff(moment(b.started_at)));
-
       const hoursWorked = calculateEarningsFromClockIns(
         shift.clockin_set,
       ).toFixed(2);
       const earningsSoFar = (hoursWorked * shift.minimum_hourly_rate).toFixed(
         2,
       );
-
-      setTimeout(() => this.scrollView.scrollToEnd(), 1000);
-
+      setTimeout(
+        () => (this.scrollView ? this.scrollView.scrollToEnd() : null),
+        1000,
+      );
       return (
         <>
           <ViewFlex justifyContent={'space-between'}>
@@ -192,6 +131,7 @@ class WorkModeScreen extends Component {
                 canClose={canClockIn(shift)}
                 title={`Work Mode`}
                 onPressClose={() => {
+                  console.log(`DEBUG:navigate to Main Screen`);
                   this.props.navigation.goBack();
                 }}
                 onPressHelp={() => {}}
@@ -201,8 +141,8 @@ class WorkModeScreen extends Component {
               <JobHeader
                 clientName={venue.title}
                 positionName={shift.position.title}
-                dateString={times.dateString}
-                timeString={times.timeString}
+                dateString={dateString}
+                timeString={timeString}
                 addressString={address}
                 onPressDirection={
                   this.showOpenDirection() ? this.openMapsApp : () => {}
@@ -212,7 +152,7 @@ class WorkModeScreen extends Component {
             <View style={{ flex: 2, alignItems: 'center', paddingTop: 20 }}>
               <Progress.Bar
                 borderRadius={10}
-                progress={times.minutesPassedPct}
+                progress={minutesPassedPct}
                 width={270}
                 height={30}
                 color={BLUE_MAIN}
@@ -225,7 +165,7 @@ class WorkModeScreen extends Component {
                     left: 10,
                     color: BLUE_DARK,
                   }}>
-                  {times.fromTime}
+                  {fromTime}
                 </Text>
                 <Text
                   style={{
@@ -234,7 +174,7 @@ class WorkModeScreen extends Component {
                     right: 10,
                     BLUE_DARK,
                   }}>
-                  {times.toTime}
+                  {toTime}
                 </Text>
               </Progress.Bar>
             </View>
