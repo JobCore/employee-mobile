@@ -40,7 +40,10 @@ class HelpIcon extends Component {
     );
 
     const { screenName } = this.props;
-    fetchScreens(screenName);
+
+    if (screenName) {
+      fetchScreens(screenName);
+    }
   }
 
   componentWillUnmount() {
@@ -52,7 +55,7 @@ class HelpIcon extends Component {
       <>
         {this.state.screens ? (
           <Button title={''} transparent onPress={this.handleOnPress}>
-            <StyledHelpIcon size={24} />
+            <StyledHelpIcon size={24}>?</StyledHelpIcon>
           </Button>
         ) : null}
       </>

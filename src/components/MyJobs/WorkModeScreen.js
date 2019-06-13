@@ -48,6 +48,7 @@ class WorkModeScreen extends Component {
       shiftId: this.props.navigation.getParam('shiftId', null),
     };
     this.scrollView = null;
+    this.intervalBar = null;
   }
 
   componentDidMount() {
@@ -68,11 +69,16 @@ class WorkModeScreen extends Component {
     this.clockOuSubscription.unsubscribe();
     this.clockInSubscription.unsubscribe();
     this.jobStoreError.unsubscribe();
+    this.intervalBar = null;
   }
 
   getJobHandler = (shift) => {
     LOG(`DEBUG:getJobHandler`, shift);
-    this.setState({ shift, isLoading: false });
+    this.setState({ shift, isLoading: false }, () => {
+      this.intervalBar = setInterval(() => {
+        this.forceUpdate();
+      }, 1000);
+    });
   };
 
   errorHandler = () => {
@@ -113,7 +119,10 @@ class WorkModeScreen extends Component {
       const earningsSoFar = (hoursWorked * shift.minimum_hourly_rate).toFixed(
         2,
       );
-      setTimeout(() => this.scrollView.scrollToEnd(), 1000);
+      setTimeout(
+        () => (this.scrollView ? this.scrollView.scrollToEnd() : null),
+        1000,
+      );
       return (
         <>
           <ViewFlex justifyContent={'space-between'}>
