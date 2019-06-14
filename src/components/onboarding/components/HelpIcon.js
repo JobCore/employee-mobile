@@ -3,9 +3,7 @@ import { withNavigation } from 'react-navigation';
 import { Button, Icon } from 'native-base';
 import { BLUE_MAIN, WHITE_MAIN } from '../../../shared/colorPalette';
 import { HELP_ROUTE } from '../../../constants/routes';
-import { fetchScreens } from '../onboarding-actions';
 import styled from 'styled-components/native';
-import { onboardingStore, SCREENS_EVENT } from '../onboarding-store';
 import PropTypes from 'prop-types';
 
 const StyledHelpIcon = styled(Icon)`
@@ -20,40 +18,14 @@ const StyledHelpIcon = styled(Icon)`
 `;
 
 class HelpIcon extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      screens: null,
-    };
-  }
-
   handleOnPress = () => {
-    this.props.navigation.navigate(HELP_ROUTE, { screens: this.state.screens });
+    this.props.navigation.navigate(HELP_ROUTE, { screenName: this.props.screenName });
   };
-
-  componentDidMount() {
-    this.onboardingSubscription = onboardingStore.subscribe(
-      SCREENS_EVENT,
-      (screens) => {
-        this.setState({ screens });
-      },
-    );
-
-    const { screenName } = this.props;
-
-    if (screenName) {
-      fetchScreens(screenName);
-    }
-  }
-
-  componentWillUnmount() {
-    this.onboardingSubscription.unsubscribe();
-  }
 
   render() {
     return (
       <>
-        {this.state.screens ? (
+        {this.props.screenName ? (
           <Button title={''} transparent onPress={this.handleOnPress}>
             <StyledHelpIcon size={24}>?</StyledHelpIcon>
           </Button>

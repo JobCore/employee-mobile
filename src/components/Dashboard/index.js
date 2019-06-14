@@ -48,6 +48,7 @@ import WorkModeScreen from '../MyJobs/WorkModeScreen';
 import { getOpenClockIns } from '../MyJobs/actions';
 import EditProfile from '../Account/EditProfile';
 import Profile from '../Account/Profile';
+import { HELP_ROUTE } from '../../constants/routes';
 
 /**
  *
@@ -200,6 +201,19 @@ class DashboardScreen extends Component {
     this.firstLoad();
     this.getFcmToken();
     fetchActiveShifts();
+
+    _retrieveData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('@JobCore:isFirstLogin');
+        if (value !== null) {
+          // We have data!!
+          this.props.navigation.navigate(HELP_ROUTE);
+          AsyncStorage.setItem('@JobCore:isFirstLogin', false);
+        }
+      } catch (error) {
+        // Error retrieving data
+      }
+    };
   }
 
   componentWillUnmount() {
