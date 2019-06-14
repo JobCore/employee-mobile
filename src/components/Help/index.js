@@ -7,11 +7,28 @@ import { withNavigation } from 'react-navigation';
 import { helpStyles } from './helpStyles';
 import { ModalHeader } from '../../shared/components/ModalHeader';
 
+import { fetchScreens } from '../../components/onboarding/onboarding-actions';
+import { onboardingStore, SCREENS_EVENT } from '../../components/onboarding/onboarding-store';
+
 class Help extends Component {
   state = {
     activeSlide: 0,
-    items: this.props.navigation.getParam('screens', []),
+    screens: []
   };
+
+  componentDidMount() {
+    this.onboardingSubscription = onboardingStore.subscribe(
+      SCREENS_EVENT,
+      (screens) => {
+        this.setState({ screens });
+      },
+    );
+    fetchScreens(this.props.navigation.getParam('screenName', 'dashboard'))
+  }
+
+  componentWillUnmount() {
+    this.onboardingSubscription.unsubscribe();
+  }
 
   _renderItem = (t, item) => {
     return (
@@ -44,7 +61,7 @@ class Help extends Component {
   };
 
   handleOnSnapNextItem = () => {
-    if (this.state.activeSlide === this.state.items.length - 1) {
+    if (this.state.activeSlide === this.state.screens.length - 1) {
       this.handleGoBack();
     } else {
       this.setState({
@@ -54,21 +71,27 @@ class Help extends Component {
   };
 
   render() {
-    const currentItem = this.state.items[this.state.activeSlide];
-
     return (
       <I18n>
-        {(t) => (
-          <>
-            <ModalHeader
-              title={currentItem.heading}
-              screenName={'help'}
-              withoutHelpIcon={true}
-              onPressClose={this.handleGoBack}
-            />
-            <Container>{this._renderItem(t, currentItem)}</Container>
-          </>
-        )}
+        {(t) => {
+          if (this.state.screens.length > 0) {
+            const currentItem = this.state.screens[this.state.activeSlide];
+
+            return (
+              <>
+                <ModalHeader
+                  title={currentItem.heading}
+                  screenName={'help'}
+                  withoutHelpIcon={true}
+                  onPressClose={this.handleGoBack}
+                />
+                <Container>{this._renderItem(t, currentItem)}</Container>
+              </>
+            )
+          } else {
+            return null
+          }
+        }}
       </I18n>
     );
   }

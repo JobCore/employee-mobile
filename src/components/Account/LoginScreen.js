@@ -100,6 +100,14 @@ class LoginScreen extends Component {
           accountActions.requestSendValidationLink(email);
         },
       });
+      _storeData = async () => {
+        try {
+          await AsyncStorage.setItem('@JobCore:isFirstLogin', true);
+        } catch (error) {
+          // Error saving data
+        }
+      };
+
       return;
     }
 
