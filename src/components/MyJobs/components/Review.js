@@ -20,9 +20,9 @@ export function Review({ review }) {
           <Thumbnail
             source={
               review.shift &&
-              review.shift.position &&
-              review.shift.position.picture
-                ? review.shift.position.picture
+              review.shift.employer &&
+              review.shift.employer.picture
+                ? { uri: review.shift.employer.picture }
                 : myJobsImg
             }
           />

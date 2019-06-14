@@ -154,9 +154,9 @@ class JobInvites extends Component {
                       small
                       source={
                         data.shift &&
-                        data.shift.position &&
-                        data.shift.position.picture
-                          ? { uri: data.shift.position.picture }
+                        data.shift.employer &&
+                        data.shift.employer.picture
+                          ? { uri: data.shift.employer.picture }
                           : PROFILE_IMG
                       }
                     />
