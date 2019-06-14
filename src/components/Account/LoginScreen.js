@@ -104,6 +104,7 @@ class LoginScreen extends Component {
     }
 
     if (token) {
+      Toast.toastInstance._root.closeToast();
       this.props.navigation.navigate(APP_ROUTE);
     }
   };
