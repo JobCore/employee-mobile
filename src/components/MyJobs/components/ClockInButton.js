@@ -4,17 +4,17 @@ import { inviteStyles } from '../../Invite/InviteDetailsStyle';
 import PropTypes from 'prop-types';
 
 const ClockInButton = ({ canClockIn, diffInMinutes, onClick }) => {
-  let timeToClockIn = diffInMinutes;
-  let timeUnit = 'MINUTES';
+  let timeToClockIn = parseInt(diffInMinutes);
+  let timeUnit = 'Minutes';
 
   if (timeToClockIn > 59) {
-    timeToClockIn = timeToClockIn / 60;
-    timeUnit = 'HOURS';
+    timeToClockIn = (timeToClockIn / 60).toFixed(2);
+    timeUnit = 'Hours';
   }
 
-  if (timeToClockIn > 23) {
-    timeToClockIn = timeToClockIn / 24;
-    timeUnit = 'DAYS';
+  if (timeToClockIn > 23 * 60) {
+    timeToClockIn = (timeToClockIn / 24).toFixed(2);
+    timeUnit = 'Days';
   }
 
   if (canClockIn)
@@ -51,7 +51,7 @@ const ClockInButton = ({ canClockIn, diffInMinutes, onClick }) => {
       rounded
       bordered>
       <Text style={inviteStyles.textWhite}>
-        Clock In in {`${timeToClockIn.toFixed(2)}`} {timeUnit}
+        Clock In in {`${timeToClockIn}`} {timeUnit}
       </Text>
     </Button>
   );

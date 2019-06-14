@@ -192,6 +192,18 @@ const editAvailabilityAllday = (allday, availabilityId) => {
     });
 };
 
+export const editAvailability = (availability) => {
+  putData(`/employees/me/availability/${availability.id}`, {
+    ...availability,
+  })
+    .then((data) => {
+      Flux.dispatchEvent('EditAvailability', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('InviteStoreError', err);
+    });
+};
+
 /**
  * Add availability dates action
  * @param {date} startingAt start date

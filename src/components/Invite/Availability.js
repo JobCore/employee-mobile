@@ -90,6 +90,7 @@ class AddAvailability extends Component {
   };
 
   render() {
+    console.log(`DEBUG:availability`, this.state.availability);
     return (
       <I18n>
         {(t) => (
@@ -334,7 +335,7 @@ class AddAvailability extends Component {
     const availabilityCopy = Object.assign({}, availability);
     availabilityCopy.allday = allday;
 
-    this.editAvailabilityAllday(availabilityCopy);
+    inviteActions.editAvailability(availabilityCopy);
   }
 
   editAvailabilityAllday = (availability) => {
