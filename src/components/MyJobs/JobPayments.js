@@ -151,7 +151,12 @@ class JobPayments extends Component {
                         <Image
                           resizeMode={'cover'}
                           circle={true}
-                          source={CHICKEN}
+                          source={
+                            payment.employer &&
+                            payment.employer.picture
+                              ? { uri: payment.employer.picture }
+                              : CHICKEN
+                          }
                           style={styles.imgCover}
                         />
                       </Left>

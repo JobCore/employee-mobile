@@ -139,6 +139,7 @@ class WorkModeScreen extends Component {
             </View>
             <View style={{ flex: 8 }}>
               <JobHeader
+                clientLogo={shift.employer.picture}
                 clientName={venue.title}
                 positionName={shift.position.title}
                 dateString={dateString}
