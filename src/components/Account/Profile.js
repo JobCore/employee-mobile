@@ -19,6 +19,7 @@ import { BLUE_DARK, BLUE_LIGHT } from '../../shared/colorPalette';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import { ModalHeader } from '../../shared/components/ModalHeader';
 import EditProfile from './EditProfile';
+import { Review } from '../MyJobs/components/Review'
 
 class Profile extends Component {
   static navigationOptions = {
@@ -239,16 +240,14 @@ class Profile extends Component {
               )}
               {Array.isArray(this.state.ratings) &&
               this.state.ratings.length ? (
-                  <View style={styles.viewInfo}>
+                  <View>
                     <TouchableOpacity onPress={this.goToReviews}>
-                      <Text style={styles.textSubtitle}>
+                      <Text style={[styles.textSubtitle, { paddingLeft: 35 }]}>
                         {t('PROFILE.whatEmployersSaid')}
                       </Text>
                     </TouchableOpacity>
                     {this.state.ratings.map((rating, index) => (
-                      <Text key={index} style={styles.textReview}>
-                      "{rating.comments}"
-                      </Text>
+                      <Review review={rating} />
                     ))}
                   </View>
                 ) : (
