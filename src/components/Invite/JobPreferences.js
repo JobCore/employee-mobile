@@ -201,6 +201,7 @@ class JobPreferences extends Component {
           <Container>
             {this.state.isLoading ? <Loading /> : null}
             <TabHeader
+              screenName="job_preferences"
               title={t('JOB_PREFERENCES.jobPreferences')}
               onPress={this.goToEditProfile}
             />

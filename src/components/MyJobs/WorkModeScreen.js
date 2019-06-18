@@ -130,11 +130,6 @@ class WorkModeScreen extends Component {
               <ModalHeader
                 canClose={canClockIn(shift)}
                 title={`Work Mode`}
-                onPressClose={() => {
-                  console.log(`DEBUG:navigate to Main Screen`);
-                  this.props.navigation.goBack();
-                }}
-                onPressHelp={() => {}}
               />
             </View>
             <View style={{ flex: 8 }}>

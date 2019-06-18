@@ -128,6 +128,7 @@ class JobInvites extends Component {
               <CenteredText text={`${t('JOB_INVITES.noInvites')}`} />
             ) : null}
             <TabHeader
+              screenName="invitations"
               title={t('JOB_INVITES.jobOffers')}
               onPress={this.goToEditProfile}
             />

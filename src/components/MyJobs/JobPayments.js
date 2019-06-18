@@ -134,7 +134,10 @@ class JobPayments extends Component {
             {this.state.emptyReviews && (
               <CenteredText text={`${t('PAYMENTS.emptyPaymentes')}`} />
             )}
-            <ModalHeader title={t('PAYMENTS.payments')} />
+            <ModalHeader
+              screenName="my_payments"
+              title={t('PAYMENTS.payments')}
+            />
             <Content>
               <HeaderPayments
                 totalAmount={totalAmount.toFixed(2)}
