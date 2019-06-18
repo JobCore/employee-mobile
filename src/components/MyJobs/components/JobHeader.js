@@ -6,7 +6,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const JobHeader = ({
-  clientLogo = CHICKEN,
+  clientLogo,
   clientName,
   positionName,
   dateString,
@@ -22,7 +22,7 @@ const JobHeader = ({
             <Image
               resizeMode={'cover'}
               circle={true}
-              source={clientLogo}
+              source={clientLogo ? {uri:clientLogo} : CHICKEN}
               style={inviteStyles.imgCover}
             />
           </Left>
