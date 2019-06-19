@@ -247,7 +247,7 @@ class Profile extends Component {
                       </Text>
                     </TouchableOpacity>
                     {this.state.ratings.map((rating, index) => (
-                      <Review review={rating} />
+                      <Review review={rating} key={index} />
                     ))}
                   </View>
                 ) : (

@@ -97,7 +97,7 @@ class AddAvailability extends Component {
           <Container>
             {this.state.isLoading ? <Loading /> : null}
             <ModalHeader
-              screenName="availability"
+              screenName="availablility"
               title={t('JOB_PREFERENCES.availability')}
             />
             <Content

@@ -159,6 +159,7 @@ class MyJobs extends Component {
               <CenteredText text={`${t('MY_JOBS.noJobs')}`} />
             ) : null}
             <TabHeader
+              screenName="my_jobs"
               title={t('MY_JOBS.myJobs')}
               onPressHelp={this.goToEditProfile}
             />

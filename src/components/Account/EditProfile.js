@@ -113,8 +113,8 @@ class EditProfile extends Component {
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-
             <TabHeader
+              screenName="profile"
               title={t('EDIT_PROFILE.editProfile')}
               onPressHelp={this.goToEditProfile}
             />
