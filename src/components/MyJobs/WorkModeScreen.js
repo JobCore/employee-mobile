@@ -75,6 +75,10 @@ class WorkModeScreen extends Component {
   getJobHandler = (shift) => {
     LOG(`DEBUG:getJobHandler`, shift);
     this.setState({ shift, isLoading: false }, () => {
+      if (this.scrollView) {
+        this.scrollView.scrollToEnd()
+      }
+
       this.intervalBar = setInterval(() => {
         this.forceUpdate();
       }, 1000);
@@ -118,10 +122,6 @@ class WorkModeScreen extends Component {
       ).toFixed(2);
       const earningsSoFar = (hoursWorked * shift.minimum_hourly_rate).toFixed(
         2,
-      );
-      setTimeout(
-        () => (this.scrollView ? this.scrollView.scrollToEnd() : null),
-        1000,
       );
       return (
         <>
