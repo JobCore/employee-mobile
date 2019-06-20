@@ -219,11 +219,13 @@ class MyJobs extends Component {
                       icon
                       style={styles.viewList}>
                       <Left>
-                        <Text>
-                          {moment(job.starting_at)
-                            .tz(moment.tz.guess())
-                            .format('ddd D')}
-                        </Text>
+                        <View>
+                          <Text style={{ width: 55 }}>
+                            {moment(job.starting_at)
+                              .tz(moment.tz.guess())
+                              .format('ddd D')}
+                          </Text>
+                        </View>
                       </Left>
                       <Body>
                         <Text style={textStyles.textShiftTitle}>
@@ -231,11 +233,13 @@ class MyJobs extends Component {
                         </Text>
                       </Body>
                       <Right style={[styles.noRight]}>
-                        <Text style={textStyles.textBlack}>
-                          {moment(job.starting_at)
-                            .tz(moment.tz.guess())
-                            .format('h:mm a')}
-                        </Text>
+                        <View>
+                          <Text style={[textStyles.textBlack, { width: 85 }]}>
+                            {moment(job.starting_at)
+                              .tz(moment.tz.guess())
+                              .format('h:mm a')}
+                          </Text>
+                        </View>
                       </Right>
                     </ListItem>
                   </View>
