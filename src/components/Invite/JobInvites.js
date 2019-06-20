@@ -165,9 +165,9 @@ class JobInvites extends Component {
                       {/* title info */}
                       {data.shift ? (
                         <Text style={inviteStyles.viewTitleInfo}>
-                          {data.shift.venue ? (
+                          {data.shift.employer ? (
                             <Text style={textStyles.textEmployer}>
-                              {data.shift.venue.title}
+                              {data.shift.employer.title}
                             </Text>
                           ) : null}
                           <Text style={textStyles.textGray}>
