@@ -17,10 +17,9 @@ const headerStyles = StyleSheet.create({
   },
   leftButtonImage: {
     color: WHITE_MAIN,
-    fontSize: 25,
+    fontSize: 35,
     fontWeight: '100',
     height: 30,
-    marginTop: 5,
     resizeMode: 'contain',
     textAlign: 'center',
     width: 30,
