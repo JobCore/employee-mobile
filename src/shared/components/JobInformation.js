@@ -29,7 +29,7 @@ const JobInformation = (props) => {
       <View style={{ flex: props.flexHeader }}>
         <JobHeader
           clientLogo={shift.employer.picture}
-          clientName={venue.title}
+          clientName={shift.employer.title}
           positionName={shift.position.title}
           dateString={dateString}
           timeString={timeString}
