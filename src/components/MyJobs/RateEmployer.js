@@ -177,7 +177,7 @@ class RateEmployer extends Component {
             this.setState({ isLoading: true }, () => {
               jobActions.rateEmployer(
                 this.state.shift.id,
-                this.state.shift.employer,
+                this.state.shift.employer.id,
                 this.state.rating,
                 this.state.comments,
               );
