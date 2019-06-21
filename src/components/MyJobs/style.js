@@ -154,8 +154,8 @@ export default StyleSheet.create({
     backgroundColor: BG_GRAY_LIGHT,
   },
   imgCover: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
   },
   bodyItemText: {
     marginTop: 10,

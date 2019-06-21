@@ -61,10 +61,7 @@ class RateEmployer extends Component {
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-            <ModalHeader
-              screenName="rateEmployer"
-              title={t('MY_JOBS.rateEmployer')}
-            />
+            <ModalHeader title={t('MY_JOBS.rateEmployer')} />
             <Content contentContainerStyle={rateEmployerStyle.content}>
               {this.state.shift && this.state.shift.employer ? (
                 <Text style={rateEmployerStyle.textShift}>
@@ -123,7 +120,7 @@ class RateEmployer extends Component {
                     full
                     rounded
                     bordered>
-                    <Text style={rateEmployerStyle.textViolet}>
+                    <Text style={rateEmployerStyle.textWhite}>
                       {t('APP.cancel')}
                     </Text>
                   </Button>
@@ -135,7 +132,7 @@ class RateEmployer extends Component {
                     full
                     rounded
                     bordered>
-                    <Text style={rateEmployerStyle.textBlue}>
+                    <Text style={rateEmployerStyle.textWhite}>
                       {t('MY_JOBS.rate')}
                     </Text>
                   </Button>

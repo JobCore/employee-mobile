@@ -108,6 +108,7 @@ export default StyleSheet.create({
     marginRight: 5,
   },
   buttomLeft: {
+    backgroundColor: VIOLET_MAIN,
     borderColor: VIOLET_MAIN,
     borderWidth: 1,
   },
@@ -116,6 +117,7 @@ export default StyleSheet.create({
     marginLeft: 5,
   },
   buttomRight: {
+    backgroundColor: BLUE_MAIN,
     borderColor: BLUE_MAIN,
     borderWidth: 1,
   },
@@ -175,5 +177,8 @@ export default StyleSheet.create({
   },
   textBlue: {
     color: BLUE_MAIN,
+  },
+  textWhite: {
+    color: WHITE_MAIN,
   },
 });

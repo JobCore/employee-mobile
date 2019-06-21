@@ -135,6 +135,7 @@ const inviteStyles = StyleSheet.create({
     // width: '100%',
     textAlign: 'center',
     alignItems: 'center',
+    alignSelf: 'center'
   },
   clockInButton: {
     borderColor: 'transparent',
@@ -195,8 +196,8 @@ const inviteStyles = StyleSheet.create({
     padding: 5,
   },
   imgCover: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
   },
   bodyItemText: {
     marginTop: 10,

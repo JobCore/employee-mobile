@@ -9,7 +9,6 @@ const ReviewButton = ({ onClick }) => {
       title={''}
       onPress={onClick}
       style={inviteStyles.buttomBottom}
-      full
       rounded
       bordered>
       <Text style={inviteStyles.textWhite}>Review Employer</Text>

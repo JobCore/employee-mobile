@@ -23,6 +23,7 @@ import moment from 'moment';
 import HeaderPayments from '../../shared/components/HeaderPayments';
 import { ModalHeader } from '../../shared/components/ModalHeader';
 import textStyles from '../../shared/textStyles';
+import imgStyles from '../../shared/imgStyles';
 
 class JobPayments extends Component {
   static navigationOptions = {
@@ -160,7 +161,7 @@ class JobPayments extends Component {
                               ? { uri: payment.employer.picture }
                               : CHICKEN
                           }
-                          style={styles.imgCover}
+                          style={imgStyles.employerImg}
                         />
                       </Left>
                       <Body>
