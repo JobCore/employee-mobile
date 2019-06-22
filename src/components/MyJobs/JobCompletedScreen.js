@@ -171,10 +171,10 @@ class JobCompletedScreen extends Component {
               </ScrollView>
             </View>
             <View
-              style={[jobStyles.clockButtonBar, { flex: 3, paddingTop: 10 }]}>
+              style={[{ width: '100%', flex: 3, paddingTop: 15, justifyContent: 'center', alignItems: 'center' }]}>
               {this.renderButtons()}
             </View>
-            <View style={{ flex: 1 }} />
+            <View style={{ flex: 2 }} />
           </ViewFlex>
         </>
       );

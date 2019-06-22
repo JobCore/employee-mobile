@@ -8,7 +8,6 @@ import {
   List,
   ListItem,
   Text,
-  Thumbnail,
   Badge,
 } from 'native-base';
 import { inviteStyles } from './JobInvitesStyle';
@@ -24,6 +23,7 @@ import PROFILE_IMG from '../../assets/image/profile.png';
 import { TabHeader } from '../../shared/components/TabHeader';
 import EditProfile from '../Account/EditProfile';
 import textStyles from '../../shared/textStyles';
+import imgStyles from '../../shared/imgStyles';
 
 /**
  * The Job Invites View
@@ -151,8 +151,7 @@ class JobInvites extends Component {
                       })
                     }
                     style={inviteStyles.viewListItem}>
-                    <Thumbnail
-                      small
+                    <Image
                       source={
                         data.shift &&
                         data.shift.employer &&
@@ -160,6 +159,7 @@ class JobInvites extends Component {
                           ? { uri: data.shift.employer.picture }
                           : PROFILE_IMG
                       }
+                      style={imgStyles.employerImg}
                     />
                     <View style={inviteStyles.viewDataOffers}>
                       {/* title info */}

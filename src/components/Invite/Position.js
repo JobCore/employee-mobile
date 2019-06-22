@@ -179,7 +179,7 @@ class Position extends Component {
                       full
                       rounded
                       bordered>
-                      <Text style={styles.textViolet}>{t('APP.cancel')}</Text>
+                      <Text style={styles.textWhite}>{t('APP.cancel')}</Text>
                     </Button>
                   </View>
                   <View style={styles.viewButtomRight}>
@@ -189,7 +189,7 @@ class Position extends Component {
                       full
                       rounded
                       bordered>
-                      <Text style={styles.textBlue}>
+                      <Text style={styles.textWhite}>
                         {t('JOB_PREFERENCES.save')}
                       </Text>
                     </Button>

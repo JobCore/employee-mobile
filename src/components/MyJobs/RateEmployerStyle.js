@@ -46,6 +46,7 @@ export default StyleSheet.create({
     width: '48%',
   },
   buttomLeft: {
+    backgroundColor: VIOLET_MAIN,
     borderColor: VIOLET_MAIN,
     color: WHITE_MAIN,
   },
@@ -53,6 +54,7 @@ export default StyleSheet.create({
     width: '48%',
   },
   buttomRight: {
+    backgroundColor: BLUE_MAIN,
     borderColor: BLUE_MAIN,
     color: WHITE_MAIN,
   },
@@ -61,5 +63,8 @@ export default StyleSheet.create({
   },
   textBlue: {
     color: BLUE_MAIN,
+  },
+  textWhite: {
+    color: WHITE_MAIN,
   },
 });

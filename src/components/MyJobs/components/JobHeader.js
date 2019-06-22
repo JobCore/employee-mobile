@@ -4,6 +4,7 @@ import { Body, Left, List, ListItem, Text } from 'native-base';
 import CHICKEN from '../../../assets/image/chicken.png';
 import React from 'react';
 import PropTypes from 'prop-types';
+import imgStyles from '../../../shared/imgStyles';
 
 const JobHeader = ({
   clientLogo,
@@ -23,7 +24,7 @@ const JobHeader = ({
               resizeMode={'cover'}
               circle={true}
               source={clientLogo ? {uri:clientLogo} : CHICKEN}
-              style={inviteStyles.imgCover}
+              style={imgStyles.employerImg}
             />
           </Left>
           <Body style={inviteStyles.bodyItemText}>
