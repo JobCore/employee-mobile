@@ -34,15 +34,15 @@ const inviteStyles = StyleSheet.create({
     backgroundColor: VIOLET_MAIN,
   },
   viewListItem: {
-    paddingLeft: 30,
-    paddingRight: 30,
+    paddingLeft: 20,
+    paddingRight: 75,
   },
   viewDataOffers: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-end',
-    marginLeft: 15,
-    marginRight: 30,
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   textOne: {
     color: VIOLET_MAIN,

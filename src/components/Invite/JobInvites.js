@@ -159,7 +159,7 @@ class JobInvites extends Component {
                           ? { uri: data.shift.employer.picture }
                           : PROFILE_IMG
                       }
-                      style={imgStyles.employerImg}
+                      style={[imgStyles.employerImg]}
                     />
                     <View style={inviteStyles.viewDataOffers}>
                       {/* title info */}

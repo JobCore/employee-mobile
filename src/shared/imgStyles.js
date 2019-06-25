@@ -1,9 +1,18 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
   employerImg: {
-    width: 60,
-    height: 60,
-    borderRadius: 100,
+    ...Platform.select({
+      android: {
+        borderRadius: 100,
+        width: 60,
+        height: 60,
+      },
+      ios: {
+        borderRadius: 40,
+        width: 70,
+        height: 70,
+      },
+    }),
   },
 });

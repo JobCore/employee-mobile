@@ -33,7 +33,7 @@ class Splash extends Component {
     } catch (e) {
       LOG(this, e);
     }
-
+    console.log(`DEBUG:token:`, token);
     if (token && status && status !== 'PENDING_EMAIL_VALIDATION') {
       return this.props.navigation.navigate(APP_ROUTE);
     }

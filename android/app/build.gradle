@@ -161,7 +161,7 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation project(':react-native-maps')
     // Firebase dependencies
-    implementation "com.google.firebase:firebase-core:16.0.3"
+    implementation "com.google.firebase:firebase-core:16.0.9"
     implementation "com.google.firebase:firebase-messaging:17.3.2"
 }
 
