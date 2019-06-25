@@ -220,7 +220,7 @@ class MyJobs extends Component {
                       style={styles.viewList}>
                       <Left>
                         <View>
-                          <Text style={{ width: 55 }}>
+                          <Text style={{ width: 60 }}>
                             {moment(job.starting_at)
                               .tz(moment.tz.guess())
                               .format('ddd D')}
@@ -228,13 +228,13 @@ class MyJobs extends Component {
                         </View>
                       </Left>
                       <Body>
-                        <Text style={textStyles.textShiftTitle}>
+                        <Text style={textStyles.textShiftTitle} numberOfLines={1}>
                           {job.position.title}
                         </Text>
                       </Body>
                       <Right style={[styles.noRight]}>
                         <View>
-                          <Text style={[textStyles.textBlack, { width: 85 }]}>
+                          <Text style={[textStyles.textBlack, { width: 75 }]}>
                             {moment(job.starting_at)
                               .tz(moment.tz.guess())
                               .format('h:mm a')}
