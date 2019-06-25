@@ -192,6 +192,9 @@ class JobCompletedScreen extends Component {
   }
 
   renderButtons = () => {
+    if (!this.state.shift.clockin_set.length)
+      return null
+
     if (!this.showAlreadyRated())
       return <ReviewButton onClick={this.goToRateJob} />;
 
