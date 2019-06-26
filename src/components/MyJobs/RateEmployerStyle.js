@@ -34,6 +34,7 @@ export default StyleSheet.create({
     color: BLUE_DARK,
     marginTop: 30,
     marginBottom: 10,
+    padding: 10,
   },
   viewCrud: {
     flexDirection: 'row',
