@@ -12,7 +12,7 @@ const ClockInButton = ({ canClockIn, diffInMinutes, onClick }) => {
     timeUnit = 'Hours';
   }
 
-  if (timeToClockIn > 23 * 60) {
+  if (timeToClockIn > 23) {
     timeToClockIn = (timeToClockIn / 24).toFixed(2);
     timeUnit = 'Days';
   }
@@ -51,7 +51,7 @@ const ClockInButton = ({ canClockIn, diffInMinutes, onClick }) => {
       rounded
       bordered>
       <Text style={inviteStyles.textWhite}>
-        Clock In in {`${timeToClockIn}`} {timeUnit}
+        CLOCK-IN IN {`${timeToClockIn}`} {timeUnit}
       </Text>
     </Button>
   );
