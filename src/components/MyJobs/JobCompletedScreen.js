@@ -123,7 +123,7 @@ class JobCompletedScreen extends Component {
             <View style={{ flex: 8 }}>
               <JobHeader
                 clientLogo={shift.employer.picture}
-                clientName={venue.title}
+                clientName={shift.employer.title}
                 positionName={shift.position.title}
                 dateString={dateString}
                 timeString={timeString}
@@ -171,7 +171,15 @@ class JobCompletedScreen extends Component {
               </ScrollView>
             </View>
             <View
-              style={[{ width: '100%', flex: 3, paddingTop: 15, justifyContent: 'center', alignItems: 'center' }]}>
+              style={[
+                {
+                  width: '100%',
+                  flex: 3,
+                  paddingTop: 15,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                },
+              ]}>
               {this.renderButtons()}
             </View>
             <View style={{ flex: 2 }} />
@@ -192,8 +200,7 @@ class JobCompletedScreen extends Component {
   }
 
   renderButtons = () => {
-    if (!this.state.shift.clockin_set.length)
-      return null
+    if (!this.state.shift.clockin_set.length) return null;
 
     if (!this.showAlreadyRated())
       return <ReviewButton onClick={this.goToRateJob} />;

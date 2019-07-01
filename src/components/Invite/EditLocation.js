@@ -5,7 +5,7 @@ import styles from '../Invite/EditLocationStyle';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import MapView, { Marker } from 'react-native-maps';
-import { Container, Content, Button, Text } from 'native-base';
+import { Container, Content, Text } from 'native-base';
 import {
   WHITE_MAIN,
   BLUE_DARK,
@@ -18,6 +18,7 @@ import * as inviteActions from './actions';
 import inviteStore from './InviteStore';
 import MARKER_IMG from '../../assets/image/map-marker.png';
 import { ModalHeader } from '../../shared/components/ModalHeader';
+import BtnCancelSave from '../../shared/components/BtnCancelSave';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -82,10 +83,7 @@ class EditLocation extends PureComponent {
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-            <ModalHeader
-              screenName="myLocation"
-              title={t('JOB_PREFERENCES.myLocation')}
-            />
+            <ModalHeader title={t('JOB_PREFERENCES.myLocation')} />
             <Content>
               <GooglePlacesAutocomplete
                 ref={(instance) => {
@@ -189,29 +187,8 @@ class EditLocation extends PureComponent {
               )}
 
               {this.state.marker && (
-                <View style={styles.viewCrud}>
-                  <View style={styles.viewButtomLeft}>
-                    <Button
-                      onPress={() => this.props.navigation.goBack()}
-                      style={styles.buttomLeft}
-                      full
-                      rounded
-                      bordered>
-                      <Text style={styles.textViolet}>{t('APP.cancel')}</Text>
-                    </Button>
-                  </View>
-                  <View style={styles.viewButtomRight}>
-                    <Button
-                      onPress={this.saveLocationAlert}
-                      style={styles.buttomRight}
-                      full
-                      rounded
-                      bordered>
-                      <Text style={styles.textBlue}>
-                        {t('JOB_PREFERENCES.save')}
-                      </Text>
-                    </Button>
-                  </View>
+                <View style={{ paddingLeft: 20, paddingRight: 20 }}>
+                  <BtnCancelSave t={t} onPressSave={this.saveLocationAlert} />
                 </View>
               )}
             </Content>
