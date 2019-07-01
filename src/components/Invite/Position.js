@@ -20,6 +20,7 @@ import { i18next } from '../../i18n';
 import { CustomToast, Loading } from '../../shared/components';
 import { LOG } from '../../shared';
 import { ModalHeader } from '../../shared/components/ModalHeader';
+import BtnCancelSave from '../../shared/components/BtnCancelSave';
 
 class Position extends Component {
   static navigationOptions = {
@@ -170,31 +171,7 @@ class Position extends Component {
                       : null}
                   </List>
                 </ScrollView>
-
-                <View style={styles.viewCrud}>
-                  <View style={styles.viewButtomLeft}>
-                    <Button
-                      onPress={() => this.props.navigation.goBack()}
-                      style={styles.buttomLeft}
-                      full
-                      rounded
-                      bordered>
-                      <Text style={styles.textWhite}>{t('APP.cancel')}</Text>
-                    </Button>
-                  </View>
-                  <View style={styles.viewButtomRight}>
-                    <Button
-                      onPress={this.editPosition}
-                      style={styles.buttomRight}
-                      full
-                      rounded
-                      bordered>
-                      <Text style={styles.textWhite}>
-                        {t('JOB_PREFERENCES.save')}
-                      </Text>
-                    </Button>
-                  </View>
-                </View>
+                <BtnCancelSave t={t} />
               </View>
             </Content>
           </Container>

@@ -103,24 +103,6 @@ export default StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
   },
-  viewButtomLeft: {
-    width: '50%',
-    marginRight: 5,
-  },
-  buttomLeft: {
-    backgroundColor: VIOLET_MAIN,
-    borderColor: VIOLET_MAIN,
-    borderWidth: 1,
-  },
-  viewButtomRight: {
-    width: '50%',
-    marginLeft: 5,
-  },
-  buttomRight: {
-    backgroundColor: BLUE_MAIN,
-    borderColor: BLUE_MAIN,
-    borderWidth: 1,
-  },
   viewInput: {
     backgroundColor: 'transparent',
     height: 55,
@@ -162,23 +144,10 @@ export default StyleSheet.create({
   labelForm: {
     color: BLUE_DARK,
   },
-  viewCrud: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 20,
-    paddingRight: 20,
-    marginTop: '20%',
-    marginBottom: 20,
-    height: 100,
-  },
   textViolet: {
     color: VIOLET_MAIN,
   },
   textBlue: {
     color: BLUE_MAIN,
-  },
-  textWhite: {
-    color: WHITE_MAIN,
   },
 });

@@ -95,34 +95,4 @@ export default StyleSheet.create({
     alignSelf: 'flex-start',
     marginBottom: 5,
   },
-  viewCrud: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 20,
-    paddingRight: 20,
-    height: 100,
-  },
-  viewButtomLeft: {
-    width: '50%',
-    marginRight: 5,
-  },
-  buttomLeft: {
-    borderColor: VIOLET_MAIN,
-    color: WHITE_MAIN,
-  },
-  viewButtomRight: {
-    width: '50%',
-    marginLeft: 5,
-  },
-  buttomRight: {
-    borderColor: BLUE_MAIN,
-    color: WHITE_MAIN,
-  },
-  textViolet: {
-    color: VIOLET_MAIN,
-  },
-  textBlue: {
-    color: BLUE_MAIN,
-  },
 });
