@@ -113,10 +113,7 @@ class Position extends Component {
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-            <ModalHeader
-              screenName="position"
-              title={t('JOB_PREFERENCES.position')}
-            />
+            <ModalHeader title={t('JOB_PREFERENCES.position')} />
             <Content
               refreshControl={
                 <RefreshControl
@@ -134,7 +131,7 @@ class Position extends Component {
                 <ScrollView style={styles.contentScroll}>
                   <List style={{ marginBottom: 30, paddingLeft: 0 }}>
                     {Array.isArray(this.state.positionList)
-                      ? this.state.positionList.map((position) => {
+                      ? this.state.positionList.map((position, key) => {
                         const isPositionSelected = this.isPositionSelected(
                           position,
                         );
@@ -149,7 +146,7 @@ class Position extends Component {
                             }
                             key={position.id}
                             selected={isPositionSelected}
-                            style={styles.itemSelectCheck}>
+                            style={[styles.itemSelectCheck, this.state.positionList.length-1 === key ? { borderBottomWidth: 0 } : null]}>
                             <Left>
                               <Text style={styles.textList}>
                                 {position.title}

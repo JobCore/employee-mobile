@@ -52,6 +52,8 @@ export default StyleSheet.create({
     marginTop: 30,
     paddingLeft: 20,
     paddingRight: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   textHeader: {
     color: BLUE_DARK,
@@ -59,12 +61,19 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   contentScroll: {
+    ...Platform.select({
+      android: {
+        borderTopWidth: 0,
+        marginTop: -20,
+      },
+    }),
+    width: '99%',
     height: 350,
     borderWidth: 1,
     borderColor: BLUE_MAIN,
     borderRadius: 35,
     paddingBottom: 50,
-    paddingTop: 5,
+    paddingTop: 25,
     paddingLeft: 20,
     paddingRight: 20,
     borderTopColor: 'transparent',
