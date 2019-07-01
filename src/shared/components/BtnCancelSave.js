@@ -6,6 +6,7 @@ import {
   WHITE_MAIN,
   VIOLET_MAIN,
 } from '../../shared/colorPalette';
+import { withNavigation } from 'react-navigation';
 
 const styles = {
   viewCrud: {
@@ -48,31 +49,31 @@ const styles = {
   },
 };
 
-const BtnCancelSave = ({ t }) => {
+const BtnCancelSave = (props) => {
   return (
     <View style={styles.viewCrud}>
       <View style={styles.viewButtomLeft}>
         <Button
-          onPress={() => this.props.navigation.goBack()}
+          onPress={() => props.navigation.goBack()}
           style={styles.buttomLeft}
           full
           rounded
           bordered>
-          <Text style={styles.textWhite}>{t('APP.cancel')}</Text>
+          <Text style={styles.textWhite}>{props.t('APP.cancel')}</Text>
         </Button>
       </View>
       <View style={styles.viewButtomRight}>
         <Button
-          onPress={this.saveLocationAlert}
+          onPress={props.onPressSave}
           style={styles.buttomRight}
           full
           rounded
           bordered>
-          <Text style={styles.textWhite}>{t('JOB_PREFERENCES.save')}</Text>
+          <Text style={styles.textWhite}>{props.t('JOB_PREFERENCES.save')}</Text>
         </Button>
       </View>
     </View>
   );
 };
 
-export default BtnCancelSave;
+export default withNavigation(BtnCancelSave);

@@ -188,7 +188,7 @@ class EditLocation extends PureComponent {
 
               {this.state.marker && (
                 <View style={{ paddingLeft: 20, paddingRight: 20 }}>
-                  <BtnCancelSave t={t} />
+                  <BtnCancelSave t={t} onPressSave={this.saveLocationAlert} />
                 </View>
               )}
             </Content>

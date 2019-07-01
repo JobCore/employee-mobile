@@ -168,7 +168,7 @@ class Position extends Component {
                       : null}
                   </List>
                 </ScrollView>
-                <BtnCancelSave t={t} />
+                <BtnCancelSave t={t} onPressSave={this.editPosition} />
               </View>
             </Content>
           </Container>
