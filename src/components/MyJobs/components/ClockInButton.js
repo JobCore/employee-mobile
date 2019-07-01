@@ -7,12 +7,12 @@ const ClockInButton = ({ canClockIn, diffInMinutes, onClick }) => {
   let timeToClockIn = parseInt(diffInMinutes);
   let timeUnit = 'Minutes';
 
-  if (timeToClockIn > 59) {
+  if (timeToClockIn > 59 && timeUnit === 'Minutes') {
     timeToClockIn = (timeToClockIn / 60).toFixed(2);
     timeUnit = 'Hours';
   }
 
-  if (timeToClockIn > 23) {
+  if (timeToClockIn > 23 && timeUnit === 'Hours') {
     timeToClockIn = (timeToClockIn / 24).toFixed(2);
     timeUnit = 'Days';
   }
