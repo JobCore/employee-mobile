@@ -35,7 +35,7 @@ import {
   CustomToast,
   Loading,
 } from '../../shared/components';
-import { LOG, WARN } from '../../shared';
+import { LOG, WARN, storeErrorHandler } from '../../shared';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import firebase from 'react-native-firebase';
@@ -49,6 +49,8 @@ import { getOpenClockIns } from '../MyJobs/actions';
 import EditProfile from '../Account/EditProfile';
 import Profile from '../Account/Profile';
 import { HELP_ROUTE } from '../../constants/routes';
+import getMomentNowDiff from '../../shared/getMomentNowDiff';
+import moment from 'moment';
 
 /**
  *
@@ -90,9 +92,28 @@ class DashboardScreen extends Component {
     console.log(`DEBUG:openClockIns`, openClockIns);
 
     if (openClockIns.length > 0) {
-      return this.props.navigation.navigate(WorkModeScreen.routeName, {
-        shiftId: openClockIns[0].shift.id,
-      });
+      const shift = openClockIns[0].shift;
+      const shiftIsOpen = getMomentNowDiff(shift.ending_at) >= 0;
+
+      if (shiftIsOpen) {
+        return this.props.navigation.navigate(WorkModeScreen.routeName, {
+          shiftId: shift.id,
+        });
+      } else {
+        navigator.geolocation.getCurrentPosition(
+          data => {
+            this.setState({ isLoading: true }, () => {
+              jobActions.clockOut(
+                shift.id,
+                data.coords.latitude,
+                data.coords.longitude,
+                moment.utc(),
+              ).then(() => this.setState({ isLoading: false }));
+            });
+          },
+          (err) => CustomToast(storeErrorHandler(err), 'danger'),
+        );
+      }
     }
 
     this.logoutSubscription = accountStore.subscribe(
