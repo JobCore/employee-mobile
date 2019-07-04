@@ -43,7 +43,6 @@ export function Review({ review }) {
                 <Text
                   style={{
                     color: BLUE_MAIN,
-                    fontWeight: 'bold',
                   }}>
                   {review.shift.position.title}
                 </Text>
@@ -72,7 +71,7 @@ export function Review({ review }) {
                 <Text
                   style={{
                     color: BLUE_DARK,
-                    fontWeight: 'bold',
+                    fontSize: 12,
                   }}>
                   {'                '}
                   {moment(review.created_at)
@@ -90,7 +89,7 @@ export function Review({ review }) {
         <Text
           style={{
             color: BLUE_DARK,
-            fontSize: 16,
+            fontSize: 14,
           }}>
           {`"${review.comments}"`}
         </Text>

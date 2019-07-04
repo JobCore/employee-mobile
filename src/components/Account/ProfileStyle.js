@@ -85,7 +85,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    marginBottom: 30,
+    marginBottom: 20,
   },
   viewLeft: {
     width: '50%',
@@ -142,7 +142,7 @@ export default StyleSheet.create({
   viewInfo: {
     paddingLeft: 35,
     paddingRight: 35,
-    marginBottom: 10,
+    marginBottom: 30,
   },
   viewProgress: {
     marginRight: 35,

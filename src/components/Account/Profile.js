@@ -19,7 +19,8 @@ import { BLUE_DARK, BLUE_LIGHT } from '../../shared/colorPalette';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import { ModalHeader } from '../../shared/components/ModalHeader';
 import EditProfile from './EditProfile';
-import { Review } from '../MyJobs/components/Review'
+import { Review } from '../MyJobs/components/Review';
+import { getRatingEmployeeFormat } from '../MyJobs/job-utils';
 
 class Profile extends Component {
   static navigationOptions = {
@@ -151,7 +152,9 @@ class Profile extends Component {
 
                   {this.state.profile && this.state.profile.user ? (
                     <Text style={styles.textName}>
-                      {`${this.state.profile.user.first_name} ${this.state.profile.user.last_name}`}
+                      {`${this.state.profile.user.first_name} ${
+                        this.state.profile.user.last_name
+                      }`}
                     </Text>
                   ) : null}
                 </>
@@ -166,8 +169,12 @@ class Profile extends Component {
                       {t('PROFILE.yourRating')}
                     </Text>
                     <Text style={styles.textRowNumber}>
-                      {this.state.profile.employee.rating ||
-                        t('PROFILE.noRating')}
+                      {/*{this.state.profile.employee.rating ||*/}
+                      {/*t('PROFILE.noRating')}*/}
+
+                      {getRatingEmployeeFormat(
+                        this.state.profile.employee.rating,
+                      )}
                     </Text>
                     <Text style={styles.textRowTitle}>
                       {this.state.starsArray.map((star) => (
@@ -191,9 +198,11 @@ class Profile extends Component {
                       {t('PROFILE.completedJobs')}
                     </Text>
                     <Text style={styles.textRowNumber}>
-                      {this.state.profile.employee.total_ratings > 0
-                        ? this.state.profile.employee.total_ratings
-                        : t('PROFILE.noRating')}
+                      {/*{this.state.profile.employee.total_ratings > 0*/}
+                      {/*  ? this.state.profile.employee.total_ratings*/}
+                      {/*  : t('PROFILE.noRating')}*/}
+
+                      {this.state.profile.employee.total_ratings}
                     </Text>
                   </View>
                 </View>
@@ -202,7 +211,7 @@ class Profile extends Component {
               {this.showBadges() ? (
                 <>
                   <View style={styles.viewInfo}>
-                    <Text style={styles.textSubtitle}>
+                    <Text style={[styles.textSubtitle, { marginBottom: 10 }]}>
                       {t('PROFILE.badges')}
                     </Text>
                   </View>
@@ -232,7 +241,9 @@ class Profile extends Component {
                 </>
               ) : (
                 <View style={styles.viewInfo}>
-                  <Text style={styles.titleProfile}>{t('PROFILE.badges')}</Text>
+                  <Text style={[styles.titleProfile, { marginBottom: 10 }]}>
+                    {t('PROFILE.badges')}
+                  </Text>
                   <Text style={styles.textProfile}>
                     {t('PROFILE.noBadges')}
                   </Text>
@@ -240,9 +251,9 @@ class Profile extends Component {
               )}
               {Array.isArray(this.state.ratings) &&
               this.state.ratings.length ? (
-                  <View>
+                  <View style={{ paddingLeft: 15, paddingRight: 15 }}>
                     <TouchableOpacity onPress={this.goToReviews}>
-                      <Text style={[styles.textSubtitle, { paddingLeft: 35 }]}>
+                      <Text style={[styles.textSubtitle, { paddingLeft: 20 }]}>
                         {t('PROFILE.whatEmployersSaid')}
                       </Text>
                     </TouchableOpacity>

@@ -65,7 +65,7 @@ class JobPreferences extends Component {
       minimumHourlyRate: 0,
       minimumHourlyRatePrev: null,
       minHourly: 8,
-      maxHourly: 60,
+      maxHourly: 40,
       maximumJobDistanceMiles: 0,
       maximumJobDistanceMilesPrev: null,
       minDistance: 10,
