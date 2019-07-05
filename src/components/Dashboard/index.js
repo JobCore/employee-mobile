@@ -15,8 +15,8 @@ import styles from './style';
 import { BLUE_DARK, VIOLET_MAIN } from '../../shared/colorPalette';
 import {
   AUTH_ROUTE,
-  INVITE_DETAILS_ROUTE,
-  JOB_DETAILS_ROUTE,
+  INVITE_DETAILS_ROUTE_V2,
+  JOB_DETAILS_NEW_TWO_ROUTE,
   JOB_INVITES_ROUTE,
   MYJOBS_ROUTE,
   REVIEWS_ROUTE,
@@ -35,7 +35,7 @@ import {
   CustomToast,
   Loading,
 } from '../../shared/components';
-import { LOG, WARN } from '../../shared';
+import { LOG, WARN, storeErrorHandler } from '../../shared';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import firebase from 'react-native-firebase';
@@ -49,6 +49,8 @@ import { getOpenClockIns } from '../MyJobs/actions';
 import EditProfile from '../Account/EditProfile';
 import Profile from '../Account/Profile';
 import { HELP_ROUTE } from '../../constants/routes';
+import getMomentNowDiff from '../../shared/getMomentNowDiff';
+import moment from 'moment';
 
 /**
  *
@@ -90,9 +92,28 @@ class DashboardScreen extends Component {
     console.log(`DEBUG:openClockIns`, openClockIns);
 
     if (openClockIns.length > 0) {
-      return this.props.navigation.navigate(WorkModeScreen.routeName, {
-        shiftId: openClockIns[0].shift.id,
-      });
+      const shift = openClockIns[0].shift;
+      const shiftIsOpen = getMomentNowDiff(shift.ending_at) >= 0;
+
+      if (shiftIsOpen) {
+        return this.props.navigation.navigate(WorkModeScreen.routeName, {
+          shiftId: shift.id,
+        });
+      } else {
+        navigator.geolocation.getCurrentPosition(
+          data => {
+            this.setState({ isLoading: true }, () => {
+              jobActions.clockOut(
+                shift.id,
+                data.coords.latitude,
+                data.coords.longitude,
+                moment.utc(),
+              ).then(() => this.setState({ isLoading: false }));
+            });
+          },
+          (err) => CustomToast(storeErrorHandler(err), 'danger'),
+        );
+      }
     }
 
     this.logoutSubscription = accountStore.subscribe(
@@ -286,10 +307,8 @@ class DashboardScreen extends Component {
       return LOG(this, 'no notification data');
     }
 
-    LOG(this, JSON.stringify(notificationData));
-
     if (notificationData.type === 'shift' && notificationData.id) {
-      this.props.navigation.navigate(JOB_DETAILS_ROUTE, {
+      this.props.navigation.navigate(JOB_DETAILS_NEW_TWO_ROUTE, {
         shiftId: notificationData.id,
       });
 
@@ -297,7 +316,7 @@ class DashboardScreen extends Component {
     }
 
     if (notificationData.type === 'application' && notificationData.id) {
-      this.props.navigation.navigate(JOB_DETAILS_ROUTE, {
+      this.props.navigation.navigate(JOB_DETAILS_NEW_TWO_ROUTE, {
         applicationId: notificationData.id,
       });
 
@@ -305,9 +324,11 @@ class DashboardScreen extends Component {
     }
 
     if (notificationData.type === 'invite' && notificationData.id) {
-      this.props.navigation.navigate(INVITE_DETAILS_ROUTE, {
+      this.props.navigation.navigate(INVITE_DETAILS_ROUTE_V2, {
         inviteId: notificationData.id,
       });
+
+      console.log('Notification :: ', notificationData.type);
 
       this.getInvites();
     }

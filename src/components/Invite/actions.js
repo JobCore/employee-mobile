@@ -6,6 +6,7 @@ import {
 } from './validators';
 import { putData, getData } from '../../fetch';
 import moment from 'moment';
+import getMomentNowDiff from '../../shared/getMomentNowDiff';
 
 /**
  * Action for listing the job invites
@@ -13,13 +14,7 @@ import moment from 'moment';
 const getJobInvites = () => {
   getData('/employees/me/shifts/invites?status=PENDING')
     .then((jobInvites) => {
-      Flux.dispatchEvent('JobInvites', jobInvites.filter(invite => {
-        const startingAtMoment = moment(invite.shift.starting_at);
-        const nowMoment = moment.utc();
-        const diff = startingAtMoment.diff(nowMoment, 'minutes');
-
-        return diff > 0;
-      }));
+      Flux.dispatchEvent('JobInvites', jobInvites.filter(invite => getMomentNowDiff(invite.shift.starting_at) > 0));
     })
     .catch((err) => {
       Flux.dispatchEvent('InviteStoreError', err);
