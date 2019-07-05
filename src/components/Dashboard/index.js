@@ -15,8 +15,8 @@ import styles from './style';
 import { BLUE_DARK, VIOLET_MAIN } from '../../shared/colorPalette';
 import {
   AUTH_ROUTE,
-  INVITE_DETAILS_ROUTE,
-  JOB_DETAILS_ROUTE,
+  INVITE_DETAILS_ROUTE_V2,
+  JOB_DETAILS_NEW_TWO_ROUTE,
   JOB_INVITES_ROUTE,
   MYJOBS_ROUTE,
   REVIEWS_ROUTE,
@@ -307,10 +307,8 @@ class DashboardScreen extends Component {
       return LOG(this, 'no notification data');
     }
 
-    LOG(this, JSON.stringify(notificationData));
-
     if (notificationData.type === 'shift' && notificationData.id) {
-      this.props.navigation.navigate(JOB_DETAILS_ROUTE, {
+      this.props.navigation.navigate(JOB_DETAILS_NEW_TWO_ROUTE, {
         shiftId: notificationData.id,
       });
 
@@ -318,7 +316,7 @@ class DashboardScreen extends Component {
     }
 
     if (notificationData.type === 'application' && notificationData.id) {
-      this.props.navigation.navigate(JOB_DETAILS_ROUTE, {
+      this.props.navigation.navigate(JOB_DETAILS_NEW_TWO_ROUTE, {
         applicationId: notificationData.id,
       });
 
@@ -326,9 +324,11 @@ class DashboardScreen extends Component {
     }
 
     if (notificationData.type === 'invite' && notificationData.id) {
-      this.props.navigation.navigate(INVITE_DETAILS_ROUTE, {
+      this.props.navigation.navigate(INVITE_DETAILS_ROUTE_V2, {
         inviteId: notificationData.id,
       });
+
+      console.log('Notification :: ', notificationData.type);
 
       this.getInvites();
     }
