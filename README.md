@@ -38,3 +38,24 @@ Example:
             ],
         }
 ```
+
+
+###  ANDROID X compatibility Hack for v4 projects:
+
+For incompatibility errors like this:
+
+```bash
+/Users/alacret/workspace/jobcore-mobile/node_modules/react-native-maps/lib/android/src/main/java/com/airbnb/android/react/maps/AirMapView.java:12: error: package android.support.v4.view does not exist
+import android.support.v4.view.GestureDetectorCompat;
+```
+
+1) Go to the `node_modules` folder and find the android project that is throwing de error. In this case: `react-native-maps`
+2) Open the android project and create a `gradle.properties` if it does not exist already and add this 2 variables:
+
+> node_modules/react-native-maps/android/gradle.properties
+```bash
+android.useAndroidX=false
+android.enableJetifier=false
+```
+
+

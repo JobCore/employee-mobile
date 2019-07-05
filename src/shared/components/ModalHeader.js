@@ -32,13 +32,9 @@ class _ModalHeader extends Component {
         <Body>
           <Text style={headerStyles.modalTitleHeader}>{title}</Text>
         </Body>
-        {!withoutHelpIcon ? (
-          <Right>
-            <HelpIcon screenName={screenName} />
-          </Right>
-        ) : (
-          <Right />
-        )}
+        <Right>
+          {withoutHelpIcon ? <></> : <HelpIcon screenName={screenName} />}
+        </Right>
       </Header>
     );
   }
@@ -46,7 +42,7 @@ class _ModalHeader extends Component {
 
 _ModalHeader.propTypes = {
   title: PropTypes.string.isRequired,
-  screenName: PropTypes.string,
+  screenName: PropTypes.string.isRequired,
   onPressClose: PropTypes.func,
   onPressHelp: PropTypes.func,
   canClose: PropTypes.bool,

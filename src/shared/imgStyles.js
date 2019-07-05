@@ -9,7 +9,7 @@ export default StyleSheet.create({
         height: 60,
       },
       ios: {
-        borderRadius: 40,
+        borderRadius: 35,
         width: 70,
         height: 70,
       },
