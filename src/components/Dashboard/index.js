@@ -100,22 +100,23 @@ class DashboardScreen extends Component {
           shiftId: shift.id,
         });
       } else {
-        navigator.geolocation.getCurrentPosition(
-          data => {
-            this.setState({ isLoading: true }, () => {
-              jobActions.clockOut(
-                shift.id,
-                data.coords.latitude,
-                data.coords.longitude,
-                moment.utc(),
-              ).then(() => this.setState({ isLoading: false }));
-            });
-          },
-          (err) => CustomToast(storeErrorHandler(err), 'danger'),
-        );
+        navigator.geolocation.getCurrentPosition((data) => {
+          this.setState({ isLoading: true }, () => {
+            jobActions.clockOut(
+              shift.id,
+              data.coords.latitude,
+              data.coords.longitude,
+              moment.utc(),
+            );
+          });
+        }, (err) => CustomToast(storeErrorHandler(err), 'danger'));
       }
     }
 
+    this.clockOutSubscription = jobStore.subscribe(
+      'ClockOut',
+      this.clockOutHandler
+    );
     this.logoutSubscription = accountStore.subscribe(
       'Logout',
       this.logoutHandler,
@@ -661,6 +662,10 @@ class DashboardScreen extends Component {
   getPendingJobs = () => {
     jobActions.getPendingJobs();
   };
+
+  clockOutHandler = () => {
+    this.setState({ isLoading: false });
+  }
 }
 
 export default DashboardScreen;
