@@ -83,10 +83,6 @@ class DashboardScreen extends Component {
   }
 
   async componentDidMount() {
-    this.clockOutSubscription = jobStore.subscribe(
-      'ClockOut',
-      () => { this.setState({ isLoading: false }); },
-    );
     this.logoutSubscription = accountStore.subscribe(
       'Logout',
       this.logoutHandler,
@@ -225,14 +221,12 @@ class DashboardScreen extends Component {
         });
       } else {
         navigator.geolocation.getCurrentPosition((data) => {
-          this.setState({ isLoading: true }, () => {
-            jobActions.clockOut(
-              shift.id,
-              data.coords.latitude,
-              data.coords.longitude,
-              moment.utc(),
-            );
-          });
+          jobActions.clockOut(
+            shift.id,
+            data.coords.latitude,
+            data.coords.longitude,
+            moment.utc(),
+          );
         }, (err) => CustomToast(storeErrorHandler(err), 'danger'));
       }
     }
@@ -249,7 +243,6 @@ class DashboardScreen extends Component {
     this.fcmStoreError.unsubscribe();
     this.inviteStoreError.unsubscribe();
     this.accountStoreError.unsubscribe();
-    this.clockOutSubscription.unsubscribe();
     this.onTokenRefreshListener();
     this.notificationOpenedListener();
   }
