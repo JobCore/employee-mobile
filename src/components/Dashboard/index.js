@@ -83,39 +83,9 @@ class DashboardScreen extends Component {
   }
 
   async componentDidMount() {
-    let openClockIns = [];
-    try {
-      openClockIns = await getOpenClockIns();
-    } catch (e) {
-      console.log(`SPLASH:openClockins`, e);
-    }
-    console.log(`DEBUG:openClockIns`, openClockIns);
-
-    if (openClockIns.length > 0) {
-      const shift = openClockIns[0].shift;
-      const shiftIsOpen = getMomentNowDiff(shift.ending_at) >= 0;
-
-      if (shiftIsOpen) {
-        return this.props.navigation.navigate(WorkModeScreen.routeName, {
-          shiftId: shift.id,
-        });
-      } else {
-        navigator.geolocation.getCurrentPosition((data) => {
-          this.setState({ isLoading: true }, () => {
-            jobActions.clockOut(
-              shift.id,
-              data.coords.latitude,
-              data.coords.longitude,
-              moment.utc(),
-            );
-          });
-        }, (err) => CustomToast(storeErrorHandler(err), 'danger'));
-      }
-    }
-
     this.clockOutSubscription = jobStore.subscribe(
       'ClockOut',
-      this.clockOutHandler
+      () => { this.setState({ isLoading: false }); },
     );
     this.logoutSubscription = accountStore.subscribe(
       'Logout',
@@ -224,7 +194,7 @@ class DashboardScreen extends Component {
     this.getFcmToken();
     fetchActiveShifts();
 
-    _retrieveData = async () => {
+    const _retrieveData = async () => {
       try {
         const value = await AsyncStorage.getItem('@JobCore:isFirstLogin');
         if (value !== null) {
@@ -236,6 +206,36 @@ class DashboardScreen extends Component {
         // Error retrieving data
       }
     };
+
+    let openClockIns = [];
+    try {
+      openClockIns = await getOpenClockIns();
+    } catch (e) {
+      console.log(`SPLASH:openClockins`, e);
+    }
+    console.log(`DEBUG:openClockIns`, openClockIns);
+
+    if (openClockIns.length > 0) {
+      const shift = openClockIns[0].shift;
+      const shiftIsOpen = getMomentNowDiff(shift.ending_at) >= 0;
+
+      if (shiftIsOpen) {
+        return this.props.navigation.navigate(WorkModeScreen.routeName, {
+          shiftId: shift.id,
+        });
+      } else {
+        navigator.geolocation.getCurrentPosition((data) => {
+          this.setState({ isLoading: true }, () => {
+            jobActions.clockOut(
+              shift.id,
+              data.coords.latitude,
+              data.coords.longitude,
+              moment.utc(),
+            );
+          });
+        }, (err) => CustomToast(storeErrorHandler(err), 'danger'));
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -249,6 +249,7 @@ class DashboardScreen extends Component {
     this.fcmStoreError.unsubscribe();
     this.inviteStoreError.unsubscribe();
     this.accountStoreError.unsubscribe();
+    this.clockOutSubscription.unsubscribe();
     this.onTokenRefreshListener();
     this.notificationOpenedListener();
   }
@@ -662,10 +663,6 @@ class DashboardScreen extends Component {
   getPendingJobs = () => {
     jobActions.getPendingJobs();
   };
-
-  clockOutHandler = () => {
-    this.setState({ isLoading: false });
-  }
 }
 
 export default DashboardScreen;
