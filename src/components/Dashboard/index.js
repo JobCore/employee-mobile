@@ -83,39 +83,6 @@ class DashboardScreen extends Component {
   }
 
   async componentDidMount() {
-    let openClockIns = [];
-    try {
-      openClockIns = await getOpenClockIns();
-    } catch (e) {
-      console.log(`SPLASH:openClockins`, e);
-    }
-    console.log(`DEBUG:openClockIns`, openClockIns);
-
-    if (openClockIns.length > 0) {
-      const shift = openClockIns[0].shift;
-      const shiftIsOpen = getMomentNowDiff(shift.ending_at) >= 0;
-
-      if (shiftIsOpen) {
-        return this.props.navigation.navigate(WorkModeScreen.routeName, {
-          shiftId: shift.id,
-        });
-      } else {
-        navigator.geolocation.getCurrentPosition(
-          data => {
-            this.setState({ isLoading: true }, () => {
-              jobActions.clockOut(
-                shift.id,
-                data.coords.latitude,
-                data.coords.longitude,
-                moment.utc(),
-              ).then(() => this.setState({ isLoading: false }));
-            });
-          },
-          (err) => CustomToast(storeErrorHandler(err), 'danger'),
-        );
-      }
-    }
-
     this.logoutSubscription = accountStore.subscribe(
       'Logout',
       this.logoutHandler,
@@ -223,7 +190,7 @@ class DashboardScreen extends Component {
     this.getFcmToken();
     fetchActiveShifts();
 
-    _retrieveData = async () => {
+    const _retrieveData = async () => {
       try {
         const value = await AsyncStorage.getItem('@JobCore:isFirstLogin');
         if (value !== null) {
@@ -235,6 +202,34 @@ class DashboardScreen extends Component {
         // Error retrieving data
       }
     };
+
+    let openClockIns = [];
+    try {
+      openClockIns = await getOpenClockIns();
+    } catch (e) {
+      console.log(`SPLASH:openClockins`, e);
+    }
+    console.log(`DEBUG:openClockIns`, openClockIns);
+
+    if (openClockIns.length > 0) {
+      const shift = openClockIns[0].shift;
+      const shiftIsOpen = getMomentNowDiff(shift.ending_at) >= 0;
+
+      if (shiftIsOpen) {
+        return this.props.navigation.navigate(WorkModeScreen.routeName, {
+          shiftId: shift.id,
+        });
+      } else {
+        navigator.geolocation.getCurrentPosition((data) => {
+          jobActions.clockOut(
+            shift.id,
+            data.coords.latitude,
+            data.coords.longitude,
+            moment.utc(),
+          );
+        }, (err) => CustomToast(storeErrorHandler(err), 'danger'));
+      }
+    }
   }
 
   componentWillUnmount() {
