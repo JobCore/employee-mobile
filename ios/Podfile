@@ -8,16 +8,14 @@ target 'coJobcoreTalent' do
   # use_frameworks!
 
   # Pods for jobcore
-  pod 'Firebase/Core'
-  pod 'Firebase/Messaging'
-  pod 'Firebase/Analytics'
-  pod 'GoogleAppMeasurement', '~> 5.2.0'
+  pod 'Firebase/Core', '~> 5.19.0'
+  pod 'Firebase/Messaging', '~> 5.19.0'
+  pod 'Firebase/Analytics', '~> 5.19.0'
+  pod 'GoogleAppMeasurement', '~> 5.8.0'
 
   # Add new pods below this line
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
-
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
-
   pod 'react-native-maps', path: rn_maps_path
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
 
