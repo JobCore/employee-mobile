@@ -48,6 +48,12 @@ export default StyleSheet.create({
   viewButtonLocation: {
     marginTop: 30,
     marginBottom: 15,
+    ...Platform.select({
+      android: {
+        paddingLeft: 1,
+        paddingRight: 1,
+      }
+    }),
   },
   sliderValue: {
     marginLeft: 0,
