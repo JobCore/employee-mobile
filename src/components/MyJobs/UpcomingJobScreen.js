@@ -135,10 +135,8 @@ class UpcomingJobScreen extends Component {
               onPressDirection={
                 this.showOpenDirection() ? this.openMapsApp : () => {}
               }
-              flexHeader={9}
-              flexHours={5}
             />
-            <View style={{ flex: 16 }}>
+            <View style={{ height: 250 }}>
               <MapView
                 style={inviteStyles.map}
                 region={this.state.region}
@@ -165,7 +163,7 @@ class UpcomingJobScreen extends Component {
                 )}
               </MapView>
             </View>
-            <View style={{ flex: 3 }}>{this.renderButtons()}</View>
+            <View>{this.renderButtons()}</View>
           </ViewFlex>
         </>
       );

@@ -120,7 +120,7 @@ class JobCompletedScreen extends Component {
                 onPressHelp={() => this.props.navigation.goBack()}
               />
             </View>
-            <View style={{ flex: 8 }}>
+            <View style={{ flex: 4 }}>
               <JobHeader
                 clientLogo={shift.employer.picture}
                 clientName={shift.employer.title}
@@ -133,7 +133,7 @@ class JobCompletedScreen extends Component {
                 }
               />
             </View>
-            <View style={{ flex: 2, alignItems: 'center', paddingTop: 20 }}>
+            <View style={{ flex: 1, alignItems: 'center', paddingTop: 10 }}>
               <Progress.Bar
                 borderRadius={10}
                 progress={minutesPassedPct}
@@ -162,27 +162,25 @@ class JobCompletedScreen extends Component {
                 </Text>
               </Progress.Bar>
             </View>
-            <View style={{ flex: 3 }}>
+            <View style={{ flex: 1 }}>
               <Earnings price={earningsSoFar} hours={hoursWorked} />
             </View>
-            <View style={[{ flex: 10 }]}>
+            <View style={[{ flex: 6 }]}>
               <ScrollView ref={(component) => (this.scrollView = component)}>
                 <ClocksIn clockIns={clockIns} />
+                <View
+                  style={[
+                    {
+                      width: '100%',
+                      paddingTop: 15,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    },
+                  ]}>
+                  {this.renderButtons()}
+                </View>
               </ScrollView>
             </View>
-            <View
-              style={[
-                {
-                  width: '100%',
-                  flex: 3,
-                  paddingTop: 15,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                },
-              ]}>
-              {this.renderButtons()}
-            </View>
-            <View style={{ flex: 2 }} />
           </ViewFlex>
         </>
       );

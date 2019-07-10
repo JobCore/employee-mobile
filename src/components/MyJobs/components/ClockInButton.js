@@ -6,15 +6,20 @@ import PropTypes from 'prop-types';
 const ClockInButton = ({ canClockIn, diffInMinutes, onClick }) => {
   let timeToClockIn = parseInt(diffInMinutes);
   let timeUnit = 'Minutes';
+  let time = `${timeToClockIn} ${timeUnit}`;
 
   if (timeToClockIn > 59 && timeUnit === 'Minutes') {
-    timeToClockIn = (timeToClockIn / 60).toFixed(2);
+    timeToClockInTemp = timeToClockIn / 60
+    timeToClockIn = parseInt(timeToClockIn / 60);
     timeUnit = 'Hours';
+    time = `${timeToClockIn} ${timeUnit} ${parseInt((timeToClockInTemp - timeToClockIn) * 60)} MINUTES`;
   }
 
   if (timeToClockIn > 23 && timeUnit === 'Hours') {
-    timeToClockIn = (timeToClockIn / 24).toFixed(2);
+    timeToClockInTemp = timeToClockIn
+    timeToClockIn = parseInt(timeToClockIn / 24);
     timeUnit = 'Days';
+    time = `${timeToClockIn} ${timeUnit} ${timeToClockInTemp - 24} HOURS`;
   }
 
   if (canClockIn)
@@ -51,7 +56,7 @@ const ClockInButton = ({ canClockIn, diffInMinutes, onClick }) => {
       rounded
       bordered>
       <Text style={inviteStyles.textWhite}>
-        CLOCK-IN IN {`${timeToClockIn}`} {timeUnit}
+        CLOCK-IN IN {time}
       </Text>
     </Button>
   );

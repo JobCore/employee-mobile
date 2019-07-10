@@ -26,7 +26,7 @@ const JobInformation = (props) => {
 
   return (
     <>
-      <View style={{ flex: props.flexHeader }}>
+      <View style={{ height: 150 }}>
         <JobHeader
           clientLogo={shift.employer.picture}
           clientName={shift.employer.title}
@@ -37,7 +37,7 @@ const JobInformation = (props) => {
           onPressDirection={props.onPressDirection}
         />
       </View>
-      <View style={{ flex: props.flexHours }}>
+      <View style={{ height: 100 }}>
         <JobHours price={price} hours={hours} />
       </View>
     </>
