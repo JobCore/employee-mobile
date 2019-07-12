@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, ScrollView } from 'react-native';
 import { Container, Text } from 'native-base';
 import * as jobActions from './actions';
 import { inviteStyles } from '../Invite/InviteDetailsStyle';
@@ -157,15 +157,13 @@ class ApplicationDetailScreen extends Component {
             onPressHelp={() => this.props.navigation.goBack()}
           />
           <ViewFlex justifyContent={'space-between'}>
-            <JobInformation
-              shift={shift}
-              onPressDirection={
-                this.showOpenDirection() ? this.openMapsApp : () => {}
-              }
-              flexHeader={9}
-              flexHours={5}
-            />
-            <View style={{ flex: 16 }}>
+            <ScrollView>
+              <JobInformation
+                shift={shift}
+                onPressDirection={
+                  this.showOpenDirection() ? this.openMapsApp : () => {}
+                }
+              />
               <MapView
                 style={inviteStyles.map}
                 region={this.state.region}
@@ -191,8 +189,8 @@ class ApplicationDetailScreen extends Component {
                   />
                 )}
               </MapView>
-            </View>
-            <View style={{ flex: 2 }}>{this.renderButtons()}</View>
+              {this.renderButtons()}
+            </ScrollView>
           </ViewFlex>
         </>
       );
@@ -212,9 +210,7 @@ class ApplicationDetailScreen extends Component {
   renderButtons = () => {
     return (
       <View style={[jobStyles.clockButtonBar]}>
-        <View>
-          <Text>{`Your application is been reviewed.`}</Text>
-        </View>
+        <Text>{`Your application is been reviewed.`}</Text>
       </View>
     );
   };

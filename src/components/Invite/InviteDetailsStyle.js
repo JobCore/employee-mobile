@@ -16,8 +16,8 @@ const inviteStyles = StyleSheet.create({
     alignItems: 'center',
   },
   map: {
-    marginBottom: 10,
-    height: 270,
+    marginBottom: -18,
+    height: 280,
     width: '100%',
     justifyContent: 'center',
     alignSelf: 'center',
@@ -135,7 +135,7 @@ const inviteStyles = StyleSheet.create({
     // width: '100%',
     textAlign: 'center',
     alignItems: 'center',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   clockInButton: {
     borderColor: 'transparent',
