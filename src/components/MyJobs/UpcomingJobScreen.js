@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { View, Dimensions, Alert } from 'react-native';
-import { Container } from 'native-base';
+import { View, Dimensions, Alert, ScrollView } from 'react-native';
+import { Container, Content } from 'native-base';
 import * as jobActions from './actions';
 import { inviteStyles } from '../Invite/InviteDetailsStyle';
 import jobStore from './JobStore';
@@ -130,13 +130,13 @@ class UpcomingJobScreen extends Component {
             onPressHelp={() => this.props.navigation.goBack()}
           />
           <ViewFlex justifyContent={'space-between'}>
-            <JobInformation
-              shift={shift}
-              onPressDirection={
-                this.showOpenDirection() ? this.openMapsApp : () => {}
-              }
-            />
-            <View style={{ height: 250 }}>
+            <ScrollView>
+              <JobInformation
+                shift={shift}
+                onPressDirection={
+                  this.showOpenDirection() ? this.openMapsApp : () => {}
+                }
+              />
               <MapView
                 style={inviteStyles.map}
                 region={this.state.region}
@@ -162,8 +162,8 @@ class UpcomingJobScreen extends Component {
                   />
                 )}
               </MapView>
-            </View>
-            <View>{this.renderButtons()}</View>
+              {this.renderButtons()}
+            </ScrollView>
           </ViewFlex>
         </>
       );
@@ -189,13 +189,11 @@ class UpcomingJobScreen extends Component {
 
     return (
       <View style={[jobStyles.clockButtonBar]}>
-        <View>
-          <ClockInButton
-            onClick={this.clockIn}
-            canClockIn={canClockIn(this.state.shift)}
-            diffInMinutes={getDiffInMinutesToStartShift(this.state.shift)}
-          />
-        </View>
+        <ClockInButton
+          onClick={this.clockIn}
+          canClockIn={canClockIn(this.state.shift)}
+          diffInMinutes={getDiffInMinutesToStartShift(this.state.shift)}
+        />
       </View>
     );
   };

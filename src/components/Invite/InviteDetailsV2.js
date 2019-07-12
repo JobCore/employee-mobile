@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { Alert, Dimensions, View } from 'react-native';
+import { Alert, Dimensions, View, ScrollView } from 'react-native';
 import { Button, Container, Text } from 'native-base';
 import { inviteStyles } from './InviteDetailsStyle';
 import { I18n } from 'react-i18next';
@@ -121,13 +121,13 @@ class InviteDetailsV2 extends Component {
         <>
           <ModalHeader title={t('JOB_INVITES.inviteDetails')} />
           <ViewFlex justifyContent={'space-between'}>
-            <JobInformation
-              shift={shift}
-              onPressDirection={
-                this.showOpenDirection() ? this.openMapsApp : () => {}
-              }
-            />
-            <View style={{ flex: 6 }}>
+            <ScrollView>
+              <JobInformation
+                shift={shift}
+                onPressDirection={
+                  this.showOpenDirection() ? this.openMapsApp : () => {}
+                }
+              />
               <MapView
                 style={inviteStyles.map}
                 region={this.state.region}
@@ -153,8 +153,6 @@ class InviteDetailsV2 extends Component {
                   />
                 )}
               </MapView>
-            </View>
-            <View style={{ flex: 2 }}>
               <View style={inviteStyles.viewCrud}>
                 <View style={inviteStyles.viewButtomLeft}>
                   <Button
@@ -182,7 +180,7 @@ class InviteDetailsV2 extends Component {
                   </Button>
                 </View>
               </View>
-            </View>
+            </ScrollView>
           </ViewFlex>
         </>
       );

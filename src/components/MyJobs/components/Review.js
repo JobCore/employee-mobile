@@ -12,24 +12,30 @@ import React from 'react';
 
 export const starsArray = [1, 2, 3, 4, 5];
 
-export function Review({ review }) {
+export function Review({ review, fromSender }) {
   return (
     <>
       <ListItem noBorder style={{ paddingBottom: 5 }}>
         <Left>
           <Thumbnail
             source={
-              review.shift &&
-              review.shift.employer &&
-              review.shift.employer.picture
-                ? { uri: review.shift.employer.picture }
-                : myJobsImg
+              fromSender
+                ? review.sender && review.sender.picture
+                  ? { uri: review.sender.picture }
+                  : myJobsImg
+                : review.shift &&
+                  review.shift.employer &&
+                  review.shift.employer.picture
+                  ? { uri: review.shift.employer.picture }
+                  : myJobsImg
             }
           />
           <Body>
             {review.shift && review.shift.employer ? (
               <Text style={{ color: VIOLET_MAIN, fontSize: 14 }}>
-                {review.shift.employer.title}
+                {fromSender
+                  ? `${review.sender.user.first_name} ${review.sender.user.last_name}`
+                  : review.shift.employer.title}
               </Text>
             ) : null}
             {review.shift && review.shift.position ? (

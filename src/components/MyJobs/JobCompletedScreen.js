@@ -205,7 +205,7 @@ class JobCompletedScreen extends Component {
 
     return (
       <View style={{ width: '100%' }}>
-        <Review review={this.state.jobRate[0]} />
+        <Review review={this.state.jobRate[0]} fromSender={true} />
       </View>
     );
   };
