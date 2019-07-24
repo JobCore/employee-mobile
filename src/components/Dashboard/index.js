@@ -51,6 +51,8 @@ import Profile from '../Account/Profile';
 import { HELP_ROUTE } from '../../constants/routes';
 import getMomentNowDiff from '../../shared/getMomentNowDiff';
 import moment from 'moment';
+import UpcomingJobScreen from '../MyJobs/UpcomingJobScreen';
+import ApplicationDetailScreen from '../MyJobs/ApplicationDetailScreen';
 
 /**
  *
@@ -303,7 +305,7 @@ class DashboardScreen extends Component {
     }
 
     if (notificationData.type === 'shift' && notificationData.id) {
-      this.props.navigation.navigate(JOB_DETAILS_NEW_TWO_ROUTE, {
+      this.props.navigation.navigate(UpcomingJobScreen.routeName, {
         shiftId: notificationData.id,
       });
 
@@ -311,7 +313,7 @@ class DashboardScreen extends Component {
     }
 
     if (notificationData.type === 'application' && notificationData.id) {
-      this.props.navigation.navigate(JOB_DETAILS_NEW_TWO_ROUTE, {
+      this.props.navigation.navigate(ApplicationDetailScreen.routeName, {
         applicationId: notificationData.id,
       });
 
@@ -322,8 +324,6 @@ class DashboardScreen extends Component {
       this.props.navigation.navigate(INVITE_DETAILS_ROUTE_V2, {
         inviteId: notificationData.id,
       });
-
-      console.log('Notification :: ', notificationData.type);
 
       this.getInvites();
     }

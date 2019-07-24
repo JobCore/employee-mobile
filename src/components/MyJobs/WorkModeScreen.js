@@ -174,10 +174,10 @@ class WorkModeScreen extends Component {
                 </Text>
               </Progress.Bar>
             </View>
-            <View style={{ flex: 3 }}>
+            <View style={{ flex: 2 }}>
               <Earnings price={earningsSoFar} hours={hoursWorked} />
             </View>
-            <View style={[{ flex: 10 }]}>
+            <View style={[{ flex: 5 }]}>
               <ScrollView ref={(component) => (this.scrollView = component)}>
                 <ClocksIn clockIns={clockIns} />
               </ScrollView>
