@@ -37,7 +37,7 @@ const JobInformation = (props) => {
           onPressDirection={props.onPressDirection}
         />
       </View>
-      <View style={{ height: 100 }}>
+      <View style={{ height: 85 }}>
         <JobHours price={price} hours={hours} />
       </View>
     </>
@@ -49,11 +49,6 @@ JobInformation.propTypes = {
   onPressDirection: PropTypes.func.isRequired,
   flexHeader: PropTypes.number,
   flexHours: PropTypes.number,
-};
-
-JobInformation.defaultProps = {
-  flexHeader: 4,
-  flexHours: 2,
 };
 
 export { JobInformation };
