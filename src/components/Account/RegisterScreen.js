@@ -5,7 +5,16 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import { Item, Input, Button, Text, Form, Content } from 'native-base';
+import {
+  Item,
+  Input,
+  Button,
+  Text,
+  Form,
+  Content,
+  Picker,
+  Icon,
+} from 'native-base';
 import { LOGIN_ROUTE } from '../../constants/routes';
 import styles from './RegisterStyle';
 import * as actions from './actions';
@@ -26,6 +35,7 @@ class RegisterScreen extends Component {
       password: '',
       firstName: '',
       lastName: '',
+      city: '',
     };
   }
 
@@ -43,7 +53,7 @@ class RegisterScreen extends Component {
     this.accountStoreError.unsubscribe();
   }
 
-  registerHandler = (user) => {
+  registerHandler = () => {
     this.isLoading(false);
     this.props.navigation.navigate(LOGIN_ROUTE);
     CustomToast(i18next.t('REGISTER.youHaveRegistered'));
@@ -54,13 +64,17 @@ class RegisterScreen extends Component {
     CustomToast(err, 'danger');
   };
 
+  onValueChange = (value) => {
+    this.setState({ city: value });
+  };
+
   render() {
     return (
       <I18n>
         {(t) => (
           <Content contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>
-              {this.state.isLoading ? <Loading/> : null}
+              {this.state.isLoading ? <Loading /> : null}
 
               <Image
                 style={styles.viewBackground}
@@ -87,6 +101,23 @@ class RegisterScreen extends Component {
                       placeholder={t('REGISTER.lastName')}
                       onChangeText={(text) => this.setState({ lastName: text })}
                     />
+                  </Item>
+                  <Item style={styles.viewInput} inlineLabel rounded>
+                    <Picker
+                      mode="dropdown"
+                      iosHeader={t('REGISTER.city')}
+                      placeholder={t('REGISTER.city')}
+                      placeholderStyle={{ color: '#575757', paddingLeft: 7 }}
+                      iosIcon={
+                        <Icon style={{ color: '#27666F' }} name="arrow-down" />
+                      }
+                      style={{ width: 270, paddingLeft: 0 }}
+                      selectedValue={this.state.city}
+                      onValueChange={this.onValueChange.bind(this)}>
+                      <Picker.Item label="New York" value="key0" />
+                      <Picker.Item label="Los angeles" value="key1" />
+                      <Picker.Item label="Miami" value="key2" />
+                    </Picker>
                   </Item>
                   <Item style={styles.viewInput} inlineLabel rounded>
                     <Input

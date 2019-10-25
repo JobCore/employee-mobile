@@ -33,6 +33,7 @@ export default {
     youHaveRegistered: 'Has iniciado sesión!',
     bio: 'Biografía',
     invalidBio: 'Biografía Inválida',
+    city: 'Ciudades disponibles',
   },
   EDIT_PROFILE: {
     editProfile: 'Editar perfil',

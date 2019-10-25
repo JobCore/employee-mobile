@@ -31,6 +31,7 @@ export default {
     youHaveRegistered: 'You have signed up!',
     bio: 'Biography',
     invalidBio: 'Invalid Bio',
+    city: 'Cities available',
   },
   EDIT_PROFILE: {
     editProfile: 'Edit profile',
