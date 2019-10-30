@@ -11,6 +11,7 @@ import { Root } from 'native-base';
 import LoginScreen from './src/components/Account/LoginScreen';
 import RegisterScreen from './src/components/Account/RegisterScreen';
 import EditProfile from './src/components/Account/EditProfile';
+import MyBankAccountsScreen from './src/components/Account/MyBankAccountsScreen';
 import ForgotScreen from './src/components/Account/ForgotScreen';
 import ChangePassword from './src/components/Account/ChangePassword';
 import Profile from './src/components/Account/Profile';
@@ -29,7 +30,6 @@ import JobPaymentsScreen from './src/components/MyJobs/JobPayments';
 import WorkModeScreen from './src/components/MyJobs/WorkModeScreen';
 import Reviews from './src/components/MyJobs/Reviews';
 import Help from './src/components/Help';
-
 import {
   DASHBOARD_ROUTE,
   LOGIN_ROUTE,
@@ -52,6 +52,7 @@ import {
   JOB_DETAILS_NEW_TWO_ROUTE,
   JOB_PAYMENTS_ROUTE,
   HELP_ROUTE,
+  MY_BANK_ACCOUNTS_ROUTE,
 } from './src/constants/routes';
 import {
   BLUE_DARK,
@@ -71,7 +72,6 @@ YellowBox.ignoreWarnings([
   'Warning: Failed prop type',
   'Module RCTImageLoader',
 ]);
-
 window.DEBUG = false;
 
 export const AuthStack = createStackNavigator({
@@ -123,6 +123,7 @@ export const AppStack = createStackNavigator(
     Tabs,
     [SETTING_ROUTE]: SettingScreen,
     [RESET_ROUTE]: ChangePassword,
+    [MY_BANK_ACCOUNTS_ROUTE]: MyBankAccountsScreen,
     [EditProfile.routeName]: EditProfile,
     [Profile.routeName]: Profile,
     [EDIT_LOCATION_ROUTE]: EditLocation,

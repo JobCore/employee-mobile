@@ -149,6 +149,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-webview')
+    implementation project(':react-native-i18n')
     implementation project(':react-native-firebase')
     implementation project(':@react-native-community_netinfo')
     implementation project(':@react-native-community_async-storage')

@@ -21,11 +21,14 @@ import { i18next } from '../../i18n';
 import { LOG, WARN } from '../../shared';
 import { CustomToast, Loading } from '../../shared/components';
 import ImagePicker from 'react-native-image-picker';
-import { RESET_ROUTE, JOB_PREFERENCES_ROUTE } from '../../constants/routes';
+import {
+  RESET_ROUTE,
+  JOB_PREFERENCES_ROUTE,
+  MY_BANK_ACCOUNTS_ROUTE,
+} from '../../constants/routes';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import { GRAY_MAIN, BG_GRAY_LIGHT } from '../../shared/colorPalette';
 import { TabHeader } from '../../shared/components/TabHeader';
-
 const icon = require('../../assets/image/tab/profile.png');
 
 const IMAGE_PICKER_OPTIONS = {
@@ -128,8 +131,8 @@ class EditProfile extends Component {
                         this.state.selectedImage && this.state.selectedImage.uri
                           ? { uri: this.state.selectedImage.uri }
                           : this.state.picture
-                          ? { uri: this.state.picture }
-                          : PROFILE_IMG
+                            ? { uri: this.state.picture }
+                            : PROFILE_IMG
                       }
                     />
                     <View style={profileStyles.viewCameraCircle}>
@@ -188,7 +191,7 @@ class EditProfile extends Component {
                     </Item>
                     <Item style={editProfileStyles.itemTextBio}>
                       <Text style={editProfileStyles.textBio}>
-                        "{t('EDIT_PROFILE.textBio')}"
+                        {t('EDIT_PROFILE.textBio')}
                       </Text>
                     </Item>
                     <Item
@@ -210,6 +213,16 @@ class EditProfile extends Component {
                     <Text style={editProfileStyles.textButtomChangePassword}>
                       {t('SETTINGS.changePassword')}
                     </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{ marginBottom: 4 }}>
+                    <Button
+                      onPress={this.goToMyBankAccounts}
+                      full
+                      style={editProfileStyles.viewButtomLogin}>
+                      <Text style={editProfileStyles.textButtom}>
+                        {t('EDIT_PROFILE.myBanksAccounts')}
+                      </Text>
+                    </Button>
                   </TouchableOpacity>
                   <Button
                     full
@@ -335,6 +348,10 @@ class EditProfile extends Component {
     }
 
     this.props.navigation.navigate(RESET_ROUTE, { email });
+  };
+
+  goToMyBankAccounts = () => {
+    this.props.navigation.navigate(MY_BANK_ACCOUNTS_ROUTE);
   };
 
   focusTextarea = () => {

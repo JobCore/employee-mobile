@@ -72,6 +72,8 @@ PODS:
     - React
   - react-native-netinfo (3.2.1):
     - React
+  - react-native-webview (7.4.3):
+    - React
   - React/Core (0.59.10):
     - yoga (= 0.59.10.React)
   - React/fishhook (0.59.10)
@@ -102,6 +104,8 @@ PODS:
     - React/RCTBlob
   - RNCAsyncStorage (1.4.2):
     - React
+  - RNI18n (2.0.15):
+    - React
   - yoga (0.59.10.React)
 
 DEPENDENCIES:
@@ -112,6 +116,7 @@ DEPENDENCIES:
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
+  - react-native-webview (from `../node_modules/react-native-webview`)
   - React/Core (from `../node_modules/react-native`)
   - React/RCTActionSheet (from `../node_modules/react-native`)
   - React/RCTAnimation (from `../node_modules/react-native`)
@@ -124,6 +129,7 @@ DEPENDENCIES:
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - RNI18n (from `../node_modules/react-native-i18n`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
 
 SPEC REPOS:
@@ -148,8 +154,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-maps"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
+  react-native-webview:
+    :path: "../node_modules/react-native-webview"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNI18n:
+    :path: "../node_modules/react-native-i18n"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga/yoga.podspec"
 
@@ -168,9 +178,11 @@ SPEC CHECKSUMS:
   react-native-image-picker: fd93361c666f397bdf72f9c6c23f13d2685b9173
   react-native-maps: 0316ed017dbb64b33b227751fa810e2454fcfa39
   react-native-netinfo: 27d908bc7ee7b9f29400c02938a0b2a27a1015be
+  react-native-webview: dbfec7f16f09a71ea53731bdf5f86ae70eac4313
   RNCAsyncStorage: 285698b8a4f219573174d99e863a78b93f389272
+  RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
   yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
 
-PODFILE CHECKSUM: df443944241fd1dbcea3eaa440404ccbeb4857b2
+PODFILE CHECKSUM: 12452b5b002a1462168fb318229a49283e1c274c
 
 COCOAPODS: 1.6.1

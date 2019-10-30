@@ -34,7 +34,9 @@
     "react-native-maps": "^0.24.2",
     "react-native-modal-datetime-picker": "^6.0.0",
     "react-native-offline": "^3.14.1",
+    "react-native-plaid-link": "^1.4.4",
     "react-native-progress": "^3.6.0",
+    "react-native-webview": "^7.4.3",
     "react-navigation": "2.18.2",
     "rxjs": "^5.5.10"
   },
