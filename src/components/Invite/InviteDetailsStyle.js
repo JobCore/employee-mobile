@@ -16,7 +16,7 @@ const inviteStyles = StyleSheet.create({
     alignItems: 'center',
   },
   map: {
-    marginBottom: -18,
+    marginBottom: -20,
     height: 280,
     width: '100%',
     justifyContent: 'center',
