@@ -1,8 +1,8 @@
 ---
-name: Basic Issue
-about: Basic User Story Issue
+name: Backlog Item
+about: Issue to do later
 title: "Backlog: [DETAIL]"
-=labels: Backlog
+labels: Backlog
 ---
 
 **User Story**
