@@ -9,7 +9,6 @@ _Wants To:_
 _So That:_
 
 **Technical Requirements**
-
 - [ ] 1.
 - [ ] 2.
 - [ ] 3.
