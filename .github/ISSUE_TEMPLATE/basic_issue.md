@@ -1,5 +1,5 @@
 ---
-name: BASIC ISSUE
+name: 👉Basic Issue
 about: Basic User Story Issue
 title: "VIEW: DETAIL"
 ---
