@@ -2,8 +2,10 @@ import accountStore from '../components/Account/AccountStore';
 import { checkInternetConnection } from 'react-native-offline';
 import * as accountActions from '../components/Account/actions';
 import { i18next } from '../i18n';
-
-const API_URL = 'https://jobcore.herokuapp.com/api';
+import { PROD } from '../shared/utils';
+const API_URL = PROD
+  ? 'https://jobcore.herokuapp.com/api'
+  : 'https://jobcore-test.herokuapp.com/api';
 
 /**
  * POST method fetch

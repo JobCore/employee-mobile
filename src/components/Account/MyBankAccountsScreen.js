@@ -12,10 +12,11 @@ import {
 } from 'native-base';
 import MyBankAccountsStyles from './MyBankAccountsStyle';
 import { I18n } from 'react-i18next';
-import { Loading } from '../../shared/components';
+import { Loading, CustomToast } from '../../shared/components';
 import { ModalHeader } from '../../shared/components/ModalHeader';
 import PlaidAuthenticator from 'react-native-plaid-link';
-
+import accountStore from './AccountStore';
+import { getUserBankAccounts } from './actions';
 class MyBankAccountsScreen extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +26,27 @@ class MyBankAccountsScreen extends Component {
       status: 'CONNECTED',
     };
   }
+
+  componentDidMount = () => {
+    this.loginSubscription = accountStore.subscribe(
+      'GetUserBankAccounts',
+      (data) => console.log('GetUserBankAccounts subscribe: ', data),
+    );
+    this.accountStoreError = accountStore.subscribe(
+      'AccountStoreError',
+      (err) => this.errorHandler(err),
+    );
+  };
+
+  componentWillUnmount() {
+    this.loginSubscription.unsubscribe();
+    this.accountStoreError.unsubscribe();
+  }
+
+  errorHandler = (err) => {
+    console.log('GetUserBankAccounts error: ', err);
+    CustomToast(err, 'danger');
+  };
 
   renderLogin = () => {
     return (
@@ -52,11 +74,16 @@ class MyBankAccountsScreen extends Component {
   };
 
   onMessage = (data) => {
+    const status = data.action
+      .substr(data.action.lastIndexOf(':') + 1)
+      .toUpperCase();
+    if (status === 'CONNECTED') {
+      const publicToken = data.metadata.public_token;
+      getUserBankAccounts(publicToken);
+    }
     this.setState({
       data,
-      status: data.action
-        .substr(data.action.lastIndexOf(':') + 1)
-        .toUpperCase(),
+      status,
     });
   };
 
