@@ -1,7 +1,7 @@
 ---
-name: Basic Issue
+name: BASIC ISSU
 about: Basic User Story Issue
-title: "[VIEW]: [DETAIL]"
+title: 'VIEW: DETAIL'
 ---
 
 **User Story**

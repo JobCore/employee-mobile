@@ -1,7 +1,7 @@
 ---
 name: Backlog Item
 about: Issue to do later
-title: "Backlog: [DETAIL]"
+title: "Backlog: DETAIL"
 labels: Backlog
 ---
 
