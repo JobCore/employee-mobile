@@ -43,9 +43,11 @@ export default {
     saveProfile: 'Guardar perfil',
     textBio:
       '¿Qué te hace talentoso? Habla un poco sobre tu experiencia y habilidades previas',
-    myBanksAccounts: 'Mis cuentas bancarias',
-    addBankAccount: 'Agregar cuentas bancarias',
-    affiliateBankAccount: 'AFILIAR CUENTA BANCARIA',
+    uploadDocuments: 'Mis Documentos',
+    myDocuments: 'Mis Documentos',
+    addDocument: 'AGREGAR DOCUMENTO',
+    loadDocument: 'CARGAR DOCUMENTO',
+    addDocumentsTitle: 'Agregar Documentos',
   },
   SETTINGS: {
     settings: 'Ajustes',

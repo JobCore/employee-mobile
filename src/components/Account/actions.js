@@ -52,26 +52,6 @@ const login = (email, password, fcmToken) => {
       Flux.dispatchEvent('AccountStoreError', err);
     });
 };
-/**
- * Get user bank accounts
- * @param  {string} publicToken
- */
-const getUserBankAccounts = (publicToken) => {
-  // const response = fetch(`${API_URL}/bankaccounts/`, {
-  //   // headers,
-  //   method: 'GET',
-  // })
-  // console.log("response: ", response)
-  postData(`/bankaccounts`, {
-    public_token: publicToken,
-  })
-    .then((data) => {
-      Flux.dispatchEvent('GetUserBankAccounts', data);
-    })
-    .catch((err) => {
-      Flux.dispatchEvent('AccountStoreError', err);
-    });
-};
 
 /**
  * Action for registering the User
@@ -257,5 +237,4 @@ export {
   logoutOnUnautorized,
   editProfile,
   editProfilePicture,
-  getUserBankAccounts,
 };

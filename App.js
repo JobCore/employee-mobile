@@ -11,7 +11,8 @@ import { Root } from 'native-base';
 import LoginScreen from './src/components/Account/LoginScreen';
 import RegisterScreen from './src/components/Account/RegisterScreen';
 import EditProfile from './src/components/Account/EditProfile';
-import MyBankAccountsScreen from './src/components/Account/MyBankAccountsScreen';
+import UploadDocumentScreen from './src/components/Account/UploadDocumentScreen';
+import AddDocumentScreen from './src/components/Account/AddDocumentScreen';
 import ForgotScreen from './src/components/Account/ForgotScreen';
 import ChangePassword from './src/components/Account/ChangePassword';
 import Profile from './src/components/Account/Profile';
@@ -52,7 +53,8 @@ import {
   JOB_DETAILS_NEW_TWO_ROUTE,
   JOB_PAYMENTS_ROUTE,
   HELP_ROUTE,
-  MY_BANK_ACCOUNTS_ROUTE,
+  UPLOAD_DOCUMENT_ROUTE,
+  ADD_DOCUMENT_ROUTE,
 } from './src/constants/routes';
 import {
   BLUE_DARK,
@@ -123,7 +125,8 @@ export const AppStack = createStackNavigator(
     Tabs,
     [SETTING_ROUTE]: SettingScreen,
     [RESET_ROUTE]: ChangePassword,
-    [MY_BANK_ACCOUNTS_ROUTE]: MyBankAccountsScreen,
+    [UPLOAD_DOCUMENT_ROUTE]: UploadDocumentScreen,
+    [ADD_DOCUMENT_ROUTE]: AddDocumentScreen,
     [EditProfile.routeName]: EditProfile,
     [Profile.routeName]: Profile,
     [EDIT_LOCATION_ROUTE]: EditLocation,
@@ -177,7 +180,7 @@ const SwitchNavigator = createSwitchNavigator(
     [APP_ROUTE]: AppStack,
   },
   {
-    initialRouteName: 'AuthLoading',
+    initialRouteName: 'APP_ROUTE',
   },
 );
 

@@ -16,6 +16,7 @@ export default StyleSheet.create({
     borderRadius: 50,
     height: 45,
     marginBottom: 0,
+    marginTop: 40,
   },
   viewInput: {
     backgroundColor: 'transparent',
@@ -24,15 +25,31 @@ export default StyleSheet.create({
     borderWidth: 1,
     color: BLUE_DARK,
     height: 40,
+    marginTop: 10,
     marginBottom: 10,
     paddingLeft: 20,
     paddingRight: 10,
     paddingTop: 0,
     width: '100%',
+    justifyContent: 'space-between',
   },
   textButtom: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '600',
     textAlign: 'center',
+  },
+  garbageIcon: {
+    width: 24,
+    height: 24,
+    marginLeft: 10,
+  },
+  formStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  statusStyle: {
+    fontWeight: '600',
+    color: BLUE_DARK,
   },
 });

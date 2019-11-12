@@ -41,9 +41,11 @@ export default {
     saveProfile: 'Save profile',
     textBio:
       'What makes you a talent? Talk a little about your previous experience and skills',
-    myBanksAccounts: 'My bank accounts',
-    addBankAccount: 'Affiliate Bank Account',
-    affiliateBankAccount: 'AFFILIATE BANK ACCOUNT',
+    uploadDocuments: 'My documents',
+    myDocuments: 'My documents',
+    addDocument: 'ADD DOCUMENT',
+    loadDocument: 'LOAD DOCUMENT',
+    addDocumentsTitle: 'Add Documents',
   },
   SETTINGS: {
     settings: 'Settings',

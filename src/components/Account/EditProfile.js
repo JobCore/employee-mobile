@@ -24,7 +24,7 @@ import ImagePicker from 'react-native-image-picker';
 import {
   RESET_ROUTE,
   JOB_PREFERENCES_ROUTE,
-  MY_BANK_ACCOUNTS_ROUTE,
+  UPLOAD_DOCUMENT_ROUTE,
 } from '../../constants/routes';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import { GRAY_MAIN, BG_GRAY_LIGHT } from '../../shared/colorPalette';
@@ -216,11 +216,11 @@ class EditProfile extends Component {
                   </TouchableOpacity>
                   <TouchableOpacity style={{ marginBottom: 4 }}>
                     <Button
-                      onPress={this.goToMyBankAccounts}
+                      onPress={this.goToMyDocuments}
                       full
                       style={editProfileStyles.viewButtomLogin}>
                       <Text style={editProfileStyles.textButtom}>
-                        {t('EDIT_PROFILE.myBanksAccounts')}
+                        {t('EDIT_PROFILE.uploadDocuments')}
                       </Text>
                     </Button>
                   </TouchableOpacity>
@@ -350,8 +350,8 @@ class EditProfile extends Component {
     this.props.navigation.navigate(RESET_ROUTE, { email });
   };
 
-  goToMyBankAccounts = () => {
-    this.props.navigation.navigate(MY_BANK_ACCOUNTS_ROUTE);
+  goToMyDocuments = () => {
+    this.props.navigation.navigate(UPLOAD_DOCUMENT_ROUTE);
   };
 
   focusTextarea = () => {
