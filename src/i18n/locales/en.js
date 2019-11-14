@@ -122,7 +122,7 @@ export default {
     jobDetails: 'Job details',
     noJobs: 'No jobs were found',
     pending: 'Pending',
-    upcoming: 'Approved',
+    upcoming: 'Upcoming',
     completed: 'Completed',
     failed: 'Failed',
     review: 'Review',

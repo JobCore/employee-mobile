@@ -39,7 +39,7 @@
 		8F9AB6D1F4004EEFA2D29212 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 08E31A67582F47B4AE57C7A4 /* Octicons.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B424E9F5F6E44DB2BCA6FCC3 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE7FE02B81114EA49489979C /* Ionicons.ttf */; };
-		BDAFD26F22C24B300060460B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDAFD26E22C24B300060460B /* GoogleService-Info.plist */; };
+		BD6DD89A237E0307007996B8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD6DD899237E0307007996B8 /* GoogleService-Info.plist */; };
 		CF109780CAEB409AB9B5DD78 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 916BAEB8742B4A1F822A915C /* Entypo.ttf */; };
 		D89C052B15E54D80BD7D9AA2 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 712EB64D693D4ACBA3DF2E4D /* Roboto.ttf */; };
 		EB61D779AFD44112A6D7FA2F /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A7A312D2E69E4E7399114132 /* MaterialCommunityIcons.ttf */; };
@@ -358,7 +358,7 @@
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		BD5F474822A478E500AF08BD /* coJobcoreTalent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = coJobcoreTalent.entitlements; path = coJobcoreTalent/coJobcoreTalent.entitlements; sourceTree = "<group>"; };
 		BD6C73C4391B49B592E8431D /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/native-base/Fonts/Feather.ttf"; sourceTree = "<group>"; };
-		BDAFD26E22C24B300060460B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BD6DD899237E0307007996B8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C28620B11432A3F660C6FCC9 /* Pods-coJobcoreTalent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-coJobcoreTalent.debug.xcconfig"; path = "Target Support Files/Pods-coJobcoreTalent/Pods-coJobcoreTalent.debug.xcconfig"; sourceTree = "<group>"; };
 		CE7FE02B81114EA49489979C /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/native-base/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		DF14930E2D13479CB00AE37E /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
@@ -480,7 +480,7 @@
 				BD5F474822A478E500AF08BD /* coJobcoreTalent.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				BDAFD26E22C24B300060460B /* GoogleService-Info.plist */,
+				BD6DD899237E0307007996B8 /* GoogleService-Info.plist */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
@@ -1072,7 +1072,7 @@
 				2AD9EA5FCC424BDCB18A1198 /* rubicon-icon-font.ttf in Resources */,
 				1BEE8D5ECA4B4D2A9B428780 /* SimpleLineIcons.ttf in Resources */,
 				01F41FDF9E6D40FC8AE19945 /* Zocial.ttf in Resources */,
-				BDAFD26F22C24B300060460B /* GoogleService-Info.plist in Resources */,
+				BD6DD89A237E0307007996B8 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1091,7 +1091,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		B79F0B71198EF180435BCC61 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1148,7 +1148,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = coJobcoreTalent/coJobcoreTalent.entitlements;
-				CURRENT_PROJECT_VERSION = 73;
+				CURRENT_PROJECT_VERSION = 75;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = GMA9CVBJW8;
 				HEADER_SEARCH_PATHS = (
@@ -1161,7 +1161,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/coJobcoreTalent\"",
 				);
-				MARKETING_VERSION = 1.5.28;
+				MARKETING_VERSION = 1.5.30;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1179,7 +1179,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = coJobcoreTalent/coJobcoreTalent.entitlements;
-				CURRENT_PROJECT_VERSION = 73;
+				CURRENT_PROJECT_VERSION = 75;
 				DEVELOPMENT_TEAM = GMA9CVBJW8;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1191,7 +1191,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/coJobcoreTalent\"",
 				);
-				MARKETING_VERSION = 1.5.28;
+				MARKETING_VERSION = 1.5.30;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
