@@ -127,7 +127,7 @@ DEPENDENCIES:
   - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - Firebase
     - FirebaseAnalytics
     - FirebaseAnalyticsInterop
@@ -173,4 +173,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: df443944241fd1dbcea3eaa440404ccbeb4857b2
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.8.4
