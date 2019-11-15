@@ -5,8 +5,8 @@ import {
   editAvailabilityAlldayValidator,
 } from './validators';
 import { putData, getData } from '../../fetch';
-import moment from 'moment';
-import getMomentNowDiff from '../../shared/getMomentNowDiff';
+// import moment from 'moment';
+// import getMomentNowDiff from '../../shared/getMomentNowDiff';
 
 /**
  * Action for listing the job invites
@@ -14,7 +14,7 @@ import getMomentNowDiff from '../../shared/getMomentNowDiff';
 const getJobInvites = () => {
   getData('/employees/me/shifts/invites?status=PENDING')
     .then((jobInvites) => {
-      Flux.dispatchEvent('JobInvites', jobInvites.filter(invite => getMomentNowDiff(invite.shift.starting_at) > 0));
+      Flux.dispatchEvent('JobInvites', jobInvites);
     })
     .catch((err) => {
       Flux.dispatchEvent('InviteStoreError', err);
