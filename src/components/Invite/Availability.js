@@ -90,6 +90,7 @@ class AddAvailability extends Component {
   };
 
   render() {
+    const isAvailable = true;
     console.log(`DEBUG:availability`, this.state.availability);
     return (
       <I18n>
@@ -128,9 +129,9 @@ class AddAvailability extends Component {
                   <ListItem style={styles.itemSelectCheck}>
                     <Body>
                       <Text style={styles.textAlldayOr}>
-                        {`${t('JOB_PREFERENCES.allday')}    ${t(
-                          'JOB_PREFERENCES.orSpecificTime',
-                        )}`}
+                        {`${t('JOB_PREFERENCES.allday')}   ${t(
+                          'JOB_PREFERENCES.notAvailable',
+                        )}   ${t('JOB_PREFERENCES.orSpecificTime')}`}
                       </Text>
                     </Body>
                   </ListItem>
@@ -170,6 +171,27 @@ class AddAvailability extends Component {
                               </View>
                               <View style={styles.radio}>
                                 <TouchableOpacity
+                                  style={styles.radioButtonLeft}
+                                  // onPress={() => this.setAvailability(false, block)}
+                                  rounded
+                                  transparent>
+                                  <Icon
+                                    name={
+                                      !isAvailable
+                                        ? 'md-radio-button-on'
+                                        : 'md-radio-button-off'
+                                    }
+                                    style={{
+                                      color: !isAvailable
+                                        ? BLUE_DARK
+                                        : BLUE_MAIN,
+                                      fontSize: 24,
+                                    }}
+                                  />
+                                </TouchableOpacity>
+                              </View>
+                              <View style={styles.radio}>
+                                <TouchableOpacity
                                   style={styles.radioButtonRight}
                                   onPress={() => this.setAllday(false, block)}
                                   rounded
@@ -191,9 +213,13 @@ class AddAvailability extends Component {
                               </View>
                             </View>
                           </View>
-                          <View style={styles.viewPicker}>
-                            {block.allday === false ? (
-                              <View style={{ flexDirection: 'row' }}>
+                          {block.allday === false ? (
+                            <View style={styles.viewPicker}>
+                              <View
+                                style={{
+                                  flexDirection: 'row',
+                                  marginLeft: 50,
+                                }}>
                                 <Button
                                   onPress={() =>
                                     this.showStartTimePicker(block)
@@ -228,8 +254,8 @@ class AddAvailability extends Component {
                                   </Text>
                                 </Button>
                               </View>
-                            ) : null}
-                          </View>
+                            </View>
+                          ) : null}
                         </View>
                       </ListItem>
                     ))
