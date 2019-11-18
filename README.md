@@ -62,4 +62,4 @@ android.enableJetifier=false
 
 Configure project on file: `src/shared/config.js`
 Global constants:
-- `PROD`: its on production environment or not.  
+- `PROD`: its on production or test environment.  
