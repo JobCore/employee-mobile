@@ -4,7 +4,7 @@ import { Platform, Dimensions } from 'react-native';
 /**
  * Is on production or not
  */
-export const PROD = true;
+export const PROD = false;
 
 /**
  * Validate if a string is valid or not

@@ -62,9 +62,7 @@ const getUserBankAccounts = (publicToken) => {
   //   method: 'GET',
   // })
   // console.log("response: ", response)
-  postData(`/bankaccounts`, {
-    public_token: publicToken,
-  })
+  postData(`/bankaccounts`, { public_token: publicToken }, true)
     .then((data) => {
       Flux.dispatchEvent('GetUserBankAccounts', data);
     })
@@ -194,6 +192,7 @@ const logout = () => {
  * YOU MUST use this for unautorized API error
  */
 const logoutOnUnautorized = (err) => {
+  console.log('logoutOnUnautorized: ', err);
   clearStores();
   CustomToast(storeErrorHandler(err), 'danger');
   Flux.dispatchEvent('Logout', {});
