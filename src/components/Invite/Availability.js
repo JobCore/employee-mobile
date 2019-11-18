@@ -498,7 +498,7 @@ class AddAvailability extends Component {
     inviteActions.editAvailabilityDates(
       availability.starting_at,
       availability.ending_at,
-      availability.id,
+      availability,
     );
   };
 

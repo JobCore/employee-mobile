@@ -234,14 +234,15 @@ export const deleteAvailability = (availability) => {
  * @param {date} endingAt   end date
  * @param {string || number} availabilityId  the block id
  */
-const editAvailabilityDates = (startingAt, endingAt, availabilityId) => {
+const editAvailabilityDates = (startingAt, endingAt, availability) => {
   try {
-    editAvailabilityDatesValidator(startingAt, endingAt, availabilityId);
+    editAvailabilityDatesValidator(startingAt, endingAt, availability.id);
   } catch (err) {
     return Flux.dispatchEvent('InviteStoreError', err);
   }
 
-  putData(`/employees/me/availability/${availabilityId}`, {
+  putData(`/employees/me/availability/${availability.id}`, {
+    recurrency_type: availability.recurrency_type,
     starting_at: startingAt,
     ending_at: endingAt,
   })
