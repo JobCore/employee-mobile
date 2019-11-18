@@ -4,9 +4,9 @@ import {
   editAvailabilityDatesValidator,
   editAvailabilityAlldayValidator,
 } from './validators';
-import { putData, getData } from '../../fetch';
-import moment from 'moment';
-import getMomentNowDiff from '../../shared/getMomentNowDiff';
+import { putData, getData, deleteData, postData } from '../../fetch';
+// import moment from 'moment';
+// import getMomentNowDiff from '../../shared/getMomentNowDiff';
 
 /**
  * Action for listing the job invites
@@ -200,6 +200,28 @@ export const editAvailability = (availability) => {
   })
     .then((data) => {
       Flux.dispatchEvent('EditAvailability', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('InviteStoreError', err);
+    });
+};
+
+export const regenerateAvailability = (availability) => {
+  postData(`/employees/me/availability`, {
+    ...availability,
+  })
+    .then(() => {
+      Flux.dispatchEvent('RegenerateAvailability');
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('InviteStoreError', err);
+    });
+};
+
+export const deleteAvailability = (availability) => {
+  deleteData(`/employees/me/availability/${availability.id}`)
+    .then(() => {
+      Flux.dispatchEvent('DeleteAvailability');
     })
     .catch((err) => {
       Flux.dispatchEvent('InviteStoreError', err);
