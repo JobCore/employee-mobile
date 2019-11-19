@@ -121,6 +121,7 @@ export default {
     update: 'Editar',
     delete: 'eliminar',
     save: 'Guardar',
+    notAvailable: 'No disponible',
   },
   MY_JOBS: {
     myJobs: 'Trabajos',

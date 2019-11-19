@@ -57,12 +57,21 @@ const login = (email, password, fcmToken) => {
  * @param  {string} publicToken
  */
 const getUserBankAccounts = (publicToken) => {
+  const user = accountStore.getState('Login').user || {};
+  console.log('user: ', user);
   // const response = fetch(`${API_URL}/bankaccounts/`, {
   //   // headers,
   //   method: 'GET',
   // })
   // console.log("response: ", response)
-  postData(`/bankaccounts`, { public_token: publicToken }, true)
+  postData(
+    `/bank-accounts`,
+    {
+      public_token: publicToken,
+      account_id: user.id,
+    },
+    true,
+  )
     .then((data) => {
       Flux.dispatchEvent('GetUserBankAccounts', data);
     })
