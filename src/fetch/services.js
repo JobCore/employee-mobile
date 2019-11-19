@@ -3,7 +3,8 @@ import { checkInternetConnection } from 'react-native-offline';
 import * as accountActions from '../components/Account/actions';
 import { i18next } from '../i18n';
 
-const API_URL = 'https://jobcore.herokuapp.com/api';
+// const API_URL = 'https://jobcore.herokuapp.com/api';
+const API_URL = 'https://jobcore-test.herokuapp.com/api';
 
 /**
  * POST method fetch
