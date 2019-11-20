@@ -4,9 +4,9 @@ import {
   editAvailabilityDatesValidator,
   editAvailabilityAlldayValidator,
 } from './validators';
-import { putData, getData } from '../../fetch';
-import moment from 'moment';
-import getMomentNowDiff from '../../shared/getMomentNowDiff';
+import { putData, getData, deleteData, postData } from '../../fetch';
+// import moment from 'moment';
+// import getMomentNowDiff from '../../shared/getMomentNowDiff';
 
 /**
  * Action for listing the job invites
@@ -14,7 +14,7 @@ import getMomentNowDiff from '../../shared/getMomentNowDiff';
 const getJobInvites = () => {
   getData('/employees/me/shifts/invites?status=PENDING')
     .then((jobInvites) => {
-      Flux.dispatchEvent('JobInvites', jobInvites.filter(invite => getMomentNowDiff(invite.shift.starting_at) > 0));
+      Flux.dispatchEvent('JobInvites', jobInvites);
     })
     .catch((err) => {
       Flux.dispatchEvent('InviteStoreError', err);
@@ -206,20 +206,43 @@ export const editAvailability = (availability) => {
     });
 };
 
+export const regenerateAvailability = (availability) => {
+  postData(`/employees/me/availability`, {
+    ...availability,
+  })
+    .then(() => {
+      Flux.dispatchEvent('RegenerateAvailability');
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('InviteStoreError', err);
+    });
+};
+
+export const deleteAvailability = (availability) => {
+  deleteData(`/employees/me/availability/${availability.id}`)
+    .then(() => {
+      Flux.dispatchEvent('DeleteAvailability');
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('InviteStoreError', err);
+    });
+};
+
 /**
  * Add availability dates action
  * @param {date} startingAt start date
  * @param {date} endingAt   end date
  * @param {string || number} availabilityId  the block id
  */
-const editAvailabilityDates = (startingAt, endingAt, availabilityId) => {
+const editAvailabilityDates = (startingAt, endingAt, availability) => {
   try {
-    editAvailabilityDatesValidator(startingAt, endingAt, availabilityId);
+    editAvailabilityDatesValidator(startingAt, endingAt, availability.id);
   } catch (err) {
     return Flux.dispatchEvent('InviteStoreError', err);
   }
 
-  putData(`/employees/me/availability/${availabilityId}`, {
+  putData(`/employees/me/availability/${availability.id}`, {
+    recurrency_type: availability.recurrency_type,
     starting_at: startingAt,
     ending_at: endingAt,
   })

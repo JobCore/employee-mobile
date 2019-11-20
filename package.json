@@ -61,5 +61,15 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   }
 }
