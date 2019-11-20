@@ -43,14 +43,19 @@ class RegisterScreen extends Component {
     this.registerSubscription = store.subscribe('Register', (user) =>
       this.registerHandler(user),
     );
+    this.getCitiesSubscription = store.subscribe('GetCities', (cities) =>
+      this.setState({ cities }),
+    );
     this.accountStoreError = store.subscribe('AccountStoreError', (err) =>
       this.errorHandler(err),
     );
+    actions.getCities();
   }
 
   componentWillUnmount() {
     this.registerSubscription.unsubscribe();
     this.accountStoreError.unsubscribe();
+    this.getCitiesSubscription.unsubscribe();
   }
 
   registerHandler = () => {
@@ -69,6 +74,7 @@ class RegisterScreen extends Component {
   };
 
   render() {
+    console.log('cities: ', this.state.cities);
     return (
       <I18n>
         {(t) => (

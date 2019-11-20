@@ -5,7 +5,13 @@ import inviteStore from '../Invite/InviteStore';
 import jobStore from '../MyJobs/JobStore';
 import { LOG, storeErrorHandler } from '../../shared';
 import { CustomToast } from '../../shared/components';
-import { postData, putData, deleteData, putFormData } from '../../fetch';
+import {
+  postData,
+  putData,
+  deleteData,
+  putFormData,
+  getData,
+} from '../../fetch';
 import {
   loginValidator,
   registerValidator,
@@ -83,6 +89,19 @@ const register = (email, password, firstName, lastName) => {
       Flux.dispatchEvent('Register', data);
     })
     .catch((err) => {
+      Flux.dispatchEvent('AccountStoreError', err);
+    });
+};
+/**
+ * Get available cities
+ */
+export const getCities = () => {
+  getData(`/cities`, false)
+    .then((cities) => {
+      Flux.dispatchEvent('GetCities', cities);
+    })
+    .catch((err) => {
+      console.log('getCities error: ', err);
       Flux.dispatchEvent('AccountStoreError', err);
     });
 };
