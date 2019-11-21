@@ -35,6 +35,7 @@ class RegisterScreen extends Component {
       password: '',
       firstName: '',
       lastName: '',
+      cities: [],
       city: '',
     };
   }
@@ -74,14 +75,15 @@ class RegisterScreen extends Component {
   };
 
   render() {
-    console.log('cities: ', this.state.cities);
+    const { cities, city } = this.state;
+    console.log('cities: ', cities);
+    console.log('city: ', city);
     return (
       <I18n>
         {(t) => (
           <Content contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>
               {this.state.isLoading ? <Loading /> : null}
-
               <Image
                 style={styles.viewBackground}
                 source={require('../../assets/image/bg.jpg')}
@@ -120,9 +122,13 @@ class RegisterScreen extends Component {
                       style={{ width: 270, paddingLeft: 0 }}
                       selectedValue={this.state.city}
                       onValueChange={this.onValueChange.bind(this)}>
-                      <Picker.Item label="New York" value="key0" />
-                      <Picker.Item label="Los angeles" value="key1" />
-                      <Picker.Item label="Miami" value="key2" />
+                      {cities.map((city) => (
+                        <Picker.Item
+                          label={city.name}
+                          value={city.id}
+                          key={city.id}
+                        />
+                      ))}
                     </Picker>
                   </Item>
                   <Item style={styles.viewInput} inlineLabel rounded>
@@ -172,6 +178,7 @@ class RegisterScreen extends Component {
       this.state.password,
       this.state.firstName,
       this.state.lastName,
+      this.state.city,
     );
   };
 

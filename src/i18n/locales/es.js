@@ -28,6 +28,7 @@ export default {
     lastName: 'Apellido',
     emptyFirstName: 'Ingresa tu nombre',
     emptyLastName: 'Ingresa tu apellido',
+    emptyCities: 'Ingresa una ciudad',
     password: 'Contraseña',
     goBack: 'Ir atrás',
     youHaveRegistered: 'Has iniciado sesión!',

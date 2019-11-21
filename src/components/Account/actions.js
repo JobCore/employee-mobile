@@ -65,10 +65,11 @@ const login = (email, password, fcmToken) => {
  * @param  {string} password
  * @param  {string} firstName
  * @param  {string} lastName
+ * @param  {string} city
  */
-const register = (email, password, firstName, lastName) => {
+const register = (email, password, firstName, lastName, city) => {
   try {
-    registerValidator(email, password, firstName, lastName);
+    registerValidator(email, password, firstName, lastName, city);
   } catch (err) {
     return Flux.dispatchEvent('AccountStoreError', err);
   }
@@ -82,6 +83,7 @@ const register = (email, password, firstName, lastName) => {
       username: email,
       email: email,
       password: password,
+      profile_city: city,
     },
     false,
   )

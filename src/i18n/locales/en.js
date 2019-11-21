@@ -26,6 +26,7 @@ export default {
     lastName: 'Last name',
     emptyFirstName: 'Enter your first name',
     emptyLastName: 'Enter your last name',
+    emptyCities: 'Enter a city',
     password: 'Password',
     goBack: 'Go back',
     youHaveRegistered: 'You have signed up!',
