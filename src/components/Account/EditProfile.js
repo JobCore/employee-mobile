@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Alert, Image, Linking } from 'react-native';
+import { View, TouchableOpacity, Alert, Image } from 'react-native';
 import {
   Item,
   Input,
@@ -13,7 +13,7 @@ import {
   Container,
 } from 'native-base';
 import editProfileStyles from './EditProfileStyle';
-import profileStyles from './ProfileStyle';
+import profileStyles from './PublicProfileStyle';
 import * as actions from './actions';
 import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
@@ -114,6 +114,8 @@ class EditProfile extends Component {
           <Container>
             {this.state.isLoading ? <Loading /> : null}
             <TabHeader
+              goBack
+              onPressBack={() => this.props.navigation.goBack()}
               screenName="profile"
               title={t('EDIT_PROFILE.editProfile')}
               onPressHelp={this.goToEditProfile}
@@ -217,19 +219,6 @@ class EditProfile extends Component {
                     style={editProfileStyles.viewButtomLogin}>
                     <Text style={editProfileStyles.textButtom}>
                       {t('EDIT_PROFILE.saveProfile')}
-                    </Text>
-                  </Button>
-                  <Button
-                    full
-                    onPress={() =>
-                      Linking.openURL('https://support.jobcore.co/')
-                    }
-                    style={[
-                      editProfileStyles.viewButtomLogin,
-                      { marginTop: 5 },
-                    ]}>
-                    <Text style={editProfileStyles.textButtom}>
-                      {t('EDIT_PROFILE.helpButton')}
                     </Text>
                   </Button>
                   <TouchableOpacity

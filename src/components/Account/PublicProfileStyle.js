@@ -61,12 +61,6 @@ export default StyleSheet.create({
     color: BLUE_DARK,
     marginBottom: 10,
   },
-  buttonTextName: {
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: BLUE_DARK,
-    marginLeft: 35,
-  },
   textBio: {
     textAlign: 'center',
     color: BLUE_DARK,

@@ -175,6 +175,8 @@ export default {
     noRating: 'Aún no te han calificado',
     noBadges: 'Cuantas más insignias recibas, más invitaciones recibirás',
     noJobsComments: 'Realiza trabajos para recibir comentarios',
+    profileSettings: 'Profile Settings',
+    editProfile: 'Editar perfil',
   },
   REVIEWS: {
     Reviews: 'Opiniones',

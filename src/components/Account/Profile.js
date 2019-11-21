@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, FlatList } from 'react-native';
-import { Container, Content, Text, Thumbnail, Icon } from 'native-base';
+import { View, Image, TouchableOpacity, Linking } from 'react-native';
+import { Container, Content, Text, Thumbnail, Button, Icon } from 'native-base';
 import styles from './ProfileStyle';
 import * as inviteActions from '../Invite/actions';
 import inviteStore from '../Invite/InviteStore';
@@ -15,12 +15,10 @@ import {
   BackgroundHeader,
 } from '../../shared/components';
 import { REVIEWS_ROUTE } from '../../constants/routes';
-import { BLUE_DARK, BLUE_LIGHT } from '../../shared/colorPalette';
 import PROFILE_IMG from '../../assets/image/profile.png';
-import { ModalHeader } from '../../shared/components/ModalHeader';
 import EditProfile from './EditProfile';
-import { Review } from '../MyJobs/components/Review';
-import { getRatingEmployeeFormat } from '../MyJobs/job-utils';
+import { TabHeader } from '../../shared/components/TabHeader';
+import PublicProfile from './PublicProfile';
 
 class Profile extends Component {
   static navigationOptions = {
@@ -106,50 +104,24 @@ class Profile extends Component {
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-            <ModalHeader
-              title={t('PROFILE.profile')}
-              onPressClose={() => this.props.navigation.goBack()}
-              onPressHelp={() => this.props.navigation.goBack()}
+            <TabHeader
+              screenName="profile"
+              title={t('PROFILE.profileSettings')}
+              onPressHelp={() => Linking.openURL('https://support.jobcore.co/')}
             />
             <Content>
               <BackgroundHeader heightAuto>
                 <>
-                  <Text style={styles.textInfo}>
-                    {t('PROFILE.completeProfileText')}
-                  </Text>
-                  <View style={styles.viewProgress}>
-                    <View style={styles.barProgress} />
-                    <View
-                      style={styles.barProgressCompleted(this.state.completed)}
-                    />
-                    <Text style={styles.textProgress}>
-                      Completed {this.state.completed}%
-                    </Text>
-                    <View
-                      style={styles.barProgressCircle(
-                        this.state.completed === 100,
-                      )}
+                  <View style={styles.viewProfileImg}>
+                    <Thumbnail
+                      large
+                      source={
+                        this.state.profile && this.state.profile.picture
+                          ? { uri: this.state.profile.picture }
+                          : PROFILE_IMG
+                      }
                     />
                   </View>
-                  <TouchableOpacity onPress={this.goToEditProfile}>
-                    <View style={styles.viewProfileImg}>
-                      <Thumbnail
-                        large
-                        source={
-                          this.state.profile && this.state.profile.picture
-                            ? { uri: this.state.profile.picture }
-                            : PROFILE_IMG
-                        }
-                      />
-                      <View style={styles.viewCameraCircle}>
-                        <Image
-                          style={styles.camera}
-                          source={require('../../assets/image/camera.png')}
-                        />
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-
                   {this.state.profile && this.state.profile.user ? (
                     <Text style={styles.textName}>
                       {`${this.state.profile.user.first_name} ${
@@ -157,120 +129,60 @@ class Profile extends Component {
                       }`}
                     </Text>
                   ) : null}
+                  {this.state.profile && this.state.profile.user ? (
+                    <Text style={styles.textName}>
+                      {`${this.state.profile.user.email}`}
+                    </Text>
+                  ) : null}
                 </>
               </BackgroundHeader>
               <View>
                 <Text style={styles.textBio}>{this.state.profile.bio}</Text>
               </View>
-              {this.state.profile && this.state.profile.employee ? (
-                <View style={styles.viewRow}>
-                  <View style={styles.viewLeft}>
-                    <Text style={styles.textRowTitle}>
-                      {t('PROFILE.yourRating')}
-                    </Text>
-                    <Text style={styles.textRowNumber}>
-                      {/*{this.state.profile.employee.rating ||*/}
-                      {/*t('PROFILE.noRating')}*/}
-
-                      {getRatingEmployeeFormat(
-                        this.state.profile.employee.rating,
-                      )}
-                    </Text>
-                    <Text style={styles.textRowTitle}>
-                      {this.state.starsArray.map((star) => (
-                        <Icon
-                          key={star}
-                          name={'md-star'}
-                          style={{
-                            color:
-                              this.state.profile.employee.rating &&
-                              this.state.profile.employee.rating >= star
-                                ? BLUE_DARK
-                                : BLUE_LIGHT,
-                            fontSize: 22.5,
-                          }}
-                        />
-                      ))}
-                    </Text>
-                  </View>
-                  <View style={styles.viewRight}>
-                    <Text style={styles.textRowTitle}>
-                      {t('PROFILE.completedJobs')}
-                    </Text>
-                    <Text style={styles.textRowNumber}>
-                      {/*{this.state.profile.employee.total_ratings > 0*/}
-                      {/*  ? this.state.profile.employee.total_ratings*/}
-                      {/*  : t('PROFILE.noRating')}*/}
-
-                      {this.state.profile.employee.total_ratings}
-                    </Text>
-                  </View>
-                </View>
-              ) : null}
-
-              {this.showBadges() ? (
-                <>
-                  <View style={styles.viewInfo}>
-                    <Text style={[styles.textSubtitle, { marginBottom: 10 }]}>
-                      {t('PROFILE.badges')}
-                    </Text>
-                  </View>
-                  <FlatList
-                    style={styles.badgesList}
-                    horizontal
-                    data={this.state.profile.employee.badges}
-                    keyExtractor={(item) => String(item.id)}
-                    renderItem={({ item: badge, index }) => (
-                      <View
-                        style={[
-                          styles.viewBadgeListItem,
-                          index === 0 ? { marginLeft: 30 } : null,
-                        ]}>
-                        <Thumbnail
-                          source={
-                            badge.image_url
-                              ? { uri: badge.image_url }
-                              : PROFILE_IMG
-                          }
-                          style={styles.imageBadge}
-                        />
-                        <Text style={styles.textBadgeName}>{badge.title}</Text>
-                      </View>
-                    )}
-                  />
-                </>
-              ) : (
-                <View style={styles.viewInfo}>
-                  <Text style={[styles.titleProfile, { marginBottom: 10 }]}>
-                    {t('PROFILE.badges')}
+              <TouchableOpacity onPress={this.goToEditProfile}>
+                <View
+                  style={{
+                    height: 20,
+                    borderBotttom: '1px solid black',
+                    justifyContent: 'space-between',
+                    flexDirection: 'row',
+                  }}>
+                  <Text style={styles.buttonTextName}>
+                    {t('PROFILE.editProfile')}
                   </Text>
-                  <Text style={styles.textProfile}>
-                    {t('PROFILE.noBadges')}
-                  </Text>
+                  <Button transparent>
+                    <Icon
+                      name="ios-close"
+                      style={{
+                        height: 30,
+                        width: 30,
+                      }}
+                    />
+                  </Button>
                 </View>
-              )}
-              {Array.isArray(this.state.ratings) &&
-              this.state.ratings.length ? (
-                  <View style={{ paddingLeft: 15, paddingRight: 15 }}>
-                    <TouchableOpacity onPress={this.goToReviews}>
-                      <Text style={[styles.textSubtitle, { paddingLeft: 20 }]}>
-                        {t('PROFILE.whatEmployersSaid')}
-                      </Text>
-                    </TouchableOpacity>
-                    {this.state.ratings.map((rating, index) => (
-                      <Review review={rating} key={index} />
-                    ))}
-                  </View>
-                ) : (
-                  <View style={styles.viewInfo}>
-                    <Text style={styles.titleProfile}>
-                      {t('PROFILE.whatEmployersSaid')}
-                    </Text>
-                    <Text style={styles.textProfile}>
-                      {t('PROFILE.noJobsComments')}
-                    </Text>
-                  </View>
-                )}
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.goToPublicProfile}>
+                <View
+                  style={{
+                    height: 20,
+                    borderBotttom: '1px solid black',
+                    justifyContent: 'space-between',
+                    flexDirection: 'row',
+                  }}>
+                  <Text style={styles.buttonTextName}>
+                    {t('PROFILE.editProfile')}
+                  </Text>
+                  <Button transparent>
+                    <Icon
+                      name="ios-close"
+                      style={{
+                        height: 30,
+                        width: 30,
+                      }}
+                    />
+                  </Button>
+                </View>
+              </TouchableOpacity>
             </Content>
           </Container>
         )}
@@ -309,6 +221,10 @@ class Profile extends Component {
 
   goToEditProfile = () => {
     this.props.navigation.navigate(EditProfile.routeName);
+  };
+
+  goToPublicProfile = () => {
+    this.props.navigation.navigate(PublicProfile.routeName);
   };
 
   goToReviews = () => {

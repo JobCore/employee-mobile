@@ -169,6 +169,8 @@ export default {
     noRating: 'They have not rated you yet',
     noBadges: 'The more badges you receive, the more invitations you will get',
     noJobsComments: 'To get jobs you can have comments',
+    profileSettings: 'Profile Settings',
+    editProfile: 'Edit profile',
   },
   REVIEWS: {
     reviews: 'Reviews',
