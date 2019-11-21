@@ -43,6 +43,7 @@ export default {
     saveProfile: 'Guardar perfil',
     textBio:
       '¿Qué te hace talentoso? Habla un poco sobre tu experiencia y habilidades previas',
+    helpButton: 'Ayuda',
   },
   SETTINGS: {
     settings: 'Ajustes',

@@ -28,7 +28,7 @@ class Profile extends Component {
     tabBarIcon: () => (
       <Image
         style={{ resizeMode: 'contain', width: 42, height: 42 }}
-        source={require('../../assets/image/myJobs.png')}
+        source={require('../../assets/image/tab/profile.png')}
       />
     ),
   };
@@ -115,7 +115,7 @@ class Profile extends Component {
               <BackgroundHeader heightAuto>
                 <>
                   <Text style={styles.textInfo}>
-                    "{t('PROFILE.completeProfileText')}"
+                    {t('PROFILE.completeProfileText')}
                   </Text>
                   <View style={styles.viewProgress}>
                     <View style={styles.barProgress} />

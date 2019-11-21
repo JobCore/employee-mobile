@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Alert, Image } from 'react-native';
+import { View, TouchableOpacity, Alert, Image, Linking } from 'react-native';
 import {
   Item,
   Input,
@@ -128,8 +128,8 @@ class EditProfile extends Component {
                         this.state.selectedImage && this.state.selectedImage.uri
                           ? { uri: this.state.selectedImage.uri }
                           : this.state.picture
-                          ? { uri: this.state.picture }
-                          : PROFILE_IMG
+                            ? { uri: this.state.picture }
+                            : PROFILE_IMG
                       }
                     />
                     <View style={profileStyles.viewCameraCircle}>
@@ -188,7 +188,7 @@ class EditProfile extends Component {
                     </Item>
                     <Item style={editProfileStyles.itemTextBio}>
                       <Text style={editProfileStyles.textBio}>
-                        "{t('EDIT_PROFILE.textBio')}"
+                        {t('EDIT_PROFILE.textBio')}
                       </Text>
                     </Item>
                     <Item
@@ -217,6 +217,19 @@ class EditProfile extends Component {
                     style={editProfileStyles.viewButtomLogin}>
                     <Text style={editProfileStyles.textButtom}>
                       {t('EDIT_PROFILE.saveProfile')}
+                    </Text>
+                  </Button>
+                  <Button
+                    full
+                    onPress={() =>
+                      Linking.openURL('https://support.jobcore.co/')
+                    }
+                    style={[
+                      editProfileStyles.viewButtomLogin,
+                      { marginTop: 5 },
+                    ]}>
+                    <Text style={editProfileStyles.textButtom}>
+                      {t('EDIT_PROFILE.helpButton')}
                     </Text>
                   </Button>
                   <TouchableOpacity

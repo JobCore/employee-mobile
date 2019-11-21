@@ -41,6 +41,7 @@ export default {
     saveProfile: 'Save profile',
     textBio:
       'What makes you a talent? Talk a little about your previous experience and skills',
+    helpButton: 'Help',
   },
   SETTINGS: {
     settings: 'Settings',
