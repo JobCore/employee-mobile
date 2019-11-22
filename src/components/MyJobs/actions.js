@@ -228,6 +228,28 @@ export const getOpenClockIns = async () => {
   return data;
 };
 
+/**
+ * Retrieve the Currently open shifts of the Employee
+ * @returns {Promise<null>}
+ */
+export const fetchActiveShiftsV2 = async () => {
+  let data = null;
+  try {
+    data = await getData('/employees/me/shifts?active=true');
+  } catch (err) {
+    Flux.dispatchEvent('JobStoreError', err);
+    throw err;
+  }
+  console.log(`fetchActiveShifts:`, data);
+
+  if (data.length > 0) Flux.dispatchEvent('ActiveShifts', data);
+  return data;
+};
+
+/**
+ * Retrieve the Currently open shifts of the Employee
+ * @returns {Promise<null>}
+ */
 export const fetchActiveShifts = async () => {
   let data = null;
   try {
