@@ -34,7 +34,7 @@ import {
   CustomToast,
   Loading,
 } from '../../shared/components';
-import { LOG, WARN, storeErrorHandler } from '../../shared';
+import { LOG, WARN } from '../../shared';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import firebase from 'react-native-firebase';
@@ -46,8 +46,6 @@ import WorkModeScreen from '../MyJobs/WorkModeScreen';
 import { getOpenClockIns } from '../MyJobs/actions';
 import EditProfile from '../Account/EditProfile';
 import Profile from '../Account/Profile';
-import getMomentNowDiff from '../../shared/getMomentNowDiff';
-import moment from 'moment';
 import UpcomingJobScreen from '../MyJobs/UpcomingJobScreen';
 import ApplicationDetailScreen from '../MyJobs/ApplicationDetailScreen';
 import { fetchActiveShiftsV2 } from '../MyJobs/actions';
@@ -96,35 +94,30 @@ class DashboardScreen extends Component {
     this.loginSubscription = accountStore.subscribe('Login', (data) => {
       this.loginHandler(data);
     });
-
     this.getEmployeeSubscription = inviteStore.subscribe(
       'GetJobPreferences',
       (data) => {
         this.getEmployeeHandler(data);
       },
     );
-
     this.stopReceivingInvitesSubscription = inviteStore.subscribe(
       'StopReceivingInvites',
       (data) => {
         this.stopReceivingInvitesHandler(data);
       },
     );
-
     this.getJobInvitesSubscription = inviteStore.subscribe(
       'JobInvites',
       (jobInvites) => {
         this.getJobInvitesHandler(jobInvites);
       },
     );
-
     this.getUpcomingJobsSubscription = jobStore.subscribe(
       'GetUpcomingJobs',
       (data) => {
         this.getJobsHandler(data);
       },
     );
-
     this.updateTokenSubscription = fcmStore.subscribe(
       'UpdateFcmToken',
       (data) => {
@@ -134,11 +127,9 @@ class DashboardScreen extends Component {
         LOG(this, `fcmToken updated ${data.registration_id}`);
       },
     );
-
     this.fcmStoreError = fcmStore.subscribe('FcmStoreError', (err) => {
       this.errorHandler(err);
     });
-
     this.inviteStoreError = inviteStore.subscribe('InviteStoreError', (err) => {
       this.errorHandler(err);
     });
@@ -200,25 +191,9 @@ class DashboardScreen extends Component {
 
     if (openClockIns.length > 0) {
       const shift = openClockIns[0].shift;
-      const shiftIsOpen = getMomentNowDiff(shift.ending_at) >= 0;
-
-      if (shiftIsOpen) {
-        return this.props.navigation.navigate(WorkModeScreen.routeName, {
-          shiftId: shift.id,
-        });
-      } else {
-        navigator.geolocation.getCurrentPosition(
-          (data) => {
-            jobActions.clockOut(
-              shift.id,
-              data.coords.latitude,
-              data.coords.longitude,
-              moment.utc(),
-            );
-          },
-          (err) => CustomToast(storeErrorHandler(err), 'danger'),
-        );
-      }
+      return this.props.navigation.navigate(WorkModeScreen.routeName, {
+        shiftId: shift.id,
+      });
     }
   }
 
