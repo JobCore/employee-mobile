@@ -22,7 +22,7 @@ const registerValidator = (email, password, firstName, lastName, city) => {
     throw new Error(i18next.t('REGISTER.emptyLastName'));
   }
 
-  if (city === '') {
+  if (!city || city.name === '') {
     throw new Error(i18next.t('REGISTER.emptyCities'));
   }
 

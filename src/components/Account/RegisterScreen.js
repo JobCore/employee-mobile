@@ -125,7 +125,7 @@ class RegisterScreen extends Component {
                       {cities.map((city) => (
                         <Picker.Item
                           label={city.name}
-                          value={city.id}
+                          value={city}
                           key={city.id}
                         />
                       ))}

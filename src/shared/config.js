@@ -1,1 +1,1 @@
-export const PROD = true; //Its on production or test environment
+export const PROD = false; //Its on production or test environment

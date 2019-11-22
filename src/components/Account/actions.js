@@ -83,7 +83,8 @@ const register = (email, password, firstName, lastName, city) => {
       username: email,
       email: email,
       password: password,
-      profile_city: city,
+      profile_city: Number(city.id),
+      city: '',
     },
     false,
   )
