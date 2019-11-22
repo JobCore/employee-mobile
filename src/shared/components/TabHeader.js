@@ -20,8 +20,13 @@ const TabHeader = ({
         </Button>
       ) : null}
     </Left>
-    <Body>
-      <Title style={headerStyles.titleHeader}>{title}</Title>
+    <Body style={{ flex: 0 }}>
+      <Title
+        numberOfLines={1}
+        ellipsizeMode="clip"
+        style={headerStyles.titleHeader}>
+        {title}
+      </Title>
     </Body>
     <Right>
       <HelpIcon onPressHelp={onPressHelp} screenName={screenName} />
@@ -32,6 +37,9 @@ const TabHeader = ({
 TabHeader.propTypes = {
   title: PropTypes.string.isRequired,
   screenName: PropTypes.string.isRequired,
+  goBack: PropTypes.bool.isRequired,
+  onPressBack: PropTypes.func.isRequired,
+  onPressHelp: PropTypes.func.isRequired,
 };
 
 export { TabHeader };

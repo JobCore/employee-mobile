@@ -5,9 +5,26 @@ import {
   WHITE_MAIN,
   BLUE_LIGHT,
   BG_GRAY_LIGHT,
+  BLACK_MAIN,
 } from '../../shared/colorPalette';
 
 export default StyleSheet.create({
+  darkLine: {
+    height: 2,
+    backgroundColor: '#f8f8f8',
+  },
+  buttonIcon: {
+    height: 20,
+    width: 20,
+    marginRight: 20,
+  },
+  profileButton: {
+    height: 65,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    marginTop: 20,
+    alignItems: 'center',
+  },
   headerCustom: {
     backgroundColor: BLUE_MAIN,
   },
@@ -62,10 +79,18 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   buttonTextName: {
+    fontSize: 18,
     textAlign: 'center',
-    fontWeight: 'bold',
+    fontWeight: '600',
     color: BLUE_DARK,
     marginLeft: 35,
+  },
+  titleTextName: {
+    fontSize: 18,
+    textAlign: 'center',
+    fontWeight: '400',
+    color: BLACK_MAIN,
+    marginBottom: 10,
   },
   textBio: {
     textAlign: 'center',

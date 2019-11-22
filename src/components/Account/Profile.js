@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity, Linking } from 'react-native';
-import { Container, Content, Text, Thumbnail, Button, Icon } from 'native-base';
+import { Container, Content, Text, Thumbnail, Button } from 'native-base';
 import styles from './ProfileStyle';
 import * as inviteActions from '../Invite/actions';
 import inviteStore from '../Invite/InviteStore';
@@ -111,7 +111,7 @@ class Profile extends Component {
             />
             <Content>
               <BackgroundHeader heightAuto>
-                <>
+                <View style={{ padding: 30 }}>
                   <View style={styles.viewProfileImg}>
                     <Thumbnail
                       large
@@ -123,66 +123,47 @@ class Profile extends Component {
                     />
                   </View>
                   {this.state.profile && this.state.profile.user ? (
-                    <Text style={styles.textName}>
+                    <Text style={styles.titleTextName}>
                       {`${this.state.profile.user.first_name} ${
                         this.state.profile.user.last_name
                       }`}
                     </Text>
                   ) : null}
                   {this.state.profile && this.state.profile.user ? (
-                    <Text style={styles.textName}>
+                    <Text style={styles.titleTextName}>
                       {`${this.state.profile.user.email}`}
                     </Text>
                   ) : null}
-                </>
+                </View>
               </BackgroundHeader>
-              <View>
-                <Text style={styles.textBio}>{this.state.profile.bio}</Text>
-              </View>
               <TouchableOpacity onPress={this.goToEditProfile}>
-                <View
-                  style={{
-                    height: 20,
-                    borderBotttom: '1px solid black',
-                    justifyContent: 'space-between',
-                    flexDirection: 'row',
-                  }}>
+                <View style={styles.profileButton}>
                   <Text style={styles.buttonTextName}>
                     {t('PROFILE.editProfile')}
                   </Text>
                   <Button transparent>
-                    <Icon
-                      name="ios-close"
-                      style={{
-                        height: 30,
-                        width: 30,
-                      }}
+                    <Image
+                      style={styles.buttonIcon}
+                      source={require('../../assets/img/next.png')}
                     />
                   </Button>
                 </View>
               </TouchableOpacity>
+              <View style={styles.darkLine} />
               <TouchableOpacity onPress={this.goToPublicProfile}>
-                <View
-                  style={{
-                    height: 20,
-                    borderBotttom: '1px solid black',
-                    justifyContent: 'space-between',
-                    flexDirection: 'row',
-                  }}>
+                <View style={styles.profileButton}>
                   <Text style={styles.buttonTextName}>
-                    {t('PROFILE.editProfile')}
+                    {t('PROFILE.publicProfile')}
                   </Text>
                   <Button transparent>
-                    <Icon
-                      name="ios-close"
-                      style={{
-                        height: 30,
-                        width: 30,
-                      }}
+                    <Image
+                      style={styles.buttonIcon}
+                      source={require('../../assets/img/next.png')}
                     />
                   </Button>
                 </View>
               </TouchableOpacity>
+              <View style={styles.darkLine} />
             </Content>
           </Container>
         )}

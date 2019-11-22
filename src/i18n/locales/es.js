@@ -177,6 +177,7 @@ export default {
     noJobsComments: 'Realiza trabajos para recibir comentarios',
     profileSettings: 'Profile Settings',
     editProfile: 'Editar perfil',
+    publicProfile: 'Ver Perfil Publico',
   },
   REVIEWS: {
     Reviews: 'Opiniones',

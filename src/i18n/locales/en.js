@@ -171,6 +171,7 @@ export default {
     noJobsComments: 'To get jobs you can have comments',
     profileSettings: 'Profile Settings',
     editProfile: 'Edit profile',
+    publicProfile: 'View Public Profile',
   },
   REVIEWS: {
     reviews: 'Reviews',
