@@ -3,8 +3,7 @@ import { checkInternetConnection } from 'react-native-offline';
 import * as accountActions from '../components/Account/actions';
 import { i18next } from '../i18n';
 
-// const API_URL = 'https://jobcore.herokuapp.com/api';
-const API_URL = 'https://jobcore-test.herokuapp.com/api';
+const API_URL = 'https://jobcore.herokuapp.com/api';
 
 /**
  * POST method fetch
@@ -114,10 +113,10 @@ export async function deleteData(url, isAuth = true) {
       },
       method: 'DELETE',
     }),
-  )
-    .then(checkStatus)
-    .then((res) => res)
-    .catch((err) => Promise.reject(err));
+  );
+  // .then(checkStatus)
+  // .then((res) => res)
+  // .catch((err) => Promise.reject(err));
 }
 
 /**

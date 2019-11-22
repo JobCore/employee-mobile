@@ -25,7 +25,7 @@ export const canClockIn = (shift) => {
   const maxClockInDelta =
     shift.maximum_clockin_delta_minutes !== null
       ? shift.maximum_clockin_delta_minutes
-      : 15;
+      : 99999;
   console.log(`DEBUG:canClockIn:maxClockInDelta:`, maxClockInDelta);
 
   // If the shift hasn't started and there is still not the time to clock in

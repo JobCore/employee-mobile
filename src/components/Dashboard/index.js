@@ -16,7 +16,6 @@ import { BLUE_DARK, VIOLET_MAIN } from '../../shared/colorPalette';
 import {
   AUTH_ROUTE,
   INVITE_DETAILS_ROUTE_V2,
-  JOB_DETAILS_NEW_TWO_ROUTE,
   JOB_INVITES_ROUTE,
   MYJOBS_ROUTE,
   REVIEWS_ROUTE,
@@ -43,16 +42,15 @@ import { NavigationActions } from 'react-navigation';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import { TabHeader } from '../../shared/components/TabHeader';
 import preferencesStyles from '../Invite/JobPreferencesStyle';
-import { fetchActiveShifts } from '../MyJobs/actions';
 import WorkModeScreen from '../MyJobs/WorkModeScreen';
 import { getOpenClockIns } from '../MyJobs/actions';
 import EditProfile from '../Account/EditProfile';
 import Profile from '../Account/Profile';
-import { HELP_ROUTE } from '../../constants/routes';
 import getMomentNowDiff from '../../shared/getMomentNowDiff';
 import moment from 'moment';
 import UpcomingJobScreen from '../MyJobs/UpcomingJobScreen';
 import ApplicationDetailScreen from '../MyJobs/ApplicationDetailScreen';
+import { fetchActiveShiftsV2 } from '../MyJobs/actions';
 
 /**
  *
@@ -91,8 +89,8 @@ class DashboardScreen extends Component {
     );
     this.logoutSubscription = accountStore.subscribe(
       'ActiveShifts',
-      (shift) => {
-        if (shift) this.setState({ activeShift: shift });
+      (shifts) => {
+        if (shifts) this.setState({ activeShift: shifts[0] });
       },
     );
     this.loginSubscription = accountStore.subscribe('Login', (data) => {
@@ -190,20 +188,7 @@ class DashboardScreen extends Component {
     this.hasFcmMessagePermission();
     this.firstLoad();
     this.getFcmToken();
-    fetchActiveShifts();
-
-    const _retrieveData = async () => {
-      try {
-        const value = await AsyncStorage.getItem('@JobCore:isFirstLogin');
-        if (value !== null) {
-          // We have data!!
-          this.props.navigation.navigate(HELP_ROUTE);
-          AsyncStorage.setItem('@JobCore:isFirstLogin', false);
-        }
-      } catch (error) {
-        // Error retrieving data
-      }
-    };
+    fetchActiveShiftsV2();
 
     let openClockIns = [];
     try {
@@ -222,14 +207,17 @@ class DashboardScreen extends Component {
           shiftId: shift.id,
         });
       } else {
-        navigator.geolocation.getCurrentPosition((data) => {
-          jobActions.clockOut(
-            shift.id,
-            data.coords.latitude,
-            data.coords.longitude,
-            moment.utc(),
-          );
-        }, (err) => CustomToast(storeErrorHandler(err), 'danger'));
+        navigator.geolocation.getCurrentPosition(
+          (data) => {
+            jobActions.clockOut(
+              shift.id,
+              data.coords.latitude,
+              data.coords.longitude,
+              moment.utc(),
+            );
+          },
+          (err) => CustomToast(storeErrorHandler(err), 'danger'),
+        );
       }
     }
   }
@@ -328,7 +316,10 @@ class DashboardScreen extends Component {
       this.getInvites();
     }
 
-    if (notificationData.type === 'rating' || notificationData.type === 'ratings') {
+    if (
+      notificationData.type === 'rating' ||
+      notificationData.type === 'ratings'
+    ) {
       this.props.navigation.navigate(REVIEWS_ROUTE);
     }
   };
