@@ -43,6 +43,7 @@ export default {
     saveProfile: 'Guardar perfil',
     textBio:
       '¿Qué te hace talentoso? Habla un poco sobre tu experiencia y habilidades previas',
+    helpButton: 'Ayuda',
   },
   SETTINGS: {
     settings: 'Ajustes',
@@ -174,6 +175,9 @@ export default {
     noRating: 'Aún no te han calificado',
     noBadges: 'Cuantas más insignias recibas, más invitaciones recibirás',
     noJobsComments: 'Realiza trabajos para recibir comentarios',
+    profileSettings: 'Profile Settings',
+    editProfile: 'Editar perfil',
+    publicProfile: 'Ver Perfil Publico',
   },
   REVIEWS: {
     Reviews: 'Opiniones',

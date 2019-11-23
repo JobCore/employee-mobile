@@ -13,6 +13,7 @@ import RegisterScreen from './src/components/Account/RegisterScreen';
 import EditProfile from './src/components/Account/EditProfile';
 import ForgotScreen from './src/components/Account/ForgotScreen';
 import ChangePassword from './src/components/Account/ChangePassword';
+import PublicProfile from './src/components/Account/PublicProfile';
 import Profile from './src/components/Account/Profile';
 import DashboardScreen from './src/components/Dashboard';
 import JobInvites from './src/components/Invite/JobInvites';
@@ -92,7 +93,7 @@ export const Tabs = createBottomTabNavigator(
     [JOB_INVITES_ROUTE]: { screen: JobInvites },
     [JOB_PREFERENCES_ROUTE]: { screen: JobPreferences },
     [MYJOBS_ROUTE]: { screen: MyJobs },
-    [EditProfile.routeName]: { screen: EditProfile },
+    [Profile.routeName]: { screen: Profile },
   },
   {
     tabBarPosition: 'bottom',
@@ -124,7 +125,7 @@ export const AppStack = createStackNavigator(
     [SETTING_ROUTE]: SettingScreen,
     [RESET_ROUTE]: ChangePassword,
     [EditProfile.routeName]: EditProfile,
-    [Profile.routeName]: Profile,
+    [PublicProfile.routeName]: PublicProfile,
     [EDIT_LOCATION_ROUTE]: EditLocation,
     [AVAILABILITY_ROUTE]: Availability,
     [POSITION_ROUTE]: Position,
