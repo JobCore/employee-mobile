@@ -4,7 +4,7 @@ import { Container, Icon, Text } from 'native-base';
 import * as jobActions from './actions';
 import jobStore from './JobStore';
 import styles from './ReviewsStyle';
-import profileStyles from '../Account/ProfileStyle';
+import profileStyles from '../Account/PublicProfileStyle';
 import {
   BackgroundHeader,
   CenteredText,

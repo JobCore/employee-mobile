@@ -18,7 +18,6 @@ import { ReviewButton } from './components/ReviewButton';
 import { calculateEarningsFromClockIns, getJob, getJobRate } from './actions';
 import { RATE_EMPLOYER_ROUTE } from '../../constants/routes';
 import { ClocksIn } from './components/ClocksIn';
-import { jobStyles } from './JobStyles';
 
 // import IconTime from '../../assets/image/time.png'
 const DEFAULT_LATIDUDE = 25.761681;
@@ -156,7 +155,7 @@ class JobCompletedScreen extends Component {
                     position: 'absolute',
                     top: 5,
                     right: 10,
-                    BLUE_DARK,
+                    color: BLUE_DARK,
                   }}>
                   {toTime}
                 </Text>

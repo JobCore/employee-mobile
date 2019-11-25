@@ -43,6 +43,7 @@ export default {
     saveProfile: 'Save profile',
     textBio:
       'What makes you a talent? Talk a little about your previous experience and skills',
+    helpButton: 'Help',
   },
   SETTINGS: {
     settings: 'Settings',
@@ -170,6 +171,9 @@ export default {
     noRating: 'They have not rated you yet',
     noBadges: 'The more badges you receive, the more invitations you will get',
     noJobsComments: 'To get jobs you can have comments',
+    profileSettings: 'Profile Settings',
+    editProfile: 'Edit profile',
+    publicProfile: 'View Public Profile',
   },
   REVIEWS: {
     reviews: 'Reviews',

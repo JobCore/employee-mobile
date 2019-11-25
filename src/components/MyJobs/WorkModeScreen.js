@@ -76,7 +76,7 @@ class WorkModeScreen extends Component {
     LOG(`DEBUG:getJobHandler`, shift);
     this.setState({ shift, isLoading: false }, () => {
       if (this.scrollView) {
-        this.scrollView.scrollToEnd()
+        this.scrollView.scrollToEnd();
       }
 
       this.intervalBar = setInterval(() => {
@@ -123,14 +123,14 @@ class WorkModeScreen extends Component {
       const earningsSoFar = (hoursWorked * shift.minimum_hourly_rate).toFixed(
         2,
       );
+      const canIClockIn = canClockIn(shift);
+      const canIClockOut = canClockOut(shift);
+      const canClose = canIClockIn || !(canIClockIn || canIClockOut);
       return (
         <>
           <ViewFlex justifyContent={'space-between'}>
             <View>
-              <ModalHeader
-                canClose={canClockIn(shift)}
-                title={`Work Mode`}
-              />
+              <ModalHeader canClose={canClose} title={`Work Mode`} />
             </View>
             <View style={{ flex: 8 }}>
               <JobHeader
