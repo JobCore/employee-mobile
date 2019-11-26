@@ -102,6 +102,8 @@ PODS:
     - React/RCTBlob
   - RNCAsyncStorage (1.6.2):
     - React
+  - RNI18n (2.0.15):
+    - React
   - yoga (0.59.10.React)
 
 DEPENDENCIES:
@@ -124,6 +126,7 @@ DEPENDENCIES:
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - RNI18n (from `../node_modules/react-native-i18n`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
 
 SPEC REPOS:
@@ -150,6 +153,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/netinfo"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNI18n:
+    :path: "../node_modules/react-native-i18n"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga/yoga.podspec"
 
@@ -167,10 +172,11 @@ SPEC CHECKSUMS:
   React: 36d0768f9e93be2473b37e7fa64f92c1d5341eef
   react-native-image-picker: fd93361c666f397bdf72f9c6c23f13d2685b9173
   react-native-maps: 0316ed017dbb64b33b227751fa810e2454fcfa39
-  react-native-netinfo: 0da34082d2cec3100c9b5073bb217e35f1142bdd
-  RNCAsyncStorage: 60a80e72d95bf02a01cace55d3697d9724f0d77f
+  react-native-netinfo: 27d908bc7ee7b9f29400c02938a0b2a27a1015be
+  RNCAsyncStorage: 285698b8a4f219573174d99e863a78b93f389272
+  RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
   yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
 
-PODFILE CHECKSUM: df443944241fd1dbcea3eaa440404ccbeb4857b2
+PODFILE CHECKSUM: 73002e4edabc85ac0dd29bc86408f4f1128ba2b4
 
 COCOAPODS: 1.8.4
