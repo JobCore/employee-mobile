@@ -66,28 +66,35 @@ const login = (email, password, fcmToken) => {
  * @param  {string} firstName
  * @param  {string} lastName
  * @param  {string} city
+ * @param  {string} wroteCity
  */
-const register = (email, password, firstName, lastName, city) => {
+const register = (email, password, firstName, lastName, city, wroteCity) => {
   try {
     registerValidator(email, password, firstName, lastName, city);
   } catch (err) {
     return Flux.dispatchEvent('AccountStoreError', err);
   }
-
-  postData(
-    '/user/register',
-    {
-      account_type: 'employee',
-      first_name: firstName,
-      last_name: lastName,
-      username: email,
-      email: email,
-      password: password,
+  const originData = {
+    account_type: 'employee',
+    first_name: firstName,
+    last_name: lastName,
+    username: email,
+    email: email,
+    password: password,
+  };
+  let data = [];
+  if (city === 'others') {
+    data = {
+      ...originData,
+      city: wroteCity,
+    };
+  } else {
+    data = {
+      ...originData,
       profile_city: Number(city.id),
-      city: '',
-    },
-    false,
-  )
+    };
+  }
+  postData('/user/register', data, false)
     .then((data) => {
       Flux.dispatchEvent('Register', data);
     })

@@ -35,6 +35,8 @@ export default {
     bio: 'Biografía',
     invalidBio: 'Biografía Inválida',
     city: 'Ciudades disponibles',
+    others: 'Otros',
+    wroteCity: 'Ciudad',
   },
   EDIT_PROFILE: {
     editProfile: 'Editar perfil',

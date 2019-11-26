@@ -12,6 +12,9 @@ export default StyleSheet.create({
     width: '75%',
     height: 90,
     ...Platform.select({
+      ios: {
+        marginTop: '10%',
+      },
       android: {
         marginTop: '20%',
       },
@@ -84,5 +87,8 @@ export default StyleSheet.create({
   },
   labelForm: {
     color: BLUE_DARK,
+  },
+  formContainer: {
+    marginTop: 20,
   },
 });
