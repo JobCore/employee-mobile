@@ -14,8 +14,6 @@ target 'coJobcoreTalent' do
   pod 'GoogleAppMeasurement', '~> 5.8.0'
 
   # Add new pods below this line
-  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
-
   pod 'RNI18n', :path => '../node_modules/react-native-i18n'
 
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'

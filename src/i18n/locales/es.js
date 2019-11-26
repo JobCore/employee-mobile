@@ -46,6 +46,7 @@ export default {
     myBanksAccounts: 'Mis cuentas bancarias',
     addBankAccount: 'Agregar cuentas bancarias',
     affiliateBankAccount: 'AFILIAR CUENTA BANCARIA',
+    helpButton: 'Ayuda',
   },
   SETTINGS: {
     settings: 'Ajustes',
@@ -177,6 +178,9 @@ export default {
     noRating: 'Aún no te han calificado',
     noBadges: 'Cuantas más insignias recibas, más invitaciones recibirás',
     noJobsComments: 'Realiza trabajos para recibir comentarios',
+    profileSettings: 'Profile Settings',
+    editProfile: 'Editar perfil',
+    publicProfile: 'Ver Perfil Publico',
   },
   REVIEWS: {
     Reviews: 'Opiniones',

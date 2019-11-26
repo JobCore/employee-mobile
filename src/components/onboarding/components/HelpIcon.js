@@ -48,8 +48,12 @@ class HelpIcon extends Component {
   };
 
   render() {
+    const { onPressHelp } = this.props;
     let helpIcon = (
-      <Button title={''} transparent onPress={this.handleOnPress}>
+      <Button
+        title={''}
+        transparent
+        onPress={onPressHelp || this.handleOnPress}>
         <StyledHelpIcon size={24}>?</StyledHelpIcon>
       </Button>
     );

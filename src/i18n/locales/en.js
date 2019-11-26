@@ -44,6 +44,7 @@ export default {
     myBanksAccounts: 'My bank accounts',
     addBankAccount: 'Affiliate Bank Account',
     affiliateBankAccount: 'AFFILIATE BANK ACCOUNT',
+    helpButton: 'Help',
   },
   SETTINGS: {
     settings: 'Settings',
@@ -171,6 +172,9 @@ export default {
     noRating: 'They have not rated you yet',
     noBadges: 'The more badges you receive, the more invitations you will get',
     noJobsComments: 'To get jobs you can have comments',
+    profileSettings: 'Profile Settings',
+    editProfile: 'Edit profile',
+    publicProfile: 'View Public Profile',
   },
   REVIEWS: {
     reviews: 'Reviews',

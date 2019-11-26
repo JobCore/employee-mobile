@@ -25,6 +25,7 @@ import UpcomingJobScreen from './UpcomingJobScreen';
 import ApplicationDetailScreen from './ApplicationDetailScreen';
 import textStyles from '../../shared/textStyles';
 import JobCompletedScreen from './JobCompletedScreen';
+import WorkModeScreen from './WorkModeScreen';
 
 const jobFilters = [
   {
@@ -228,7 +229,9 @@ class MyJobs extends Component {
                         </View>
                       </Left>
                       <Body>
-                        <Text style={textStyles.textShiftTitle} numberOfLines={1}>
+                        <Text
+                          style={textStyles.textShiftTitle}
+                          numberOfLines={1}>
                           {job.position.title}
                         </Text>
                       </Body>
@@ -290,12 +293,26 @@ class MyJobs extends Component {
         applicationId: job.applicationId,
       });
     }
-    if (!moment(job.ending_at).isAfter(moment().utc())) {
+    const now = moment();
+    const clockOutDelta = job.maximum_clockout_delay_minutes || 120;
+    const trueEndingAt = moment
+      .utc(job.ending_at)
+      .add(clockOutDelta, 'minutes');
+
+    if (now.isAfter(trueEndingAt)) {
       log(`DEBUG:jobCompleted`);
       return this.props.navigation.navigate(JobCompletedScreen.routeName, {
         shiftId: job.id,
       });
     }
+
+    if (now.isAfter(moment.utc(job.starting_at))) {
+      log(`DEBUG:WorkMode`);
+      return this.props.navigation.navigate(WorkModeScreen.routeName, {
+        shiftId: job.id,
+      });
+    }
+
     this.props.navigation.navigate(UpcomingJobScreen.routeName, {
       shiftId: job.id,
     });
