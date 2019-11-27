@@ -66,6 +66,7 @@ import Splash from './src/components/Splash';
 import EditLocation from './src/components/Invite/EditLocation';
 import ApplicationDetailScreen from './src/components/MyJobs/ApplicationDetailScreen';
 import JobCompletedScreen from './src/components/MyJobs/JobCompletedScreen';
+import { AddBankAccount } from './src/components/Account/AddBankAccount';
 
 YellowBox.ignoreWarnings([
   'Warning: isMounted(...) is deprecated',
@@ -126,6 +127,7 @@ export const AppStack = createStackNavigator(
     [RESET_ROUTE]: ChangePassword,
     [EditProfile.routeName]: EditProfile,
     [PublicProfile.routeName]: PublicProfile,
+    [AddBankAccount.routeName]: AddBankAccount,
     [EDIT_LOCATION_ROUTE]: EditLocation,
     [AVAILABILITY_ROUTE]: Availability,
     [POSITION_ROUTE]: Position,
