@@ -26,11 +26,15 @@ export default {
     lastName: 'Last name',
     emptyFirstName: 'Enter your first name',
     emptyLastName: 'Enter your last name',
+    emptyCities: 'Enter a city',
     password: 'Password',
     goBack: 'Go back',
     youHaveRegistered: 'You have signed up!',
     bio: 'Biography',
     invalidBio: 'Invalid Bio',
+    city: 'Cities available',
+    others: 'Others',
+    wroteCity: 'City',
   },
   EDIT_PROFILE: {
     editProfile: 'Edit profile',
@@ -41,6 +45,7 @@ export default {
     saveProfile: 'Save profile',
     textBio:
       'What makes you a talent? Talk a little about your previous experience and skills',
+    helpButton: 'Help',
   },
   SETTINGS: {
     settings: 'Settings',
@@ -168,6 +173,9 @@ export default {
     noRating: 'They have not rated you yet',
     noBadges: 'The more badges you receive, the more invitations you will get',
     noJobsComments: 'To get jobs you can have comments',
+    profileSettings: 'Profile Settings',
+    editProfile: 'Edit profile',
+    publicProfile: 'View Public Profile',
   },
   REVIEWS: {
     reviews: 'Reviews',

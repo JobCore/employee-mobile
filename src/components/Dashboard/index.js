@@ -94,35 +94,30 @@ class DashboardScreen extends Component {
     this.loginSubscription = accountStore.subscribe('Login', (data) => {
       this.loginHandler(data);
     });
-
     this.getEmployeeSubscription = inviteStore.subscribe(
       'GetJobPreferences',
       (data) => {
         this.getEmployeeHandler(data);
       },
     );
-
     this.stopReceivingInvitesSubscription = inviteStore.subscribe(
       'StopReceivingInvites',
       (data) => {
         this.stopReceivingInvitesHandler(data);
       },
     );
-
     this.getJobInvitesSubscription = inviteStore.subscribe(
       'JobInvites',
       (jobInvites) => {
         this.getJobInvitesHandler(jobInvites);
       },
     );
-
     this.getUpcomingJobsSubscription = jobStore.subscribe(
       'GetUpcomingJobs',
       (data) => {
         this.getJobsHandler(data);
       },
     );
-
     this.updateTokenSubscription = fcmStore.subscribe(
       'UpdateFcmToken',
       (data) => {
@@ -132,11 +127,9 @@ class DashboardScreen extends Component {
         LOG(this, `fcmToken updated ${data.registration_id}`);
       },
     );
-
     this.fcmStoreError = fcmStore.subscribe('FcmStoreError', (err) => {
       this.errorHandler(err);
     });
-
     this.inviteStoreError = inviteStore.subscribe('InviteStoreError', (err) => {
       this.errorHandler(err);
     });

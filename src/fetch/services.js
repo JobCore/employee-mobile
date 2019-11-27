@@ -2,11 +2,9 @@ import accountStore from '../components/Account/AccountStore';
 import { checkInternetConnection } from 'react-native-offline';
 import * as accountActions from '../components/Account/actions';
 import { i18next } from '../i18n';
-import { PROD } from '../shared/config';
-const API_URL = PROD
-  ? 'https://jobcore.herokuapp.com/api'
-  : 'https://jobcore-test.herokuapp.com/api';
+import { PROD, PRODDUCTION_API_URL, TEST_API_URL } from 'react-native-dotenv';
 
+const API_URL = PROD === 'true' ? PRODDUCTION_API_URL : TEST_API_URL;
 /**
  * POST method fetch
  * @param  {string}  url    Endpoint URL
