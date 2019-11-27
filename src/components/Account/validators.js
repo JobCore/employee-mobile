@@ -13,13 +13,17 @@ const loginValidator = (email, password) => {
   }
 };
 
-const registerValidator = (email, password, firstName, lastName) => {
+const registerValidator = (email, password, firstName, lastName, city) => {
   if (!utils.isValidString(firstName)) {
     throw new Error(i18next.t('REGISTER.emptyFirstName'));
   }
 
   if (!utils.isValidString(lastName)) {
     throw new Error(i18next.t('REGISTER.emptyLastName'));
+  }
+
+  if (!city || city.name === '') {
+    throw new Error(i18next.t('REGISTER.emptyCities'));
   }
 
   if (!utils.isValidString(email)) {

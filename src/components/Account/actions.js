@@ -5,7 +5,13 @@ import inviteStore from '../Invite/InviteStore';
 import jobStore from '../MyJobs/JobStore';
 import { LOG, storeErrorHandler } from '../../shared';
 import { CustomToast } from '../../shared/components';
-import { postData, putData, deleteData, putFormData } from '../../fetch';
+import {
+  postData,
+  putData,
+  deleteData,
+  putFormData,
+  getData,
+} from '../../fetch';
 import {
   loginValidator,
   registerValidator,
@@ -59,30 +65,53 @@ const login = (email, password, fcmToken) => {
  * @param  {string} password
  * @param  {string} firstName
  * @param  {string} lastName
+ * @param  {string} city
+ * @param  {string} wroteCity
  */
-const register = (email, password, firstName, lastName) => {
+const register = (email, password, firstName, lastName, city, wroteCity) => {
   try {
-    registerValidator(email, password, firstName, lastName);
+    registerValidator(email, password, firstName, lastName, city);
   } catch (err) {
     return Flux.dispatchEvent('AccountStoreError', err);
   }
-
-  postData(
-    '/user/register',
-    {
-      account_type: 'employee',
-      first_name: firstName,
-      last_name: lastName,
-      username: email,
-      email: email,
-      password: password,
-    },
-    false,
-  )
+  const originData = {
+    account_type: 'employee',
+    first_name: firstName,
+    last_name: lastName,
+    username: email,
+    email: email,
+    password: password,
+  };
+  let data = [];
+  if (city === 'others') {
+    data = {
+      ...originData,
+      city: wroteCity,
+    };
+  } else {
+    data = {
+      ...originData,
+      profile_city: Number(city.id),
+    };
+  }
+  postData('/user/register', data, false)
     .then((data) => {
       Flux.dispatchEvent('Register', data);
     })
     .catch((err) => {
+      Flux.dispatchEvent('AccountStoreError', err);
+    });
+};
+/**
+ * Get available cities
+ */
+export const getCities = () => {
+  getData(`/cities`, false)
+    .then((cities) => {
+      Flux.dispatchEvent('GetCities', cities);
+    })
+    .catch((err) => {
+      console.log('getCities error: ', err);
       Flux.dispatchEvent('AccountStoreError', err);
     });
 };

@@ -58,4 +58,8 @@ android.useAndroidX=false
 android.enableJetifier=false
 ```
 
+## Project configurations
 
+Configure project on file: `.env`
+Global constants:
+- `PROD`: its on production or test environment.  

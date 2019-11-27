@@ -57,10 +57,21 @@
     "lint-staged": "^8.1.0",
     "metro-react-native-babel-preset": "0.54.1",
     "prettier": "^1.15.3",
+    "react-native-dotenv": "^0.2.0",
     "react-test-renderer": "16.8.3",
     "styled-components": "^4.2.1"
   },
   "jest": {
     "preset": "react-native"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   }
 }

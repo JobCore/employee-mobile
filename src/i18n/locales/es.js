@@ -28,11 +28,15 @@ export default {
     lastName: 'Apellido',
     emptyFirstName: 'Ingresa tu nombre',
     emptyLastName: 'Ingresa tu apellido',
+    emptyCities: 'Ingresa una ciudad',
     password: 'Contraseña',
     goBack: 'Ir atrás',
     youHaveRegistered: 'Has iniciado sesión!',
     bio: 'Biografía',
     invalidBio: 'Biografía Inválida',
+    city: 'Ciudades disponibles',
+    others: 'Otros',
+    wroteCity: 'Ciudad',
   },
   EDIT_PROFILE: {
     editProfile: 'Editar perfil',
@@ -48,6 +52,7 @@ export default {
     addDocument: 'AGREGAR DOCUMENTO',
     loadDocument: 'CARGAR DOCUMENTO',
     addDocumentsTitle: 'Agregar Documentos',
+    helpButton: 'Ayuda',
   },
   SETTINGS: {
     settings: 'Ajustes',
@@ -123,6 +128,7 @@ export default {
     update: 'Editar',
     delete: 'eliminar',
     save: 'Guardar',
+    notAvailable: 'No disponible',
   },
   MY_JOBS: {
     myJobs: 'Trabajos',
@@ -178,6 +184,9 @@ export default {
     noRating: 'Aún no te han calificado',
     noBadges: 'Cuantas más insignias recibas, más invitaciones recibirás',
     noJobsComments: 'Realiza trabajos para recibir comentarios',
+    profileSettings: 'Profile Settings',
+    editProfile: 'Editar perfil',
+    publicProfile: 'Ver Perfil Publico',
   },
   REVIEWS: {
     Reviews: 'Opiniones',

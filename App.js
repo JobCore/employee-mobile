@@ -15,6 +15,7 @@ import UploadDocumentScreen from './src/components/Account/UploadDocumentScreen'
 import AddDocumentScreen from './src/components/Account/AddDocumentScreen';
 import ForgotScreen from './src/components/Account/ForgotScreen';
 import ChangePassword from './src/components/Account/ChangePassword';
+import PublicProfile from './src/components/Account/PublicProfile';
 import Profile from './src/components/Account/Profile';
 import DashboardScreen from './src/components/Dashboard';
 import JobInvites from './src/components/Invite/JobInvites';
@@ -94,7 +95,7 @@ export const Tabs = createBottomTabNavigator(
     [JOB_INVITES_ROUTE]: { screen: JobInvites },
     [JOB_PREFERENCES_ROUTE]: { screen: JobPreferences },
     [MYJOBS_ROUTE]: { screen: MyJobs },
-    [EditProfile.routeName]: { screen: EditProfile },
+    [Profile.routeName]: { screen: Profile },
   },
   {
     tabBarPosition: 'bottom',
@@ -128,7 +129,7 @@ export const AppStack = createStackNavigator(
     [UPLOAD_DOCUMENT_ROUTE]: UploadDocumentScreen,
     [ADD_DOCUMENT_ROUTE]: AddDocumentScreen,
     [EditProfile.routeName]: EditProfile,
-    [Profile.routeName]: Profile,
+    [PublicProfile.routeName]: PublicProfile,
     [EDIT_LOCATION_ROUTE]: EditLocation,
     [AVAILABILITY_ROUTE]: Availability,
     [POSITION_ROUTE]: Position,

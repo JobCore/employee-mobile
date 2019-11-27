@@ -47,6 +47,7 @@ class AccountStore extends FluxStore {
     });
 
     this.addEvent('Register');
+    this.addEvent('GetCities');
     this.addEvent('PasswordReset');
     this.addEvent('EditProfile');
     this.addEvent('EditProfilePicture');

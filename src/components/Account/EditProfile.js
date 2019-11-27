@@ -13,7 +13,7 @@ import {
   Container,
 } from 'native-base';
 import editProfileStyles from './EditProfileStyle';
-import profileStyles from './ProfileStyle';
+import profileStyles from './PublicProfileStyle';
 import * as actions from './actions';
 import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
@@ -117,6 +117,8 @@ class EditProfile extends Component {
           <Container>
             {this.state.isLoading ? <Loading /> : null}
             <TabHeader
+              goBack
+              onPressBack={() => this.props.navigation.goBack()}
               screenName="profile"
               title={t('EDIT_PROFILE.editProfile')}
               onPressHelp={this.goToEditProfile}

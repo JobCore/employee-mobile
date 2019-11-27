@@ -21,7 +21,7 @@ import { Loading } from '../../shared/components';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import { ModalHeader } from '../../shared/components/ModalHeader';
-
+import { availabilityModel } from './availability-model';
 class AddAvailability extends Component {
   static navigationOptions = {
     header: null,
@@ -42,7 +42,7 @@ class AddAvailability extends Component {
       startTimePickerVisible: false,
       endTimePickerVisible: false,
       selectedAvailability: {},
-      availability: Object.assign([], inviteStore.getState('GetAvailability')),
+      availability: availabilityModel,
     };
   }
 
@@ -55,17 +55,27 @@ class AddAvailability extends Component {
       'GetAvailability',
       (data) => this.getAvailabilityHandler(data),
     );
+    this.regenerateAvailabilitySubscription = inviteStore.subscribe(
+      'RegenerateAvailability',
+      () => this.getAvailability(),
+    );
+    this.deleteAvailabilitySubscription = inviteStore.subscribe(
+      'DeleteAvailability',
+      () => this.getAvailability(),
+    );
     this.inviteStoreError = inviteStore.subscribe('InviteStoreError', (err) =>
       this.errorHandler(err),
     );
 
-    if (!this.state.availability.length) {
-      this.getAvailability();
-    }
+    // if (!this.state.availability.length) {
+    this.getAvailability();
+    // }
   }
 
   componentWillUnmount() {
     this.editAvailabilitySubscription.unsubscribe();
+    this.deleteAvailabilitySubscription.unsubscribe();
+    this.regenerateAvailabilitySubscription.unsubscribe();
     this.getAvailabilitySubscription.unsubscribe();
     this.inviteStoreError.unsubscribe();
   }
@@ -75,9 +85,32 @@ class AddAvailability extends Component {
     this.getAvailability();
   };
 
-  getAvailabilityHandler = (availability) => {
+  getAvailabilityHandler = (availabilityFromDB) => {
+    console.log('availabilityFromDB: ', availabilityFromDB);
+    let availability = this.state.availability;
+    const availabilityHandled = availability.map((day) => {
+      const dayFromDB = availabilityFromDB.filter(
+        (dayFromDB) => moment(dayFromDB.starting_at).day() === day.day_number,
+      )[0];
+      // console.log("dayFromDB: ", dayFromDB)
+      if (
+        availabilityFromDB.filter(
+          (dayFromDB) => moment(dayFromDB.starting_at).day() === day.day_number,
+        ).length > 0
+      ) {
+        return {
+          ...dayFromDB,
+          day_number: moment(dayFromDB.starting_at).day(),
+          available: true,
+        };
+      }
+      return {
+        ...day,
+        available: false,
+      };
+    });
     this.setState({
-      availability,
+      availability: availabilityHandled,
       isRefreshing: false,
     });
 
@@ -128,9 +161,9 @@ class AddAvailability extends Component {
                   <ListItem style={styles.itemSelectCheck}>
                     <Body>
                       <Text style={styles.textAlldayOr}>
-                        {`${t('JOB_PREFERENCES.allday')}    ${t(
-                          'JOB_PREFERENCES.orSpecificTime',
-                        )}`}
+                        {`${t('JOB_PREFERENCES.allday')}   ${t(
+                          'JOB_PREFERENCES.notAvailable',
+                        )}   ${t('JOB_PREFERENCES.orSpecificTime')}`}
                       </Text>
                     </Body>
                   </ListItem>
@@ -155,12 +188,36 @@ class AddAvailability extends Component {
                                   transparent>
                                   <Icon
                                     name={
-                                      block.allday
+                                      block.allday && block.available
                                         ? 'md-radio-button-on'
                                         : 'md-radio-button-off'
                                     }
                                     style={{
-                                      color: block.allday
+                                      color:
+                                          block.allday && block.available
+                                            ? BLUE_DARK
+                                            : BLUE_MAIN,
+                                      fontSize: 24,
+                                    }}
+                                  />
+                                </TouchableOpacity>
+                              </View>
+                              <View style={styles.radio}>
+                                <TouchableOpacity
+                                  style={styles.radioButtonLeft}
+                                  onPress={() =>
+                                    this.deleteAvailability(block)
+                                  }
+                                  rounded
+                                  transparent>
+                                  <Icon
+                                    name={
+                                      !block.available
+                                        ? 'md-radio-button-on'
+                                        : 'md-radio-button-off'
+                                    }
+                                    style={{
+                                      color: !block.available
                                         ? BLUE_DARK
                                         : BLUE_MAIN,
                                       fontSize: 24,
@@ -176,14 +233,15 @@ class AddAvailability extends Component {
                                   transparent>
                                   <Icon
                                     name={
-                                      !block.allday
+                                      !block.allday && block.available
                                         ? 'md-radio-button-on'
                                         : 'md-radio-button-off'
                                     }
                                     style={{
-                                      color: !block.allday
-                                        ? BLUE_DARK
-                                        : BLUE_MAIN,
+                                      color:
+                                          !block.allday && block.available
+                                            ? BLUE_DARK
+                                            : BLUE_MAIN,
                                       fontSize: 24,
                                     }}
                                   />
@@ -191,9 +249,13 @@ class AddAvailability extends Component {
                               </View>
                             </View>
                           </View>
-                          <View style={styles.viewPicker}>
-                            {block.allday === false ? (
-                              <View style={{ flexDirection: 'row' }}>
+                          {block.allday === false && block.available ? (
+                            <View style={styles.viewPicker}>
+                              <View
+                                style={{
+                                  flexDirection: 'row',
+                                  marginLeft: 50,
+                                }}>
                                 <Button
                                   onPress={() =>
                                     this.showStartTimePicker(block)
@@ -228,8 +290,8 @@ class AddAvailability extends Component {
                                   </Text>
                                 </Button>
                               </View>
-                            ) : null}
-                          </View>
+                            </View>
+                          ) : null}
                         </View>
                       </ListItem>
                     ))
@@ -332,10 +394,30 @@ class AddAvailability extends Component {
   setAllday(allday, availability) {
     if (!availability) return;
 
-    const availabilityCopy = Object.assign({}, availability);
-    availabilityCopy.allday = allday;
+    if (availability.available) {
+      const availabilityCopy = Object.assign({}, availability);
+      availabilityCopy.allday = allday;
 
-    inviteActions.editAvailability(availabilityCopy);
+      inviteActions.editAvailability(availabilityCopy);
+    } else {
+      const obj = {
+        starting_at: availability.starting_at,
+        ending_at: availability.ending_at,
+        allday: allday,
+        recurrency_type: 'WEEKLY',
+        recurrent: true,
+      };
+      inviteActions.regenerateAvailability(obj);
+    }
+  }
+  /**
+   * To delete current day
+   * @param {object} availability the availability block
+   */
+  deleteAvailability(availability) {
+    if (!availability) return;
+
+    inviteActions.deleteAvailability(availability);
   }
 
   editAvailabilityAllday = (availability) => {
@@ -350,7 +432,7 @@ class AddAvailability extends Component {
     inviteActions.editAvailabilityDates(
       availability.starting_at,
       availability.ending_at,
-      availability.id,
+      availability,
     );
   };
 
