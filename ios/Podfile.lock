@@ -18,7 +18,7 @@ PODS:
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
-  - FirebaseAnalyticsInterop (1.2.0)
+  - FirebaseAnalyticsInterop (1.4.0)
   - FirebaseCore (5.4.0):
     - GoogleUtilities/Environment (~> 5.2)
     - GoogleUtilities/Logger (~> 5.2)
@@ -58,12 +58,12 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (5.8.0):
     - GoogleUtilities/Logger
-  - nanopb (0.3.901):
-    - nanopb/decode (= 0.3.901)
-    - nanopb/encode (= 0.3.901)
-  - nanopb/decode (0.3.901)
-  - nanopb/encode (0.3.901)
-  - Protobuf (3.7.0)
+  - nanopb (0.3.9011):
+    - nanopb/decode (= 0.3.9011)
+    - nanopb/encode (= 0.3.9011)
+  - nanopb/decode (0.3.9011)
+  - nanopb/encode (0.3.9011)
+  - Protobuf (3.10.0)
   - React (0.59.10):
     - React/Core (= 0.59.10)
   - react-native-image-picker (0.28.1):
@@ -102,6 +102,8 @@ PODS:
     - React/RCTBlob
   - RNCAsyncStorage (1.4.2):
     - React
+  - RNI18n (2.0.15):
+    - React
   - yoga (0.59.10.React)
 
 DEPENDENCIES:
@@ -124,6 +126,7 @@ DEPENDENCIES:
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - RNI18n (from `../node_modules/react-native-i18n`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
 
 SPEC REPOS:
@@ -150,27 +153,30 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/netinfo"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNI18n:
+    :path: "../node_modules/react-native-i18n"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga/yoga.podspec"
 
 SPEC CHECKSUMS:
   Firebase: c60d49e9c2630875a96207d15e2affb8364996d1
   FirebaseAnalytics: fd72a26bf8dac84cefba2f0864366f718555a5b0
-  FirebaseAnalyticsInterop: efbe45c8385ec626e29f9525e5ebd38520dfb6c1
+  FirebaseAnalyticsInterop: d48b6ab67bcf016a05e55b71fc39c61c0cb6b7f3
   FirebaseCore: 22a79a961c3951ef2f77b67bfbc99e454247b319
   FirebaseInstanceID: a122b0c258720cf250551bb2bedf48c699f80d90
   FirebaseMessaging: 2d53d08d752fbe63ce0820428d70be5ab87c11fb
   GoogleAppMeasurement: 1624046ab1bcc5e170061a56ef5679000b079c8e
   GoogleUtilities: 04fce34bcd5620c1ee76fb79172105c74a4df335
-  nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
-  Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a
+  nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
+  Protobuf: a4dc852ad69c027ca2166ed287b856697814375b
   React: 36d0768f9e93be2473b37e7fa64f92c1d5341eef
   react-native-image-picker: fd93361c666f397bdf72f9c6c23f13d2685b9173
   react-native-maps: 0316ed017dbb64b33b227751fa810e2454fcfa39
   react-native-netinfo: 27d908bc7ee7b9f29400c02938a0b2a27a1015be
   RNCAsyncStorage: 285698b8a4f219573174d99e863a78b93f389272
+  RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
   yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
 
-PODFILE CHECKSUM: df443944241fd1dbcea3eaa440404ccbeb4857b2
+PODFILE CHECKSUM: 73002e4edabc85ac0dd29bc86408f4f1128ba2b4
 
 COCOAPODS: 1.8.4

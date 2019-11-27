@@ -5,14 +5,23 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import { Item, Input, Button, Text, Form, Content } from 'native-base';
+import {
+  Item,
+  Input,
+  Button,
+  Text,
+  Form,
+  Content,
+  Picker,
+  Icon,
+} from 'native-base';
 import { LOGIN_ROUTE } from '../../constants/routes';
 import styles from './RegisterStyle';
 import * as actions from './actions';
 import store from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
-import { FormView } from '../../shared/platform';
+// import { FormView } from '../../shared/platform';
 import { CustomToast, Loading } from '../../shared/components';
 
 class RegisterScreen extends Component {
@@ -26,6 +35,9 @@ class RegisterScreen extends Component {
       password: '',
       firstName: '',
       lastName: '',
+      wroteCity: '',
+      cities: [],
+      city: '',
     };
   }
 
@@ -33,17 +45,22 @@ class RegisterScreen extends Component {
     this.registerSubscription = store.subscribe('Register', (user) =>
       this.registerHandler(user),
     );
+    this.getCitiesSubscription = store.subscribe('GetCities', (cities) =>
+      this.setState({ cities }),
+    );
     this.accountStoreError = store.subscribe('AccountStoreError', (err) =>
       this.errorHandler(err),
     );
+    actions.getCities();
   }
 
   componentWillUnmount() {
     this.registerSubscription.unsubscribe();
     this.accountStoreError.unsubscribe();
+    this.getCitiesSubscription.unsubscribe();
   }
 
-  registerHandler = (user) => {
+  registerHandler = () => {
     this.isLoading(false);
     this.props.navigation.navigate(LOGIN_ROUTE);
     CustomToast(i18next.t('REGISTER.youHaveRegistered'));
@@ -55,13 +72,15 @@ class RegisterScreen extends Component {
   };
 
   render() {
+    const { cities, city } = this.state;
+    console.log('cities: ', cities);
+    console.log('city: ', city);
     return (
       <I18n>
         {(t) => (
           <Content contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>
-              {this.state.isLoading ? <Loading/> : null}
-
+              {this.state.isLoading ? <Loading /> : null}
               <Image
                 style={styles.viewBackground}
                 source={require('../../assets/image/bg.jpg')}
@@ -70,7 +89,7 @@ class RegisterScreen extends Component {
                 style={styles.viewLogo}
                 source={require('../../assets/image/logo1.png')}
               />
-              <FormView>
+              <View style={styles.formContainer}>
                 <Form>
                   <Item style={styles.viewInput} inlineLabel rounded>
                     <Input
@@ -86,6 +105,44 @@ class RegisterScreen extends Component {
                       value={this.state.lastName}
                       placeholder={t('REGISTER.lastName')}
                       onChangeText={(text) => this.setState({ lastName: text })}
+                    />
+                  </Item>
+                  <Item style={styles.viewInput} inlineLabel rounded>
+                    <Picker
+                      mode="dropdown"
+                      iosHeader={t('REGISTER.city')}
+                      placeholder={t('REGISTER.city')}
+                      placeholderStyle={{ color: '#575757', paddingLeft: 7 }}
+                      iosIcon={
+                        <Icon style={{ color: '#27666F' }} name="arrow-down" />
+                      }
+                      style={{ width: 270, paddingLeft: 0 }}
+                      selectedValue={this.state.city}
+                      onValueChange={(text) =>
+                        this.setState({ city: text, wroteCity: '' })
+                      }>
+                      {cities.map((city) => (
+                        <Picker.Item
+                          label={city.name}
+                          value={city}
+                          key={city.id}
+                        />
+                      ))}
+                      <Picker.Item
+                        label={t('REGISTER.others')}
+                        value="others"
+                        key={t('REGISTER.others')}
+                      />
+                    </Picker>
+                  </Item>
+                  <Item style={styles.viewInput} inlineLabel rounded>
+                    <Input
+                      disabled={city !== 'others'}
+                      value={this.state.wroteCity}
+                      placeholder={t('REGISTER.wroteCity')}
+                      onChangeText={(text) =>
+                        this.setState({ wroteCity: text })
+                      }
                     />
                   </Item>
                   <Item style={styles.viewInput} inlineLabel rounded>
@@ -120,7 +177,7 @@ class RegisterScreen extends Component {
                     {t('REGISTER.goBack')}
                   </Text>
                 </TouchableOpacity>
-              </FormView>
+              </View>
             </View>
           </Content>
         )}
@@ -135,6 +192,8 @@ class RegisterScreen extends Component {
       this.state.password,
       this.state.firstName,
       this.state.lastName,
+      this.state.city,
+      this.state.wroteCity,
     );
   };
 

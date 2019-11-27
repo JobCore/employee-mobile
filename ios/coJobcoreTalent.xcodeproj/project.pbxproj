@@ -42,6 +42,7 @@
 		BD6DD89A237E0307007996B8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD6DD899237E0307007996B8 /* GoogleService-Info.plist */; };
 		CF109780CAEB409AB9B5DD78 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 916BAEB8742B4A1F822A915C /* Entypo.ttf */; };
 		D89C052B15E54D80BD7D9AA2 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 712EB64D693D4ACBA3DF2E4D /* Roboto.ttf */; };
+		E30E38B7235E31C6002EA587 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E30E38B6235E31C6002EA587 /* GoogleService-Info.plist */; };
 		EB61D779AFD44112A6D7FA2F /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A7A312D2E69E4E7399114132 /* MaterialCommunityIcons.ttf */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		FE88EFF5A1404E9B83B8B5E3 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 986A0DFBF76844F1BF667AAF /* FontAwesome5_Brands.ttf */; };
@@ -362,6 +363,7 @@
 		C28620B11432A3F660C6FCC9 /* Pods-coJobcoreTalent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-coJobcoreTalent.debug.xcconfig"; path = "Target Support Files/Pods-coJobcoreTalent/Pods-coJobcoreTalent.debug.xcconfig"; sourceTree = "<group>"; };
 		CE7FE02B81114EA49489979C /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/native-base/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		DF14930E2D13479CB00AE37E /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
+		E30E38B6235E31C6002EA587 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E5C69BC00BBB4491AB0B2B6B /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -477,6 +479,7 @@
 		13B07FAE1A68108700A75B9A /* coJobcoreTalent */ = {
 			isa = PBXGroup;
 			children = (
+				E30E38B6235E31C6002EA587 /* GoogleService-Info.plist */,
 				BD5F474822A478E500AF08BD /* coJobcoreTalent.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
