@@ -14,11 +14,12 @@ import {
   Loading,
   BackgroundHeader,
 } from '../../shared/components';
-import { REVIEWS_ROUTE, UPLOAD_DOCUMENT_ROUTE } from '../../constants/routes';
+import { UPLOAD_DOCUMENT_ROUTE } from '../../constants/routes';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import EditProfile from './EditProfile';
 import { TabHeader } from '../../shared/components/TabHeader';
 import PublicProfile from './PublicProfile';
+import { AddBankAccount } from './AddBankAccount';
 
 class Profile extends Component {
   static navigationOptions = {
@@ -98,6 +99,10 @@ class Profile extends Component {
     CustomToast(err, 'danger');
   };
 
+  goToAddBankAccount = () => {
+    this.props.navigation.navigate(AddBankAccount.routeName);
+  };
+
   render() {
     return (
       <I18n>
@@ -163,6 +168,19 @@ class Profile extends Component {
                   </Button>
                 </View>
               </TouchableOpacity>
+              <TouchableOpacity onPress={this.goToAddBankAccount}>
+                <View style={styles.profileButton}>
+                  <Text style={styles.buttonTextName}>
+                    {t('PROFILE.addBankAccount')}
+                  </Text>
+                  <Button transparent>
+                    <Image
+                      style={styles.buttonIcon}
+                      source={require('../../assets/img/next.png')}
+                    />
+                  </Button>
+                </View>
+              </TouchableOpacity>
               <View style={styles.darkLine} />
               <TouchableOpacity onPress={this.goToMyDocuments}>
                 <View style={styles.profileButton}>
@@ -191,20 +209,6 @@ class Profile extends Component {
     });
   };
 
-  showBadges = () => {
-    try {
-      if (
-        Array.isArray(this.state.profile.employee.badges) &&
-        this.state.profile.employee.badges.length
-      )
-        return true;
-    } catch (e) {
-      return false;
-    }
-
-    return false;
-  };
-
   getProfile = () => {
     inviteActions.getProfile();
   };
@@ -223,10 +227,6 @@ class Profile extends Component {
 
   goToPublicProfile = () => {
     this.props.navigation.navigate(PublicProfile.routeName);
-  };
-
-  goToReviews = () => {
-    this.props.navigation.navigate(REVIEWS_ROUTE);
   };
 
   updateCompleted() {
