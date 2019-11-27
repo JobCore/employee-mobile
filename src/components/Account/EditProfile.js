@@ -21,11 +21,7 @@ import { i18next } from '../../i18n';
 import { LOG, WARN } from '../../shared';
 import { CustomToast, Loading } from '../../shared/components';
 import ImagePicker from 'react-native-image-picker';
-import {
-  RESET_ROUTE,
-  JOB_PREFERENCES_ROUTE,
-  UPLOAD_DOCUMENT_ROUTE,
-} from '../../constants/routes';
+import { RESET_ROUTE, JOB_PREFERENCES_ROUTE } from '../../constants/routes';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import { GRAY_MAIN, BG_GRAY_LIGHT } from '../../shared/colorPalette';
 import { TabHeader } from '../../shared/components/TabHeader';
@@ -350,10 +346,6 @@ class EditProfile extends Component {
     }
 
     this.props.navigation.navigate(RESET_ROUTE, { email });
-  };
-
-  goToMyDocuments = () => {
-    this.props.navigation.navigate(UPLOAD_DOCUMENT_ROUTE);
   };
 
   focusTextarea = () => {

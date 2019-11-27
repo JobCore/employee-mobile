@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
-import { View, Image } from 'react-native';
-import {
-  Item,
-  Button,
-  Text,
-  Form,
-  Label,
-  Content,
-  Container,
-} from 'native-base';
+import { View, Image, TouchableOpacity } from 'react-native';
+import { Item, Text, Form, Label, Content, Container } from 'native-base';
 import UploadDocumentStyle from './UploadDocumentStyle';
 import { I18n } from 'react-i18next';
 import { Loading } from '../../shared/components';
 import { ModalHeader } from '../../shared/components/ModalHeader';
+import { ADD_DOCUMENT_ROUTE } from '../../constants/routes';
 class UploadDocumentScreen extends Component {
   constructor(props) {
     super(props);
@@ -20,6 +13,11 @@ class UploadDocumentScreen extends Component {
       isLoading: false,
     };
   }
+
+  goToAddDocument = () => {
+    this.props.navigation.navigate(ADD_DOCUMENT_ROUTE);
+  };
+
   render() {
     return (
       <I18n>
@@ -155,14 +153,16 @@ class UploadDocumentScreen extends Component {
                       />
                     </View>
                   </Form>
-                  <Button
-                    full
-                    onPress={() => this.setState({ status: '' })}
-                    style={UploadDocumentStyle.viewButtomLogin}>
-                    <Text style={UploadDocumentStyle.textButtom}>
-                      {t('EDIT_PROFILE.addDocument')}
-                    </Text>
-                  </Button>
+                  <TouchableOpacity onPress={this.goToAddDocument}>
+                    <View
+                      full
+                      // onPress={this.goToAddDocument}
+                      style={UploadDocumentStyle.viewButtomLogin}>
+                      <Text style={UploadDocumentStyle.textButtom}>
+                        {t('EDIT_PROFILE.addDocument')}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
               </View>
             </Content>
@@ -172,4 +172,5 @@ class UploadDocumentScreen extends Component {
     );
   }
 }
+
 export default UploadDocumentScreen;

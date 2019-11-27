@@ -14,7 +14,7 @@ import {
   Loading,
   BackgroundHeader,
 } from '../../shared/components';
-import { REVIEWS_ROUTE } from '../../constants/routes';
+import { REVIEWS_ROUTE, UPLOAD_DOCUMENT_ROUTE } from '../../constants/routes';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import EditProfile from './EditProfile';
 import { TabHeader } from '../../shared/components/TabHeader';
@@ -164,6 +164,19 @@ class Profile extends Component {
                 </View>
               </TouchableOpacity>
               <View style={styles.darkLine} />
+              <TouchableOpacity onPress={this.goToMyDocuments}>
+                <View style={styles.profileButton}>
+                  <Text style={styles.buttonTextName}>
+                    {t('EDIT_PROFILE.uploadDocuments')}
+                  </Text>
+                  <Button transparent>
+                    <Image
+                      style={styles.buttonIcon}
+                      source={require('../../assets/img/next.png')}
+                    />
+                  </Button>
+                </View>
+              </TouchableOpacity>
             </Content>
           </Container>
         )}
@@ -202,6 +215,10 @@ class Profile extends Component {
 
   goToEditProfile = () => {
     this.props.navigation.navigate(EditProfile.routeName);
+  };
+
+  goToMyDocuments = () => {
+    this.props.navigation.navigate(UPLOAD_DOCUMENT_ROUTE);
   };
 
   goToPublicProfile = () => {

@@ -3,7 +3,7 @@ import {
   // Platform,
   // Dimensions
 } from 'react-native';
-import { BLUE_MAIN, BLUE_DARK } from '../../shared/colorPalette';
+import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN } from '../../shared/colorPalette';
 
 // const { width } = Dimensions.get('window')
 
@@ -17,6 +17,7 @@ export default StyleSheet.create({
     height: 45,
     marginBottom: 0,
     marginTop: 40,
+    justifyContent: 'center',
   },
   viewInput: {
     backgroundColor: 'transparent',
@@ -35,8 +36,9 @@ export default StyleSheet.create({
   },
   textButtom: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '800',
     textAlign: 'center',
+    color: WHITE_MAIN,
   },
   garbageIcon: {
     width: 24,

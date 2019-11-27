@@ -72,8 +72,6 @@ PODS:
     - React
   - react-native-netinfo (3.2.1):
     - React
-  - react-native-webview (7.4.3):
-    - React
   - React/Core (0.59.10):
     - yoga (= 0.59.10.React)
   - React/fishhook (0.59.10)
@@ -116,7 +114,6 @@ DEPENDENCIES:
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
-  - react-native-webview (from `../node_modules/react-native-webview`)
   - React/Core (from `../node_modules/react-native`)
   - React/RCTActionSheet (from `../node_modules/react-native`)
   - React/RCTAnimation (from `../node_modules/react-native`)
@@ -154,8 +151,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-maps"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
-  react-native-webview:
-    :path: "../node_modules/react-native-webview"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
   RNI18n:
@@ -178,7 +173,6 @@ SPEC CHECKSUMS:
   react-native-image-picker: fd93361c666f397bdf72f9c6c23f13d2685b9173
   react-native-maps: 0316ed017dbb64b33b227751fa810e2454fcfa39
   react-native-netinfo: 27d908bc7ee7b9f29400c02938a0b2a27a1015be
-  react-native-webview: dbfec7f16f09a71ea53731bdf5f86ae70eac4313
   RNCAsyncStorage: 285698b8a4f219573174d99e863a78b93f389272
   RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
   yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
