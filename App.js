@@ -11,6 +11,8 @@ import { Root } from 'native-base';
 import LoginScreen from './src/components/Account/LoginScreen';
 import RegisterScreen from './src/components/Account/RegisterScreen';
 import EditProfile from './src/components/Account/EditProfile';
+import UploadDocumentScreen from './src/components/Account/UploadDocumentScreen';
+import AddDocumentScreen from './src/components/Account/AddDocumentScreen';
 import ForgotScreen from './src/components/Account/ForgotScreen';
 import ChangePassword from './src/components/Account/ChangePassword';
 import PublicProfile from './src/components/Account/PublicProfile';
@@ -30,7 +32,6 @@ import JobPaymentsScreen from './src/components/MyJobs/JobPayments';
 import WorkModeScreen from './src/components/MyJobs/WorkModeScreen';
 import Reviews from './src/components/MyJobs/Reviews';
 import Help from './src/components/Help';
-
 import {
   DASHBOARD_ROUTE,
   LOGIN_ROUTE,
@@ -53,6 +54,8 @@ import {
   JOB_DETAILS_NEW_TWO_ROUTE,
   JOB_PAYMENTS_ROUTE,
   HELP_ROUTE,
+  UPLOAD_DOCUMENT_ROUTE,
+  ADD_DOCUMENT_ROUTE,
 } from './src/constants/routes';
 import {
   BLUE_DARK,
@@ -73,7 +76,6 @@ YellowBox.ignoreWarnings([
   'Warning: Failed prop type',
   'Module RCTImageLoader',
 ]);
-
 window.DEBUG = false;
 
 export const AuthStack = createStackNavigator({
@@ -125,6 +127,8 @@ export const AppStack = createStackNavigator(
     Tabs,
     [SETTING_ROUTE]: SettingScreen,
     [RESET_ROUTE]: ChangePassword,
+    [UPLOAD_DOCUMENT_ROUTE]: UploadDocumentScreen,
+    [ADD_DOCUMENT_ROUTE]: AddDocumentScreen,
     [EditProfile.routeName]: EditProfile,
     [PublicProfile.routeName]: PublicProfile,
     [AddBankAccount.routeName]: AddBankAccount,
