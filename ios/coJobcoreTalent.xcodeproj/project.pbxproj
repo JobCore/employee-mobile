@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -41,7 +42,6 @@
 		BD6DD89A237E0307007996B8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD6DD899237E0307007996B8 /* GoogleService-Info.plist */; };
 		CF109780CAEB409AB9B5DD78 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 916BAEB8742B4A1F822A915C /* Entypo.ttf */; };
 		D89C052B15E54D80BD7D9AA2 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 712EB64D693D4ACBA3DF2E4D /* Roboto.ttf */; };
-		E30E38B7235E31C6002EA587 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E30E38B6235E31C6002EA587 /* GoogleService-Info.plist */; };
 		EB61D779AFD44112A6D7FA2F /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A7A312D2E69E4E7399114132 /* MaterialCommunityIcons.ttf */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		FE88EFF5A1404E9B83B8B5E3 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 986A0DFBF76844F1BF667AAF /* FontAwesome5_Brands.ttf */; };

@@ -13,6 +13,8 @@ import UploadDocumentStyle from './UploadDocumentStyle';
 import { I18n } from 'react-i18next';
 import { Loading } from '../../shared/components';
 import { ModalHeader } from '../../shared/components/ModalHeader';
+import DocumentPicker from 'react-native-document-picker';
+
 class AddDocumentScreen extends Component {
   constructor(props) {
     super(props);
@@ -20,6 +22,26 @@ class AddDocumentScreen extends Component {
       isLoading: false,
     };
   }
+  pickDocument = async () => {
+    // Pick a single file
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.pdf],
+      });
+      console.log(
+        res.uri,
+        res.type, // mime type
+        res.name,
+        res.size,
+      );
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        // User cancelled the picker, exit any dialogs or menus and move on
+      } else {
+        throw err;
+      }
+    }
+  };
   render() {
     return (
       <I18n>
@@ -43,7 +65,7 @@ class AddDocumentScreen extends Component {
                   </Form>
                   <Button
                     full
-                    onPress={() => this.setState({ status: '' })}
+                    onPress={() => this.pickDocument()}
                     style={UploadDocumentStyle.viewButtomLogin}>
                     <Text style={UploadDocumentStyle.textButtom}>
                       {t('EDIT_PROFILE.loadDocument')}

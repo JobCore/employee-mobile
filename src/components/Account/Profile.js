@@ -168,7 +168,7 @@ class Profile extends Component {
                   </Button>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={this.goToAddBankAccount}>
+              {/* <TouchableOpacity onPress={this.goToAddBankAccount}>
                 <View style={styles.profileButton}>
                   <Text style={styles.buttonTextName}>
                     {t('PROFILE.addBankAccount')}
@@ -180,7 +180,7 @@ class Profile extends Component {
                     />
                   </Button>
                 </View>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <View style={styles.darkLine} />
               <TouchableOpacity onPress={this.goToMyDocuments}>
                 <View style={styles.profileButton}>

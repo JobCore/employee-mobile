@@ -63,9 +63,11 @@ PODS:
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
-  - Protobuf (3.10.0)
+  - Protobuf (3.11.0)
   - React (0.59.10):
     - React/Core (= 0.59.10)
+  - react-native-document-picker (3.2.4):
+    - React
   - react-native-image-picker (0.28.1):
     - React
   - react-native-maps (0.24.2):
@@ -113,6 +115,7 @@ DEPENDENCIES:
   - Firebase/Core (~> 5.19.0)
   - Firebase/Messaging (~> 5.19.0)
   - GoogleAppMeasurement (~> 5.8.0)
+  - react-native-document-picker (from `../node_modules/react-native-document-picker`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
@@ -148,6 +151,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   React:
     :path: "../node_modules/react-native"
+  react-native-document-picker:
+    :path: "../node_modules/react-native-document-picker"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-maps:
@@ -173,8 +178,9 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 1624046ab1bcc5e170061a56ef5679000b079c8e
   GoogleUtilities: 04fce34bcd5620c1ee76fb79172105c74a4df335
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
-  Protobuf: a4dc852ad69c027ca2166ed287b856697814375b
+  Protobuf: 394b2bf29ec303f4325e3ee4892c09e675647152
   React: 36d0768f9e93be2473b37e7fa64f92c1d5341eef
+  react-native-document-picker: c36bf5f067a581657ecaf7124dcd921a8be19061
   react-native-image-picker: fd93361c666f397bdf72f9c6c23f13d2685b9173
   react-native-maps: 0316ed017dbb64b33b227751fa810e2454fcfa39
   react-native-netinfo: 27d908bc7ee7b9f29400c02938a0b2a27a1015be
@@ -183,6 +189,6 @@ SPEC CHECKSUMS:
   RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
   yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
 
-PODFILE CHECKSUM: 12452b5b002a1462168fb318229a49283e1c274c
+PODFILE CHECKSUM: 532489a1fca4093d56f9b874a8f1827560ca9c3c
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.8.4
