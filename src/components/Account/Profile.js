@@ -19,7 +19,7 @@ import PROFILE_IMG from '../../assets/image/profile.png';
 import EditProfile from './EditProfile';
 import { TabHeader } from '../../shared/components/TabHeader';
 import PublicProfile from './PublicProfile';
-import { AddBankAccount } from './AddBankAccount';
+import { BankAccounts } from '../BankAccounts/BankAccounts';
 
 class Profile extends Component {
   static navigationOptions = {
@@ -99,8 +99,8 @@ class Profile extends Component {
     CustomToast(err, 'danger');
   };
 
-  goToAddBankAccount = () => {
-    this.props.navigation.navigate(AddBankAccount.routeName);
+  goToBankAccounts = () => {
+    this.props.navigation.navigate(BankAccounts.routeName);
   };
 
   render() {
@@ -168,10 +168,10 @@ class Profile extends Component {
                   </Button>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={this.goToAddBankAccount}>
+              <TouchableOpacity onPress={this.goToBankAccounts}>
                 <View style={styles.profileButton}>
                   <Text style={styles.buttonTextName}>
-                    {t('PROFILE.addBankAccount')}
+                    {t('PROFILE.bankAccounts')}
                   </Text>
                   <Button transparent>
                     <Image

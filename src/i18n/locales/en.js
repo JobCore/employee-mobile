@@ -181,7 +181,8 @@ export default {
     profileSettings: 'Profile Settings',
     editProfile: 'Edit profile',
     publicProfile: 'View Public Profile',
-    addBankAccount: 'Add Bank Account',
+    addBankAccount: 'ADD BANK ACCOUNT',
+    bankAccounts: 'Bank Accounts',
   },
   REVIEWS: {
     reviews: 'Reviews',
