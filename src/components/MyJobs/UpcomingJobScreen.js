@@ -19,6 +19,7 @@ import { ClockInButton } from './components/ClockInButton';
 import { jobStyles } from './JobStyles';
 import WorkModeScreen from './WorkModeScreen';
 import { canClockIn, getDiffInMinutesToStartShift } from './job-utils';
+import { clockOut } from './actions';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -268,24 +269,9 @@ class UpcomingJobScreen extends Component {
       {
         text: i18next.t('MY_JOBS.clockIn'),
         onPress: () => {
-          jobActions.clockIn(
-            this.state.shift.id,
-            this.state.shift.venue.latitude,
-            this.state.shift.venue.longitude,
-            moment.utc(),
-          );
-          if (true) return;
           navigator.geolocation.getCurrentPosition(
             (data) => {
-              log(`DEBUG:clockin:`, this.state.shift.id);
               this.setState({ isLoading: true }, () => {
-                log(
-                  `DEBUG:clockin:`,
-                  this.state.shift.id,
-                  data.coords.latitude,
-                  data.coords.longitude,
-                  moment.utc(),
-                );
                 jobActions.clockIn(
                   this.state.shift.id,
                   data.coords.latitude,
@@ -294,7 +280,9 @@ class UpcomingJobScreen extends Component {
                 );
               });
             },
-            (err) => CustomToast(storeErrorHandler(err), 'danger'),
+            () => {
+              jobActions.clockOut(this.state.shift.id, 0, 0, moment.utc());
+            },
           );
         },
       },
@@ -329,7 +317,9 @@ class UpcomingJobScreen extends Component {
                 );
               });
             },
-            (err) => CustomToast(storeErrorHandler(err), 'danger'),
+            () => {
+              clockOut(this.state.shift.id, 0, 0, moment.utc());
+            },
           );
         },
       },

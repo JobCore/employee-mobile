@@ -15,6 +15,7 @@ import MARKER_IMG from '../../assets/image/map-marker.png';
 import { RATE_EMPLOYER_ROUTE } from '../../constants/routes';
 import moment from 'moment';
 import { ModalHeader } from '../../shared/components/ModalHeader';
+import { clockOut } from './actions';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -449,7 +450,9 @@ class JobDetailsScreen extends Component {
                 );
               });
             },
-            (err) => CustomToast(storeErrorHandler(err), 'danger'),
+            () => {
+              clockOut(this.state.shift.id, 0, 0, moment.utc());
+            },
           );
         },
       },
@@ -484,7 +487,9 @@ class JobDetailsScreen extends Component {
                 );
               });
             },
-            (err) => CustomToast(storeErrorHandler(err), 'danger'),
+            () => {
+              clockOut(this.state.shift.id, 0, 0, moment.utc());
+            },
           );
         },
       },
