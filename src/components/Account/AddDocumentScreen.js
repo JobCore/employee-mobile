@@ -14,6 +14,8 @@ import { I18n } from 'react-i18next';
 import { Loading } from '../../shared/components';
 import { ModalHeader } from '../../shared/components/ModalHeader';
 import DocumentPicker from 'react-native-document-picker';
+import accountStore from './AccountStore';
+import { uploadDocument, getDocuments } from './actions';
 
 class AddDocumentScreen extends Component {
   constructor(props) {
@@ -22,18 +24,41 @@ class AddDocumentScreen extends Component {
       isLoading: false,
     };
   }
+  componentDidMount() {
+    this.uploadDocumentSubscription = accountStore.subscribe(
+      'UploadDocument',
+      (data) => {
+        console.log('UploadDocument: ', data);
+      },
+    );
+    this.getDocumentsSubscription = accountStore.subscribe(
+      'GetDocuments',
+      (documents) => {
+        console.log('GetDocuments: ', documents);
+      },
+    );
+    getDocuments();
+  }
+
+  componentWillUnmount() {
+    // this.uploadDocumentSubscription.unsubscribe();
+    this.getDocumentsSubscription.unsubscribe();
+  }
+
   pickDocument = async () => {
     // Pick a single file
     try {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.pdf],
       });
+      console.log(res);
       console.log(
         res.uri,
         res.type, // mime type
         res.name,
         res.size,
       );
+      uploadDocument(res);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         // User cancelled the picker, exit any dialogs or menus and move on

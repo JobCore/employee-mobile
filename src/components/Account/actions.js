@@ -235,7 +235,40 @@ const editProfilePicture = (image) => {
       Flux.dispatchEvent('AccountStoreError', err);
     });
 };
+/**
+ * Upload document
+ * @param  {File}  document
+ */
+const uploadDocument = (document) => {
+  const body = new FormData();
 
+  body.append('document', {
+    uri: document.uri,
+    name: document.name,
+    type: document.type,
+  });
+
+  postData(`/document/`, body)
+    .then((data) => {
+      Flux.dispatchEvent('UploadDocument', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('AccountStoreError', err);
+    });
+};
+/**
+ * Get documents
+ */
+const getDocuments = () => {
+  getData(`/document/`, true)
+    .then((documents) => {
+      Flux.dispatchEvent('GetDocuments', documents);
+    })
+    .catch((err) => {
+      console.log('GetDocuments error: ', err);
+      Flux.dispatchEvent('AccountStoreError', err);
+    });
+};
 /**
  * Action for setting/updating the stored user from AsyncStorage/Flux or to ser user on app first load
  * @param {object} user
@@ -266,4 +299,6 @@ export {
   logoutOnUnautorized,
   editProfile,
   editProfilePicture,
+  uploadDocument,
+  getDocuments,
 };

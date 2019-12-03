@@ -51,6 +51,8 @@ class AccountStore extends FluxStore {
     this.addEvent('PasswordReset');
     this.addEvent('EditProfile');
     this.addEvent('EditProfilePicture');
+    this.addEvent('UploadDocument');
+    this.addEvent('GetDocuments');
     this.addEvent('ActiveShifts');
     this.addEvent('ValidationLink');
     this.addEvent('GetUserBankAccounts');

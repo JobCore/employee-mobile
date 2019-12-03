@@ -16,7 +16,7 @@ import AddDocumentScreen from './src/components/Account/AddDocumentScreen';
 import ForgotScreen from './src/components/Account/ForgotScreen';
 import ChangePassword from './src/components/Account/ChangePassword';
 import PublicProfile from './src/components/Account/PublicProfile';
-import Profile from './src/components/Account/Profile';
+// import Profile from './src/components/Account/Profile';
 import DashboardScreen from './src/components/Dashboard';
 import JobInvites from './src/components/Invite/JobInvites';
 import InviteDetailsV2 from './src/components/Invite/InviteDetailsV2';
@@ -96,7 +96,7 @@ export const Tabs = createBottomTabNavigator(
     [JOB_INVITES_ROUTE]: { screen: JobInvites },
     [JOB_PREFERENCES_ROUTE]: { screen: JobPreferences },
     [MYJOBS_ROUTE]: { screen: MyJobs },
-    [Profile.routeName]: { screen: Profile },
+    [AddDocumentScreen.routeName]: { screen: AddDocumentScreen },
   },
   {
     tabBarPosition: 'bottom',
@@ -183,7 +183,7 @@ const SwitchNavigator = createSwitchNavigator(
     [APP_ROUTE]: AppStack,
   },
   {
-    initialRouteName: 'APP_ROUTE',
+    initialRouteName: 'AuthLoading',
   },
 );
 

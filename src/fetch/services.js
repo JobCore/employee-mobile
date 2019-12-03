@@ -30,7 +30,10 @@ export async function postData(url, data, isAuth = true) {
   return timeout(20000, fetch(`${API_URL}${url}`, options))
     .then(checkStatus)
     .then((res) => res)
-    .catch((err) => Promise.reject(err));
+    .catch((err) => {
+      console.log('postData err: ', err);
+      Promise.reject(err);
+    });
 }
 
 /**
