@@ -100,9 +100,11 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
-  - RNCAsyncStorage (1.4.2):
+  - RNCAsyncStorage (1.6.3):
     - React
   - RNI18n (2.0.15):
+    - React
+  - TouchID (4.4.1):
     - React
   - yoga (0.59.10.React)
 
@@ -127,10 +129,11 @@ DEPENDENCIES:
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNI18n (from `../node_modules/react-native-i18n`)
+  - TouchID (from `../node_modules/react-native-touch-id`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/cocoapods/specs.git:
     - Firebase
     - FirebaseAnalytics
     - FirebaseAnalyticsInterop
@@ -155,6 +158,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/async-storage"
   RNI18n:
     :path: "../node_modules/react-native-i18n"
+  TouchID:
+    :path: "../node_modules/react-native-touch-id"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga/yoga.podspec"
 
@@ -173,10 +178,11 @@ SPEC CHECKSUMS:
   react-native-image-picker: fd93361c666f397bdf72f9c6c23f13d2685b9173
   react-native-maps: 0316ed017dbb64b33b227751fa810e2454fcfa39
   react-native-netinfo: 27d908bc7ee7b9f29400c02938a0b2a27a1015be
-  RNCAsyncStorage: 285698b8a4f219573174d99e863a78b93f389272
+  RNCAsyncStorage: 6b57de0f6cb0dcfd17521af1681fa39001d3efff
   RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
+  TouchID: ba4c656d849cceabc2e4eef722dea5e55959ecf4
   yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
 
-PODFILE CHECKSUM: 73002e4edabc85ac0dd29bc86408f4f1128ba2b4
+PODFILE CHECKSUM: 418aff370fc440f66d026d774be39bbbb868bd85
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.7.5
