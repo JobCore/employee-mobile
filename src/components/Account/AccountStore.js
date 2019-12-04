@@ -35,13 +35,14 @@ class AccountStore extends FluxStore {
     this.addEvent('Logout', (nextState) => {
       if (!nextState) return;
 
-      AsyncStorage.clear()
-        .then(() => {
-          LOG(this, 'AsyncStorage deleted');
-        })
-        .catch((err) => {
-          ERROR(this, err);
-        });
+      AsyncStorage.removeItem('user');
+      // AsyncStorage.clear()
+      //   .then(() => {
+      //     LOG(this, 'AsyncStorage deleted');
+      //   })
+      //   .catch((err) => {
+      //     ERROR(this, err);
+      //   });
 
       return nextState;
     });
