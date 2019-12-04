@@ -49,7 +49,6 @@ import Profile from '../Account/Profile';
 import UpcomingJobScreen from '../MyJobs/UpcomingJobScreen';
 import ApplicationDetailScreen from '../MyJobs/ApplicationDetailScreen';
 import { fetchActiveShiftsV2 } from '../MyJobs/actions';
-import PlaidAuthenticator from 'react-native-plaid-link';
 import { log } from 'pure-logger';
 
 /**
@@ -500,15 +499,6 @@ class DashboardScreen extends Component {
                   </Button>
                   <Text style={styles.itemInvite}>{t('DASHBOARD.n')}</Text>
                 </Segment>
-                <PlaidAuthenticator
-                  onMessage={this.onMessage}
-                  publicKey="eecc6d6382543dbee6478afbc5879b"
-                  env="sandbox"
-                  product="auth,transactions"
-                  onLoad={this.onLoad}
-                  onLoadStart={this.onLoadStart}
-                  onLoadEnd={this.onLoadEnd}
-                />
               </View>
             </Content>
           </Container>
