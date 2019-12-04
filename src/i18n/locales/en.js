@@ -18,6 +18,8 @@ export default {
     youMustValidateEmail: 'You must validate your email in order to Log In',
     dontHaveAnAccount: 'Don\'t have an account?',
     clickToSignUp: 'Click here to sign up',
+    loginTouch: 'Sign In with',
+    msjLoginAlertTouch: 'Login with',
   },
   REGISTER: {
     signUp: 'Sign Up',

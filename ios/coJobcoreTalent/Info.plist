@@ -37,6 +37,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Enabling Face ID allows you quick and secure access to your account.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>We require access to your Camera to allow you share moments and emotions with the members of our community.</string>
 	<key>NSLocationAlwaysUsageDescription</key>

@@ -20,6 +20,8 @@ export default {
       'Debe validar su correo electrónico para iniciar sesión',
     dontHaveAnAccount: 'No tienes una cuenta?',
     clickToSignUp: 'Registrate aquí',
+    loginTouch: 'Iniciar con',
+    msjLoginAlertTouch: 'Logueate con',
   },
   REGISTER: {
     signUp: 'Registrarse',
