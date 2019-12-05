@@ -27,6 +27,8 @@ import { WHITE_MAIN } from '../../shared/colorPalette';
 const optionalConfigObject = {
   title: 'Authentication Required', // Android
   color: '#e00606', // Android,
+  unifiedErrors: false, // use unified error messages (default false)
+  passcodeFallback: false,
   fallbackLabel: 'Show Passcode', // iOS (if empty, then label is hidden)
 };
 class LoginScreen extends Component {
@@ -39,11 +41,28 @@ class LoginScreen extends Component {
       email: props.navigation.getParam('email', ''),
       password: '',
       biometryType: '',
+      biometrySupport: true,
       loginAuto: false,
     };
   }
 
   async componentDidMount() {
+    TouchID.isSupported(optionalConfigObject)
+      .then((biometryType) => {
+        // Success code
+        // console.log('biometryyyyy .', biometryType);
+        if (biometryType === 'FaceID') {
+          console.log('FaceID is supported.');
+        } else {
+          console.log('TouchID is supported.');
+        }
+      })
+      .catch((error) => {
+        this.setState({
+          biometrySupport: false,
+        });
+        console.log('errr catch support ', error);
+      });
     const loginAuto = await AsyncStorage.getItem('@JobCoreCredential');
     if (loginAuto) {
       this.setState({
@@ -132,7 +151,6 @@ class LoginScreen extends Component {
   loginHandler = (response: any) => {
     // console.log('DEBUG:LOGINNNN:', response);
 
-    this.isLoading(false);
     let status;
     let token;
 
@@ -169,24 +187,31 @@ class LoginScreen extends Component {
     }
 
     if (token) {
-      if (!this.state.loginAuto) {
-        Toast.toastInstance._root.closeToast();
-        Alert.alert(
-          'JobCore Talent',
-          'Do you want to save your credentials ?',
-          [
-            {
-              text: 'No',
-              style: 'cancel',
-              onPress: () => this.props.navigation.navigate(APP_ROUTE),
-            },
-            { text: 'Accept', onPress: () => this.alertSaveCredential() },
-          ],
-          { cancelable: false },
-        );
+      this.isLoading(false);
+      if (this.state.biometrySupport) {
+        if (!this.state.loginAuto) {
+          Toast.toastInstance._root.closeToast();
+          Alert.alert(
+            'JobCore Talent',
+            'Do you want to save your credentials ?',
+            [
+              {
+                text: 'No',
+                style: 'cancel',
+                onPress: () => this.props.navigation.navigate(APP_ROUTE),
+              },
+              { text: 'Accept', onPress: () => this.alertSaveCredential() },
+            ],
+            { cancelable: false },
+          );
+        } else {
+          this.props.navigation.navigate(APP_ROUTE);
+        }
       } else {
         this.props.navigation.navigate(APP_ROUTE);
       }
+    } else {
+      this.isLoading(false);
     }
   };
 
@@ -196,7 +221,9 @@ class LoginScreen extends Component {
   };
 
   render() {
-    const { loginAuto } = this.state;
+    const { loginAuto, biometrySupport } = this.state;
+    // console.log('loginn autoo ',loginAuto)
+    // console.log('biometry ', biometrySupport)
     return (
       <I18n>
         {(t) => (
@@ -239,16 +266,18 @@ class LoginScreen extends Component {
                     {t('LOGIN.forgotPassword')}
                   </Text>
                 </TouchableOpacity>
-                {loginAuto && (
-                  <TouchableOpacity
-                    full
-                    onPress={() => this.pressHandler()}
-                    style={styles.viewButtomSignUp}>
-                    <Text style={styles.textButtomForgot}>
-                      {t('LOGIN.loginTouch')} {this.state.biometryType}
-                    </Text>
-                  </TouchableOpacity>
-                )}
+
+                {biometrySupport &&
+                  (loginAuto && (
+                    <TouchableOpacity
+                      full
+                      onPress={() => this.pressHandler()}
+                      style={styles.viewButtomSignUp}>
+                      <Text style={styles.textButtomForgot}>
+                        {t('LOGIN.loginTouch')} {this.state.biometryType}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
 
                 <Button
                   full
