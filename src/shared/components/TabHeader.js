@@ -36,7 +36,7 @@ const TabHeader = ({
 
 TabHeader.propTypes = {
   title: PropTypes.string.isRequired,
-  screenName: PropTypes.string.isRequired,
+  screenName: PropTypes.string,
   goBack: PropTypes.bool.isRequired,
   onPressBack: PropTypes.func.isRequired,
   onPressHelp: PropTypes.func.isRequired,

@@ -64,7 +64,8 @@ class HelpIcon extends Component {
 }
 
 HelpIcon.propTypes = {
-  screenName: PropTypes.string.isRequired,
+  screenName: PropTypes.string,
+  onPressHelp: PropTypes.function,
 };
 
 HelpIcon.defaultProps = {

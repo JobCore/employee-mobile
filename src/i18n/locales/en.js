@@ -18,6 +18,8 @@ export default {
     youMustValidateEmail: 'You must validate your email in order to Log In',
     dontHaveAnAccount: 'Don\'t have an account?',
     clickToSignUp: 'Click here to sign up',
+    loginTouch: 'Sign In with',
+    msjLoginAlertTouch: 'Login with',
   },
   REGISTER: {
     signUp: 'Sign Up',
@@ -45,6 +47,11 @@ export default {
     saveProfile: 'Save profile',
     textBio:
       'What makes you a talent? Talk a little about your previous experience and skills',
+    uploadDocuments: 'My documents',
+    myDocuments: 'My documents',
+    addDocument: 'ADD DOCUMENT',
+    loadDocument: 'LOAD DOCUMENT',
+    addDocumentsTitle: 'Add Documents',
     helpButton: 'Help',
   },
   USER_DOCUMENTS: {
@@ -188,7 +195,8 @@ export default {
     profileSettings: 'Profile Settings',
     editProfile: 'Edit profile',
     publicProfile: 'View Public Profile',
-    addBankAccount: 'Add Bank Account',
+    addBankAccount: 'ADD BANK ACCOUNT',
+    bankAccounts: 'Bank Accounts',
   },
   REVIEWS: {
     reviews: 'Reviews',

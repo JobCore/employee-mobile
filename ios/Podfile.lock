@@ -63,7 +63,7 @@ PODS:
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
-  - Protobuf (3.11.0)
+  - Protobuf (3.11.1)
   - React (0.59.10):
     - React/Core (= 0.59.10)
   - react-native-document-picker (3.2.4):
@@ -104,9 +104,11 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
-  - RNCAsyncStorage (1.4.2):
+  - RNCAsyncStorage (1.6.3):
     - React
   - RNI18n (2.0.15):
+    - React
+  - TouchID (4.4.1):
     - React
   - yoga (0.59.10.React)
 
@@ -133,6 +135,7 @@ DEPENDENCIES:
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNI18n (from `../node_modules/react-native-i18n`)
+  - TouchID (from `../node_modules/react-native-touch-id`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
 
 SPEC REPOS:
@@ -165,6 +168,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/async-storage"
   RNI18n:
     :path: "../node_modules/react-native-i18n"
+  TouchID:
+    :path: "../node_modules/react-native-touch-id"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga/yoga.podspec"
 
@@ -178,17 +183,18 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 1624046ab1bcc5e170061a56ef5679000b079c8e
   GoogleUtilities: 04fce34bcd5620c1ee76fb79172105c74a4df335
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
-  Protobuf: 394b2bf29ec303f4325e3ee4892c09e675647152
+  Protobuf: 20d79da7f20b5928b80043b05080b816e802659e
   React: 36d0768f9e93be2473b37e7fa64f92c1d5341eef
   react-native-document-picker: c36bf5f067a581657ecaf7124dcd921a8be19061
   react-native-image-picker: fd93361c666f397bdf72f9c6c23f13d2685b9173
   react-native-maps: 0316ed017dbb64b33b227751fa810e2454fcfa39
   react-native-netinfo: 27d908bc7ee7b9f29400c02938a0b2a27a1015be
   react-native-webview: 7eefdb64f283cae1bebe82ebd8ddeb4b805900c0
-  RNCAsyncStorage: 285698b8a4f219573174d99e863a78b93f389272
+  RNCAsyncStorage: 6b57de0f6cb0dcfd17521af1681fa39001d3efff
   RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
+  TouchID: ba4c656d849cceabc2e4eef722dea5e55959ecf4
   yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
 
-PODFILE CHECKSUM: 532489a1fca4093d56f9b874a8f1827560ca9c3c
+PODFILE CHECKSUM: 41588925bfbfc0424beeff133967cf4810f71ac2
 
 COCOAPODS: 1.8.4

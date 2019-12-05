@@ -2,7 +2,12 @@ import accountStore from '../components/Account/AccountStore';
 import { checkInternetConnection } from 'react-native-offline';
 import * as accountActions from '../components/Account/actions';
 import { i18next } from '../i18n';
+// import { TEST_API_URL } from 'react-native-dotenv';
 import { API_URL } from 'react-native-dotenv';
+
+export const getAPIUrl = () => {
+  return API_URL;
+};
 
 /**
  * POST method fetch
@@ -27,7 +32,7 @@ export async function postData(url, data, isAuth = true) {
   };
   console.log(`DEBUG:PostData:options:`, options);
 
-  return timeout(20000, fetch(`${API_URL}${url}`, options))
+  return timeout(20000, fetch(`${getAPIUrl()}${url}`, options))
     .then(checkStatus)
     .then((res) => res)
     .catch((err) => {
@@ -47,7 +52,7 @@ export async function putData(url, data, isAuth = true) {
 
   return timeout(
     20000,
-    fetch(`${API_URL}${url}`, {
+    fetch(`${getAPIUrl()}${url}`, {
       body: JSON.stringify(data),
       headers: {
         Accept: 'application/json',
@@ -80,10 +85,11 @@ export async function getData(url, isAuth = true) {
     'Content-Type': 'application/json',
     Authorization: isAuth ? `jwt ${accountStore.getState('Login').token}` : '',
   };
-
+  const fullUrl = `${getAPIUrl()}${url}`;
+  console.log(`getData:`, headers, fullUrl);
   return timeout(
     20000,
-    fetch(`${API_URL}${url}`, {
+    fetch(fullUrl, {
       headers,
       method: 'GET',
     }),
@@ -92,6 +98,26 @@ export async function getData(url, isAuth = true) {
     .then((res) => res)
     .catch((err) => Promise.reject(err));
 }
+
+export const get = async (url, isAuth = true) => {
+  await checkConnection();
+
+  const headers = {
+    Accept: 'application/json',
+    'Accept-Language': i18next.language,
+    'Content-Type': 'application/json',
+    Authorization: isAuth ? `jwt ${accountStore.getState('Login').token}` : '',
+  };
+  const fullUrl = `${getAPIUrl()}${url}`;
+  console.log(`getData:`, headers, fullUrl);
+  return fetch(fullUrl, {
+    headers,
+    method: 'GET',
+  })
+    .then(checkStatus)
+    .then((res) => res)
+    .catch((err) => Promise.reject(err));
+};
 
 /**
  * DELETE method fetch
@@ -104,7 +130,7 @@ export async function deleteData(url, isAuth = true) {
 
   return timeout(
     20000,
-    fetch(`${API_URL}${url}`, {
+    fetch(`${getAPIUrl()}${url}`, {
       headers: {
         Accept: 'application/json',
         'Accept-Language': i18next.language,
@@ -132,7 +158,7 @@ export async function downloadData(url, isAuth = true) {
 
   return timeout(
     20000,
-    fetch(`${API_URL}${url}`, {
+    fetch(`${getAPIUrl()}${url}`, {
       method: 'GET',
       headers: {
         Authorization: isAuth
@@ -166,7 +192,7 @@ export async function downloadData(url, isAuth = true) {
 export async function putFormData(url, formData, isAuth = true) {
   await checkConnection();
 
-  return fetch(`${API_URL}${url}`, {
+  return fetch(`${getAPIUrl()}${url}`, {
     body: formData,
     headers: {
       Accept: 'application/json',
@@ -210,18 +236,20 @@ export async function postFormData(url, formData, isAuth = true) {
 /*
 reject or resolve based on status then Parses the response to json
  */
-function checkStatus(response) {
+export const checkStatus = (response) => {
   console.log('services:checkStatus', response);
 
   if (response && response.status === 500) {
-    response.text().then((res) => {
+    console.log('services:checkStatus:500', response);
+    return response.text().then((res) => {
       console.log('services:checkStatus: 500:', res);
       return Promise.reject(new Error(res));
     });
   }
 
   if ((response && response.status === 401) || response.status === 403) {
-    response.json().then((res) => {
+    console.log('services:checkStatus:401|403', response);
+    return response.json().then((res) => {
       accountActions.logoutOnUnautorized(res);
     });
   }
@@ -230,18 +258,19 @@ function checkStatus(response) {
     if (response.status === 204) {
       return { status: 'No content response' };
     }
+    console.log('services:checkStatus:response.ok:', response);
     return response.json().then((res) => {
       return Promise.resolve(res);
     });
   } else {
+    console.log('services:checkStatus:code:', response.status, response);
     return response.json().then((err) => {
-      console.log('services:checkStatus: 400:', err);
       const errorMessage = err[Object.keys(err)[0]];
       if (Array.isArray(errorMessage)) return Promise.reject(errorMessage[0]);
       return Promise.reject(errorMessage);
     });
   }
-}
+};
 
 /**
  * check if the device is connected to internet

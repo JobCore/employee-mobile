@@ -20,6 +20,8 @@ export default {
       'Debe validar su correo electrónico para iniciar sesión',
     dontHaveAnAccount: 'No tienes una cuenta?',
     clickToSignUp: 'Registrate aquí',
+    loginTouch: 'Iniciar con',
+    msjLoginAlertTouch: 'Logueate con',
   },
   REGISTER: {
     signUp: 'Registrarse',
@@ -47,6 +49,11 @@ export default {
     saveProfile: 'Guardar perfil',
     textBio:
       '¿Qué te hace talentoso? Habla un poco sobre tu experiencia y habilidades previas',
+    uploadDocuments: 'Mis Documentos',
+    myDocuments: 'Mis Documentos',
+    addDocument: 'AGREGAR DOCUMENTO',
+    loadDocument: 'CARGAR DOCUMENTO',
+    addDocumentsTitle: 'Agregar Documentos',
     helpButton: 'Ayuda',
   },
   USER_DOCUMENTS: {

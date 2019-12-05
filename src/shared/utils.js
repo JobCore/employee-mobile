@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { Platform, Dimensions } from 'react-native';
+import snakeCase from 'snake-case';
 
 /**
  * Is on production or not
@@ -114,6 +115,15 @@ export const hasNotch = () => {
   if (Platform.OS !== 'ios') return false;
   const dim = Dimensions.get('window');
   return dim.height > 812 || dim.width > 812;
+};
+
+export const normalizeToSnakeCase = (map) => {
+  const entries = Object.entries(map);
+  const newMap = {};
+  entries.forEach(([key, value]) => {
+    newMap[snakeCase(key)] = value;
+  });
+  return newMap;
 };
 
 export {

@@ -20,7 +20,7 @@ const headerStyles = StyleSheet.create({
     fontSize: 35,
     fontWeight: '100',
     height: 30,
-    resizeMode: 'contain',
+    // resizeMode: 'contain',
     textAlign: 'center',
     width: 30,
   },
@@ -35,6 +35,7 @@ const headerStyles = StyleSheet.create({
   },
   modalTitleHeader: {
     color: WHITE_MAIN,
+    width: 200,
     fontSize: 18,
     fontWeight: '500',
     textAlign: 'center',
