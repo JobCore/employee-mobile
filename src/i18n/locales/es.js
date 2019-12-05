@@ -47,12 +47,19 @@ export default {
     saveProfile: 'Guardar perfil',
     textBio:
       '¿Qué te hace talentoso? Habla un poco sobre tu experiencia y habilidades previas',
+    helpButton: 'Ayuda',
+  },
+  USER_DOCUMENTS: {
     uploadDocuments: 'Mis Documentos',
     myDocuments: 'Mis Documentos',
     addDocument: 'AGREGAR DOCUMENTO',
     loadDocument: 'CARGAR DOCUMENTO',
     addDocumentsTitle: 'Agregar Documentos',
-    helpButton: 'Ayuda',
+    wantToAddDocument: 'Estas seguro de agregar el documento:',
+    wantToDeleteDocument: 'Estas seguro de eliminar el documento:',
+    saveDoc: 'Guardar',
+    deleteDoc: 'Eliminar',
+    noDocuments: 'No hay documentos todavia',
   },
   SETTINGS: {
     settings: 'Ajustes',

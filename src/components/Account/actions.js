@@ -10,6 +10,7 @@ import {
   putData,
   deleteData,
   putFormData,
+  postFormData,
   getData,
 } from '../../fetch';
 import {
@@ -247,8 +248,9 @@ const uploadDocument = (document) => {
     name: document.name,
     type: document.type,
   });
+  body.append('name', document.name);
 
-  postData(`/document/`, body)
+  postFormData(`/document/`, body)
     .then((data) => {
       Flux.dispatchEvent('UploadDocument', data);
     })
@@ -260,7 +262,7 @@ const uploadDocument = (document) => {
  * Get documents
  */
 const getDocuments = () => {
-  getData(`/document/`, true)
+  getData(`/document/`)
     .then((documents) => {
       Flux.dispatchEvent('GetDocuments', documents);
     })

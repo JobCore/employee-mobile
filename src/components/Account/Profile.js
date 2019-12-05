@@ -185,7 +185,7 @@ class Profile extends Component {
               <TouchableOpacity onPress={this.goToMyDocuments}>
                 <View style={styles.profileButton}>
                   <Text style={styles.buttonTextName}>
-                    {t('EDIT_PROFILE.uploadDocuments')}
+                    {t('USER_DOCUMENTS.uploadDocuments')}
                   </Text>
                   <Button transparent>
                     <Image

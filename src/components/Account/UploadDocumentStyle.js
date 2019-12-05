@@ -1,22 +1,28 @@
 import {
   StyleSheet,
   // Platform,
-  // Dimensions
+  Dimensions,
 } from 'react-native';
 import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN } from '../../shared/colorPalette';
+var height = Dimensions.get('window').height;
 
 // const { width } = Dimensions.get('window')
 
 export default StyleSheet.create({
   container: {
+    height: '80%',
     paddingHorizontal: 35,
+  },
+  buttonContainer: {
+    paddingHorizontal: 35,
+    marginBottom: 40,
+    marginTop: 40,
   },
   viewButtomLogin: {
     backgroundColor: BLUE_DARK,
     borderRadius: 50,
     height: 45,
-    marginBottom: 0,
-    marginTop: 40,
+    // marginTop: 40,
     justifyContent: 'center',
   },
   viewInput: {
@@ -40,8 +46,16 @@ export default StyleSheet.create({
     textAlign: 'center',
     color: WHITE_MAIN,
   },
+  noDocsText: {
+    fontSize: 16,
+    height: 50,
+    fontWeight: '800',
+    textAlign: 'center',
+    color: BLUE_DARK,
+    marginTop: height / 3,
+  },
   garbageIcon: {
-    width: 24,
+    width: 20,
     height: 24,
     marginLeft: 10,
   },
