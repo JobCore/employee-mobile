@@ -3,7 +3,14 @@ import {
   // Platform,
   Dimensions,
 } from 'react-native';
-import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN } from '../../shared/colorPalette';
+import {
+  BLUE_MAIN,
+  BLUE_DARK,
+  WHITE_MAIN,
+  GREEN_MAIN,
+  BLUE_LIGHT,
+  LOW_RED,
+} from '../../shared/colorPalette';
 var height = Dimensions.get('window').height;
 
 // const { width } = Dimensions.get('window')
@@ -45,6 +52,40 @@ export default StyleSheet.create({
     fontWeight: '800',
     textAlign: 'center',
     color: WHITE_MAIN,
+  },
+  userStatusLabelText: {
+    fontSize: 16,
+    fontWeight: '800',
+    textAlign: 'center',
+    color: WHITE_MAIN,
+  },
+
+  userStatusLabelApproved: {
+    height: 50,
+    backgroundColor: BLUE_LIGHT,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  userStatusLabelRejected: {
+    height: 50,
+    backgroundColor: LOW_RED,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  userStatusLabelTextApproved: {
+    color: GREEN_MAIN,
+    marginLeft: 20,
+  },
+  userStatusLabelTextRejected: {
+    color: WHITE_MAIN,
+    marginLeft: 20,
+  },
+
+  closeIconApproved: {
+    color: GREEN_MAIN,
+    marginRight: 20,
   },
   noDocsText: {
     fontSize: 16,

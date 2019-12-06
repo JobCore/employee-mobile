@@ -65,6 +65,8 @@ export default {
     saveDoc: 'Save',
     deleteDoc: 'Delete',
     noDocuments: 'No documents yet',
+    allowDocuments: 'Approved',
+    notAllowDocuments: 'Not approved at the moment',
   },
   SETTINGS: {
     settings: 'Settings',

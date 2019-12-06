@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity, Alert } from 'react-native';
-import { Item, Text, Form, Label, Content, Container } from 'native-base';
+import { Item, Text, Form, Label, Content, Container, Icon } from 'native-base';
 import UploadDocumentStyle from './UploadDocumentStyle';
 import { I18n } from 'react-i18next';
 import { Loading, CustomToast } from '../../shared/components';
@@ -17,7 +17,10 @@ class UploadDocumentScreen extends Component {
     super(props);
     this.state = {
       isLoading: false,
+      showWarning: true,
+      isAllowDocuments: true,
       documents: [],
+      user: accountStore.getState('Login').user,
     };
   }
 
@@ -133,7 +136,9 @@ class UploadDocumentScreen extends Component {
     name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 
   render() {
+    const { user, isAllowDocuments, showWarning } = this.state;
     const { documents } = this.state;
+    console.log('user: ', user);
     return (
       <I18n>
         {(t) => (
@@ -142,6 +147,35 @@ class UploadDocumentScreen extends Component {
               screenName={t('USER_DOCUMENTS.myDocuments')}
               title={t('USER_DOCUMENTS.myDocuments')}
             />
+            {showWarning ? (
+              <View
+                style={
+                  isAllowDocuments
+                    ? UploadDocumentStyle.userStatusLabelApproved
+                    : UploadDocumentStyle.userStatusLabelRejected
+                }>
+                <Text
+                  style={
+                    isAllowDocuments
+                      ? UploadDocumentStyle.userStatusLabelTextApproved
+                      : UploadDocumentStyle.userStatusLabelTextRejected
+                  }>
+                  {`${user.first_name} ${
+                    isAllowDocuments
+                      ? t('USER_DOCUMENTS.allowDocuments')
+                      : t('USER_DOCUMENTS.notAllowDocuments')
+                  }`}
+                </Text>
+                {isAllowDocuments ? (
+                  <Icon
+                    onPress={() => this.setState({ showWarning: false })}
+                    style={UploadDocumentStyle.closeIconApproved}
+                    name="close"
+                    size={5}
+                  />
+                ) : null}
+              </View>
+            ) : null}
             {this.state.isLoading ? <Loading /> : null}
             <Content>
               <View style={UploadDocumentStyle.container}>

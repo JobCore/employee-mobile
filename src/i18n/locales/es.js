@@ -67,6 +67,8 @@ export default {
     saveDoc: 'Guardar',
     deleteDoc: 'Eliminar',
     noDocuments: 'No hay documentos todavia',
+    allowDocuments: 'Aprovado',
+    notAllowDocuments: 'No aprovado por los momentos',
   },
   SETTINGS: {
     settings: 'Ajustes',
