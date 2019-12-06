@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Alert, Image } from 'react-native';
+import { View, TouchableOpacity, Alert, Image, Switch } from 'react-native';
 import {
   Item,
   Input,
@@ -12,6 +12,7 @@ import {
   Textarea,
   Container,
 } from 'native-base';
+import AsyncStorage from '@react-native-community/async-storage';
 import editProfileStyles from './EditProfileStyle';
 import profileStyles from './PublicProfileStyle';
 import * as actions from './actions';
@@ -19,11 +20,12 @@ import accountStore from './AccountStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import { LOG, WARN } from '../../shared';
+import TouchID from 'react-native-touch-id';
 import { CustomToast, Loading } from '../../shared/components';
 import ImagePicker from 'react-native-image-picker';
 import { RESET_ROUTE, JOB_PREFERENCES_ROUTE } from '../../constants/routes';
 import PROFILE_IMG from '../../assets/image/profile.png';
-import { GRAY_MAIN, BG_GRAY_LIGHT } from '../../shared/colorPalette';
+import { GRAY_MAIN, BG_GRAY_LIGHT, BLUE_DARK } from '../../shared/colorPalette';
 import { TabHeader } from '../../shared/components/TabHeader';
 const icon = require('../../assets/image/tab/profile.png');
 
@@ -31,6 +33,14 @@ const IMAGE_PICKER_OPTIONS = {
   mediaType: 'photo',
   noData: true,
   skipBackup: true,
+};
+
+const optionalConfigObject = {
+  title: 'Authentication Required', // Android
+  color: '#e00606', // Android,
+  unifiedErrors: false, // use unified error messages (default false)
+  passcodeFallback: false,
+  fallbackLabel: 'Show Passcode', // iOS (if empty, then label is hidden)
 };
 
 class EditProfile extends Component {
@@ -53,11 +63,39 @@ class EditProfile extends Component {
       email: '',
       picture: '',
       bio: '',
+      loginAutoSave: false,
+      biometrySupport: true,
       selectedImage: {},
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    TouchID.isSupported(optionalConfigObject)
+      .then((biometryType) => {
+        // Success code
+        // console.log('biometryyyyy .', biometryType);
+        if (biometryType === 'FaceID') {
+          console.log('FaceID is supported.');
+        } else {
+          console.log('TouchID is supported.');
+        }
+      })
+      .catch((error) => {
+        this.setState({
+          biometrySupport: false,
+        });
+        console.log('errr catch support ', error);
+      });
+    const loginAuto = await AsyncStorage.getItem('@JobCoreCredential');
+    if (loginAuto) {
+      this.setState({
+        loginAutoSave: true,
+      });
+    } else {
+      this.setState({
+        loginAutoSave: false,
+      });
+    }
     this.editProfileSubscription = accountStore.subscribe(
       'EditProfile',
       this.editProfileHandler,
@@ -85,6 +123,28 @@ class EditProfile extends Component {
     this.accountStoreError.unsubscribe();
   }
 
+  changeTouchId = async () => {
+    const { loginAutoSave } = this.state;
+    if (!loginAutoSave) {
+      //hacer async y guardar en storage el permiso a usar touch id
+      await AsyncStorage.setItem(
+        '@JobCoreCredentialPermission',
+        JSON.stringify({ success: true }),
+      );
+      this.setState({
+        loginAutoSave: !loginAutoSave,
+      });
+    } else {
+      await AsyncStorage.removeItem('@JobCoreCredentialPermission');
+      await AsyncStorage.removeItem('@JobCoreCredential');
+      // hacer false el permiso del storage,
+      // y tambien de una vaciar el storage de la credenciales
+      this.setState({
+        loginAutoSave: !loginAutoSave,
+      });
+    }
+  };
+
   editProfilePictureHandler = (data) => {
     this.setUser(data);
     this.editProfile();
@@ -107,6 +167,7 @@ class EditProfile extends Component {
   };
 
   render() {
+    const { loginAutoSave, biometrySupport } = this.state;
     return (
       <I18n>
         {(t) => (
@@ -212,16 +273,28 @@ class EditProfile extends Component {
                       {t('SETTINGS.changePassword')}
                     </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={{ marginBottom: 4 }}>
-                    <Button
-                      onPress={this.goToMyDocuments}
-                      full
-                      style={editProfileStyles.viewButtomLogin}>
-                      <Text style={editProfileStyles.textButtom}>
-                        {t('EDIT_PROFILE.uploadDocuments')}
-                      </Text>
-                    </Button>
-                  </TouchableOpacity>
+                  {biometrySupport && (
+                    <View
+                      style={{
+                        flexDirection: 'row-reverse',
+                        marginBottom: 20,
+                      }}>
+                      <View style={{ flexDirection: 'row' }}>
+                        <View>
+                          <Text style={editProfileStyles.activateToachIdText}>
+                            Activate touch id
+                          </Text>
+                        </View>
+                        <Switch
+                          // ios_backgroundColor={BLUE_DARK}
+                          thumbColor={BLUE_DARK}
+                          onValueChange={() => this.changeTouchId()}
+                          value={loginAutoSave}
+                        />
+                      </View>
+                    </View>
+                  )}
+
                   <Button
                     full
                     onPress={this.editProfileAlert}

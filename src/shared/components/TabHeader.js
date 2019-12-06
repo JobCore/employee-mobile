@@ -1,4 +1,5 @@
-import { Body, Header, Left, Title, Right, Button, Icon } from 'native-base';
+import { Body, Header, Left, Title, Right, Button } from 'native-base';
+import { Image } from 'react-native';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BLUE_MAIN } from '../colorPalette';
@@ -15,8 +16,11 @@ const TabHeader = ({
   <Header androidStatusBarColor={BLUE_MAIN} style={headerStyles.headerCustom}>
     <Left>
       {goBack ? (
-        <Button transparent onPress={onPressBack}>
-          <Icon name="ios-close" style={[headerStyles.leftButtonImage]} />
+        <Button style={{ marginLeft: 10 }} transparent onPress={onPressBack}>
+          <Image
+            style={headerStyles.backButton}
+            source={require('../../assets/image/back.png')}
+          />
         </Button>
       ) : null}
     </Left>
