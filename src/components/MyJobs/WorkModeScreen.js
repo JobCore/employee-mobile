@@ -5,7 +5,7 @@ import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 // import inviteStore from './InviteStore';
 // import { JobDetails } from '../../shared/components';
-import { LOG, storeErrorHandler } from '../../shared';
+import { LOG } from '../../shared';
 import { CustomToast, Loading, openMapsApp } from '../../shared/components';
 import moment from 'moment';
 import { ModalHeader } from '../../shared/components/ModalHeader';
@@ -54,12 +54,13 @@ class WorkModeScreen extends Component {
   componentDidMount() {
     this.getJobSubscription = jobStore.subscribe('GetJob', this.getJobHandler);
     this.clockInSubscription = jobStore.subscribe('ClockIn', () =>
-      getJob(this.state.shiftId),
+      this.setState({ isLoading: false }, () => getJob(this.state.shiftId)),
     );
     this.clockOuSubscription = jobStore.subscribe('ClockOut', () =>
-      getJob(this.state.shiftId),
+      this.setState({ isLoading: false }, () => getJob(this.state.shiftId)),
     );
     this.jobStoreError = jobStore.subscribe('JobStoreError', this.errorHandler);
+
     getJob(this.state.shiftId);
   }
 
@@ -250,14 +251,6 @@ class WorkModeScreen extends Component {
       {
         text: i18next.t('MY_JOBS.clockOut'),
         onPress: () => {
-          clockOut(
-            this.state.shift.id,
-            this.state.shift.venue.latitude,
-            this.state.shift.venue.longitude,
-            moment.utc(),
-          );
-          // eslint-disable-next-line no-constant-condition
-          if (1 === 2 - 1) return;
           navigator.geolocation.getCurrentPosition(
             (data) => {
               this.setState({ isLoading: true }, () => {
@@ -269,7 +262,9 @@ class WorkModeScreen extends Component {
                 );
               });
             },
-            (err) => CustomToast(storeErrorHandler(err), 'danger'),
+            () => {
+              clockOut(this.state.shift.id, 0, 0, moment.utc());
+            },
           );
         },
       },
@@ -291,25 +286,10 @@ class WorkModeScreen extends Component {
       {
         text: i18next.t('MY_JOBS.clockIn'),
         onPress: () => {
-          clockIn(
-            this.state.shift.id,
-            this.state.shift.venue.latitude,
-            this.state.shift.venue.longitude,
-            moment.utc(),
-          );
-          // eslint-disable-next-line no-constant-condition
-          if (true) return;
           navigator.geolocation.getCurrentPosition(
             (data) => {
               log(`DEBUG:clockin:`, this.state.shift.id);
               this.setState({ isLoading: true }, () => {
-                log(
-                  `DEBUG:clockin:`,
-                  this.state.shift.id,
-                  data.coords.latitude,
-                  data.coords.longitude,
-                  moment.utc(),
-                );
                 clockIn(
                   this.state.shift.id,
                   data.coords.latitude,
@@ -318,7 +298,9 @@ class WorkModeScreen extends Component {
                 );
               });
             },
-            (err) => CustomToast(storeErrorHandler(err), 'danger'),
+            () => {
+              clockOut(this.state.shift.id, 0, 0, moment.utc());
+            },
           );
         },
       },

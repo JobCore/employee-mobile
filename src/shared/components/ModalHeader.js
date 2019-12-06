@@ -1,4 +1,5 @@
-import { Body, Button, Header, Icon, Left, Right, Text } from 'native-base';
+import { Body, Button, Header, Left, Right, Text } from 'native-base';
+import { Image } from 'react-native';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withNavigation } from 'react-navigation';
@@ -24,12 +25,18 @@ class _ModalHeader extends Component {
         style={headerStyles.headerCustom}>
         <Left>
           {canClose ? (
-            <Button transparent onPress={onPressClose}>
-              <Icon name="ios-close" style={[headerStyles.leftButtonImage]} />
+            <Button
+              style={{ marginLeft: 10 }}
+              transparent
+              onPress={onPressClose}>
+              <Image
+                style={headerStyles.backButton}
+                source={require('../../assets/image/back.png')}
+              />
             </Button>
           ) : null}
         </Left>
-        <Body>
+        <Body style={{ flex: 0 }}>
           <Text style={headerStyles.modalTitleHeader}>{title}</Text>
         </Body>
         <Right>

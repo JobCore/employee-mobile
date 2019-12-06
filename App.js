@@ -11,7 +11,7 @@ import { Root } from 'native-base';
 import LoginScreen from './src/components/Account/LoginScreen';
 import RegisterScreen from './src/components/Account/RegisterScreen';
 import EditProfile from './src/components/Account/EditProfile';
-import MyBankAccountsScreen from './src/components/Account/MyBankAccountsScreen';
+import UploadDocumentScreen from './src/components/Account/UploadDocumentScreen';
 import ForgotScreen from './src/components/Account/ForgotScreen';
 import ChangePassword from './src/components/Account/ChangePassword';
 import PublicProfile from './src/components/Account/PublicProfile';
@@ -53,7 +53,7 @@ import {
   JOB_DETAILS_NEW_TWO_ROUTE,
   JOB_PAYMENTS_ROUTE,
   HELP_ROUTE,
-  MY_BANK_ACCOUNTS_ROUTE,
+  UPLOAD_DOCUMENT_ROUTE,
 } from './src/constants/routes';
 import {
   BLUE_DARK,
@@ -124,7 +124,7 @@ export const AppStack = createStackNavigator(
     Tabs,
     [SETTING_ROUTE]: SettingScreen,
     [RESET_ROUTE]: ChangePassword,
-    [MY_BANK_ACCOUNTS_ROUTE]: MyBankAccountsScreen,
+    [UPLOAD_DOCUMENT_ROUTE]: UploadDocumentScreen,
     [EditProfile.routeName]: EditProfile,
     [PublicProfile.routeName]: PublicProfile,
     [EDIT_LOCATION_ROUTE]: EditLocation,

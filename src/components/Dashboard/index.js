@@ -49,6 +49,7 @@ import Profile from '../Account/Profile';
 import UpcomingJobScreen from '../MyJobs/UpcomingJobScreen';
 import ApplicationDetailScreen from '../MyJobs/ApplicationDetailScreen';
 import { fetchActiveShiftsV2 } from '../MyJobs/actions';
+import { log } from 'pure-logger';
 
 /**
  *
@@ -210,6 +211,10 @@ class DashboardScreen extends Component {
     this.accountStoreError.unsubscribe();
     this.onTokenRefreshListener();
     this.notificationOpenedListener();
+    //
+    navigator.geolocation.getCurrentPosition((data) => {
+      log(`Dashboard:`, data);
+    });
   }
 
   logoutHandler = () => {
@@ -501,6 +506,11 @@ class DashboardScreen extends Component {
       </I18n>
     );
   }
+
+  onMessage = (e) => console.log(e);
+  onLoad = (e) => console.log(e);
+  onLoad = (e) => console.log(e);
+  onLoad = (e) => console.log(e);
 
   firstLoad = () => {
     this.setState({ isLoading: true }, () => {

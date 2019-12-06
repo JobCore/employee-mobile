@@ -35,25 +35,27 @@ class AccountStore extends FluxStore {
     this.addEvent('Logout', (nextState) => {
       if (!nextState) return;
 
-      AsyncStorage.clear()
-        .then(() => {
-          LOG(this, 'AsyncStorage deleted');
-        })
-        .catch((err) => {
-          ERROR(this, err);
-        });
+      AsyncStorage.removeItem('user');
+      // AsyncStorage.clear()
+      //   .then(() => {
+      //     LOG(this, 'AsyncStorage deleted');
+      //   })
+      //   .catch((err) => {
+      //     ERROR(this, err);
+      //   });
 
       return nextState;
     });
 
     this.addEvent('Register');
+    this.addEvent('GetCities');
     this.addEvent('PasswordReset');
     this.addEvent('EditProfile');
     this.addEvent('EditProfilePicture');
+    this.addEvent('UploadDocument');
+    this.addEvent('GetDocuments');
     this.addEvent('ActiveShifts');
     this.addEvent('ValidationLink');
-    this.addEvent('GetUserBankAccounts');
-    this.addEvent('GetUserBankAccountsError');
     this.addEvent('AccountStoreError', storeErrorHandler);
   }
 }

@@ -1,7 +1,7 @@
-import { StyleSheet, Platform, Dimensions } from 'react-native'
-import { BLUE_MAIN, BLUE_DARK } from '../../shared/colorPalette'
+import { StyleSheet, Platform, Dimensions } from 'react-native';
+import { BLUE_MAIN, BLUE_DARK } from '../../shared/colorPalette';
 
-const { width } = Dimensions.get('window')
+const { width } = Dimensions.get('window');
 
 export default StyleSheet.create({
   borderNone: {
@@ -40,6 +40,14 @@ export default StyleSheet.create({
     marginBottom: 20,
     marginRight: 10,
     textAlign: 'right',
+  },
+  activateToachIdText: {
+    color: BLUE_DARK,
+    fontSize: 14,
+    fontWeight: '500',
+    marginRight: 10,
+    textAlign: 'right',
+    marginTop: 5,
   },
   textButtomSave: {
     color: BLUE_DARK,
@@ -125,4 +133,4 @@ export default StyleSheet.create({
     }),
     marginBottom: 10,
   },
-})
+});

@@ -4,7 +4,9 @@ import {
   // SafeAreaView,
   Image,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { Content, Item, Input, Button, Text, Form, Toast } from 'native-base';
 import styles from './LoginStyle';
 import {
@@ -14,6 +16,7 @@ import {
 } from '../../constants/routes';
 import * as accountActions from './actions';
 import accountStore from './AccountStore';
+import TouchID from 'react-native-touch-id';
 import { I18n } from 'react-i18next';
 import { LOG } from '../../shared';
 import { CustomToast, Loading } from '../../shared/components';
@@ -21,6 +24,13 @@ import { FormView } from '../../shared/platform';
 import firebase from 'react-native-firebase';
 import { WHITE_MAIN } from '../../shared/colorPalette';
 
+const optionalConfigObject = {
+  title: 'Authentication Required', // Android
+  color: '#e00606', // Android,
+  unifiedErrors: false, // use unified error messages (default false)
+  passcodeFallback: false,
+  fallbackLabel: 'Show Passcode', // iOS (if empty, then label is hidden)
+};
 class LoginScreen extends Component {
   static navigationOptions = { header: null };
 
@@ -30,10 +40,37 @@ class LoginScreen extends Component {
       isLoading: false,
       email: props.navigation.getParam('email', ''),
       password: '',
+      biometryType: '',
+      biometrySupport: true,
+      loginAuto: false,
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    TouchID.isSupported(optionalConfigObject)
+      .then((biometryType) => {
+        if (biometryType === 'FaceID') {
+          console.log('FaceID is supported.');
+        } else {
+          console.log('TouchID is supported.');
+        }
+      })
+      .catch((error) => {
+        this.setState({
+          biometrySupport: false,
+        });
+        console.log('errr catch support ', error);
+      });
+    const loginAuto = await AsyncStorage.getItem('@JobCoreCredential');
+    if (loginAuto) {
+      this.setState({
+        loginAuto: true,
+      });
+    } else {
+      this.setState({
+        loginAuto: false,
+      });
+    }
     this.loginSubscription = accountStore.subscribe('Login', (user) =>
       this.loginHandler(user),
     );
@@ -57,6 +94,10 @@ class LoginScreen extends Component {
       // });
       CustomToast('Validation link sent! Check your email inbox.');
     });
+
+    TouchID.isSupported().then((biometryType) => {
+      this.setState({ biometryType });
+    });
   }
 
   componentWillUnmount() {
@@ -64,6 +105,24 @@ class LoginScreen extends Component {
     this.registerSubscription.unsubscribe();
     this.accountStoreError.unsubscribe();
   }
+
+  pressHandler = async () => {
+    const value = await AsyncStorage.getItem('@JobCoreCredential');
+    TouchID.authenticate('Login', optionalConfigObject)
+      .then(async (success) => {
+        const dataCredential = JSON.parse(value);
+        if (success) {
+          if (value) {
+            const { email, password } = dataCredential;
+            this.loginWithTouchId(email, password);
+          }
+        }
+      })
+      .catch((error) => {
+        console.log('errorr errr ', error);
+        // Alert.alert('Authentication Failed');
+      });
+  };
 
   registerHandler = (user) => {
     this.isLoading(false);
@@ -73,9 +132,25 @@ class LoginScreen extends Component {
     });
   };
 
-  loginHandler = (response: any) => {
-    console.log('DEBUG:LOGIN:', response);
-    this.isLoading(false);
+  alertSaveCredential = async () => {
+    const { email, password } = this.state;
+    let credentialUser = {
+      email,
+      password,
+    };
+    // console.log('dattica  ',credentialUser)
+    await AsyncStorage.setItem(
+      '@JobCoreCredential',
+      JSON.stringify(credentialUser),
+    );
+    this.props.navigation.navigate(APP_ROUTE);
+  };
+
+  loginHandler = async (response: any) => {
+    const permissionTouchId = await AsyncStorage.getItem(
+      '@JobCoreCredentialPermission',
+    );
+    // console.log('DEBUG:LOGINNNN: ', response);
     let status;
     let token;
 
@@ -100,20 +175,48 @@ class LoginScreen extends Component {
           accountActions.requestSendValidationLink(email);
         },
       });
-      _storeData = async () => {
-        try {
-          await AsyncStorage.setItem('@JobCore:isFirstLogin', true);
-        } catch (error) {
-          // Error saving data
-        }
-      };
+      // const _storeData = async () => {
+      //   try {
+      //     await AsyncStorage.setItem('@JobCore:isFirstLogin', true);
+      //   } catch (error) {
+      //     // Error saving data
+      //   }
+      // };
 
       return;
     }
 
     if (token) {
-      Toast.toastInstance._root.closeToast();
-      this.props.navigation.navigate(APP_ROUTE);
+      this.isLoading(false);
+      if (this.state.biometrySupport) {
+        if (permissionTouchId) {
+          //si el usuario coloco el permiso en true
+          if (!this.state.loginAuto) {
+            Toast.toastInstance._root.closeToast();
+            Alert.alert(
+              'JobCore Talent',
+              'Activate Touch ID',
+              [
+                {
+                  text: 'No',
+                  style: 'cancel',
+                  onPress: () => this.props.navigation.navigate(APP_ROUTE),
+                },
+                { text: 'Accept', onPress: () => this.alertSaveCredential() },
+              ],
+              { cancelable: false },
+            );
+          } else {
+            this.props.navigation.navigate(APP_ROUTE);
+          }
+        } else {
+          this.props.navigation.navigate(APP_ROUTE);
+        }
+      } else {
+        this.props.navigation.navigate(APP_ROUTE);
+      }
+    } else {
+      this.isLoading(false);
     }
   };
 
@@ -123,12 +226,15 @@ class LoginScreen extends Component {
   };
 
   render() {
+    const { loginAuto, biometrySupport } = this.state;
+    // console.log('loginn autoo ',loginAuto)
+    // console.log('biometry ', biometrySupport)
     return (
       <I18n>
         {(t) => (
           <Content contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>
-              {this.state.isLoading ? <Loading/> : null}
+              {this.state.isLoading ? <Loading /> : null}
               <Image
                 style={styles.viewBackground}
                 source={require('../../assets/image/bg.jpg')}
@@ -165,6 +271,18 @@ class LoginScreen extends Component {
                     {t('LOGIN.forgotPassword')}
                   </Text>
                 </TouchableOpacity>
+
+                {biometrySupport &&
+                  (loginAuto && (
+                    <TouchableOpacity
+                      full
+                      onPress={() => this.pressHandler()}
+                      style={styles.viewButtomSignUp}>
+                      <Text style={styles.textButtomForgot}>
+                        {t('LOGIN.loginTouch')} {this.state.biometryType}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
                 <Button
                   full
                   onPress={this.login}
@@ -210,6 +328,16 @@ class LoginScreen extends Component {
       this.state.password,
       fcmToken,
     );
+  };
+
+  loginWithTouchId = async (email, password) => {
+    this.isLoading(true);
+
+    const fcmToken = await firebase.messaging().getToken();
+
+    LOG(this, JSON.stringify(fcmToken));
+
+    accountActions.login(email.toLowerCase().trim(), password, fcmToken);
   };
 
   isLoading = (isLoading) => {
