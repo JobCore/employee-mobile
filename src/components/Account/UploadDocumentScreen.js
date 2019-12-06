@@ -188,14 +188,33 @@ class UploadDocumentScreen extends Component {
                             style={UploadDocumentStyle.viewInput}
                             inlineLabel
                             rounded>
-                            <Label style={{ width: 180 }}>
-                              {doc.name || `document #${doc.id}`}
-                            </Label>
-                            <Label style={UploadDocumentStyle.statusStyle}>
-                              {doc.state
-                                ? this.camelCaseIt(doc.state)
-                                : 'Pending'}
-                            </Label>
+                            <View
+                              style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                              }}>
+                              <Label numberOfLines={1} style={{ width: 180 }}>
+                                {doc.name || `document #${doc.id}`}
+                              </Label>
+                              <Label style={UploadDocumentStyle.statusStyle}>
+                                {doc.state
+                                  ? this.camelCaseIt(doc.state)
+                                  : 'Pending'}
+                              </Label>
+                            </View>
+                            {doc.rejected_reason ? (
+                              <View>
+                                <Label
+                                  numberOfLines={1}
+                                  style={
+                                    UploadDocumentStyle.documentRejectedText
+                                  }>
+                                  {`${t('USER_DOCUMENTS.rejectedReason')} ${
+                                    doc.rejected_reason
+                                  }`}
+                                </Label>
+                              </View>
+                            ) : null}
                           </Item>
                           <TouchableOpacity
                             onPress={() =>

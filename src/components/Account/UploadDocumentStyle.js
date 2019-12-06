@@ -38,14 +38,13 @@ export default StyleSheet.create({
     borderRadius: 50,
     borderWidth: 1,
     color: BLUE_DARK,
-    height: 40,
     marginTop: 10,
     marginBottom: 10,
     paddingLeft: 20,
     paddingRight: 10,
-    paddingTop: 0,
     width: '100%',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
+    padding: 10,
   },
   textButtom: {
     fontSize: 16,
@@ -81,6 +80,9 @@ export default StyleSheet.create({
   userStatusLabelTextRejected: {
     color: WHITE_MAIN,
     marginLeft: 20,
+  },
+  documentRejectedText: {
+    color: LOW_RED,
   },
 
   closeIconApproved: {

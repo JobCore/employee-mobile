@@ -67,6 +67,7 @@ export default {
     noDocuments: 'No documents yet',
     allowDocuments: 'Approved',
     notAllowDocuments: 'Not approved at the moment',
+    rejectedReason: 'Rejected:',
   },
   SETTINGS: {
     settings: 'Settings',
