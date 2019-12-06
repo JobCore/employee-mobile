@@ -16,7 +16,7 @@ class UploadDocumentScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      isLoading: true,
       showWarning: true,
       isAllowDocuments: true,
       documents: [],
@@ -36,7 +36,7 @@ class UploadDocumentScreen extends Component {
     this.getDocumentsSubscription = accountStore.subscribe(
       'GetDocuments',
       (documents) => {
-        this.setState({ documents });
+        this.setState({ documents, isLoading: false });
         console.log('GetDocuments: ', documents);
       },
     );

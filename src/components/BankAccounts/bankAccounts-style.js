@@ -12,6 +12,11 @@ export const bankAccountsStyle = StyleSheet.create({
     paddingHorizontal: 35,
     paddingTop: 20,
   },
+  buttonContainer: {
+    paddingHorizontal: 35,
+    marginBottom: 40,
+    marginTop: 40,
+  },
   viewButtomLogin: {
     backgroundColor: BLUE_DARK,
     borderRadius: 50,
@@ -42,7 +47,7 @@ export const bankAccountsStyle = StyleSheet.create({
     color: WHITE_MAIN,
   },
   garbageIcon: {
-    width: 24,
+    width: 20,
     height: 24,
     marginLeft: 10,
   },

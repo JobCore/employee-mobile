@@ -49,10 +49,15 @@ export default {
     saveProfile: 'Guardar perfil',
     textBio:
       '¿Qué te hace talentoso? Habla un poco sobre tu experiencia y habilidades previas',
-    myBanksAccounts: 'Mis cuentas bancarias',
-    addBankAccount: 'Agregar cuentas bancarias',
-    affiliateBankAccount: 'AFILIAR CUENTA BANCARIA',
     helpButton: 'Ayuda',
+  },
+  BANK_ACCOUNTS: {
+    myBanksAccounts: 'Mis cuentas bancarias',
+    affiliateBankAccount: 'AFILIAR CUENTA BANCARIA',
+    addBankAccount: 'AGREGAR CUENTA BANCARIA',
+    bankAccounts: 'CUENTAS BANCARIAS',
+    deleteBankAcount: 'Eliminar',
+    wantToDeleteBankAccount: 'Estas seguro de eliminar la cuenta de banco:',
   },
   USER_DOCUMENTS: {
     uploadDocuments: 'Mis Documentos',

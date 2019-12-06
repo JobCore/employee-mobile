@@ -56,7 +56,11 @@ class AddBankAccount extends View {
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-            <TabHeader title={t('PROFILE.bankAccounts')} />
+            <TabHeader
+              onPressBack={() => this.props.navigation.goBack()}
+              goBack
+              title={t('BANK_ACCOUNTS.addBankAccountTitle')}
+            />
             <PlaidAuthenticator
               onMessage={this.onPlaidMessage}
               publicKey={PLAID_PUBLIC_KEY}
@@ -115,4 +119,4 @@ class AddBankAccount extends View {
 
 AddBankAccount.routeName = 'AddBankAccount';
 
-export { AddBankAccount };
+export default AddBankAccount;

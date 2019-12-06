@@ -14,12 +14,14 @@ import {
   Loading,
   BackgroundHeader,
 } from '../../shared/components';
-import { UPLOAD_DOCUMENT_ROUTE } from '../../constants/routes';
+import {
+  UPLOAD_DOCUMENT_ROUTE,
+  BANK_ACCOUNTS_ROUTE,
+} from '../../constants/routes';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import EditProfile from './EditProfile';
 import { TabHeader } from '../../shared/components/TabHeader';
 import PublicProfile from './PublicProfile';
-import { BankAccounts } from '../BankAccounts/BankAccounts';
 
 class Profile extends Component {
   static navigationOptions = {
@@ -99,10 +101,6 @@ class Profile extends Component {
     CustomToast(err, 'danger');
   };
 
-  goToBankAccounts = () => {
-    this.props.navigation.navigate(BankAccounts.routeName);
-  };
-
   render() {
     return (
       <I18n>
@@ -168,10 +166,11 @@ class Profile extends Component {
                   </Button>
                 </View>
               </TouchableOpacity>
-              {/* <TouchableOpacity onPress={this.goToAddBankAccount}>
+              <View style={styles.darkLine} />
+              <TouchableOpacity onPress={this.goToBankAccounts}>
                 <View style={styles.profileButton}>
                   <Text style={styles.buttonTextName}>
-                    {t('PROFILE.bankAccounts')}
+                    {t('BANK_ACCOUNTS.bankAccounts')}
                   </Text>
                   <Button transparent>
                     <Image
@@ -180,7 +179,7 @@ class Profile extends Component {
                     />
                   </Button>
                 </View>
-              </TouchableOpacity> */}
+              </TouchableOpacity>
               <View style={styles.darkLine} />
               <TouchableOpacity onPress={this.goToMyDocuments}>
                 <View style={styles.profileButton}>
@@ -227,6 +226,10 @@ class Profile extends Component {
 
   goToPublicProfile = () => {
     this.props.navigation.navigate(PublicProfile.routeName);
+  };
+
+  goToBankAccounts = () => {
+    this.props.navigation.navigate(BANK_ACCOUNTS_ROUTE);
   };
 
   updateCompleted() {

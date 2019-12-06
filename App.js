@@ -12,6 +12,8 @@ import LoginScreen from './src/components/Account/LoginScreen';
 import RegisterScreen from './src/components/Account/RegisterScreen';
 import EditProfile from './src/components/Account/EditProfile';
 import UploadDocumentScreen from './src/components/Account/UploadDocumentScreen';
+import BankAccounts from './src/components/BankAccounts/BankAccounts';
+import AddBankAccount from './src/components/BankAccounts/AddBankAccount';
 import ForgotScreen from './src/components/Account/ForgotScreen';
 import ChangePassword from './src/components/Account/ChangePassword';
 import PublicProfile from './src/components/Account/PublicProfile';
@@ -54,6 +56,7 @@ import {
   JOB_PAYMENTS_ROUTE,
   HELP_ROUTE,
   UPLOAD_DOCUMENT_ROUTE,
+  BANK_ACCOUNTS_ROUTE,
 } from './src/constants/routes';
 import {
   BLUE_DARK,
@@ -125,6 +128,8 @@ export const AppStack = createStackNavigator(
     [SETTING_ROUTE]: SettingScreen,
     [RESET_ROUTE]: ChangePassword,
     [UPLOAD_DOCUMENT_ROUTE]: UploadDocumentScreen,
+    [BANK_ACCOUNTS_ROUTE]: BankAccounts,
+    [AddBankAccount.routeName]: AddBankAccount,
     [EditProfile.routeName]: EditProfile,
     [PublicProfile.routeName]: PublicProfile,
     [EDIT_LOCATION_ROUTE]: EditLocation,

@@ -47,10 +47,16 @@ export default {
     saveProfile: 'Save profile',
     textBio:
       'What makes you a talent? Talk a little about your previous experience and skills',
-    myBanksAccounts: 'My bank accounts',
-    addBankAccount: 'Affiliate Bank Account',
-    affiliateBankAccount: 'AFFILIATE BANK ACCOUNT',
     helpButton: 'Help',
+  },
+  BANK_ACCOUNTS: {
+    myBanksAccounts: 'My bank accounts',
+    affiliateBankAccount: 'AFFILIATE BANK ACCOUNT',
+    addBankAccount: 'ADD BANK ACCOUNT',
+    addBankAccountTitle: 'Add Bank Account',
+    bankAccounts: 'Bank Accounts',
+    deleteBankAcount: 'Delete',
+    wantToDeleteBankAccount: 'Are you sure to delete bank account:',
   },
   USER_DOCUMENTS: {
     uploadDocuments: 'My documents',
@@ -196,8 +202,6 @@ export default {
     profileSettings: 'Profile Settings',
     editProfile: 'Edit profile',
     publicProfile: 'View Public Profile',
-    addBankAccount: 'ADD BANK ACCOUNT',
-    bankAccounts: 'Bank Accounts',
   },
   REVIEWS: {
     reviews: 'Reviews',

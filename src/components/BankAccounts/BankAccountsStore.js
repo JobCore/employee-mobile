@@ -4,6 +4,7 @@ export const BANK_ACCOUNTS_EVENT = 'BankAccountsEvent';
 export const BANK_ACCOUNTS_NEW_EVENT = 'BankAccountsNewEvent';
 export const BANK_ACCOUNTS_REMOVE_EVENT = 'BankAccountsRemoveEvent';
 export const BANK_ACCOUNTS_ERROR_EVENT = 'BankAccountsErrorEvent';
+export const DELETE_BANK_ACCOUNT_EVENT = 'DeleteBankAccountEvent';
 
 class BankAccountsStore extends FluxStore {
   constructor() {
@@ -12,6 +13,7 @@ class BankAccountsStore extends FluxStore {
     this.addEvent(BANK_ACCOUNTS_NEW_EVENT);
     this.addEvent(BANK_ACCOUNTS_REMOVE_EVENT);
     this.addEvent(BANK_ACCOUNTS_ERROR_EVENT);
+    this.addEvent(DELETE_BANK_ACCOUNT_EVENT);
   }
 }
 
