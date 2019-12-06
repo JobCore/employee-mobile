@@ -7,6 +7,7 @@ export const GRAY_MAIN = '#6B7374';
 export const GRAY_LIGHT = '#b0b0b0';
 export const BG_GRAY_LIGHT = '#f8f8f8';
 export const RED_MAIN = '#C70404';
+export const LOW_RED = '#ff7272';
 export const BLACK_MAIN = '#000000';
 export const WHITE_MAIN = '#fff';
 export const GREEN_MAIN = '#34A2B1';

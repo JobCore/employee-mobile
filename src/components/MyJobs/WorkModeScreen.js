@@ -5,7 +5,7 @@ import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 // import inviteStore from './InviteStore';
 // import { JobDetails } from '../../shared/components';
-import { LOG, storeErrorHandler } from '../../shared';
+import { LOG } from '../../shared';
 import { CustomToast, Loading, openMapsApp } from '../../shared/components';
 import moment from 'moment';
 import { ModalHeader } from '../../shared/components/ModalHeader';

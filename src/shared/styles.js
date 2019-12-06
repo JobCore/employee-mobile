@@ -24,6 +24,15 @@ const headerStyles = StyleSheet.create({
     textAlign: 'center',
     width: 30,
   },
+  backButton: {
+    // color: WHITE_MAIN,
+    fontSize: 35,
+    // fontWeight: '100',
+    height: 25,
+    // resizeMode: 'contain',
+    // textAlign: 'center',
+    width: 25,
+  },
   modalTitleHeader: {
     color: WHITE_MAIN,
     width: 200,

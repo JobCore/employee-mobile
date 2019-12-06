@@ -9,7 +9,7 @@ import { i18next } from '../../i18n';
 import * as jobActions from './actions';
 import jobStore from './JobStore';
 import { JobDetails } from '../../shared/components';
-import { LOG, storeErrorHandler } from '../../shared';
+import { LOG } from '../../shared';
 import { Loading, openMapsApp, CustomToast } from '../../shared/components';
 import MARKER_IMG from '../../assets/image/map-marker.png';
 import { RATE_EMPLOYER_ROUTE } from '../../constants/routes';

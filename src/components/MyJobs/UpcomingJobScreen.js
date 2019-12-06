@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { View, Dimensions, Alert, ScrollView } from 'react-native';
-import { Container, Content } from 'native-base';
+import { Container } from 'native-base';
 import * as jobActions from './actions';
 import { inviteStyles } from '../Invite/InviteDetailsStyle';
 import jobStore from './JobStore';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
-import { LOG, storeErrorHandler } from '../../shared';
+import { LOG } from '../../shared';
 import { Loading, openMapsApp, CustomToast } from '../../shared/components';
 import MARKER_IMG from '../../assets/image/map-marker.png';
 import { log } from 'pure-logger';

@@ -66,6 +66,8 @@ PODS:
   - Protobuf (3.11.1)
   - React (0.59.10):
     - React/Core (= 0.59.10)
+  - react-native-document-picker (3.2.4):
+    - React
   - react-native-image-picker (0.28.1):
     - React
   - react-native-maps (0.24.2):
@@ -115,6 +117,7 @@ DEPENDENCIES:
   - Firebase/Core (~> 5.19.0)
   - Firebase/Messaging (~> 5.19.0)
   - GoogleAppMeasurement (~> 5.8.0)
+  - react-native-document-picker (from `../node_modules/react-native-document-picker`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
@@ -151,6 +154,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   React:
     :path: "../node_modules/react-native"
+  react-native-document-picker:
+    :path: "../node_modules/react-native-document-picker"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-maps:
@@ -180,6 +185,7 @@ SPEC CHECKSUMS:
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   Protobuf: 20d79da7f20b5928b80043b05080b816e802659e
   React: 36d0768f9e93be2473b37e7fa64f92c1d5341eef
+  react-native-document-picker: c36bf5f067a581657ecaf7124dcd921a8be19061
   react-native-image-picker: fd93361c666f397bdf72f9c6c23f13d2685b9173
   react-native-maps: 0316ed017dbb64b33b227751fa810e2454fcfa39
   react-native-netinfo: 27d908bc7ee7b9f29400c02938a0b2a27a1015be
@@ -189,6 +195,6 @@ SPEC CHECKSUMS:
   TouchID: ba4c656d849cceabc2e4eef722dea5e55959ecf4
   yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
 
-PODFILE CHECKSUM: e9137eacb77c9a285d6b4066d9ec462da7d624ad
+PODFILE CHECKSUM: 41588925bfbfc0424beeff133967cf4810f71ac2
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.8.4

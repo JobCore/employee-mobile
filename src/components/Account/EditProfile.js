@@ -27,7 +27,6 @@ import { RESET_ROUTE, JOB_PREFERENCES_ROUTE } from '../../constants/routes';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import { GRAY_MAIN, BG_GRAY_LIGHT, BLUE_DARK } from '../../shared/colorPalette';
 import { TabHeader } from '../../shared/components/TabHeader';
-
 const icon = require('../../assets/image/tab/profile.png');
 
 const IMAGE_PICKER_OPTIONS = {
@@ -278,11 +277,11 @@ class EditProfile extends Component {
                     <View
                       style={{
                         flexDirection: 'row-reverse',
+                        marginBottom: 20,
                       }}>
-                      <View>
+                      <View style={{ flexDirection: 'row' }}>
                         <View>
-                          <Text
-                            style={editProfileStyles.textButtomChangePassword}>
+                          <Text style={editProfileStyles.activateToachIdText}>
                             Activate touch id
                           </Text>
                         </View>

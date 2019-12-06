@@ -19,7 +19,7 @@ target 'coJobcoreTalent' do
   pod 'TouchID', :path => '../node_modules/react-native-touch-id'
 
   pod 'RNI18n', :path => '../node_modules/react-native-i18n'
-
+  pod 'react-native-document-picker', :path => '../node_modules/react-native-document-picker'
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
   pod 'react-native-maps', path: rn_maps_path
