@@ -49,8 +49,6 @@ class LoginScreen extends Component {
   async componentDidMount() {
     TouchID.isSupported(optionalConfigObject)
       .then((biometryType) => {
-        // Success code
-        // console.log('biometryyyyy .', biometryType);
         if (biometryType === 'FaceID') {
           console.log('FaceID is supported.');
         } else {
@@ -148,9 +146,11 @@ class LoginScreen extends Component {
     this.props.navigation.navigate(APP_ROUTE);
   };
 
-  loginHandler = (response: any) => {
-    // console.log('DEBUG:LOGINNNN:', response);
-
+  loginHandler = async (response: any) => {
+    const permissionTouchId = await AsyncStorage.getItem(
+      '@JobCoreCredentialPermission',
+    );
+    // console.log('DEBUG:LOGINNNN: ', response);
     let status;
     let token;
 
@@ -189,21 +189,26 @@ class LoginScreen extends Component {
     if (token) {
       this.isLoading(false);
       if (this.state.biometrySupport) {
-        if (!this.state.loginAuto) {
-          Toast.toastInstance._root.closeToast();
-          Alert.alert(
-            'JobCore Talent',
-            'Do you want to save your credentials ?',
-            [
-              {
-                text: 'No',
-                style: 'cancel',
-                onPress: () => this.props.navigation.navigate(APP_ROUTE),
-              },
-              { text: 'Accept', onPress: () => this.alertSaveCredential() },
-            ],
-            { cancelable: false },
-          );
+        if (permissionTouchId) {
+          //si el usuario coloco el permiso en true
+          if (!this.state.loginAuto) {
+            Toast.toastInstance._root.closeToast();
+            Alert.alert(
+              'JobCore Talent',
+              'Activate Touch ID',
+              [
+                {
+                  text: 'No',
+                  style: 'cancel',
+                  onPress: () => this.props.navigation.navigate(APP_ROUTE),
+                },
+                { text: 'Accept', onPress: () => this.alertSaveCredential() },
+              ],
+              { cancelable: false },
+            );
+          } else {
+            this.props.navigation.navigate(APP_ROUTE);
+          }
         } else {
           this.props.navigation.navigate(APP_ROUTE);
         }
@@ -278,7 +283,6 @@ class LoginScreen extends Component {
                       </Text>
                     </TouchableOpacity>
                   ))}
-
                 <Button
                   full
                   onPress={this.login}
