@@ -19,7 +19,7 @@ import inviteStore from './InviteStore';
 import MARKER_IMG from '../../assets/image/map-marker.png';
 import { ModalHeader } from '../../shared/components/ModalHeader';
 import BtnCancelSave from '../../shared/components/BtnCancelSave';
-
+import { googleApiKeyWeb } from '../../shared/utils';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 const ASPECT_RATIO = width / height;
@@ -78,6 +78,7 @@ class EditLocation extends PureComponent {
   };
 
   render() {
+    console.log('googleApiKeyWeb: ', googleApiKeyWeb);
     return (
       <I18n>
         {(t) => (
@@ -115,7 +116,7 @@ class EditLocation extends PureComponent {
                 }}
                 getDefaultValue={() => ''}
                 query={{
-                  key: 'AIzaSyCB9MTiYqJuKft1wN1iH0Gl4WUlG7tksns',
+                  key: googleApiKeyWeb,
                   language: 'en',
                   types: 'address',
                 }}
