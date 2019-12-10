@@ -2,8 +2,6 @@ import moment from 'moment';
 import { Platform, Dimensions } from 'react-native';
 import snakeCase from 'snake-case';
 
-const googleApiKeyWeb = 'AIzaSyCxk3OGJ1zAYZZWoa4Lu3CuCJPrrT5-_Wg';
-
 /**
  * Validate if a string is valid or not
  * @param stringToTest The string to validate
@@ -132,5 +130,4 @@ export {
   ERROR,
   equalMonthAndYear,
   storeErrorHandler,
-  googleApiKeyWeb,
 };

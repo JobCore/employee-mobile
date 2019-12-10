@@ -19,7 +19,8 @@ import inviteStore from './InviteStore';
 import MARKER_IMG from '../../assets/image/map-marker.png';
 import { ModalHeader } from '../../shared/components/ModalHeader';
 import BtnCancelSave from '../../shared/components/BtnCancelSave';
-import { googleApiKeyWeb } from '../../shared/utils';
+import { GOOGLE_API_KEY } from 'react-native-dotenv';
+
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 const ASPECT_RATIO = width / height;
@@ -78,7 +79,6 @@ class EditLocation extends PureComponent {
   };
 
   render() {
-    console.log('googleApiKeyWeb: ', googleApiKeyWeb);
     return (
       <I18n>
         {(t) => (
@@ -116,7 +116,7 @@ class EditLocation extends PureComponent {
                 }}
                 getDefaultValue={() => ''}
                 query={{
-                  key: googleApiKeyWeb,
+                  key: GOOGLE_API_KEY,
                   language: 'en',
                   types: 'address',
                 }}
