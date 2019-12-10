@@ -59,6 +59,6 @@ buck-out/
 
 #Android
 *.keystore
-**gradle.properties
-*gradle.properties
-android/gradle.properties
+# **gradle.properties
+# *gradle.properties
+# android/gradle.properties

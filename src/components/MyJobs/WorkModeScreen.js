@@ -184,7 +184,7 @@ class WorkModeScreen extends Component {
               </ScrollView>
             </View>
             <View
-              style={[jobStyles.clockButtonBar, { flex: 2, paddingTop: 20 }]}>
+              style={[jobStyles.clockButtonBar, { flex: 4, paddingTop: 20 }]}>
               {this.renderButtons()}
             </View>
           </ViewFlex>
