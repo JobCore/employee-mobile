@@ -2,10 +2,7 @@ import moment from 'moment';
 import { Platform, Dimensions } from 'react-native';
 import snakeCase from 'snake-case';
 
-/**
- * Is on production or not
- */
-export const PROD = true;
+const googleApiKeyWeb = 'AIzaSyCxk3OGJ1zAYZZWoa4Lu3CuCJPrrT5-_Wg';
 
 /**
  * Validate if a string is valid or not
@@ -135,4 +132,5 @@ export {
   ERROR,
   equalMonthAndYear,
   storeErrorHandler,
+  googleApiKeyWeb,
 };
