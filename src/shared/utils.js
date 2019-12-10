@@ -2,7 +2,7 @@ import moment from 'moment';
 import { Platform, Dimensions } from 'react-native';
 import snakeCase from 'snake-case';
 
-const googleApiKeyWeb = 'AIzaSyDsJKar6kRvBW6_y84fmT9fEJgj3F0djSY';
+const googleApiKeyWeb = 'AIzaSyCxk3OGJ1zAYZZWoa4Lu3CuCJPrrT5-_Wg';
 
 /**
  * Validate if a string is valid or not
