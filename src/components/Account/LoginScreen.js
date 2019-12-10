@@ -256,6 +256,7 @@ class LoginScreen extends Component {
                   </Item>
                   <Item style={styles.viewInput} inlineLabel rounded>
                     <Input
+                      autoCapitalize={'none'}
                       value={this.state.password}
                       placeholder={t('LOGIN.password')}
                       onChangeText={(text) => this.setState({ password: text })}
