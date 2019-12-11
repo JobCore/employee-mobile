@@ -200,6 +200,7 @@ export default {
     publicProfile: 'View Public Profile',
     addBankAccount: 'ADD BANK ACCOUNT',
     bankAccounts: 'Bank Accounts',
+    communityGuidlines: 'Community Guidelines',
   },
   REVIEWS: {
     reviews: 'Reviews',
