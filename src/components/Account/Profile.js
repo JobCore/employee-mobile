@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, Linking } from 'react-native';
+import { View, Image, TouchableOpacity, Linking, Alert } from 'react-native';
 import { Container, Content, Text, Thumbnail, Button } from 'native-base';
 import styles from './ProfileStyle';
 import * as inviteActions from '../Invite/actions';
@@ -20,6 +20,8 @@ import EditProfile from './EditProfile';
 import { TabHeader } from '../../shared/components/TabHeader';
 import PublicProfile from './PublicProfile';
 import { BankAccounts } from '../BankAccounts/BankAccounts';
+import * as actions from './actions';
+import { LOG } from '../../shared';
 
 class Profile extends Component {
   static navigationOptions = {
@@ -61,6 +63,10 @@ class Profile extends Component {
       'InviteStoreError',
       this.errorHandler,
     );
+    this.logoutSubscription = accountStore.subscribe(
+      'Logout',
+      this.logoutHandler,
+    );
     this.jobStoreError = jobStore.subscribe('JobStoreError', this.errorHandler);
 
     this.firstLoad();
@@ -68,6 +74,7 @@ class Profile extends Component {
   }
 
   componentWillUnmount() {
+    this.logoutSubscription.unsubscribe();
     this.getProfileSubscription.unsubscribe();
     this.editProfileSubscription.unsubscribe();
     this.getEmployeeRatingsSubscription.unsubscribe();
@@ -101,6 +108,27 @@ class Profile extends Component {
 
   goToBankAccounts = () => {
     this.props.navigation.navigate(BankAccounts.routeName);
+  };
+
+  logout = () => {
+    Alert.alert(i18next.t('SETTINGS.wantToLogout'), '', [
+      {
+        text: i18next.t('APP.cancel'),
+        onPress: () => {
+          LOG(this, 'Cancel logout');
+        },
+      },
+      {
+        text: i18next.t('SETTINGS.logout'),
+        onPress: () => {
+          this.setState({ isLoading: true }, actions.logout());
+        },
+      },
+    ]);
+  };
+
+  logoutHandler = () => {
+    this.setState({ isLoading: false });
   };
 
   render() {
@@ -210,6 +238,12 @@ class Profile extends Component {
                     />
                   </Button>
                 </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                full
+                onPress={this.logout}
+                style={styles.viewButtomSignUp}>
+                <Text style={styles.textButtomSignUp}>{'Log Out'}</Text>
               </TouchableOpacity>
             </Content>
           </Container>
