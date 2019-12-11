@@ -204,6 +204,7 @@ export default {
     profileSettings: 'Profile Settings',
     editProfile: 'Editar perfil',
     publicProfile: 'Ver Perfil Publico',
+    communityGuidlines: 'Guia de la Comunidad',
   },
   REVIEWS: {
     Reviews: 'Opiniones',

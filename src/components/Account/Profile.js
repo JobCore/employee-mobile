@@ -195,6 +195,22 @@ class Profile extends Component {
                   </Button>
                 </View>
               </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  Linking.openURL('https://jobcore.com/community-guidelines/')
+                }>
+                <View style={styles.profileButton}>
+                  <Text style={styles.buttonTextName}>
+                    {t('PROFILE.communityGuidlines')}
+                  </Text>
+                  <Button transparent>
+                    <Image
+                      style={styles.buttonIcon}
+                      source={require('../../assets/img/next.png')}
+                    />
+                  </Button>
+                </View>
+              </TouchableOpacity>
             </Content>
           </Container>
         )}
