@@ -215,4 +215,10 @@ export default {
     payments: 'Payments',
     emptyPayments: 'You have no payments yet',
   },
+  TERMS_AND_CONDITIONS: {
+    accept: 'Accept',
+    reject: 'Reject',
+    title: 'Terms and conditions',
+    acceptTerms: 'Accept terms and conditions',
+  },
 };

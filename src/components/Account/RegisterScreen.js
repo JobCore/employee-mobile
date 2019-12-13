@@ -16,7 +16,10 @@ import {
   Icon,
   CheckBox,
 } from 'native-base';
-import { LOGIN_ROUTE } from '../../constants/routes';
+import {
+  LOGIN_ROUTE,
+  TERMS_AND_CONDITIONS_ROUTE,
+} from '../../constants/routes';
 import styles from './RegisterStyle';
 import * as actions from './actions';
 import store from './AccountStore';
@@ -24,7 +27,6 @@ import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 // import { FormView } from '../../shared/platform';
 import { CustomToast, Loading } from '../../shared/components';
-import TermsAndConditionsScreen from './TermsAndConditionsScreen';
 
 class RegisterScreen extends Component {
   static navigationOptions = { header: null };
@@ -41,7 +43,7 @@ class RegisterScreen extends Component {
       cities: [],
       city: '',
       isRegisterOpen: true,
-      acceptTerms: false,
+      acceptTerms: store.getState('TermsAndCondition'),
     };
   }
 
@@ -55,6 +57,12 @@ class RegisterScreen extends Component {
     this.accountStoreError = store.subscribe('AccountStoreError', (err) =>
       this.errorHandler(err),
     );
+    this.editTermsAndConditionsSubscription = store.subscribe(
+      'TermsAndCondition',
+      (bool) => {
+        this.setState({ acceptTerms: bool });
+      },
+    );
     actions.getCities();
   }
 
@@ -62,6 +70,7 @@ class RegisterScreen extends Component {
     this.registerSubscription.unsubscribe();
     this.accountStoreError.unsubscribe();
     this.getCitiesSubscription.unsubscribe();
+    this.editTermsAndConditionsSubscription.unsubscribe();
   }
 
   registerHandler = () => {
@@ -75,142 +84,146 @@ class RegisterScreen extends Component {
     CustomToast(err, 'danger');
   };
 
-  openTermsAndConditions = () => {
-    this.setState({ isRegisterOpen: false });
-  };
-
   render() {
-    const { cities, city, isRegisterOpen, acceptTerms } = this.state;
+    const { cities, city, acceptTerms } = this.state;
     console.log('cities: ', cities);
     console.log('city: ', city);
     return (
       <I18n>
         {(t) => (
           <Content contentContainerStyle={{ flexGrow: 1 }}>
-            {isRegisterOpen ? (
-              <View style={styles.container}>
-                {this.state.isLoading ? <Loading /> : null}
-                <Image
-                  style={styles.viewBackground}
-                  source={require('../../assets/image/bg.jpg')}
-                />
-                <Image
-                  style={styles.viewLogo}
-                  source={require('../../assets/image/logo1.png')}
-                />
-                <View style={styles.formContainer}>
-                  <Form>
-                    <Item style={styles.viewInput} inlineLabel rounded>
-                      <Input
-                        value={this.state.firstName}
-                        placeholder={t('REGISTER.firstName')}
-                        onChangeText={(text) =>
-                          this.setState({ firstName: text })
-                        }
-                      />
-                    </Item>
-                    <Item style={styles.viewInput} inlineLabel rounded>
-                      <Input
-                        value={this.state.lastName}
-                        placeholder={t('REGISTER.lastName')}
-                        onChangeText={(text) =>
-                          this.setState({ lastName: text })
-                        }
-                      />
-                    </Item>
-                    <Item style={styles.viewInput} inlineLabel rounded>
-                      <Picker
-                        mode="dropdown"
-                        iosHeader={t('REGISTER.city')}
-                        placeholder={t('REGISTER.city')}
-                        placeholderStyle={{ color: '#575757', paddingLeft: 7 }}
-                        iosIcon={
-                          <Icon
-                            style={{ color: '#27666F' }}
-                            name="arrow-down"
-                          />
-                        }
-                        style={{ width: 270, paddingLeft: 0 }}
-                        selectedValue={this.state.city}
-                        onValueChange={(text) =>
-                          this.setState({ city: text, wroteCity: '' })
-                        }>
-                        {cities.map((city) => (
-                          <Picker.Item
-                            label={city.name}
-                            value={city}
-                            key={city.id}
-                          />
-                        ))}
+            <View style={styles.container}>
+              {this.state.isLoading ? <Loading /> : null}
+              <Image
+                style={styles.viewBackground}
+                source={require('../../assets/image/bg.jpg')}
+              />
+              <Image
+                style={styles.viewLogo}
+                source={require('../../assets/image/logo1.png')}
+              />
+              <View style={styles.formContainer}>
+                <Form>
+                  <Item style={styles.viewInput} inlineLabel rounded>
+                    <Input
+                      value={this.state.firstName}
+                      placeholder={t('REGISTER.firstName')}
+                      onChangeText={(text) =>
+                        this.setState({ firstName: text })
+                      }
+                    />
+                  </Item>
+                  <Item style={styles.viewInput} inlineLabel rounded>
+                    <Input
+                      value={this.state.lastName}
+                      placeholder={t('REGISTER.lastName')}
+                      onChangeText={(text) => this.setState({ lastName: text })}
+                    />
+                  </Item>
+                  <Item style={styles.viewInput} inlineLabel rounded>
+                    <Picker
+                      mode="dropdown"
+                      iosHeader={t('REGISTER.city')}
+                      placeholder={t('REGISTER.city')}
+                      placeholderStyle={{ color: '#575757', paddingLeft: 7 }}
+                      iosIcon={
+                        <Icon style={{ color: '#27666F' }} name="arrow-down" />
+                      }
+                      style={{ width: 270, paddingLeft: 0 }}
+                      selectedValue={this.state.city}
+                      onValueChange={(text) =>
+                        this.setState({ city: text, wroteCity: '' })
+                      }>
+                      {cities.map((city) => (
                         <Picker.Item
-                          label={t('REGISTER.others')}
-                          value="others"
-                          key={t('REGISTER.others')}
+                          label={city.name}
+                          value={city}
+                          key={city.id}
                         />
-                      </Picker>
-                    </Item>
-                    <Item style={styles.viewInput} inlineLabel rounded>
-                      <Input
-                        disabled={city !== 'others'}
-                        value={this.state.wroteCity}
-                        placeholder={t('REGISTER.wroteCity')}
-                        onChangeText={(text) =>
-                          this.setState({ wroteCity: text })
-                        }
+                      ))}
+                      <Picker.Item
+                        label={t('REGISTER.others')}
+                        value="others"
+                        key={t('REGISTER.others')}
                       />
-                    </Item>
-                    <Item style={styles.viewInput} inlineLabel rounded>
-                      <Input
-                        keyboardType={'email-address'}
-                        autoCapitalize={'none'}
-                        value={this.state.email}
-                        placeholder={t('REGISTER.email')}
-                        onChangeText={(text) => this.setState({ email: text })}
-                      />
-                    </Item>
-                    <Item style={styles.viewInput} inlineLabel rounded>
-                      <Input
-                        value={this.state.password}
-                        placeholder={t('REGISTER.password')}
-                        onChangeText={(text) =>
-                          this.setState({ password: text })
-                        }
-                        secureTextEntry={true}
-                      />
-                    </Item>
-                    <View style={{ flexDirection: 'row' }}>
-                      <CheckBox
-                        checked={acceptTerms}
+                    </Picker>
+                  </Item>
+                  <Item style={styles.viewInput} inlineLabel rounded>
+                    <Input
+                      disabled={city !== 'others'}
+                      value={this.state.wroteCity}
+                      placeholder={t('REGISTER.wroteCity')}
+                      onChangeText={(text) =>
+                        this.setState({ wroteCity: text })
+                      }
+                    />
+                  </Item>
+                  <Item style={styles.viewInput} inlineLabel rounded>
+                    <Input
+                      keyboardType={'email-address'}
+                      autoCapitalize={'none'}
+                      value={this.state.email}
+                      placeholder={t('REGISTER.email')}
+                      onChangeText={(text) => this.setState({ email: text })}
+                    />
+                  </Item>
+                  <Item style={styles.viewInput} inlineLabel rounded>
+                    <Input
+                      value={this.state.password}
+                      placeholder={t('REGISTER.password')}
+                      onChangeText={(text) => this.setState({ password: text })}
+                      secureTextEntry={true}
+                    />
+                  </Item>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      marginTop: 20,
+                      marginBottom: 20,
+                    }}>
+                    <CheckBox
+                      checked={acceptTerms}
+                      onPress={() =>
+                        actions.editTermsAndCondition(!acceptTerms)
+                      }
+                    />
+                    <View
+                      style={styles.termsTitleContainer}
+                      onPress={() =>
+                        this.props.navigation.navigate(
+                          TERMS_AND_CONDITIONS_ROUTE,
+                        )
+                      }>
+                      <Text>{t('TERMS_AND_CONDITIONS.accept')}</Text>
+                      <TouchableOpacity
                         onPress={() =>
-                          this.setState({ acceptTerms: !acceptTerms })
-                        }
-                      />
-                      <Text onPress={() => this.openTermsAndConditions}>
-                        {t('TERMS_AND_CONDITIONS.acceptTerms')}
-                      </Text>
+                          this.props.navigation.navigate(
+                            TERMS_AND_CONDITIONS_ROUTE,
+                          )
+                        }>
+                        <Text style={styles.termsAndConditionsTitle}>
+                          {t('TERMS_AND_CONDITIONS.title')}
+                        </Text>
+                      </TouchableOpacity>
                     </View>
-                  </Form>
-                  <Button
-                    full
-                    onPress={this.register}
-                    style={styles.viewButtomLogin}>
-                    <Text style={styles.textButtom}>
-                      {t('REGISTER.signUp')}
-                    </Text>
-                  </Button>
-                  <TouchableOpacity
-                    full
-                    onPress={() => this.props.navigation.goBack()}
-                    style={styles.viewButtomSignUp}>
-                    <Text style={styles.textButtomSignUp}>
-                      {t('REGISTER.goBack')}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+                  </View>
+                </Form>
+                <Button
+                  full
+                  onPress={this.register}
+                  style={styles.viewButtomLogin}>
+                  <Text style={styles.textButtom}>{t('REGISTER.signUp')}</Text>
+                </Button>
+                <TouchableOpacity
+                  full
+                  onPress={() => this.props.navigation.goBack()}
+                  style={styles.viewButtomSignUp}>
+                  <Text style={styles.textButtomSignUp}>
+                    {t('REGISTER.goBack')}
+                  </Text>
+                </TouchableOpacity>
               </View>
-            ) : (
-              <TermsAndConditionsScreen />
-            )}
+            </View>
           </Content>
         )}
       </I18n>

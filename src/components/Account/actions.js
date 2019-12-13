@@ -237,6 +237,13 @@ const editProfilePicture = (image) => {
     });
 };
 /**
+ * Edit profile picture action
+ * @param  {Boolean}  boolean
+ */
+const editTermsAndCondition = (boolean) => {
+  Flux.dispatchEvent('TermsAndCondition', boolean);
+};
+/**
  * Upload document
  * @param  {File}  document
  */
@@ -303,4 +310,5 @@ export {
   editProfilePicture,
   uploadDocument,
   getDocuments,
+  editTermsAndCondition,
 };
