@@ -275,6 +275,19 @@ const uploadDocument = (document) => {
     });
 };
 /**
+ * Delete document
+ * @param  {File}  document
+ */
+const deleteDocument = (document) => {
+  deleteData(`/document/${document.id}`)
+    .then((res) => {
+      Flux.dispatchEvent('DeleteDocument', res);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('AccountStoreError', err);
+    });
+};
+/**
  * Get documents
  */
 const getDocuments = () => {
@@ -318,6 +331,7 @@ export {
   editProfile,
   editProfilePicture,
   uploadDocument,
+  deleteDocument,
   getDocuments,
   getUser,
 };

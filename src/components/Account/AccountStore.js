@@ -53,6 +53,7 @@ class AccountStore extends FluxStore {
     this.addEvent('EditProfile');
     this.addEvent('EditProfilePicture');
     this.addEvent('UploadDocument');
+    this.addEvent('DeleteDocument');
     this.addEvent('GetDocuments');
     this.addEvent('ActiveShifts');
     this.addEvent('ValidationLink');

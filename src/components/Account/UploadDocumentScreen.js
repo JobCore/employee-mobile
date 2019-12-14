@@ -16,7 +16,12 @@ import { Loading, CustomToast } from '../../shared/components';
 import { ModalHeader } from '../../shared/components/ModalHeader';
 import { ADD_DOCUMENT_ROUTE } from '../../constants/routes';
 import accountStore from './AccountStore';
-import { uploadDocument, getDocuments, getUser } from './actions';
+import {
+  uploadDocument,
+  getDocuments,
+  getUser,
+  deleteDocument,
+} from './actions';
 // import DocumentPicker from 'react-native-document-picker';
 import { i18next } from '../../i18n';
 import { LOG } from '../../shared';
@@ -51,6 +56,7 @@ class UploadDocumentScreen extends Component {
     this.state = {
       true: false,
       showWarning: true,
+      isLoading: true,
       documents: [],
       user: accountStore.getState('Login').user,
       docType: '',
@@ -69,8 +75,16 @@ class UploadDocumentScreen extends Component {
     this.getDocumentsSubscription = accountStore.subscribe(
       'GetDocuments',
       (documents) => {
-        this.setState({ documents });
+        this.setState({ documents, isLoading: false });
         console.log('GetDocuments: ', documents);
+      },
+    );
+    this.deleteDocumentsSubscription = accountStore.subscribe(
+      'DeleteDocument',
+      (res) => {
+        getDocuments();
+        this.setState({ isLoading: false });
+        console.log('delete document: ', res);
       },
     );
     this.getUserSubscription = accountStore.subscribe('getUser', (user) => {
@@ -86,6 +100,7 @@ class UploadDocumentScreen extends Component {
 
   componentWillUnmount() {
     this.getDocumentsSubscription.unsubscribe();
+    this.deleteDocumentsSubscription.unsubscribe();
     this.accountStoreError.unsubscribe();
     this.getUserSubscription.unsubscribe();
   }
@@ -146,10 +161,10 @@ class UploadDocumentScreen extends Component {
     );
   };
 
-  deleteDocumentAlert = (docName) => {
+  deleteDocumentAlert = (doc) => {
     Alert.alert(
       i18next.t('USER_DOCUMENTS.wantToDeleteDocument'),
-      ` ${docName}?`,
+      ` ${doc.name || `document #${doc.id}`}?`,
       [
         {
           text: i18next.t('APP.cancel'),
@@ -160,9 +175,9 @@ class UploadDocumentScreen extends Component {
         {
           text: i18next.t('USER_DOCUMENTS.deleteDoc'),
           onPress: () => {
-            // this.setState({ isLoading: true }, () => {
-            //   deleteDocument(res);
-            // });
+            this.setState({ isLoading: true }, () => {
+              deleteDocument(doc);
+            });
           },
         },
       ],
@@ -321,11 +336,7 @@ class UploadDocumentScreen extends Component {
                           </Item>
                           {doc.state !== 'APPROVED' ? (
                             <TouchableOpacity
-                              onPress={() =>
-                                this.deleteDocumentAlert(
-                                  doc.name || `document #${doc.id}`,
-                                )
-                              }>
+                              onPress={() => this.deleteDocumentAlert(doc)}>
                               <Image
                                 style={UploadDocumentStyle.garbageIcon}
                                 source={require('../../assets/image/delete.png')}
