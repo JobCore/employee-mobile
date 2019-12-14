@@ -67,6 +67,8 @@ class EditProfile extends Component {
       biometrySupport: true,
       selectedImage: {},
     };
+
+    this.setPermissionTouchId();
   }
 
   async componentDidMount() {
@@ -86,16 +88,8 @@ class EditProfile extends Component {
         });
         console.log('errr catch support ', error);
       });
-    const loginAuto = await AsyncStorage.getItem('@JobCoreCredential');
-    if (loginAuto) {
-      this.setState({
-        loginAutoSave: true,
-      });
-    } else {
-      this.setState({
-        loginAutoSave: false,
-      });
-    }
+    // const loginAuto = await AsyncStorage.getItem('@JobCoreCredential');
+
     this.editProfileSubscription = accountStore.subscribe(
       'EditProfile',
       this.editProfileHandler,
@@ -111,6 +105,21 @@ class EditProfile extends Component {
 
     this.getUser();
   }
+
+  setPermissionTouchId = async () => {
+    const permissionTouchId = await AsyncStorage.getItem(
+      '@JobCoreCredentialPermission',
+    );
+    if (permissionTouchId) {
+      this.setState({
+        loginAutoSave: true,
+      });
+    } else {
+      this.setState({
+        loginAutoSave: false,
+      });
+    }
+  };
 
   componentWillUnmount() {
     this.editProfileSubscription.unsubscribe();
