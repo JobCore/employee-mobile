@@ -61,6 +61,22 @@ const login = (email, password, fcmToken) => {
 };
 
 /**
+ * Login action
+ * @param  {string} email
+ * @param  {string} password
+ * @param {string} fcmToken
+ */
+const getUser = () => {
+  getData('/profiles/me')
+    .then((data) => {
+      Flux.dispatchEvent('getUser', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('AccountStoreError', err);
+    });
+};
+
+/**
  * Action for registering the User
  * @param  {string} email
  * @param  {string} password
@@ -249,7 +265,6 @@ const uploadDocument = (document) => {
     type: document.type,
   });
   body.append('name', document.name);
-  body.append('type', document.docType);
 
   postFormData(`/document/`, body)
     .then((data) => {
@@ -304,4 +319,5 @@ export {
   editProfilePicture,
   uploadDocument,
   getDocuments,
+  getUser,
 };

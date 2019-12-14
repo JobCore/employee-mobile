@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity, Alert } from 'react-native';
-import { Item, Text, Form, Label, Content, Container, Icon } from 'native-base';
+import {
+  Item,
+  Text,
+  Form,
+  Label,
+  Content,
+  Container,
+  Icon,
+  Picker,
+} from 'native-base';
 import UploadDocumentStyle from './UploadDocumentStyle';
 import { I18n } from 'react-i18next';
 import { Loading, CustomToast } from '../../shared/components';
 import { ModalHeader } from '../../shared/components/ModalHeader';
 import { ADD_DOCUMENT_ROUTE } from '../../constants/routes';
 import accountStore from './AccountStore';
-import { uploadDocument, getDocuments } from './actions';
+import { uploadDocument, getDocuments, getUser } from './actions';
 // import DocumentPicker from 'react-native-document-picker';
 import { i18next } from '../../i18n';
 import { LOG } from '../../shared';
@@ -23,17 +32,17 @@ const documentsTypes = [
   {
     id: 0,
     name: i18next.t('USER_DOCUMENTS.docTypeA'),
-    value: 'A',
+    value: 'listA',
   },
   {
     id: 1,
     name: i18next.t('USER_DOCUMENTS.docTypeB'),
-    value: 'B',
+    value: 'listB',
   },
   {
     id: 1,
     name: i18next.t('USER_DOCUMENTS.docTypeC'),
-    value: 'C',
+    value: 'listC',
   },
 ];
 class UploadDocumentScreen extends Component {
@@ -42,7 +51,6 @@ class UploadDocumentScreen extends Component {
     this.state = {
       true: false,
       showWarning: true,
-      isAllowDocuments: true,
       documents: [],
       user: accountStore.getState('Login').user,
       docType: '',
@@ -65,16 +73,21 @@ class UploadDocumentScreen extends Component {
         console.log('GetDocuments: ', documents);
       },
     );
+    this.getUserSubscription = accountStore.subscribe('getUser', (user) => {
+      this.setState({ user });
+    });
     this.accountStoreError = accountStore.subscribe(
       'AccountStoreError',
       this.errorHandler,
     );
     getDocuments();
+    getUser();
   }
 
   componentWillUnmount() {
     this.getDocumentsSubscription.unsubscribe();
     this.accountStoreError.unsubscribe();
+    this.getUserSubscription.unsubscribe();
   }
 
   errorHandler = (err) => {
@@ -157,25 +170,6 @@ class UploadDocumentScreen extends Component {
     );
   };
 
-  pickDocumentTypeAlert = () => {
-    const buttons = documentsTypes.map((type) => {
-      return {
-        text: type.name,
-        onPress: () => {
-          this.setState({ docType: type.value }, () => {
-            this.openImagePicker();
-          });
-        },
-      };
-    });
-    Alert.alert(
-      i18next.t('USER_DOCUMENTS.pickDocType'),
-      i18next.t('USER_DOCUMENTS.pickDocInfo'),
-      buttons,
-      { cancelable: false },
-    );
-  };
-
   camelCaseIt = (name) =>
     name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 
@@ -236,10 +230,14 @@ class UploadDocumentScreen extends Component {
   };
 
   render() {
-    const { user, isAllowDocuments, showWarning, docType } = this.state;
+    const { user, showWarning, docType } = this.state;
     const { documents } = this.state;
     console.log('user: ', user);
     console.log('docType: ', docType);
+    // const isAllowDocuments = user.employee
+    //   ? user.employee.document_active
+    //   : true;
+    const isAllowDocuments = true;
     return (
       <I18n>
         {(t) => (
@@ -261,20 +259,24 @@ class UploadDocumentScreen extends Component {
                       ? UploadDocumentStyle.userStatusLabelTextApproved
                       : UploadDocumentStyle.userStatusLabelTextRejected
                   }>
-                  {`${user.first_name} ${
+                  {`${
+                    user.user ? user.user.first_name : t('USER_DOCUMENTS.user')
+                  } ${
                     isAllowDocuments
                       ? t('USER_DOCUMENTS.allowDocuments')
                       : t('USER_DOCUMENTS.notAllowDocuments')
                   }`}
                 </Text>
-                {isAllowDocuments ? (
-                  <Icon
-                    onPress={() => this.setState({ showWarning: false })}
-                    style={UploadDocumentStyle.closeIconApproved}
-                    name="close"
-                    size={5}
-                  />
-                ) : null}
+                <Icon
+                  onPress={() => this.setState({ showWarning: false })}
+                  style={
+                    isAllowDocuments
+                      ? UploadDocumentStyle.closeIconApproved
+                      : UploadDocumentStyle.closeIconRejected
+                  }
+                  name="close"
+                  size={5}
+                />
               </View>
             ) : null}
             {this.state.isLoading ? <Loading /> : null}
@@ -317,17 +319,19 @@ class UploadDocumentScreen extends Component {
                               </View>
                             ) : null}
                           </Item>
-                          <TouchableOpacity
-                            onPress={() =>
-                              this.deleteDocumentAlert(
-                                doc.name || `document #${doc.id}`,
-                              )
-                            }>
-                            <Image
-                              style={UploadDocumentStyle.garbageIcon}
-                              source={require('../../assets/image/delete.png')}
-                            />
-                          </TouchableOpacity>
+                          {doc.state !== 'APPROVED' ? (
+                            <TouchableOpacity
+                              onPress={() =>
+                                this.deleteDocumentAlert(
+                                  doc.name || `document #${doc.id}`,
+                                )
+                              }>
+                              <Image
+                                style={UploadDocumentStyle.garbageIcon}
+                                source={require('../../assets/image/delete.png')}
+                              />
+                            </TouchableOpacity>
+                          ) : null}
                         </View>
                       </Form>
                     ))
@@ -340,13 +344,32 @@ class UploadDocumentScreen extends Component {
               </View>
             </Content>
             <View style={UploadDocumentStyle.buttonContainer}>
-              <TouchableOpacity onPress={() => this.pickDocumentTypeAlert()}>
-                <View full style={UploadDocumentStyle.viewButtomLogin}>
-                  <Text style={UploadDocumentStyle.textButtom}>
-                    {t('USER_DOCUMENTS.addDocument')}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+              <Picker
+                mode="dropdown"
+                enabled={isAllowDocuments}
+                // iosIcon={
+                //   <Icon
+                //     style={{ marginLeft: 0 }}
+                //     name="arrow-down"
+                //   />
+                // }
+                style={UploadDocumentStyle.viewButtomLogin}
+                placeholder={t('USER_DOCUMENTS.addDocument')}
+                placeholderStyle={
+                  UploadDocumentStyle.placeholderTextButtomPicker
+                }
+                selectedValue={''}
+                onValueChange={(text) =>
+                  this.setState({ docType: text }, () => {
+                    setTimeout(() => {
+                      this.openImagePicker();
+                    }, 1000);
+                  })
+                }>
+                {documentsTypes.map((type, i) => (
+                  <Picker.Item key={i} label={type.name} value={type.value} />
+                ))}
+              </Picker>
             </View>
           </Container>
         )}
