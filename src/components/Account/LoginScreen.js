@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  Platform,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Content, Item, Input, Button, Text, Form, Toast } from 'native-base';
@@ -280,7 +281,10 @@ class LoginScreen extends Component {
                       onPress={() => this.pressHandler()}
                       style={styles.viewButtomSignUp}>
                       <Text style={styles.textButtomForgot}>
-                        {t('LOGIN.loginTouch')} {this.state.biometryType}
+                        {t('LOGIN.loginTouch')}{' '}
+                        {Platform.OS === 'android'
+                          ? 'FingerPrint'
+                          : this.state.biometryType}
                       </Text>
                     </TouchableOpacity>
                   ))}
