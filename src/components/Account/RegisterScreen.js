@@ -148,16 +148,18 @@ class RegisterScreen extends Component {
                       />
                     </Picker>
                   </Item>
-                  <Item style={styles.viewInput} inlineLabel rounded>
-                    <Input
-                      disabled={city !== 'others'}
-                      value={this.state.wroteCity}
-                      placeholder={t('REGISTER.wroteCity')}
-                      onChangeText={(text) =>
-                        this.setState({ wroteCity: text })
-                      }
-                    />
-                  </Item>
+                  {city === 'others' ? (
+                    <Item style={styles.viewInput} inlineLabel rounded>
+                      <Input
+                        disabled={city !== 'others'}
+                        value={this.state.wroteCity}
+                        placeholder={t('REGISTER.wroteCity')}
+                        onChangeText={(text) =>
+                          this.setState({ wroteCity: text })
+                        }
+                      />
+                    </Item>
+                  ) : null}
                   <Item style={styles.viewInput} inlineLabel rounded>
                     <Input
                       keyboardType={'email-address'}
@@ -239,6 +241,7 @@ class RegisterScreen extends Component {
       this.state.lastName,
       this.state.city,
       this.state.wroteCity,
+      this.state.acceptTerms,
     );
   };
 
