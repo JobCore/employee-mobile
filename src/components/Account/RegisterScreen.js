@@ -14,8 +14,12 @@ import {
   Content,
   Picker,
   Icon,
+  CheckBox,
 } from 'native-base';
-import { LOGIN_ROUTE } from '../../constants/routes';
+import {
+  LOGIN_ROUTE,
+  TERMS_AND_CONDITIONS_ROUTE,
+} from '../../constants/routes';
 import styles from './RegisterStyle';
 import * as actions from './actions';
 import store from './AccountStore';
@@ -38,6 +42,8 @@ class RegisterScreen extends Component {
       wroteCity: '',
       cities: [],
       city: '',
+      isRegisterOpen: true,
+      acceptTerms: store.getState('TermsAndCondition'),
     };
   }
 
@@ -51,6 +57,12 @@ class RegisterScreen extends Component {
     this.accountStoreError = store.subscribe('AccountStoreError', (err) =>
       this.errorHandler(err),
     );
+    this.editTermsAndConditionsSubscription = store.subscribe(
+      'TermsAndCondition',
+      (bool) => {
+        this.setState({ acceptTerms: bool });
+      },
+    );
     actions.getCities();
   }
 
@@ -58,6 +70,7 @@ class RegisterScreen extends Component {
     this.registerSubscription.unsubscribe();
     this.accountStoreError.unsubscribe();
     this.getCitiesSubscription.unsubscribe();
+    this.editTermsAndConditionsSubscription.unsubscribe();
   }
 
   registerHandler = () => {
@@ -72,7 +85,7 @@ class RegisterScreen extends Component {
   };
 
   render() {
-    const { cities, city } = this.state;
+    const { cities, city, acceptTerms } = this.state;
     console.log('cities: ', cities);
     console.log('city: ', city);
     return (
@@ -135,16 +148,18 @@ class RegisterScreen extends Component {
                       />
                     </Picker>
                   </Item>
-                  <Item style={styles.viewInput} inlineLabel rounded>
-                    <Input
-                      disabled={city !== 'others'}
-                      value={this.state.wroteCity}
-                      placeholder={t('REGISTER.wroteCity')}
-                      onChangeText={(text) =>
-                        this.setState({ wroteCity: text })
-                      }
-                    />
-                  </Item>
+                  {city === 'others' ? (
+                    <Item style={styles.viewInput} inlineLabel rounded>
+                      <Input
+                        disabled={city !== 'others'}
+                        value={this.state.wroteCity}
+                        placeholder={t('REGISTER.wroteCity')}
+                        onChangeText={(text) =>
+                          this.setState({ wroteCity: text })
+                        }
+                      />
+                    </Item>
+                  ) : null}
                   <Item style={styles.viewInput} inlineLabel rounded>
                     <Input
                       keyboardType={'email-address'}
@@ -162,6 +177,38 @@ class RegisterScreen extends Component {
                       secureTextEntry={true}
                     />
                   </Item>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      marginTop: 20,
+                      marginBottom: 20,
+                    }}>
+                    <CheckBox
+                      checked={acceptTerms}
+                      onPress={() =>
+                        actions.editTermsAndCondition(!acceptTerms)
+                      }
+                    />
+                    <View
+                      style={styles.termsTitleContainer}
+                      onPress={() =>
+                        this.props.navigation.navigate(
+                          TERMS_AND_CONDITIONS_ROUTE,
+                        )
+                      }>
+                      <Text>{t('TERMS_AND_CONDITIONS.accept')}</Text>
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.props.navigation.navigate(
+                            TERMS_AND_CONDITIONS_ROUTE,
+                          )
+                        }>
+                        <Text style={styles.termsAndConditionsTitle}>
+                          {t('TERMS_AND_CONDITIONS.title')}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
                 </Form>
                 <Button
                   full
@@ -194,6 +241,7 @@ class RegisterScreen extends Component {
       this.state.lastName,
       this.state.city,
       this.state.wroteCity,
+      this.state.acceptTerms,
     );
   };
 

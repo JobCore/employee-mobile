@@ -53,6 +53,14 @@ export default StyleSheet.create({
     fontWeight: '500',
     textAlign: 'center',
   },
+  termsAndConditionsTitle: {
+    marginLeft: 5,
+    color: BLUE_DARK,
+  },
+  termsTitleContainer: {
+    flexDirection: 'row',
+    marginLeft: 16,
+  },
   textButtomSignUp: {
     fontSize: 14,
     fontWeight: '500',

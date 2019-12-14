@@ -33,7 +33,9 @@ const TabHeader = ({
       </Title>
     </Body>
     <Right>
-      <HelpIcon onPressHelp={onPressHelp} screenName={screenName} />
+      {onPressHelp ? (
+        <HelpIcon onPressHelp={onPressHelp} screenName={screenName} />
+      ) : null}
     </Right>
   </Header>
 );

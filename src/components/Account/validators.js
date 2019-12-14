@@ -13,7 +13,14 @@ const loginValidator = (email, password) => {
   }
 };
 
-const registerValidator = (email, password, firstName, lastName, city) => {
+const registerValidator = (
+  email,
+  password,
+  firstName,
+  lastName,
+  city,
+  acceptTerms,
+) => {
   if (!utils.isValidString(firstName)) {
     throw new Error(i18next.t('REGISTER.emptyFirstName'));
   }
@@ -32,6 +39,10 @@ const registerValidator = (email, password, firstName, lastName, city) => {
 
   if (!utils.isValidString(password)) {
     throw new Error(i18next.t('LOGIN.emptyPassword'));
+  }
+
+  if (!acceptTerms) {
+    throw new Error(i18next.t('LOGIN.emptyTermsAndConditions'));
   }
 };
 

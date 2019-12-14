@@ -22,6 +22,7 @@ export default {
     clickToSignUp: 'Registrate aquí',
     loginTouch: 'Iniciar con',
     msjLoginAlertTouch: 'Logueate con',
+    emptyTermsAndConditions: 'Acepta terminos y condiciones',
   },
   REGISTER: {
     signUp: 'Registrarse',
@@ -219,5 +220,11 @@ export default {
   PAYMENTS: {
     payments: 'Pagos',
     emptyPayments: 'Aún no tienes pagos',
+  },
+  TERMS_AND_CONDITIONS: {
+    accept: 'Aceptar',
+    reject: 'Rechazar',
+    title: 'Terminos y condiciones',
+    acceptTerms: 'Aceptar terminos y condiciones',
   },
 };
