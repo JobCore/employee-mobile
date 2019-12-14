@@ -19,15 +19,33 @@ const IMAGE_PICKER_OPTIONS = {
   skipBackup: true,
 };
 
+const documentsTypes = [
+  {
+    id: 0,
+    name: i18next.t('USER_DOCUMENTS.docTypeA'),
+    value: 'A',
+  },
+  {
+    id: 1,
+    name: i18next.t('USER_DOCUMENTS.docTypeB'),
+    value: 'B',
+  },
+  {
+    id: 1,
+    name: i18next.t('USER_DOCUMENTS.docTypeC'),
+    value: 'C',
+  },
+];
 class UploadDocumentScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      true: false,
       showWarning: true,
       isAllowDocuments: true,
       documents: [],
       user: accountStore.getState('Login').user,
+      docType: '',
     };
   }
 
@@ -139,6 +157,25 @@ class UploadDocumentScreen extends Component {
     );
   };
 
+  pickDocumentTypeAlert = () => {
+    const buttons = documentsTypes.map((type) => {
+      return {
+        text: type.name,
+        onPress: () => {
+          this.setState({ docType: type.value }, () => {
+            this.openImagePicker();
+          });
+        },
+      };
+    });
+    Alert.alert(
+      i18next.t('USER_DOCUMENTS.pickDocType'),
+      i18next.t('USER_DOCUMENTS.pickDocInfo'),
+      buttons,
+      { cancelable: false },
+    );
+  };
+
   camelCaseIt = (name) =>
     name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 
@@ -155,6 +192,7 @@ class UploadDocumentScreen extends Component {
    * with the uri, type & name
    */
   handleImagePickerResponse = (response) => {
+    const { docType } = this.state;
     if (response.didCancel) {
       // for react-native-image-picker response
       LOG(this, 'User cancelled image picker');
@@ -190,6 +228,7 @@ class UploadDocumentScreen extends Component {
         uri: response.uri,
         type: type.toLowerCase(),
         name,
+        docType,
       };
       this.saveDocumentAlert(selectedImage.name, selectedImage);
       this.setState({ selectedImage });
@@ -197,9 +236,10 @@ class UploadDocumentScreen extends Component {
   };
 
   render() {
-    const { user, isAllowDocuments, showWarning } = this.state;
+    const { user, isAllowDocuments, showWarning, docType } = this.state;
     const { documents } = this.state;
     console.log('user: ', user);
+    console.log('docType: ', docType);
     return (
       <I18n>
         {(t) => (
@@ -300,7 +340,7 @@ class UploadDocumentScreen extends Component {
               </View>
             </Content>
             <View style={UploadDocumentStyle.buttonContainer}>
-              <TouchableOpacity onPress={() => this.openImagePicker()}>
+              <TouchableOpacity onPress={() => this.pickDocumentTypeAlert()}>
                 <View full style={UploadDocumentStyle.viewButtomLogin}>
                   <Text style={UploadDocumentStyle.textButtom}>
                     {t('USER_DOCUMENTS.addDocument')}

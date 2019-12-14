@@ -70,6 +70,11 @@ export default {
     allowDocuments: 'Aprovado',
     notAllowDocuments: 'No aprovado por los momentos',
     rejectedReason: 'Rechazado:',
+    pickDocType: 'Selecciona el tipo de documento!',
+    pickDocInfo: 'Empleados deben elegir el tipo de documento primero.',
+    docTypeA: 'Lista A, Identidad/Autorizacion de empleo',
+    docTypeB: 'Lista B, Identidad',
+    docTypeC: 'Lista C, Autorizacion de empleo',
   },
   SETTINGS: {
     settings: 'Ajustes',

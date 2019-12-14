@@ -68,6 +68,11 @@ export default {
     allowDocuments: 'Approved',
     notAllowDocuments: 'Not approved at the moment',
     rejectedReason: 'Rejected:',
+    pickDocType: 'Select document type!',
+    pickDocInfo: 'Employees may pick a document type first.',
+    docTypeA: 'List A, Identity/Employment Authorization',
+    docTypeB: 'List B, Identity',
+    docTypeC: 'List C, Employment Authorization',
   },
   SETTINGS: {
     settings: 'Settings',
