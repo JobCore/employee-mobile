@@ -15,6 +15,7 @@ import UploadDocumentScreen from './src/components/Account/UploadDocumentScreen'
 import BankAccounts from './src/components/BankAccounts/BankAccounts';
 import AddBankAccount from './src/components/BankAccounts/AddBankAccount';
 import ForgotScreen from './src/components/Account/ForgotScreen';
+import TermsAndConditionsScreen from './src/components/Account/TermsAndConditionsScreen';
 import ChangePassword from './src/components/Account/ChangePassword';
 import PublicProfile from './src/components/Account/PublicProfile';
 import Profile from './src/components/Account/Profile';
@@ -57,6 +58,7 @@ import {
   HELP_ROUTE,
   UPLOAD_DOCUMENT_ROUTE,
   BANK_ACCOUNTS_ROUTE,
+  TERMS_AND_CONDITIONS_ROUTE,
 } from './src/constants/routes';
 import {
   BLUE_DARK,
@@ -88,6 +90,7 @@ export const AuthStack = createStackNavigator({
     path: 'register',
   },
   [FORGOT_ROUTE]: ForgotScreen,
+  [TERMS_AND_CONDITIONS_ROUTE]: TermsAndConditionsScreen,
 });
 
 export const Tabs = createBottomTabNavigator(

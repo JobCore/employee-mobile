@@ -13,6 +13,18 @@ export default StyleSheet.create({
     height: 2,
     backgroundColor: '#f8f8f8',
   },
+  viewButtomSignUp: {
+    backgroundColor: 'transparent',
+    marginTop: 20,
+    textAlign: 'center',
+  },
+  textButtomSignUp: {
+    color: BLUE_DARK,
+    fontSize: 14,
+    fontWeight: '500',
+    textAlign: 'center',
+    paddingBottom: 15,
+  },
   buttonIcon: {
     height: 20,
     width: 20,

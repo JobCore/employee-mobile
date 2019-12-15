@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, ListView, Alert, RefreshControl } from 'react-native';
+import { View, Image, Alert, RefreshControl } from 'react-native';
 import {
   Container,
   Content,
@@ -51,7 +51,7 @@ class JobInvites extends Component {
 
   constructor(props) {
     super(props);
-    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+    // this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.state = {
       isLoading: false,
       basic: false,
@@ -119,6 +119,10 @@ class JobInvites extends Component {
   };
 
   render() {
+    const { jobInvites } = this.state;
+    // const handledInvites = this.ds.cloneWithRows(jobInvites)
+    console.log('jobInvites: ', jobInvites);
+    // console.log("handledInvites: ", handledInvites)
     return (
       <I18n>
         {(t) => (
@@ -139,82 +143,89 @@ class JobInvites extends Component {
                   onRefresh={this.refreshInvites}
                 />
               }>
-              <List
-                leftOpenValue={75}
-                rightOpenValue={-75}
-                dataSource={this.ds.cloneWithRows(this.state.jobInvites)}
-                renderRow={(data) => (
-                  <ListItem
-                    onPress={() =>
-                      this.props.navigation.navigate(INVITE_DETAILS_ROUTE_V2, {
-                        inviteId: data.id,
-                      })
-                    }
-                    style={inviteStyles.viewListItem}>
-                    <Image
-                      source={
-                        data.shift &&
-                        data.shift.employer &&
-                        data.shift.employer.picture
-                          ? { uri: data.shift.employer.picture }
-                          : PROFILE_IMG
+              {jobInvites.length > 0 ? (
+                <List
+                  leftOpenValue={75}
+                  rightOpenValue={-75}
+                  dataArray={jobInvites}
+                  renderRow={(data) => (
+                    <ListItem
+                      onPress={() =>
+                        this.props.navigation.navigate(
+                          INVITE_DETAILS_ROUTE_V2,
+                          {
+                            inviteId: data.id,
+                          },
+                        )
                       }
-                      style={[imgStyles.employerImg]}
-                    />
-                    <View style={inviteStyles.viewDataOffers}>
-                      {/* title info */}
-                      {data.shift ? (
-                        <Text style={inviteStyles.viewTitleInfo}>
-                          {data.shift.employer ? (
-                            <Text style={textStyles.textEmployer}>
-                              {data.shift.employer.title}
+                      style={inviteStyles.viewListItem}>
+                      <Image
+                        source={
+                          data.shift &&
+                          data.shift.employer &&
+                          data.shift.employer.picture
+                            ? { uri: data.shift.employer.picture }
+                            : PROFILE_IMG
+                        }
+                        style={[imgStyles.employerImg]}
+                      />
+                      <View style={inviteStyles.viewDataOffers}>
+                        {/* title info */}
+                        {data.shift ? (
+                          <Text style={inviteStyles.viewTitleInfo}>
+                            {data.shift.employer ? (
+                              <Text style={textStyles.textEmployer}>
+                                {data.shift.employer.title}
+                              </Text>
+                            ) : null}
+                            <Text style={textStyles.textGray}>
+                              {` ${t('JOB_INVITES.lookingFor')} `}
                             </Text>
-                          ) : null}
-                          <Text style={textStyles.textGray}>
-                            {` ${t('JOB_INVITES.lookingFor')} `}
-                          </Text>
-                          {data.shift.position ? (
-                            <Text style={textStyles.textShiftTitle}>
-                              {data.shift.position.title}
+                            {data.shift.position ? (
+                              <Text style={textStyles.textShiftTitle}>
+                                {data.shift.position.title}
+                              </Text>
+                            ) : null}
+                            <Text>
+                              {` ${t('JOB_PREFERENCES.dateStartToEnd', {
+                                startingAt: moment(data.shift.starting_at)
+                                  .tz(moment.tz.guess())
+                                  .format('lll'),
+                                endingAt: moment(data.shift.ending_at)
+                                  .tz(moment.tz.guess())
+                                  .format('lll'),
+                              })} `}
                             </Text>
-                          ) : null}
-                          <Text>
-                            {` ${t('JOB_PREFERENCES.dateStartToEnd', {
-                              startingAt: moment(data.shift.starting_at)
-                                .tz(moment.tz.guess())
-                                .format('lll'),
-                              endingAt: moment(data.shift.ending_at)
-                                .tz(moment.tz.guess())
-                                .format('lll'),
-                            })} `}
+                            <Text style={textStyles.textRed}>
+                              {`$${data.shift.minimum_hourly_rate}/${t(
+                                'JOB_INVITES.hr',
+                              )}.`}
+                            </Text>
                           </Text>
-                          <Text style={textStyles.textRed}>
-                            {`$${data.shift.minimum_hourly_rate}/${t(
-                              'JOB_INVITES.hr',
-                            )}.`}
-                          </Text>
-                        </Text>
-                      ) : null}
-                    </View>
-                  </ListItem>
-                )}
-                renderLeftHiddenRow={(data, secId, rowId, rowMap) => (
-                  <Button
-                    style={inviteStyles.buttomApply}
-                    onPress={() => this.applyJob(data, secId, rowId, rowMap)}>
-                    <Icon active name="md-checkmark" />
-                  </Button>
-                )}
-                renderRightHiddenRow={(data, secId, rowId, rowMap) => (
-                  <Button
-                    style={inviteStyles.buttomReject}
-                    full
-                    danger
-                    onPress={() => this.rejectJob(data, secId, rowId, rowMap)}>
-                    <Icon active name="md-close" />
-                  </Button>
-                )}
-              />
+                        ) : null}
+                      </View>
+                    </ListItem>
+                  )}
+                  renderLeftHiddenRow={(data, secId, rowId, rowMap) => (
+                    <Button
+                      style={inviteStyles.buttomApply}
+                      onPress={() => this.applyJob(data, secId, rowId, rowMap)}>
+                      <Icon active name="md-checkmark" />
+                    </Button>
+                  )}
+                  renderRightHiddenRow={(data, secId, rowId, rowMap) => (
+                    <Button
+                      style={inviteStyles.buttomReject}
+                      full
+                      danger
+                      onPress={() =>
+                        this.rejectJob(data, secId, rowId, rowMap)
+                      }>
+                      <Icon active name="md-close" />
+                    </Button>
+                  )}
+                />
+              ) : null}
             </Content>
           </Container>
         )}

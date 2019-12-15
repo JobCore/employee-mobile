@@ -67,6 +67,8 @@ class EditProfile extends Component {
       biometrySupport: true,
       selectedImage: {},
     };
+
+    this.setPermissionTouchId();
   }
 
   async componentDidMount() {
@@ -86,23 +88,11 @@ class EditProfile extends Component {
         });
         console.log('errr catch support ', error);
       });
-    const loginAuto = await AsyncStorage.getItem('@JobCoreCredential');
-    if (loginAuto) {
-      this.setState({
-        loginAutoSave: true,
-      });
-    } else {
-      this.setState({
-        loginAutoSave: false,
-      });
-    }
+    // const loginAuto = await AsyncStorage.getItem('@JobCoreCredential');
+
     this.editProfileSubscription = accountStore.subscribe(
       'EditProfile',
       this.editProfileHandler,
-    );
-    this.logoutSubscription = accountStore.subscribe(
-      'Logout',
-      this.logoutHandler,
     );
     this.editProfilePictureSubscription = accountStore.subscribe(
       'EditProfilePicture',
@@ -116,8 +106,22 @@ class EditProfile extends Component {
     this.getUser();
   }
 
+  setPermissionTouchId = async () => {
+    const permissionTouchId = await AsyncStorage.getItem(
+      '@JobCoreCredentialPermission',
+    );
+    if (permissionTouchId) {
+      this.setState({
+        loginAutoSave: true,
+      });
+    } else {
+      this.setState({
+        loginAutoSave: false,
+      });
+    }
+  };
+
   componentWillUnmount() {
-    this.logoutSubscription.unsubscribe();
     this.editProfileSubscription.unsubscribe();
     this.editProfilePictureSubscription.unsubscribe();
     this.accountStoreError.unsubscribe();
@@ -155,10 +159,6 @@ class EditProfile extends Component {
     CustomToast(i18next.t('EDIT_PROFILE.profileUpdated'));
     this.setUser(data);
     this.props.navigation.goBack();
-  };
-
-  logoutHandler = () => {
-    this.setState({ isLoading: false });
   };
 
   errorHandler = (err) => {
@@ -303,14 +303,6 @@ class EditProfile extends Component {
                       {t('EDIT_PROFILE.saveProfile')}
                     </Text>
                   </Button>
-                  <TouchableOpacity
-                    full
-                    onPress={this.logout}
-                    style={editProfileStyles.viewButtomSignUp}>
-                    <Text style={editProfileStyles.textButtomSignUp}>
-                      {'Log Out'}
-                    </Text>
-                  </TouchableOpacity>
                 </View>
               </View>
             </Content>
@@ -390,23 +382,6 @@ class EditProfile extends Component {
       this.state.lastName,
       this.state.bio,
     );
-  };
-
-  logout = () => {
-    Alert.alert(i18next.t('SETTINGS.wantToLogout'), '', [
-      {
-        text: i18next.t('APP.cancel'),
-        onPress: () => {
-          LOG(this, 'Cancel logout');
-        },
-      },
-      {
-        text: i18next.t('SETTINGS.logout'),
-        onPress: () => {
-          this.setState({ isLoading: true }, actions.logout());
-        },
-      },
-    ]);
   };
 
   passwordReset = () => {

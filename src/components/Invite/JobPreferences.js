@@ -68,8 +68,8 @@ class JobPreferences extends Component {
       maxHourly: 40,
       maximumJobDistanceMiles: 0,
       maximumJobDistanceMilesPrev: null,
-      minDistance: 10,
-      maxDistance: 100,
+      minDistance: 5,
+      maxDistance: 50,
       availableOnWeekends: false,
       narrowPreferences: null,
     };

@@ -10,7 +10,7 @@ import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.imagepicker.ImagePickerPackage;
-import io.github.elyx0.reactnativedocumentpicker.DocumentPickerPackage;
+// import io.github.elyx0.reactnativedocumentpicker.DocumentPickerPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
@@ -41,7 +41,7 @@ public class MainApplication extends Application implements ReactApplication {
             new NetInfoPackage(),
             new AsyncStoragePackage(),
             new ImagePickerPackage(),
-            new DocumentPickerPackage(),
+            // new DocumentPickerPackage(),
             new RNFirebaseMessagingPackage(),
             new RNFirebaseNotificationsPackage(),
             new MapsPackage()

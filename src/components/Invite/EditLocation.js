@@ -19,6 +19,7 @@ import inviteStore from './InviteStore';
 import MARKER_IMG from '../../assets/image/map-marker.png';
 import { ModalHeader } from '../../shared/components/ModalHeader';
 import BtnCancelSave from '../../shared/components/BtnCancelSave';
+import { GOOGLE_API_KEY } from 'react-native-dotenv';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -115,7 +116,7 @@ class EditLocation extends PureComponent {
                 }}
                 getDefaultValue={() => ''}
                 query={{
-                  key: 'AIzaSyCB9MTiYqJuKft1wN1iH0Gl4WUlG7tksns',
+                  key: GOOGLE_API_KEY,
                   language: 'en',
                   types: 'address',
                 }}

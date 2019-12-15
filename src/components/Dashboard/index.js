@@ -196,6 +196,13 @@ class DashboardScreen extends Component {
         shiftId: shift.id,
       });
     }
+
+    navigator.geolocation.getCurrentPosition(
+      () => {
+        log('position acquired!');
+      },
+      () => CustomToast('Error obtaining the lat/long!', 'danger'),
+    );
   }
 
   componentWillUnmount() {
