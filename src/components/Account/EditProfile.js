@@ -11,6 +11,8 @@ import {
   Thumbnail,
   Textarea,
   Container,
+  Picker,
+  Icon,
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import editProfileStyles from './EditProfileStyle';
@@ -63,6 +65,9 @@ class EditProfile extends Component {
       email: '',
       picture: '',
       bio: '',
+      profile_city: '',
+      cities: [],
+      city: '',
       loginAutoSave: false,
       biometrySupport: true,
       selectedImage: {},
@@ -89,7 +94,9 @@ class EditProfile extends Component {
         console.log('errr catch support ', error);
       });
     // const loginAuto = await AsyncStorage.getItem('@JobCoreCredential');
-
+    this.getCitiesSubscription = accountStore.subscribe('GetCities', (cities) =>
+      this.setState({ cities }),
+    );
     this.editProfileSubscription = accountStore.subscribe(
       'EditProfile',
       this.editProfileHandler,
@@ -122,6 +129,7 @@ class EditProfile extends Component {
   };
 
   componentWillUnmount() {
+    this.getCitiesSubscription.unsubscribe();
     this.editProfileSubscription.unsubscribe();
     this.editProfilePictureSubscription.unsubscribe();
     this.accountStoreError.unsubscribe();
@@ -167,7 +175,14 @@ class EditProfile extends Component {
   };
 
   render() {
-    const { loginAutoSave, biometrySupport } = this.state;
+    const {
+      loginAutoSave,
+      biometrySupport,
+      profile_city,
+      cities,
+      city,
+    } = this.state;
+    console.log('city: ', city);
     return (
       <I18n>
         {(t) => (
@@ -265,6 +280,57 @@ class EditProfile extends Component {
                         onChangeText={(text) => this.setState({ bio: text })}
                       />
                     </Item>
+                    <Item
+                      style={editProfileStyles.viewInput}
+                      inlineLabel
+                      rounded>
+                      <Picker
+                        mode="dropdown"
+                        iosHeader={t('REGISTER.city')}
+                        placeholder={t('REGISTER.city')}
+                        placeholderStyle={{ color: '#575757', paddingLeft: 7 }}
+                        iosIcon={
+                          <Icon
+                            style={{ color: '#27666F' }}
+                            name="arrow-down"
+                          />
+                        }
+                        style={{ width: 270, paddingLeft: 0 }}
+                        selectedValue={profile_city}
+                        onValueChange={(text) =>
+                          this.setState({
+                            city: text,
+                            profile_city: text,
+                            wroteCity: '',
+                          })
+                        }>
+                        {cities.map((city) => (
+                          <Picker.Item
+                            label={city.name}
+                            value={city}
+                            key={city.id}
+                          />
+                        ))}
+                        <Picker.Item
+                          label={t('REGISTER.others')}
+                          value="others"
+                          key={t('REGISTER.others')}
+                        />
+                      </Picker>
+                    </Item>
+                    <Item
+                      style={editProfileStyles.viewInput}
+                      inlineLabel
+                      rounded>
+                      <Input
+                        disabled={city !== 'others'}
+                        value={this.state.wroteCity}
+                        placeholder={t('REGISTER.wroteCity')}
+                        onChangeText={(text) =>
+                          this.setState({ wroteCity: text })
+                        }
+                      />
+                    </Item>
                   </Form>
                   <TouchableOpacity
                     onPress={this.passwordReset}
@@ -330,6 +396,8 @@ class EditProfile extends Component {
       email: user.email,
       picture: picture || '',
       bio: bio || '',
+      profile_city: user.profile_city,
+      wroteCity: user.profile_city,
     });
   };
 
@@ -381,6 +449,7 @@ class EditProfile extends Component {
       this.state.firstName,
       this.state.lastName,
       this.state.bio,
+      this.state.profile_city,
     );
   };
 

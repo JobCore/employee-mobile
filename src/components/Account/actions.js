@@ -131,7 +131,7 @@ export const getCities = () => {
  * @param  {string} firstName
  * @param  {string} lastName
  */
-const editProfile = (firstName, lastName, bio) => {
+const editProfile = (firstName, lastName, bio, profile_city) => {
   try {
     editProfileValidator(firstName, lastName, bio);
   } catch (err) {
@@ -142,6 +142,7 @@ const editProfile = (firstName, lastName, bio) => {
     first_name: firstName,
     last_name: lastName,
     bio,
+    profile_city,
   })
     .then((data) => {
       Flux.dispatchEvent('EditProfile', data);
