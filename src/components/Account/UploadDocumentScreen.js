@@ -38,7 +38,6 @@ class UploadDocumentScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      true: false,
       showWarning: true,
       isLoading: true,
       documents: [],

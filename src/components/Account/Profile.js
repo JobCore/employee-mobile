@@ -241,6 +241,7 @@ class Profile extends Component {
                   </Button>
                 </View>
               </TouchableOpacity>
+              <View style={styles.darkLine} />
               <TouchableOpacity
                 full
                 onPress={this.logout}
