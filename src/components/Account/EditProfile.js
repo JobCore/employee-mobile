@@ -68,6 +68,7 @@ class EditProfile extends Component {
       profile_city: '',
       cities: [],
       city: '',
+      profile_city_id: '',
       loginAutoSave: false,
       biometrySupport: true,
       selectedImage: {},
@@ -101,6 +102,10 @@ class EditProfile extends Component {
       'EditProfile',
       this.editProfileHandler,
     );
+    this.getUserSubscription = accountStore.subscribe('getUser', (user) => {
+      console.log('user: ', user);
+      this.setUserInfo(user);
+    });
     this.editProfilePictureSubscription = accountStore.subscribe(
       'EditProfilePicture',
       this.editProfilePictureHandler,
@@ -109,8 +114,8 @@ class EditProfile extends Component {
       'AccountStoreError',
       this.errorHandler,
     );
-
-    this.getUser();
+    actions.getCities();
+    actions.getUser();
   }
 
   setPermissionTouchId = async () => {
@@ -129,6 +134,7 @@ class EditProfile extends Component {
   };
 
   componentWillUnmount() {
+    this.getUserSubscription.unsubscribe();
     this.getCitiesSubscription.unsubscribe();
     this.editProfileSubscription.unsubscribe();
     this.editProfilePictureSubscription.unsubscribe();
@@ -181,8 +187,11 @@ class EditProfile extends Component {
       profile_city,
       cities,
       city,
+      profile_city_id,
     } = this.state;
     console.log('city: ', city);
+    console.log('cities: ', cities);
+    console.log('profile_city: ', profile_city);
     return (
       <I18n>
         {(t) => (
@@ -296,14 +305,20 @@ class EditProfile extends Component {
                           />
                         }
                         style={{ width: 270, paddingLeft: 0 }}
-                        selectedValue={profile_city}
-                        onValueChange={(text) =>
+                        selectedValue={
+                          profile_city_id && !profile_city
+                            ? cities.filter(
+                              (city) => city.id === profile_city_id,
+                            )[0]
+                            : profile_city
+                        }
+                        onValueChange={(text) => {
                           this.setState({
                             city: text,
                             profile_city: text,
                             wroteCity: '',
-                          })
-                        }>
+                          });
+                        }}>
                         {cities.map((city) => (
                           <Picker.Item
                             label={city.name}
@@ -318,19 +333,21 @@ class EditProfile extends Component {
                         />
                       </Picker>
                     </Item>
-                    <Item
-                      style={editProfileStyles.viewInput}
-                      inlineLabel
-                      rounded>
-                      <Input
-                        disabled={city !== 'others'}
-                        value={this.state.wroteCity}
-                        placeholder={t('REGISTER.wroteCity')}
-                        onChangeText={(text) =>
-                          this.setState({ wroteCity: text })
-                        }
-                      />
-                    </Item>
+                    {city === 'others' ? (
+                      <Item
+                        style={editProfileStyles.viewInput}
+                        inlineLabel
+                        rounded>
+                        <Input
+                          disabled={city !== 'others'}
+                          value={this.state.wroteCity}
+                          placeholder={t('REGISTER.wroteCity')}
+                          onChangeText={(text) =>
+                            this.setState({ wroteCity: text })
+                          }
+                        />
+                      </Item>
+                    ) : null}
                   </Form>
                   <TouchableOpacity
                     onPress={this.passwordReset}
@@ -378,27 +395,22 @@ class EditProfile extends Component {
     );
   }
 
-  getUser = () => {
-    const user = accountStore.getState('Login').user || {};
-    let picture;
-    let bio;
-
-    try {
-      picture = user.profile.picture;
-      bio = user.profile.bio;
-    } catch (err) {
-      LOG(this, 'No profile to get picture & bio');
-    }
-
+  setUserInfo = (user) => {
     this.setState({
-      firstName: user.first_name || '',
-      lastName: user.last_name || '',
-      email: user.email,
-      picture: picture || '',
-      bio: bio || '',
-      profile_city: user.profile_city,
-      wroteCity: user.profile_city,
+      firstName: user.user.first_name,
+      lastName: user.user.last_name,
+      email: user.user.email,
+      picture: user.picture,
+      bio: user.bio,
+      profile_city_id: user.profile_city,
+      wroteCity: user.city,
     });
+    if (user.city) {
+      this.setState({
+        city: 'others',
+        profile_city: 'others',
+      });
+    }
   };
 
   setUser = (data) => {
@@ -450,6 +462,7 @@ class EditProfile extends Component {
       this.state.lastName,
       this.state.bio,
       this.state.profile_city,
+      this.state.wroteCity,
     );
   };
 
