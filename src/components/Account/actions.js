@@ -85,9 +85,17 @@ const getUser = () => {
  * @param  {string} city
  * @param  {string} wroteCity
  */
-const register = (email, password, firstName, lastName, city, wroteCity) => {
+const register = (
+  email,
+  password,
+  firstName,
+  lastName,
+  city,
+  wroteCity,
+  acceptTerms,
+) => {
   try {
-    registerValidator(email, password, firstName, lastName, city);
+    registerValidator(email, password, firstName, lastName, city, acceptTerms);
   } catch (err) {
     return Flux.dispatchEvent('AccountStoreError', err);
   }
@@ -253,6 +261,13 @@ const editProfilePicture = (image) => {
     });
 };
 /**
+ * Edit profile picture action
+ * @param  {Boolean}  boolean
+ */
+const editTermsAndCondition = (boolean) => {
+  Flux.dispatchEvent('TermsAndCondition', boolean);
+};
+/**
  * Upload document
  * @param  {File}  document
  */
@@ -334,4 +349,5 @@ export {
   deleteDocument,
   getDocuments,
   getUser,
+  editTermsAndCondition,
 };

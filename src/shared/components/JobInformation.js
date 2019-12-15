@@ -35,6 +35,7 @@ const JobInformation = (props) => {
           timeString={timeString}
           addressString={address}
           onPressDirection={props.onPressDirection}
+          minimumHourlyRate={shift.minimum_hourly_rate}
         />
       </View>
       <View style={{ height: 85 }}>

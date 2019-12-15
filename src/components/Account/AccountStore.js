@@ -58,6 +58,7 @@ class AccountStore extends FluxStore {
     this.addEvent('ActiveShifts');
     this.addEvent('ValidationLink');
     this.addEvent('getUser');
+    this.addEvent('TermsAndCondition');
     this.addEvent('AccountStoreError', storeErrorHandler);
   }
 }

@@ -13,6 +13,7 @@ const JobHeader = ({
   dateString,
   timeString,
   addressString,
+  minimumHourlyRate,
   onPressDirection = () => {},
 }) => {
   return (
@@ -23,13 +24,17 @@ const JobHeader = ({
             <Image
               resizeMode={'cover'}
               circle={true}
-              source={clientLogo ? {uri:clientLogo} : CHICKEN}
+              source={clientLogo ? { uri: clientLogo } : CHICKEN}
               style={imgStyles.employerImg}
             />
           </Left>
           <Body style={inviteStyles.bodyItemText}>
             <Text style={inviteStyles.textViolet}>{clientName}</Text>
             <Text style={inviteStyles.textBlue}>{positionName}</Text>
+            <Text
+              style={
+                inviteStyles.textBlue
+              }>{`${minimumHourlyRate}$ / hour`}</Text>
           </Body>
         </ListItem>
       </List>
