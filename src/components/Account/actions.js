@@ -61,6 +61,22 @@ const login = (email, password, fcmToken) => {
 };
 
 /**
+ * Login action
+ * @param  {string} email
+ * @param  {string} password
+ * @param {string} fcmToken
+ */
+const getUser = () => {
+  getData('/profiles/me')
+    .then((data) => {
+      Flux.dispatchEvent('getUser', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('AccountStoreError', err);
+    });
+};
+
+/**
  * Action for registering the User
  * @param  {string} email
  * @param  {string} password
@@ -264,11 +280,24 @@ const uploadDocument = (document) => {
     name: document.name,
     type: document.type,
   });
-  body.append('name', document.name);
+  body.append('name', document.docType);
 
   postFormData(`/document/`, body)
     .then((data) => {
       Flux.dispatchEvent('UploadDocument', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('AccountStoreError', err);
+    });
+};
+/**
+ * Delete document
+ * @param  {File}  document
+ */
+const deleteDocument = (document) => {
+  deleteData(`/document/${document.id}`)
+    .then((res) => {
+      Flux.dispatchEvent('DeleteDocument', res);
     })
     .catch((err) => {
       Flux.dispatchEvent('AccountStoreError', err);
@@ -318,6 +347,8 @@ export {
   editProfile,
   editProfilePicture,
   uploadDocument,
+  deleteDocument,
   getDocuments,
+  getUser,
   editTermsAndCondition,
 };

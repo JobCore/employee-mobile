@@ -196,7 +196,8 @@ class Profile extends Component {
                   </Button>
                 </View>
               </TouchableOpacity>
-              {/* <TouchableOpacity onPress={this.goToAddBankAccount}>
+              <View style={styles.darkLine} />
+              <TouchableOpacity onPress={this.goToAddBankAccount}>
                 <View style={styles.profileButton}>
                   <Text style={styles.buttonTextName}>
                     {t('PROFILE.bankAccounts')}
@@ -208,7 +209,7 @@ class Profile extends Component {
                     />
                   </Button>
                 </View>
-              </TouchableOpacity> */}
+              </TouchableOpacity>
               <View style={styles.darkLine} />
               <TouchableOpacity onPress={this.goToMyDocuments}>
                 <View style={styles.profileButton}>
@@ -223,6 +224,7 @@ class Profile extends Component {
                   </Button>
                 </View>
               </TouchableOpacity>
+              <View style={styles.darkLine} />
               <TouchableOpacity
                 onPress={() =>
                   Linking.openURL('https://jobcore.com/community-guidelines/')
