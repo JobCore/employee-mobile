@@ -26,6 +26,7 @@ import {
 import { i18next } from '../../i18n';
 import { LOG } from '../../shared';
 import ImagePicker from 'react-native-image-picker';
+import documentsTypes from './documents-types-model';
 
 const IMAGE_PICKER_OPTIONS = {
   mediaType: 'photo',
@@ -33,23 +34,6 @@ const IMAGE_PICKER_OPTIONS = {
   skipBackup: true,
 };
 
-const documentsTypes = [
-  {
-    id: 0,
-    name: i18next.t('USER_DOCUMENTS.docTypeA'),
-    value: 'listA',
-  },
-  {
-    id: 1,
-    name: i18next.t('USER_DOCUMENTS.docTypeB'),
-    value: 'listB',
-  },
-  {
-    id: 1,
-    name: i18next.t('USER_DOCUMENTS.docTypeC'),
-    value: 'listC',
-  },
-];
 class UploadDocumentScreen extends Component {
   constructor(props) {
     super(props);
@@ -249,10 +233,10 @@ class UploadDocumentScreen extends Component {
     const { documents } = this.state;
     console.log('user: ', user);
     console.log('docType: ', docType);
-    // const isAllowDocuments = user.employee
-    //   ? user.employee.document_active
-    //   : true;
-    const isAllowDocuments = true;
+    const isAllowDocuments = user.employee
+      ? user.employee.document_active
+      : true;
+    // const isAllowDocuments = true;
     return (
       <I18n>
         {(t) => (

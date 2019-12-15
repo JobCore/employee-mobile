@@ -264,7 +264,7 @@ const uploadDocument = (document) => {
     name: document.name,
     type: document.type,
   });
-  body.append('name', document.name);
+  body.append('name', document.docType);
 
   postFormData(`/document/`, body)
     .then((data) => {
