@@ -218,7 +218,7 @@ export async function putFormData(url, formData, isAuth = true) {
 export async function postFormData(url, formData, isAuth = true) {
   await checkConnection();
 
-  return fetch(`${API_URL}${url}`, {
+  return fetch(`${getAPIUrl()}${url}`, {
     body: formData,
     headers: {
       Accept: 'application/json',

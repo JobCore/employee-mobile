@@ -246,6 +246,7 @@ const logout = () => {
  * YOU MUST use this for unautorized API error
  */
 const logoutOnUnautorized = (err) => {
+  console.log('logoutOnUnautorized: ', err);
   clearStores();
   CustomToast(storeErrorHandler(err), 'danger');
   Flux.dispatchEvent('Logout', {});

@@ -14,7 +14,10 @@ import {
   Loading,
   BackgroundHeader,
 } from '../../shared/components';
-import { UPLOAD_DOCUMENT_ROUTE } from '../../constants/routes';
+import {
+  UPLOAD_DOCUMENT_ROUTE,
+  BANK_ACCOUNTS_ROUTE,
+} from '../../constants/routes';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import EditProfile from './EditProfile';
 import { TabHeader } from '../../shared/components/TabHeader';
@@ -107,6 +110,7 @@ class Profile extends Component {
   };
 
   goToBankAccounts = () => {
+    console.log('GO TO BANK ACCOUNTS');
     this.props.navigation.navigate(BankAccounts.routeName);
   };
 
@@ -197,10 +201,10 @@ class Profile extends Component {
                 </View>
               </TouchableOpacity>
               <View style={styles.darkLine} />
-              <TouchableOpacity onPress={this.goToAddBankAccount}>
+              <TouchableOpacity onPress={this.goToBankAccounts}>
                 <View style={styles.profileButton}>
                   <Text style={styles.buttonTextName}>
-                    {t('PROFILE.bankAccounts')}
+                    {t('BANK_ACCOUNTS.bankAccounts')}
                   </Text>
                   <Button transparent>
                     <Image
@@ -280,6 +284,10 @@ class Profile extends Component {
 
   goToPublicProfile = () => {
     this.props.navigation.navigate(PublicProfile.routeName);
+  };
+
+  goToBankAccounts = () => {
+    this.props.navigation.navigate(BANK_ACCOUNTS_ROUTE);
   };
 
   updateCompleted() {
