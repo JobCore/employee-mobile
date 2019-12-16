@@ -61,6 +61,22 @@ const login = (email, password, fcmToken) => {
 };
 
 /**
+ * Login action
+ * @param  {string} email
+ * @param  {string} password
+ * @param {string} fcmToken
+ */
+const getUser = () => {
+  getData('/profiles/me')
+    .then((data) => {
+      Flux.dispatchEvent('getUser', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('AccountStoreError', err);
+    });
+};
+
+/**
  * Action for registering the User
  * @param  {string} email
  * @param  {string} password
@@ -131,22 +147,40 @@ export const getCities = () => {
  * @param  {string} firstName
  * @param  {string} lastName
  */
-const editProfile = (firstName, lastName, bio) => {
+const editProfile = (firstName, lastName, bio, profile_city, wroteCity) => {
+  const originData = {
+    first_name: firstName,
+    last_name: lastName,
+    bio,
+  };
+  console.log('action profile_city: ', profile_city);
   try {
     editProfileValidator(firstName, lastName, bio);
   } catch (err) {
     return Flux.dispatchEvent('AccountStoreError', err);
   }
 
-  putData(`/profiles/me`, {
-    first_name: firstName,
-    last_name: lastName,
-    bio,
-  })
+  let data = [];
+  if (profile_city === 'others') {
+    data = {
+      ...originData,
+      city: wroteCity,
+      profile_city: '',
+    };
+  } else {
+    data = {
+      ...originData,
+      profile_city: Number(profile_city.id),
+      city: '',
+    };
+  }
+
+  putData(`/profiles/me`, data)
     .then((data) => {
       Flux.dispatchEvent('EditProfile', data);
     })
     .catch((err) => {
+      console.log('err: ', err);
       Flux.dispatchEvent('AccountStoreError', err);
     });
 };
@@ -264,11 +298,24 @@ const uploadDocument = (document) => {
     name: document.name,
     type: document.type,
   });
-  body.append('name', document.name);
+  body.append('name', document.docType);
 
   postFormData(`/document/`, body)
     .then((data) => {
       Flux.dispatchEvent('UploadDocument', data);
+    })
+    .catch((err) => {
+      Flux.dispatchEvent('AccountStoreError', err);
+    });
+};
+/**
+ * Delete document
+ * @param  {File}  document
+ */
+const deleteDocument = (document) => {
+  deleteData(`/document/${document.id}`)
+    .then((res) => {
+      Flux.dispatchEvent('DeleteDocument', res);
     })
     .catch((err) => {
       Flux.dispatchEvent('AccountStoreError', err);
@@ -318,6 +365,8 @@ export {
   editProfile,
   editProfilePicture,
   uploadDocument,
+  deleteDocument,
   getDocuments,
+  getUser,
   editTermsAndCondition,
 };

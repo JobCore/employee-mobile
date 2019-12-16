@@ -36,7 +36,7 @@ export default {
     bio: 'Biography',
     invalidBio: 'Invalid Bio',
     city: 'Cities available',
-    others: 'Others',
+    others: 'Others cities',
     wroteCity: 'City',
   },
   EDIT_PROFILE: {
@@ -71,8 +71,45 @@ export default {
     deleteDoc: 'Delete',
     noDocuments: 'No documents yet',
     allowDocuments: 'Approved',
-    notAllowDocuments: 'Not approved at the moment',
+    user: 'User',
+    notAllowDocuments: 'is not approved at the moment',
     rejectedReason: 'Rejected:',
+    pickDocType: 'Select document type!',
+    pickDocInfo: 'Employees may pick a document type first.',
+    docTypeA: 'List A, Identity/Employment Authorization',
+    docTypeB: 'List B, Identity',
+    docTypeC: 'List C, Employment Authorization',
+  },
+  USER_DOCUMENTS_TYPES: {
+    A1: 'U.S. Passport or U.S. Passport Card',
+    A2:
+      'Permanent Resident Card or Alien Registration Receipt Card (Form I-551)',
+    A3: 'Foreign passport',
+    A4: 'Empleyment Authorization',
+    A5: 'Foreign Passport, Form I-94 / I-94A',
+    A6:
+      'Passport from the Federated States of Micronesia (FSM), (EMI) with Form I-94 or Form I94A',
+    B1:
+      'Driver\'s license, ID card issued by a State, outlying possession of the United States',
+    B2:
+      'ID card issued by federal, state or local government agencies or entities',
+    B3: 'School ID card with a photograph',
+    B4: 'Vote\'s registration card',
+    B5: 'U.S. Military card or draft record',
+    B6: 'Military dependent\'s ID card',
+    B7: 'U.S. Coast Guard Merchant Mariner Card',
+    B8: 'Native American tribal document',
+    B9: 'Driver\'s license issued by a Canadian government authority',
+    C1: 'A Social Security Account Number card',
+    C2:
+      'Certification of report of birth issued by the Department of State (Forms DS-1350, FS-545, FS-240)',
+    C3: 'Original or certified copy of birth certificate',
+    C4: 'Native American tribal document',
+    C5: 'U.S. Citizen ID Card (Form I-197)',
+    C6:
+      'Identification Card for Use of Resident Citizen in the United States (Form I-179)',
+    C7:
+      'Employment authorization document issued by the Department of Homeland Security',
   },
   SETTINGS: {
     settings: 'Settings',

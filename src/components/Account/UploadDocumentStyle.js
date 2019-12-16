@@ -31,6 +31,7 @@ export default StyleSheet.create({
     height: 45,
     // marginTop: 40,
     justifyContent: 'center',
+    alignItems: 'center',
   },
   viewInput: {
     backgroundColor: 'transparent',
@@ -51,6 +52,10 @@ export default StyleSheet.create({
     fontWeight: '800',
     textAlign: 'center',
     color: WHITE_MAIN,
+  },
+  placeholderTextButtomPicker: {
+    color: WHITE_MAIN,
+    textAlign: 'center',
   },
   userStatusLabelText: {
     fontSize: 16,
@@ -87,6 +92,10 @@ export default StyleSheet.create({
 
   closeIconApproved: {
     color: GREEN_MAIN,
+    marginRight: 20,
+  },
+  closeIconRejected: {
+    color: WHITE_MAIN,
     marginRight: 20,
   },
   noDocsText: {

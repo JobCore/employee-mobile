@@ -110,6 +110,7 @@ class Profile extends Component {
   };
 
   goToBankAccounts = () => {
+    console.log('GO TO BANK ACCOUNTS');
     this.props.navigation.navigate(BankAccounts.routeName);
   };
 
@@ -227,6 +228,7 @@ class Profile extends Component {
                   </Button>
                 </View>
               </TouchableOpacity>
+              <View style={styles.darkLine} />
               <TouchableOpacity
                 onPress={() =>
                   Linking.openURL('https://jobcore.com/community-guidelines/')
@@ -243,6 +245,7 @@ class Profile extends Component {
                   </Button>
                 </View>
               </TouchableOpacity>
+              <View style={styles.darkLine} />
               <TouchableOpacity
                 full
                 onPress={this.logout}
