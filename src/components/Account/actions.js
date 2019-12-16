@@ -147,22 +147,40 @@ export const getCities = () => {
  * @param  {string} firstName
  * @param  {string} lastName
  */
-const editProfile = (firstName, lastName, bio) => {
+const editProfile = (firstName, lastName, bio, profile_city, wroteCity) => {
+  const originData = {
+    first_name: firstName,
+    last_name: lastName,
+    bio,
+  };
+  console.log('action profile_city: ', profile_city);
   try {
     editProfileValidator(firstName, lastName, bio);
   } catch (err) {
     return Flux.dispatchEvent('AccountStoreError', err);
   }
 
-  putData(`/profiles/me`, {
-    first_name: firstName,
-    last_name: lastName,
-    bio,
-  })
+  let data = [];
+  if (profile_city === 'others') {
+    data = {
+      ...originData,
+      city: wroteCity,
+      profile_city: '',
+    };
+  } else {
+    data = {
+      ...originData,
+      profile_city: Number(profile_city.id),
+      city: '',
+    };
+  }
+
+  putData(`/profiles/me`, data)
     .then((data) => {
       Flux.dispatchEvent('EditProfile', data);
     })
     .catch((err) => {
+      console.log('err: ', err);
       Flux.dispatchEvent('AccountStoreError', err);
     });
 };
