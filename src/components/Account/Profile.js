@@ -107,6 +107,7 @@ class Profile extends Component {
   };
 
   goToBankAccounts = () => {
+    console.log('GO TO BANK ACCOUNTS');
     this.props.navigation.navigate(BankAccounts.routeName);
   };
 
@@ -197,7 +198,7 @@ class Profile extends Component {
                 </View>
               </TouchableOpacity>
               <View style={styles.darkLine} />
-              <TouchableOpacity onPress={this.goToAddBankAccount}>
+              <TouchableOpacity onPress={this.goToBankAccounts}>
                 <View style={styles.profileButton}>
                   <Text style={styles.buttonTextName}>
                     {t('PROFILE.bankAccounts')}
