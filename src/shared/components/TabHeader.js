@@ -12,7 +12,6 @@ const TabHeader = ({
   goBack = false,
   onPressBack,
   onPressHelp,
-  showHelpButton,
 }) => (
   <Header androidStatusBarColor={BLUE_MAIN} style={headerStyles.headerCustom}>
     <Left>
@@ -34,9 +33,9 @@ const TabHeader = ({
       </Title>
     </Body>
     <Right>
-      {showHelpButton && (
+      {onPressHelp ? (
         <HelpIcon onPressHelp={onPressHelp} screenName={screenName} />
-      )}
+      ) : null}
     </Right>
   </Header>
 );
@@ -45,7 +44,6 @@ TabHeader.propTypes = {
   title: PropTypes.string.isRequired,
   screenName: PropTypes.string,
   goBack: PropTypes.bool.isRequired,
-  showHelpButton: PropTypes.bool.isRequired,
   onPressBack: PropTypes.func.isRequired,
   onPressHelp: PropTypes.func.isRequired,
 };

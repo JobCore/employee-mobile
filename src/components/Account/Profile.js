@@ -140,7 +140,6 @@ class Profile extends Component {
             <TabHeader
               screenName="profile"
               title={t('PROFILE.profileSettings')}
-              showHelpButton
               onPressHelp={() => this.onPressHelp()}
             />
             <Content>
