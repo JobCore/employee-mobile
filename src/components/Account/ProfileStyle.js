@@ -102,7 +102,8 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontWeight: '400',
     color: BLACK_MAIN,
-    marginBottom: 10,
+    marginTop: 20,
+    marginBottom: 20,
   },
   textBio: {
     textAlign: 'center',

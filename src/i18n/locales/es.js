@@ -246,6 +246,7 @@ export default {
     editProfile: 'Editar perfil',
     publicProfile: 'Ver Perfil Publico',
     communityGuidlines: 'Guia de la Comunidad',
+    logOutButton: 'Salir',
   },
   REVIEWS: {
     Reviews: 'Opiniones',
