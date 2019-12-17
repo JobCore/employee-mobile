@@ -101,7 +101,7 @@ android {
         applicationId "co.jobcore.talent"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 23
+        versionCode 95
         versionName "1.5.7"
         ndk {
 //            abiFilters "armeabi-v7a", "x86"
@@ -150,6 +150,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-device-info')
     implementation project(':react-native-webview')
     implementation project(':react-native-touch-id')
     implementation project(':react-native-i18n')
