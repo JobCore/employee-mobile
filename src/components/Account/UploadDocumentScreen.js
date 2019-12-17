@@ -233,7 +233,7 @@ class UploadDocumentScreen extends Component {
     console.log('user: ', user);
     console.log('docType: ', docType);
     const isAllowDocuments = user.employee
-      ? user.employee.document_active
+      ? !user.employee.document_active
       : true;
     // const isAllowDocuments = true;
     return (
@@ -371,5 +371,7 @@ class UploadDocumentScreen extends Component {
     );
   }
 }
+
+UploadDocumentScreen.routeName = 'UPLOAD_DOCUMENT_ROUTE';
 
 export default UploadDocumentScreen;

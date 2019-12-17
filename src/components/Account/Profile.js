@@ -14,17 +14,14 @@ import {
   Loading,
   BackgroundHeader,
 } from '../../shared/components';
-import {
-  UPLOAD_DOCUMENT_ROUTE,
-  BANK_ACCOUNTS_ROUTE,
-} from '../../constants/routes';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import EditProfile from './EditProfile';
 import { TabHeader } from '../../shared/components/TabHeader';
 import PublicProfile from './PublicProfile';
-import { BankAccounts } from '../BankAccounts/BankAccounts';
+import BankAccounts from '../BankAccounts/BankAccounts';
 import * as actions from './actions';
 import { LOG } from '../../shared';
+import UploadDocumentScreen from './UploadDocumentScreen';
 
 class Profile extends Component {
   static navigationOptions = {
@@ -107,11 +104,6 @@ class Profile extends Component {
   errorHandler = (err) => {
     this.setState({ isLoading: false, isRefreshing: false });
     CustomToast(err, 'danger');
-  };
-
-  goToBankAccounts = () => {
-    console.log('GO TO BANK ACCOUNTS');
-    this.props.navigation.navigate(BankAccounts.routeName);
   };
 
   logout = () => {
@@ -279,7 +271,8 @@ class Profile extends Component {
   };
 
   goToMyDocuments = () => {
-    this.props.navigation.navigate(UPLOAD_DOCUMENT_ROUTE);
+    console.log(`GOTO MY DOC`);
+    this.props.navigation.navigate(UploadDocumentScreen.routeName);
   };
 
   goToPublicProfile = () => {
@@ -287,7 +280,8 @@ class Profile extends Component {
   };
 
   goToBankAccounts = () => {
-    this.props.navigation.navigate(BANK_ACCOUNTS_ROUTE);
+    console.log('GO TO BANK ACCOUNTS');
+    this.props.navigation.navigate(BankAccounts.routeName);
   };
 
   updateCompleted() {

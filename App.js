@@ -56,8 +56,6 @@ import {
   JOB_DETAILS_NEW_TWO_ROUTE,
   JOB_PAYMENTS_ROUTE,
   HELP_ROUTE,
-  UPLOAD_DOCUMENT_ROUTE,
-  BANK_ACCOUNTS_ROUTE,
   TERMS_AND_CONDITIONS_ROUTE,
 } from './src/constants/routes';
 import {
@@ -130,8 +128,8 @@ export const AppStack = createStackNavigator(
     Tabs,
     [SETTING_ROUTE]: SettingScreen,
     [RESET_ROUTE]: ChangePassword,
-    [UPLOAD_DOCUMENT_ROUTE]: UploadDocumentScreen,
-    [BANK_ACCOUNTS_ROUTE]: BankAccounts,
+    [UploadDocumentScreen.routeName]: UploadDocumentScreen,
+    [BankAccounts.routeName]: BankAccounts,
     [AddBankAccount.routeName]: AddBankAccount,
     [EditProfile.routeName]: EditProfile,
     [PublicProfile.routeName]: PublicProfile,
