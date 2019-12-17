@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, Alert, Linking } from 'react-native';
+import { View, Image, TouchableOpacity, Alert } from 'react-native';
 import {
   Item,
   Text,
@@ -7,12 +7,13 @@ import {
   Label,
   Content,
   Container,
+  // Icon,
   Picker,
 } from 'native-base';
 import UploadDocumentStyle from './UploadDocumentStyle';
 import { I18n } from 'react-i18next';
 import { Loading, CustomToast } from '../../shared/components';
-import { TabHeader } from '../../shared/components/TabHeader';
+import { ModalHeader } from '../../shared/components/ModalHeader';
 import { ADD_DOCUMENT_ROUTE } from '../../constants/routes';
 import accountStore from './AccountStore';
 import {
@@ -26,7 +27,6 @@ import { i18next } from '../../i18n';
 import { LOG } from '../../shared';
 import ImagePicker from 'react-native-image-picker';
 import documentsTypes from './documents-types-model';
-import { JOBCORE_WEB_URL } from 'react-native-dotenv';
 
 const IMAGE_PICKER_OPTIONS = {
   mediaType: 'photo',
@@ -227,8 +227,6 @@ class UploadDocumentScreen extends Component {
     }
   };
 
-  onPressHelp = () => Linking.openURL(JOBCORE_WEB_URL);
-
   render() {
     const { user, showWarning, docType } = this.state;
     const { documents } = this.state;
@@ -242,13 +240,9 @@ class UploadDocumentScreen extends Component {
       <I18n>
         {(t) => (
           <Container>
-            <TabHeader
-              onPressBack={() => this.props.navigation.goBack()}
-              goBack
-              screenName="profile"
+            <ModalHeader
+              screenName={t('USER_DOCUMENTS.myDocuments')}
               title={t('USER_DOCUMENTS.myDocuments')}
-              onPressHelp={() => this.onPressHelp()}
-              showHelpButton
             />
             {showWarning ? (
               <View

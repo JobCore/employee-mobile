@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Image, TouchableOpacity, Alert, Linking } from 'react-native';
+import { View, Image, TouchableOpacity, Alert } from 'react-native';
 import { Item, Text, Form, Label, Content, Container } from 'native-base';
 import { bankAccountsStyle } from './bankAccounts-style';
 import { I18n } from 'react-i18next';
 import { Loading } from '../../shared/components';
-import { TabHeader } from '../../shared/components/TabHeader';
+import { ModalHeader } from '../../shared/components/ModalHeader';
 import AddBankAccount from './AddBankAccount';
 import { fetchBankAccounts, deleteBankAccount } from './bankAccounts-actions';
 import { View as FluxView } from '@cobuildlab/react-flux-state';
@@ -18,7 +18,6 @@ import type { BankAccount } from './bank-accounts-types';
 import CustomToast from '../../shared/components/CustomToast';
 import { i18next } from '../../i18n';
 import { LOG } from '../../shared';
-import { JOBCORE_WEB_URL } from 'react-native-dotenv';
 
 class BankAccounts extends FluxView {
   constructor(props) {
@@ -81,8 +80,6 @@ class BankAccounts extends FluxView {
     );
   };
 
-  onPressHelp = () => Linking.openURL(JOBCORE_WEB_URL);
-
   render() {
     const { isLoading, bankAccounts } = this.state;
     console.log(`DEBUG:`, this.state);
@@ -90,13 +87,9 @@ class BankAccounts extends FluxView {
       <I18n>
         {(t) => (
           <Container>
-            <TabHeader
-              onPressBack={() => this.props.navigation.goBack()}
-              goBack
-              screenName="profile"
+            <ModalHeader
+              screenName={t('BANK_ACCOUNTS.bankAccounts')}
               title={t('BANK_ACCOUNTS.bankAccounts')}
-              showHelpButton
-              onPressHelp={() => this.onPressHelp()}
             />
             {isLoading ? <Loading /> : null}
             <Content>

@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View,
-  TouchableOpacity,
-  Alert,
-  Image,
-  Switch,
-  Linking,
-} from 'react-native';
+import { View, TouchableOpacity, Alert, Image, Switch } from 'react-native';
 import {
   Item,
   Input,
@@ -36,8 +29,6 @@ import { RESET_ROUTE, JOB_PREFERENCES_ROUTE } from '../../constants/routes';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import { GRAY_MAIN, BG_GRAY_LIGHT, BLUE_DARK } from '../../shared/colorPalette';
 import { TabHeader } from '../../shared/components/TabHeader';
-import { JOBCORE_WEB_URL } from 'react-native-dotenv';
-
 const icon = require('../../assets/image/tab/profile.png');
 
 const IMAGE_PICKER_OPTIONS = {
@@ -189,8 +180,6 @@ class EditProfile extends Component {
     CustomToast(err, 'danger');
   };
 
-  onPressHelp = () => Linking.openURL(JOBCORE_WEB_URL);
-
   render() {
     const {
       loginAutoSave,
@@ -213,8 +202,7 @@ class EditProfile extends Component {
               onPressBack={() => this.props.navigation.goBack()}
               screenName="profile"
               title={t('EDIT_PROFILE.editProfile')}
-              onPressHelp={() => this.onPressHelp()}
-              showHelpButton
+              onPressHelp={this.goToEditProfile}
             />
             <Content>
               <View style={editProfileStyles.container}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Linking } from 'react-native';
+import { Image } from 'react-native';
 import { Container } from 'native-base';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
@@ -7,11 +7,7 @@ import { CustomToast, Loading } from '../../shared/components';
 import EditProfile from '../Account/EditProfile';
 import { TabHeader } from '../../shared/components/TabHeader';
 import PlaidAuthenticator from 'react-native-plaid-link';
-import {
-  PLAID_PUBLIC_KEY,
-  PLAID_ENVIRONMENT,
-  JOBCORE_WEB_URL,
-} from 'react-native-dotenv';
+import { PLAID_PUBLIC_KEY, PLAID_ENVIRONMENT } from 'react-native-dotenv';
 import { saveBankAccounts } from './bankAccounts-actions';
 import { View } from '@cobuildlab/react-flux-state';
 import {
@@ -54,8 +50,6 @@ class AddBankAccount extends View {
     });
   }
 
-  onPressHelp = () => Linking.openURL(JOBCORE_WEB_URL);
-
   render() {
     return (
       <I18n>
@@ -65,10 +59,7 @@ class AddBankAccount extends View {
             <TabHeader
               onPressBack={() => this.props.navigation.goBack()}
               goBack
-              screenName="profile"
               title={t('BANK_ACCOUNTS.addBankAccountTitle')}
-              showHelpButton
-              onPressHelp={() => this.onPressHelp()}
             />
             <PlaidAuthenticator
               onMessage={this.onPlaidMessage}

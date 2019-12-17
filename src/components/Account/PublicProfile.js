@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, FlatList, Linking } from 'react-native';
+import { View, Image, TouchableOpacity, FlatList } from 'react-native';
 import { Container, Content, Text, Thumbnail, Icon } from 'native-base';
 import styles from './PublicProfileStyle';
 import * as inviteActions from '../Invite/actions';
@@ -17,11 +17,10 @@ import {
 import { REVIEWS_ROUTE } from '../../constants/routes';
 import { BLUE_DARK, BLUE_LIGHT } from '../../shared/colorPalette';
 import PROFILE_IMG from '../../assets/image/profile.png';
-import { TabHeader } from '../../shared/components/TabHeader';
+import { ModalHeader } from '../../shared/components/ModalHeader';
 import EditProfile from './EditProfile';
 import { Review } from '../MyJobs/components/Review';
 import { getRatingEmployeeFormat } from '../MyJobs/job-utils';
-import { JOBCORE_WEB_URL } from 'react-native-dotenv';
 
 class PublicProfile extends Component {
   static navigationOptions = {
@@ -101,21 +100,16 @@ class PublicProfile extends Component {
     CustomToast(err, 'danger');
   };
 
-  onPressHelp = () => Linking.openURL(JOBCORE_WEB_URL);
-
   render() {
     return (
       <I18n>
         {(t) => (
           <Container>
             {this.state.isLoading ? <Loading /> : null}
-            <TabHeader
-              onPressBack={() => this.props.navigation.goBack()}
-              goBack
-              screenName="profile"
+            <ModalHeader
               title={t('PROFILE.profile')}
-              showHelpButton
-              onPressHelp={() => this.onPressHelp()}
+              onPressClose={() => this.props.navigation.goBack()}
+              onPressHelp={() => this.props.navigation.goBack()}
             />
             <Content>
               <BackgroundHeader heightAuto>
