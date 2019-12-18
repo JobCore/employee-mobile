@@ -243,6 +243,7 @@ export default {
     addBankAccount: 'ADD BANK ACCOUNT',
     bankAccounts: 'Bank Accounts',
     communityGuidlines: 'Community Guidelines',
+    logOutButton: 'Log Out',
   },
   REVIEWS: {
     reviews: 'Reviews',

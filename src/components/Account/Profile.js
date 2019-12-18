@@ -22,6 +22,7 @@ import BankAccounts from '../BankAccounts/BankAccounts';
 import * as actions from './actions';
 import { LOG } from '../../shared';
 import UploadDocumentScreen from './UploadDocumentScreen';
+import { JOBCORE_WEB_URL } from 'react-native-dotenv';
 
 class Profile extends Component {
   static navigationOptions = {
@@ -127,7 +128,10 @@ class Profile extends Component {
     this.setState({ isLoading: false });
   };
 
+  onPressHelp = () => Linking.openURL(JOBCORE_WEB_URL);
+
   render() {
+    console.log('JOBCORE_WEB_URL: ', JOBCORE_WEB_URL);
     return (
       <I18n>
         {(t) => (
@@ -136,7 +140,7 @@ class Profile extends Component {
             <TabHeader
               screenName="profile"
               title={t('PROFILE.profileSettings')}
-              onPressHelp={() => Linking.openURL('https://support.jobcore.co/')}
+              onPressHelp={() => this.onPressHelp()}
             />
             <Content>
               <BackgroundHeader heightAuto>
@@ -168,7 +172,7 @@ class Profile extends Component {
               <TouchableOpacity onPress={this.goToEditProfile}>
                 <View style={styles.profileButton}>
                   <Text style={styles.buttonTextName}>
-                    {t('PROFILE.editProfile')}
+                    {t('PROFILE.editProfile').toUpperCase()}
                   </Text>
                   <Button transparent>
                     <Image
@@ -182,7 +186,7 @@ class Profile extends Component {
               <TouchableOpacity onPress={this.goToPublicProfile}>
                 <View style={styles.profileButton}>
                   <Text style={styles.buttonTextName}>
-                    {t('PROFILE.publicProfile')}
+                    {t('PROFILE.publicProfile').toUpperCase()}
                   </Text>
                   <Button transparent>
                     <Image
@@ -196,7 +200,7 @@ class Profile extends Component {
               <TouchableOpacity onPress={this.goToBankAccounts}>
                 <View style={styles.profileButton}>
                   <Text style={styles.buttonTextName}>
-                    {t('BANK_ACCOUNTS.bankAccounts')}
+                    {t('BANK_ACCOUNTS.bankAccounts').toUpperCase()}
                   </Text>
                   <Button transparent>
                     <Image
@@ -210,7 +214,7 @@ class Profile extends Component {
               <TouchableOpacity onPress={this.goToMyDocuments}>
                 <View style={styles.profileButton}>
                   <Text style={styles.buttonTextName}>
-                    {t('USER_DOCUMENTS.uploadDocuments')}
+                    {t('USER_DOCUMENTS.uploadDocuments').toUpperCase()}
                   </Text>
                   <Button transparent>
                     <Image
@@ -227,7 +231,7 @@ class Profile extends Component {
                 }>
                 <View style={styles.profileButton}>
                   <Text style={styles.buttonTextName}>
-                    {t('PROFILE.communityGuidlines')}
+                    {t('PROFILE.communityGuidlines').toUpperCase()}
                   </Text>
                   <Button transparent>
                     <Image
@@ -238,11 +242,12 @@ class Profile extends Component {
                 </View>
               </TouchableOpacity>
               <View style={styles.darkLine} />
-              <TouchableOpacity
-                full
-                onPress={this.logout}
-                style={styles.viewButtomSignUp}>
-                <Text style={styles.textButtomSignUp}>{'Log Out'}</Text>
+              <TouchableOpacity onPress={this.logout}>
+                <View style={styles.profileButton}>
+                  <Text style={styles.buttonTextName}>
+                    {t('PROFILE.logOutButton').toUpperCase()}
+                  </Text>
+                </View>
               </TouchableOpacity>
             </Content>
           </Container>

@@ -7,7 +7,7 @@ import {
   Label,
   Content,
   Container,
-  Icon,
+  // Icon,
   Picker,
 } from 'native-base';
 import UploadDocumentStyle from './UploadDocumentStyle';
@@ -265,7 +265,7 @@ class UploadDocumentScreen extends Component {
                       : t('USER_DOCUMENTS.notAllowDocuments')
                   }`}
                 </Text>
-                <Icon
+                {/* <Icon
                   onPress={() => this.setState({ showWarning: false })}
                   style={
                     isAllowDocuments
@@ -274,7 +274,7 @@ class UploadDocumentScreen extends Component {
                   }
                   name="close"
                   size={5}
-                />
+                /> */}
               </View>
             ) : null}
             {this.state.isLoading ? <Loading /> : null}
