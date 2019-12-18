@@ -25,6 +25,9 @@ class UpdateApp extends Component {
     }
   };
 
+  /**
+   * Component Alert update app version
+   */
   render() {
     return (
       <View style={styles.container}>

@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, ImageBackground } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import {
-  APP_ROUTE,
-  AUTH_ROUTE,
-  UPDATE_APP_ROUTE,
-} from '../../constants/routes';
+import { APP_ROUTE, AUTH_ROUTE } from '../../constants/routes';
 import store from '../Account/AccountStore';
-import { getData } from '../../fetch';
 import DeviceInfo from 'react-native-device-info';
 import { LOG } from '../../shared';
 import accountStore from '../Account/AccountStore';
 import * as accountActions from '../Account/actions';
+import checkVersionApp from './actions';
 import SPLASH_IMG from '../../assets/image/splash.png';
 
 class Splash extends Component {
@@ -20,16 +16,9 @@ class Splash extends Component {
   };
   componentDidMount() {
     const { currentVersion } = this.state;
-    // console.log('current version ', currentVersion);
-    getData('/version', false)
-      .then((response) => {
-        if (currentVersion < response.version) {
-          this.props.navigation.navigate(UPDATE_APP_ROUTE);
-        }
-      })
-      .catch((err) => {
-        console.log('fetch error:', err);
-      });
+    const { navigation } = this.props;
+
+    checkVersionApp(currentVersion, navigation);
     setTimeout(() => {
       this._bootstrapAsync();
     }, 1000);

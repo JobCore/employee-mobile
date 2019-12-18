@@ -101,7 +101,7 @@ android {
         applicationId "co.jobcore.talent"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 95
+        versionCode 94
         versionName "1.5.7"
         ndk {
 //            abiFilters "armeabi-v7a", "x86"
