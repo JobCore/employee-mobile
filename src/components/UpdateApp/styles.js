@@ -14,6 +14,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'black',
   },
+  containerImage: {
+    paddingTop: 10,
+  },
   container: {
     flex: 1,
     backgroundColor: 'black',

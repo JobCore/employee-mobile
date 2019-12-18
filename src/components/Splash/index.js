@@ -7,7 +7,7 @@ import {
   UPDATE_APP_ROUTE,
 } from '../../constants/routes';
 import store from '../Account/AccountStore';
-import { getDataTest } from '../../fetch';
+import { getData } from '../../fetch';
 import DeviceInfo from 'react-native-device-info';
 import { LOG } from '../../shared';
 import accountStore from '../Account/AccountStore';
@@ -20,8 +20,8 @@ class Splash extends Component {
   };
   componentDidMount() {
     const { currentVersion } = this.state;
-    console.log('current version ', currentVersion);
-    getDataTest('/version', false)
+    // console.log('current version ', currentVersion);
+    getData('/version', false)
       .then((response) => {
         if (currentVersion < response.version) {
           this.props.navigation.navigate(UPDATE_APP_ROUTE);

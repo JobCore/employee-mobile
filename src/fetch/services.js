@@ -2,17 +2,11 @@ import accountStore from '../components/Account/AccountStore';
 import { checkInternetConnection } from 'react-native-offline';
 import * as accountActions from '../components/Account/actions';
 import { i18next } from '../i18n';
-import { TEST_API_URL } from 'react-native-dotenv';
 import { API_URL } from 'react-native-dotenv';
 
 export const getAPIUrl = () => {
   console.log('API_URL: ', API_URL);
   return API_URL;
-};
-
-export const getAPIUrlTest = () => {
-  console.log('TEst API_URL: ', TEST_API_URL);
-  return TEST_API_URL;
 };
 
 /**
@@ -116,26 +110,6 @@ export const get = async (url, isAuth = true) => {
   };
   const fullUrl = `${getAPIUrl()}${url}`;
   console.log(`getData:`, headers, fullUrl);
-  return fetch(fullUrl, {
-    headers,
-    method: 'GET',
-  })
-    .then(checkStatus)
-    .then((res) => res)
-    .catch((err) => Promise.reject(err));
-};
-
-export const getDataTest = async (url, isAuth = true) => {
-  await checkConnection();
-
-  const headers = {
-    Accept: 'application/json',
-    'Accept-Language': i18next.language,
-    'Content-Type': 'application/json',
-    Authorization: isAuth ? `jwt ${accountStore.getState('Login').token}` : '',
-  };
-  const fullUrl = `${getAPIUrlTest()}${url}`;
-  // console.log(`getData:`, headers, fullUrl);
   return fetch(fullUrl, {
     headers,
     method: 'GET',
