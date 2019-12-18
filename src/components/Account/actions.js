@@ -40,6 +40,7 @@ const clearStores = () => {
  * @param {string} fcmToken
  */
 const login = (email, password, fcmToken) => {
+  console.log('sdasd tokenn ', fcmToken);
   try {
     loginValidator(email, password);
   } catch (err) {
@@ -52,10 +53,14 @@ const login = (email, password, fcmToken) => {
     false,
   )
     .then((data) => {
-      data.fcmToken = fcmToken;
-      Flux.dispatchEvent('Login', data);
+      if (data) {
+        data.fcmToken = fcmToken;
+        Flux.dispatchEvent('Login', data);
+      }
+      // console.log('data del then accountStore ', data)
     })
     .catch((err) => {
+      console.log('errr en catch AccountStoreError', err);
       Flux.dispatchEvent('AccountStoreError', err);
     });
 };
