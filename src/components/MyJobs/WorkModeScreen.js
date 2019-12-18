@@ -144,6 +144,7 @@ class WorkModeScreen extends Component {
                 onPressDirection={
                   this.showOpenDirection() ? this.openMapsApp : () => {}
                 }
+                minimumHourlyRate={shift.minimum_hourly_rate}
               />
             </View>
             <View style={{ flex: 2, alignItems: 'center', paddingTop: 20 }}>
