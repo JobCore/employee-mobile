@@ -61,7 +61,7 @@ export default {
     wantToDeleteBankAccount: 'Are you sure to delete bank account:',
   },
   USER_DOCUMENTS: {
-    uploadDocuments: 'My documents',
+    uploadDocuments: 'Employment Verification',
     myDocuments: 'My documents',
     addDocument: 'ADD DOCUMENT',
     loadDocument: 'LOAD DOCUMENT',
