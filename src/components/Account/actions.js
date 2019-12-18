@@ -40,7 +40,7 @@ const clearStores = () => {
  * @param {string} fcmToken
  */
 const login = (email, password, fcmToken) => {
-  console.log('sdasd tokenn ', fcmToken);
+  // console.log('sdasd tokenn ', fcmToken);
   try {
     loginValidator(email, password);
   } catch (err) {
