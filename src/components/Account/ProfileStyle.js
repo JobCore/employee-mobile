@@ -34,7 +34,7 @@ export default StyleSheet.create({
     height: 65,
     justifyContent: 'space-between',
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 10,
     alignItems: 'center',
   },
   headerCustom: {
@@ -102,8 +102,8 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontWeight: '400',
     color: BLACK_MAIN,
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: 10,
+    marginBottom: 10,
   },
   textBio: {
     textAlign: 'center',

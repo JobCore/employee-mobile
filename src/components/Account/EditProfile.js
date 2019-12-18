@@ -293,6 +293,10 @@ class EditProfile extends Component {
                       style={editProfileStyles.viewInput}
                       inlineLabel
                       rounded>
+                      <Icon
+                        style={editProfileStyles.pickerIcon}
+                        name="arrow-down"
+                      />
                       <Label>{t('REGISTER.cityPickerTitle')}</Label>
                       <Picker
                         mode="dropdown"
@@ -302,13 +306,7 @@ class EditProfile extends Component {
                           color: '#575757',
                           paddingLeft: 7,
                         }}
-                        iosIcon={
-                          <Icon
-                            style={{ color: '#27666F' }}
-                            name="arrow-down"
-                          />
-                        }
-                        style={{ width: 250, paddingLeft: 0 }}
+                        style={editProfileStyles.picker}
                         selectedValue={
                           profile_city_id && !profile_city
                             ? cities.filter(
@@ -328,14 +326,14 @@ class EditProfile extends Component {
                             label={city.name}
                             value={city}
                             key={city.id}
-                            style={editProfileStyles.pickerItem}
+                            // style={editProfileStyles.pickerItem}
                           />
                         ))}
                         <Picker.Item
                           label={t('REGISTER.others')}
                           value="others"
                           key={t('REGISTER.others')}
-                          style={editProfileStyles.pickerItem}
+                          // style={editProfileStyles.pickerItem}
                         />
                       </Picker>
                     </Item>

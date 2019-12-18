@@ -144,7 +144,7 @@ class Profile extends Component {
             />
             <Content>
               <BackgroundHeader heightAuto>
-                <View style={{ padding: 30 }}>
+                <View style={{ padding: 15 }}>
                   <View style={styles.viewProfileImg}>
                     <Thumbnail
                       large
