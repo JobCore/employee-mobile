@@ -293,18 +293,22 @@ class EditProfile extends Component {
                       style={editProfileStyles.viewInput}
                       inlineLabel
                       rounded>
+                      <Label>{t('REGISTER.cityPickerTitle')}</Label>
                       <Picker
                         mode="dropdown"
                         iosHeader={t('REGISTER.city')}
                         placeholder={t('REGISTER.city')}
-                        placeholderStyle={{ color: '#575757', paddingLeft: 7 }}
+                        placeholderStyle={{
+                          color: '#575757',
+                          paddingLeft: 7,
+                        }}
                         iosIcon={
                           <Icon
                             style={{ color: '#27666F' }}
                             name="arrow-down"
                           />
                         }
-                        style={{ width: 270, paddingLeft: 0 }}
+                        style={{ width: 250, paddingLeft: 0 }}
                         selectedValue={
                           profile_city_id && !profile_city
                             ? cities.filter(
@@ -324,12 +328,14 @@ class EditProfile extends Component {
                             label={city.name}
                             value={city}
                             key={city.id}
+                            style={editProfileStyles.pickerItem}
                           />
                         ))}
                         <Picker.Item
                           label={t('REGISTER.others')}
                           value="others"
                           key={t('REGISTER.others')}
+                          style={editProfileStyles.pickerItem}
                         />
                       </Picker>
                     </Item>
@@ -338,10 +344,10 @@ class EditProfile extends Component {
                         style={editProfileStyles.viewInput}
                         inlineLabel
                         rounded>
+                        <Label>{t('REGISTER.wroteCity')}</Label>
                         <Input
                           disabled={city !== 'others'}
                           value={this.state.wroteCity}
-                          placeholder={t('REGISTER.wroteCity')}
                           onChangeText={(text) =>
                             this.setState({ wroteCity: text })
                           }

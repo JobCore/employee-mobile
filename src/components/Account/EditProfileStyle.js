@@ -7,6 +7,9 @@ export default StyleSheet.create({
   borderNone: {
     borderBottomColor: 'transparent',
   },
+  pickerItem: {
+    width: 225,
+  },
   container: {
     paddingHorizontal: 35,
   },
