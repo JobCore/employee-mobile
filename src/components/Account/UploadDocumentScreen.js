@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity, Alert } from 'react-native';
 import {
-  Item,
   Text,
   Form,
   Label,
@@ -168,9 +167,6 @@ class UploadDocumentScreen extends Component {
     );
   };
 
-  camelCaseIt = (name) =>
-    name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-
   openImagePicker = () => {
     ImagePicker.showImagePicker(
       IMAGE_PICKER_OPTIONS,
@@ -232,39 +228,64 @@ class UploadDocumentScreen extends Component {
     const { documents } = this.state;
     console.log('user: ', user);
     console.log('docType: ', docType);
-    const isAllowDocuments = user.employee
-      ? !user.employee.document_active
-      : true;
-    // const isAllowDocuments = true;
+    // const isAllowDocuments = user.employee
+    //   ? !user.employee.document_active
+    //   : true;
+    const isAllowDocuments = true;
+    const isMissingDocuments = false;
     return (
       <I18n>
         {(t) => (
           <Container>
             <ModalHeader
-              screenName={t('USER_DOCUMENTS.myDocuments')}
-              title={t('USER_DOCUMENTS.myDocuments')}
+              screenName="profile"
+              title={t('USER_DOCUMENTS.uploadDocuments')}
             />
             {showWarning ? (
-              <View
-                style={
-                  isAllowDocuments
-                    ? UploadDocumentStyle.userStatusLabelApproved
-                    : UploadDocumentStyle.userStatusLabelRejected
-                }>
-                <Text
-                  style={
-                    isAllowDocuments
-                      ? UploadDocumentStyle.userStatusLabelTextApproved
-                      : UploadDocumentStyle.userStatusLabelTextRejected
-                  }>
-                  {`${
-                    user.user ? user.user.first_name : t('USER_DOCUMENTS.user')
-                  } ${
-                    isAllowDocuments
-                      ? t('USER_DOCUMENTS.allowDocuments')
-                      : t('USER_DOCUMENTS.notAllowDocuments')
-                  }`}
-                </Text>
+              <View style={UploadDocumentStyle.userStatusLabel}>
+                <View>
+                  <Image
+                    style={UploadDocumentStyle.statusImage}
+                    source={
+                      isAllowDocuments
+                        ? require('../../assets/image/documents/circle-check.png')
+                        : require('../../assets/image/documents/circle-X.png')
+                    }
+                  />
+                </View>
+                <View style={UploadDocumentStyle.statusInfoContainer}>
+                  <View style={UploadDocumentStyle.statusContainer}>
+                    <Text style={UploadDocumentStyle.userStatusLabelText}>
+                      {t('USER_DOCUMENTS.status')}
+                    </Text>
+                    <View
+                      style={
+                        isAllowDocuments && !isMissingDocuments
+                          ? UploadDocumentStyle.statusTextButtonApproved
+                          : UploadDocumentStyle.statusTextButtonRejected
+                      }>
+                      <Text
+                        style={
+                          isAllowDocuments && !isMissingDocuments
+                            ? UploadDocumentStyle.statusTextApproved
+                            : UploadDocumentStyle.statusTextRejected
+                        }>
+                        {isAllowDocuments && !isMissingDocuments
+                          ? t('USER_DOCUMENTS.verified').toLowerCase()
+                          : isAllowDocuments && isMissingDocuments
+                            ? t('USER_DOCUMENTS.missingDocuments').toLowerCase()
+                            : t('USER_DOCUMENTS.notVerified').toLowerCase()}
+                      </Text>
+                    </View>
+                  </View>
+                  <Text style={UploadDocumentStyle.userStatusInfoText}>
+                    {isAllowDocuments && !isMissingDocuments
+                      ? t('USER_DOCUMENTS.verifiedInfo')
+                      : isAllowDocuments && isMissingDocuments
+                        ? t('USER_DOCUMENTS.missingDocumentsInfo')
+                        : t('USER_DOCUMENTS.notVerifyInfo')}
+                  </Text>
+                </View>
                 {/* <Icon
                   onPress={() => this.setState({ showWarning: false })}
                   style={
@@ -281,27 +302,65 @@ class UploadDocumentScreen extends Component {
             <Content>
               <View style={UploadDocumentStyle.container}>
                 <View style={{ height: '100%' }}>
-                  {documents.length > 0 ? (
-                    documents.map((doc, i) => (
+                  {/* Step 1 */}
+                  <View style={UploadDocumentStyle.step1Container}>
+                    <View style={UploadDocumentStyle.stepCirle}>
+                      <Text style={UploadDocumentStyle.stepCirleText}>1</Text>
+                    </View>
+                    <Text>{t('USER_DOCUMENTS.step1')}</Text>
+                  </View>
+                  {documents.length > 0
+                    ? documents.map((doc, i) => (
                       <Form key={i}>
                         <View style={UploadDocumentStyle.formStyle}>
-                          <Item
-                            style={UploadDocumentStyle.viewInput}
-                            inlineLabel
-                            rounded>
+                          <View style={UploadDocumentStyle.viewInput}>
                             <View
-                              style={{
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                              }}>
-                              <Label numberOfLines={1} style={{ width: 180 }}>
-                                {doc.name || `document #${doc.id}`}
-                              </Label>
-                              <Label style={UploadDocumentStyle.statusStyle}>
-                                {doc.state
-                                  ? this.camelCaseIt(doc.state)
-                                  : 'Pending'}
-                              </Label>
+                              style={
+                                UploadDocumentStyle.documentNameContainer
+                              }>
+                              <Image
+                                style={
+                                  UploadDocumentStyle.documentStatusImage
+                                }
+                                source={
+                                  doc.state && doc.state === 'APPROVED'
+                                    ? require('../../assets/image/documents/document-check.png')
+                                    : require('../../assets/image/documents/document-interrogation.png')
+                                }
+                              />
+                              <View>
+                                <Label
+                                  numberOfLines={2}
+                                  style={{ width: '90%' }}>
+                                  {doc.name || `document #${doc.id}`}
+                                </Label>
+                                <View
+                                  style={
+                                    doc.state && doc.state === 'APPROVED'
+                                      ? UploadDocumentStyle.documentStatusTextApproved
+                                      : doc.state && doc.state === 'REJECTED'
+                                        ? UploadDocumentStyle.documentStatusTextRejected
+                                        : UploadDocumentStyle.documentStatusTextUnderReview
+                                  }>
+                                  <Text>
+                                    {doc.state
+                                      ? doc.state === 'Approved'
+                                        ? t(
+                                          'USER_DOCUMENTS.allowDocuments',
+                                        ).toLowerCase()
+                                        : doc.state === 'Rejected'
+                                          ? t(
+                                            'USER_DOCUMENTS.rejected',
+                                          ).toLowerCase()
+                                          : t(
+                                            'USER_DOCUMENTS.underReview',
+                                          ).toLowerCase()
+                                      : t(
+                                        'USER_DOCUMENTS.underReview',
+                                      ).toLowerCase()}
+                                  </Text>
+                                </View>
+                              </View>
                             </View>
                             {doc.rejected_reason ? (
                               <View>
@@ -316,7 +375,7 @@ class UploadDocumentScreen extends Component {
                                 </Label>
                               </View>
                             ) : null}
-                          </Item>
+                          </View>
                           {doc.state !== 'APPROVED' ? (
                             <TouchableOpacity
                               onPress={() => this.deleteDocumentAlert(doc)}>
@@ -329,11 +388,21 @@ class UploadDocumentScreen extends Component {
                         </View>
                       </Form>
                     ))
-                  ) : (
-                    <Text style={UploadDocumentStyle.noDocsText}>
-                      {t('USER_DOCUMENTS.noDocuments')}
-                    </Text>
-                  )}
+                    : null}
+                  {/* Step 2 */}
+                  <View style={UploadDocumentStyle.step1Container}>
+                    <View style={UploadDocumentStyle.stepCirle}>
+                      <Text style={UploadDocumentStyle.stepCirleText}>2</Text>
+                    </View>
+                    <Text>{t('USER_DOCUMENTS.step2')}</Text>
+                  </View>
+                  {/* Step 3 */}
+                  <View style={UploadDocumentStyle.step1Container}>
+                    <View style={UploadDocumentStyle.stepCirle}>
+                      <Text style={UploadDocumentStyle.stepCirleText}>3</Text>
+                    </View>
+                    <Text>{t('USER_DOCUMENTS.step3')}</Text>
+                  </View>
                 </View>
               </View>
             </Content>
@@ -341,12 +410,6 @@ class UploadDocumentScreen extends Component {
               <Picker
                 mode="dropdown"
                 enabled={isAllowDocuments}
-                // iosIcon={
-                //   <Icon
-                //     style={{ marginLeft: 0 }}
-                //     name="arrow-down"
-                //   />
-                // }
                 style={UploadDocumentStyle.viewButtomLogin}
                 placeholder={t('USER_DOCUMENTS.addDocument')}
                 placeholderStyle={
