@@ -104,6 +104,8 @@ PODS:
     - React/RCTBlob
   - RNCAsyncStorage (1.6.3):
     - React
+  - RNDeviceInfo (5.4.0):
+    - React
   - RNI18n (2.0.15):
     - React
   - TouchID (4.4.1):
@@ -131,6 +133,7 @@ DEPENDENCIES:
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNI18n (from `../node_modules/react-native-i18n`)
   - TouchID (from `../node_modules/react-native-touch-id`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
@@ -161,6 +164,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-webview"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   RNI18n:
     :path: "../node_modules/react-native-i18n"
   TouchID:
@@ -185,10 +190,11 @@ SPEC CHECKSUMS:
   react-native-netinfo: 27d908bc7ee7b9f29400c02938a0b2a27a1015be
   react-native-webview: 7eefdb64f283cae1bebe82ebd8ddeb4b805900c0
   RNCAsyncStorage: 6b57de0f6cb0dcfd17521af1681fa39001d3efff
+  RNDeviceInfo: d0fff8432ccdf276cb342a52e665ea6dd311472e
   RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
   TouchID: ba4c656d849cceabc2e4eef722dea5e55959ecf4
   yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
 
-PODFILE CHECKSUM: ca7dce917786c5409d0c638b3c264495c44b3667
+PODFILE CHECKSUM: 4d2b53e674837f9bb9a79719c494a909d0ad154b
 
 COCOAPODS: 1.8.4

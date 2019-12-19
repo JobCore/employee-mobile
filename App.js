@@ -57,6 +57,7 @@ import {
   JOB_PAYMENTS_ROUTE,
   HELP_ROUTE,
   TERMS_AND_CONDITIONS_ROUTE,
+  UPDATE_APP_ROUTE,
 } from './src/constants/routes';
 import {
   BLUE_DARK,
@@ -70,6 +71,7 @@ import Splash from './src/components/Splash';
 import EditLocation from './src/components/Invite/EditLocation';
 import ApplicationDetailScreen from './src/components/MyJobs/ApplicationDetailScreen';
 import JobCompletedScreen from './src/components/MyJobs/JobCompletedScreen';
+import UpdateApp from './src/components/UpdateApp';
 
 YellowBox.ignoreWarnings([
   'Warning: isMounted(...) is deprecated',
@@ -182,6 +184,7 @@ const SwitchNavigator = createSwitchNavigator(
     AuthLoading: Splash,
     [AUTH_ROUTE]: AuthStack,
     [APP_ROUTE]: AppStack,
+    [UPDATE_APP_ROUTE]: UpdateApp,
   },
   {
     initialRouteName: 'AuthLoading',

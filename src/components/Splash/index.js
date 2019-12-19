@@ -3,13 +3,22 @@ import { StyleSheet, ImageBackground } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { APP_ROUTE, AUTH_ROUTE } from '../../constants/routes';
 import store from '../Account/AccountStore';
+import DeviceInfo from 'react-native-device-info';
 import { LOG } from '../../shared';
 import accountStore from '../Account/AccountStore';
 import * as accountActions from '../Account/actions';
+import checkVersionApp from './actions';
 import SPLASH_IMG from '../../assets/image/splash.png';
 
 class Splash extends Component {
+  state = {
+    currentVersion: DeviceInfo.getBuildNumber(),
+  };
   componentDidMount() {
+    const { currentVersion } = this.state;
+    const { navigation } = this.props;
+
+    checkVersionApp(currentVersion, navigation);
     setTimeout(() => {
       this._bootstrapAsync();
     }, 1000);
