@@ -7,6 +7,16 @@ export default StyleSheet.create({
   borderNone: {
     borderBottomColor: 'transparent',
   },
+  picker: {
+    width: undefined,
+    maxWidth: width / 1.6,
+    paddingLeft: 0,
+  },
+  pickerIcon: {
+    color: BLUE_DARK,
+    position: 'absolute',
+    right: 7,
+  },
   container: {
     paddingHorizontal: 35,
   },
@@ -107,6 +117,7 @@ export default StyleSheet.create({
     paddingRight: 10,
     paddingTop: 0,
     width: '100%',
+    position: 'relative',
   },
   viewLogo: {
     alignSelf: 'center',

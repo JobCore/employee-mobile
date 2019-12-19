@@ -7,7 +7,7 @@ import {
   Label,
   Content,
   Container,
-  Icon,
+  // Icon,
   Picker,
 } from 'native-base';
 import UploadDocumentStyle from './UploadDocumentStyle';
@@ -233,7 +233,7 @@ class UploadDocumentScreen extends Component {
     console.log('user: ', user);
     console.log('docType: ', docType);
     const isAllowDocuments = user.employee
-      ? user.employee.document_active
+      ? !user.employee.document_active
       : true;
     // const isAllowDocuments = true;
     return (
@@ -265,7 +265,7 @@ class UploadDocumentScreen extends Component {
                       : t('USER_DOCUMENTS.notAllowDocuments')
                   }`}
                 </Text>
-                <Icon
+                {/* <Icon
                   onPress={() => this.setState({ showWarning: false })}
                   style={
                     isAllowDocuments
@@ -274,7 +274,7 @@ class UploadDocumentScreen extends Component {
                   }
                   name="close"
                   size={5}
-                />
+                /> */}
               </View>
             ) : null}
             {this.state.isLoading ? <Loading /> : null}
@@ -371,5 +371,7 @@ class UploadDocumentScreen extends Component {
     );
   }
 }
+
+UploadDocumentScreen.routeName = 'UPLOAD_DOCUMENT_ROUTE';
 
 export default UploadDocumentScreen;

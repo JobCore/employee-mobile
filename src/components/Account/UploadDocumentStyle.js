@@ -54,8 +54,10 @@ export default StyleSheet.create({
     color: WHITE_MAIN,
   },
   placeholderTextButtomPicker: {
-    color: WHITE_MAIN,
+    fontSize: 16,
+    fontWeight: '800',
     textAlign: 'center',
+    color: WHITE_MAIN,
   },
   userStatusLabelText: {
     fontSize: 16,

@@ -37,7 +37,8 @@ export default {
     invalidBio: 'Invalid Bio',
     city: 'Cities available',
     others: 'Others cities',
-    wroteCity: 'City',
+    wroteCity: 'Other city',
+    cityPickerTitle: 'City',
   },
   EDIT_PROFILE: {
     editProfile: 'Edit profile',
@@ -60,7 +61,7 @@ export default {
     wantToDeleteBankAccount: 'Are you sure to delete bank account:',
   },
   USER_DOCUMENTS: {
-    uploadDocuments: 'My documents',
+    uploadDocuments: 'Employment Verification',
     myDocuments: 'My documents',
     addDocument: 'ADD DOCUMENT',
     loadDocument: 'LOAD DOCUMENT',
@@ -243,6 +244,7 @@ export default {
     addBankAccount: 'ADD BANK ACCOUNT',
     bankAccounts: 'Bank Accounts',
     communityGuidlines: 'Community Guidelines',
+    logOutButton: 'Log Out',
   },
   REVIEWS: {
     reviews: 'Reviews',

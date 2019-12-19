@@ -25,6 +25,7 @@ const CustomToast = (
   Toast.show({
     text: text,
     type: type,
+    style: { top: 25 },
     duration: duration,
     position: position,
     buttonText: 'Ok',

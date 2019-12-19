@@ -61,7 +61,7 @@ export default {
     wantToDeleteBankAccount: 'Estas seguro de eliminar la cuenta de banco:',
   },
   USER_DOCUMENTS: {
-    uploadDocuments: 'Mis Documentos',
+    uploadDocuments: 'Verificación de empleo',
     myDocuments: 'Mis Documentos',
     addDocument: 'AGREGAR DOCUMENTO',
     loadDocument: 'CARGAR DOCUMENTO',
@@ -246,6 +246,7 @@ export default {
     editProfile: 'Editar perfil',
     publicProfile: 'Ver Perfil Publico',
     communityGuidlines: 'Guia de la Comunidad',
+    logOutButton: 'Salir',
   },
   REVIEWS: {
     Reviews: 'Opiniones',
