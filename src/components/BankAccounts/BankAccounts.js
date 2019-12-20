@@ -96,30 +96,40 @@ class BankAccounts extends FluxView {
               <View style={bankAccountsStyle.container}>
                 <View>
                   <Form>
-                    {bankAccounts.map((bankAccount: BankAccount, i: number) => {
-                      return (
-                        <View key={i} style={bankAccountsStyle.formStyle}>
-                          <Item
-                            style={bankAccountsStyle.viewInput}
-                            inlineLabel
-                            rounded>
-                            <Label numberOfLines={1}>{bankAccount.name}</Label>
-                            {/*<Label style={bankAccountsStyle.statusStyle}>*/}
-                            {/*  #status*/}
-                            {/*</Label>*/}
-                          </Item>
-                          <TouchableOpacity
-                            onPress={() =>
-                              this.deleteBankAccountAlert(bankAccount)
-                            }>
-                            <Image
-                              style={bankAccountsStyle.garbageIcon}
-                              source={require('../../assets/image/delete.png')}
-                            />
-                          </TouchableOpacity>
-                        </View>
-                      );
-                    })}
+                    {bankAccounts.length > 0 ? (
+                      bankAccounts.map(
+                        (bankAccount: BankAccount, i: number) => {
+                          return (
+                            <View key={i} style={bankAccountsStyle.formStyle}>
+                              <Item
+                                style={bankAccountsStyle.viewInput}
+                                inlineLabel
+                                rounded>
+                                <Label numberOfLines={1}>
+                                  {bankAccount.name}
+                                </Label>
+                                {/*<Label style={bankAccountsStyle.statusStyle}>*/}
+                                {/*  #status*/}
+                                {/*</Label>*/}
+                              </Item>
+                              <TouchableOpacity
+                                onPress={() =>
+                                  this.deleteBankAccountAlert(bankAccount)
+                                }>
+                                <Image
+                                  style={bankAccountsStyle.garbageIcon}
+                                  source={require('../../assets/image/delete.png')}
+                                />
+                              </TouchableOpacity>
+                            </View>
+                          );
+                        },
+                      )
+                    ) : (
+                      <Text style={bankAccountsStyle.noDocsText}>
+                        {t('BANK_ACCOUNTS.noBankAccounts')}
+                      </Text>
+                    )}
                   </Form>
                 </View>
               </View>

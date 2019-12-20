@@ -59,6 +59,7 @@ export default {
     bankAccounts: 'CUENTAS BANCARIAS',
     deleteBankAcount: 'Eliminar',
     wantToDeleteBankAccount: 'Estas seguro de eliminar la cuenta de banco:',
+    noBankAccounts: 'No hay cuentas de banco todavia',
   },
   USER_DOCUMENTS: {
     uploadDocuments: 'Verificación de empleo',
