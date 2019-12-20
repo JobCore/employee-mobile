@@ -238,7 +238,7 @@ class UploadDocumentScreen extends Component {
         {(t) => (
           <Container>
             <ModalHeader
-              screenName="profile"
+              screenName="my_documents"
               title={t('USER_DOCUMENTS.uploadDocuments')}
             />
             {showWarning ? (
