@@ -32,9 +32,14 @@ export async function postData(url, data, isAuth = true) {
   };
   console.log(`DEBUG:PostData:options:`, options);
 
-  return timeout(20000, fetch(`${getAPIUrl()}${url}`, options))
+  const fullUrl = `${getAPIUrl()}${url}`;
+  console.log(`DEBUG:PostData:fullUrl:`, fullUrl);
+  return timeout(20000, fetch(fullUrl, options))
     .then(checkStatus)
-    .then((res) => res)
+    .then((res) => {
+      console.log('postData res: ', res);
+      return res;
+    })
     .catch(async (err) => {
       console.log('postData err: ', err);
       await Promise.reject(err);

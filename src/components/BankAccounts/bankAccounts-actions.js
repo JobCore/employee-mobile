@@ -19,14 +19,16 @@ export const saveBankAccounts = async (
   publicToken: string,
   institutionName: string = '',
 ) => {
+  let response;
   try {
-    await postData(
-      '/bank-accounts',
+    response = await postData(
+      '/bank-accounts/',
       normalizeToSnakeCase({ publicToken, institutionName }),
     );
   } catch (err) {
     Flux.dispatchEvent(BANK_ACCOUNTS_ERROR_EVENT, err);
   }
+  console.log(`saveBankAccounts`, response);
   Flux.dispatchEvent(BANK_ACCOUNTS_NEW_EVENT, {});
 };
 

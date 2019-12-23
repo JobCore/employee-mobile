@@ -84,6 +84,9 @@ class AddBankAccount extends View {
     if (e.action === 'plaid_link-undefined::connected') {
       // const { public_token, institution, accounts } = metadata;
       const { public_token, institution } = metadata;
+
+      console.log(`DEBUG:DEBUG:`, public_token, institution.name || '');
+
       return saveBankAccounts(public_token, institution.name || '');
     }
 

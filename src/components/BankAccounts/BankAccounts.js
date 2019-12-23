@@ -135,13 +135,15 @@ class BankAccounts extends FluxView {
               </View>
             </Content>
             <View style={bankAccountsStyle.buttonContainer}>
-              <TouchableOpacity onPress={this.goToAddBankAccounts}>
-                <View full style={bankAccountsStyle.viewButtomLogin}>
-                  <Text style={bankAccountsStyle.textButtom}>
-                    {t('BANK_ACCOUNTS.addBankAccount')}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+              {!isLoading && bankAccounts.length === 0 && (
+                <TouchableOpacity onPress={this.goToAddBankAccounts}>
+                  <View full style={bankAccountsStyle.viewButtomLogin}>
+                    <Text style={bankAccountsStyle.textButtom}>
+                      {t('BANK_ACCOUNTS.addBankAccount')}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              )}
             </View>
           </Container>
         )}
