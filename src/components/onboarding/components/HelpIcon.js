@@ -35,6 +35,9 @@ class HelpIcon extends Component {
       },
     );
     fetchScreens(this.props.screenName);
+    this.props.navigation.addListener('didFocus', () => {
+      fetchScreens(this.props.screenName);
+    });
   }
 
   componentWillUnmount() {

@@ -200,9 +200,7 @@ class EditProfile extends Component {
             <TabHeader
               goBack
               onPressBack={() => this.props.navigation.goBack()}
-              screenName="profile"
               title={t('EDIT_PROFILE.editProfile')}
-              onPressHelp={this.goToEditProfile}
             />
             <Content>
               <View style={editProfileStyles.container}>
