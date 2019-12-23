@@ -20,7 +20,7 @@ export default {
     clickToSignUp: 'Click here to sign up',
     loginTouch: 'Sign In with',
     msjLoginAlertTouch: 'Login with',
-    emptyTermsAndConditions: 'Acepta terminos y condiciones',
+    emptyTermsAndConditions: 'Accept terms and conditions',
   },
   REGISTER: {
     signUp: 'Sign Up',
