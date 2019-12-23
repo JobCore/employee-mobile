@@ -85,6 +85,20 @@ export default {
     step1: 'Upload document that proves your identity.',
     step2: 'Upload document that proves your employment status.',
     step3: 'Upload a signed W4.',
+    employmentVerificationStatus: 'Employment verification status:',
+    filingStatus: 'Filing status:',
+    allowances: 'Allowances:',
+    extraWithholding: 'Extra withholding:',
+    //employment status
+    not_approved: 'Not approved',
+    missing_documents: 'Missing documents',
+    being_reviewed: 'Being reviewed',
+    //filling status
+    single: 'Single',
+    married_jointly: 'Married filing jointly',
+    married_separately: 'Married filing separately',
+    head: 'Head of household',
+    widower: 'Qualifying widow(er) with dependent child',
     missingDocumentsInfo:
       'Please upload the rest of your documents to finish your employer verification and receive more job invites:',
     notVerifyInfo:

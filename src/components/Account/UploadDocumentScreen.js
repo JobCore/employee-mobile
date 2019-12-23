@@ -73,7 +73,7 @@ const Document = ({
                     ? UploadDocumentStyle.documentStatusTextRejected
                     : UploadDocumentStyle.documentStatusTextUnderReview //status === 'PENDING'
               }>
-              <Text>
+              <Text style={UploadDocumentStyle.documentsStatusText}>
                 {t(`USER_DOCUMENTS.${doc.status.toLowerCase()}`).toLowerCase()}
               </Text>
             </View>
@@ -315,8 +315,17 @@ class UploadDocumentScreen extends Component {
       (doc) => doc.document_type.validates_employment,
     );
     const formDocuments = documents.filter((doc) => doc.document_type.is_form);
-    // const isAllowDocuments = true;
-    const isMissingDocuments = false;
+    const isMissingDocuments = user.employee
+      ? user.employee.employment_verification_status === 'MISSING_DOCUMENTS'
+      : false;
+    const employmentVerificationStatus = user.employee
+      ? user.employee.employment_verification_status
+      : '';
+    const filingStatus = user.employee ? user.employee.filing_status : '';
+    const allowances = user.employee ? user.employee.allowances : '';
+    const extraWithholding = user.employee
+      ? user.employee.extra_withholding
+      : '';
     return (
       <I18n>
         {(t) => (
@@ -369,6 +378,32 @@ class UploadDocumentScreen extends Component {
                         ? t('USER_DOCUMENTS.missingDocumentsInfo')
                         : t('USER_DOCUMENTS.notVerifyInfo')}
                   </Text>
+                  <View style={{ flexDirection: 'row' }}>
+                    <View style={{ width: '50%' }}>
+                      <Text style={UploadDocumentStyle.userStatusInfoText}>
+                        {`${t(
+                          'USER_DOCUMENTS.employmentVerificationStatus',
+                        )} ${t(
+                          `USER_DOCUMENTS.${employmentVerificationStatus.toLowerCase()}`,
+                        )}`}
+                      </Text>
+                      <Text style={UploadDocumentStyle.userStatusInfoText}>
+                        {`${t('USER_DOCUMENTS.filingStatus')} ${t(
+                          `USER_DOCUMENTS.${filingStatus.toLowerCase()}`,
+                        )}`}
+                      </Text>
+                    </View>
+                    <View style={{ width: '50%' }}>
+                      <Text style={UploadDocumentStyle.userStatusInfoText}>
+                        {`${t('USER_DOCUMENTS.allowances')} ${allowances}`}
+                      </Text>
+                      <Text style={UploadDocumentStyle.userStatusInfoText}>
+                        {`${t(
+                          'USER_DOCUMENTS.extraWithholding',
+                        )} ${extraWithholding}`}
+                      </Text>
+                    </View>
+                  </View>
                 </View>
                 {/* <Icon
                   onPress={() => this.setState({ showWarning: false })}

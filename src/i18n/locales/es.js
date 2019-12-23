@@ -84,6 +84,20 @@ export default {
     step1: 'Sube un documento que demuestre tu identidad.',
     step2: 'Suba el documento que acredite su situación laboral.',
     step3: 'Sube un W4 firmado.',
+    employmentVerificationStatus: 'Estado de verificación de empleo:',
+    filingStatus: 'Estado civil:',
+    allowances: 'Subsidios:',
+    extraWithholding: 'Retención adicional:',
+    //employment status
+    not_approved: 'No aprovado',
+    missing_documents: 'Documentos faltantes',
+    being_reviewed: 'Siendo revisadas',
+    //filling status
+    single: 'Soltero',
+    married_jointly: 'Casado que presenta una declaración conjunta',
+    married_separately: 'Casado que presenta por separado',
+    head: 'Jefe de hogar',
+    widower: 'Viudo (a) calificado con hijo dependiente',
     missingDocumentsInfo:
       'Cargue el resto de sus documentos para finalizar la verificación de su empleador y recibir más invitaciones de trabajo:',
     notVerifyInfo:
