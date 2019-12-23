@@ -29,8 +29,8 @@ export default StyleSheet.create({
   },
   buttonContainer: {
     paddingHorizontal: 35,
-    marginBottom: 40,
-    marginTop: 40,
+    marginBottom: 20,
+    marginTop: 20,
   },
   viewButtomLogin: {
     backgroundColor: BLUE_DARK,
