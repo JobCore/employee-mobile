@@ -1,11 +1,11 @@
 import {
   StyleSheet,
   // Platform,
-  // Dimensions
+  Dimensions,
 } from 'react-native';
 import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN } from '../../shared/colorPalette';
 
-// const { width } = Dimensions.get('window')
+const { height } = Dimensions.get('window');
 
 export const bankAccountsStyle = StyleSheet.create({
   container: {
@@ -16,6 +16,14 @@ export const bankAccountsStyle = StyleSheet.create({
     paddingHorizontal: 35,
     marginBottom: 40,
     marginTop: 40,
+  },
+  noDocsText: {
+    fontSize: 16,
+    height: 50,
+    fontWeight: '800',
+    textAlign: 'center',
+    color: BLUE_DARK,
+    marginTop: height / 3,
   },
   viewButtomLogin: {
     backgroundColor: BLUE_DARK,

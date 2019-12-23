@@ -223,6 +223,8 @@ class DashboardScreen extends Component {
       },
       () => CustomToast('Error obtaining the lat/long!', 'danger'),
     );
+
+    // saveBankAccounts('public-development-b54b131e-b2fd-…346611a462', 'Bank of America');
   }
 
   componentWillUnmount() {
