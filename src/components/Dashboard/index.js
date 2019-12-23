@@ -1,18 +1,22 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { Component } from 'react';
-import { Image, RefreshControl, TouchableOpacity, View } from 'react-native';
 import {
-  Body,
-  Button,
-  Container,
-  Content,
-  Icon,
-  ListItem,
-  Segment,
-  Text,
-  Thumbnail,
-} from 'native-base';
+  Image,
+  RefreshControl,
+  TouchableOpacity,
+  View,
+  FlatList,
+  Dimensions,
+} from 'react-native';
+import { Label, ListItem, Text, Thumbnail } from 'native-base';
 import styles from './style';
-import { BLUE_DARK, VIOLET_MAIN } from '../../shared/colorPalette';
+import {
+  BLUE_DARK,
+  // VIOLET_MAIN,
+  BLUE_LIGHT,
+  // BLUE_SEMI_LIGHT,
+  BLUE_MAIN,
+} from '../../shared/colorPalette';
 import {
   AUTH_ROUTE,
   INVITE_DETAILS_ROUTE_V2,
@@ -21,6 +25,7 @@ import {
   REVIEWS_ROUTE,
   JOB_PAYMENTS_ROUTE,
 } from '../../constants/routes';
+import moment from 'moment';
 import accountStore from '../Account/AccountStore';
 import * as accountActions from '../Account/actions';
 import * as inviteActions from '../Invite/actions';
@@ -29,26 +34,29 @@ import * as fcmActions from './actions';
 import fcmStore from './FcmStore';
 import * as jobActions from '../MyJobs/actions';
 import jobStore from '../MyJobs/JobStore';
+import { JOB_PREFERENCES_ROUTE } from '../../constants/routes';
 import {
-  BackgroundHeader,
+  // BackgroundHeader,
   CustomToast,
   Loading,
 } from '../../shared/components';
 import { LOG, WARN } from '../../shared';
+import StarComponent from './starsComponent';
 import { I18n } from 'react-i18next';
 import { i18next } from '../../i18n';
 import firebase from 'react-native-firebase';
 import { NavigationActions } from 'react-navigation';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import { TabHeader } from '../../shared/components/TabHeader';
-import preferencesStyles from '../Invite/JobPreferencesStyle';
+// import preferencesStyles from '../Invite/JobPreferencesStyle';
+import JobCompletedScreen from '../MyJobs/JobCompletedScreen';
 import WorkModeScreen from '../MyJobs/WorkModeScreen';
 import { getOpenClockIns } from '../MyJobs/actions';
 import EditProfile from '../Account/EditProfile';
 import Profile from '../Account/Profile';
 import UpcomingJobScreen from '../MyJobs/UpcomingJobScreen';
 import ApplicationDetailScreen from '../MyJobs/ApplicationDetailScreen';
-import { fetchActiveShiftsV2 } from '../MyJobs/actions';
+import { fetchActiveShiftsV2, getCompletedJobs } from '../MyJobs/actions';
 import { log } from 'pure-logger';
 
 /**
@@ -77,7 +85,13 @@ class DashboardScreen extends Component {
       payments: 0,
       invites: [],
       upcomingJobs: [],
+      jobs: [],
+      tomorrowDay: false,
+      todayDay: false,
+      nextShift: null,
+      jobsCompleted: [],
       activeShift: null,
+      tabs: 1,
     };
   }
 
@@ -114,7 +128,13 @@ class DashboardScreen extends Component {
       },
     );
     this.getUpcomingJobsSubscription = jobStore.subscribe(
-      'GetUpcomingJobs',
+      'GetUpcomingJobsDash',
+      (data) => {
+        this.getJobsHandler(data);
+      },
+    );
+    this.getCompletedJobsSubscription = jobStore.subscribe(
+      'GetCompletedJobsDash',
       (data) => {
         this.getJobsHandler(data);
       },
@@ -196,7 +216,7 @@ class DashboardScreen extends Component {
         shiftId: shift.id,
       });
     }
-
+    getCompletedJobs('dashboard');
     navigator.geolocation.getCurrentPosition(
       () => {
         log('position acquired!');
@@ -212,6 +232,7 @@ class DashboardScreen extends Component {
     this.stopReceivingInvitesSubscription.unsubscribe();
     this.getJobInvitesSubscription.unsubscribe();
     this.getUpcomingJobsSubscription.unsubscribe();
+    this.getCompletedJobsSubscription.unsubscribe();
     this.updateTokenSubscription.unsubscribe();
     this.fcmStoreError.unsubscribe();
     this.inviteStoreError.unsubscribe();
@@ -245,7 +266,7 @@ class DashboardScreen extends Component {
       isLoading: false,
       isRefreshing: false,
       stopReceivingInvites: data.stop_receiving_invites,
-      rating: data.rating || 'N/A',
+      rating: Math.round(data.rating) || 'N/A',
       payments: data.total_pending_payments,
     });
   };
@@ -253,11 +274,15 @@ class DashboardScreen extends Component {
   stopReceivingInvitesHandler = (data) => {
     this.setState({
       stopReceivingInvites: data.stop_receiving_invites,
+      isRefreshing: false,
     });
   };
 
   getJobInvitesHandler = (invites) => {
-    this.setState({ invites });
+    this.setState({
+      invites,
+      isRefreshing: false,
+    });
 
     // set invitationCount param for the badge on invitations tab
     if (Array.isArray(invites)) {
@@ -270,8 +295,45 @@ class DashboardScreen extends Component {
     }
   };
 
-  getJobsHandler = (upcomingJobs) => {
-    this.setState({ upcomingJobs });
+  getJobsHandler = async (jobsData) => {
+    let nextShift =
+      (await jobsData) &&
+      jobsData.filter(
+        (job) =>
+          moment(job.starting_at)
+            .tz(moment.tz.guess())
+            .format() >
+          moment(new Date())
+            .tz(moment.tz.guess())
+            .format(),
+      )[0];
+
+    if (nextShift) {
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const tomorrowEntry = moment(tomorrow)
+        .tz(moment.tz.guess())
+        .format('MMM DD YY');
+      const shiftDayNext = moment(nextShift.starting_at)
+        .tz(moment.tz.guess())
+        .format('MMM DD YY');
+
+      if (tomorrowEntry === shiftDayNext) {
+        this.setState({
+          tomorrowDay: true,
+          todayDay: false,
+        });
+      }
+      console.log('hoyy ', moment(today).format('MMM DD YY'));
+      if (moment(today).format('MMM DD YY') === shiftDayNext) {
+        this.setState({
+          todayDay: true,
+          tomorrowDay: false,
+        });
+      }
+    }
+    this.setState({ jobs: [...jobsData], isRefreshing: false, nextShift });
   };
 
   pushNotificationHandler = (notificationData) => {
@@ -284,7 +346,7 @@ class DashboardScreen extends Component {
         shiftId: notificationData.id,
       });
 
-      this.getUpcomingJobs();
+      this.getUpcomingJobs('dashboard');
     }
 
     if (notificationData.type === 'application' && notificationData.id) {
@@ -311,6 +373,194 @@ class DashboardScreen extends Component {
     }
   };
 
+  goToJobDetails = (job) => {
+    const { navigation } = this.props;
+    if (!job) return;
+    if (
+      !(
+        job.applicationId === null ||
+        job.applicationId === undefined ||
+        job.applicationId === ''
+      )
+    ) {
+      return navigation.navigate(ApplicationDetailScreen.routeName, {
+        applicationId: job.applicationId,
+      });
+    }
+    const now = moment();
+    const clockOutDelta = job.maximum_clockout_delay_minutes || 120;
+    const trueEndingAt = moment
+      .utc(job.ending_at)
+      .add(clockOutDelta, 'minutes');
+
+    if (now.isAfter(trueEndingAt)) {
+      log(`DEBUG:jobCompleted`);
+      return navigation.navigate(JobCompletedScreen.routeName, {
+        shiftId: job.id,
+      });
+    }
+
+    if (now.isAfter(moment.utc(job.starting_at))) {
+      log(`DEBUG:WorkMode`);
+      return navigation.navigate(WorkModeScreen.routeName, {
+        shiftId: job.id,
+      });
+    }
+
+    this.props.navigation.navigate(UpcomingJobScreen.routeName, {
+      shiftId: job.id,
+    });
+  };
+
+  _renderItemJobs = ({ item }) => {
+    return (
+      <I18n>
+        {(t) => (
+          <ListItem
+            onPress={() => this.goToJobDetails(item)}
+            style={styles.viewListItem}>
+            <View
+              style={{
+                shadowOffset: {
+                  width: 0,
+                  height: 1,
+                },
+                shadowOpacity: 0.93,
+                shadowRadius: 1.62,
+              }}>
+              <Thumbnail
+                medium
+                source={
+                  item.employer && item.employer.picture
+                    ? { uri: item.employer.picture }
+                    : PROFILE_IMG
+                }
+              />
+            </View>
+            <View style={styles.viewDataOffers}>
+              {/* title info */}
+              {item.employer ? (
+                <Text style={styles.viewTitleInfo}>
+                  {item.employer ? (
+                    <Text style={styles.textEmployer}>
+                      {item.employer.title}
+                    </Text>
+                  ) : null}
+                  <Text> </Text>
+                  {item.position ? (
+                    <Text style={styles.textShiftTitle}>
+                      {item.position.title}
+                    </Text>
+                  ) : null}
+                  <Text
+                    style={{
+                      color: 'gray',
+                    }}>
+                    {` ${t('JOB_PREFERENCES.dateStartToEnd', {
+                      startingAt: moment(item.starting_at)
+                        .tz(moment.tz.guess())
+                        .format('lll'),
+                      endingAt: moment(item.ending_at)
+                        .tz(moment.tz.guess())
+                        .format('lll'),
+                    })} `}
+                  </Text>
+                  <Text style={styles.textRed}>
+                    {`$${item.minimum_hourly_rate}/${t('JOB_INVITES.hr')}.`}
+                  </Text>
+                </Text>
+              ) : null}
+              {item.status === 'EXPIRED' && (
+                <Label
+                  style={{
+                    color: BLUE_DARK,
+                  }}>
+                  Completed
+                </Label>
+              )}
+            </View>
+          </ListItem>
+        )}
+      </I18n>
+    );
+  };
+
+  _renderItemInvites = ({ item }) => {
+    const { navigation } = this.props;
+    return (
+      <I18n>
+        {(t) => (
+          <ListItem
+            onPress={() =>
+              navigation.navigate(INVITE_DETAILS_ROUTE_V2, {
+                inviteId: item.id,
+              })
+            }
+            style={styles.viewListItem}>
+            <View
+              style={{
+                shadowOffset: {
+                  width: 0,
+                  height: 1,
+                },
+                shadowOpacity: 0.93,
+                shadowRadius: 1.62,
+              }}>
+              <Thumbnail
+                medium
+                source={
+                  item.shift &&
+                  item.shift.employer &&
+                  item.shift.employer.picture
+                    ? { uri: item.shift.employer.picture }
+                    : PROFILE_IMG
+                }
+              />
+            </View>
+            <View style={styles.viewDataOffers}>
+              {/* title info */}
+              {item.shift ? (
+                <Text style={styles.viewTitleInfo}>
+                  {item.shift.employer ? (
+                    <Text style={styles.textEmployer}>
+                      {item.shift.employer.title}
+                    </Text>
+                  ) : null}
+                  <Text style={styles.textGray}>
+                    {` ${t('JOB_INVITES.lookingFor')} `}
+                  </Text>
+                  {item.shift.position ? (
+                    <Text style={styles.textShiftTitle}>
+                      {item.shift.position.title}
+                    </Text>
+                  ) : null}
+                  <Text
+                    style={{
+                      color: 'gray',
+                    }}>
+                    {` ${t('JOB_PREFERENCES.dateStartToEnd', {
+                      startingAt: moment(item.shift.starting_at)
+                        .tz(moment.tz.guess())
+                        .format('lll'),
+                      endingAt: moment(item.shift.ending_at)
+                        .tz(moment.tz.guess())
+                        .format('lll'),
+                    })} `}
+                  </Text>
+                  <Text style={styles.textRed}>
+                    {`$${item.shift.minimum_hourly_rate}/${t(
+                      'JOB_INVITES.hr',
+                    )}.`}
+                  </Text>
+                </Text>
+              ) : null}
+            </View>
+          </ListItem>
+        )}
+      </I18n>
+    );
+  };
+
   errorHandler = (err) => {
     this.setState({
       isLoading: false,
@@ -320,195 +570,323 @@ class DashboardScreen extends Component {
   };
 
   render() {
-    const { activeShift } = this.state;
+    const {
+      activeShift,
+      invites,
+      user,
+      payments,
+      rating,
+      jobs,
+      tabs,
+      isRefreshing,
+      nextShift,
+      tomorrowDay,
+      todayDay,
+    } = this.state;
+    // console.log('jobs ', jobs)
     return (
       <I18n>
         {(t) => (
-          <Container>
+          <View
+            style={{
+              flex: 1,
+            }}>
             {this.state.isLoading ? <Loading /> : null}
             <TabHeader
               title={t('DASHBOARD.dashboard')}
               screenName={'dashboard'}
             />
-            {activeShift && (
-              <TouchableOpacity
-                onPress={() => {
-                  console.log(`DEBUG:DEBUG:DEBUG:DEBUG:`);
-                  this.props.navigation.navigate(WorkModeScreen.routeName, {
-                    shiftId: activeShift.id,
-                  });
+            <View style={styles.flexOne}>
+              <View style={styles.containerImg}>
+                <Thumbnail
+                  medium
+                  source={
+                    user && user.profile && user.profile.picture
+                      ? { uri: user.profile.picture }
+                      : PROFILE_IMG
+                  }
+                />
+              </View>
+              <View
+                style={{
+                  marginVertical: 12,
+                  justifyContent: 'space-around',
                 }}>
-                <View style={preferencesStyles.viewWarning}>
-                  <Text style={{ color: '#fff', textAlign: 'center' }}>
-                    Active Shift: {activeShift.position.title}
+                {user && (
+                  <Text
+                    style={{
+                      color: BLUE_DARK,
+                      fontWeight: 'bold',
+                      fontSize: Dimensions.get('window').width <= 340 ? 17 : 19,
+                    }}>
+                    {`${this.state.user.first_name} ${
+                      this.state.user.last_name
+                    }`}
+                  </Text>
+                )}
+                <View
+                  style={{
+                    flexDirection: 'row',
+                  }}>
+                  <Text style={styles.yourRating}>Your Rating</Text>
+                  <StarComponent rating={rating} />
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                  }}>
+                  <Text style={styles.amountText}>Amount</Text>
+                  <Text
+                    style={{
+                      color: BLUE_DARK,
+                      fontWeight: '800',
+                      fontSize: 13,
+                    }}>
+                    ${payments.toFixed(2)}
                   </Text>
                 </View>
-              </TouchableOpacity>
-            )}
-            <Content
-              refreshControl={
-                <RefreshControl
-                  refreshing={this.state.isRefreshing}
-                  onRefresh={this.refresh}
-                />
-              }>
-              <View style={{ flex: 2 }}>
-                <BackgroundHeader>
-                  <ListItem noBorder style={styles.welcomeItem}>
-                    <TouchableOpacity onPress={this.goToProfile}>
-                      <Thumbnail
-                        large
-                        source={
-                          this.state.user &&
-                          this.state.user.profile &&
-                          this.state.user.profile.picture
-                            ? { uri: this.state.user.profile.picture }
-                            : PROFILE_IMG
-                        }
-                      />
+              </View>
+            </View>
+            <View style={styles.flexTwo}>
+              {activeShift ? (
+                <React.Fragment>
+                  <Text
+                    style={{
+                      color: BLUE_DARK,
+                      fontSize: 13,
+                      fontWeight: '700',
+                    }}>
+                    You are in an active Shift:
+                  </Text>
+                  <Text
+                    style={{
+                      color: BLUE_DARK,
+                      fontSize: 13,
+                      marginRight: 3,
+                    }}>
+                    {activeShift.position.title} from{' '}
+                    {moment(activeShift.starting_at)
+                      .tz(moment.tz.guess())
+                      .format('h:mm a')}{' '}
+                    to{' '}
+                    {moment(activeShift.ending_at)
+                      .tz(moment.tz.guess())
+                      .format('h:mm a')}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.props.navigation.navigate(WorkModeScreen.routeName, {
+                        shiftId: activeShift.id,
+                      });
+                    }}>
+                    <Text style={styles.styleWorkMode}>WORK MODE</Text>
+                  </TouchableOpacity>
+                </React.Fragment>
+              ) : nextShift ? (
+                <React.Fragment>
+                  <Text
+                    style={{
+                      color: BLUE_DARK,
+                      fontSize: 13,
+                      fontWeight: '700',
+                    }}>
+                    Next Shift:
+                  </Text>
+                  <Text
+                    style={{
+                      color: BLUE_DARK,
+                      fontSize: 13,
+                      marginRight: 3,
+                    }}>
+                    {nextShift.position.title} {todayDay && 'Today'}
+                    {tomorrowDay && 'Tomorrow'}
+                    {!tomorrowDay &&
+                      !todayDay &&
+                      moment(nextShift.starting_at)
+                        .tz(moment.tz.guess())
+                        .format('MMM DD YY')}{' '}
+                    from{' '}
+                    {moment(nextShift.starting_at)
+                      .tz(moment.tz.guess())
+                      .format('h:mm a')}{' '}
+                    to{' '}
+                    {moment(nextShift.ending_at)
+                      .tz(moment.tz.guess())
+                      .format('h:mm a')}
+                  </Text>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <Text
+                    style={{
+                      color: BLUE_DARK,
+                      fontSize: 13,
+                      fontWeight: '700',
+                    }}>
+                    No Available Shifts
+                  </Text>
+                  <Text
+                    style={{
+                      color: BLUE_DARK,
+                      fontSize: 13,
+                      marginRight: 3,
+                    }}>
+                    You have no upcoming shifts, make sure to
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                    }}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.props.navigation.navigate(JOB_PREFERENCES_ROUTE)
+                      }>
+                      <Text style={styles.flexiStyle}>
+                        flexibilize your preferences
+                      </Text>
                     </TouchableOpacity>
-                    <Body>
-                      <TouchableOpacity onPress={this.goToEditProfile}>
-                        {this.state.user ? (
-                          <Text style={styles.textHello}>
-                            {`${t('DASHBOARD.hello')} ${
-                              this.state.user.first_name
-                            } ${this.state.user.last_name},`}
-                          </Text>
-                        ) : null}
-                        <Text style={styles.textWelcome}>
-                          {t('DASHBOARD.welcome')}
-                        </Text>
-                      </TouchableOpacity>
-                    </Body>
-                  </ListItem>
-                </BackgroundHeader>
-              </View>
+                    <Text
+                      style={{
+                        color: BLUE_DARK,
+                        fontSize: 13,
+                        marginRight: 3,
+                      }}>
+                      to get more job invites
+                    </Text>
+                  </View>
+                </React.Fragment>
+              )}
+            </View>
+            <View style={styles.flexThree}>
               <View
-                style={[
-                  styles.viewDashboard,
-                  { flex: 2, paddingTop: 10, paddingBottom: 10 },
-                ]}>
-                <View style={styles.viewItemJobsLeft}>
-                  <TouchableOpacity onPress={this.goToPayments}>
-                    <Text style={styles.titleItem}>
-                      {t('PAYMENTS.payments')}
-                    </Text>
-                    <Image
-                      style={styles.iconSize}
-                      source={require('../../assets/image/payments.png')}
-                    />
-                    <Text style={styles.itemData}>
-                      ${this.state.payments.toFixed(2)}
-                    </Text>
-                  </TouchableOpacity>
+                style={{
+                  width: '100%',
+                  paddingHorizontal: 20,
+                  flexDirection: 'row',
+                }}>
+                <TouchableOpacity
+                  onPress={() =>
+                    this.setState({
+                      tabs: 1,
+                    })
+                  }
+                  style={[
+                    styles.tabOne,
+                    {
+                      backgroundColor: tabs === 1 ? BLUE_MAIN : 'white',
+                    },
+                  ]}>
+                  <View style={styles.pointBlack} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    this.setState({
+                      tabs: 2,
+                    })
+                  }
+                  style={[
+                    styles.tabTwo,
+                    {
+                      backgroundColor: tabs === 2 ? BLUE_MAIN : 'white',
+                    },
+                  ]}>
+                  <View style={styles.pointBlack} />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.containerTextInvitationJobs}>
+                <View style={styles.containerChildTextInvitation}>
+                  <Text
+                    style={{
+                      fontSize: 12,
+                    }}>
+                    Invitations ({invites && invites.length})
+                  </Text>
                 </View>
-                <View style={styles.viewItemJobsRight}>
-                  <TouchableOpacity onPress={this.goToInvitation}>
-                    <Text style={styles.titleItem}>
-                      {t('DASHBOARD.invitations')}
-                    </Text>
-                    <Image
-                      style={styles.iconSize}
-                      source={require('../../assets/image/invite.png')}
-                    />
-                  </TouchableOpacity>
-
-                  {Array.isArray(this.state.invites) ? (
-                    <Text style={styles.itemData}>
-                      {this.state.invites.length}
-                    </Text>
-                  ) : null}
+                <View style={styles.containerChildTextInvitation}>
+                  <Text
+                    style={{
+                      fontSize: 12,
+                    }}>
+                    Jobs ({jobs && jobs.length})
+                  </Text>
                 </View>
               </View>
-
-              <View
-                style={[
-                  styles.viewDashboard,
-                  { flex: 2, paddingTop: 10, paddingBottom: 10 },
-                ]}>
-                <View style={styles.viewItemJobsLeft}>
-                  <TouchableOpacity onPress={this.goToMyJobs}>
-                    <Text style={styles.titleItem}>
-                      {t('DASHBOARD.upcomingJobs')}
-                    </Text>
-                    <Image
-                      style={styles.iconSize}
-                      source={require('../../assets/image/jobs.png')}
-                    />
-                  </TouchableOpacity>
-                  {Array.isArray(this.state.upcomingJobs) ? (
-                    <Text style={styles.itemData}>
-                      {this.state.upcomingJobs.length}
-                    </Text>
-                  ) : null}
-                </View>
-                <View style={styles.viewItemJobsRight}>
-                  <TouchableOpacity onPress={this.goToReviews}>
-                    <Text style={styles.titleItem}>
-                      {t('DASHBOARD.myRating')}
-                    </Text>
-                    <Image
-                      style={styles.iconSize}
-                      source={require('../../assets/image/ranking.png')}
-                    />
-                  </TouchableOpacity>
-                  <Text style={styles.itemData}>{this.state.rating}</Text>
-                </View>
-              </View>
-
-              <View style={[styles.viewInvite, { flex: 2 }]}>
-                <Text style={styles.titleInvite}>
-                  {t('DASHBOARD.stopReceivingInvites')}
-                </Text>
-                <Segment>
-                  <Text style={styles.itemInvite}>{t('DASHBOARD.y')}</Text>
-                  <Button
-                    onPress={this.stopReceivingInvites}
-                    style={
-                      styles[
-                        this.state.stopReceivingInvites
-                          ? 'buttonLeftActive'
-                          : 'buttonLeftInactive'
-                      ]
+            </View>
+            <View
+              style={{
+                flex: 4,
+                backgroundColor: 'white',
+              }}>
+              {tabs === 1 ? (
+                invites && invites.length > 0 ? (
+                  <FlatList
+                    refreshControl={
+                      <RefreshControl
+                        refreshing={isRefreshing}
+                        onRefresh={this.refresh}
+                        tintColor={BLUE_LIGHT}
+                      />
                     }
-                    first
-                    active>
-                    <Icon
-                      style={{ color: BLUE_DARK }}
-                      name={
-                        this.state.stopReceivingInvites
-                          ? 'md-radio-button-on'
-                          : 'md-radio-button-off'
+                    data={invites}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={this._renderItemInvites}
+                    extraData={this.state}
+                  />
+                ) : (
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        color: BLUE_DARK,
+                        fontSize: 19,
+                        textAlign: 'center',
+                      }}>
+                      You don't have invitations
+                    </Text>
+                  </View>
+                )
+              ) : (
+                <View
+                  style={{
+                    flex: 1,
+                  }}>
+                  {jobs && jobs.length > 0 ? (
+                    <FlatList
+                      refreshControl={
+                        <RefreshControl
+                          refreshing={isRefreshing}
+                          onRefresh={this.refresh}
+                          tintColor={BLUE_LIGHT}
+                        />
                       }
-                      size={5}
+                      data={jobs}
+                      keyExtractor={(item, index) => index.toString()}
+                      renderItem={this._renderItemJobs}
+                      extraData={this.state}
                     />
-                  </Button>
-                  <Button
-                    onPress={this.startReceivingInvites}
-                    style={
-                      styles[
-                        this.state.stopReceivingInvites
-                          ? 'buttonRightInactive'
-                          : 'buttonRightActive'
-                      ]
-                    }
-                    last>
-                    <Icon
-                      style={{ color: VIOLET_MAIN }}
-                      name={
-                        this.state.stopReceivingInvites
-                          ? 'md-radio-button-off'
-                          : 'md-radio-button-on'
-                      }
-                      size={5}
-                    />
-                  </Button>
-                  <Text style={styles.itemInvite}>{t('DASHBOARD.n')}</Text>
-                </Segment>
-              </View>
-            </Content>
-          </Container>
+                  ) : (
+                    <View
+                      style={{
+                        flex: 1,
+                        justifyContent: 'center',
+                      }}>
+                      <Text
+                        style={{
+                          color: BLUE_DARK,
+                          fontSize: 19,
+                          textAlign: 'center',
+                        }}>
+                        You don't have jobs
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              )}
+            </View>
+          </View>
         )}
       </I18n>
     );
@@ -523,16 +901,17 @@ class DashboardScreen extends Component {
     this.setState({ isLoading: true }, () => {
       this.getEmployee();
       this.getInvites();
-      this.getUpcomingJobs();
+      this.getUpcomingJobs('dashboard');
     });
   };
 
-  refresh = () => {
+  refresh = async () => {
     this.setState({ isRefreshing: true });
 
-    this.getEmployee();
-    this.getInvites();
-    this.getUpcomingJobs();
+    await this.getEmployee();
+    await this.getInvites();
+    await this.getUpcomingJobs('dashboard');
+    await getCompletedJobs('dashboard');
   };
 
   getFcmToken = () => {
@@ -632,8 +1011,8 @@ class DashboardScreen extends Component {
     inviteActions.getJobInvites();
   };
 
-  getUpcomingJobs = () => {
-    jobActions.getUpcomingJobs();
+  getUpcomingJobs = (type) => {
+    jobActions.getUpcomingJobs(type);
   };
 
   getPendingJobs = () => {

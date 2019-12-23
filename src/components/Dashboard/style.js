@@ -1,11 +1,166 @@
-import { StyleSheet } from 'react-native';
-import { BLUE_MAIN, BLUE_DARK, WHITE_MAIN } from '../../shared/colorPalette';
+import { StyleSheet, Platform, Dimensions } from 'react-native';
+import {
+  BLUE_MAIN,
+  BLUE_DARK,
+  WHITE_MAIN,
+  VIOLET_MAIN,
+  BLUE_LIGHT,
+  BLUE_SEMI_LIGHT,
+  RED_MAIN,
+  BLACK_MAIN,
+} from '../../shared/colorPalette';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  containerImg: {
+    width: '25%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  flexOne: {
+    flex: 0.9,
+    flexDirection: 'row',
+    backgroundColor: 'white',
+  },
+  flexTwo: {
+    flex: 0.8,
+    backgroundColor: BLUE_LIGHT,
+    justifyContent: 'center',
+    paddingLeft: 20,
+    // alignItems: 'center',
+    // borderColor: 'purple',
+    // borderWidth: 2,
+  },
+  flexThree: {
+    flex: 0.7,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tabOne: {
+    width: '50%',
+    paddingVertical: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: BLUE_MAIN,
+    borderWidth: 1,
+  },
+  tabTwo: {
+    width: '50%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: BLUE_MAIN,
+    borderWidth: 1,
+    paddingVertical: 8,
+  },
+  styleWorkMode: {
+    color: BLUE_DARK,
+    fontSize: 13,
+    fontWeight: '700',
+    marginRight: 3,
+    textDecorationLine: 'underline',
+  },
+  noRight: {
+    paddingRight: 0,
+  },
+  viewList: {
+    paddingRight: 40,
+    paddingLeft: 15,
+  },
+  titleDate: {
+    textAlign: 'center',
+    fontSize: 20,
+    color: BLUE_DARK,
+    marginTop: 25,
+    marginBottom: 15,
+  },
+  flexiStyle: {
+    color: BLUE_DARK,
+    fontSize: 13,
+    fontWeight: '700',
+    marginRight: 3,
+    textDecorationLine: 'underline',
+  },
+  pointBlack: {
+    height: 6,
+    width: 6,
+    borderRadius: 20,
+    backgroundColor: 'black',
+  },
+  containerTextInvitationJobs: {
+    paddingTop: 5,
+    flexDirection: 'row',
+    width: '100%',
+    paddingHorizontal: 20,
+  },
+  containerChildTextInvitation: {
+    width: '50%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  employerImg: {
+    ...Platform.select({
+      android: {
+        borderRadius: 100,
+        width: 60,
+        height: 60,
+      },
+      ios: {
+        borderRadius: 35,
+        width: 70,
+        height: 70,
+      },
+    }),
+  },
+  yourRating: {
+    color: BLUE_SEMI_LIGHT,
+    fontSize: Dimensions.get('window').width <= 340 ? 11 : 13,
+    marginRight: 4,
+    fontWeight: '800',
+  },
+  amountText: {
+    color: BLUE_LIGHT,
+    fontWeight: '800',
+    fontSize: Dimensions.get('window').width <= 340 ? 11 : 13,
+    marginRight: 5,
+  },
+  viewDataOffers: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    paddingLeft: 15,
+    paddingRight: 15,
+  },
+  viewTitleInfo: {
+    alignSelf: 'flex-start',
+    marginBottom: 5,
+  },
+  textEmployer: {
+    color: VIOLET_MAIN,
+    textAlign: 'left',
+  },
+  textGray: {
+    color: '#AFAEAE',
+    textAlign: 'left',
+  },
+  textRed: {
+    color: RED_MAIN,
+    textAlign: 'left',
+  },
+  textShiftTitle: {
+    color: BLUE_MAIN,
+    textAlign: 'left',
+  },
+  textBlack: {
+    color: BLACK_MAIN,
+  },
+  viewListItem: {
+    paddingLeft: 5,
+    paddingRight: 75,
   },
   titleHeader: {
     color: WHITE_MAIN,

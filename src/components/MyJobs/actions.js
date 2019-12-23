@@ -46,10 +46,14 @@ const getPendingJobs = () => {
 /**
  * Get upcoming jobs
  */
-const getUpcomingJobs = () => {
+const getUpcomingJobs = (type) => {
   getData('/employees/me/shifts?approved=true&status=FILLED,OPEN')
     .then((jobs) => {
-      Flux.dispatchEvent('GetUpcomingJobs', jobs);
+      if (type === 'dashboard') {
+        Flux.dispatchEvent('GetUpcomingJobsDash', jobs);
+      } else {
+        Flux.dispatchEvent('GetUpcomingJobs', jobs);
+      }
     })
     .catch((err) => {
       Flux.dispatchEvent('JobStoreError', err);
@@ -59,10 +63,14 @@ const getUpcomingJobs = () => {
 /**
  * Get completed jobs
  */
-const getCompletedJobs = () => {
+const getCompletedJobs = (type) => {
   getData('/employees/me/shifts?expired=true')
     .then((jobs) => {
-      Flux.dispatchEvent('GetCompletedJobs', jobs);
+      if (type === 'dashboard') {
+        Flux.dispatchEvent('GetCompletedJobsDash', jobs);
+      } else {
+        Flux.dispatchEvent('GetCompletedJobs', jobs);
+      }
     })
     .catch((err) => {
       Flux.dispatchEvent('JobStoreError', err);
