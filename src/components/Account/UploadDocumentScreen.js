@@ -122,6 +122,7 @@ class UploadDocumentScreen extends Component {
         console.log('UploadDocument: ', data);
         this.setState({ isLoading: false });
         getDocuments();
+        getUser();
       },
     );
     this.getDocumentsSubscription = accountStore.subscribe(
