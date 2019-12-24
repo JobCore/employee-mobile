@@ -180,6 +180,7 @@ export default StyleSheet.create({
   userStatusInfoText: {
     color: GRAY_MAIN,
     marginTop: 10,
+    fontSize: 18,
     fontWeight: '700',
   },
   userStatusInfoTextGeneral: {
