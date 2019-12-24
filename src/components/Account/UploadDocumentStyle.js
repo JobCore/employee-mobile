@@ -181,6 +181,32 @@ export default StyleSheet.create({
     color: GRAY_MAIN,
     marginTop: 10,
   },
+  userStatusInfoTextGeneral: {
+    color: GRAY_MAIN,
+    // marginTop: 10,
+    marginTop: 0,
+    marginLeft: 3,
+  },
+  employmentVerificationText: {
+    color: GRAY_MAIN,
+    // marginTop: 10,
+    marginTop: 0,
+  },
+  statusTitleGeneral: {
+    color: GRAY_MAIN,
+    fontWeight: '700',
+    fontSize: 15,
+    marginTop: 0,
+    marginBottom: 0,
+  },
+  employmentVerificationStatusTitle: {
+    color: GRAY_MAIN,
+    marginRight: 20,
+    fontWeight: '700',
+    fontSize: 15,
+    marginTop: 0,
+    marginBottom: 0,
+  },
   step1Container: {
     flexDirection: 'row',
     marginTop: 10,

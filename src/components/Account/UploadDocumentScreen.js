@@ -378,31 +378,40 @@ class UploadDocumentScreen extends Component {
                         ? t('USER_DOCUMENTS.missingDocumentsInfo')
                         : t('USER_DOCUMENTS.notVerifyInfo')}
                   </Text>
+                  <Text
+                    style={
+                      UploadDocumentStyle.employmentVerificationStatusTitle
+                    }>
+                    {t('USER_DOCUMENTS.employmentVerificationStatus')}
+                  </Text>
+                  <Text style={UploadDocumentStyle.employmentVerificationText}>
+                    {t(
+                      `USER_DOCUMENTS.${employmentVerificationStatus.toLowerCase()}`,
+                    )}
+                  </Text>
                   <View style={{ flexDirection: 'row' }}>
-                    <View style={{ width: '50%' }}>
-                      <Text style={UploadDocumentStyle.userStatusInfoText}>
-                        {`${t(
-                          'USER_DOCUMENTS.employmentVerificationStatus',
-                        )} ${t(
-                          `USER_DOCUMENTS.${employmentVerificationStatus.toLowerCase()}`,
-                        )}`}
-                      </Text>
-                      <Text style={UploadDocumentStyle.userStatusInfoText}>
-                        {`${t('USER_DOCUMENTS.filingStatus')} ${t(
-                          `USER_DOCUMENTS.${filingStatus.toLowerCase()}`,
-                        )}`}
-                      </Text>
-                    </View>
-                    <View style={{ width: '50%' }}>
-                      <Text style={UploadDocumentStyle.userStatusInfoText}>
-                        {`${t('USER_DOCUMENTS.allowances')} ${allowances}`}
-                      </Text>
-                      <Text style={UploadDocumentStyle.userStatusInfoText}>
-                        {`${t(
-                          'USER_DOCUMENTS.extraWithholding',
-                        )} ${extraWithholding}`}
-                      </Text>
-                    </View>
+                    <Text style={UploadDocumentStyle.statusTitleGeneral}>
+                      {t('USER_DOCUMENTS.filingStatus')}
+                    </Text>
+                    <Text style={UploadDocumentStyle.userStatusInfoTextGeneral}>
+                      {t(`USER_DOCUMENTS.${filingStatus.toLowerCase()}`)}
+                    </Text>
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={UploadDocumentStyle.statusTitleGeneral}>
+                      {t('USER_DOCUMENTS.allowances')}
+                    </Text>
+                    <Text style={UploadDocumentStyle.userStatusInfoTextGeneral}>
+                      {allowances}
+                    </Text>
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={UploadDocumentStyle.statusTitleGeneral}>
+                      {t('USER_DOCUMENTS.extraWithholding')}
+                    </Text>
+                    <Text style={UploadDocumentStyle.userStatusInfoTextGeneral}>
+                      {extraWithholding}
+                    </Text>
                   </View>
                 </View>
                 {/* <Icon
