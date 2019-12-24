@@ -71,7 +71,6 @@ export default {
     noDocuments: 'No hay documentos todavia',
     User: 'Usuario',
     notAllowDocuments: 'no aprovado por los momentos',
-    rejectedReason: 'Rechazado:',
     status: 'Estado:',
     missingDocuments: 'Documentos faltantes',
     notVerified: 'No verificado',

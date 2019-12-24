@@ -84,7 +84,7 @@ const Document = ({
             <Label
               numberOfLines={1}
               style={UploadDocumentStyle.documentRejectedText}>
-              {`${t('USER_DOCUMENTS.rejectedReason')} ${doc.rejected_reason}`}
+              {doc.rejected_reason}
             </Label>
           </View>
         ) : null}
