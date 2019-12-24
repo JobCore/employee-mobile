@@ -151,6 +151,8 @@ class MyJobs extends Component {
   };
 
   render() {
+    const { jobs } = this.state;
+    console.log('jobsss ', jobs);
     return (
       <I18n>
         {(t) => (

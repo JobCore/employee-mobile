@@ -39,6 +39,7 @@
     "react-native-offline": "^3.14.1",
     "react-native-plaid-link": "^1.4.4",
     "react-native-progress": "^3.6.0",
+    "react-native-stars": "^1.1.6",
     "react-native-touch-id": "^4.4.1",
     "react-native-webview": "^7.5.2",
     "react-navigation": "2.18.2",

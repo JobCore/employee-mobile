@@ -66,7 +66,9 @@ class JobStore extends FluxStore {
     });
 
     this.addEvent('GetUpcomingJobs');
+    this.addEvent('GetUpcomingJobsDash');
     this.addEvent('GetCompletedJobs');
+    this.addEvent('GetCompletedJobsDash');
     this.addEvent('GetFailedJobs');
     this.addEvent('GetJobRate');
     this.addEvent('RateEmployer');
