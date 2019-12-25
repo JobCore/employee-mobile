@@ -296,6 +296,7 @@ const editTermsAndCondition = (boolean) => {
  * @param  {File}  document
  */
 const uploadDocument = (document) => {
+  console.log('uploadDocument document: ', document);
   const body = new FormData();
 
   body.append('document', {
@@ -303,13 +304,14 @@ const uploadDocument = (document) => {
     name: document.name,
     type: document.type,
   });
-  body.append('name', document.docType);
+  body.append('document_type', document.docType);
 
-  postFormData(`/document/`, body)
+  postFormData(`/employees/me/documents`, body)
     .then((data) => {
       Flux.dispatchEvent('UploadDocument', data);
     })
     .catch((err) => {
+      console.log('uploadDocument error: ', err);
       Flux.dispatchEvent('AccountStoreError', err);
     });
 };
@@ -318,7 +320,7 @@ const uploadDocument = (document) => {
  * @param  {File}  document
  */
 const deleteDocument = (document) => {
-  deleteData(`/document/${document.id}`)
+  deleteData(`/employees/me/documents/${document.id}`)
     .then((res) => {
       Flux.dispatchEvent('DeleteDocument', res);
     })
@@ -330,7 +332,7 @@ const deleteDocument = (document) => {
  * Get documents
  */
 const getDocuments = () => {
-  getData(`/document/`)
+  getData(`/employees/me/documents`)
     .then((documents) => {
       Flux.dispatchEvent('GetDocuments', documents);
     })
@@ -338,6 +340,36 @@ const getDocuments = () => {
       console.log('GetDocuments error: ', err);
       Flux.dispatchEvent('AccountStoreError', err);
     });
+};
+/**
+ * Get documents types
+ */
+const getDocumentsTypes = async () => {
+  try {
+    const identity = await getData(`/documents?type=identity`);
+    const employment = await getData(`/documents?type=employment`);
+    const form = await getData(`/documents?type=form`);
+    if (identity || employment || form) {
+      console.log('getDocumentsTypes identity: ', identity);
+      console.log('getDocumentsTypes employment: ', employment);
+      console.log('getDocumentsTypes form: ', form);
+      let types = [];
+      const allTypesArray = [...identity, ...employment, ...form];
+      allTypesArray.forEach((type) => {
+        if (
+          types.filter((filterType) => filterType.title === type.title)
+            .length === 0
+        ) {
+          return types.push(type);
+        }
+      });
+      console.log('getDocumentsTypes allTypes: ', types);
+      Flux.dispatchEvent('GetDocumentsTypes', types);
+    }
+  } catch (err) {
+    console.log('GetDocuments error: ', err);
+    Flux.dispatchEvent('AccountStoreError', err);
+  }
 };
 /**
  * Action for setting/updating the stored user from AsyncStorage/Flux or to ser user on app first load
@@ -374,4 +406,5 @@ export {
   getDocuments,
   getUser,
   editTermsAndCondition,
+  getDocumentsTypes,
 };

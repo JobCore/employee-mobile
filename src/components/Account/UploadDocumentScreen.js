@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, Alert } from 'react-native';
 import {
-  Item,
+  View,
+  Image,
+  // TouchableOpacity,
+  Alert,
+} from 'react-native';
+import {
   Text,
   Form,
   Label,
@@ -20,19 +24,83 @@ import {
   uploadDocument,
   getDocuments,
   getUser,
-  deleteDocument,
+  // deleteDocument,
+  getDocumentsTypes,
 } from './actions';
 // import DocumentPicker from 'react-native-document-picker';
 import { i18next } from '../../i18n';
 import { LOG } from '../../shared';
 import ImagePicker from 'react-native-image-picker';
-import documentsTypes from './documents-types-model';
+// import documentsTypes from './documents-types-model';
+import PropTypes from 'prop-types';
 
 const IMAGE_PICKER_OPTIONS = {
   mediaType: 'photo',
   noData: true,
   skipBackup: true,
+  documentsTypesList: [],
 };
+
+const Document = ({
+  doc,
+  t,
+  // deleteDocumentAlert
+}) => (
+  <Form>
+    <View style={UploadDocumentStyle.formStyle}>
+      <View style={UploadDocumentStyle.viewInput}>
+        <View style={UploadDocumentStyle.documentNameContainer}>
+          <Image
+            style={UploadDocumentStyle.documentStatusImage}
+            source={
+              doc.status && doc.status === 'APPROVED'
+                ? require('../../assets/image/documents/document-check.png')
+                : require('../../assets/image/documents/document-interrogation.png')
+            }
+          />
+          <View>
+            <Label numberOfLines={2} style={{ width: 250 }}>
+              {doc.name || `document #${doc.id}`}
+            </Label>
+            <View
+              style={
+                doc.status && doc.status === 'APPROVED'
+                  ? UploadDocumentStyle.documentStatusTextApproved
+                  : doc.status &&
+                    (doc.status === 'REJECTED' ||
+                      doc.status === 'DELETED' ||
+                      doc.status === 'ARCHIVED')
+                    ? UploadDocumentStyle.documentStatusTextRejected
+                    : UploadDocumentStyle.documentStatusTextUnderReview //status === 'PENDING'
+              }>
+              <Text style={UploadDocumentStyle.documentsStatusText}>
+                {t(`USER_DOCUMENTS.${doc.status.toLowerCase()}`).toLowerCase()}
+              </Text>
+            </View>
+          </View>
+        </View>
+        {doc.rejected_reason && doc.status === 'REJECTED' ? (
+          <View>
+            <Label
+              numberOfLines={1}
+              style={UploadDocumentStyle.documentRejectedText}>
+              {doc.rejected_reason}
+            </Label>
+          </View>
+        ) : null}
+      </View>
+      {/* {doc.state !== 'APPROVED' ? (
+        <TouchableOpacity
+          onPress={() => deleteDocumentAlert(doc)}>
+          <Image
+            style={UploadDocumentStyle.garbageIcon}
+            source={require('../../assets/image/delete.png')}
+          />
+        </TouchableOpacity>
+      ) : null} */}
+    </View>
+  </Form>
+);
 
 class UploadDocumentScreen extends Component {
   constructor(props) {
@@ -43,6 +111,7 @@ class UploadDocumentScreen extends Component {
       documents: [],
       user: accountStore.getState('Login').user,
       docType: '',
+      documentsTypes: [],
     };
   }
 
@@ -53,6 +122,7 @@ class UploadDocumentScreen extends Component {
         console.log('UploadDocument: ', data);
         this.setState({ isLoading: false });
         getDocuments();
+        getUser();
       },
     );
     this.getDocumentsSubscription = accountStore.subscribe(
@@ -60,6 +130,12 @@ class UploadDocumentScreen extends Component {
       (documents) => {
         this.setState({ documents, isLoading: false });
         console.log('GetDocuments: ', documents);
+      },
+    );
+    this.getDocumentsSubscription = accountStore.subscribe(
+      'GetDocumentsTypes',
+      (documentsTypes) => {
+        this.setState({ documentsTypes, isLoading: false });
       },
     );
     this.deleteDocumentsSubscription = accountStore.subscribe(
@@ -78,6 +154,7 @@ class UploadDocumentScreen extends Component {
       this.errorHandler,
     );
     getDocuments();
+    getDocumentsTypes();
     getUser();
   }
 
@@ -144,32 +221,29 @@ class UploadDocumentScreen extends Component {
     );
   };
 
-  deleteDocumentAlert = (doc) => {
-    Alert.alert(
-      i18next.t('USER_DOCUMENTS.wantToDeleteDocument'),
-      ` ${doc.name || `document #${doc.id}`}?`,
-      [
-        {
-          text: i18next.t('APP.cancel'),
-          onPress: () => {
-            LOG(this, 'Cancel delete document');
-          },
-        },
-        {
-          text: i18next.t('USER_DOCUMENTS.deleteDoc'),
-          onPress: () => {
-            this.setState({ isLoading: true }, () => {
-              deleteDocument(doc);
-            });
-          },
-        },
-      ],
-      { cancelable: false },
-    );
-  };
-
-  camelCaseIt = (name) =>
-    name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  // deleteDocumentAlert = (doc) => {
+  //   Alert.alert(
+  //     i18next.t('USER_DOCUMENTS.wantToDeleteDocument'),
+  //     ` ${doc.name || `document #${doc.id}`}?`,
+  //     [
+  //       {
+  //         text: i18next.t('APP.cancel'),
+  //         onPress: () => {
+  //           LOG(this, 'Cancel delete document');
+  //         },
+  //       },
+  //       {
+  //         text: i18next.t('USER_DOCUMENTS.deleteDoc'),
+  //         onPress: () => {
+  //           this.setState({ isLoading: true }, () => {
+  //             deleteDocument(doc);
+  //           });
+  //         },
+  //       },
+  //     ],
+  //     { cancelable: false },
+  //   );
+  // };
 
   openImagePicker = () => {
     ImagePicker.showImagePicker(
@@ -228,43 +302,119 @@ class UploadDocumentScreen extends Component {
   };
 
   render() {
-    const { user, showWarning, docType } = this.state;
+    const { user, showWarning, docType, documentsTypes } = this.state;
     const { documents } = this.state;
     console.log('user: ', user);
     console.log('docType: ', docType);
     const isAllowDocuments = user.employee
       ? !user.employee.document_active
       : true;
-    // const isAllowDocuments = true;
+    const identityDocuments = documents.filter(
+      (doc) => doc.document_type.validates_identity,
+    );
+    const employmentDocuments = documents.filter(
+      (doc) => doc.document_type.validates_employment,
+    );
+    const formDocuments = documents.filter((doc) => doc.document_type.is_form);
+    const isMissingDocuments = user.employee
+      ? user.employee.employment_verification_status === 'MISSING_DOCUMENTS'
+      : false;
+    const employmentVerificationStatus = user.employee
+      ? user.employee.employment_verification_status
+      : '';
+    const filingStatus = user.employee ? user.employee.filing_status : '';
+    const allowances = user.employee ? user.employee.allowances : '';
+    const extraWithholding = user.employee
+      ? user.employee.extra_withholding
+      : '';
     return (
       <I18n>
         {(t) => (
           <Container>
             <ModalHeader
-              screenName={t('USER_DOCUMENTS.myDocuments')}
-              title={t('USER_DOCUMENTS.myDocuments')}
+              screenName="my_documents"
+              title={t('USER_DOCUMENTS.uploadDocuments')}
             />
             {showWarning ? (
-              <View
-                style={
-                  isAllowDocuments
-                    ? UploadDocumentStyle.userStatusLabelApproved
-                    : UploadDocumentStyle.userStatusLabelRejected
-                }>
-                <Text
-                  style={
-                    isAllowDocuments
-                      ? UploadDocumentStyle.userStatusLabelTextApproved
-                      : UploadDocumentStyle.userStatusLabelTextRejected
-                  }>
-                  {`${
-                    user.user ? user.user.first_name : t('USER_DOCUMENTS.user')
-                  } ${
-                    isAllowDocuments
-                      ? t('USER_DOCUMENTS.allowDocuments')
-                      : t('USER_DOCUMENTS.notAllowDocuments')
-                  }`}
-                </Text>
+              <View style={UploadDocumentStyle.userStatusLabel}>
+                <View>
+                  <Image
+                    style={UploadDocumentStyle.statusImage}
+                    source={
+                      isAllowDocuments
+                        ? require('../../assets/image/documents/circle-check.png')
+                        : require('../../assets/image/documents/circle-X.png')
+                    }
+                  />
+                </View>
+                <View style={UploadDocumentStyle.statusInfoContainer}>
+                  <View style={UploadDocumentStyle.statusContainer}>
+                    <Text style={UploadDocumentStyle.userStatusLabelText}>
+                      {t('USER_DOCUMENTS.status')}
+                    </Text>
+                    <View
+                      style={
+                        isAllowDocuments && !isMissingDocuments
+                          ? UploadDocumentStyle.statusTextButtonApproved
+                          : UploadDocumentStyle.statusTextButtonRejected
+                      }>
+                      <Text
+                        style={
+                          isAllowDocuments && !isMissingDocuments
+                            ? UploadDocumentStyle.statusTextApproved
+                            : UploadDocumentStyle.statusTextRejected
+                        }>
+                        {isAllowDocuments && !isMissingDocuments
+                          ? t('USER_DOCUMENTS.verified').toLowerCase()
+                          : isAllowDocuments && isMissingDocuments
+                            ? t('USER_DOCUMENTS.missingDocuments').toLowerCase()
+                            : t('USER_DOCUMENTS.notVerified').toLowerCase()}
+                      </Text>
+                    </View>
+                  </View>
+                  <Text style={UploadDocumentStyle.userStatusInfoText}>
+                    {isAllowDocuments && !isMissingDocuments
+                      ? t('USER_DOCUMENTS.verifiedInfo')
+                      : isAllowDocuments && isMissingDocuments
+                        ? t('USER_DOCUMENTS.missingDocumentsInfo')
+                        : t('USER_DOCUMENTS.notVerifyInfo')}
+                  </Text>
+                  <Text
+                    style={
+                      UploadDocumentStyle.employmentVerificationStatusTitle
+                    }>
+                    {t('USER_DOCUMENTS.employmentVerificationStatus')}
+                  </Text>
+                  <Text style={UploadDocumentStyle.employmentVerificationText}>
+                    {t(
+                      `USER_DOCUMENTS.${employmentVerificationStatus.toLowerCase()}`,
+                    )}
+                  </Text>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={UploadDocumentStyle.statusTitleGeneral}>
+                      {t('USER_DOCUMENTS.filingStatus')}
+                    </Text>
+                    <Text style={UploadDocumentStyle.userStatusInfoTextGeneral}>
+                      {t(`USER_DOCUMENTS.${filingStatus.toLowerCase()}`)}
+                    </Text>
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={UploadDocumentStyle.statusTitleGeneral}>
+                      {t('USER_DOCUMENTS.allowances')}
+                    </Text>
+                    <Text style={UploadDocumentStyle.userStatusInfoTextGeneral}>
+                      {allowances}
+                    </Text>
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={UploadDocumentStyle.statusTitleGeneral}>
+                      {t('USER_DOCUMENTS.extraWithholding')}
+                    </Text>
+                    <Text style={UploadDocumentStyle.userStatusInfoTextGeneral}>
+                      {extraWithholding}
+                    </Text>
+                  </View>
+                </View>
                 {/* <Icon
                   onPress={() => this.setState({ showWarning: false })}
                   style={
@@ -281,59 +431,57 @@ class UploadDocumentScreen extends Component {
             <Content>
               <View style={UploadDocumentStyle.container}>
                 <View style={{ height: '100%' }}>
-                  {documents.length > 0 ? (
-                    documents.map((doc, i) => (
-                      <Form key={i}>
-                        <View style={UploadDocumentStyle.formStyle}>
-                          <Item
-                            style={UploadDocumentStyle.viewInput}
-                            inlineLabel
-                            rounded>
-                            <View
-                              style={{
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                              }}>
-                              <Label numberOfLines={1} style={{ width: 180 }}>
-                                {doc.name || `document #${doc.id}`}
-                              </Label>
-                              <Label style={UploadDocumentStyle.statusStyle}>
-                                {doc.state
-                                  ? this.camelCaseIt(doc.state)
-                                  : 'Pending'}
-                              </Label>
-                            </View>
-                            {doc.rejected_reason ? (
-                              <View>
-                                <Label
-                                  numberOfLines={1}
-                                  style={
-                                    UploadDocumentStyle.documentRejectedText
-                                  }>
-                                  {`${t('USER_DOCUMENTS.rejectedReason')} ${
-                                    doc.rejected_reason
-                                  }`}
-                                </Label>
-                              </View>
-                            ) : null}
-                          </Item>
-                          {doc.state !== 'APPROVED' ? (
-                            <TouchableOpacity
-                              onPress={() => this.deleteDocumentAlert(doc)}>
-                              <Image
-                                style={UploadDocumentStyle.garbageIcon}
-                                source={require('../../assets/image/delete.png')}
-                              />
-                            </TouchableOpacity>
-                          ) : null}
-                        </View>
-                      </Form>
+                  {/* Step 1 */}
+                  <View style={UploadDocumentStyle.step1Container}>
+                    <View style={UploadDocumentStyle.stepCirle}>
+                      <Text style={UploadDocumentStyle.stepCirleText}>1</Text>
+                    </View>
+                    <Text>{t('USER_DOCUMENTS.step1')}</Text>
+                  </View>
+                  {identityDocuments.length > 0
+                    ? identityDocuments.map((doc, i) => (
+                      <Document
+                        doc={doc}
+                        t={t}
+                        key={i}
+                        // deleteDocumentAlert={this.deleteDocumentAlert}
+                      />
                     ))
-                  ) : (
-                    <Text style={UploadDocumentStyle.noDocsText}>
-                      {t('USER_DOCUMENTS.noDocuments')}
-                    </Text>
-                  )}
+                    : null}
+                  {/* Step 2 */}
+                  <View style={UploadDocumentStyle.step1Container}>
+                    <View style={UploadDocumentStyle.stepCirle}>
+                      <Text style={UploadDocumentStyle.stepCirleText}>2</Text>
+                    </View>
+                    <Text>{t('USER_DOCUMENTS.step2')}</Text>
+                  </View>
+                  {employmentDocuments.length > 0
+                    ? employmentDocuments.map((doc, i) => (
+                      <Document
+                        doc={doc}
+                        t={t}
+                        key={i}
+                        // deleteDocumentAlert={this.deleteDocumentAlert}
+                      />
+                    ))
+                    : null}
+                  {/* Step 3 */}
+                  <View style={UploadDocumentStyle.step1Container}>
+                    <View style={UploadDocumentStyle.stepCirle}>
+                      <Text style={UploadDocumentStyle.stepCirleText}>3</Text>
+                    </View>
+                    <Text>{t('USER_DOCUMENTS.step3')}</Text>
+                  </View>
+                  {formDocuments.length > 0
+                    ? formDocuments.map((doc, i) => (
+                      <Document
+                        doc={doc}
+                        t={t}
+                        key={i}
+                        // deleteDocumentAlert={this.deleteDocumentAlert}
+                      />
+                    ))
+                    : null}
                 </View>
               </View>
             </Content>
@@ -341,12 +489,6 @@ class UploadDocumentScreen extends Component {
               <Picker
                 mode="dropdown"
                 enabled={isAllowDocuments}
-                // iosIcon={
-                //   <Icon
-                //     style={{ marginLeft: 0 }}
-                //     name="arrow-down"
-                //   />
-                // }
                 style={UploadDocumentStyle.viewButtomLogin}
                 placeholder={t('USER_DOCUMENTS.addDocument')}
                 placeholderStyle={
@@ -361,7 +503,7 @@ class UploadDocumentScreen extends Component {
                   })
                 }>
                 {documentsTypes.map((type, i) => (
-                  <Picker.Item key={i} label={type.name} value={type.value} />
+                  <Picker.Item key={i} label={type.title} value={type.id} />
                 ))}
               </Picker>
             </View>
@@ -371,6 +513,11 @@ class UploadDocumentScreen extends Component {
     );
   }
 }
+
+Document.propTypes = {
+  doc: PropTypes.any,
+  t: PropTypes.any,
+};
 
 UploadDocumentScreen.routeName = 'UPLOAD_DOCUMENT_ROUTE';
 
