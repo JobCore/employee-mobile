@@ -33,6 +33,7 @@ import { LOG } from '../../shared';
 import ImagePicker from 'react-native-image-picker';
 // import documentsTypes from './documents-types-model';
 import PropTypes from 'prop-types';
+import { BLUE_DARK } from '../../shared/colorPalette';
 
 const IMAGE_PICKER_OPTIONS = {
   mediaType: 'photo',
@@ -332,8 +333,10 @@ class UploadDocumentScreen extends Component {
         {(t) => (
           <Container>
             <ModalHeader
-              screenName="my_documents"
+              screenName="employment_verification"
               title={t('USER_DOCUMENTS.uploadDocuments')}
+              withoutHelpIcon={false}
+              showIcon={true}
             />
             {showWarning ? (
               <View style={UploadDocumentStyle.userStatusLabel}>
@@ -341,7 +344,7 @@ class UploadDocumentScreen extends Component {
                   <Image
                     style={UploadDocumentStyle.statusImage}
                     source={
-                      isAllowDocuments
+                      employmentVerificationStatus === 'APPROVED'
                         ? require('../../assets/image/documents/circle-check.png')
                         : require('../../assets/image/documents/circle-X.png')
                     }
@@ -354,17 +357,17 @@ class UploadDocumentScreen extends Component {
                     </Text>
                     <View
                       style={
-                        isAllowDocuments && !isMissingDocuments
+                        employmentVerificationStatus === 'APPROVED'
                           ? UploadDocumentStyle.statusTextButtonApproved
                           : UploadDocumentStyle.statusTextButtonRejected
                       }>
                       <Text
                         style={
-                          isAllowDocuments && !isMissingDocuments
+                          employmentVerificationStatus === 'APPROVED'
                             ? UploadDocumentStyle.statusTextApproved
                             : UploadDocumentStyle.statusTextRejected
                         }>
-                        {isAllowDocuments && !isMissingDocuments
+                        {employmentVerificationStatus === 'APPROVED'
                           ? t('USER_DOCUMENTS.verified').toLowerCase()
                           : isAllowDocuments && isMissingDocuments
                             ? t('USER_DOCUMENTS.missingDocuments').toLowerCase()
@@ -373,47 +376,51 @@ class UploadDocumentScreen extends Component {
                     </View>
                   </View>
                   <Text style={UploadDocumentStyle.userStatusInfoText}>
-                    {isAllowDocuments && !isMissingDocuments
+                    {employmentVerificationStatus === 'APPROVED'
                       ? t('USER_DOCUMENTS.verifiedInfo')
                       : isAllowDocuments && isMissingDocuments
                         ? t('USER_DOCUMENTS.missingDocumentsInfo')
                         : t('USER_DOCUMENTS.notVerifyInfo')}
                   </Text>
-                  <Text
-                    style={
-                      UploadDocumentStyle.employmentVerificationStatusTitle
-                    }>
-                    {t('USER_DOCUMENTS.employmentVerificationStatus')}
-                  </Text>
-                  <Text style={UploadDocumentStyle.employmentVerificationText}>
-                    {t(
-                      `USER_DOCUMENTS.${employmentVerificationStatus.toLowerCase()}`,
-                    )}
-                  </Text>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text style={UploadDocumentStyle.statusTitleGeneral}>
-                      {t('USER_DOCUMENTS.filingStatus')}
-                    </Text>
-                    <Text style={UploadDocumentStyle.userStatusInfoTextGeneral}>
-                      {t(`USER_DOCUMENTS.${filingStatus.toLowerCase()}`)}
-                    </Text>
-                  </View>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text style={UploadDocumentStyle.statusTitleGeneral}>
-                      {t('USER_DOCUMENTS.allowances')}
-                    </Text>
-                    <Text style={UploadDocumentStyle.userStatusInfoTextGeneral}>
-                      {allowances}
-                    </Text>
-                  </View>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text style={UploadDocumentStyle.statusTitleGeneral}>
-                      {t('USER_DOCUMENTS.extraWithholding')}
-                    </Text>
-                    <Text style={UploadDocumentStyle.userStatusInfoTextGeneral}>
-                      {extraWithholding}
-                    </Text>
-                  </View>
+                  {employmentVerificationStatus === 'APPROVED' ? (
+                    <>
+                      {/* <Text style={UploadDocumentStyle.employmentVerificationStatusTitle}>
+                        {t('USER_DOCUMENTS.employmentVerificationStatus')}
+                      </Text>
+                      <Text style={UploadDocumentStyle.employmentVerificationText}>
+                        {t(
+                          `USER_DOCUMENTS.${employmentVerificationStatus.toLowerCase()}`,
+                        )}
+                      </Text> */}
+                      <View style={{ flexDirection: 'row' }}>
+                        <Text style={UploadDocumentStyle.statusTitleGeneral}>
+                          {t('USER_DOCUMENTS.filingStatus')}
+                        </Text>
+                        <Text
+                          style={UploadDocumentStyle.userStatusInfoTextGeneral}>
+                          {t(`USER_DOCUMENTS.${filingStatus.toLowerCase()}`)}
+                        </Text>
+                      </View>
+                      <View style={{ flexDirection: 'row' }}>
+                        <Text style={UploadDocumentStyle.statusTitleGeneral}>
+                          {t('USER_DOCUMENTS.allowances')}
+                        </Text>
+                        <Text
+                          style={UploadDocumentStyle.userStatusInfoTextGeneral}>
+                          {allowances}
+                        </Text>
+                      </View>
+                      <View style={{ flexDirection: 'row' }}>
+                        <Text style={UploadDocumentStyle.statusTitleGeneral}>
+                          {t('USER_DOCUMENTS.extraWithholding')}
+                        </Text>
+                        <Text
+                          style={UploadDocumentStyle.userStatusInfoTextGeneral}>
+                          {extraWithholding}
+                        </Text>
+                      </View>
+                    </>
+                  ) : null}
                 </View>
                 {/* <Icon
                   onPress={() => this.setState({ showWarning: false })}
@@ -502,9 +509,27 @@ class UploadDocumentScreen extends Component {
                     }, 1000);
                   })
                 }>
-                {documentsTypes.map((type, i) => (
-                  <Picker.Item key={i} label={type.title} value={type.id} />
-                ))}
+                {documentsTypes.map((type, i) => {
+                  const docType = type.validates_identity
+                    ? t('USER_DOCUMENTS.identity')
+                    : type.validates_employment
+                      ? t('USER_DOCUMENTS.employment')
+                      : type.is_form
+                        ? t('USER_DOCUMENTS.form')
+                        : '';
+                  return (
+                    <Picker.Item
+                      key={i}
+                      label={
+                        <Text>
+                          {`${type.title} `}
+                          <Text style={{ color: BLUE_DARK }}>{docType}</Text>
+                        </Text>
+                      }
+                      value={type.id}
+                    />
+                  );
+                })}
               </Picker>
             </View>
           </Container>
