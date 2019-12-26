@@ -392,6 +392,7 @@ class AddAvailability extends Component {
    * @param {object} availability the availability block
    */
   setAllday(allday, availability) {
+    this.isLoading(true);
     if (!availability) return;
 
     if (availability.available) {
@@ -415,6 +416,7 @@ class AddAvailability extends Component {
    * @param {object} availability the availability block
    */
   deleteAvailability(availability) {
+    this.isLoading(true);
     if (!availability) return;
 
     inviteActions.deleteAvailability(availability);
