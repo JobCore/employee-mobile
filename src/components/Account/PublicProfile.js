@@ -109,7 +109,6 @@ class PublicProfile extends Component {
             <ModalHeader
               title={t('PROFILE.profile')}
               onPressClose={() => this.props.navigation.goBack()}
-              onPressHelp={() => this.props.navigation.goBack()}
             />
             <Content>
               <BackgroundHeader heightAuto>
