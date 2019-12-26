@@ -649,12 +649,18 @@ class DashboardScreen extends Component {
                 </View>
               </View>
             </View>
-            <View style={styles.flexTwo}>
+            <View
+              style={[
+                styles.flexTwo,
+                {
+                  backgroundColor: activeShift ? '#E56868' : BLUE_LIGHT,
+                },
+              ]}>
               {activeShift ? (
                 <React.Fragment>
                   <Text
                     style={{
-                      color: BLUE_DARK,
+                      color: 'white',
                       fontSize: 13,
                       fontWeight: '700',
                     }}>
@@ -662,7 +668,7 @@ class DashboardScreen extends Component {
                   </Text>
                   <Text
                     style={{
-                      color: BLUE_DARK,
+                      color: 'white',
                       fontSize: 13,
                       marginRight: 3,
                     }}>

@@ -28,7 +28,6 @@ export default StyleSheet.create({
   },
   flexTwo: {
     flex: 0.8,
-    backgroundColor: BLUE_LIGHT,
     justifyContent: 'center',
     paddingLeft: 20,
     // alignItems: 'center',
@@ -58,7 +57,7 @@ export default StyleSheet.create({
     paddingVertical: 8,
   },
   styleWorkMode: {
-    color: BLUE_DARK,
+    color: 'white',
     fontSize: 13,
     fontWeight: '700',
     marginRight: 3,
