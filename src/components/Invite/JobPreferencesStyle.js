@@ -22,6 +22,40 @@ export default StyleSheet.create({
     textAlign: 'center',
     color: BLUE_DARK,
   },
+  titleInvite: {
+    color: BLUE_DARK,
+    fontSize: 14,
+    marginBottom: 10,
+  },
+  buttonLeftActive: {
+    backgroundColor: BLUE_MAIN,
+    borderColor: 'transparent',
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+  },
+  buttonLeftInactive: {
+    backgroundColor: 'transparent',
+    borderColor: BLUE_MAIN,
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+  },
+  buttonRightActive: {
+    backgroundColor: BLUE_MAIN,
+    borderColor: 'transparent',
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+  },
+  buttonRightInactive: {
+    backgroundColor: 'transparent',
+    borderColor: BLUE_MAIN,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+  },
+  itemInvite: {
+    padding: 14,
+    fontSize: 14,
+    color: BLUE_DARK,
+  },
   viewPositions: {
     paddingLeft: 20,
     paddingRight: 20,
@@ -52,7 +86,7 @@ export default StyleSheet.create({
       android: {
         paddingLeft: 1,
         paddingRight: 1,
-      }
+      },
     }),
   },
   sliderValue: {
@@ -193,15 +227,12 @@ export default StyleSheet.create({
     marginBottom: 70,
     marginTop: 50,
   },
-  titleInvite: {
-    color: BLUE_DARK,
-    fontSize: 14,
-    marginBottom: 10,
-  },
-  itemInvite: {
-    padding: 14,
-    fontSize: 14,
-    color: BLUE_DARK,
+  viewInviteToggle: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 30,
+    paddingRight: 30,
   },
   labelForm: {
     color: BLUE_DARK,
