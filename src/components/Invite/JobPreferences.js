@@ -10,9 +10,11 @@ import {
   Right,
   ListItem,
   Form,
+  Segment,
+  Icon,
 } from 'native-base';
 import preferencesStyles from './JobPreferencesStyle';
-import { BLUE_DARK, BLUE_MAIN } from '../../shared/colorPalette';
+import { BLUE_DARK, BLUE_MAIN, VIOLET_MAIN } from '../../shared/colorPalette';
 import {
   AVAILABILITY_ROUTE,
   POSITION_ROUTE,
@@ -72,6 +74,7 @@ class JobPreferences extends Component {
       maxDistance: 50,
       availableOnWeekends: false,
       narrowPreferences: null,
+      stopReceivingInvites: false,
     };
   }
 
@@ -79,6 +82,12 @@ class JobPreferences extends Component {
     this.getPositionsSubscription = inviteStore.subscribe(
       'GetPositions',
       (positionList) => this.getPositionsHandler(positionList),
+    );
+    this.stopReceivingInvitesSubscription = inviteStore.subscribe(
+      'StopReceivingInvites',
+      (data) => {
+        this.stopReceivingInvitesHandler(data);
+      },
     );
     this.getJobPreferencesSubscription = inviteStore.subscribe(
       'GetJobPreferences',
@@ -163,6 +172,13 @@ class JobPreferences extends Component {
 
   goToEditProfile = () => {
     this.props.navigation.navigate(EditProfile.routeName);
+  };
+
+  stopReceivingInvitesHandler = (data) => {
+    this.setState({
+      stopReceivingInvites: data.stop_receiving_invites,
+      isRefreshing: false,
+    });
   };
 
   render() {
@@ -382,6 +398,66 @@ class JobPreferences extends Component {
                   </View>
                 </View>
               </ScrollView>
+              <View
+                style={[
+                  preferencesStyles.viewInviteToggle,
+                  {
+                    paddingTop: 10,
+                  },
+                ]}>
+                <Text style={preferencesStyles.titleInvite}>
+                  {t('DASHBOARD.stopReceivingInvites')}
+                </Text>
+                <Segment>
+                  <Text style={preferencesStyles.itemInvite}>
+                    {t('DASHBOARD.y')}
+                  </Text>
+                  <Button
+                    onPress={this.stopReceivingInvites}
+                    style={
+                      preferencesStyles[
+                        this.state.stopReceivingInvites
+                          ? 'buttonLeftActive'
+                          : 'buttonLeftInactive'
+                      ]
+                    }
+                    first
+                    active>
+                    <Icon
+                      style={{ color: BLUE_DARK }}
+                      name={
+                        this.state.stopReceivingInvites
+                          ? 'md-radio-button-on'
+                          : 'md-radio-button-off'
+                      }
+                      size={5}
+                    />
+                  </Button>
+                  <Button
+                    onPress={this.startReceivingInvites}
+                    style={
+                      preferencesStyles[
+                        this.state.stopReceivingInvites
+                          ? 'buttonRightInactive'
+                          : 'buttonRightActive'
+                      ]
+                    }
+                    last>
+                    <Icon
+                      style={{ color: VIOLET_MAIN }}
+                      name={
+                        this.state.stopReceivingInvites
+                          ? 'md-radio-button-off'
+                          : 'md-radio-button-on'
+                      }
+                      size={5}
+                    />
+                  </Button>
+                  <Text style={preferencesStyles.itemInvite}>
+                    {t('DASHBOARD.n')}
+                  </Text>
+                </Segment>
+              </View>
             </Content>
           </Container>
         )}
@@ -474,6 +550,14 @@ class JobPreferences extends Component {
 
   isLoading = (isLoading) => {
     this.setState({ isLoading });
+  };
+
+  stopReceivingInvites = () => {
+    inviteActions.stopReceivingInvites(true);
+  };
+
+  startReceivingInvites = () => {
+    inviteActions.stopReceivingInvites(false);
   };
 }
 
