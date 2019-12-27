@@ -2,7 +2,7 @@
 import React from 'react';
 import Stars from 'react-native-stars';
 import { Icon } from 'native-base';
-import { BLUE_DARK, BLUE_LIGHT } from '../../shared/colorPalette';
+import { BLUE_DARK, BLUE_SEMI_LIGHT } from '../../shared/colorPalette';
 
 const StarComponent = (props) => {
   return (
@@ -27,7 +27,7 @@ const StarComponent = (props) => {
           type="FontAwesome"
           name="star"
           style={{
-            color: BLUE_LIGHT,
+            color: BLUE_SEMI_LIGHT,
             fontSize: 15,
           }}
         />
