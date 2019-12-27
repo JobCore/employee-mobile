@@ -6,7 +6,7 @@ import { API_URL } from 'react-native-dotenv';
 
 export const getAPIUrl = () => {
   console.log('API_URL: ', API_URL);
-  return API_URL;
+  return 'https://jobcore.herokuapp.com/api';
 };
 
 /**

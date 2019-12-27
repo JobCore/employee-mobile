@@ -227,7 +227,7 @@ class Profile extends Component {
               <View style={styles.darkLine} />
               <TouchableOpacity
                 onPress={() =>
-                  Linking.openURL('https://jobcore.com/community-guidelines/')
+                  Linking.openURL('https://jobcore.co/community-guidelines/')
                 }>
                 <View style={styles.profileButton}>
                   <Text style={styles.buttonTextName}>
