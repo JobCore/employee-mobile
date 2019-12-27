@@ -14,7 +14,7 @@ import {
   BLUE_DARK,
   // VIOLET_MAIN,
   BLUE_LIGHT,
-  // BLUE_SEMI_LIGHT,
+  LOW_RED,
   BLUE_MAIN,
 } from '../../shared/colorPalette';
 import {
@@ -599,7 +599,9 @@ class DashboardScreen extends Component {
               screenName={'dashboard'}
             />
             <View style={styles.flexOne}>
-              <View style={styles.containerImg}>
+              <TouchableOpacity
+                onPress={this.goToProfile}
+                style={styles.containerImg}>
                 <Thumbnail
                   medium
                   source={
@@ -608,32 +610,37 @@ class DashboardScreen extends Component {
                       : PROFILE_IMG
                   }
                 />
-              </View>
+              </TouchableOpacity>
               <View
                 style={{
                   marginVertical: 12,
                   justifyContent: 'space-around',
                 }}>
                 {user && (
-                  <Text
-                    style={{
-                      color: BLUE_DARK,
-                      fontWeight: 'bold',
-                      fontSize: Dimensions.get('window').width <= 340 ? 17 : 19,
-                    }}>
-                    {`${this.state.user.first_name} ${
-                      this.state.user.last_name
-                    }`}
-                  </Text>
+                  <TouchableOpacity onPress={this.goToEditProfile}>
+                    <Text
+                      style={{
+                        color: BLUE_DARK,
+                        fontWeight: 'bold',
+                        fontSize:
+                          Dimensions.get('window').width <= 340 ? 17 : 19,
+                      }}>
+                      {`${this.state.user.first_name} ${
+                        this.state.user.last_name
+                      }`}
+                    </Text>
+                  </TouchableOpacity>
                 )}
-                <View
+                <TouchableOpacity
+                  onPress={this.goToReviews}
                   style={{
                     flexDirection: 'row',
                   }}>
                   <Text style={styles.yourRating}>Your Rating</Text>
                   <StarComponent rating={rating} />
-                </View>
-                <View
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={this.goToPayments}
                   style={{
                     flexDirection: 'row',
                   }}>
@@ -646,14 +653,14 @@ class DashboardScreen extends Component {
                     }}>
                     ${payments.toFixed(2)}
                   </Text>
-                </View>
+                </TouchableOpacity>
               </View>
             </View>
             <View
               style={[
                 styles.flexTwo,
                 {
-                  backgroundColor: activeShift ? '#E56868' : BLUE_LIGHT,
+                  backgroundColor: activeShift ? LOW_RED : BLUE_LIGHT,
                 },
               ]}>
               {activeShift ? (
