@@ -510,20 +510,34 @@ class UploadDocumentScreen extends Component {
                   })
                 }>
                 {documentsTypes.map((type, i) => {
-                  const docType = type.validates_identity
+                  const identity = type.validates_identity
                     ? t('USER_DOCUMENTS.identity')
-                    : type.validates_employment
-                      ? t('USER_DOCUMENTS.employment')
-                      : type.is_form
-                        ? t('USER_DOCUMENTS.form')
-                        : '';
+                    : '';
+                  const employment = type.validates_employment
+                    ? t('USER_DOCUMENTS.employment')
+                    : '';
+                  const form = type.is_form ? t('USER_DOCUMENTS.form') : '';
+                  let strings = [];
+                  const string = [identity, employment, form];
+                  string.forEach((type) => {
+                    if (
+                      strings.filter((filterType) => filterType === type)
+                        .length === 0 &&
+                      type !== ''
+                    )
+                      strings.push(type);
+                  });
                   return (
                     <Picker.Item
                       key={i}
                       label={
                         <Text>
                           {`${type.title} `}
-                          <Text style={{ color: BLUE_DARK }}>{docType}</Text>
+                          <Text style={{ color: BLUE_DARK }}>
+                            {`${t('USER_DOCUMENTS.type')} ${strings.join(
+                              ', ',
+                            )}`}
+                          </Text>
                         </Text>
                       }
                       value={type.id}
