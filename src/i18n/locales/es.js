@@ -103,9 +103,10 @@ export default {
     notVerifyInfo:
       'Algunos empleadores requieren su verificación de empleo, complete estos 3 pasos para ser verificado y recibir más invitaciones laborales:',
     verifiedInfo: 'Su estado laboral ha sido verificado con éxito.',
-    identity: 'Type: Identidad',
-    employment: 'Type: Estado de empleo',
-    form: 'Type: Form',
+    identity: 'Identidad',
+    employment: 'Estado de empleo',
+    form: 'Form',
+    type: 'Tipo:',
   },
   SETTINGS: {
     settings: 'Ajustes',

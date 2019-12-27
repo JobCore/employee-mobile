@@ -104,9 +104,10 @@ export default {
     notVerifyInfo:
       'Some employers require your employment verification, please complete these 3 steps to get verified and receive more job invites:',
     verifiedInfo: 'Your employment status has been succesfully verified.',
-    identity: 'Type: Identity',
-    employment: 'Type: Employment',
-    form: 'Type: Form',
+    identity: 'Identity',
+    employment: 'Employment',
+    form: 'Form',
+    type: 'Type:',
   },
   SETTINGS: {
     settings: 'Settings',
