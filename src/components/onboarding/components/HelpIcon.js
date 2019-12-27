@@ -31,6 +31,7 @@ class HelpIcon extends Component {
     this.onboardingSubscription = onboardingStore.subscribe(
       SCREENS_EVENT,
       (screens) => {
+        console.log('SCREENS_EVENT: ', screens);
         this.setState({ showHelpIcon: screens.length > 0 });
       },
     );
@@ -51,7 +52,7 @@ class HelpIcon extends Component {
   };
 
   render() {
-    const { onPressHelp } = this.props;
+    const { onPressHelp, showIcon = false } = this.props;
     let helpIcon = (
       <Button
         title={''}
@@ -60,7 +61,7 @@ class HelpIcon extends Component {
         <StyledHelpIcon size={24}>?</StyledHelpIcon>
       </Button>
     );
-    if (!this.state.showHelpIcon) helpIcon = <></>;
+    if (!this.state.showHelpIcon && !showIcon) helpIcon = <></>;
 
     return <>{helpIcon}</>;
   }
