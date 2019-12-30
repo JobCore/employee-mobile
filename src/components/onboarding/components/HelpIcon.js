@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Linking } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Button, Icon } from 'native-base';
 import { BLUE_MAIN, WHITE_MAIN } from '../../../shared/colorPalette';
@@ -7,6 +8,7 @@ import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { onboardingStore, SCREENS_EVENT } from '../onboarding-store';
 import { fetchScreens } from '../onboarding-actions';
+import { JOBCORE_WEB_URL } from 'react-native-dotenv';
 
 const StyledHelpIcon = styled(Icon)`
   height: 32;
@@ -51,13 +53,19 @@ class HelpIcon extends Component {
     });
   };
 
+  onPressHelp = () => Linking.openURL(JOBCORE_WEB_URL);
+
   render() {
     const { onPressHelp, showIcon = false } = this.props;
     let helpIcon = (
       <Button
         title={''}
         transparent
-        onPress={onPressHelp || this.handleOnPress}>
+        onPress={
+          this.state.showHelpIcon
+            ? this.handleOnPress
+            : onPressHelp || this.onPressHelp
+        }>
         <StyledHelpIcon size={24}>?</StyledHelpIcon>
       </Button>
     );

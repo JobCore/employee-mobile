@@ -87,10 +87,7 @@ class BankAccounts extends FluxView {
       <I18n>
         {(t) => (
           <Container>
-            <ModalHeader
-              screenName={t('BANK_ACCOUNTS.bankAccounts')}
-              title={t('BANK_ACCOUNTS.bankAccounts')}
-            />
+            <ModalHeader showIcon title={t('BANK_ACCOUNTS.bankAccounts')} />
             {isLoading ? <Loading /> : null}
             <Content>
               <View style={bankAccountsStyle.container}>

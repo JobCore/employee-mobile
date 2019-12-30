@@ -107,6 +107,7 @@ class PublicProfile extends Component {
           <Container>
             {this.state.isLoading ? <Loading /> : null}
             <ModalHeader
+              showIcon
               title={t('PROFILE.profile')}
               onPressClose={() => this.props.navigation.goBack()}
             />
