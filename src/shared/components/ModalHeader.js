@@ -17,7 +17,6 @@ class _ModalHeader extends Component {
       title,
       withoutHelpIcon,
       screenName,
-      showIcon,
     } = this.props;
 
     return (
@@ -41,11 +40,7 @@ class _ModalHeader extends Component {
           <Text style={headerStyles.modalTitleHeader}>{title}</Text>
         </Body>
         <Right>
-          {withoutHelpIcon ? (
-            <></>
-          ) : (
-            <HelpIcon screenName={screenName} showIcon={showIcon} />
-          )}
+          {withoutHelpIcon ? <></> : <HelpIcon screenName={screenName} />}
         </Right>
       </Header>
     );
