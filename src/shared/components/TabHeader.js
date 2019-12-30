@@ -12,7 +12,6 @@ const TabHeader = ({
   goBack = false,
   onPressBack,
   onPressHelp,
-  showIcon,
 }) => (
   <Header androidStatusBarColor={BLUE_MAIN} style={headerStyles.headerCustom}>
     <Left>
@@ -34,11 +33,7 @@ const TabHeader = ({
       </Title>
     </Body>
     <Right>
-      <HelpIcon
-        onPressHelp={onPressHelp}
-        screenName={screenName}
-        showIcon={showIcon}
-      />
+      <HelpIcon onPressHelp={onPressHelp} screenName={screenName} />
     </Right>
   </Header>
 );

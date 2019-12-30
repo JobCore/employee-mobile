@@ -336,7 +336,6 @@ class UploadDocumentScreen extends Component {
               screenName="employment_verification"
               title={t('USER_DOCUMENTS.uploadDocuments')}
               withoutHelpIcon={false}
-              showIcon
             />
             {showWarning ? (
               <View style={UploadDocumentStyle.userStatusLabel}>

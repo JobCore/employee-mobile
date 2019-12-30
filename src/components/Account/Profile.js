@@ -136,7 +136,6 @@ class Profile extends Component {
             <TabHeader
               screenName="profile"
               title={t('PROFILE.profileSettings')}
-              showIcon
             />
             <Content>
               <BackgroundHeader heightAuto>

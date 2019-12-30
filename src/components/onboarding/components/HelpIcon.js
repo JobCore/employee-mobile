@@ -56,7 +56,7 @@ class HelpIcon extends Component {
   onPressHelp = () => Linking.openURL(JOBCORE_WEB_URL);
 
   render() {
-    const { onPressHelp, showIcon = false } = this.props;
+    const { onPressHelp } = this.props;
     let helpIcon = (
       <Button
         title={''}
@@ -69,7 +69,7 @@ class HelpIcon extends Component {
         <StyledHelpIcon size={24}>?</StyledHelpIcon>
       </Button>
     );
-    if (!this.state.showHelpIcon && !showIcon) helpIcon = <></>;
+    if (!this.state.showHelpIcon) helpIcon = <></>;
 
     return <>{helpIcon}</>;
   }

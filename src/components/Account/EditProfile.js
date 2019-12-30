@@ -198,7 +198,6 @@ class EditProfile extends Component {
           <Container>
             {this.state.isLoading ? <Loading /> : null}
             <TabHeader
-              showIcon
               goBack
               onPressBack={() => this.props.navigation.goBack()}
               title={t('EDIT_PROFILE.editProfile')}
