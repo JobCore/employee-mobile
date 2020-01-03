@@ -161,11 +161,7 @@ class MyJobs extends Component {
             {this.state.showNoJobsText ? (
               <CenteredText text={`${t('MY_JOBS.noJobs')}`} />
             ) : null}
-            <TabHeader
-              screenName="my_jobs"
-              title={t('MY_JOBS.myJobs')}
-              onPressHelp={this.goToEditProfile}
-            />
+            <TabHeader screenName="my_jobs" title={t('MY_JOBS.myJobs')} />
             <Segment style={styles.viewSegment}>
               {jobFilters.map((filter, index) => (
                 <Button

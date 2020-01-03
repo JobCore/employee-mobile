@@ -22,7 +22,6 @@ import BankAccounts from '../BankAccounts/BankAccounts';
 import * as actions from './actions';
 import { LOG } from '../../shared';
 import UploadDocumentScreen from './UploadDocumentScreen';
-import { JOBCORE_WEB_URL } from 'react-native-dotenv';
 
 class Profile extends Component {
   static navigationOptions = {
@@ -128,10 +127,7 @@ class Profile extends Component {
     this.setState({ isLoading: false });
   };
 
-  onPressHelp = () => Linking.openURL(JOBCORE_WEB_URL);
-
   render() {
-    console.log('JOBCORE_WEB_URL: ', JOBCORE_WEB_URL);
     return (
       <I18n>
         {(t) => (
@@ -140,7 +136,6 @@ class Profile extends Component {
             <TabHeader
               screenName="profile"
               title={t('PROFILE.profileSettings')}
-              onPressHelp={() => this.onPressHelp()}
             />
             <Content>
               <BackgroundHeader heightAuto>
