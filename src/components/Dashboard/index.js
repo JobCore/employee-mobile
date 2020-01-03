@@ -422,14 +422,16 @@ class DashboardScreen extends Component {
             onPress={() => this.goToJobDetails(item)}
             style={styles.viewListItem}>
             <View
-              style={{
-                shadowOffset: {
-                  width: 0,
-                  height: 1,
-                },
-                shadowOpacity: 0.93,
-                shadowRadius: 1.62,
-              }}>
+              style={
+                {
+                  // shadowOffset: {
+                  //   width: 0,
+                  //   height: 1,
+                  // },
+                  // shadowOpacity: 0.93,
+                  // shadowRadius: 1.62,
+                }
+              }>
               <Thumbnail
                 medium
                 source={
@@ -500,14 +502,16 @@ class DashboardScreen extends Component {
             }
             style={styles.viewListItem}>
             <View
-              style={{
-                shadowOffset: {
-                  width: 0,
-                  height: 1,
-                },
-                shadowOpacity: 0.93,
-                shadowRadius: 1.62,
-              }}>
+              style={
+                {
+                  // shadowOffset: {
+                  //   width: 0,
+                  //   height: 1,
+                  // },
+                  // shadowOpacity: 0.93,
+                  // shadowRadius: 1.62,
+                }
+              }>
               <Thumbnail
                 medium
                 source={
