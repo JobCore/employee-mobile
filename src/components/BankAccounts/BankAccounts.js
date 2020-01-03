@@ -13,6 +13,7 @@ import {
   BANK_ACCOUNTS_EVENT,
   DELETE_BANK_ACCOUNT_EVENT,
   bankAccountStore,
+  BANK_ACCOUNTS_NEW_EVENT,
 } from './BankAccountsStore';
 import type { BankAccount } from './bank-accounts-types';
 import CustomToast from '../../shared/components/CustomToast';
@@ -47,6 +48,9 @@ class BankAccounts extends FluxView {
     );
     this.subscribe(bankAccountStore, DELETE_BANK_ACCOUNT_EVENT, () => {
       this.setState({ isLoading: false });
+      fetchBankAccounts();
+    });
+    this.subscribe(bankAccountStore, BANK_ACCOUNTS_NEW_EVENT, () => {
       fetchBankAccounts();
     });
     fetchBankAccounts();

@@ -38,6 +38,7 @@ class AddBankAccount extends View {
     super(props);
     this.state = {
       isLoading: false,
+      isPlaidLoading: true,
     };
   }
 
@@ -47,6 +48,7 @@ class AddBankAccount extends View {
     });
     this.subscribe(bankAccountStore, BANK_ACCOUNTS_NEW_EVENT, () => {
       CustomToast('Bank Accounts created!');
+      this.props.navigation.goBack();
     });
   }
 
@@ -61,6 +63,7 @@ class AddBankAccount extends View {
               goBack
               title={t('BANK_ACCOUNTS.addBankAccountTitle')}
             />
+            {this.state.isPlaidLoading ? <Loading /> : null}
             <PlaidAuthenticator
               onMessage={this.onPlaidMessage}
               publicKey={PLAID_PUBLIC_KEY}
@@ -77,20 +80,22 @@ class AddBankAccount extends View {
   }
 
   onPlaidMessage = (e) => {
-    console.log(`AddBankAccount: onPlaidMessage:`, e);
+    console.log(`AddBankAccount:onPlaidMessage:`, e);
     const { metadata } = e;
-    if (e.action === 'plaid_link-undefined::exit')
+    // Finish loading the Page
+    // if (e.action === 'plaid_link-undefined::ready')
+    if (e.eventName === 'OPEN') return this.setState({ isPlaidLoading: false });
+
+    // Getting out
+    if (e.eventName === 'EXIT' || e.action === 'plaid_link-undefined::exit')
       return this.props.navigation.goBack();
+
     if (e.action === 'plaid_link-undefined::connected') {
       // const { public_token, institution, accounts } = metadata;
       const { public_token, institution } = metadata;
-
       console.log(`DEBUG:DEBUG:`, public_token, institution.name || '');
-
       return saveBankAccounts(public_token, institution.name || '');
     }
-
-    if (e.eventName === 'OPEN') return;
 
     if (IGNORED_PLAID_ACTIONS.includes(e.action)) return;
 
@@ -103,17 +108,11 @@ class AddBankAccount extends View {
     });
   };
 
-  onLoadPlaid = (e) => {
-    console.log(`onLoadPlaid:`, e);
-  };
+  onLoadPlaid = () => {};
 
-  onLoadStartPlaid = (e) => {
-    console.log(`onLoadStartPlaid:`, e);
-  };
+  onLoadStartPlaid = () => {};
 
-  onLoadEndPlaid = (e) => {
-    console.log(`onLoadEndPlaid:`, e);
-  };
+  onLoadEndPlaid = () => {};
 
   goToEditProfile = () => {
     this.props.navigation.navigate(EditProfile.routeName);
