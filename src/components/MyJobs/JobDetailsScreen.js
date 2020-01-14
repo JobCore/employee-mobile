@@ -16,6 +16,7 @@ import { RATE_EMPLOYER_ROUTE } from '../../constants/routes';
 import moment from 'moment';
 import { ModalHeader } from '../../shared/components/ModalHeader';
 import { clockOut } from './actions';
+import { clockIn } from './actions';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -56,6 +57,7 @@ class JobDetailsScreen extends Component {
       shiftId: props.navigation.getParam('shiftId', null),
       applicationId: props.navigation.getParam('applicationId', null),
     };
+    console.log(`JobDetailsScreen:constructor`);
   }
 
   componentDidMount() {
@@ -423,6 +425,7 @@ class JobDetailsScreen extends Component {
   };
 
   clockIn = () => {
+    console.log(`JobDetailsScreen:clockin:`);
     if (!this.state.shiftId) return;
     let jobTitle;
 
@@ -439,8 +442,12 @@ class JobDetailsScreen extends Component {
       {
         text: i18next.t('MY_JOBS.clockIn'),
         onPress: () => {
+          console.log(`JobDetailsScreen:clockin:onPress:`);
+          let clockinReported = false;
           navigator.geolocation.getCurrentPosition(
             (data) => {
+              console.log(`JobDetailsScreen:clockin:onPress:data:`, data);
+              clockinReported = true;
               this.setState({ isLoading: true }, () => {
                 jobActions.clockIn(
                   this.state.shift.id,
@@ -450,16 +457,24 @@ class JobDetailsScreen extends Component {
                 );
               });
             },
-            () => {
-              clockOut(this.state.shift.id, 0, 0, moment.utc());
+            (e) => {
+              console.log(`JobDetailsScreen:clockin:onPress:error:`, e);
+              clockinReported = true;
+              jobActions.clockIn(this.state.shift.id, 0, 0, moment.utc());
             },
           );
+          setTimeout(() => {
+            console.log(`JobDetailsScreen:clockin:setTimeout`, clockinReported);
+            if (!clockinReported)
+              jobActions.clockIn(this.state.shift.id, 0, 0, moment.utc());
+          }, 1000);
         },
       },
     ]);
   };
 
   clockOut = () => {
+    console.log(`JobDetailScreen:clockout:`);
     if (!this.state.shiftId) return;
     let jobTitle;
 
@@ -476,8 +491,11 @@ class JobDetailsScreen extends Component {
       {
         text: i18next.t('MY_JOBS.clockOut'),
         onPress: () => {
+          console.log(`JobDetailScreen:clockout:onPress`);
+          let clockoutReported = false;
           navigator.geolocation.getCurrentPosition(
             (data) => {
+              console.log(`JobDetailScreen:clockout:onPress:data:`, data);
               this.setState({ isLoading: true }, () => {
                 jobActions.clockOut(
                   this.state.shift.id,

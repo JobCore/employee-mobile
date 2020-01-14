@@ -34,11 +34,11 @@ const clockInOutValidator = (shiftId, latitude, longitude, date) => {
     throw new Error(i18next.t('MY_JOBS.invalidShift'));
   }
 
-  if (!utils.isValidNumber(latitude, false, true)) {
+  if (!utils.isValidNumber(latitude, true, true)) {
     throw new Error(i18next.t('MY_JOBS.invalidLatitude'));
   }
 
-  if (!utils.isValidNumber(longitude, false, true)) {
+  if (!utils.isValidNumber(longitude, true, true)) {
     throw new Error(i18next.t('MY_JOBS.invalidLongitude'));
   }
 

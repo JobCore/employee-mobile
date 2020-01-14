@@ -60,6 +60,7 @@ class UpcomingJobScreen extends Component {
       clockIns: [],
       shiftId: props.navigation.getParam('shiftId', null),
     };
+    console.log(`UpcomingJobScreen:constructor`);
   }
 
   componentDidMount() {
@@ -255,6 +256,7 @@ class UpcomingJobScreen extends Component {
   };
 
   clockIn = () => {
+    console.log(`UpcomingJobScreen:clockin:`);
     if (!this.state.shiftId) return;
     let jobTitle;
     try {
@@ -269,8 +271,12 @@ class UpcomingJobScreen extends Component {
       {
         text: i18next.t('MY_JOBS.clockIn'),
         onPress: () => {
+          console.log(`UpcomingJobScreen:clockin:onPress`);
+          let clockinReported = false;
           navigator.geolocation.getCurrentPosition(
             (data) => {
+              console.log(`UpcomingJobScreen:clockin:onPress:data`);
+              clockinReported = true;
               this.setState({ isLoading: true }, () => {
                 jobActions.clockIn(
                   this.state.shift.id,
@@ -280,10 +286,17 @@ class UpcomingJobScreen extends Component {
                 );
               });
             },
-            () => {
-              jobActions.clockOut(this.state.shift.id, 0, 0, moment.utc());
+            (e) => {
+              console.log(`UpcomingJobScreen:clockin:onPress:data`, e);
+              clockinReported = true;
+              jobActions.clockIn(this.state.shift.id, 0, 0, moment.utc());
             },
           );
+          setTimeout(() => {
+            console.log(`UpcomingJobScreen:clockin:onPress:data`, e);
+            if (!clockinReported)
+              jobActions.clockIn(this.state.shift.id, 0, 0, moment.utc());
+          }, 1000);
         },
       },
     ]);

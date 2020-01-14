@@ -29,6 +29,7 @@ import {
   clockIn,
   clockOut,
   getJob,
+  default as jobActions,
 } from './actions';
 import { RATE_EMPLOYER_ROUTE } from '../../constants/routes';
 import { ClocksIn } from './components/ClocksIn';
@@ -49,6 +50,7 @@ class WorkModeScreen extends Component {
     };
     this.scrollView = null;
     this.intervalBar = null;
+    console.log(`WorkModeScreen:constructor`);
   }
 
   componentDidMount() {
@@ -273,6 +275,7 @@ class WorkModeScreen extends Component {
   };
 
   clockIn = () => {
+    console.log(`WorkModeSCreen:clockin:`);
     if (!this.state.shiftId) return;
     let jobTitle;
     try {
@@ -287,9 +290,12 @@ class WorkModeScreen extends Component {
       {
         text: i18next.t('MY_JOBS.clockIn'),
         onPress: () => {
+          console.log(`WorkModeSCreen:clockin:`);
+          let clockinReported = false;
           navigator.geolocation.getCurrentPosition(
             (data) => {
-              log(`DEBUG:clockin:`, this.state.shift.id);
+              console.log(`WorkModeSCreen:clockin:onPress:data`, data);
+              clockinReported = true;
               this.setState({ isLoading: true }, () => {
                 clockIn(
                   this.state.shift.id,
@@ -299,10 +305,17 @@ class WorkModeScreen extends Component {
                 );
               });
             },
-            () => {
-              clockOut(this.state.shift.id, 0, 0, moment.utc());
+            (e) => {
+              console.log(`WorkModeSCreen:clockin:onPress:error`, e);
+              clockinReported = true;
+              clockIn(this.state.shift.id, 0, 0, moment.utc());
             },
           );
+          setTimeout(() => {
+            console.log(`WorkModeSCreen:clockin:setTimeout`, clockinReported);
+            if (!clockinReported)
+              clockIn(this.state.shift.id, 0, 0, moment.utc());
+          }, 1000);
         },
       },
     ]);
