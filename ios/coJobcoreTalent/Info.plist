@@ -41,6 +41,8 @@
 	<string>We require access to your Camera to allow you share moments and emotions with the members of our community.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Enabling Face ID allows you quick and secure access to your account.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We require access to your Location to show you nearby content, users and events that are more relevant to you.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>We require access to your Location to show you nearby content, users and events that are more relevant to you. Jobcore discovers jobs nearby yo maximize your earnings.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
