@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { View, Image, Dimensions, Alert } from 'react-native';
+import { View, Image, Dimensions } from 'react-native';
 import { Container, Content, Button, Text } from 'native-base';
 import { inviteStyles } from '../Invite/InviteDetailsStyle';
 import { BLUE_MAIN, BLUE_DARK, VIOLET_MAIN } from '../../shared/colorPalette';
@@ -15,8 +15,7 @@ import MARKER_IMG from '../../assets/image/map-marker.png';
 import { RATE_EMPLOYER_ROUTE } from '../../constants/routes';
 import moment from 'moment';
 import { ModalHeader } from '../../shared/components/ModalHeader';
-import { clockOut } from './actions';
-import { clockIn } from './actions';
+import { clockInMixin, clockOutMixin } from '../../shared/mixins';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -58,6 +57,8 @@ class JobDetailsScreen extends Component {
       applicationId: props.navigation.getParam('applicationId', null),
     };
     console.log(`JobDetailsScreen:constructor`);
+    this.clockIn = clockInMixin.bind(this);
+    this.clockOut = clockOutMixin.bind(this);
   }
 
   componentDidMount() {
@@ -422,96 +423,6 @@ class JobDetailsScreen extends Component {
 
   getClockins = () => {
     jobActions.getClockins(this.state.shiftId);
-  };
-
-  clockIn = () => {
-    console.log(`JobDetailsScreen:clockin:`);
-    if (!this.state.shiftId) return;
-    let jobTitle;
-
-    try {
-      jobTitle = this.state.shift.venue.title;
-    } catch (e) {
-      return;
-    }
-
-    if (!jobTitle) return;
-
-    Alert.alert(i18next.t('MY_JOBS.wantToClockIn'), jobTitle, [
-      { text: i18next.t('APP.cancel') },
-      {
-        text: i18next.t('MY_JOBS.clockIn'),
-        onPress: () => {
-          console.log(`JobDetailsScreen:clockin:onPress:`);
-          let clockinReported = false;
-          navigator.geolocation.getCurrentPosition(
-            (data) => {
-              console.log(`JobDetailsScreen:clockin:onPress:data:`, data);
-              clockinReported = true;
-              this.setState({ isLoading: true }, () => {
-                jobActions.clockIn(
-                  this.state.shift.id,
-                  data.coords.latitude,
-                  data.coords.longitude,
-                  moment.utc(),
-                );
-              });
-            },
-            (e) => {
-              console.log(`JobDetailsScreen:clockin:onPress:error:`, e);
-              clockinReported = true;
-              jobActions.clockIn(this.state.shift.id, 0, 0, moment.utc());
-            },
-          );
-          setTimeout(() => {
-            console.log(`JobDetailsScreen:clockin:setTimeout`, clockinReported);
-            if (!clockinReported)
-              jobActions.clockIn(this.state.shift.id, 0, 0, moment.utc());
-          }, 1000);
-        },
-      },
-    ]);
-  };
-
-  clockOut = () => {
-    console.log(`JobDetailScreen:clockout:`);
-    if (!this.state.shiftId) return;
-    let jobTitle;
-
-    try {
-      jobTitle = this.state.shift.venue.title;
-    } catch (e) {
-      return;
-    }
-
-    if (!jobTitle) return;
-
-    Alert.alert(i18next.t('MY_JOBS.wantToClockOut'), jobTitle, [
-      { text: i18next.t('APP.cancel') },
-      {
-        text: i18next.t('MY_JOBS.clockOut'),
-        onPress: () => {
-          console.log(`JobDetailScreen:clockout:onPress`);
-          let clockoutReported = false;
-          navigator.geolocation.getCurrentPosition(
-            (data) => {
-              console.log(`JobDetailScreen:clockout:onPress:data:`, data);
-              this.setState({ isLoading: true }, () => {
-                jobActions.clockOut(
-                  this.state.shift.id,
-                  data.coords.latitude,
-                  data.coords.longitude,
-                  moment.utc(),
-                );
-              });
-            },
-            () => {
-              clockOut(this.state.shift.id, 0, 0, moment.utc());
-            },
-          );
-        },
-      },
-    ]);
   };
 
   goToRateJob = () => {

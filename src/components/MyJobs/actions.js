@@ -153,7 +153,7 @@ const rateEmployer = (shiftId, employerId, rating, comments) => {
  * @param  {Date} startedAt
  */
 const clockIn = (shiftId, latitudeIn, longitudeIn, startedAt) => {
-  console.log('CLOCKIN', shiftId, latitudeIn, longitudeIn, startedAt.format());
+  console.log('CLOCKIN:', shiftId, latitudeIn, longitudeIn, startedAt.format());
   try {
     clockInOutValidator(shiftId, latitudeIn, longitudeIn, startedAt);
   } catch (err) {
@@ -170,6 +170,7 @@ const clockIn = (shiftId, latitudeIn, longitudeIn, startedAt) => {
       Flux.dispatchEvent('ClockIn', data);
     })
     .catch((err) => {
+      console.log('CLOCKIN:err', err);
       Flux.dispatchEvent('JobStoreError', err);
     });
 };
@@ -183,7 +184,7 @@ const clockIn = (shiftId, latitudeIn, longitudeIn, startedAt) => {
  */
 const clockOut = (shiftId, latitudeOut, longitudeOut, startedAt) => {
   console.log(
-    'CLOCKOU',
+    'CLOCKOUT:',
     shiftId,
     latitudeOut,
     longitudeOut,
@@ -205,6 +206,7 @@ const clockOut = (shiftId, latitudeOut, longitudeOut, startedAt) => {
       Flux.dispatchEvent('ClockOut', data);
     })
     .catch((err) => {
+      console.log('CLOCKOUT:err', err);
       Flux.dispatchEvent('JobStoreError', err);
     });
 };

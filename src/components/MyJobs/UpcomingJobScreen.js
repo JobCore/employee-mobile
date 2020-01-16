@@ -19,14 +19,14 @@ import { ClockInButton } from './components/ClockInButton';
 import { jobStyles } from './JobStyles';
 import WorkModeScreen from './WorkModeScreen';
 import { canClockIn, getDiffInMinutesToStartShift } from './job-utils';
-import { clockOut } from './actions';
+import { clockInMixin, clockOutMixin } from '../../shared/mixins';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-const DEFAULT_LATIDUDE = 25.761681;
+const DEFAULT_LATITUDE = 25.761681;
 const DEFAULT_LONGITUDE = -80.191788;
 
 /**
@@ -51,7 +51,7 @@ class UpcomingJobScreen extends Component {
       shift: undefined,
       invite: {},
       region: {
-        latitude: DEFAULT_LATIDUDE,
+        latitude: DEFAULT_LATITUDE,
         longitude: DEFAULT_LONGITUDE,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
@@ -60,6 +60,8 @@ class UpcomingJobScreen extends Component {
       clockIns: [],
       shiftId: props.navigation.getParam('shiftId', null),
     };
+    this.clockIn = clockInMixin.bind(this);
+    this.clockOut = clockOutMixin.bind(this);
     console.log(`UpcomingJobScreen:constructor`);
   }
 
@@ -79,8 +81,10 @@ class UpcomingJobScreen extends Component {
     this.jobStoreError.unsubscribe();
   }
 
-  errorHandler = () => {
-    this.setState({ isLoading: false });
+  errorHandler = (err) => {
+    this.setState({ isLoading: false }, () => {
+      CustomToast(err, 'danger');
+    });
   };
 
   getJobHandler = (shift) => {
@@ -89,12 +93,12 @@ class UpcomingJobScreen extends Component {
     let longitude;
 
     try {
-      latitude = shift.venue.latitude || DEFAULT_LATIDUDE;
+      latitude = shift.venue.latitude || DEFAULT_LATITUDE;
       longitude = shift.venue.longitude || DEFAULT_LONGITUDE;
     } catch (e) {
       LOG(this, `No latLng: ${JSON.stringify(e)}`);
 
-      latitude = DEFAULT_LATIDUDE;
+      latitude = DEFAULT_LATITUDE;
       longitude = DEFAULT_LONGITUDE;
     }
 
@@ -158,7 +162,7 @@ class UpcomingJobScreen extends Component {
                     image={MARKER_IMG}
                     anchor={{ x: 0.5, y: 1 }}
                     coordinate={{
-                      latitude: DEFAULT_LATIDUDE,
+                      latitude: DEFAULT_LATITUDE,
                       longitude: DEFAULT_LONGITUDE,
                     }}
                   />
@@ -227,10 +231,10 @@ class UpcomingJobScreen extends Component {
     let longitude;
 
     try {
-      latitude = this.state.shift.venue.latitude || DEFAULT_LATIDUDE;
+      latitude = this.state.shift.venue.latitude || DEFAULT_LATITUDE;
       longitude = this.state.shift.venue.longitude || DEFAULT_LONGITUDE;
     } catch (e) {
-      latitude = DEFAULT_LATIDUDE;
+      latitude = DEFAULT_LATITUDE;
       longitude = DEFAULT_LONGITUDE;
     }
 
@@ -253,90 +257,6 @@ class UpcomingJobScreen extends Component {
         jobActions.getJob(this.state.shiftId);
       });
     }
-  };
-
-  clockIn = () => {
-    console.log(`UpcomingJobScreen:clockin:`);
-    if (!this.state.shiftId) return;
-    let jobTitle;
-    try {
-      jobTitle = this.state.shift.venue.title;
-    } catch (e) {
-      CustomToast('The venue has no title!');
-      return;
-    }
-
-    Alert.alert(i18next.t('MY_JOBS.wantToClockIn'), jobTitle, [
-      { text: i18next.t('APP.cancel') },
-      {
-        text: i18next.t('MY_JOBS.clockIn'),
-        onPress: () => {
-          console.log(`UpcomingJobScreen:clockin:onPress`);
-          let clockinReported = false;
-          navigator.geolocation.getCurrentPosition(
-            (data) => {
-              console.log(`UpcomingJobScreen:clockin:onPress:data`);
-              clockinReported = true;
-              this.setState({ isLoading: true }, () => {
-                jobActions.clockIn(
-                  this.state.shift.id,
-                  data.coords.latitude,
-                  data.coords.longitude,
-                  moment.utc(),
-                );
-              });
-            },
-            (e) => {
-              console.log(`UpcomingJobScreen:clockin:onPress:data`, e);
-              clockinReported = true;
-              jobActions.clockIn(this.state.shift.id, 0, 0, moment.utc());
-            },
-          );
-          setTimeout(() => {
-            console.log(`UpcomingJobScreen:clockin:onPress:data`, e);
-            if (!clockinReported)
-              jobActions.clockIn(this.state.shift.id, 0, 0, moment.utc());
-          }, 1000);
-        },
-      },
-    ]);
-  };
-
-  clockOut = () => {
-    if (!this.state.shiftId) return;
-    let jobTitle;
-
-    try {
-      jobTitle = this.state.shift.venue.title;
-    } catch (e) {
-      return;
-    }
-
-    if (!jobTitle) return;
-
-    Alert.alert(i18next.t('MY_JOBS.wantToClockOut'), jobTitle, [
-      { text: i18next.t('APP.cancel') },
-      {
-        text: i18next.t('MY_JOBS.clockOut'),
-        onPress: () => {
-          navigator.geolocation.getCurrentPosition(
-            (data) => {
-              this.setState({ isLoading: true }, () => {
-                jobActions.clockOut(
-                  this.state.shift.id,
-                  data.coords.latitude,
-                  data.coords.longitude,
-                  moment.utc(),
-                );
-              });
-            },
-            () => {
-              clockOut(this.state.shift.id, 0, 0, moment.utc());
-            },
-          );
-        },
-      },
-    ]);
   };
 }
 
