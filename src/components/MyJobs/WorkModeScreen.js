@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { View, Alert, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { Container, Text } from 'native-base';
 import { I18n } from 'react-i18next';
-import { i18next } from '../../i18n';
-// import inviteStore from './InviteStore';
-// import { JobDetails } from '../../shared/components';
 import { LOG } from '../../shared';
 import { CustomToast, Loading, openMapsApp } from '../../shared/components';
 import moment from 'moment';
@@ -24,18 +21,12 @@ import {
 import { ClockInButton } from './components/ClockInButton';
 import { ReviewButton } from './components/ReviewButton';
 import { ClockOutButton } from './components/ClockOutButton';
-import {
-  calculateEarningsFromClockIns,
-  clockIn,
-  clockOut,
-  getJob,
-  default as jobActions,
-} from './actions';
+import { calculateEarningsFromClockIns, getJob } from './actions';
 import { RATE_EMPLOYER_ROUTE } from '../../constants/routes';
 import { ClocksIn } from './components/ClocksIn';
 import { jobStyles } from './JobStyles';
+import { clockInMixin, clockOutMixin } from '../../shared/mixins';
 
-// import IconTime from '../../assets/image/time.png'
 const DEFAULT_LATIDUDE = 25.761681;
 const DEFAULT_LONGITUDE = -80.191788;
 
@@ -50,6 +41,8 @@ class WorkModeScreen extends Component {
     };
     this.scrollView = null;
     this.intervalBar = null;
+    this.clockIn = clockInMixin.bind(this);
+    this.clockOut = clockOutMixin.bind(this);
     console.log(`WorkModeScreen:constructor`);
   }
 
@@ -88,8 +81,10 @@ class WorkModeScreen extends Component {
     });
   };
 
-  errorHandler = () => {
-    this.setState({ isLoading: false });
+  errorHandler = (err) => {
+    this.setState({ isLoading: false }, () => {
+      CustomToast(err, 'danger');
+    });
   };
 
   render() {
@@ -235,90 +230,6 @@ class WorkModeScreen extends Component {
     this.props.navigation.navigate(RATE_EMPLOYER_ROUTE, {
       shift: this.state.shift,
     });
-  };
-
-  clockOut = () => {
-    if (!this.state.shiftId) return;
-    let jobTitle;
-
-    try {
-      jobTitle = this.state.shift.venue.title;
-    } catch (e) {
-      return;
-    }
-
-    if (!jobTitle) return;
-
-    Alert.alert(i18next.t('MY_JOBS.wantToClockOut'), jobTitle, [
-      { text: i18next.t('APP.cancel') },
-      {
-        text: i18next.t('MY_JOBS.clockOut'),
-        onPress: () => {
-          navigator.geolocation.getCurrentPosition(
-            (data) => {
-              this.setState({ isLoading: true }, () => {
-                clockOut(
-                  this.state.shift.id,
-                  data.coords.latitude,
-                  data.coords.longitude,
-                  moment.utc(),
-                );
-              });
-            },
-            () => {
-              clockOut(this.state.shift.id, 0, 0, moment.utc());
-            },
-          );
-        },
-      },
-    ]);
-  };
-
-  clockIn = () => {
-    console.log(`WorkModeSCreen:clockin:`);
-    if (!this.state.shiftId) return;
-    let jobTitle;
-    try {
-      jobTitle = this.state.shift.venue.title;
-    } catch (e) {
-      CustomToast('The venue has no title!');
-      return;
-    }
-
-    Alert.alert(i18next.t('MY_JOBS.wantToClockIn'), jobTitle, [
-      { text: i18next.t('APP.cancel') },
-      {
-        text: i18next.t('MY_JOBS.clockIn'),
-        onPress: () => {
-          console.log(`WorkModeSCreen:clockin:`);
-          let clockinReported = false;
-          navigator.geolocation.getCurrentPosition(
-            (data) => {
-              console.log(`WorkModeSCreen:clockin:onPress:data`, data);
-              clockinReported = true;
-              this.setState({ isLoading: true }, () => {
-                clockIn(
-                  this.state.shift.id,
-                  data.coords.latitude,
-                  data.coords.longitude,
-                  moment.utc(),
-                );
-              });
-            },
-            (e) => {
-              console.log(`WorkModeSCreen:clockin:onPress:error`, e);
-              clockinReported = true;
-              clockIn(this.state.shift.id, 0, 0, moment.utc());
-            },
-          );
-          setTimeout(() => {
-            console.log(`WorkModeSCreen:clockin:setTimeout`, clockinReported);
-            if (!clockinReported)
-              clockIn(this.state.shift.id, 0, 0, moment.utc());
-          }, 1000);
-        },
-      },
-    ]);
   };
 
   showOpenDirection = () => {

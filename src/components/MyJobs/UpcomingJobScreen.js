@@ -81,8 +81,10 @@ class UpcomingJobScreen extends Component {
     this.jobStoreError.unsubscribe();
   }
 
-  errorHandler = () => {
-    this.setState({ isLoading: false });
+  errorHandler = (err) => {
+    this.setState({ isLoading: false }, () => {
+      CustomToast(err, 'danger');
+    });
   };
 
   getJobHandler = (shift) => {

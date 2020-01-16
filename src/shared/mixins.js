@@ -70,8 +70,8 @@ const _round = (x) => {
 export function clockOutMixin() {
   console.log(`${this.constructor.name}:clockOutMixin`);
   if (!this.state.shiftId) return;
-  let jobTitle;
 
+  let jobTitle;
   try {
     jobTitle = this.state.shift.venue.title;
   } catch (e) {
