@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Alert, ScrollView } from 'react-native';
+import { View, Image, Alert, ScrollView, RefreshControl } from 'react-native';
 import { Button, Text, Left, Right, List, ListItem, Icon } from 'native-base';
 import styles from './PositionStyle';
 import { BLUE_DARK } from '../../shared/colorPalette';
@@ -111,7 +111,14 @@ class Position extends Component {
                     {t('JOB_PREFERENCES.position')}
                   </Text>
                 </Button>
-                <ScrollView style={styles.contentScroll}>
+                <ScrollView
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={this.state.isRefreshing}
+                      onRefresh={this.refreshPositions}
+                    />
+                  }
+                  style={styles.contentScroll}>
                   <List style={{ marginBottom: 30, paddingLeft: 0 }}>
                     {Array.isArray(this.state.positionList)
                       ? this.state.positionList.map((position, key) => {
