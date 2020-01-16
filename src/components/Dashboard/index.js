@@ -923,7 +923,7 @@ class DashboardScreen extends Component {
   };
 
   refresh = async () => {
-    this.setState({ isRefreshing: true });
+    this.setState({ isRefreshing: true, isLoading: true });
 
     await this.getEmployee();
     await this.getInvites();
