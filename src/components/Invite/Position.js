@@ -1,22 +1,6 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Image,
-  Alert,
-  ScrollView,
-  // RefreshControl
-} from 'react-native';
-import {
-  // Container,
-  // Content,
-  Button,
-  Text,
-  Left,
-  Right,
-  List,
-  ListItem,
-  Icon,
-} from 'native-base';
+import { View, Image, Alert, ScrollView } from 'react-native';
+import { Button, Text, Left, Right, List, ListItem, Icon } from 'native-base';
 import styles from './PositionStyle';
 import { BLUE_DARK } from '../../shared/colorPalette';
 import * as inviteActions from './actions';
@@ -120,14 +104,7 @@ class Position extends Component {
           <>
             {this.state.isLoading ? <Loading /> : null}
             <ModalHeader title={t('JOB_PREFERENCES.position')} />
-            <View
-              // refreshControl={
-              //   <RefreshControl
-              //     refreshing={this.state.isRefreshing}
-              //     onRefresh={this.refreshPositions}
-              //   />
-              // }
-              padder>
+            <View padder>
               <View style={styles.viewContainer}>
                 <Button full rounded style={styles.buttonPosition}>
                   <Text uppercase={false} style={styles.textHeader}>
