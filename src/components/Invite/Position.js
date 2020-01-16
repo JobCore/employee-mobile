@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
-import { View, Image, Alert, ScrollView, RefreshControl } from 'react-native';
 import {
-  Container,
-  Content,
+  View,
+  Image,
+  Alert,
+  ScrollView,
+  // RefreshControl
+} from 'react-native';
+import {
+  // Container,
+  // Content,
   Button,
   Text,
   Left,
@@ -111,16 +117,16 @@ class Position extends Component {
     return (
       <I18n>
         {(t) => (
-          <Container>
+          <>
             {this.state.isLoading ? <Loading /> : null}
             <ModalHeader title={t('JOB_PREFERENCES.position')} />
-            <Content
-              refreshControl={
-                <RefreshControl
-                  refreshing={this.state.isRefreshing}
-                  onRefresh={this.refreshPositions}
-                />
-              }
+            <View
+              // refreshControl={
+              //   <RefreshControl
+              //     refreshing={this.state.isRefreshing}
+              //     onRefresh={this.refreshPositions}
+              //   />
+              // }
               padder>
               <View style={styles.viewContainer}>
                 <Button full rounded style={styles.buttonPosition}>
@@ -146,7 +152,12 @@ class Position extends Component {
                             }
                             key={position.id}
                             selected={isPositionSelected}
-                            style={[styles.itemSelectCheck, this.state.positionList.length-1 === key ? { borderBottomWidth: 0 } : null]}>
+                            style={[
+                              styles.itemSelectCheck,
+                              this.state.positionList.length - 1 === key
+                                ? { borderBottomWidth: 0 }
+                                : null,
+                            ]}>
                             <Left>
                               <Text style={styles.textList}>
                                 {position.title}
@@ -170,8 +181,8 @@ class Position extends Component {
                 </ScrollView>
                 <BtnCancelSave t={t} onPressSave={this.editPosition} />
               </View>
-            </Content>
-          </Container>
+            </View>
+          </>
         )}
       </I18n>
     );
