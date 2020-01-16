@@ -1,16 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, Alert, ScrollView, RefreshControl } from 'react-native';
-import {
-  Container,
-  Content,
-  Button,
-  Text,
-  Left,
-  Right,
-  List,
-  ListItem,
-  Icon,
-} from 'native-base';
+import { Button, Text, Left, Right, List, ListItem, Icon } from 'native-base';
 import styles from './PositionStyle';
 import { BLUE_DARK } from '../../shared/colorPalette';
 import * as inviteActions from './actions';
@@ -111,24 +101,24 @@ class Position extends Component {
     return (
       <I18n>
         {(t) => (
-          <Container>
+          <>
             {this.state.isLoading ? <Loading /> : null}
             <ModalHeader title={t('JOB_PREFERENCES.position')} />
-            <Content
-              refreshControl={
-                <RefreshControl
-                  refreshing={this.state.isRefreshing}
-                  onRefresh={this.refreshPositions}
-                />
-              }
-              padder>
+            <View padder>
               <View style={styles.viewContainer}>
                 <Button full rounded style={styles.buttonPosition}>
                   <Text uppercase={false} style={styles.textHeader}>
                     {t('JOB_PREFERENCES.position')}
                   </Text>
                 </Button>
-                <ScrollView style={styles.contentScroll}>
+                <ScrollView
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={this.state.isRefreshing}
+                      onRefresh={this.refreshPositions}
+                    />
+                  }
+                  style={styles.contentScroll}>
                   <List style={{ marginBottom: 30, paddingLeft: 0 }}>
                     {Array.isArray(this.state.positionList)
                       ? this.state.positionList.map((position, key) => {
@@ -146,7 +136,12 @@ class Position extends Component {
                             }
                             key={position.id}
                             selected={isPositionSelected}
-                            style={[styles.itemSelectCheck, this.state.positionList.length-1 === key ? { borderBottomWidth: 0 } : null]}>
+                            style={[
+                              styles.itemSelectCheck,
+                              this.state.positionList.length - 1 === key
+                                ? { borderBottomWidth: 0 }
+                                : null,
+                            ]}>
                             <Left>
                               <Text style={styles.textList}>
                                 {position.title}
@@ -170,8 +165,8 @@ class Position extends Component {
                 </ScrollView>
                 <BtnCancelSave t={t} onPressSave={this.editPosition} />
               </View>
-            </Content>
-          </Container>
+            </View>
+          </>
         )}
       </I18n>
     );
