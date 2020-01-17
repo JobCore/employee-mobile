@@ -855,13 +855,7 @@ class DashboardScreen extends Component {
                   renderItem={this._renderItemInvites}
                   extraData={this.state}
                   ListEmptyComponent={
-                    <Text
-                      style={{
-                        color: BLUE_DARK,
-                        fontSize: 19,
-                        textAlign: 'center',
-                        top: 100,
-                      }}>
+                    <Text style={styles.emptyTableText}>
                       You don't have invitations
                     </Text>
                   }
@@ -881,13 +875,7 @@ class DashboardScreen extends Component {
                     renderItem={this._renderItemJobs}
                     extraData={this.state}
                     ListEmptyComponent={
-                      <Text
-                        style={{
-                          color: BLUE_DARK,
-                          fontSize: 19,
-                          textAlign: 'center',
-                          top: 100,
-                        }}>
+                      <Text style={styles.emptyTableText}>
                         You don't have jobs
                       </Text>
                     }
