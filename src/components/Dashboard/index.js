@@ -835,7 +835,32 @@ class DashboardScreen extends Component {
                 backgroundColor: 'white',
               }}>
               {tabs === 1 ? (
-                invites && invites.length > 0 ? (
+                <FlatList
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={isRefreshing}
+                      onRefresh={this.refresh}
+                      tintColor={BLUE_LIGHT}
+                    />
+                  }
+                  data={invites}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={this._renderItemInvites}
+                  extraData={this.state}
+                  ListEmptyComponent={
+                    <Text
+                      style={{
+                        color: BLUE_DARK,
+                        fontSize: 19,
+                        textAlign: 'center',
+                        top: 100,
+                      }}>
+                      You don't have invitations
+                    </Text>
+                  }
+                />
+              ) : (
+                <View style={{ flex: 1 }}>
                   <FlatList
                     refreshControl={
                       <RefreshControl
@@ -844,62 +869,23 @@ class DashboardScreen extends Component {
                         tintColor={BLUE_LIGHT}
                       />
                     }
-                    data={invites}
+                    data={jobs}
                     keyExtractor={(item, index) => index.toString()}
-                    renderItem={this._renderItemInvites}
+                    renderItem={this._renderItemJobs}
                     extraData={this.state}
-                  />
-                ) : (
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: 'center',
-                    }}>
-                    <Text
-                      style={{
-                        color: BLUE_DARK,
-                        fontSize: 19,
-                        textAlign: 'center',
-                      }}>
-                      You don't have invitations
-                    </Text>
-                  </View>
-                )
-              ) : (
-                <View
-                  style={{
-                    flex: 1,
-                  }}>
-                  {jobs && jobs.length > 0 ? (
-                    <FlatList
-                      refreshControl={
-                        <RefreshControl
-                          refreshing={isRefreshing}
-                          onRefresh={this.refresh}
-                          tintColor={BLUE_LIGHT}
-                        />
-                      }
-                      data={jobs}
-                      keyExtractor={(item, index) => index.toString()}
-                      renderItem={this._renderItemJobs}
-                      extraData={this.state}
-                    />
-                  ) : (
-                    <View
-                      style={{
-                        flex: 1,
-                        justifyContent: 'center',
-                      }}>
+                    ListEmptyComponent={
                       <Text
                         style={{
                           color: BLUE_DARK,
                           fontSize: 19,
                           textAlign: 'center',
+                          top: 100,
                         }}>
                         You don't have jobs
                       </Text>
-                    </View>
-                  )}
+                    }
+                  />
+                  }
                 </View>
               )}
             </View>
