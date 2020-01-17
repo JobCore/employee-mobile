@@ -16,6 +16,12 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  emptyTableText: {
+    color: BLUE_DARK,
+    fontSize: 19,
+    textAlign: 'center',
+    top: 150,
+  },
   containerImg: {
     width: '25%',
     alignItems: 'center',

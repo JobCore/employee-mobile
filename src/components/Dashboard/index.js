@@ -224,6 +224,12 @@ class DashboardScreen extends Component {
       () => CustomToast('Error obtaining the lat/long!', 'danger'),
     );
 
+    this.willFocusSubscription = this.props.navigation.addListener(
+      'willFocus',
+      () => {
+        this.refreshOnAction();
+      },
+    );
     // saveBankAccounts('public-development-b54b131e-b2fd-…346611a462', 'Bank of America');
   }
 
@@ -239,6 +245,7 @@ class DashboardScreen extends Component {
     this.fcmStoreError.unsubscribe();
     this.inviteStoreError.unsubscribe();
     this.accountStoreError.unsubscribe();
+    this.willFocusSubscription.unsubscribe();
     this.onTokenRefreshListener();
     this.notificationOpenedListener();
     //
@@ -835,7 +842,26 @@ class DashboardScreen extends Component {
                 backgroundColor: 'white',
               }}>
               {tabs === 1 ? (
-                invites && invites.length > 0 ? (
+                <FlatList
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={isRefreshing}
+                      onRefresh={this.refresh}
+                      tintColor={BLUE_LIGHT}
+                    />
+                  }
+                  data={invites}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={this._renderItemInvites}
+                  extraData={this.state}
+                  ListEmptyComponent={
+                    <Text style={styles.emptyTableText}>
+                      You don't have invitations
+                    </Text>
+                  }
+                />
+              ) : (
+                <View style={{ flex: 1 }}>
                   <FlatList
                     refreshControl={
                       <RefreshControl
@@ -844,62 +870,16 @@ class DashboardScreen extends Component {
                         tintColor={BLUE_LIGHT}
                       />
                     }
-                    data={invites}
+                    data={jobs}
                     keyExtractor={(item, index) => index.toString()}
-                    renderItem={this._renderItemInvites}
+                    renderItem={this._renderItemJobs}
                     extraData={this.state}
-                  />
-                ) : (
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: 'center',
-                    }}>
-                    <Text
-                      style={{
-                        color: BLUE_DARK,
-                        fontSize: 19,
-                        textAlign: 'center',
-                      }}>
-                      You don't have invitations
-                    </Text>
-                  </View>
-                )
-              ) : (
-                <View
-                  style={{
-                    flex: 1,
-                  }}>
-                  {jobs && jobs.length > 0 ? (
-                    <FlatList
-                      refreshControl={
-                        <RefreshControl
-                          refreshing={isRefreshing}
-                          onRefresh={this.refresh}
-                          tintColor={BLUE_LIGHT}
-                        />
-                      }
-                      data={jobs}
-                      keyExtractor={(item, index) => index.toString()}
-                      renderItem={this._renderItemJobs}
-                      extraData={this.state}
-                    />
-                  ) : (
-                    <View
-                      style={{
-                        flex: 1,
-                        justifyContent: 'center',
-                      }}>
-                      <Text
-                        style={{
-                          color: BLUE_DARK,
-                          fontSize: 19,
-                          textAlign: 'center',
-                        }}>
+                    ListEmptyComponent={
+                      <Text style={styles.emptyTableText}>
                         You don't have jobs
                       </Text>
-                    </View>
-                  )}
+                    }
+                  />
                 </View>
               )}
             </View>
@@ -923,9 +903,14 @@ class DashboardScreen extends Component {
   };
 
   refresh = async () => {
-    this.setState({ isRefreshing: true });
+    this.setState({ isRefreshing: true, isLoading: true });
 
     await this.getEmployee();
+    await this.getInvites();
+    await this.getUpcomingJobs('dashboard');
+    await getCompletedJobs('dashboard');
+  };
+  refreshOnAction = async () => {
     await this.getInvites();
     await this.getUpcomingJobs('dashboard');
     await getCompletedJobs('dashboard');
