@@ -224,6 +224,12 @@ class DashboardScreen extends Component {
       () => CustomToast('Error obtaining the lat/long!', 'danger'),
     );
 
+    this.willFocusSubscription = this.props.navigation.addListener(
+      'willFocus',
+      () => {
+        this.refreshOnAction();
+      },
+    );
     // saveBankAccounts('public-development-b54b131e-b2fd-…346611a462', 'Bank of America');
   }
 
@@ -239,6 +245,7 @@ class DashboardScreen extends Component {
     this.fcmStoreError.unsubscribe();
     this.inviteStoreError.unsubscribe();
     this.accountStoreError.unsubscribe();
+    this.willFocusSubscription.unsubscribe();
     this.onTokenRefreshListener();
     this.notificationOpenedListener();
     //
@@ -885,7 +892,6 @@ class DashboardScreen extends Component {
                       </Text>
                     }
                   />
-                  }
                 </View>
               )}
             </View>
@@ -912,6 +918,11 @@ class DashboardScreen extends Component {
     this.setState({ isRefreshing: true, isLoading: true });
 
     await this.getEmployee();
+    await this.getInvites();
+    await this.getUpcomingJobs('dashboard');
+    await getCompletedJobs('dashboard');
+  };
+  refreshOnAction = async () => {
     await this.getInvites();
     await this.getUpcomingJobs('dashboard');
     await getCompletedJobs('dashboard');
