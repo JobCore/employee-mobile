@@ -4,6 +4,7 @@ import {
   Image,
   // TouchableOpacity,
   Alert,
+  Platform,
 } from 'react-native';
 import {
   Text,
@@ -307,16 +308,19 @@ class UploadDocumentScreen extends Component {
     const { documents } = this.state;
     console.log('user: ', user);
     console.log('docType: ', docType);
+    console.log('documentsTypes: '.documentsTypes);
     const isAllowDocuments = user.employee
       ? !user.employee.document_active
       : true;
     const identityDocuments = documents.filter(
-      (doc) => doc.document_type.validates_identity,
+      (doc) => doc.document_type && doc.document_type.validates_identity,
     );
     const employmentDocuments = documents.filter(
-      (doc) => doc.document_type.validates_employment,
+      (doc) => doc.document_type && doc.document_type.validates_employment,
     );
-    const formDocuments = documents.filter((doc) => doc.document_type.is_form);
+    const formDocuments = documents.filter(
+      (doc) => doc.document_type && doc.document_type.is_form,
+    );
     const isMissingDocuments = user.employee
       ? user.employee.employment_verification_status === 'MISSING_DOCUMENTS'
       : false;
@@ -530,14 +534,20 @@ class UploadDocumentScreen extends Component {
                     <Picker.Item
                       key={i}
                       label={
-                        <Text>
-                          {`${type.title} `}
-                          <Text style={{ color: BLUE_DARK }}>
-                            {`${t('USER_DOCUMENTS.type')} ${strings.join(
-                              ', ',
-                            )}`}
+                        Platform.OS === 'ios' ? (
+                          <Text>
+                            {`${type.title} `}
+                            <Text style={{ color: BLUE_DARK }}>
+                              {`${t('USER_DOCUMENTS.type')} ${strings.join(
+                                ', ',
+                              )}`}
+                            </Text>
                           </Text>
-                        </Text>
+                        ) : (
+                          `${type.title} ${t(
+                            'USER_DOCUMENTS.type',
+                          )} ${strings.join(', ')}`
+                        )
                       }
                       value={type.id}
                     />

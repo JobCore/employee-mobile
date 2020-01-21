@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import {
   BLUE_MAIN,
   WHITE_MAIN,
@@ -207,9 +207,15 @@ const inviteStyles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 5,
     paddingBottom: 10,
-    paddingTop: 10,
+    ...Platform.select({
+      android: {
+        marginTop: 0,
+      },
+      ios: {
+        marginTop: 5,
+      },
+    }),
   },
   viewContent: {
     width: '50%',
