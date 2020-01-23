@@ -1,8 +1,4 @@
-import {
-  StyleSheet,
-  // Platform,
-  Dimensions,
-} from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import {
   BLUE_DARK,
   WHITE_MAIN,
@@ -19,8 +15,6 @@ import {
   YELLOW_LOW,
 } from '../../shared/colorPalette';
 var height = Dimensions.get('window').height;
-
-// const { width } = Dimensions.get('window')
 
 export default StyleSheet.create({
   container: {
@@ -234,5 +228,8 @@ export default StyleSheet.create({
   },
   documentNameContainer: {
     flexDirection: 'row',
+  },
+  itemTypeText: {
+    color: BLUE_DARK,
   },
 });

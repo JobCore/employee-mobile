@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Alert } from 'react-native';
+import { View, Image, Alert, Modal } from 'react-native';
 import { Text, Form, Label, Content, Container, Button } from 'native-base';
 import UploadDocumentStyle from './UploadDocumentStyle';
 import { I18n } from 'react-i18next';
@@ -287,10 +287,10 @@ class UploadDocumentScreen extends Component {
   };
 
   render() {
-    const { user, showWarning, docType, documentsTypes } = this.state;
+    const { user, showWarning, documentsTypes } = this.state;
     const { documents } = this.state;
     console.log('user: ', user);
-    console.log('docType: ', docType);
+    console.log('documentsTypes: ', documentsTypes);
     console.log('modalVisible: ', this.state.modalVisible);
     const isAllowDocuments = user.employee
       ? !user.employee.document_active
@@ -488,26 +488,57 @@ class UploadDocumentScreen extends Component {
                 </Text>
               </Button>
             </View>
-            <CustomPicker
-              t={t}
-              modalVisible={this.state.modalVisible}
-              header={
-                <ModalHeader
-                  screenName="employment_verification"
-                  title={t('USER_DOCUMENTS.uploadDocuments')}
-                  withoutHelpIcon={false}
-                  onPressClose={() => this.setState({ modalVisible: false })}
-                />
-              }
-              data={documentsTypes}
-              onItemPress={(item) =>
-                this.setState({ docType: item.id, modalVisible: false }, () => {
-                  setTimeout(() => {
-                    this.openImagePicker();
-                  }, 1000);
-                })
-              }
-            />
+            <Modal
+              animationType="slide"
+              transparent={false}
+              visible={this.state.modalVisible}>
+              <ModalHeader
+                screenName="employment_verification"
+                title={t('USER_DOCUMENTS.uploadDocuments')}
+                withoutHelpIcon={false}
+                onPressClose={() => this.setState({ modalVisible: false })}
+              />
+              <CustomPicker
+                data={documentsTypes}
+                onItemPress={(item) =>
+                  this.setState(
+                    { docType: item.id, modalVisible: false },
+                    () => {
+                      setTimeout(() => {
+                        this.openImagePicker();
+                      }, 1000);
+                    },
+                  )
+                }
+                itemRendered={(item) => {
+                  const identity = item.validates_identity
+                    ? t('USER_DOCUMENTS.identity')
+                    : '';
+                  const employment = item.validates_employment
+                    ? t('USER_DOCUMENTS.employment')
+                    : '';
+                  const form = item.is_form ? t('USER_DOCUMENTS.form') : '';
+                  let strings = [];
+                  const string = [identity, employment, form];
+                  string.forEach((type) => {
+                    if (
+                      strings.filter((filterType) => filterType === type)
+                        .length === 0 &&
+                      type !== ''
+                    )
+                      strings.push(type);
+                  });
+                  return (
+                    <Text>
+                      {`${item.title} `}
+                      <Text style={UploadDocumentStyle.itemTypeText}>
+                        {`${t('USER_DOCUMENTS.type')} ${strings.join(', ')}`}
+                      </Text>
+                    </Text>
+                  );
+                }}
+              />
+            </Modal>
           </Container>
         )}
       </I18n>
