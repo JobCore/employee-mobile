@@ -708,36 +708,39 @@ class DashboardScreen extends Component {
                 </React.Fragment>
               ) : nextShift ? (
                 <React.Fragment>
-                  <Text
-                    style={{
-                      color: BLUE_DARK,
-                      fontSize: 13,
-                      fontWeight: '700',
-                    }}>
-                    Next Shift:
-                  </Text>
-                  <Text
-                    style={{
-                      color: BLUE_DARK,
-                      fontSize: 13,
-                      marginRight: 3,
-                    }}>
-                    {nextShift.position.title} {todayDay && 'Today'}
-                    {tomorrowDay && 'Tomorrow'}
-                    {!tomorrowDay &&
-                      !todayDay &&
-                      moment(nextShift.starting_at)
+                  <TouchableOpacity
+                    onPress={() => this.goToJobDetails(nextShift)}>
+                    <Text
+                      style={{
+                        color: BLUE_DARK,
+                        fontSize: 13,
+                        fontWeight: '700',
+                      }}>
+                      Next Shift:
+                    </Text>
+                    <Text
+                      style={{
+                        color: BLUE_DARK,
+                        fontSize: 13,
+                        marginRight: 3,
+                      }}>
+                      {nextShift.position.title} {todayDay && 'Today'}
+                      {tomorrowDay && 'Tomorrow'}
+                      {!tomorrowDay &&
+                        !todayDay &&
+                        moment(nextShift.starting_at)
+                          .tz(moment.tz.guess())
+                          .format('MMM DD YY')}{' '}
+                      from{' '}
+                      {moment(nextShift.starting_at)
                         .tz(moment.tz.guess())
-                        .format('MMM DD YY')}{' '}
-                    from{' '}
-                    {moment(nextShift.starting_at)
-                      .tz(moment.tz.guess())
-                      .format('h:mm a')}{' '}
-                    to{' '}
-                    {moment(nextShift.ending_at)
-                      .tz(moment.tz.guess())
-                      .format('h:mm a')}
-                  </Text>
+                        .format('h:mm a')}{' '}
+                      to{' '}
+                      {moment(nextShift.ending_at)
+                        .tz(moment.tz.guess())
+                        .format('h:mm a')}
+                    </Text>
+                  </TouchableOpacity>
                 </React.Fragment>
               ) : (
                 <React.Fragment>
