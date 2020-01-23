@@ -1,20 +1,6 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Image,
-  // TouchableOpacity,
-  Alert,
-  Platform,
-} from 'react-native';
-import {
-  Text,
-  Form,
-  Label,
-  Content,
-  Container,
-  // Icon,
-  Picker,
-} from 'native-base';
+import { View, Image, Alert, Modal } from 'react-native';
+import { Text, Form, Label, Content, Container, Button } from 'native-base';
 import UploadDocumentStyle from './UploadDocumentStyle';
 import { I18n } from 'react-i18next';
 import { Loading, CustomToast } from '../../shared/components';
@@ -25,17 +11,13 @@ import {
   uploadDocument,
   getDocuments,
   getUser,
-  // deleteDocument,
   getDocumentsTypes,
 } from './actions';
-// import DocumentPicker from 'react-native-document-picker';
 import { i18next } from '../../i18n';
 import { LOG } from '../../shared';
 import ImagePicker from 'react-native-image-picker';
-// import documentsTypes from './documents-types-model';
 import PropTypes from 'prop-types';
-import { BLUE_DARK } from '../../shared/colorPalette';
-
+import CustomPicker from '../../shared/components/CustomPicker';
 const IMAGE_PICKER_OPTIONS = {
   mediaType: 'photo',
   noData: true,
@@ -114,6 +96,7 @@ class UploadDocumentScreen extends Component {
       user: accountStore.getState('Login').user,
       docType: '',
       documentsTypes: [],
+      modalVisible: false,
     };
   }
 
@@ -304,11 +287,11 @@ class UploadDocumentScreen extends Component {
   };
 
   render() {
-    const { user, showWarning, docType, documentsTypes } = this.state;
+    const { user, showWarning, documentsTypes } = this.state;
     const { documents } = this.state;
     console.log('user: ', user);
-    console.log('docType: ', docType);
-    console.log('documentsTypes: '.documentsTypes);
+    console.log('documentsTypes: ', documentsTypes);
+    console.log('modalVisible: ', this.state.modalVisible);
     const isAllowDocuments = user.employee
       ? !user.employee.document_active
       : true;
@@ -496,30 +479,45 @@ class UploadDocumentScreen extends Component {
               </View>
             </Content>
             <View style={UploadDocumentStyle.buttonContainer}>
-              <Picker
-                mode="dropdown"
-                enabled={isAllowDocuments}
-                style={UploadDocumentStyle.viewButtomLogin}
-                placeholder={t('USER_DOCUMENTS.addDocument')}
-                placeholderStyle={
-                  UploadDocumentStyle.placeholderTextButtomPicker
+              <Button
+                onPress={() => this.setState({ modalVisible: true })}
+                disabled={!isAllowDocuments}
+                style={UploadDocumentStyle.viewButtomLogin}>
+                <Text style={UploadDocumentStyle.placeholderTextButtomPicker}>
+                  {t('USER_DOCUMENTS.addDocument')}
+                </Text>
+              </Button>
+            </View>
+            <Modal
+              animationType="slide"
+              transparent={false}
+              visible={this.state.modalVisible}>
+              <ModalHeader
+                screenName="employment_verification"
+                title={t('USER_DOCUMENTS.uploadDocuments')}
+                withoutHelpIcon={false}
+                onPressClose={() => this.setState({ modalVisible: false })}
+              />
+              <CustomPicker
+                data={documentsTypes}
+                onItemPress={(item) =>
+                  this.setState(
+                    { docType: item.id, modalVisible: false },
+                    () => {
+                      setTimeout(() => {
+                        this.openImagePicker();
+                      }, 1000);
+                    },
+                  )
                 }
-                selectedValue={''}
-                onValueChange={(text) =>
-                  this.setState({ docType: text }, () => {
-                    setTimeout(() => {
-                      this.openImagePicker();
-                    }, 1000);
-                  })
-                }>
-                {documentsTypes.map((type, i) => {
-                  const identity = type.validates_identity
+                itemRendered={(item) => {
+                  const identity = item.validates_identity
                     ? t('USER_DOCUMENTS.identity')
                     : '';
-                  const employment = type.validates_employment
+                  const employment = item.validates_employment
                     ? t('USER_DOCUMENTS.employment')
                     : '';
-                  const form = type.is_form ? t('USER_DOCUMENTS.form') : '';
+                  const form = item.is_form ? t('USER_DOCUMENTS.form') : '';
                   let strings = [];
                   const string = [identity, employment, form];
                   string.forEach((type) => {
@@ -531,30 +529,16 @@ class UploadDocumentScreen extends Component {
                       strings.push(type);
                   });
                   return (
-                    <Picker.Item
-                      key={i}
-                      label={
-                        Platform.OS === 'ios' ? (
-                          <Text>
-                            {`${type.title} `}
-                            <Text style={{ color: BLUE_DARK }}>
-                              {`${t('USER_DOCUMENTS.type')} ${strings.join(
-                                ', ',
-                              )}`}
-                            </Text>
-                          </Text>
-                        ) : (
-                          `${type.title} ${t(
-                            'USER_DOCUMENTS.type',
-                          )} ${strings.join(', ')}`
-                        )
-                      }
-                      value={type.id}
-                    />
+                    <Text>
+                      {`${item.title} `}
+                      <Text style={UploadDocumentStyle.itemTypeText}>
+                        {`${t('USER_DOCUMENTS.type')} ${strings.join(', ')}`}
+                      </Text>
+                    </Text>
                   );
-                })}
-              </Picker>
-            </View>
+                }}
+              />
+            </Modal>
           </Container>
         )}
       </I18n>
