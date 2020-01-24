@@ -8,10 +8,16 @@ import PropTypes from 'prop-types';
  * @param {Array} data Picker data
  * @param {function () => void} onItemPress On Item press
  */
-const CustomPicker = ({ data, onItemPress, itemRendered }) => (
-  <View>
+const CustomPicker = ({
+  data,
+  onItemPress,
+  itemRendered,
+  refreshControl,
+  height,
+}) => (
+  <View style={{ height: height }}>
     {data && data.length > 0 ? (
-      <ScrollView>
+      <ScrollView refreshControl={refreshControl}>
         {data.map((item, i) => {
           return (
             <TouchableOpacity key={i} onPress={() => onItemPress(item)}>
@@ -42,6 +48,8 @@ CustomPicker.propTypes = {
   data: PropTypes.array.isRequired,
   onItemPress: PropTypes.func,
   itemRendered: PropTypes.func,
+  refreshControl: PropTypes.func,
+  height: PropTypes.string,
 };
 
 export default CustomPicker;

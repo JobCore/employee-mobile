@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Image, Alert, ScrollView, RefreshControl } from 'react-native';
-import { Button, Text, Left, Right, List, ListItem, Icon } from 'native-base';
+import { View, Image, Alert, RefreshControl } from 'react-native';
+import { Text, Icon } from 'native-base';
 import styles from './PositionStyle';
 import { BLUE_DARK } from '../../shared/colorPalette';
 import * as inviteActions from './actions';
@@ -11,7 +11,7 @@ import { CustomToast, Loading } from '../../shared/components';
 import { LOG } from '../../shared';
 import { ModalHeader } from '../../shared/components/ModalHeader';
 import BtnCancelSave from '../../shared/components/BtnCancelSave';
-
+import CustomPicker from '../../shared/components/CustomPicker';
 class Position extends Component {
   static navigationOptions = {
     header: null,
@@ -104,68 +104,49 @@ class Position extends Component {
           <>
             {this.state.isLoading ? <Loading /> : null}
             <ModalHeader title={t('JOB_PREFERENCES.position')} />
-            <View padder>
-              <View style={styles.viewContainer}>
-                <Button full rounded style={styles.buttonPosition}>
-                  <Text uppercase={false} style={styles.textHeader}>
-                    {t('JOB_PREFERENCES.position')}
-                  </Text>
-                </Button>
-                <ScrollView
-                  refreshControl={
-                    <RefreshControl
-                      refreshing={this.state.isRefreshing}
-                      onRefresh={this.refreshPositions}
-                    />
-                  }
-                  style={styles.contentScroll}>
-                  <List style={{ marginBottom: 30, paddingLeft: 0 }}>
-                    {Array.isArray(this.state.positionList)
-                      ? this.state.positionList.map((position, key) => {
-                        const isPositionSelected = this.isPositionSelected(
-                          position,
-                        );
+            <CustomPicker
+              height={'75%'}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.isRefreshing}
+                  onRefresh={this.refreshPositions}
+                />
+              }
+              data={this.state.positionList}
+              onItemPress={(position) => {
+                const isPositionSelected = this.isPositionSelected(position);
+                this.selectUnselectPosition(position, isPositionSelected);
+              }}
+              itemRendered={(position, key) => {
+                const isPositionSelected = this.isPositionSelected(position);
 
-                        return (
-                          <ListItem
-                            onPress={() =>
-                              this.selectUnselectPosition(
-                                position,
-                                isPositionSelected,
-                              )
-                            }
-                            key={position.id}
-                            selected={isPositionSelected}
-                            style={[
-                              styles.itemSelectCheck,
-                              this.state.positionList.length - 1 === key
-                                ? { borderBottomWidth: 0 }
-                                : null,
-                            ]}>
-                            <Left>
-                              <Text style={styles.textList}>
-                                {position.title}
-                              </Text>
-                            </Left>
-                            <Right>
-                              <Icon
-                                name={
-                                  isPositionSelected
-                                    ? 'ios-checkmark-circle'
-                                    : 'ios-radio-button-off'
-                                }
-                                style={{ fontSize: 20, color: BLUE_DARK }}
-                              />
-                            </Right>
-                          </ListItem>
-                        );
-                      })
-                      : null}
-                  </List>
-                </ScrollView>
-                <BtnCancelSave t={t} onPressSave={this.editPosition} />
-              </View>
-            </View>
+                return (
+                  <View
+                    key={position.id}
+                    style={[
+                      styles.itemSelectCheck,
+                      this.state.positionList.length - 1 === key
+                        ? { borderBottomWidth: 0 }
+                        : null,
+                    ]}>
+                    <View>
+                      <Text style={styles.textList}>{position.title}</Text>
+                    </View>
+                    <View>
+                      <Icon
+                        name={
+                          isPositionSelected
+                            ? 'ios-checkmark-circle'
+                            : 'ios-radio-button-off'
+                        }
+                        style={{ fontSize: 20, color: BLUE_DARK }}
+                      />
+                    </View>
+                  </View>
+                );
+              }}
+            />
+            <BtnCancelSave t={t} onPressSave={this.editPosition} />
           </>
         )}
       </I18n>

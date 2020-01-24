@@ -84,6 +84,8 @@ export default StyleSheet.create({
     marginLeft: 0,
     paddingLeft: 20,
     paddingRight: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   IconCheck: {
     fontSize: 20,
