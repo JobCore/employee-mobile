@@ -26,10 +26,10 @@ export const saveBankAccounts = async (
       normalizeToSnakeCase({ publicToken, institutionName }),
     );
   } catch (err) {
-    Flux.dispatchEvent(BANK_ACCOUNTS_ERROR_EVENT, err);
+    return Flux.dispatchEvent(BANK_ACCOUNTS_ERROR_EVENT, err);
   }
-  console.log(`saveBankAccounts`, response);
-  Flux.dispatchEvent(BANK_ACCOUNTS_NEW_EVENT, {});
+  Flux.dispatchEvent(BANK_ACCOUNTS_NEW_EVENT, response);
+  return response;
 };
 
 /**

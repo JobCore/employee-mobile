@@ -30,18 +30,14 @@ export async function postData(url, data, isAuth = true) {
     },
     method: 'POST',
   };
-  console.log(`DEBUG:PostData:options:`, options);
 
   const fullUrl = `${getAPIUrl()}${url}`;
-  console.log(`DEBUG:PostData:fullUrl:`, fullUrl);
   return timeout(20000, fetch(fullUrl, options))
     .then(checkStatus)
     .then((res) => {
-      console.log('postData res: ', res);
       return res;
     })
     .catch(async (err) => {
-      console.log('postData err: ', err);
       await Promise.reject(err);
     });
 }
@@ -242,8 +238,6 @@ export async function postFormData(url, formData, isAuth = true) {
 reject or resolve based on status then Parses the response to json
  */
 export const checkStatus = (response) => {
-  console.log('services:checkStatus', response);
-
   if (response && response.status === 500) {
     console.log('services:checkStatus:500', response);
     return response.text().then((res) => {
