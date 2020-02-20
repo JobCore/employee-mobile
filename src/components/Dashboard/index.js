@@ -222,6 +222,7 @@ class DashboardScreen extends Component {
         log('position acquired!');
       },
       () => CustomToast('Error obtaining the lat/long!', 'danger'),
+      { maximumAge: 0 },
     );
 
     this.willFocusSubscription = this.props.navigation.addListener(
@@ -249,9 +250,12 @@ class DashboardScreen extends Component {
     this.onTokenRefreshListener();
     this.notificationOpenedListener();
     //
-    navigator.geolocation.getCurrentPosition((data) => {
-      log(`Dashboard:`, data);
-    });
+    navigator.geolocation.getCurrentPosition(
+      (data) => {
+        log(`Dashboard:`, data);
+      },
+      { maximumAge: 0 },
+    );
   }
 
   logoutHandler = () => {
