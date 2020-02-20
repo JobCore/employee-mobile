@@ -249,9 +249,12 @@ class DashboardScreen extends Component {
     this.onTokenRefreshListener();
     this.notificationOpenedListener();
     //
-    navigator.geolocation.getCurrentPosition((data) => {
-      log(`Dashboard:`, data);
-    });
+    navigator.geolocation.getCurrentPosition(
+      (data) => {
+        log(`Dashboard:`, data);
+      },
+      { maximumAge: 0 },
+    );
   }
 
   logoutHandler = () => {
@@ -623,6 +626,7 @@ class DashboardScreen extends Component {
               <View
                 style={{
                   marginVertical: 12,
+                  height: 60,
                   justifyContent: 'space-around',
                 }}>
                 {user && (
