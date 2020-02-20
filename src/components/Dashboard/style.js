@@ -28,12 +28,12 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   flexOne: {
-    flex: 0.9,
+    flex: 1.5,
     flexDirection: 'row',
     backgroundColor: 'white',
   },
   flexTwo: {
-    flex: 0.8,
+    flex: 1.2,
     justifyContent: 'center',
     paddingLeft: 20,
     // alignItems: 'center',
@@ -41,7 +41,7 @@ export default StyleSheet.create({
     // borderWidth: 2,
   },
   flexThree: {
-    flex: 0.7,
+    flex: 1.2,
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
