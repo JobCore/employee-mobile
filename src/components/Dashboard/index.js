@@ -626,7 +626,6 @@ class DashboardScreen extends Component {
               <View
                 style={{
                   marginVertical: 12,
-                  height: 60,
                   justifyContent: 'space-around',
                 }}>
                 {user && (
