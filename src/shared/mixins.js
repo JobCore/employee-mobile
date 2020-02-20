@@ -105,6 +105,7 @@ export function clockOutMixin() {
             clockOutReported = true;
             jobActions.clockOut(this.state.shift.id, 0, 0, moment.utc());
           },
+          { maximumAge: 0 },
         );
         setTimeout(() => {
           console.log(
