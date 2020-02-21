@@ -91,7 +91,7 @@ export default StyleSheet.create({
     backgroundColor: BLUE_DARK,
     borderRadius: 50,
     height: 45,
-    marginBottom: 0,
+    marginBottom: 20,
   },
   viewButtomSignUp: {
     backgroundColor: 'transparent',
