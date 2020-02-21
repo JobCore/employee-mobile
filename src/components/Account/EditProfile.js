@@ -196,6 +196,7 @@ class EditProfile extends Component {
     console.log('city: ', city);
     console.log('cities: ', cities);
     console.log('profile_city: ', profile_city);
+    console.log('this.state.userBirthDate: ', this.state.userBirthDate);
     return (
       <I18n>
         {(t) => (
@@ -354,6 +355,62 @@ class EditProfile extends Component {
                         />
                       </Item>
                     ) : null}
+                    <Item
+                      style={editProfileStyles.viewInput}
+                      inlineLabel
+                      rounded>
+                      <Label>{t('REGISTER.last_4dig_ssn')}</Label>
+                      <Input
+                        keyboardType="numeric"
+                        value={this.state.last_4dig_ssn}
+                        placeholder={t('REGISTER.last_4dig_ssn_placeholder')}
+                        onChangeText={(text) => {
+                          if (text.length >= 0 && text.length < 5)
+                            this.setState({
+                              last_4dig_ssn: text.replace(/[^0-9]/g, ''),
+                            });
+                        }}
+                      />
+                    </Item>
+                    <Item
+                      style={editProfileStyles.viewInput}
+                      inlineLabel
+                      rounded>
+                      <Label>{t('REGISTER.userBirthDate')}</Label>
+                      <DatePicker
+                        defaultDate={
+                          this.state.userBirthDate
+                            ? moment(this.state.userBirthDate).format(
+                              'MM-DD-YYYY',
+                            )
+                            : ''
+                        }
+                        timeZoneOffsetInMinutes={undefined}
+                        modalTransparent={false}
+                        formatChosenDate={(date) => {
+                          return moment(date).format('MM-DD-YYYY');
+                        }}
+                        animationType={'fade'}
+                        androidMode={'default'}
+                        placeHolderText={
+                          this.state.userBirthDate
+                            ? moment(this.state.userBirthDate).format(
+                              'MM-DD-YYYY',
+                            )
+                            : 'Select date'
+                        }
+                        textStyle={{ color: 'black' }}
+                        placeHolderTextStyle={{
+                          color: this.state.userBirthDate ? 'black' : '#d3d3d3',
+                        }}
+                        onDateChange={(newDate) =>
+                          this.setState({
+                            userBirthDate: moment(newDate).format('YYYY-MM-DD'),
+                          })
+                        }
+                        disabled={false}
+                      />
+                    </Item>
                   </Form>
                   <TouchableOpacity
                     onPress={this.passwordReset}
@@ -383,61 +440,6 @@ class EditProfile extends Component {
                       </View>
                     </View>
                   )}
-                  <View>
-                    <Form>
-                      <Item
-                        style={editProfileStyles.viewInput}
-                        inlineLabel
-                        rounded>
-                        <Label>{t('REGISTER.last_4dig_ssn')}</Label>
-                        <Input
-                          keyboardType="numeric"
-                          value={this.state.last_4dig_ssn}
-                          placeholder={t('REGISTER.last_4dig_ssn_placeholder')}
-                          onChangeText={(text) => {
-                            if (text.length >= 0 && text.length < 5)
-                              this.setState({
-                                last_4dig_ssn: text.replace(/[^0-9]/g, ''),
-                              });
-                          }}
-                        />
-                      </Item>
-                      <Item
-                        style={editProfileStyles.viewInput}
-                        inlineLabel
-                        rounded>
-                        <Label>{t('REGISTER.userBirthDate')}</Label>
-                        <DatePicker
-                          defaultDate={this.state.userBirthDate}
-                          timeZoneOffsetInMinutes={undefined}
-                          modalTransparent={false}
-                          animationType={'fade'}
-                          androidMode={'default'}
-                          placeHolderText={
-                            this.state.userBirthDate
-                              ? moment(this.state.userBirthDate).format(
-                                'DD-MM-YYYY',
-                              )
-                              : 'Select date'
-                          }
-                          textStyle={{ color: 'black' }}
-                          placeHolderTextStyle={{
-                            color: this.state.userBirthDate
-                              ? 'black'
-                              : '#d3d3d3',
-                          }}
-                          onDateChange={(newDate) =>
-                            this.setState({
-                              userBirthDate: moment(newDate).format(
-                                'YYYY-MM-DD',
-                              ),
-                            })
-                          }
-                          disabled={false}
-                        />
-                      </Item>
-                    </Form>
-                  </View>
                   <Button
                     full
                     onPress={this.editProfileAlert}

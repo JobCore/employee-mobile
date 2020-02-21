@@ -41,7 +41,7 @@ export default {
     cityPickerTitle: 'City',
     last_4dig_ssn: 'Ssn last 4 digits',
     last_4dig_ssn_placeholder: '####',
-    userBirthDate: 'Birth date',
+    userBirthDate: 'Birthdate',
   },
   EDIT_PROFILE: {
     editProfile: 'Edit profile',
