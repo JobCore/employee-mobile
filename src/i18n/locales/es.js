@@ -64,7 +64,7 @@ export default {
     wantToDeleteBankAccount: 'Estas seguro de eliminar la cuenta de banco:',
     noBankAccounts: 'No hay cuentas de banco todavia',
     needSsn4digits:
-      'Debes tener los ultimos 4 digitos de tu ssn en tu perfil para continuar',
+      'Debes tener los ultimos 4 digitos de tu SSN en tu perfil para continuar',
     needBirthDate:
       'Debes tener fecha de nacimiento en tu perfil para continuar',
   },

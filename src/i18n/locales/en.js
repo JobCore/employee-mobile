@@ -63,9 +63,9 @@ export default {
     deleteBankAcount: 'Delete',
     wantToDeleteBankAccount: 'Are you sure to delete bank account:',
     noBankAccounts: 'No bank accounts yet',
-    needBirthDate: 'Yout should have birth date on your profile to continue',
+    needBirthDate: 'You should have a birth date on your profile to continue',
     needSsn4digits:
-      'Yout should have Ssn last 4 digits on your profile to continue',
+      'Yout should have SSN last 4 digits on your profile to continue',
   },
   USER_DOCUMENTS: {
     uploadDocuments: 'Employment Verification',
