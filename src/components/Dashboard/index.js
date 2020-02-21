@@ -222,7 +222,7 @@ class DashboardScreen extends Component {
         log('position acquired!');
       },
       () => CustomToast('Error obtaining the lat/long!', 'danger'),
-      { maximumAge: 0 },
+      { maximumAge: 0, enableHighAccuracy: true },
     );
 
     this.willFocusSubscription = this.props.navigation.addListener(
@@ -254,7 +254,7 @@ class DashboardScreen extends Component {
       (data) => {
         log(`Dashboard:`, data);
       },
-      { maximumAge: 0 },
+      { maximumAge: 0, enableHighAccuracy: true },
     );
   }
 
