@@ -196,11 +196,6 @@ class EditProfile extends Component {
     console.log('city: ', city);
     console.log('cities: ', cities);
     console.log('profile_city: ', profile_city);
-    console.log('this.state.userBirthDate: ', this.state.userBirthDate);
-    console.log(
-      'moment(this.state.userBirthDate).format("YYYY-MM-DD"): ',
-      moment(this.state.userBirthDate).format('YYYY-MM-DD'),
-    );
     return (
       <I18n>
         {(t) => (
