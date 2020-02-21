@@ -13,6 +13,7 @@ import {
   Container,
   Picker,
   Icon,
+  DatePicker,
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import editProfileStyles from './EditProfileStyle';
@@ -29,6 +30,7 @@ import { RESET_ROUTE, JOB_PREFERENCES_ROUTE } from '../../constants/routes';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import { GRAY_MAIN, BG_GRAY_LIGHT, BLUE_DARK } from '../../shared/colorPalette';
 import { TabHeader } from '../../shared/components/TabHeader';
+import moment from 'moment';
 const icon = require('../../assets/image/tab/profile.png');
 
 const IMAGE_PICKER_OPTIONS = {
@@ -69,6 +71,8 @@ class EditProfile extends Component {
       cities: [],
       city: '',
       profile_city_id: '',
+      last_4dig_ssn: '',
+      userBirthDate: '',
       loginAutoSave: false,
       biometrySupport: true,
       selectedImage: {},
@@ -192,6 +196,7 @@ class EditProfile extends Component {
     console.log('city: ', city);
     console.log('cities: ', cities);
     console.log('profile_city: ', profile_city);
+    console.log('this.state.userBirthDate: ', this.state.userBirthDate);
     return (
       <I18n>
         {(t) => (
@@ -350,6 +355,62 @@ class EditProfile extends Component {
                         />
                       </Item>
                     ) : null}
+                    <Item
+                      style={editProfileStyles.viewInput}
+                      inlineLabel
+                      rounded>
+                      <Label>{t('REGISTER.last_4dig_ssn')}</Label>
+                      <Input
+                        keyboardType="numeric"
+                        value={this.state.last_4dig_ssn}
+                        placeholder={t('REGISTER.last_4dig_ssn_placeholder')}
+                        onChangeText={(text) => {
+                          if (text.length >= 0 && text.length < 5)
+                            this.setState({
+                              last_4dig_ssn: text.replace(/[^0-9]/g, ''),
+                            });
+                        }}
+                      />
+                    </Item>
+                    <Item
+                      style={editProfileStyles.viewInput}
+                      inlineLabel
+                      rounded>
+                      <Label>{t('REGISTER.userBirthDate')}</Label>
+                      <DatePicker
+                        defaultDate={
+                          this.state.userBirthDate
+                            ? moment(this.state.userBirthDate).format(
+                              'MM-DD-YYYY',
+                            )
+                            : ''
+                        }
+                        timeZoneOffsetInMinutes={undefined}
+                        modalTransparent={false}
+                        formatChosenDate={(date) => {
+                          return moment(date).format('MM-DD-YYYY');
+                        }}
+                        animationType={'fade'}
+                        androidMode={'default'}
+                        placeHolderText={
+                          this.state.userBirthDate
+                            ? moment(this.state.userBirthDate).format(
+                              'MM-DD-YYYY',
+                            )
+                            : 'Select date'
+                        }
+                        textStyle={{ color: 'black' }}
+                        placeHolderTextStyle={{
+                          color: this.state.userBirthDate ? 'black' : '#d3d3d3',
+                        }}
+                        onDateChange={(newDate) =>
+                          this.setState({
+                            userBirthDate: moment(newDate).format('YYYY-MM-DD'),
+                          })
+                        }
+                        disabled={false}
+                      />
+                    </Item>
                   </Form>
                   <TouchableOpacity
                     onPress={this.passwordReset}
@@ -379,7 +440,6 @@ class EditProfile extends Component {
                       </View>
                     </View>
                   )}
-
                   <Button
                     full
                     onPress={this.editProfileAlert}
@@ -406,6 +466,8 @@ class EditProfile extends Component {
       bio: user.bio,
       profile_city_id: user.profile_city,
       wroteCity: user.city,
+      last_4dig_ssn: user.last_4dig_ssn,
+      userBirthDate: user.birth_date,
     });
     if (user.city) {
       this.setState({
@@ -465,6 +527,8 @@ class EditProfile extends Component {
       this.state.bio,
       this.state.profile_city,
       this.state.wroteCity,
+      this.state.last_4dig_ssn,
+      this.state.userBirthDate,
     );
   };
 
