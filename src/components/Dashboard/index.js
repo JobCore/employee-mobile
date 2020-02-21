@@ -217,12 +217,12 @@ class DashboardScreen extends Component {
       });
     }
     getCompletedJobs('dashboard');
-    navigator.geolocation.getCurrentPosition(
+    navigator.geolocation.watchPosition(
       () => {
         log('position acquired!');
       },
       () => CustomToast('Error obtaining the lat/long!', 'danger'),
-      { maximumAge: 0, enableHighAccuracy: true },
+      { maximumAge: 0, distanceFilter: 0, enableHighAccuracy: true },
     );
 
     this.willFocusSubscription = this.props.navigation.addListener(
@@ -250,11 +250,11 @@ class DashboardScreen extends Component {
     this.onTokenRefreshListener();
     this.notificationOpenedListener();
     //
-    navigator.geolocation.getCurrentPosition(
+    navigator.geolocation.watchPosition(
       (data) => {
         log(`Dashboard:`, data);
       },
-      { maximumAge: 0, enableHighAccuracy: true },
+      { maximumAge: 0, distanceFilter: 0, enableHighAccuracy: true },
     );
   }
 

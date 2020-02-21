@@ -25,7 +25,7 @@ export function clockInMixin() {
       onPress: () => {
         console.log(`${this.constructor.name}:clockInMixin:onPress:`);
         let clockinReported = false;
-        navigator.geolocation.getCurrentPosition(
+        navigator.geolocation.watchPosition(
           (data) => {
             console.log(
               `${this.constructor.name}:clockInMixin:onPress:data:`,
@@ -49,7 +49,7 @@ export function clockInMixin() {
             clockinReported = true;
             jobActions.clockIn(this.state.shift.id, 0, 0, moment.utc());
           },
-          { maximumAge: 0, enableHighAccuracy: true },
+          { maximumAge: 0, distanceFilter: 0, enableHighAccuracy: true },
         );
         setTimeout(() => {
           console.log(
@@ -88,7 +88,7 @@ export function clockOutMixin() {
       onPress: () => {
         console.log(`${this.constructor.name}:clockOutMixin:onPress`);
         let clockOutReported = false;
-        navigator.geolocation.getCurrentPosition(
+        navigator.geolocation.watchPosition(
           (data) => {
             console.log(`${this.constructor.name}:clockOutMixin:data:`, data);
             clockOutReported = true;
@@ -105,7 +105,7 @@ export function clockOutMixin() {
             clockOutReported = true;
             jobActions.clockOut(this.state.shift.id, 0, 0, moment.utc());
           },
-          { maximumAge: 0, enableHighAccuracy: true },
+          { maximumAge: 0, distanceFilter: 0, enableHighAccuracy: true },
         );
         setTimeout(() => {
           console.log(
