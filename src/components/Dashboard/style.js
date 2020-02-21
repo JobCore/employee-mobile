@@ -35,7 +35,7 @@ export default StyleSheet.create({
   flexTwo: {
     flex: 1.2,
     justifyContent: 'center',
-    paddingLeft: 20,
+    paddingLeft: 10,
     // alignItems: 'center',
     // borderColor: 'purple',
     // borderWidth: 2,
