@@ -65,7 +65,7 @@ export default {
     noBankAccounts: 'No bank accounts yet',
     needBirthDate: 'You should have a birth date on your profile to continue',
     needSsn4digits:
-      'Yout should have SSN last 4 digits on your profile to continue',
+      'You should have SSN last 4 digits on your profile to continue',
   },
   USER_DOCUMENTS: {
     uploadDocuments: 'Employment Verification',
