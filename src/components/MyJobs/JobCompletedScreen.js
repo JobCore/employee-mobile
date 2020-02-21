@@ -119,7 +119,7 @@ class JobCompletedScreen extends Component {
                 onPressHelp={() => this.props.navigation.goBack()}
               />
             </View>
-            <View style={{ flex: 4 }}>
+            <View style={{ flex: 6 }}>
               <JobHeader
                 clientLogo={shift.employer.picture}
                 clientName={shift.employer.title}
@@ -127,12 +127,13 @@ class JobCompletedScreen extends Component {
                 dateString={dateString}
                 timeString={timeString}
                 addressString={address}
+                minimumHourlyRate={shift.minimum_hourly_rate}
                 onPressDirection={
                   this.showOpenDirection() ? this.openMapsApp : () => {}
                 }
               />
             </View>
-            <View style={{ flex: 1, alignItems: 'center', paddingTop: 10 }}>
+            <View style={{ flex: 2, alignItems: 'center', paddingTop: 10 }}>
               <Progress.Bar
                 borderRadius={10}
                 progress={minutesPassedPct}
