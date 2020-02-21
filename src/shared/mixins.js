@@ -49,7 +49,7 @@ export function clockInMixin() {
             clockinReported = true;
             jobActions.clockIn(this.state.shift.id, 0, 0, moment.utc());
           },
-          { maximumAge: 0 },
+          { maximumAge: 0, enableHighAccuracy: true },
         );
         setTimeout(() => {
           console.log(
@@ -105,6 +105,7 @@ export function clockOutMixin() {
             clockOutReported = true;
             jobActions.clockOut(this.state.shift.id, 0, 0, moment.utc());
           },
+          { maximumAge: 0, enableHighAccuracy: true },
         );
         setTimeout(() => {
           console.log(
