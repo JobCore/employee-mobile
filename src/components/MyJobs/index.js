@@ -298,14 +298,12 @@ class MyJobs extends Component {
       .add(clockOutDelta, 'minutes');
 
     if (now.isAfter(trueEndingAt)) {
-      log(`DEBUG:jobCompleted`);
       return this.props.navigation.navigate(JobCompletedScreen.routeName, {
         shiftId: job.id,
       });
     }
 
     if (now.isAfter(moment.utc(job.starting_at))) {
-      log(`DEBUG:WorkMode`);
       return this.props.navigation.navigate(WorkModeScreen.routeName, {
         shiftId: job.id,
       });

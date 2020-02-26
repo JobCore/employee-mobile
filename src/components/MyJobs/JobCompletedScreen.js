@@ -57,7 +57,6 @@ class JobCompletedScreen extends Component {
   }
 
   getJobHandler = (shift) => {
-    LOG(`DEBUG:getJobHandler`, shift);
     this.setState({ shift, isLoading: false });
   };
 
@@ -76,10 +75,8 @@ class JobCompletedScreen extends Component {
   };
 
   render() {
-    log(`DEBUG:state:`, this.state);
     const { isLoading, shift } = this.state;
     const renderDetail = (t, shift) => {
-      log(`DEBUG:shift:`, shift);
       const { venue, starting_at, ending_at } = shift;
       const todayAtMoment = moment().tz(moment.tz.guess());
       const todayString = todayAtMoment.format('MMM D');

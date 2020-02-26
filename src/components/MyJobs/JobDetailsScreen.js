@@ -15,7 +15,7 @@ import MARKER_IMG from '../../assets/image/map-marker.png';
 import { RATE_EMPLOYER_ROUTE } from '../../constants/routes';
 import moment from 'moment';
 import { ModalHeader } from '../../shared/components/ModalHeader';
-import { clockInMixin, clockOutMixin } from '../../shared/mixins';
+import { _round, clockInMixin, clockOutMixin } from '../../shared/mixins';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -56,9 +56,11 @@ class JobDetailsScreen extends Component {
       shiftId: props.navigation.getParam('shiftId', null),
       applicationId: props.navigation.getParam('applicationId', null),
     };
-    console.log(`JobDetailsScreen:constructor`);
     this.clockIn = clockInMixin.bind(this);
     this.clockOut = clockOutMixin.bind(this);
+    this.watchId = null;
+    this.latitude = 0.0;
+    this.longitude = 0.0;
   }
 
   componentDidMount() {
@@ -85,6 +87,29 @@ class JobDetailsScreen extends Component {
     );
     this.jobStoreError = jobStore.subscribe('JobStoreError', this.errorHandler);
     this.getJobOrApplication();
+    //
+    navigator.geolocation.getCurrentPosition(
+      (newPosition) => {
+        console.log('DEBUG:position:current:', newPosition.coords);
+        this.latitude = _round(newPosition.coords.latitude);
+        this.longitude = _round(newPosition.coords.longitude);
+      },
+      (error) => {
+        console.log('DEBUG:error:current::', error);
+      },
+    );
+
+    this.watchId = navigator.geolocation.watchPosition(
+      (newPosition) => {
+        console.log('DEBUG:position:', newPosition.coords);
+        this.latitude = _round(newPosition.coords.latitude);
+        this.longitude = _round(newPosition.coords.longitude);
+      },
+      (error) => {
+        console.log('DEBUG:error:', error);
+      },
+      { maximumAge: 1000, enableHighAccuracy: true },
+    );
   }
 
   componentWillUnmount() {
@@ -95,6 +120,7 @@ class JobDetailsScreen extends Component {
     this.clockOutSubscription.unsubscribe();
     this.getClockInsSubscription.unsubscribe();
     this.jobStoreError.unsubscribe();
+    navigator.geolocation.clearWatch(this.watchId);
   }
 
   getJobHandler = (shift) => {

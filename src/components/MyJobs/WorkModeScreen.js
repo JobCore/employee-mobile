@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
 import { Container, Text } from 'native-base';
 import { I18n } from 'react-i18next';
-import { LOG } from '../../shared';
 import { CustomToast, Loading, openMapsApp } from '../../shared/components';
 import moment from 'moment';
 import { ModalHeader } from '../../shared/components/ModalHeader';
-import { log } from 'pure-logger';
 import { ViewFlex } from '../../shared/components/ViewFlex';
 import { JobHeader } from './components/JobHeader';
 import { Earnings } from './components/Earnings';
@@ -25,7 +23,7 @@ import { calculateEarningsFromClockIns, getJob } from './actions';
 import { RATE_EMPLOYER_ROUTE } from '../../constants/routes';
 import { ClocksIn } from './components/ClocksIn';
 import { jobStyles } from './JobStyles';
-import { clockInMixin, clockOutMixin } from '../../shared/mixins';
+import { _round, clockInMixin, clockOutMixin } from '../../shared/mixins';
 
 const DEFAULT_LATIDUDE = 25.761681;
 const DEFAULT_LONGITUDE = -80.191788;
@@ -43,7 +41,9 @@ class WorkModeScreen extends Component {
     this.intervalBar = null;
     this.clockIn = clockInMixin.bind(this);
     this.clockOut = clockOutMixin.bind(this);
-    console.log(`WorkModeScreen:constructor`);
+    this.watchId = null;
+    this.latitude = 0.0;
+    this.longitude = 0.0;
   }
 
   componentDidMount() {
@@ -57,6 +57,29 @@ class WorkModeScreen extends Component {
     this.jobStoreError = jobStore.subscribe('JobStoreError', this.errorHandler);
 
     getJob(this.state.shiftId);
+
+    navigator.geolocation.getCurrentPosition(
+      (newPosition) => {
+        console.log('DEBUG:position:current:', newPosition.coords);
+        this.latitude = _round(newPosition.coords.latitude);
+        this.longitude = _round(newPosition.coords.longitude);
+      },
+      (error) => {
+        console.log('DEBUG:error:current::', error);
+      },
+    );
+
+    this.watchId = navigator.geolocation.watchPosition(
+      (newPosition) => {
+        console.log('DEBUG:position:', newPosition.coords);
+        this.latitude = _round(newPosition.coords.latitude);
+        this.longitude = _round(newPosition.coords.longitude);
+      },
+      (error) => {
+        console.log('DEBUG:error:', error);
+      },
+      { maximumAge: 1000, enableHighAccuracy: true },
+    );
   }
 
   componentWillUnmount() {
@@ -66,10 +89,10 @@ class WorkModeScreen extends Component {
     this.clockInSubscription.unsubscribe();
     this.jobStoreError.unsubscribe();
     this.intervalBar = null;
+    navigator.geolocation.clearWatch(this.watchId);
   }
 
   getJobHandler = (shift) => {
-    LOG(`DEBUG:getJobHandler`, shift);
     this.setState({ shift, isLoading: false }, () => {
       if (this.scrollView) {
         this.scrollView.scrollToEnd();
@@ -88,10 +111,8 @@ class WorkModeScreen extends Component {
   };
 
   render() {
-    log(`DEBUG:state:`, this.state);
     const { isLoading, shift } = this.state;
     const renderDetail = (t, shift) => {
-      log(`DEBUG:shift:`, shift);
       const { venue, starting_at, ending_at } = shift;
       const todayAtMoment = moment().tz(moment.tz.guess());
       const todayString = todayAtMoment.format('MMM D');
@@ -113,7 +134,6 @@ class WorkModeScreen extends Component {
       const minutesPassedPct = parseFloat(minutesPassed / minutes);
       const address = venue.street_address;
       const clockIns = shift.clockin_set ? shift.clockin_set : [];
-      console.log(`DEBUG:clockins:`, clockIns);
       clockIns.sort((a, b) => moment(a.started_at).diff(moment(b.started_at)));
       const hoursWorked = calculateEarningsFromClockIns(
         shift.clockin_set,

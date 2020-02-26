@@ -270,7 +270,6 @@ export const fetchActiveShifts = async () => {
     Flux.dispatchEvent('JobStoreError', err);
     throw err;
   }
-  console.log(`DEBUG:OpenShifts:`, data);
   const now = moment.utc();
 
   const activeShift = data.find((shift) => {

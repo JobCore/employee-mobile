@@ -95,7 +95,6 @@ class ApplicationDetailScreen extends Component {
   }
 
   getJobHandler = (shift) => {
-    LOG(`DEBUG:getJobHandler`, shift);
     let latitude;
     let longitude;
 
@@ -146,7 +145,6 @@ class ApplicationDetailScreen extends Component {
   };
 
   render() {
-    log(`DEBUG:state:`, this.state);
     const { isLoading, shift } = this.state;
     const renderDetail = (t, shift) => {
       return (
@@ -256,7 +254,6 @@ class ApplicationDetailScreen extends Component {
   };
 
   getApplication = () => {
-    LOG(`DEBUG: getApplication`, this.state);
     if (!this.state.applicationId) {
       CustomToast('Something went wrong!');
       // return this.props.navigation.goBack();

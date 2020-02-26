@@ -208,7 +208,6 @@ class DashboardScreen extends Component {
     } catch (e) {
       console.log(`SPLASH:openClockins`, e);
     }
-    console.log(`DEBUG:openClockIns`, openClockIns);
 
     if (openClockIns.length > 0) {
       const shift = openClockIns[0].shift;
@@ -217,13 +216,6 @@ class DashboardScreen extends Component {
       });
     }
     getCompletedJobs('dashboard');
-    navigator.geolocation.getCurrentPosition(
-      () => {
-        log('position acquired!');
-      },
-      () => CustomToast('Error obtaining the lat/long!', 'danger'),
-      { maximumAge: 0, enableHighAccuracy: true },
-    );
 
     this.willFocusSubscription = this.props.navigation.addListener(
       'willFocus',
@@ -231,7 +223,6 @@ class DashboardScreen extends Component {
         this.refreshOnAction();
       },
     );
-    // saveBankAccounts('public-development-b54b131e-b2fd-…346611a462', 'Bank of America');
   }
 
   componentWillUnmount() {
@@ -407,14 +398,12 @@ class DashboardScreen extends Component {
       .add(clockOutDelta, 'minutes');
 
     if (now.isAfter(trueEndingAt)) {
-      log(`DEBUG:jobCompleted`);
       return navigation.navigate(JobCompletedScreen.routeName, {
         shiftId: job.id,
       });
     }
 
     if (now.isAfter(moment.utc(job.starting_at))) {
-      log(`DEBUG:WorkMode`);
       return navigation.navigate(WorkModeScreen.routeName, {
         shiftId: job.id,
       });
@@ -638,9 +627,7 @@ class DashboardScreen extends Component {
                         fontSize:
                           Dimensions.get('window').width <= 340 ? 17 : 19,
                       }}>
-                      {`${this.state.user.first_name} ${
-                        this.state.user.last_name
-                      }`}
+                      {`${this.state.user.first_name} ${this.state.user.last_name}`}
                     </Text>
                   </TouchableOpacity>
                 )}
@@ -938,7 +925,6 @@ class DashboardScreen extends Component {
       .messaging()
       .getToken()
       .then((fcmToken) => {
-        console.log(`DEBUG:firebaseToken:`, fcmToken);
         if (fcmToken) {
           if (fcmTokenStored !== fcmToken) {
             return this.updateFcmToken(fcmTokenStored, fcmToken);

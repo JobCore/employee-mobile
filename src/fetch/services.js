@@ -277,9 +277,9 @@ export const checkStatus = (response) => {
 async function checkConnection() {
   const isConnected = await checkInternetConnection();
 
-  if (!isConnected) {
-    throw new Error(i18next.t('APP.noInternet'));
-  }
+  // if (!isConnected) {
+  //   throw new Error(i18next.t('APP.noInternet'));
+  // }
 }
 
 /**

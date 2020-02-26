@@ -151,7 +151,6 @@ class LoginScreen extends Component {
     const permissionTouchId = await AsyncStorage.getItem(
       '@JobCoreCredentialPermission',
     );
-    // console.log('DEBUG:LOGINNNN: ', response);
     let status;
     let token;
 
@@ -275,19 +274,19 @@ class LoginScreen extends Component {
                 </TouchableOpacity>
 
                 {biometrySupport &&
-                  (loginAuto && (
-                    <TouchableOpacity
-                      full
-                      onPress={() => this.pressHandler()}
-                      style={styles.viewButtomSignUp}>
-                      <Text style={styles.textButtomForgot}>
-                        {t('LOGIN.loginTouch')}{' '}
-                        {Platform.OS === 'android'
-                          ? 'FingerPrint'
-                          : this.state.biometryType}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
+                  loginAuto && (
+                  <TouchableOpacity
+                    full
+                    onPress={() => this.pressHandler()}
+                    style={styles.viewButtomSignUp}>
+                    <Text style={styles.textButtomForgot}>
+                      {t('LOGIN.loginTouch')}{' '}
+                      {Platform.OS === 'android'
+                        ? 'FingerPrint'
+                        : this.state.biometryType}
+                    </Text>
+                  </TouchableOpacity>
+                )}
                 <Button
                   full
                   onPress={this.login}

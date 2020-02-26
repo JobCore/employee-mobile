@@ -101,7 +101,6 @@ class BankAccounts extends FluxView {
 
   render() {
     const { isLoading, bankAccounts } = this.state;
-    console.log(`DEBUG:`, this.state);
     return (
       <I18n>
         {(t) => (

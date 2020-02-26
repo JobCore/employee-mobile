@@ -189,8 +189,6 @@ class JobPreferences extends Component {
       minimumHourlyRate,
     } = this.state;
     if (narrowPreferences !== null) {
-      console.log(`DEBUG:`, narrowPreferences);
-      console.log(`DEBUG:`, this.state);
       // { minimum_availability_hours: 20, minimum_job_positions: 1}
       if (
         maximumJobDistanceMiles <= narrowPreferences.minimum_job_distance_miles
@@ -206,7 +204,6 @@ class JobPreferences extends Component {
           acc + moment(block.starting_at).diff(moment(block.ending_at), 'hours')
         );
       }, 0);
-      console.log(`DEBUG:hours`, hours);
 
       if (hours <= narrowPreferences.minimum_availability_hours)
         hasTooNarrowPreferences = true;
