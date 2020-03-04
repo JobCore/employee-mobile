@@ -166,6 +166,7 @@ export default StyleSheet.create({
   viewListItem: {
     paddingLeft: 5,
     paddingRight: 75,
+    marginLeft: 0,
   },
   titleHeader: {
     color: WHITE_MAIN,
