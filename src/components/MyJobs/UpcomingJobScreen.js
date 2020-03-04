@@ -10,7 +10,6 @@ import { i18next } from '../../i18n';
 import { LOG } from '../../shared';
 import { Loading, openMapsApp, CustomToast } from '../../shared/components';
 import MARKER_IMG from '../../assets/image/map-marker.png';
-import { log } from 'pure-logger';
 import { ModalHeader } from '../../shared/components/ModalHeader';
 import { JobInformation } from '../../shared/components/JobInformation';
 import moment from 'moment';
@@ -19,7 +18,7 @@ import { ClockInButton } from './components/ClockInButton';
 import { jobStyles } from './JobStyles';
 import WorkModeScreen from './WorkModeScreen';
 import { canClockIn, getDiffInMinutesToStartShift } from './job-utils';
-import { clockInMixin, clockOutMixin } from '../../shared/mixins';
+import { _round, clockInMixin, clockOutMixin } from '../../shared/mixins';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -33,17 +32,6 @@ const DEFAULT_LONGITUDE = -80.191788;
  *
  */
 class UpcomingJobScreen extends Component {
-  // static navigationOptions = {
-  //   header: null,
-  //   tabBarLabel: i18next.t('JOB_INVITES.inviteDetails'),
-  //   tabBarIcon: () => (
-  //     <Image
-  //       style={{ resizeMode: 'contain', height: 30 }}
-  //       source={require('../../assets/image/preferences.png')}
-  //     />
-  //   ),
-  // };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -62,7 +50,9 @@ class UpcomingJobScreen extends Component {
     };
     this.clockIn = clockInMixin.bind(this);
     this.clockOut = clockOutMixin.bind(this);
-    console.log(`UpcomingJobScreen:constructor`);
+    this.watchId = null;
+    this.latitude = 0.0;
+    this.longitude = 0.0;
   }
 
   componentDidMount() {
@@ -73,12 +63,36 @@ class UpcomingJobScreen extends Component {
     );
     this.jobStoreError = jobStore.subscribe('JobStoreError', this.errorHandler);
     this.getJob();
+
+    navigator.geolocation.getCurrentPosition(
+      (newPosition) => {
+        console.log('DEBUG:position:current:', newPosition.coords);
+        this.latitude = _round(newPosition.coords.latitude);
+        this.longitude = _round(newPosition.coords.longitude);
+      },
+      (error) => {
+        console.log('DEBUG:error:current::', error);
+      },
+    );
+
+    this.watchId = navigator.geolocation.watchPosition(
+      (newPosition) => {
+        console.log('DEBUG:position:', newPosition.coords);
+        this.latitude = _round(newPosition.coords.latitude);
+        this.longitude = _round(newPosition.coords.longitude);
+      },
+      (error) => {
+        console.log('DEBUG:error:', error);
+      },
+      { maximumAge: 1000, enableHighAccuracy: true },
+    );
   }
 
   componentWillUnmount() {
     this.getJobSubscription.unsubscribe();
     this.clockInSubscription.unsubscribe();
     this.jobStoreError.unsubscribe();
+    navigator.geolocation.clearWatch(this.watchId);
   }
 
   errorHandler = (err) => {
@@ -88,7 +102,6 @@ class UpcomingJobScreen extends Component {
   };
 
   getJobHandler = (shift) => {
-    LOG(`DEBUG:getJobHandler`, shift);
     let latitude;
     let longitude;
 
@@ -125,7 +138,6 @@ class UpcomingJobScreen extends Component {
   };
 
   render() {
-    log(`DEBUG:state:`, this.state);
     const { isLoading, shift } = this.state;
     const renderDetail = (t, shift) => {
       return (
@@ -246,7 +258,6 @@ class UpcomingJobScreen extends Component {
   };
 
   getJob = () => {
-    LOG(`DEBUG: getJob`, this.state);
     if (!this.state.shiftId && !this.state.applicationId) {
       Alert.alert('Upcoming Job Screen Error', JSON.stringify(this.state));
       return;

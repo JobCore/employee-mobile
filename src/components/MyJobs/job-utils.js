@@ -3,30 +3,20 @@ import moment from 'moment';
 export const canClockIn = (shift) => {
   // No shift information yet
   if (!shift) return false;
-  console.log(`DEBUG:canClockIn:shift:`, shift);
 
   const endingAtMoment = moment(shift.ending_at);
   // const startingAtMoment = moment(shift.starting_at);
   const nowMoment = moment.utc();
 
-  console.log(
-    `DEBUG:canClockIn:nowVsEnding:`,
-    nowMoment.isSameOrAfter(endingAtMoment),
-  );
   // If the shift already ended
   if (nowMoment.isSameOrAfter(endingAtMoment)) return false;
 
   const diffInMinutesToStartShift = getDiffInMinutesToStartShift(shift);
-  console.log(
-    `DEBUG:canClockIn:getDiffInMinutesToStartShift`,
-    diffInMinutesToStartShift,
-  );
 
   const maxClockInDelta =
     shift.maximum_clockin_delta_minutes !== null
       ? shift.maximum_clockin_delta_minutes
       : 99999;
-  console.log(`DEBUG:canClockIn:maxClockInDelta:`, maxClockInDelta);
 
   // If the shift hasn't started and there is still not the time to clock in
   if (!shift.clockin_set.length && diffInMinutesToStartShift >= maxClockInDelta)

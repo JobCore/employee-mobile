@@ -19,6 +19,8 @@ import type { BankAccount } from './bank-accounts-types';
 import CustomToast from '../../shared/components/CustomToast';
 import { i18next } from '../../i18n';
 import { LOG } from '../../shared';
+import { getUser } from '../Account/actions';
+import accountStore from '../Account/AccountStore';
 
 class BankAccounts extends FluxView {
   constructor(props) {
@@ -26,6 +28,7 @@ class BankAccounts extends FluxView {
     this.state = {
       isLoading: true,
       bankAccounts: [],
+      user: {},
     };
   }
 
@@ -53,11 +56,23 @@ class BankAccounts extends FluxView {
     this.subscribe(bankAccountStore, BANK_ACCOUNTS_NEW_EVENT, () => {
       fetchBankAccounts();
     });
+    this.getUserSubscription = accountStore.subscribe('getUser', (user) => {
+      this.setState({ user });
+    });
+    getUser();
     fetchBankAccounts();
   }
 
   goToAddBankAccounts = () => {
-    this.props.navigation.navigate(AddBankAccount.routeName);
+    const { user } = this.state;
+    if (!user.birth_date) {
+      return CustomToast(i18next.t('BANK_ACCOUNTS.needBirthDate'), 'danger');
+    }
+    if (!user.last_4dig_ssn) {
+      return CustomToast(i18next.t('BANK_ACCOUNTS.needSsn4digits'), 'danger');
+    }
+    if (user.birth_date && user.last_4dig_ssn)
+      this.props.navigation.navigate(AddBankAccount.routeName);
   };
 
   deleteBankAccountAlert = (bankAccount) => {
@@ -86,7 +101,6 @@ class BankAccounts extends FluxView {
 
   render() {
     const { isLoading, bankAccounts } = this.state;
-    console.log(`DEBUG:`, this.state);
     return (
       <I18n>
         {(t) => (

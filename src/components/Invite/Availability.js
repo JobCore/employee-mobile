@@ -123,7 +123,6 @@ class AddAvailability extends Component {
   };
 
   render() {
-    console.log(`DEBUG:availability`, this.state.availability);
     return (
       <I18n>
         {(t) => (

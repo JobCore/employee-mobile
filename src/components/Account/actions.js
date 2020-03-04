@@ -151,12 +151,27 @@ export const getCities = () => {
  * @param  {string | number} userId
  * @param  {string} firstName
  * @param  {string} lastName
+ * @param  {string} bio
+ * @param  {string} profile_city
+ * @param  {string} wroteCity
+ * @param  {string} last_4dig_ssn
+ * @param  {string} birth_date
  */
-const editProfile = (firstName, lastName, bio, profile_city, wroteCity) => {
+const editProfile = (
+  firstName,
+  lastName,
+  bio,
+  profile_city,
+  wroteCity,
+  last_4dig_ssn,
+  birth_date,
+) => {
   const originData = {
     first_name: firstName,
     last_name: lastName,
     bio,
+    last_4dig_ssn: last_4dig_ssn,
+    birth_date: birth_date,
   };
   console.log('action profile_city: ', profile_city);
   try {
@@ -240,8 +255,6 @@ const logout = () => {
     .catch((err) => {
       clearStores();
       Flux.dispatchEvent('Logout', {});
-      console.log(`DEBUG: logout error:`, err);
-      console.log(`DEBUG: logout error:`, err.status);
       Flux.dispatchEvent('AccountStoreError', err);
     });
 };

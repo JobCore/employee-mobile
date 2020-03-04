@@ -10,7 +10,7 @@ import { i18next } from '../../i18n';
 import { LOG } from '../../shared';
 import { Loading, openMapsApp, CustomToast } from '../../shared/components';
 import MARKER_IMG from '../../assets/image/map-marker.png';
-import { log } from 'pure-logger';
+// import { log } from 'pure-logger';
 import { ModalHeader } from '../../shared/components/ModalHeader';
 import { JobInformation } from '../../shared/components/JobInformation';
 import { ViewFlex } from '../../shared/components/ViewFlex';
@@ -95,7 +95,6 @@ class ApplicationDetailScreen extends Component {
   }
 
   getJobHandler = (shift) => {
-    LOG(`DEBUG:getJobHandler`, shift);
     let latitude;
     let longitude;
 
@@ -146,7 +145,6 @@ class ApplicationDetailScreen extends Component {
   };
 
   render() {
-    log(`DEBUG:state:`, this.state);
     const { isLoading, shift } = this.state;
     const renderDetail = (t, shift) => {
       return (
@@ -256,7 +254,6 @@ class ApplicationDetailScreen extends Component {
   };
 
   getApplication = () => {
-    LOG(`DEBUG: getApplication`, this.state);
     if (!this.state.applicationId) {
       CustomToast('Something went wrong!');
       // return this.props.navigation.goBack();

@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Alert, Image, Switch } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Alert,
+  Image,
+  Switch,
+  Platform,
+} from 'react-native';
 import {
   Item,
   Input,
@@ -14,6 +21,7 @@ import {
   Picker,
   Icon,
 } from 'native-base';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from '@react-native-community/async-storage';
 import editProfileStyles from './EditProfileStyle';
 import profileStyles from './PublicProfileStyle';
@@ -29,6 +37,9 @@ import { RESET_ROUTE, JOB_PREFERENCES_ROUTE } from '../../constants/routes';
 import PROFILE_IMG from '../../assets/image/profile.png';
 import { GRAY_MAIN, BG_GRAY_LIGHT, BLUE_DARK } from '../../shared/colorPalette';
 import { TabHeader } from '../../shared/components/TabHeader';
+import moment from 'moment';
+import preferencesStyles from '../Invite/JobPreferencesStyle';
+
 const icon = require('../../assets/image/tab/profile.png');
 
 const IMAGE_PICKER_OPTIONS = {
@@ -59,7 +70,8 @@ class EditProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      isLoading: true,
+      showDatePicker: false,
       firstName: '',
       lastName: '',
       email: '',
@@ -69,6 +81,9 @@ class EditProfile extends Component {
       cities: [],
       city: '',
       profile_city_id: '',
+      last_4dig_ssn: '',
+      userBirthDate: '',
+      _userBirthDate: null,
       loginAutoSave: false,
       biometrySupport: true,
       selectedImage: {},
@@ -188,15 +203,16 @@ class EditProfile extends Component {
       cities,
       city,
       profile_city_id,
+      _userBirthDate,
+      showDatePicker,
+      isLoading,
     } = this.state;
-    console.log('city: ', city);
-    console.log('cities: ', cities);
-    console.log('profile_city: ', profile_city);
+
     return (
       <I18n>
         {(t) => (
           <Container>
-            {this.state.isLoading ? <Loading /> : null}
+            {isLoading ? <Loading /> : null}
             <TabHeader
               goBack
               onPressBack={() => this.props.navigation.goBack()}
@@ -350,6 +366,59 @@ class EditProfile extends Component {
                         />
                       </Item>
                     ) : null}
+                    <Item
+                      style={editProfileStyles.viewInput}
+                      inlineLabel
+                      rounded>
+                      <Label>{t('REGISTER.last_4dig_ssn')}</Label>
+                      <Input
+                        keyboardType="numeric"
+                        value={this.state.last_4dig_ssn}
+                        placeholder={t('REGISTER.last_4dig_ssn_placeholder')}
+                        onChangeText={(text) => {
+                          if (text.length >= 0 && text.length < 5)
+                            this.setState({
+                              last_4dig_ssn: text.replace(/[^0-9]/g, ''),
+                            });
+                        }}
+                      />
+                    </Item>
+                    <Item
+                      style={editProfileStyles.viewInput}
+                      inlineLabel
+                      onPress={() => {
+                        this.setState({ showDatePicker: !showDatePicker });
+                      }}
+                      rounded>
+                      <Label>Birthday</Label>
+                      <Input
+                        keyboardType="numeric"
+                        value={moment(_userBirthDate).format('MM-DD-YYYY')}
+                        disabled={true}
+                        on
+                      />
+                    </Item>
+
+                    {(showDatePicker || Platform.OS === 'ios') && (
+                      <>
+                        <Text style={preferencesStyles.sliderLabel}>
+                          Select Birthday
+                        </Text>
+                        <DateTimePicker
+                          value={_userBirthDate ? _userBirthDate : new Date()}
+                          mode={'date'}
+                          display="calendar"
+                          maximumDate={new Date()}
+                          onChange={(_, date) => {
+                            this.setState({
+                              userBirthDate: moment(date).format('YYYY-MM-DD'),
+                              _userBirthDate: date,
+                              showDatePicker: false,
+                            });
+                          }}
+                        />
+                      </>
+                    )}
                   </Form>
                   <TouchableOpacity
                     onPress={this.passwordReset}
@@ -379,7 +448,6 @@ class EditProfile extends Component {
                       </View>
                     </View>
                   )}
-
                   <Button
                     full
                     onPress={this.editProfileAlert}
@@ -398,6 +466,7 @@ class EditProfile extends Component {
   }
 
   setUserInfo = (user) => {
+    const userBirthDate = moment(user.birth_date);
     this.setState({
       firstName: user.user.first_name,
       lastName: user.user.last_name,
@@ -406,6 +475,12 @@ class EditProfile extends Component {
       bio: user.bio,
       profile_city_id: user.profile_city,
       wroteCity: user.city,
+      last_4dig_ssn: user.last_4dig_ssn,
+      userBirthDate: user.birth_date,
+      _userBirthDate: userBirthDate.isValid()
+        ? userBirthDate.toDate()
+        : new Date(),
+      isLoading: false,
     });
     if (user.city) {
       this.setState({
@@ -465,6 +540,8 @@ class EditProfile extends Component {
       this.state.bio,
       this.state.profile_city,
       this.state.wroteCity,
+      this.state.last_4dig_ssn,
+      this.state.userBirthDate,
     );
   };
 

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
 import { Container, Text } from 'native-base';
 import { I18n } from 'react-i18next';
-import { LOG } from '../../shared';
+// import { LOG } from '../../shared';
 import { Loading, openMapsApp } from '../../shared/components';
 import moment from 'moment';
 import { ModalHeader } from '../../shared/components/ModalHeader';
-import { log } from 'pure-logger';
+// import { log } from 'pure-logger';
 import { ViewFlex } from '../../shared/components/ViewFlex';
 import { JobHeader } from './components/JobHeader';
 import { Earnings } from './components/Earnings';
@@ -57,7 +57,6 @@ class JobCompletedScreen extends Component {
   }
 
   getJobHandler = (shift) => {
-    LOG(`DEBUG:getJobHandler`, shift);
     this.setState({ shift, isLoading: false });
   };
 
@@ -76,10 +75,8 @@ class JobCompletedScreen extends Component {
   };
 
   render() {
-    log(`DEBUG:state:`, this.state);
     const { isLoading, shift } = this.state;
     const renderDetail = (t, shift) => {
-      log(`DEBUG:shift:`, shift);
       const { venue, starting_at, ending_at } = shift;
       const todayAtMoment = moment().tz(moment.tz.guess());
       const todayString = todayAtMoment.format('MMM D');

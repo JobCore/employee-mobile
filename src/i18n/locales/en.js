@@ -39,6 +39,9 @@ export default {
     others: 'Others cities',
     wroteCity: 'Other city',
     cityPickerTitle: 'City',
+    last_4dig_ssn: 'Ssn last 4 digits',
+    last_4dig_ssn_placeholder: '####',
+    userBirthDate: 'Birthdate',
   },
   EDIT_PROFILE: {
     editProfile: 'Edit profile',
@@ -60,6 +63,9 @@ export default {
     deleteBankAcount: 'Delete',
     wantToDeleteBankAccount: 'Are you sure to delete bank account:',
     noBankAccounts: 'No bank accounts yet',
+    needBirthDate: 'You should have a birth date on your profile to continue',
+    needSsn4digits:
+      'You should have SSN last 4 digits on your profile to continue',
   },
   USER_DOCUMENTS: {
     uploadDocuments: 'Employment Verification',

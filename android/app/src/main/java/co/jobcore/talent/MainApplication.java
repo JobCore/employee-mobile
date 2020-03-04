@@ -3,6 +3,7 @@ package co.jobcore.talent;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.rnfingerprint.FingerprintAuthPackage;
@@ -35,6 +36,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNDateTimePickerPackage(),
             new RNDeviceInfo(),
             new RNCWebViewPackage(),
             new FingerprintAuthPackage(),
