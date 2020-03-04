@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
 import { Container, Text } from 'native-base';
 import { I18n } from 'react-i18next';
-import { LOG } from '../../shared';
 import { Loading, openMapsApp } from '../../shared/components';
 import moment from 'moment';
 import { ModalHeader } from '../../shared/components/ModalHeader';
-import { log } from 'pure-logger';
 import { ViewFlex } from '../../shared/components/ViewFlex';
 import { JobHeader } from './components/JobHeader';
 import { Earnings } from './components/Earnings';
@@ -124,6 +122,7 @@ class JobCompletedScreen extends Component {
                 dateString={dateString}
                 timeString={timeString}
                 addressString={address}
+                minimumHourlyRate={shift.minimum_hourly_rate}
                 onPressDirection={
                   this.showOpenDirection() ? this.openMapsApp : () => {}
                 }
