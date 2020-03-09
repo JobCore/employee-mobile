@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "react-native start",
-    "android": "react-native run-android",
+    "android": "npx jetify && npx react-native run-android",
     "ios": "react-native run-ios",
     "test": "jest",
     "postinstall": "cross-os fix-maps"

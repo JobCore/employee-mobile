@@ -28,20 +28,34 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   flexOne: {
-    flex: 0.9,
+    ...Platform.select({
+      android: {
+        flex: 1.5,
+      },
+      ios: {
+        flex: 1.1,
+      },
+    }),
     flexDirection: 'row',
     backgroundColor: 'white',
   },
   flexTwo: {
-    flex: 0.8,
+    ...Platform.select({
+      android: {
+        flex: 1.2,
+      },
+      ios: {
+        flex: 0.8,
+      },
+    }),
     justifyContent: 'center',
-    paddingLeft: 20,
+    paddingLeft: 10,
     // alignItems: 'center',
     // borderColor: 'purple',
     // borderWidth: 2,
   },
   flexThree: {
-    flex: 0.7,
+    flex: 1.2,
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
@@ -166,6 +180,7 @@ export default StyleSheet.create({
   viewListItem: {
     paddingLeft: 5,
     paddingRight: 75,
+    marginLeft: 0,
   },
   titleHeader: {
     color: WHITE_MAIN,
@@ -276,5 +291,14 @@ export default StyleSheet.create({
     height: 8,
     borderRadius: 50,
     backgroundColor: 'red',
+  },
+  profileInfoContainer: {
+    marginVertical: 12,
+    ...Platform.select({
+      android: {
+        height: 60,
+      },
+    }),
+    justifyContent: 'space-around',
   },
 });

@@ -54,8 +54,8 @@ import android.support.v4.view.GestureDetectorCompat;
 
 > node_modules/react-native-maps/android/gradle.properties
 ```bash
-android.useAndroidX=false
-android.enableJetifier=false
+android.useAndroidX=true
+android.enableJetifier=true
 ```
 
 ## Project configurations

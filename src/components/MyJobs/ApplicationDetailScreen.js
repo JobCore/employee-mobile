@@ -10,7 +10,7 @@ import { i18next } from '../../i18n';
 import { LOG } from '../../shared';
 import { Loading, openMapsApp, CustomToast } from '../../shared/components';
 import MARKER_IMG from '../../assets/image/map-marker.png';
-import { log } from 'pure-logger';
+// import { log } from 'pure-logger';
 import { ModalHeader } from '../../shared/components/ModalHeader';
 import { JobInformation } from '../../shared/components/JobInformation';
 import { ViewFlex } from '../../shared/components/ViewFlex';
