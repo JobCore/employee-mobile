@@ -28,12 +28,26 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   flexOne: {
-    flex: 1.5,
+    ...Platform.select({
+      android: {
+        flex: 1.5,
+      },
+      ios: {
+        flex: 1.1,
+      },
+    }),
     flexDirection: 'row',
     backgroundColor: 'white',
   },
   flexTwo: {
-    flex: 1.2,
+    ...Platform.select({
+      android: {
+        flex: 1.2,
+      },
+      ios: {
+        flex: 0.8,
+      },
+    }),
     justifyContent: 'center',
     paddingLeft: 10,
     // alignItems: 'center',
@@ -277,5 +291,14 @@ export default StyleSheet.create({
     height: 8,
     borderRadius: 50,
     backgroundColor: 'red',
+  },
+  profileInfoContainer: {
+    marginVertical: 12,
+    ...Platform.select({
+      android: {
+        height: 60,
+      },
+    }),
+    justifyContent: 'space-around',
   },
 });

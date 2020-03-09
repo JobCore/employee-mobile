@@ -613,12 +613,7 @@ class DashboardScreen extends Component {
                   }
                 />
               </TouchableOpacity>
-              <View
-                style={{
-                  marginVertical: 12,
-                  height: 60,
-                  justifyContent: 'space-around',
-                }}>
+              <View style={styles.profileInfoContainer}>
                 {user && (
                   <TouchableOpacity onPress={this.goToEditProfile}>
                     <Text
