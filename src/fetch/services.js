@@ -1,5 +1,5 @@
 import accountStore from '../components/Account/AccountStore';
-import { checkInternetConnection } from 'react-native-offline';
+// import { checkInternetConnection } from 'react-native-offline';
 import * as accountActions from '../components/Account/actions';
 import { i18next } from '../i18n';
 import { API_URL } from 'react-native-dotenv';
@@ -275,8 +275,7 @@ export const checkStatus = (response) => {
  * check if the device is connected to internet
  */
 async function checkConnection() {
-  const isConnected = await checkInternetConnection();
-
+  // const isConnected = await checkInternetConnection();
   // if (!isConnected) {
   //   throw new Error(i18next.t('APP.noInternet'));
   // }

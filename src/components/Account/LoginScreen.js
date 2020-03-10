@@ -273,8 +273,7 @@ class LoginScreen extends Component {
                   </Text>
                 </TouchableOpacity>
 
-                {biometrySupport &&
-                  loginAuto && (
+                {biometrySupport && loginAuto && (
                   <TouchableOpacity
                     full
                     onPress={() => this.pressHandler()}

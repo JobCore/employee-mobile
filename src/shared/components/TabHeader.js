@@ -14,7 +14,7 @@ const TabHeader = ({
   onPressHelp,
 }) => (
   <Header androidStatusBarColor={BLUE_MAIN} style={headerStyles.headerCustom}>
-    <Left>
+    <Left style={!goBack ? { flex: 0.9 } : ''}>
       {goBack ? (
         <Button style={{ marginLeft: 10 }} transparent onPress={onPressBack}>
           <Image
