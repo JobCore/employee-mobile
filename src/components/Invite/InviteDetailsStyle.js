@@ -229,6 +229,14 @@ const inviteStyles = StyleSheet.create({
     textAlign: 'center',
     color: BLUE_DARK,
     fontWeight: '100',
+    ...Platform.select({
+      android: {
+        fontSize: 14,
+      },
+      ios: {
+        fontSize: 16,
+      },
+    }),
   },
   textCenter: {
     textAlign: 'center',
@@ -246,7 +254,6 @@ const inviteStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 10,
     paddingBottom: 10,
   },
   viewTime: {

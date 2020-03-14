@@ -1,4 +1,4 @@
-import { Body, Button, Header, Left, Right, Text } from 'native-base';
+import { Body, Button, Header, Left, Right, Title } from 'native-base';
 import { Image } from 'react-native';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -23,7 +23,7 @@ class _ModalHeader extends Component {
       <Header
         androidStatusBarColor={BLUE_MAIN}
         style={headerStyles.headerCustom}>
-        <Left>
+        <Left style={canClose ? { flex: 0.9 } : ''}>
           {canClose ? (
             <Button
               style={{ marginLeft: 10 }}
@@ -37,7 +37,13 @@ class _ModalHeader extends Component {
           ) : null}
         </Left>
         <Body style={{ flex: 0 }}>
-          <Text style={headerStyles.modalTitleHeader}>{title}</Text>
+          <Title
+            numberOfLines={1}
+            ellipsizeMode="clip"
+            style={headerStyles.titleHeader}>
+            {title}
+          </Title>
+          {/* <Text style={headerStyles.modalTitleHeader}>{title}</Text> */}
         </Body>
         <Right>
           {withoutHelpIcon ? <></> : <HelpIcon screenName={screenName} />}
