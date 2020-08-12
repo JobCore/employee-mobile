@@ -15,7 +15,7 @@ const CustomPicker = ({
   refreshControl,
   height,
 }) => (
-  <View style={{ height: height }}>
+  <View style={{ height: height, paddingBottom: 70 }}>
     {data && data.length > 0 ? (
       <ScrollView refreshControl={refreshControl}>
         {data.map((item, i) => {
